@@ -9,8 +9,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $projectDirectory = Split-Path -Parent $PSScriptRoot
 $originalAnimationSettings = [ordered]@{}
+$originalAppLocale = $null
 $testEvidence = $null
 . (Join-Path $PSScriptRoot 'test-evidence.ps1')
+. (Join-Path $PSScriptRoot 'test-locale.ps1')
 Push-Location $projectDirectory
 
 try {
@@ -95,6 +97,10 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "Could not read device property $property." }
         $deviceProperties[$property] = ($value -join '').Trim()
     }
+    if ([int]$deviceProperties['ro.build.version.sdk'] -ge 33) {
+        $originalAppLocale = Read-DeviceTestAppLocale -AdbPath $AdbPath -Device $Device
+        $originalAppLocale | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath '.local/device-app-locale.json' -Encoding utf8
+    }
     $providerVersions = [ordered]@{}
     $versionCatalog = Get-Content -LiteralPath 'gradle/libs.versions.toml' -Raw
     foreach ($dependency in @('composeMaterial2', 'composeMaterial3', 'composeMaterialIcons')) {
@@ -112,9 +118,10 @@ try {
         logicalDisplayBeforeTests = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('dumpsys', 'display') -LinePattern '^\s*m(?:Base|Override)DisplayInfo=DisplayInfo.*displayId 0,'
         windowStateBeforeTests = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('dumpsys', 'window', 'displays') -LinePattern 'cur=|app=|mRotation=|mCurrentFocus|mFocusedApp'
         installedAppIdentity = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('dumpsys', 'package', 'xyz.gaon.componentory') -LinePattern 'versionCode=|versionName='
-        appLocaleBeforeTests = if ([int]$deviceProperties['ro.build.version.sdk'] -ge 33) {
-            Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('cmd', 'locale', 'get-app-locales', 'xyz.gaon.componentory')
+        appLocaleBeforeTests = if ($originalAppLocale) {
+            $originalAppLocale.query
         } else { [ordered]@{ available = $false; value = $null; nativeExitCode = $null; error = 'LocaleManager unavailable below API 33.' } }
+        appLocaleRecovery = if ($originalAppLocale) { $originalAppLocale } else { 'Host locale recovery is unavailable below API 33; the runner restores it on normal finish.' }
         pinnedSourceProviderVersions = $providerVersions
         sampleThemeConfiguration = [ordered]@{
             CLASSIC = 'android:Theme.Light'
@@ -135,6 +142,7 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "Could not disable $setting for testing." }
     }
     $instrumentationArguments = @('-s', $Device, 'shell', 'am', 'instrument', '-w', '-r')
+    if ($originalAppLocale) { $instrumentationArguments += @('--user', $originalAppLocale.userId) }
     if ($TestClass) { $instrumentationArguments += @('-e', 'class', $TestClass) }
     $instrumentationArguments += 'xyz.gaon.componentory.test/xyz.gaon.componentory.testing.ComponentoryTestRunner'
     $testOutput = & $AdbPath @instrumentationArguments 2>&1
@@ -157,6 +165,15 @@ catch {
     throw
 }
 finally {
+    if ($originalAppLocale) {
+        try {
+            Restore-DeviceTestAppLocale -AdbPath $AdbPath -Device $Device -Snapshot $originalAppLocale
+        }
+        catch {
+            if ($testEvidence) { $testEvidence.Manifest['restorationErrors'] += 'app_locale' }
+            Write-Warning "App locale restoration failed: $($_.Exception.Message) Original values are in .local/device-app-locale.json."
+        }
+    }
     foreach ($setting in $originalAnimationSettings.Keys) {
         $value = $originalAnimationSettings[$setting]
         if ($value -eq 'null') {

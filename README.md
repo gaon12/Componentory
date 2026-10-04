@@ -105,8 +105,17 @@ prove that every provider was exercised by the selected tests. Tests that change
 their own window or settings still need their individual scenario descriptions.
 The latest report is also copied to `.local/device-tests.txt` for convenience.
 
+On Android 13 and later, the host script also saves the original app locale and
+user before instrumentation. It restores and verifies them in `finally`, even
+when the test runner fails to finish. `.local/device-app-locale.json` retains the
+latest recovery data. Older devices still rely on the runner's normal finish;
+host recovery of their stored language preference remains pending. Killing the
+host process can prevent its cleanup too, so a retained record is recovery data,
+not proof that restoration happened.
+
 Run `.\scripts\test-evidence-tests.ps1` to check evidence storage and result
-handling with fixtures. These checks do not operate the device. The script
+handling with fixtures, and `.\scripts\test-locale-tests.ps1` to check locale
+capture and recovery. These checks do not operate the device. The script
 requires a successful test summary; an ADB exit code alone is not enough.
 Selecting a legacy theme is a current-device experiment. Exact historical OS
 appearance and behavior require running on that historical OS.
