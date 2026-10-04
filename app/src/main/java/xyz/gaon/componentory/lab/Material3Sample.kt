@@ -106,9 +106,13 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     }
                 else ->
                     androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth()) {
-                        if (component.category == ComponentCategory.SELECTION)
-                            Material3Selections(component, panel, sample, enabled, state)
-                        else Material3Actions(component, sample, enabled, state)
+                        when (component.category) {
+                            ComponentCategory.SELECTION ->
+                                Material3Selections(component, panel, sample, enabled, state)
+                            ComponentCategory.INPUT ->
+                                Material3Inputs(component, sample, enabled, state)
+                            else -> Material3Actions(component, sample, enabled, state)
+                        }
                     }
             }
         }

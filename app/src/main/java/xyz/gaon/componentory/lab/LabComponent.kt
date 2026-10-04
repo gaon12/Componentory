@@ -348,6 +348,49 @@ enum class LabComponent(
         material2Function = null,
         material3Function = "MultiChoiceSegmentedButtonRow",
         category = ComponentCategory.SELECTION,
+    ),
+    OUTLINED_TEXT_FIELD(
+        "Outlined text field",
+        "외곽선이 있는 텍스트 입력창",
+        material2Function = "OutlinedTextField",
+        category = ComponentCategory.INPUT,
+    ),
+    SECURE_TEXT_FIELD(
+        "Secure text field",
+        "입력한 문자를 가리는 보안 입력창",
+        material2Function = "SecureTextField",
+        category = ComponentCategory.INPUT,
+    ),
+    OUTLINED_SECURE_TEXT_FIELD(
+        "Outlined secure text field",
+        "외곽선이 있는 보안 입력창",
+        material2Function = "OutlinedSecureTextField",
+        category = ComponentCategory.INPUT,
+    ),
+    AUTOCOMPLETE(
+        "Autocomplete",
+        "입력한 글자로 추천 항목을 찾고 선택하세요",
+        platformSource = "android.widget.AutoCompleteTextView",
+        category = ComponentCategory.INPUT,
+    ),
+    MULTI_AUTOCOMPLETE(
+        "Multi autocomplete",
+        "쉼표로 구분한 여러 항목을 자동완성하세요",
+        platformSource = "android.widget.MultiAutoCompleteTextView",
+        category = ComponentCategory.INPUT,
+    ),
+    SPINNER(
+        "Spinner",
+        "펼쳐지는 목록에서 항목을 선택하세요",
+        platformSource = "android.widget.Spinner",
+        category = ComponentCategory.INPUT,
+    ),
+    SEARCH_VIEW(
+        "Search view",
+        "검색어를 입력하고 검색·지우기 동작을 사용하세요",
+        platformSource = "android.widget.SearchView",
+        minimumApi = 11,
+        category = ComponentCategory.INPUT,
     );
 
     val source: String
@@ -362,6 +405,9 @@ enum class LabComponent(
 
     val isFloatingAction: Boolean
         get() = this in listOf(FAB, EXTENDED_FAB, SMALL_FAB, LARGE_FAB)
+
+    val isSecureInput: Boolean
+        get() = this == SECURE_TEXT_FIELD || this == OUTLINED_SECURE_TEXT_FIELD
 
     fun matchesSearch(query: String): Boolean {
         val term = query.trim()
@@ -378,6 +424,11 @@ enum class LabComponent(
 
     fun feedback(value: Int, text: String): String =
         when {
+            isSecureInput -> "Characters: $value"
+            this == SPINNER -> "Selected: ${listOf("Alpha", "Beta", "Gamma")[value]}"
+            this == SEARCH_VIEW -> "Query: ${text.ifEmpty { "empty" }} · Searches: $value"
+            this in listOf(TEXT_FIELD, OUTLINED_TEXT_FIELD, AUTOCOMPLETE, MULTI_AUTOCOMPLETE) ->
+                if (text.isEmpty()) "Text: empty" else "Text: $text"
             this == TRI_STATE_CHECKBOX ->
                 when (value) {
                     1 -> "Checked"
@@ -405,7 +456,6 @@ enum class LabComponent(
                 }
             this == RATING -> "Rating: $value / 5"
             this == NUMBER_PICKER -> "Number: $value / 10"
-            this == TEXT_FIELD -> if (text.isEmpty()) "Text: empty" else "Text: $text"
             this == SLIDER || this == PROGRESS -> "Value: $value / 100"
             this == DIALOG ->
                 "Last action: ${when (value) { 1 -> "Opened"

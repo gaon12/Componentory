@@ -184,6 +184,12 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isSecureInput && unsupported == null) {
+                Text(
+                    "입력 내용은 화면 재생성 시 지워지며, 결과에는 글자 수만 표시합니다.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
         }
     }
 }

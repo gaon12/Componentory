@@ -2,9 +2,7 @@ package xyz.gaon.componentory.lab
 
 import android.app.AlertDialog
 import android.content.Context
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
@@ -115,7 +113,7 @@ private fun createWidget(context: Context, component: LabComponent): View =
                 wrapSelectorWheel = false
                 descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
             }
-        else -> error("Unsupported components must be handled by SamplePanel.")
+        else -> createPlatformInput(context, component)
     }
 
 @Suppress("DEPRECATION")
@@ -147,36 +145,7 @@ private fun updateWidget(
                         if (checkedId == -1) 0 else if (checkedId == getChildAt(0).id) 1 else 2
                 }
             }
-        LabComponent.TEXT_FIELD ->
-            (view as EditText).apply {
-                (tag as? TextWatcher)?.let { removeTextChangedListener(it) }
-                if (this.text.toString() != state.text) {
-                    setText(state.text)
-                    setSelection(state.text.length)
-                }
-                val watcher =
-                    object : TextWatcher {
-                        override fun beforeTextChanged(
-                            s: CharSequence?,
-                            start: Int,
-                            count: Int,
-                            after: Int,
-                        ) = Unit
-
-                        override fun onTextChanged(
-                            s: CharSequence?,
-                            start: Int,
-                            before: Int,
-                            count: Int,
-                        ) {
-                            state.text = s?.toString().orEmpty()
-                        }
-
-                        override fun afterTextChanged(s: Editable?) = Unit
-                    }
-                tag = watcher
-                addTextChangedListener(watcher)
-            }
+        LabComponent.TEXT_FIELD -> updateEditableInput(view as EditText, state)
         LabComponent.SLIDER ->
             (view as SeekBar).apply {
                 progress = state.value
@@ -226,6 +195,6 @@ private fun updateWidget(
                 dialog.show()
                 state.value = 1
             }
-        else -> error("Unsupported components must be handled by SamplePanel.")
+        else -> updatePlatformInput(view, component, enabled, state)
     }
 }
