@@ -79,4 +79,16 @@ $snapshot = Read-DeviceTestSnapshot -AdbPath $fakeAdb -Device 'fixture' -Argumen
 Assert-Evidence (-not $snapshot.available -and $null -eq $snapshot.value -and $snapshot.error) 'Missing metadata must be explicit.'
 $checks++
 
+$resourceTest = 'xyz.gaon.componentory.icons.IconCatalogResourceTest'
+Assert-DeviceTestScope -NoUi $true -TestClass $resourceTest
+Assert-DeviceTestScope -NoUi $true -TestClass ($resourceTest + '#selectedLookupsMatchCatalogEntriesAndKeepFallbacksWithinTheirSource')
+Assert-DeviceTestScope -NoUi $false -TestClass 'xyz.gaon.componentory.icons.IconBrowserTest'
+$checks += 3
+foreach ($invalidScope in @('', 'xyz.gaon.componentory.icons.IconBrowserTest', ($resourceTest + ',other.Test'), $resourceTest.ToLowerInvariant(), ($resourceTest + '#bad method'), ($resourceTest + ';invalid'))) {
+    $rejected = $false
+    try { Assert-DeviceTestScope -NoUi $true -TestClass $invalidScope } catch { $rejected = $true }
+    Assert-Evidence $rejected 'Resource-only mode must reject missing, interactive, or malformed scopes.'
+    $checks++
+}
+
 Write-Output "Evidence script checks passed: $checks"

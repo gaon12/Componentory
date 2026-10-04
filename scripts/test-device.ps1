@@ -3,7 +3,8 @@ param(
     [string]$Device,
     [string]$AdbPath,
     [string]$TestClass,
-    [switch]$SkipBuild
+    [switch]$SkipBuild,
+    [switch]$NoUi
 )
 
 $ErrorActionPreference = 'Stop'
@@ -16,6 +17,7 @@ $testEvidence = $null
 Push-Location $projectDirectory
 
 try {
+    Assert-DeviceTestScope -NoUi ([bool]$NoUi) -TestClass $TestClass
     if (-not $AdbPath) {
         $sdkDirectory = $env:ANDROID_HOME
         if (-not $sdkDirectory) { $sdkDirectory = $env:ANDROID_SDK_ROOT }
@@ -46,31 +48,33 @@ try {
     & $AdbPath -s $Device install --no-streaming -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
     if ($LASTEXITCODE -ne 0) { throw 'Test installation failed.' }
 
-    # Prepare the screen after installation so it cannot time out during APK transfer.
-    $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
-    if ($windowPolicy -match 'screenState=SCREEN_STATE_OFF') {
-        & $AdbPath -s $Device shell input keyevent KEYCODE_POWER
-    }
-    else {
-        & $AdbPath -s $Device shell input keyevent KEYCODE_WAKEUP
-    }
-    # Wait for a ready screen, then allow the dismissal request to finish.
-    for ($attempt = 0; $attempt -lt 10; $attempt++) {
+    if (-not $NoUi) {
+        # Prepare the screen after installation so it cannot time out during APK transfer.
         $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
-        if ($windowPolicy -match 'screenState=SCREEN_STATE_ON' -and $windowPolicy -match 'interactiveState=INTERACTIVE_STATE_AWAKE') { break }
-        Start-Sleep -Milliseconds 500
-    }
-    if ($windowPolicy -notmatch 'screenState=SCREEN_STATE_ON' -or $windowPolicy -notmatch 'interactiveState=INTERACTIVE_STATE_AWAKE') {
-        throw 'The selected screen did not wake. Turn it on before running touch tests.'
-    }
-    & $AdbPath -s $Device shell wm dismiss-keyguard
-    for ($attempt = 0; $attempt -lt 10; $attempt++) {
-        $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
-        if ($windowPolicy -notmatch 'mIsShowing=true') { break }
-        Start-Sleep -Milliseconds 500
-    }
-    if ($windowPolicy -match 'mIsShowing=true') {
-        throw 'Unlock the selected device before running touch tests.'
+        if ($windowPolicy -match 'screenState=SCREEN_STATE_OFF') {
+            & $AdbPath -s $Device shell input keyevent KEYCODE_POWER
+        }
+        else {
+            & $AdbPath -s $Device shell input keyevent KEYCODE_WAKEUP
+        }
+        # Wait for a ready screen, then allow the dismissal request to finish.
+        for ($attempt = 0; $attempt -lt 10; $attempt++) {
+            $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
+            if ($windowPolicy -match 'screenState=SCREEN_STATE_ON' -and $windowPolicy -match 'interactiveState=INTERACTIVE_STATE_AWAKE') { break }
+            Start-Sleep -Milliseconds 500
+        }
+        if ($windowPolicy -notmatch 'screenState=SCREEN_STATE_ON' -or $windowPolicy -notmatch 'interactiveState=INTERACTIVE_STATE_AWAKE') {
+            throw 'The selected screen did not wake. Turn it on before running touch tests.'
+        }
+        & $AdbPath -s $Device shell wm dismiss-keyguard
+        for ($attempt = 0; $attempt -lt 10; $attempt++) {
+            $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
+            if ($windowPolicy -notmatch 'mIsShowing=true') { break }
+            Start-Sleep -Milliseconds 500
+        }
+        if ($windowPolicy -match 'mIsShowing=true') {
+            throw 'Unlock the selected device before running touch tests.'
+        }
     }
 
     New-Item -ItemType Directory -Path '.local' -Force | Out-Null
@@ -132,12 +136,13 @@ try {
         }
         testScope = if ($TestClass) { $TestClass } else { 'All instrumentation tests' }
         skippedBuild = [bool]$SkipBuild
+        testMode = if ($NoUi) { 'Resource-only; no Activity, screen preparation, or input.' } else { 'Interactive UI tests; unlocked screen required.' }
         originalAnimations = $originalAnimationSettings
-        requestedTestAnimations = 0
+        requestedTestAnimations = if ($NoUi) { $null } else { 0 }
         perTestOverride = 'NativeProgressIndicatorsTest uses animator scale 1.0 when included.'
         captures = @()
     })
-    foreach ($setting in $originalAnimationSettings.Keys) {
+    foreach ($setting in @($originalAnimationSettings.Keys | Where-Object { -not $NoUi })) {
         & $AdbPath -s $Device shell settings put global $setting 0
         if ($LASTEXITCODE -ne 0) { throw "Could not disable $setting for testing." }
     }
@@ -174,7 +179,7 @@ finally {
             Write-Warning "App locale restoration failed: $($_.Exception.Message) Original values are in .local/device-app-locale.json."
         }
     }
-    foreach ($setting in $originalAnimationSettings.Keys) {
+    foreach ($setting in @($originalAnimationSettings.Keys | Where-Object { -not $NoUi })) {
         $value = $originalAnimationSettings[$setting]
         if ($value -eq 'null') {
             & $AdbPath -s $Device shell settings delete global $setting | Out-Null

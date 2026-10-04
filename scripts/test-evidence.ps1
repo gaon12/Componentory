@@ -23,6 +23,15 @@ function Read-DeviceTestSnapshot {
     }
 }
 
+function Assert-DeviceTestScope {
+    param([bool]$NoUi, [string]$TestClass)
+
+    # Only reviewed tests without Activities or input may skip screen preparation.
+    if ($NoUi -and $TestClass -cnotmatch '^xyz\.gaon\.componentory\.icons\.IconCatalogResourceTest(?:#[A-Za-z_][A-Za-z0-9_]*)?$') {
+        throw 'The -NoUi mode requires IconCatalogResourceTest, optionally followed by #method. UI tests still require an unlocked screen.'
+    }
+}
+
 function Save-DeviceTestEvidence {
     param([Parameter(Mandatory = $true)]$Evidence)
 
