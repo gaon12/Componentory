@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 67 implemented components by translated name or description,
+- **List:** Search 69 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 127 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 123 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -41,9 +41,17 @@ mode and click count; plain containers explain their lack of an enabled state.
 Popup menus use the genuine framework or Material library popup and menu items.
 They include a disabled choice and keep the last choice and user action separate
 from transient open windows. Recreation closes menus while preserving feedback.
-It offers Classic, Holo, and platform Material light themes, Compose
+Text uses exact framework TextView or each library's actual Text with a fixed,
+localized multiline fixture. Library Text explains that Enabled does not apply.
+Framework-only CheckedTextView uses an explicitly configured themed check mark;
+its named host Checked switch changes the state, while tapping the text does not.
+A missing theme drawable is reported. Host configuration remains usable with the
+sample disabled, and copying transfers its checked input without inventing taps.
+The catalog offers Classic, Holo, and platform Material light themes, Compose
 Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
 appearance keeps the selected samples in their own light themes.
+Material 3 samples explicitly use the pinned library's Typography defaults,
+keeping the app's typography out of the sample theme.
 
 The icon picker searches all **11,385 icon variants** provided by the pinned
 Compose Material icons **1.7.8** core and extended artifacts. Filter by Filled,
@@ -74,16 +82,17 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks pass formatting, lint, all 73 JVM tests, and both APK builds.
-Two inventory-only tests passed for the inline-date milestone. Six new date UI
-scenarios compile, and the catalog smoke tests cover 155 supported and 174
-unsupported ordinary cells.
+The latest checks for `a0cc043` pass formatting, lint, all 78 executed JVM tests,
+and both APK builds. Five text UI scenarios compile, including a conflicting
+host-font regression. The earlier text milestone passed two inventory-only tests;
+those resource tests did not rerun for the theme fix. The authored catalog smoke
+tests cover 163 supported and 176 unsupported ordinary cells.
 The six native animated cells use a separate existing test. The latest normal
-93-test UI attempt stopped at the secure-keyguard guard before instrumentation;
+98-test UI attempt stopped at the secure-keyguard guard before instrumentation;
 none ran. The separate animation scope was not attempted while the device stayed
 locked. Resource checks supply no rendering or interaction pass.
 Catalog rendering, comparison state, the Planned view, provider selection,
-accessibility, inline dates, date/time dialogs, cards, surfaces, popup menus,
+accessibility, text, inline dates, date/time dialogs, cards, surfaces, popup menus,
 input copying, and the preview reorder still require unlocked UI verification. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
@@ -147,7 +156,7 @@ do not verify rendering, navigation, touch behavior, or historical appearance.
 
 The catalog smoke class checks current-device rendering, provider identity,
 original dialog and menu windows, and explicit unsupported reasons. Its five
-tests cover 329 of the 335 component/provider cells. Run
+tests cover 339 of the 345 component/provider cells. Run
 `xyz.gaon.componentory.lab.NativeProgressIndicatorsTest` separately for the six
 animated framework cells. It uses UiAutomation with animator scale 1.0; the
 ordinary Espresso sweep excludes continuously animated native controls.

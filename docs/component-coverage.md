@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**67 component entries**, with **161 runnable component/family combinations**.
+**69 component entries**, with **169 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,14 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and verification source revision: `f39c2cd`.
+Application and latest verification source revision: `a0cc043`. Executed resource
+runs keep their original revision and dirty paths; the earlier text inventory
+result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 24 | 50 |
-| Compose Material 2 1.10.4 | 52 | 30 | 22 |
-| Compose Material 3 1.4.0 | 113 | 58 | 55 |
-| Total | 239 | 112 | 127 |
+| Android framework | 74 | 26 | 48 |
+| Compose Material 2 1.10.4 | 52 | 31 | 21 |
+| Compose Material 3 1.4.0 | 113 | 59 | 54 |
+| Total | 239 | 116 | 123 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -163,6 +165,36 @@ open windows do not. Supporting item rows are counted inside this menu, with no
 standalone item, icon, submenu or exposed-menu coverage claim. Exposed dropdowns,
 ListPopupWindow and PopupWindow remain planned.
 
+Text and CheckedTextView add eight combinations. Text uses exact framework
+`android.widget.TextView` in all three themes or the pinned libraries' real Text
+functions. The caller supplies a fixed, localized three-line fixture without
+explicit text-style arguments. Library Text has no enabled parameter, so its
+note explains that global Enabled does not apply. Framework TextView receives
+its public enabled flag without adding a click action.
+
+The Material 3 sample theme explicitly supplies a cached pinned `Typography()`.
+This prevents the caller's app typography from entering the sample. The previous
+host bodyLarge used FontFamily.Default while the pinned default uses SansSerif.
+Its numeric size, line height, letter spacing and weight matched; default
+LocalTextStyle merging could preserve the library's paragraph/platform fields.
+This was a source isolation defect, not an observed spacing or pixel defect.
+
+CheckedTextView uses the exact framework class in all three themes; neither
+Material library provides a dedicated supplier. The sample explicitly assigns
+the theme's public `listChoiceIndicatorMultiple` drawable when available, rather
+than claiming that a bare constructor supplies that mark. A missing drawable
+has its own note. The named host Checked switch changes the real checked value;
+tapping the original text does not toggle it. The host setting remains usable
+when the sample is disabled. Both behavior notes follow feedback before source
+metadata, keeping the limitations beside the sample and its configuration.
+
+No save fields were added: the existing sixteen-field format retains checked
+input as zero or one. Copying transfers that actual input only between supported
+framework samples, including an unchecked value. Fixed Text has no per-panel
+input to copy, so the copy action explains its no-input reason. Four canonical
+rows become implemented: TextView, CheckedTextView, Material 2 Text and Material
+3 Text. The baseline remains 239 sources.
+
 The shared panel shows the real sample before host adjustments and icon selection.
 Feedback precedes icon source metadata, while provider identity and behavioral
 guidance remain visible. Compare shows the component name in its picker once,
@@ -184,7 +216,7 @@ resources are kept in the app bundle for offline switching.
 ## Next implementation groups
 
 1. Standalone time controls and remaining pickers.
-2. Lists, images, text, and legacy content controls.
+2. Lists, images, remaining text variants, and legacy content controls.
 3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
 5. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
@@ -196,7 +228,108 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `f39c2cd`. Spotless and lint passed with zero errors and
+Latest implementation: `a0cc043`. Spotless and lint passed in 1 minute 29 seconds
+with zero errors and 16 existing warnings. All 78 JVM tests actually executed
+again and passed without failures, errors or skips; result timestamps are
+October 4, 2026 at 22:39:30 UTC. Both debug APKs built in 31 seconds and installed.
+Gradle reported one daemon stopped afterward. The logs are
+`.local/typography-isolation-format-lint.txt`,
+`.local/typography-isolation-tests-build.txt`,
+`.local/typography-isolation-unit-results.json` and
+`.local/typography-isolation-gradle-stop.txt`.
+
+TextSamplesTest now has five compiled methods. The added regression runs the
+production Material 3 Text renderer under a caller with Serif, 42 sp text and
+64 sp line height. Its original TextLayoutResult is checked against the pinned
+library typography, including font family, metrics and paragraph/platform
+fields. This is an authored rendering regression awaiting device execution.
+
+The catalog still declares 69 entries and 169 supported combinations. The
+ordinary smoke scope remains 163 supported and 176 unsupported cells, or 339 of
+the 345 cells; six native animated cells use the separate existing test. The
+latest normal 98-test scope across 21 classes installed both APKs but stopped at
+the secure-keyguard guard before instrumentation. None executed. The separate
+native animation scope was not attempted while the same lock remained active.
+Attempt, raw keyguard state and declared scope are retained in
+`.local/typography-isolation-ui-verification-attempt.txt`,
+`.local/typography-isolation-keyguard-state.txt` and
+`.local/typography-isolation-declared-test-scope.json`.
+
+The latest app APK is 19,676,899 bytes with SHA-256:
+`2c66d2ecd2ce7c09105d112fa0b8b8b9770d2671124d7a325d4ccf942958bf36`.
+The latest test APK is 1,391,905 bytes with SHA-256:
+`1f55c9d065dcc722ae77c9316c7d23106f7f747f1db2853b784a5b0e8b65a9e9`.
+Identities are retained in `.local/typography-isolation-apk-hashes.json`.
+`.local/typography-isolation-inventory-identity.json` confirms that the latest
+packaged 21,506-byte inventory matches the unchanged source and the earlier
+runtime digest below. No resource tests reran for this fix. The older
+two-test resource result and its hashes belong to the text milestone below;
+they are not a test of these latest binaries. No new renderer, interaction,
+capture or historical OS pass is claimed.
+
+### Earlier verification milestones
+
+Text milestone: `96dea3f`. Spotless and lint passed with zero errors and
+16 existing warnings in 2 minutes 45 seconds. All 78 JVM tests actually executed
+and passed with no failures, errors or skips. Five new methods cover actual
+supplier availability, source search, canonical rows and the distinction between
+copyable checked input and fixed read-only text. Both debug APKs built in 1 minute
+3 seconds and installed. The focused host build used one worker and a 768 MiB
+heap; no emulator was started. Gradle reported one daemon stopped afterward.
+Logs are `.local/text-samples-format-lint.txt`,
+`.local/text-samples-tests-build.txt`, `.local/text-samples-unit-results.json`
+and `.local/text-samples-gradle-stop.txt`.
+
+Four [text UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/TextSamplesTest.kt)
+compile. Their assertions check all five Text suppliers, exact native classes
+and limited constructor-default metrics, original library text layout and
+read-only semantics, host-controlled checked values, copy/reset/recreation,
+unsupported-library recovery and five literal language fixtures. Actual pointer
+actions distinguish non-toggling original text from the named host switch.
+Conditional missing-mark assertions follow the actual theme result; they do not
+prove that a missing-drawable theme was exercised. A bounded 360 dp/font-scale-2
+host checks Compose text and host reachability. It does not resize the physical
+OS window, change native widget font configuration or verify TalkBack speech.
+
+The updated catalog sweep spans 345 cells. Its five ordinary tests declare
+163 supported and 176 unsupported cells, or 339 cells; six native animated cells
+remain in the separate existing one-method UiAutomation scope. Each framework
+theme has 24 ordinary supported and 43 unsupported cells; Material 2 has 33 and
+36, and Material 3 has 58 and 11. The normal 97-test scope across 21 classes
+installed both APKs but stopped at `test-device.ps1:76`, the secure-keyguard
+guard before instrumentation. None of the selected UI tests executed. The
+separate animation scope was not attempted while the lock remained active.
+The attempt file `.local/text-samples-ui-verification-attempt.txt` includes a
+host-recorded terminal error, not an instrumentation result. Fresh keyguard
+state is retained in `.local/text-samples-keyguard-state.txt`, and declared scope
+is `.local/text-samples-declared-test-scope.json`.
+
+Two inventory-only device tests passed in 0.185 seconds with native exit 0,
+`OK (2 tests)` and no restoration errors. They verify the 239-source inventory,
+116 implemented and 123 pending rows, canonical mappings and metadata. The
+executed run is `.local/device-runs/20261004T222237952Z-c08a1caa/`. Its original
+manifest records `7c8d42e` plus dirty changes later committed as `96dea3f`;
+it must not be relabelled as a clean run of that later commit. It records the
+SM-X800, Android 16/API 36 Build.ID `BP2A.250605.031.A3`, the full Samsung
+fingerprint, target SDK 37, 340 dpi, font scale 1.0, System app locale `[]`,
+display/window snapshots, pinned libraries and configured light sample themes.
+No Activity or UI input ran, and configured themes do not prove rendering.
+
+Source CSV, packaged APK asset and runtime targetContext asset have matching
+21,506-byte content with SHA-256:
+`f5102d83b9271fc899913ee35e0ea6411a97e60b2554584f9097956e6f4fcd88`.
+The runtime digest was emitted by ComponentInventoryResourceTest into
+`instrumentation.txt`; no installed APK was pulled. `asset-consistency.json`
+retains that evidence distinction. The app APK is 19,676,899 bytes with SHA-256:
+`0504cb581f486aa0fcdd886bac19f830a7422793ca9039a38fe7e5090cbcdf0c`.
+The test APK is 1,387,815 bytes with SHA-256:
+`de244c24340cbeea41cfad70e9242b81d2d13f823befb0ffc58b82e4cae9143d`.
+These APK identities are retained in `.local/text-samples-apk-hashes.json`.
+Resource checks supply no renderer, interaction, screenshot, stored experiment
+or historical OS pass. All new UI assertions and earlier repairs still require
+unlocked physical verification.
+
+Inline-date milestone: `f39c2cd`. Spotless and lint passed with zero errors and
 16 existing warnings. All 73 JVM tests actually executed and passed, including
 eleven new checks for genuine suppliers, old save compatibility, nullable
 selections, civil dates across time zones and input-copy presence. Both debug
@@ -251,8 +384,6 @@ APK identities are retained in `.local/inline-dates-apk-hashes.json`.
 The resource result supplies no rendering, interaction, screenshot, experiment
 history or historical OS evidence. All new UI assertions and earlier repairs
 still require unlocked physical verification.
-
-### Earlier verification milestones
 
 Catalog-smoke milestone: `ec64799`. Formatting and lint passed with zero errors
 and 16 existing warnings, and both debug APK build tasks passed. The JVM task was

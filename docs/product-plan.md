@@ -84,6 +84,18 @@ child interactions separately. Preserve original picker controls in readable,
 scrollable viewports and bound the range calendar's own month list. A host layout
 fixture is not evidence that a physical small screen or larger font is usable.
 
+Fixed Text uses localized multiline sample content and the original Text API
+without explicit text-style arguments. It has no per-panel input to copy.
+Explain that library Text has no enabled parameter instead of simulating a
+disabled library control. Framework TextView uses its public enabled flag.
+
+CheckedTextView is framework-only. Disclose the explicitly configured themed
+multiple-choice drawable and report a missing mark. A named host Checked switch
+sets the original widget's checked value; the original text has no synthetic
+click listener or automatic toggle. Preserve and copy checked or unchecked input
+only to a supported supplier. Keep the host switch usable while the original
+widget is disabled, with the behavior note beside its feedback and configuration.
+
 Explain the selected family's origin without presenting each Android release as
 a distinct theme that the device can necessarily provide.
 
@@ -91,7 +103,8 @@ a distinct theme that the device can necessarily provide.
 
 The first prototype included eight basic types in all five families. The catalog
 now includes framework-only controls, library action variants, chip and selection
-samples, additional input types, and icon browsing. Use the
+samples, additional input types, inline dates, fixed Text, framework CheckedTextView,
+and icon browsing. Use the
 [coverage inventory](component-coverage.md) to keep the broad expansion auditable.
 Continue adding components, visual variants, and historical coverage in focused
 changes.
@@ -100,6 +113,10 @@ must use `android.widget` or framework dialogs directly. The Compose shell must
 not replace them with an AppCompat or Material library equivalent.
 
 Library samples are separate families with exact dependency version labels.
+Supply the selected library's own sample theme explicitly. Material 3 samples
+use the pinned Typography defaults instead of inheriting app typography. Verify
+the production renderer under a caller with a deliberately different font and
+text metrics; a compiled regression is not an executed rendering result.
 Only offer actions that the selected component supports. A read-only progress
 indicator should not pretend to respond to taps. Unsupported combinations show
 an explanation rather than a substitute from another family.
