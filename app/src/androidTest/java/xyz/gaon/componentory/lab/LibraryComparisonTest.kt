@@ -113,6 +113,19 @@ class LibraryComparisonTest {
                     .current
             assertTrue(progress > 50f)
             status("RIGHT", "Value: 50 / 100")
+            compose.onNodeWithTag("enabled").performClick()
+            sample().assertIsNotEnabled().performTouchInput {
+                swipe(Offset(width * 0.9f, center.y), center)
+            }
+            assertEquals(
+                progress,
+                sample()
+                    .fetchSemanticsNode()
+                    .config[SemanticsProperties.ProgressBarRangeInfo]
+                    .current,
+                0.001f,
+            )
+            compose.onNodeWithTag("enabled").performClick()
             compose.onNodeWithTag("reset").performClick()
             status("LEFT", "Value: 50 / 100")
             chooseComponent(LabComponent.PROGRESS)

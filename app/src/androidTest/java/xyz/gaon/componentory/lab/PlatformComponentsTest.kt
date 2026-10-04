@@ -1,5 +1,8 @@
 package xyz.gaon.componentory.lab
 
+import android.os.SystemClock
+import android.view.InputDevice
+import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.CheckBox
 import android.widget.ProgressBar
@@ -16,10 +19,6 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.unit.dp
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.GeneralClickAction
-import androidx.test.espresso.action.GeneralLocation
-import androidx.test.espresso.action.Press
-import androidx.test.espresso.action.Tap
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
@@ -30,6 +29,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -89,15 +89,21 @@ class PlatformComponentsTest {
             status("LEFT", "Text: Componentory")
             status("RIGHT", "Text: empty")
             chooseComponent(LabComponent.SLIDER)
-            onView(withId(R.id.sample_left))
-                .perform(
-                    GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER, 0, 0)
-                )
-                .check { view, error ->
-                    if (error != null) throw error
-                    assertTrue((view as SeekBar).progress > 50)
-                }
+            var touchedValue = 50
+            dragSlider(0.5f, 0.9f)
+            onView(withId(R.id.sample_left)).check { view, error ->
+                if (error != null) throw error
+                touchedValue = (view as SeekBar).progress
+                assertTrue(touchedValue > 50)
+            }
             status("RIGHT", "Value: 50 / 100")
+            compose.onNodeWithTag("enabled").performClick()
+            dragSlider(0.9f, 0.5f)
+            onView(withId(R.id.sample_left)).check { view, error ->
+                if (error != null) throw error
+                assertEquals(touchedValue, (view as SeekBar).progress)
+            }
+            compose.onNodeWithTag("enabled").performClick()
             compose.onNodeWithTag("reset").performClick()
             onView(withId(R.id.sample_left)).check { view, error ->
                 if (error != null) throw error
@@ -108,17 +114,20 @@ class PlatformComponentsTest {
 
     @Test
     fun progressControlsChangeTheRealIndicatorAndRespectBounds() {
-        chooseComponent(LabComponent.PROGRESS)
-        repeat(7) { compose.onNodeWithTag("increase_LEFT").performScrollTo().performClick() }
-        onView(withId(R.id.sample_left)).check { view, error ->
-            if (error != null) throw error
-            assertEquals(100, (view as ProgressBar).progress)
-        }
-        status("RIGHT", "Value: 50 / 100")
-        repeat(12) { compose.onNodeWithTag("decrease_LEFT").performClick() }
-        onView(withId(R.id.sample_left)).check { view, error ->
-            if (error != null) throw error
-            assertEquals(0, (view as ProgressBar).progress)
+        PlatformFamily.entries.forEach { family ->
+            chooseFamily(family)
+            chooseComponent(LabComponent.PROGRESS)
+            repeat(7) { compose.onNodeWithTag("increase_LEFT").performScrollTo().performClick() }
+            onView(withId(R.id.sample_left)).check { view, error ->
+                if (error != null) throw error
+                assertEquals(100, (view as ProgressBar).progress)
+            }
+            status("RIGHT", "Value: 50 / 100")
+            repeat(12) { compose.onNodeWithTag("decrease_LEFT").performClick() }
+            onView(withId(R.id.sample_left)).check { view, error ->
+                if (error != null) throw error
+                assertEquals(0, (view as ProgressBar).progress)
+            }
         }
     }
 
@@ -175,6 +184,42 @@ class PlatformComponentsTest {
         onView(withId(R.id.sample_right)).perform(click())
         status("RIGHT", "Clicks: 1")
         status("LEFT", "Clicks: 0")
+    }
+
+    private fun dragSlider(fromFraction: Float, toFraction: Float) {
+        var startX = 0f
+        var endX = 0f
+        var y = 0f
+        compose.runOnIdle {
+            val slider = compose.activity.findViewById<SeekBar>(R.id.sample_left)
+            val position = IntArray(2)
+            slider.getLocationOnScreen(position)
+            startX = position[0] + slider.width * fromFraction
+            endX = position[0] + slider.width * toFraction
+            y = position[1] + slider.height / 2f
+        }
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val downTime = SystemClock.uptimeMillis()
+        fun send(action: Int, x: Float) {
+            val event = MotionEvent.obtain(downTime, SystemClock.uptimeMillis(), action, x, y, 0)
+            event.source = InputDevice.SOURCE_TOUCHSCREEN
+            try {
+                instrumentation.sendPointerSync(event)
+            } finally {
+                event.recycle()
+            }
+        }
+        // Send the complete gesture before waiting for Compose; a held pointer is not idle.
+        send(MotionEvent.ACTION_DOWN, startX)
+        try {
+            for (step in 1..12) {
+                SystemClock.sleep(16)
+                send(MotionEvent.ACTION_MOVE, startX + (endX - startX) * step / 12f)
+            }
+        } finally {
+            send(MotionEvent.ACTION_UP, endX)
+        }
+        compose.waitForIdle()
     }
 
     private fun chooseFamily(family: PlatformFamily) {
