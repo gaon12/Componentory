@@ -7,7 +7,8 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 28 components by name, class/function, or Korean description.
+- **List:** Search 39 verified components by name, class/function, or Korean
+  description. Combine search with category filters to browse the growing catalog.
   Open a detail page, select a UI version, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
   its own state. Wide screens show two columns; narrow screens stack the samples.
@@ -15,9 +16,9 @@ The working prototype has three bottom navigation destinations:
   device, OS build, display configuration, target SDK, and library versions.
 
 The catalog includes the original eight basic types, four framework-only controls,
-and sixteen Material button/icon/FAB variants. It offers Classic, Holo, and
-platform Material light themes,
-Compose Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
+and sixteen Material button/icon/FAB variants, plus eleven chip and selection
+variants. It offers Classic, Holo, and platform Material light themes, Compose
+Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
 appearance keeps the selected samples in their own light themes.
 
 Unavailable combinations show a reason rather than a substitute. Components that

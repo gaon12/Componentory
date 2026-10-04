@@ -1,8 +1,8 @@
 # Component coverage
 
-The broad catalog is still in progress. The app currently has **28 component
-entries**, with **74 runnable component/family combinations**. A missing
-implementation is work to do, not proof that a family does not support it.
+The broad catalog is still in progress. The committed and verified catalog has
+**39 component entries**, with **87 runnable component/family combinations**.
+A missing implementation is work to do, not proof that a family does not support it.
 
 ## Baseline and completion rule
 
@@ -47,14 +47,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `e6b2eed`.
+Application source revision: `7338696`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 13 | 61 |
-| Compose Material 2 1.10.4 | 52 | 14 | 38 |
-| Compose Material 3 1.4.0 | 113 | 24 | 89 |
-| Total | 239 | 51 | 188 |
+| Compose Material 2 1.10.4 | 52 | 17 | 35 |
+| Compose Material 3 1.4.0 | 113 | 35 | 78 |
+| Total | 239 | 65 | 174 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -65,19 +65,24 @@ buttons and icon toggles, filled/tonal/outlined icon variants, and standard,
 extended, small, and large FABs. Material 3-only APIs are unavailable in Material
 2. Framework-only widgets are unavailable as dedicated Material library widgets.
 
-The comparison picker searches the full catalog by labels, Korean descriptions,
-and the source names that actually supply each sample.
+Eleven selection variants add Material 2 Chip, assist/filter/input/suggestion
+chips and their elevated variants, tri-state checkboxes, and single/multiple
+segmented rows. Each segmented row contains real SegmentedButton controls.
+The generic Material 2 Chip has no public Material 3 counterpart. Unsupported
+families show that absence explicitly.
+
+The list and comparison picker combine category filters with searches by labels,
+Korean descriptions, and the source names that actually supply each sample.
 
 ## Next implementation groups
 
-1. Chips, tri-state checkboxes, single-choice and multiple-choice segmented rows.
-2. Outlined and secure input, autocomplete, spinner, and search.
-3. Range slider, circular and indeterminate progress, dividers, and badges.
-4. Date/time/calendar controls and picker dialogs.
-5. Cards, lists, images, text, and legacy content controls.
-6. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
-7. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
-8. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
+1. Outlined and secure input, autocomplete, spinner, and search.
+2. Range slider, circular and indeterminate progress, dividers, and badges.
+3. Date/time/calendar controls and picker dialogs.
+4. Cards, lists, images, text, and legacy content controls.
+5. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
+6. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
+7. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
 
 Keep available but unimplemented combinations pending until their group is
 implemented and tested. Review each group, format/lint, run relevant tests on the
@@ -85,10 +90,20 @@ physical device, and commit that coherent change before starting another group.
 
 ## Verification
 
-On SM-X800 / Android 16 API 36, all **28 instrumentation tests** passed in
-**115.454 seconds** for application source `e6b2eed`. All **6 unit tests** passed;
-formatting and Android lint passed with zero errors and 16 existing warnings.
+On SM-X800 / Android 16 API 36, the 3 new selection tests and 2 existing action
+tests passed in **45.642 seconds**. The first 33-test run then passed all 31
+existing tests and failed two new category-filter assertions. After correcting
+the assertions, both category-filter tests passed in **5.864 seconds**. This is
+evidence from separate runs, not a claim that the first 33-test run passed.
+All **6 unit tests** passed. Formatting and Android lint passed with zero errors
+and 16 existing warnings.
 The source remains a current-device theme/library experiment.
+
+The test environment is Samsung SM-X800, OS build
+`BP2A.250605.031.A3.X800XXSBEZH3`, app 1.0 (version code 1), target SDK 37.
+The physical display is 1752 x 2800, used in landscape at 2800 x 1752, with
+340 dpi, font scale 1.0, and locale ko-KR. The three framework light themes and
+both pinned library light themes remain separate samples.
 
 New tests cover native toggle/image/rating touch in all three framework themes,
 Classic NumberPicker buttons and Holo/Material wheels, explicit unsupported
@@ -96,12 +111,17 @@ library combinations, and all 22 available new library action combinations.
 They verify real touch, disabled actions, reset, source identity, and retained
 navigation behavior. The broader suite also verifies independent panels,
 dialogs, input, sliders, appearance, and Activity recreation.
+Selection tests also verify the 13 new supported combinations, tri-state
+transitions, and independent segmented-row state after Activity recreation.
 
-The final full-suite report is locally saved at
-`.local/actions-device-tests.txt`. A later selected picker run verifies the
-updated test script after an explicit sleep event; it does not replace the
-28-test full-suite evidence. Earlier failed wake experiments and the initial
-picker assertion failure are not passing evidence.
+The prior 28-test full-suite report for `e6b2eed` is locally saved at
+`.local/actions-device-tests.txt`. Selection evidence is saved at
+`.local/selection-device-tests.txt`. The initial category-filter failures are
+saved at `.local/filter-device-tests-failed.txt`. Later input experiments are
+still uncommitted and do not count toward the verified catalog or inventory.
+Their first 38-test run passed 36 tests and failed the autocomplete and spinner
+popup tests. The updated popup tests await a fresh unlocked-device run. Failed
+runs and runs stopped before instrumentation are not passing evidence.
 
 The previous [navigation verification](verification-2026-10-04.md) retains its
 original revision and captures. Screenshots from that record do not show all new

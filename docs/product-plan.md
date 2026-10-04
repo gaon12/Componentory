@@ -33,7 +33,8 @@ Use bottom navigation with **List**, **Compare**, and **Settings**. Open the
 component list first. Browsing, single-component exploration, and comparison
 have their own screens, rather than sharing one long lab page.
 
-1. Search the list by component name, Android class, or Korean description.
+1. Search the list by component name, Android class, or Korean description, and
+   combine the query with a component category.
 2. Open a component detail page and choose its Android UI family or library.
 3. Touch the real control, inspect the feedback, and try disabled state or reset.
 4. Use the detail page's comparison action to compare that component and family
@@ -56,8 +57,9 @@ a distinct theme that the device can necessarily provide.
 ## Component coverage
 
 The first prototype included eight basic types in all five families. The catalog
-now includes framework-only controls and library action variants. Use the
-[coverage inventory](component-coverage.md) to keep the broad expansion auditable.
+now includes framework-only controls, library action variants, and chip and
+selection samples. Use the [coverage inventory](component-coverage.md) to keep
+the broad expansion auditable.
 Continue adding components, visual variants, and historical coverage in focused
 changes.
 Show the actual class or library package alongside the sample. Platform widgets
