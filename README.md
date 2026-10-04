@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 63 implemented components by translated name or description,
+- **List:** Search 64 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 135 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 130 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -29,6 +29,9 @@ stay separate from open drafts. Live samples appear before icon and time setting
 Card and Surface use both libraries' genuine clickable and plain overloads.
 Material 3 also provides ElevatedCard and OutlinedCard. Each panel keeps its own
 mode and click count; plain containers explain their lack of an enabled state.
+Popup menus use the genuine framework or Material library popup and menu items.
+They include a disabled choice and keep the last choice and user action separate
+from transient open windows. Recreation closes menus while preserving feedback.
 It offers Classic, Holo, and platform Material light themes, Compose
 Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
 appearance keeps the selected samples in their own light themes.
@@ -53,12 +56,12 @@ later visits remember the component's selected provider, including deliberate
 unsupported choices.
 
 Search and live sample state survive tab changes and Activity recreation.
-The latest source passes formatting, lint, 49 JVM tests, and both APK builds.
+The latest source passes formatting, lint, 52 JVM tests, and both APK builds.
 Two inventory-only tests also passed on the physical device. The selected
-69-test UI attempt stopped at the locked-screen guard before instrumentation;
+75-test UI attempt stopped at the locked-screen guard before instrumentation;
 none ran. Comparison state, the Planned view, provider selection, accessibility,
-date/time dialogs, cards, surfaces, and the preview reorder still require unlocked
-UI verification. The
+date/time dialogs, cards, surfaces, popup menus, and the preview reorder still
+require unlocked UI verification. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original

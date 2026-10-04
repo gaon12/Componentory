@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**63 component entries**, with **148 runnable component/family combinations**.
+**64 component entries**, with **153 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,14 +49,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `c3484ea`.
+Application source revision: `b8a5766`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 21 | 53 |
-| Compose Material 2 1.10.4 | 52 | 28 | 24 |
-| Compose Material 3 1.4.0 | 113 | 55 | 58 |
-| Total | 239 | 104 | 135 |
+| Android framework | 74 | 22 | 52 |
+| Compose Material 2 1.10.4 | 52 | 30 | 22 |
+| Compose Material 3 1.4.0 | 113 | 57 | 56 |
+| Total | 239 | 109 | 130 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -122,6 +122,18 @@ the panel explains that the global Enabled setting applies to clickable samples.
 Old saved panels default to clickable mode. Framework providers and Material 2
 card variants without a supplier show an explicit unsupported reason.
 
+Popup menu adds five combinations. Framework themes use the exact
+`android.widget.PopupMenu` with the themed button as its anchor. Both Material
+libraries use their actual DropdownMenu and DropdownMenuItem functions, keeping
+original popup and row defaults. Two active choices and a disabled choice expose
+real item behavior. Selection closes this sample menu; the Compose caller
+explicitly closes it after a choice. Back and outside dismissal retain the last
+choice. Pause, disable and preview disposal close transient windows without
+inventing a user dismissal. Last choice and last action survive recreation;
+open windows do not. Supporting item rows are counted inside this menu, with no
+standalone item, icon, submenu or exposed-menu coverage claim. Exposed dropdowns,
+ListPopupWindow and PopupWindow remain planned.
+
 The shared panel shows the real sample before host adjustments and icon selection.
 Feedback precedes icon source metadata, while provider identity and behavioral
 guidance remain visible. Compare shows the component name in its picker once,
@@ -140,7 +152,7 @@ resources are kept in the app bundle for offline switching.
 
 1. Standalone date/time/calendar controls and date-range selection.
 2. Lists, images, text, and legacy content controls.
-3. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
+3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
 5. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
 
@@ -151,8 +163,42 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `c3484ea`. Formatting, lint (zero errors and 16 existing
-warnings), all 49 JVM tests, and both debug APK builds pass. Four new JVM tests
+Latest implementation: `b8a5766`. Formatting, lint (zero errors and 16 existing
+warnings), all 52 JVM tests, and both debug APK builds pass. Three added JVM
+checks cover menu API metadata, primary/supporting source search, and saved
+choice/action fields. Inventory checks require notes for supporting menu items.
+Three independent source reviews found no static blocker.
+
+Six [popup menu tests](../app/src/androidTest/java/xyz/gaon/componentory/lab/PopupMenusTest.kt)
+compile. They cover exact native class/theme identity, original library item
+semantics, real pointers, disabled rows and launchers, Back and measured outside
+touches, independent panels, recreation/reset, and five languages. Host-disable
+and Settings disposal use separately labelled semantic host-action dispatch,
+not a claim that a user touched background controls through a focusable popup.
+Geometry logging is compiled but has not executed; it is not compact-device evidence.
+
+The normal 75-test UI attempt installed both APKs but stopped at the secure
+keyguard guard before instrumentation. None executed. The output is
+`.local/popup-menus-ui-verification-attempt.txt`. Actual menu geometry and
+interaction, compact/large-font rendering, spoken accessibility and earlier UI
+repairs remain unverified.
+
+Two separate inventory-only device tests passed in 0.172 seconds on the SM-X800.
+They verify 239 rows, 109 implemented and 130 pending sources, five menu mappings,
+supporting notes, provider filters and pending queries. The run is
+`.local/device-runs/20261004T201006345Z-4500aa4f/`. Its manifest records the
+`9789ca3` working tree with changes later committed as `b8a5766`, exact APK and
+environment identities, native exit 0, and no restoration errors.
+`asset-consistency.json` confirms identical 21,029-byte source CSV, APK asset and
+installed asset content with SHA-256:
+`94dfc2042cd299741a2003c2fdab535619f042fdba15071f71479a94236fc94e`.
+This resource-only result supplies no rendering, interaction, screenshot or
+historical evidence. Gradle was stopped after the builds.
+
+### Earlier verification milestones
+
+Container milestone: `c3484ea`. Formatting, lint (zero errors and 16 existing
+warnings), all 49 JVM tests, and both debug APK builds passed. Four new JVM tests
 cover genuine container suppliers, source search, older saved panels, and plain
 mode with a retained click count. Independent code, UX and test source reviews
 found no static blocker.
@@ -179,8 +225,6 @@ asset and installed asset content with SHA-256:
 `645681580407d9da8762556fb098b175978166ce30471b65fde384ea505f2622`.
 These results provide no rendering, interaction, screenshot or historical evidence.
 Gradle was stopped after the builds.
-
-### Earlier verification milestones
 
 Time dialogs and preview order: `8620d92` and `c5fbcdf`. Formatting, lint (zero
 errors and 16 existing warnings), all 45 JVM tests, and both debug APK builds
