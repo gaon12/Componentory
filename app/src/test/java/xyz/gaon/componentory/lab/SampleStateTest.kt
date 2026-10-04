@@ -30,7 +30,7 @@ class SampleStateTest {
         val scope =
             object : SaverScope {
                 override fun canBeSaved(value: Any) =
-                    value is Int || value is Long || value is String
+                    value is Int || value is Long || value is String || value is Boolean
             }
         val bundle = requireNotNull(with(SampleState.Saver) { scope.save(state) })
         val restored = requireNotNull(SampleState.Saver.restore(bundle))
@@ -39,6 +39,7 @@ class SampleStateTest {
         assertEquals("draft", restored.text)
         assertEquals("Outlined.Home", restored.icon)
         assertNull(restored.dateDraftUtcMillis)
+        assertNull(restored.timeDraftMinutes)
     }
 
     @Test
@@ -63,12 +64,50 @@ class SampleStateTest {
         val scope =
             object : SaverScope {
                 override fun canBeSaved(value: Any) =
-                    value is Int || value is Long || value is String
+                    value is Int || value is Long || value is String || value is Boolean
             }
         val bundle = requireNotNull(with(SampleState.Saver) { scope.save(state) })
         val restored = requireNotNull(SampleState.Saver.restore(bundle))
         assertEquals(1, restored.value)
         assertEquals(committed, restored.dateUtcMillis)
         assertEquals(draft, restored.dateDraftUtcMillis)
+    }
+
+    @Test
+    fun sixFieldSavedPanelsKeepTheirDatesAndDefaultTheNewTimeState() {
+        val committed = SampleDates.utcMillis(2024, 1, 22)
+        val draft = SampleDates.utcMillis(2024, 2, 29)
+        val restored =
+            requireNotNull(SampleState.Saver.restore(listOf(1, "", "", 80, committed, draft)))
+        assertEquals(committed, restored.dateUtcMillis)
+        assertEquals(draft, restored.dateDraftUtcMillis)
+        assertEquals(630, restored.timeMinutes)
+        assertNull(restored.timeDraftMinutes)
+        assertEquals(true, restored.time24Hour)
+        assertEquals(false, restored.timeInputMode)
+    }
+
+    @Test
+    fun savedTimeStateKeepsNondefaultCommittedDraftFormatAndInputMode() {
+        val state =
+            SampleState(
+                initialValue = 1,
+                initialTimeMinutes = 1425,
+                initialTimeDraftMinutes = 5,
+                initialTime24Hour = false,
+                initialTimeInputMode = true,
+            )
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val bundle = requireNotNull(with(SampleState.Saver) { scope.save(state) })
+        val restored = requireNotNull(SampleState.Saver.restore(bundle))
+        assertEquals(1, restored.value)
+        assertEquals(1425, restored.timeMinutes)
+        assertEquals(5, restored.timeDraftMinutes)
+        assertEquals(false, restored.time24Hour)
+        assertEquals(true, restored.timeInputMode)
     }
 }

@@ -6,6 +6,15 @@ import org.junit.Test
 
 class ComponentAvailabilityTest {
     @Test
+    fun timePickerDialogHasGenuineFrameworkAndMaterial3SuppliersOnly() {
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNull(family.unsupportedReason(LabComponent.TIME_PICKER_DIALOG, 24))
+        }
+        assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(LabComponent.TIME_PICKER_DIALOG, 36))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.TIME_PICKER_DIALOG, 24))
+    }
+
+    @Test
     fun datePickerDialogHasGenuineFrameworkAndMaterial3SuppliersOnly() {
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
             assertNull(family.unsupportedReason(LabComponent.DATE_PICKER_DIALOG, 24))

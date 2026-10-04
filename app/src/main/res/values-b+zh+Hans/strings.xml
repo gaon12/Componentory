@@ -271,4 +271,11 @@
     <string name="open_date_picker">选择日期</string>
     <string name="status_date_action">日期: %1$s · 上次操作: %2$s</string>
     <string name="date_picker_configuration">示例的初始日期: %1$s。确认会应用日期，取消或返回会保留原来的日期。</string>
+    <string name="component_time_picker_dialog">时间选择对话框</string>
+    <string name="component_time_picker_dialog_description">打开所选主题或库提供的时间选择对话框。</string>
+    <string name="open_time_picker">选择时间</string>
+    <string name="status_time_action">时间: %1$s · 上次操作: %2$s</string>
+    <string name="time_24_hour">24小时制</string>
+    <string name="time_picker_configuration">示例从 10:30 开始。切换显示格式会保留所选时间。确认会应用时间，取消或返回会保留原来的时间。</string>
+    <string name="time_small_window_note">窗口高度不足以显示时钟时，Material 3 会使用文本输入。</string>
 </resources>

@@ -69,26 +69,35 @@ class ComponentInventoryTest {
                         )
                     }
                     // Some samples use a container as well as their primary control.
-                    val supportingSource =
+                    val supportingSources =
                         when {
                             row.provider == "PLATFORM" && component == LabComponent.RADIO ->
-                                "android.widget.RadioGroup"
+                                setOf("android.widget.RadioGroup")
+                            row.provider == "PLATFORM" &&
+                                component == LabComponent.TIME_PICKER_DIALOG ->
+                                setOf("android.widget.TimePicker")
                             row.provider == "MATERIAL3" &&
                                 component == LabComponent.DATE_PICKER_DIALOG ->
-                                "androidx.compose.material3.DatePicker"
+                                setOf("androidx.compose.material3.DatePicker")
+                            row.provider == "MATERIAL3" &&
+                                component == LabComponent.TIME_PICKER_DIALOG ->
+                                setOf(
+                                    "androidx.compose.material3.TimePicker",
+                                    "androidx.compose.material3.TimeInput",
+                                )
                             row.provider == "MATERIAL3" &&
                                 component in
                                     listOf(
                                         LabComponent.SINGLE_SEGMENTED,
                                         LabComponent.MULTI_SEGMENTED,
-                                    ) -> "androidx.compose.material3.SegmentedButton"
-                            else -> null
+                                    ) -> setOf("androidx.compose.material3.SegmentedButton")
+                            else -> emptySet()
                         }
                     assertTrue(
                         "Wrong source for $id: ${row.source}",
-                        row.source == family.source(component) || row.source == supportingSource,
+                        row.source == family.source(component) || row.source in supportingSources,
                     )
-                    if (row.source == supportingSource)
+                    if (row.source in supportingSources)
                         assertTrue("Explain the supporting source", row.notes.isNotBlank())
                 }
             }

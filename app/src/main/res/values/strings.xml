@@ -274,4 +274,11 @@
     <string name="open_date_picker">Choose date</string>
     <string name="status_date_action">Date: %1$s · Last action: %2$s</string>
     <string name="date_picker_configuration">Initial sample date: %1$s. Confirm applies the date; Cancel or Back keeps the previous date.</string>
+    <string name="component_time_picker_dialog">Time picker dialog</string>
+    <string name="component_time_picker_dialog_description">Open a time picker dialog supplied by the selected theme or library.</string>
+    <string name="open_time_picker">Choose time</string>
+    <string name="status_time_action">Time: %1$s · Last action: %2$s</string>
+    <string name="time_24_hour">24-hour clock</string>
+    <string name="time_picker_configuration">The sample starts at 10:30. Changing the clock format keeps the selected time. Confirm applies the time; Cancel or Back keeps the previous time.</string>
+    <string name="time_small_window_note">Material 3 uses text input when this window is too short for the clock.</string>
 </resources>

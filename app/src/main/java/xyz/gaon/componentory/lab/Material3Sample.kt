@@ -43,6 +43,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
             when (component) {
                 LabComponent.DATE_PICKER_DIALOG ->
                     Material3DatePickerDialogSample(panel, sample, enabled, state)
+                LabComponent.TIME_PICKER_DIALOG ->
+                    Material3TimePickerDialogSample(panel, sample, enabled, state)
                 LabComponent.ICON -> {
                     val icon = requireNotNull(LocalSampleIcon.current)
                     Icon(icon.vector(), contentDescription = icon.name, modifier = sample)

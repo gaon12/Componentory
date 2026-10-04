@@ -271,4 +271,11 @@
     <string name="open_date_picker">選擇日期</string>
     <string name="status_date_action">日期: %1$s · 上次操作: %2$s</string>
     <string name="date_picker_configuration">範例的初始日期: %1$s。確認會套用日期，取消或返回會保留原來的日期。</string>
+    <string name="component_time_picker_dialog">時間選擇對話框</string>
+    <string name="component_time_picker_dialog_description">開啟所選主題或函式庫提供的時間選擇對話框。</string>
+    <string name="open_time_picker">選擇時間</string>
+    <string name="status_time_action">時間: %1$s · 上次操作: %2$s</string>
+    <string name="time_24_hour">24小時制</string>
+    <string name="time_picker_configuration">範例從 10:30 開始。切換顯示格式會保留所選時間。確認會套用時間，取消或返回會保留原來的時間。</string>
+    <string name="time_small_window_note">視窗高度不足以顯示時鐘時，Material 3 會使用文字輸入。</string>
 </resources>

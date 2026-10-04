@@ -186,6 +186,15 @@ enum class LabComponent(
         material3Function = "DatePickerDialog",
         category = ComponentCategory.PICKER,
     ),
+    TIME_PICKER_DIALOG(
+        "Time picker dialog",
+        R.string.component_time_picker_dialog,
+        R.string.component_time_picker_dialog_description,
+        platformSource = "android.app.TimePickerDialog",
+        material2Function = null,
+        material3Function = "TimePickerDialog",
+        category = ComponentCategory.PICKER,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -587,7 +596,10 @@ enum class LabComponent(
                 platformSource,
                 material2Function?.let { "androidx.compose.material.$it" },
                 material3Function?.let { "androidx.compose.material3.$it" },
-            )
+            ) +
+                if (this == TIME_PICKER_DIALOG)
+                    listOf("android.widget.TimePicker", "androidx.compose.material3.TimeInput")
+                else emptyList()
         return term.isEmpty() || names.any { it.contains(term, ignoreCase = true) }
     }
 
@@ -597,6 +609,8 @@ enum class LabComponent(
         text: String,
         rangeEnd: Int = 80,
         dateUtcMillis: Long = SampleDates.INITIAL_UTC_MILLIS,
+        timeMinutes: Int = SampleTimes.INITIAL_MINUTES,
+        time24Hour: Boolean = true,
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
@@ -662,6 +676,19 @@ enum class LabComponent(
                     SampleDates.format(dateUtcMillis, context.resources.configuration.locales[0]),
                     context.getString(dialogAction(value)),
                 )
+            this == TIME_PICKER_DIALOG -> {
+                val locale = context.resources.configuration.locales[0]
+                val pattern =
+                    android.text.format.DateFormat.getBestDateTimePattern(
+                        locale,
+                        if (time24Hour) "Hm" else "hm",
+                    )
+                context.getString(
+                    R.string.status_time_action,
+                    SampleTimes.format(timeMinutes, locale, pattern),
+                    context.getString(dialogAction(value)),
+                )
+            }
             this == DIALOG ->
                 context.getString(R.string.status_action, context.getString(dialogAction(value)))
             else -> context.getString(R.string.status_clicks, value)

@@ -29,7 +29,7 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 93, InventoryStatus.PENDING to 146),
+            mapOf(InventoryStatus.IMPLEMENTED to 98, InventoryStatus.PENDING to 141),
             entries.groupingBy { it.status }.eachCount(),
         )
         val group = entries.single { it.source == "android.widget.RadioGroup" }
@@ -54,6 +54,26 @@ class ComponentInventoryResourceTest {
                 .notes
                 .isNotBlank()
         )
+        listOf(
+                "android.app.TimePickerDialog",
+                "android.widget.TimePicker",
+                "androidx.compose.material3.TimePickerDialog",
+                "androidx.compose.material3.TimePicker",
+                "androidx.compose.material3.TimeInput",
+            )
+            .forEach { source ->
+                val time = entries.single { it.source == source }
+                assertEquals(InventoryStatus.IMPLEMENTED, time.status)
+                assertEquals(listOf("TIME_PICKER_DIALOG"), time.catalogIds)
+            }
+        listOf(
+                "android.widget.TimePicker",
+                "androidx.compose.material3.TimePicker",
+                "androidx.compose.material3.TimeInput",
+            )
+            .forEach { source ->
+                assertTrue(entries.single { it.source == source }.notes.isNotBlank())
+            }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -73,12 +93,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(146, pending.size)
+        assertEquals(141, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 55,
+                InventoryFamily.PLATFORM to 53,
                 InventoryFamily.MATERIAL2 to 26,
-                InventoryFamily.MATERIAL3 to 65,
+                InventoryFamily.MATERIAL3 to 62,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -87,24 +107,35 @@ class ComponentInventoryResourceTest {
             assertTrue("Pending sources have no runnable sample IDs", it.catalogIds.isEmpty())
         }
         assertEquals(
-            setOf("android.app.TimePickerDialog", "android.widget.TimePicker"),
-            ComponentInventory.pending(entries, "  TIMEPICKER  ", InventoryFamily.PLATFORM)
+            setOf(
+                "android.widget.ListPopupWindow",
+                "android.widget.PopupMenu",
+                "android.widget.PopupWindow",
+            ),
+            ComponentInventory.pending(entries, "  POPUP  ", InventoryFamily.PLATFORM)
                 .map { it.source }
                 .toSet(),
         )
-        val libraryTimes =
-            ComponentInventory.pending(entries, "timepicker", InventoryFamily.MATERIAL3)
+        val libraryMenus =
+            ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL3)
         assertEquals(
             setOf(
-                "androidx.compose.material3.TimePicker",
-                "androidx.compose.material3.TimePickerDialog",
+                "androidx.compose.material3.DropdownMenu",
+                "androidx.compose.material3.DropdownMenuItem",
+                "androidx.compose.material3.ExposedDropdownMenuBox",
             ),
-            libraryTimes.map { it.source }.toSet(),
+            libraryMenus.map { it.source }.toSet(),
         )
-        libraryTimes.forEach { assertNull(it.apiIntroduced) }
+        libraryMenus.forEach { assertNull(it.apiIntroduced) }
         assertTrue(
-            ComponentInventory.pending(entries, "timepicker", InventoryFamily.MATERIAL2).isEmpty()
+            ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.PLATFORM).isEmpty()
         )
+        assertEquals(
+            3,
+            ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL2).size,
+        )
+        assertTrue(ComponentInventory.pending(entries, "timepicker").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "timeinput").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "no-matching-source-api").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "checkbox").isEmpty())
         assertEquals(

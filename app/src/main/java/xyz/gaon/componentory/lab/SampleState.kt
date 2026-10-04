@@ -32,6 +32,10 @@ class SampleState(
     initialRangeEnd: Int = 80,
     initialDateUtcMillis: Long = SampleDates.INITIAL_UTC_MILLIS,
     initialDateDraftUtcMillis: Long? = null,
+    initialTimeMinutes: Int = SampleTimes.INITIAL_MINUTES,
+    initialTimeDraftMinutes: Int? = null,
+    initialTime24Hour: Boolean = true,
+    initialTimeInputMode: Boolean = false,
 ) {
     var value by mutableIntStateOf(initialValue)
     var text by mutableStateOf(initialText)
@@ -39,6 +43,10 @@ class SampleState(
     var rangeEnd by mutableIntStateOf(initialRangeEnd)
     var dateUtcMillis by mutableLongStateOf(initialDateUtcMillis)
     var dateDraftUtcMillis by mutableStateOf(initialDateDraftUtcMillis)
+    var timeMinutes by mutableIntStateOf(initialTimeMinutes)
+    var timeDraftMinutes by mutableStateOf(initialTimeDraftMinutes)
+    var time24Hour by mutableStateOf(initialTime24Hour)
+    var timeInputMode by mutableStateOf(initialTimeInputMode)
 
     val triState: ToggleableState
         get() =
@@ -59,6 +67,10 @@ class SampleState(
                         it.rangeEnd,
                         it.dateUtcMillis,
                         it.dateDraftUtcMillis ?: Long.MIN_VALUE,
+                        it.timeMinutes,
+                        it.timeDraftMinutes ?: -1,
+                        it.time24Hour,
+                        it.timeInputMode,
                     )
                 },
                 restore = {
@@ -69,6 +81,10 @@ class SampleState(
                         it.getOrNull(3) as? Int ?: 80,
                         it.getOrNull(4) as? Long ?: SampleDates.INITIAL_UTC_MILLIS,
                         (it.getOrNull(5) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
+                        it.getOrNull(6) as? Int ?: SampleTimes.INITIAL_MINUTES,
+                        (it.getOrNull(7) as? Int)?.takeUnless { time -> time == -1 },
+                        it.getOrNull(8) as? Boolean ?: true,
+                        it.getOrNull(9) as? Boolean ?: false,
                     )
                 },
             )

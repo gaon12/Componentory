@@ -40,6 +40,10 @@ fun PlatformSample(
         PlatformDatePickerDialogSample(family, viewId, enabled, state, modifier)
         return
     }
+    if (component == LabComponent.TIME_PICKER_DIALOG) {
+        PlatformTimePickerDialogSample(family, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

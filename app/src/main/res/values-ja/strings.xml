@@ -271,4 +271,11 @@
     <string name="open_date_picker">日付を選択</string>
     <string name="status_date_action">日付: %1$s · 最後の操作: %2$s</string>
     <string name="date_picker_configuration">サンプルの初期日付: %1$s。確認すると日付を適用し、キャンセルや戻るでは変更前の日付を維持します。</string>
+    <string name="component_time_picker_dialog">時刻選択ダイアログ</string>
+    <string name="component_time_picker_dialog_description">選択したテーマやライブラリが提供する時刻選択ダイアログを開きます。</string>
+    <string name="open_time_picker">時刻を選択</string>
+    <string name="status_time_action">時刻: %1$s · 最後の操作: %2$s</string>
+    <string name="time_24_hour">24時間表示</string>
+    <string name="time_picker_configuration">サンプルは 10:30 から始まります。表示形式を変えても選択した時刻は保持されます。確認すると時刻を適用し、キャンセルや戻るでは変更前の時刻を保持します。</string>
+    <string name="time_small_window_note">ウィンドウの高さが時計表示に足りない場合、Material 3 はテキスト入力を使います。</string>
 </resources>

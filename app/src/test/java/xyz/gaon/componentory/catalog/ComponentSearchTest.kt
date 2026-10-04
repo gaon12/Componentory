@@ -6,6 +6,15 @@ import xyz.gaon.componentory.lab.LabComponent
 
 class ComponentSearchTest {
     @Test
+    fun timeDialogIsSearchableByItsInteractiveSupportingApis() {
+        assertEquals(listOf(LabComponent.TIME_PICKER_DIALOG), search("android.widget.TimePicker"))
+        assertEquals(
+            listOf(LabComponent.TIME_PICKER_DIALOG),
+            search("androidx.compose.material3.TimeInput"),
+        )
+    }
+
+    @Test
     fun emptySearchShowsTheWholeCatalog() {
         assertEquals(LabComponent.entries, search("  "))
     }

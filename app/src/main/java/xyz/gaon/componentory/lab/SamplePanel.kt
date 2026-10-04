@@ -18,6 +18,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -34,6 +35,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -57,7 +60,8 @@ fun SamplePanel(
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    val locale = LocalConfiguration.current.locales[0]
+    val configuration = LocalConfiguration.current
+    val locale = configuration.locales[0]
     val platform = family.platform
     val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT, context)
     val icon =
@@ -133,6 +137,21 @@ fun SamplePanel(
                 }
             }
             Text(family.origin(context), style = MaterialTheme.typography.bodySmall)
+            if (component == LabComponent.TIME_PICKER_DIALOG && unsupported == null) {
+                val label = stringResource(R.string.time_24_hour)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Switch(
+                        checked = state.time24Hour,
+                        onCheckedChange = { state.time24Hour = it },
+                        enabled = enabled,
+                        modifier =
+                            Modifier.testTag("time_24_hour_$panel").semantics {
+                                contentDescription = label
+                            },
+                    )
+                    Text(label, modifier = Modifier.clearAndSetSemantics {})
+                }
+            }
             if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
             if (icon != null) {
                 Text(
@@ -227,6 +246,8 @@ fun SamplePanel(
                             state.text,
                             state.rangeEnd,
                             state.dateUtcMillis,
+                            state.timeMinutes,
+                            state.time24Hour,
                         ),
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
@@ -285,6 +306,18 @@ fun SamplePanel(
                     ),
                     style = MaterialTheme.typography.bodySmall,
                 )
+            }
+            if (component == LabComponent.TIME_PICKER_DIALOG && unsupported == null) {
+                Text(
+                    stringResource(R.string.time_picker_configuration),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                if (family == DesignFamily.MATERIAL3 && !timePickerClockFitsWindow()) {
+                    Text(
+                        stringResource(R.string.time_small_window_note),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
             }
         }
     }
