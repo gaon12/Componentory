@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -48,6 +49,7 @@ fun SettingsScreen(appearance: AppAppearance, onAppearanceChange: (AppAppearance
                     AppAppearance.entries.forEach { option ->
                         Row(
                             Modifier.fillMaxWidth()
+                                .heightIn(min = 48.dp)
                                 .selectable(
                                     selected = appearance == option,
                                     onClick = { onAppearanceChange(option) },
