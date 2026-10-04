@@ -1,10 +1,13 @@
 package xyz.gaon.componentory.icons
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.ContextThemeWrapper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import java.util.Locale
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -107,6 +110,62 @@ class IconCatalogResourceTest {
             val lookupCount = examples.size + 3 + if (unavailable == null) 0 else 1
             if (platform) logTiming("framework selected lookups", start, lookupCount)
         }
+    }
+
+    @Test
+    fun frameworkCatalogAndSelectionRespectThemedAndConfigurationContexts() {
+        val original = Configuration(context.resources.configuration)
+        val configuration =
+            Configuration(original).apply {
+                densityDpi = if (original.densityDpi == 160) 240 else 160
+                uiMode =
+                    (uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or
+                        Configuration.UI_MODE_NIGHT_YES
+                setLocale(Locale.JAPANESE)
+            }
+        val configured = context.createConfigurationContext(configuration)
+        val contexts =
+            listOf(
+                ContextThemeWrapper(context, android.R.style.Theme_Light),
+                ContextThemeWrapper(context, android.R.style.Theme_Holo_Light),
+                ContextThemeWrapper(context, android.R.style.Theme_Material_Light),
+                ContextThemeWrapper(configured, android.R.style.Theme_Material_Light),
+            )
+        val identities = IconCatalog.platform(context).map { it.id }
+        contexts.forEach { resourceContext ->
+            val icons = IconCatalog.platform(resourceContext)
+            assertEquals(identities, icons.map { it.id })
+            icons.forEach { icon ->
+                val loadable =
+                    runCatching { resourceContext.getDrawable(requireNotNull(icon.drawableId)) }
+                        .getOrNull() != null
+                assertEquals(
+                    "Current resource availability of ${icon.id}",
+                    loadable,
+                    icon.available,
+                )
+            }
+            val available = icons.first { it.available && it.id != IconCatalog.DEFAULT_PLATFORM }
+            assertEquals(available, IconCatalog.selected(resourceContext, true, available.id))
+            val fallback = icons.single { it.id == IconCatalog.DEFAULT_PLATFORM }
+            assertEquals(
+                fallback,
+                IconCatalog.selected(resourceContext, true, "missing-icon-resource"),
+            )
+            icons
+                .firstOrNull { !it.available }
+                ?.let { unavailable ->
+                    assertEquals(
+                        fallback,
+                        IconCatalog.selected(resourceContext, true, unavailable.id),
+                    )
+                }
+        }
+        assertEquals(
+            "Resource contexts must not change the app configuration",
+            original,
+            context.resources.configuration,
+        )
     }
 
     private fun logTiming(operation: String, start: Long, count: Int) {

@@ -54,6 +54,16 @@ object IconCatalog {
 
     @Volatile private var materialCache: List<CatalogIcon>? = null
 
+    // Public identities stay fixed for the process. Availability depends on the current resources.
+    private val platformIcons: List<CatalogIcon> by lazy {
+        android.R.drawable::class
+            .java
+            .fields
+            .filter { it.type == Int::class.javaPrimitiveType }
+            .map { CatalogIcon("android:${it.name}", it.name, drawableId = it.getInt(null)) }
+            .sortedBy { it.name }
+    }
+
     fun material(context: Context): List<CatalogIcon> =
         materialCache
             ?: synchronized(this) {
@@ -81,27 +91,27 @@ object IconCatalog {
             }
 
     fun platform(context: Context): List<CatalogIcon> =
-        android.R.drawable::class
-            .java
-            .fields
-            .filter { it.type == Int::class.javaPrimitiveType }
-            .map {
-                val id = it.getInt(null)
-                CatalogIcon(
-                    "android:${it.name}",
-                    it.name,
-                    drawableId = id,
-                    available = runCatching { context.getDrawable(id) }.getOrNull() != null,
-                )
-            }
-            .sortedBy { it.name }
+        platformIcons.map { withCurrentAvailability(context, it) }
 
     fun entries(context: Context, platform: Boolean): List<CatalogIcon> =
         if (platform) platform(context) else material(context)
 
     fun selected(context: Context, platform: Boolean, id: String): CatalogIcon {
-        val icons = entries(context, platform)
-        return icons.firstOrNull { it.id == id && it.available }
-            ?: icons.first { it.id == if (platform) DEFAULT_PLATFORM else DEFAULT_MATERIAL }
+        if (!platform) {
+            val icons = material(context)
+            return icons.firstOrNull { it.id == id && it.available }
+                ?: icons.first { it.id == DEFAULT_MATERIAL }
+        }
+        val candidate =
+            platformIcons.firstOrNull { it.id == id }?.let { withCurrentAvailability(context, it) }
+        if (candidate?.available == true) return candidate
+        return withCurrentAvailability(context, platformIcons.first { it.id == DEFAULT_PLATFORM })
     }
+
+    private fun withCurrentAvailability(context: Context, icon: CatalogIcon): CatalogIcon =
+        icon.copy(
+            available =
+                runCatching { context.getDrawable(requireNotNull(icon.drawableId)) }.getOrNull() !=
+                    null
+        )
 }
