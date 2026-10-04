@@ -17,6 +17,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,11 +35,13 @@ import kotlin.math.roundToInt
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
+private val sampleTypography = Typography()
+
 @Composable
 fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, state: SampleState) {
     var dialogOpen by remember { mutableStateOf(false) }
     val sample = Modifier.testTag("library_$panel")
-    MaterialTheme(colorScheme = lightColorScheme()) {
+    MaterialTheme(colorScheme = lightColorScheme(), typography = sampleTypography) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
                 LabComponent.TEXT ->

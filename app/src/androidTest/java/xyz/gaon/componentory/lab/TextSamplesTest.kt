@@ -8,7 +8,10 @@ import android.widget.CheckedTextView
 import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -38,8 +41,10 @@ import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click as nativeClick
@@ -77,6 +82,45 @@ class TextSamplesTest {
         compose.runOnUiThread { LanguagePreferences.apply(compose.activity, AppLanguage.ENGLISH) }
         compose.waitForIdle()
         keepScreenOn()
+    }
+
+    @Test
+    fun material3TextKeepsLibraryTypographyWhenTheHostChangesItsFont() {
+        val expected = androidx.compose.material3.Typography().bodyLarge
+        val hostTypography =
+            androidx.compose.material3.Typography(
+                bodyLarge =
+                    expected.copy(
+                        fontFamily = FontFamily.Serif,
+                        fontSize = 42.sp,
+                        lineHeight = 64.sp,
+                    )
+            )
+        compose.runOnUiThread {
+            // Exercise the production renderer under a deliberately different caller theme.
+            compose.activity.setContent {
+                androidx.compose.material3.MaterialTheme(typography = hostTypography) {
+                    Column(Modifier.width(360.dp).verticalScroll(rememberScrollState())) {
+                        Material3Sample(LabComponent.TEXT, "LEFT", false, SampleState())
+                    }
+                }
+            }
+        }
+        assertLibraryText("LEFT", english.fixture)
+        val layouts = mutableListOf<TextLayoutResult>()
+        compose.onNodeWithTag("library_LEFT").performSemanticsAction(
+            SemanticsActions.GetTextLayoutResult
+        ) { action ->
+            assertTrue(action(layouts))
+        }
+        val actual = layouts.single().layoutInput.style
+        assertEquals(expected.fontFamily, actual.fontFamily)
+        assertEquals(expected.fontSize, actual.fontSize)
+        assertEquals(expected.fontWeight, actual.fontWeight)
+        assertEquals(expected.lineHeight, actual.lineHeight)
+        assertEquals(expected.letterSpacing, actual.letterSpacing)
+        assertEquals(expected.lineHeightStyle, actual.lineHeightStyle)
+        assertEquals(expected.platformStyle, actual.platformStyle)
     }
 
     @Test
