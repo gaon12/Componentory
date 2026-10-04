@@ -2,6 +2,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$Device,
     [string]$AdbPath,
+    [string]$TestClass,
     [switch]$SkipBuild
 )
 
@@ -26,13 +27,6 @@ try {
     if ($LASTEXITCODE -ne 0 -or ($deviceState -join '') -ne 'device') {
         throw 'The selected device is unavailable. Check adb devices -l.'
     }
-    & $AdbPath -s $Device shell input keyevent KEYCODE_WAKEUP
-    & $AdbPath -s $Device shell wm dismiss-keyguard
-    $windowPolicy = & $AdbPath -s $Device shell dumpsys window policy
-    if ($windowPolicy -match 'mIsShowing=true') {
-        throw 'Unlock the selected device before running touch tests.'
-    }
-
     if (-not $SkipBuild) {
         # Keep verification phases ordered and avoid concurrent builds on a small machine.
         & .\gradlew.bat spotlessApply spotlessCheck :app:lintDebug --max-workers=1 '-Dorg.gradle.jvmargs=-Xmx1024m -Dfile.encoding=UTF-8' '-Pkotlin.compiler.execution.strategy=in-process' --console=plain
@@ -47,8 +41,38 @@ try {
     & $AdbPath -s $Device install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
     if ($LASTEXITCODE -ne 0) { throw 'Test installation failed.' }
 
+    # Prepare the screen after installation so it cannot time out during APK transfer.
+    $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
+    if ($windowPolicy -match 'screenState=SCREEN_STATE_OFF') {
+        & $AdbPath -s $Device shell input keyevent KEYCODE_POWER
+    }
+    else {
+        & $AdbPath -s $Device shell input keyevent KEYCODE_WAKEUP
+    }
+    # Wait for a ready screen, then allow the dismissal request to finish.
+    for ($attempt = 0; $attempt -lt 10; $attempt++) {
+        $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
+        if ($windowPolicy -match 'screenState=SCREEN_STATE_ON') { break }
+        Start-Sleep -Milliseconds 500
+    }
+    if ($windowPolicy -notmatch 'screenState=SCREEN_STATE_ON') {
+        throw 'The selected screen did not wake. Turn it on before running touch tests.'
+    }
+    & $AdbPath -s $Device shell wm dismiss-keyguard
+    for ($attempt = 0; $attempt -lt 10; $attempt++) {
+        $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
+        if ($windowPolicy -notmatch 'mIsShowing=true') { break }
+        Start-Sleep -Milliseconds 500
+    }
+    if ($windowPolicy -match 'mIsShowing=true') {
+        throw 'Unlock the selected device before running touch tests.'
+    }
+
     New-Item -ItemType Directory -Path '.local' -Force | Out-Null
-    $testOutput = & $AdbPath -s $Device shell am instrument -w -r xyz.gaon.componentory.test/androidx.test.runner.AndroidJUnitRunner 2>&1
+    $instrumentationArguments = @('-s', $Device, 'shell', 'am', 'instrument', '-w', '-r')
+    if ($TestClass) { $instrumentationArguments += @('-e', 'class', $TestClass) }
+    $instrumentationArguments += 'xyz.gaon.componentory.test/androidx.test.runner.AndroidJUnitRunner'
+    $testOutput = & $AdbPath @instrumentationArguments 2>&1
     $testExitCode = $LASTEXITCODE
     $testOutput | Set-Content -LiteralPath '.local/device-tests.txt' -Encoding utf8
     $report = $testOutput -join "`n"

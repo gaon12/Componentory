@@ -23,7 +23,14 @@ spotless {
         }
     }
     format("text") {
-        target("*.md", "docs/**/*.md", ".gitignore", ".gitattributes", "gradle/*.toml")
+        target(
+            "*.md",
+            "docs/**/*.md",
+            ".gitignore",
+            ".gitattributes",
+            "gradle/*.toml",
+            "scripts/**/*.ps1",
+        )
         trimTrailingWhitespace()
         endWithNewline()
     }
