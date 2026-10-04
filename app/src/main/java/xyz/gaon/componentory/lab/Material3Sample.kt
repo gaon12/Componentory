@@ -3,6 +3,7 @@ package xyz.gaon.componentory.lab
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -26,6 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import kotlin.math.roundToInt
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
@@ -47,39 +51,44 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     }
                 LabComponent.CHECKBOX ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        val label = stringResource(R.string.sample_checkbox)
                         Checkbox(
                             checked = state.value == 1,
                             onCheckedChange = { state.value = if (it) 1 else 0 },
                             enabled = enabled,
-                            modifier = sample,
+                            modifier = sample.semantics { contentDescription = label },
                         )
-                        Text(stringResource(R.string.sample_checkbox))
+                        Text(label, modifier = Modifier.clearAndSetSemantics {})
                     }
                 LabComponent.SWITCH ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        val label = stringResource(R.string.sample_switch)
                         Switch(
                             checked = state.value == 1,
                             onCheckedChange = { state.value = if (it) 1 else 0 },
                             enabled = enabled,
-                            modifier = sample,
+                            modifier = sample.semantics { contentDescription = label },
                         )
-                        Text(stringResource(R.string.sample_switch))
+                        Text(label, modifier = Modifier.clearAndSetSemantics {})
                     }
                 LabComponent.RADIO ->
-                    Column {
+                    Column(Modifier.selectableGroup()) {
                         for (option in 1..2) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
+                                val label =
+                                    stringResource(
+                                        if (option == 1) R.string.option_a else R.string.option_b
+                                    )
                                 RadioButton(
                                     selected = state.value == option,
                                     onClick = { state.value = option },
                                     enabled = enabled,
-                                    modifier = Modifier.testTag("library_${panel}_$option"),
+                                    modifier =
+                                        Modifier.testTag("library_${panel}_$option").semantics {
+                                            contentDescription = label
+                                        },
                                 )
-                                Text(
-                                    stringResource(
-                                        if (option == 1) R.string.option_a else R.string.option_b
-                                    )
-                                )
+                                Text(label, modifier = Modifier.clearAndSetSemantics {})
                             }
                         }
                     }

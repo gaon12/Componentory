@@ -11,6 +11,8 @@ import androidx.compose.material.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import xyz.gaon.componentory.R
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -35,13 +37,15 @@ internal fun Material2Selections(
             ) {
                 Text(stringResource(R.string.sample_filter))
             }
-        LabComponent.TRI_STATE_CHECKBOX ->
+        LabComponent.TRI_STATE_CHECKBOX -> {
+            val label = stringResource(R.string.component_tri_state_checkbox)
             TriStateCheckbox(
                 state = state.triState,
                 onClick = { state.value = (state.value + 1) % 3 },
                 enabled = enabled,
-                modifier = modifier,
+                modifier = modifier.semantics { contentDescription = label },
             )
+        }
         else -> error("Unsupported components must be handled by SamplePanel.")
     }
 }

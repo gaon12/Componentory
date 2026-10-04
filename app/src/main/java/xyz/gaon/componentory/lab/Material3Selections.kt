@@ -17,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import xyz.gaon.componentory.R
 
 @Composable
@@ -81,13 +83,15 @@ internal fun Material3Selections(
                 enabled = enabled,
                 modifier = modifier,
             )
-        LabComponent.TRI_STATE_CHECKBOX ->
+        LabComponent.TRI_STATE_CHECKBOX -> {
+            val label = stringResource(R.string.component_tri_state_checkbox)
             TriStateCheckbox(
                 state = state.triState,
                 onClick = { state.value = (state.value + 1) % 3 },
                 enabled = enabled,
-                modifier = modifier,
+                modifier = modifier.semantics { contentDescription = label },
             )
+        }
         LabComponent.SINGLE_SEGMENTED ->
             SingleChoiceSegmentedButtonRow(modifier) {
                 for (index in 0..2) {

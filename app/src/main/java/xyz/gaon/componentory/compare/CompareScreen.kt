@@ -25,6 +25,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
@@ -46,6 +49,7 @@ fun CompareScreen(
     // Layout changes must move the same experiment, not create new panel values.
     val leftState = rememberSampleState("LEFT", left, component, reset)
     val rightState = rememberSampleState("RIGHT", right, component, reset)
+    val enabledLabel = stringResource(R.string.enabled)
     Column(
         Modifier.widthIn(max = 1100.dp)
             .fillMaxSize()
@@ -69,9 +73,13 @@ fun CompareScreen(
             Switch(
                 checked = enabled,
                 onCheckedChange = { enabled = it },
-                modifier = Modifier.testTag("enabled"),
+                modifier =
+                    Modifier.testTag("enabled").semantics { contentDescription = enabledLabel },
             )
-            Text(stringResource(R.string.enabled), modifier = Modifier.padding(horizontal = 12.dp))
+            Text(
+                enabledLabel,
+                modifier = Modifier.padding(horizontal = 12.dp).clearAndSetSemantics {},
+            )
             TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) {
                 Text(stringResource(R.string.reset))
             }

@@ -24,6 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
@@ -40,6 +43,7 @@ fun ComponentDetailScreen(
     var enabled by rememberSaveable(component) { mutableStateOf(true) }
     var reset by rememberSaveable(component) { mutableIntStateOf(0) }
     val state = rememberSampleState("DETAIL", family, component, reset)
+    val enabledLabel = stringResource(R.string.enabled)
     Column(
         Modifier.widthIn(max = 760.dp)
             .fillMaxSize()
@@ -53,11 +57,12 @@ fun ComponentDetailScreen(
             Switch(
                 checked = enabled,
                 onCheckedChange = { enabled = it },
-                modifier = Modifier.testTag("enabled"),
+                modifier =
+                    Modifier.testTag("enabled").semantics { contentDescription = enabledLabel },
             )
             Text(
-                stringResource(R.string.enabled),
-                modifier = Modifier.weight(1f).padding(start = 12.dp),
+                enabledLabel,
+                modifier = Modifier.weight(1f).padding(start = 12.dp).clearAndSetSemantics {},
             )
             TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) {
                 Text(stringResource(R.string.reset))
