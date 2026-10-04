@@ -8,6 +8,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $projectDirectory = Split-Path -Parent $PSScriptRoot
+$originalAnimationSettings = [ordered]@{}
 Push-Location $projectDirectory
 
 try {
@@ -36,9 +37,9 @@ try {
         & .\gradlew.bat --stop --console=plain
     }
 
-    & $AdbPath -s $Device install -r app/build/outputs/apk/debug/app-debug.apk
+    & $AdbPath -s $Device install --no-streaming -r app/build/outputs/apk/debug/app-debug.apk
     if ($LASTEXITCODE -ne 0) { throw 'App installation failed.' }
-    & $AdbPath -s $Device install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+    & $AdbPath -s $Device install --no-streaming -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
     if ($LASTEXITCODE -ne 0) { throw 'Test installation failed.' }
 
     # Prepare the screen after installation so it cannot time out during APK transfer.
@@ -69,6 +70,18 @@ try {
     }
 
     New-Item -ItemType Directory -Path '.local' -Force | Out-Null
+    # Espresso needs stationary window coordinates when touching native popups.
+    foreach ($setting in @('window_animation_scale', 'transition_animation_scale', 'animator_duration_scale')) {
+        $value = & $AdbPath -s $Device shell settings get global $setting
+        if ($LASTEXITCODE -ne 0) { throw "Could not read $setting." }
+        $originalAnimationSettings[$setting] = ($value -join '').Trim()
+    }
+    # Keep a recovery record if the host process is forcibly terminated.
+    $originalAnimationSettings | ConvertTo-Json | Set-Content -LiteralPath '.local/device-animation-settings.json' -Encoding utf8
+    foreach ($setting in $originalAnimationSettings.Keys) {
+        & $AdbPath -s $Device shell settings put global $setting 0
+        if ($LASTEXITCODE -ne 0) { throw "Could not disable $setting for testing." }
+    }
     $instrumentationArguments = @('-s', $Device, 'shell', 'am', 'instrument', '-w', '-r')
     if ($TestClass) { $instrumentationArguments += @('-e', 'class', $TestClass) }
     $instrumentationArguments += 'xyz.gaon.componentory.test/xyz.gaon.componentory.testing.ComponentoryTestRunner'
@@ -83,5 +96,17 @@ try {
     }
 }
 finally {
+    foreach ($setting in $originalAnimationSettings.Keys) {
+        $value = $originalAnimationSettings[$setting]
+        if ($value -eq 'null') {
+            & $AdbPath -s $Device shell settings delete global $setting | Out-Null
+        }
+        else {
+            & $AdbPath -s $Device shell settings put global $setting $value
+        }
+        if ($LASTEXITCODE -ne 0) {
+            Write-Warning "Could not restore $setting. Original values are in .local/device-animation-settings.json."
+        }
+    }
     Pop-Location
 }

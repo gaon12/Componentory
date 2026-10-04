@@ -7,6 +7,7 @@ import android.view.inspector.WindowInspector
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.TextView
+import androidx.compose.ui.test.ComposeTimeoutException
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
@@ -17,6 +18,7 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Root
@@ -142,9 +144,23 @@ class PlatformInputsTest {
 
     private fun clickNativeSample() {
         // Scroll and synchronize Compose before handing the native popup to Espresso.
+        compose.runOnUiThread {
+            // Inject hardware key events without moving the target under a software keyboard.
+            suppressSoftwareKeyboard(compose.activity.findViewById(R.id.sample_left))
+            val window = compose.activity.window
+            WindowCompat.getInsetsController(window, window.decorView)
+                .hide(WindowInsetsCompat.Type.ime())
+        }
         waitForKeyboardToClose()
         compose.onNodeWithTag("native_LEFT").performScrollTo().performClick()
         compose.waitForIdle()
+    }
+
+    private fun suppressSoftwareKeyboard(view: View) {
+        if (view is EditText) view.showSoftInputOnFocus = false
+        if (view is ViewGroup) {
+            for (index in 0 until view.childCount) suppressSoftwareKeyboard(view.getChildAt(index))
+        }
     }
 
     private fun waitForKeyboardToClose() {
@@ -224,11 +240,17 @@ class PlatformInputsTest {
 
     private fun status(panel: String, text: String) {
         // Framework selection callbacks can finish after the popup touch returns.
-        compose.waitUntil(5_000) {
-            compose
-                .onAllNodes(hasTestTag("status_$panel") and hasText(text))
-                .fetchSemanticsNodes()
-                .size == 1
+        try {
+            compose.waitUntil(5_000) {
+                compose
+                    .onAllNodes(hasTestTag("status_$panel") and hasText(text))
+                    .fetchSemanticsNodes()
+                    .size == 1
+            }
+        } catch (timeout: ComposeTimeoutException) {
+            // Include the actual feedback in failures instead of only reporting a timeout.
+            compose.onNodeWithTag("status_$panel").assertTextEquals(text)
+            throw timeout
         }
         compose.onNodeWithTag("status_$panel").assertTextEquals(text)
     }
