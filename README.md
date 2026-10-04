@@ -34,6 +34,8 @@ Historical samples will need their own compatible build configuration.
 On Windows, use the Gradle wrapper after setting `JAVA_HOME` to a suitable JDK:
 
 ```powershell
+.\gradlew.bat spotlessApply
+.\gradlew.bat spotlessCheck
 .\gradlew.bat lintDebug
 .\gradlew.bat testDebugUnitTest
 ```

@@ -2,4 +2,33 @@
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.spotless)
+}
+
+spotless {
+    kotlin {
+        target("app/src/**/*.kt")
+        ktfmt("0.54").googleStyle().configure {
+            it.setBlockIndent(4)
+            it.setContinuationIndent(4)
+            it.setMaxWidth(100)
+        }
+    }
+    kotlinGradle {
+        target("*.gradle.kts", "*/build.gradle.kts")
+        ktfmt("0.54").googleStyle().configure {
+            it.setBlockIndent(4)
+            it.setContinuationIndent(4)
+            it.setMaxWidth(100)
+        }
+    }
+    java {
+        target("native-samples/src/**/*.java")
+        googleJavaFormat("1.30.0").aosp()
+    }
+    format("text") {
+        target("*.md", "docs/**/*.md", ".gitignore", ".gitattributes", "gradle/*.toml")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }

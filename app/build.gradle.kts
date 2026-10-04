@@ -5,9 +5,7 @@ plugins {
 
 android {
     namespace = "xyz.gaon.componentory"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk { version = release(37) }
 
     defaultConfig {
         applicationId = "xyz.gaon.componentory"
@@ -19,20 +17,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            optimization {
-                enable = false
-            }
-        }
-    }
+    buildTypes { release { optimization { enable = false } } }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
-        compose = true
-    }
+    buildFeatures { compose = true }
 }
 
 dependencies {
