@@ -28,6 +28,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.catalog.CategoryFilter
+import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
 
 @Composable
@@ -41,8 +43,12 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
     }
     if (open) {
         var query by rememberSaveable { mutableStateOf("") }
+        var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
         val focus = LocalFocusManager.current
-        val options = LabComponent.entries.filter { it.matchesSearch(query) }
+        val options =
+            LabComponent.entries.filter {
+                it.matchesSearch(query) && (category == null || it.category == category)
+            }
         AlertDialog(
             onDismissRequest = { open = false },
             title = { Text("비교할 컴포넌트") },
@@ -55,6 +61,7 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
                         label = { Text("이름 또는 클래스 검색") },
                         modifier = Modifier.fillMaxWidth().testTag("picker_search"),
                     )
+                    CategoryFilter(category, { category = it }, "picker", Modifier.fillMaxWidth())
                     if (options.isEmpty())
                         Text("검색 결과가 없습니다", modifier = Modifier.testTag("picker_empty"))
                     LazyColumn(

@@ -32,13 +32,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
 
 @Composable
 fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
     var query by rememberSaveable { mutableStateOf("") }
+    var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
     val focus = LocalFocusManager.current
-    val components = LabComponent.entries.filter { it.matchesSearch(query) }
+    val components =
+        LabComponent.entries.filter {
+            it.matchesSearch(query) && (category == null || it.category == category)
+        }
     Column(
         Modifier.widthIn(max = 900.dp)
             .fillMaxSize()
@@ -73,6 +78,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
         )
+        CategoryFilter(category, { category = it }, "list", Modifier.fillMaxWidth())
         Text("${components.size}개 컴포넌트", style = MaterialTheme.typography.labelLarge)
         LazyColumn(
             contentPadding = PaddingValues(bottom = 20.dp),
@@ -93,8 +99,10 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                         TextButton(
                             onClick = {
                                 query = ""
+                                category = null
                                 focus.clearFocus()
-                            }
+                            },
+                            modifier = Modifier.testTag("show_all_components"),
                         ) {
                             Text("전체 컴포넌트 보기")
                         }
