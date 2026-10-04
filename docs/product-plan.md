@@ -29,23 +29,35 @@ cover every release. Missing components and uncollected captures stay explicit.
 
 ## Main experience
 
-1. Open the lab and choose a component.
-2. Choose a design family for each comparison panel.
-3. Touch each real control and inspect its state and interaction feedback.
-4. Try enabled and disabled states, then reset the experiment.
-5. Compare the appearance, supported actions, and component sources.
-6. Inspect the actual device, OS, theme, target SDK, and display settings.
+Use bottom navigation with **List**, **Compare**, and **Settings**. Open the
+component list first. Browsing, single-component exploration, and comparison
+have their own screens, rather than sharing one long lab page.
+
+1. Search the list by component name, Android class, or Korean description.
+2. Open a component detail page and choose its Android UI family or library.
+3. Touch the real control, inspect the feedback, and try disabled state or reset.
+4. Use the detail page's comparison action to compare that component and family
+   against another family. Each panel has independent interaction state.
+5. Switch to Settings to choose app appearance and inspect the device, OS build,
+   target SDK, display settings, and exact library versions.
+
+Keep the search and scroll position when returning from a detail page. Preserve
+tab state across navigation and Activity recreation. Back from a detail returns
+to its list context. Selecting the already active List tab returns to the list.
+Keep app appearance separate from the selected samples' light themes.
 
 Use two columns when there is enough width and stack panels on narrow screens.
-Keep the two panels' interaction state independent. Changing a component or theme
-starts a fresh sample so previous state does not silently enter a new experiment.
+Keep the two panels' interaction state independent. In comparison, changing a
+component or theme starts a fresh sample so previous state does not silently
+enter a new experiment.
 Explain the selected family's origin without presenting each Android release as
 a distinct theme that the device can necessarily provide.
 
 ## Component coverage
 
-Start with Button and verify the entire real-device workflow. Then add selection
-controls, text input, sliders, progress indicators, and dialogs in focused changes.
+The first prototype includes Button, Checkbox, Radio buttons, Switch, Text field,
+Slider, Progress, and Dialog in all five supported families. Continue expanding
+components, theme variants, and historical coverage in focused changes.
 Show the actual class or library package alongside the sample. Platform widgets
 must use `android.widget` or framework dialogs directly. The Compose shell must
 not replace them with an AppCompat or Material library equivalent.
@@ -83,6 +95,7 @@ fixtures or planned samples as if they were completed experiments.
 | Live platform comparison | Three explicit platform themes, real Button interaction, responsive panels, real-device tests. |
 | Broader component lab | Selection, input, range, and dialog scenarios work in each supported family. |
 | Library comparison | Material 2 and Material 3 use their real components with version labels. |
+| Catalog navigation | Searchable list, component detail with UI selection, bottom navigation, and a direct comparison action. |
 | Saved experiments | Persist real states and environment details; reopen and export runs. |
 | Historical expansion | Add verified coverage and optional actual historical OS execution. |
 
