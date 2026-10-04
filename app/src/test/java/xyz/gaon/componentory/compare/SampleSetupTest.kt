@@ -15,6 +15,134 @@ import xyz.gaon.componentory.lab.SampleState
 
 class SampleSetupTest {
     @Test
+    fun inlineDateCopiesAcrossGenuineProvidersWithoutObservedActionsOrEditorMode() {
+        val date = SampleDates.utcMillis(2025, 2, 28)
+        val state =
+            SampleState(
+                initialValue = 19,
+                initialDateDraftUtcMillis = SampleDates.utcMillis(2024, 12, 25),
+                initialInlineDateUtcMillis = date,
+                initialDateInputMode = true,
+                initialDateDisplayedMonthUtcMillis = SampleDates.utcMillis(2026, 6, 1),
+            )
+        DesignFamily.entries
+            .filter { it != DesignFamily.MATERIAL2 }
+            .forEach { source ->
+                val setup = SampleSetup.capture(LabComponent.DATE_PICKER, source, state, API)
+                DesignFamily.entries
+                    .filter { it != DesignFamily.MATERIAL2 }
+                    .forEach { destination ->
+                        val target = requireNotNull(setup.copyTo(destination, API).state)
+                        assertEquals(date, target.inlineDateUtcMillis)
+                        assertEquals(0, target.value)
+                        assertNull(target.dateDraftUtcMillis)
+                        assertFalse(target.dateInputMode)
+                        assertEquals(
+                            SampleDates.utcMillis(2025, 2, 1),
+                            target.dateDisplayedMonthUtcMillis,
+                        )
+                        assertNotSame(state, target)
+                    }
+            }
+        val calendar =
+            SampleSetup.capture(LabComponent.CALENDAR_VIEW, DesignFamily.CLASSIC, state, API)
+        assertEquals(
+            date,
+            requireNotNull(calendar.copyTo(DesignFamily.HOLO, API).state).inlineDateUtcMillis,
+        )
+        assertEquals(
+            SetupCopyReason.TARGET_UNSUPPORTED,
+            calendar.copyTo(DesignFamily.MATERIAL3, API).reason,
+        )
+    }
+
+    @Test
+    fun emptyInlineDateIsEligibleAndSurvivesSavingButCannotReplaceANativeDate() {
+        val setup =
+            SampleSetup.capture(
+                LabComponent.DATE_PICKER,
+                DesignFamily.MATERIAL3,
+                SampleState(initialInlineDateUtcMillis = null),
+                API,
+            )
+        assertTrue(setup.savedValues()["inlineDatePresent"] == true)
+        assertFalse(setup.savedValues().containsKey("inlineDate"))
+        val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+        val target = requireNotNull(restored.copyTo(DesignFamily.MATERIAL3, API).state)
+        assertNull(target.inlineDateUtcMillis)
+        assertEquals(SampleDates.INITIAL_MONTH_UTC_MILLIS, target.dateDisplayedMonthUtcMillis)
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            val result = restored.copyTo(family, API)
+            assertNull(result.state)
+            assertEquals(SetupCopyReason.DATE_REQUIRED, result.reason)
+        }
+        assertEquals(
+            SetupCopyReason.TARGET_UNSUPPORTED,
+            restored.copyTo(DesignFamily.MATERIAL2, API).reason,
+        )
+    }
+
+    @Test
+    fun rangeSelectionCopiesEmptyPartialSameDayAndCompleteEndpointsWithoutDrafts() {
+        val start = SampleDates.utcMillis(2025, 2, 28)
+        val end = SampleDates.utcMillis(2025, 3, 2)
+        listOf(null to null, start to null, start to start, start to end).forEach {
+            (rangeStart, rangeEnd) ->
+            val source =
+                SampleState(
+                    initialValue = 7,
+                    initialDateRangeStartUtcMillis = rangeStart,
+                    initialDateRangeEndUtcMillis = rangeEnd,
+                    initialDateInputMode = true,
+                    initialDateDisplayedMonthUtcMillis = SampleDates.utcMillis(2026, 6, 1),
+                )
+            val setup =
+                SampleSetup.capture(
+                    LabComponent.DATE_RANGE_PICKER,
+                    DesignFamily.MATERIAL3,
+                    source,
+                    API,
+                )
+            assertTrue(setup.savedValues()["dateRangePresent"] == true)
+            val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+            val target = requireNotNull(restored.copyTo(DesignFamily.MATERIAL3, API).state)
+            assertEquals(rangeStart, target.dateRangeStartUtcMillis)
+            assertEquals(rangeEnd, target.dateRangeEndUtcMillis)
+            assertFalse(target.dateInputMode)
+            assertEquals(0, target.value)
+            assertEquals(
+                if (rangeStart == null) SampleDates.INITIAL_MONTH_UTC_MILLIS
+                else SampleDates.utcMillis(2025, 2, 1),
+                target.dateDisplayedMonthUtcMillis,
+            )
+            target.dateRangeStartUtcMillis = null
+            assertEquals(rangeStart, source.dateRangeStartUtcMillis)
+            assertEquals(
+                SetupCopyReason.TARGET_UNSUPPORTED,
+                restored.copyTo(DesignFamily.CLASSIC, API).reason,
+            )
+        }
+    }
+
+    @Test
+    fun ineligibleOrUnsupportedSnapshotsNeverSaveNewInlineDatePayloads() {
+        val source =
+            SampleState(
+                initialInlineDateUtcMillis = null,
+                initialDateRangeStartUtcMillis = SampleDates.INITIAL_UTC_MILLIS,
+            )
+        listOf(LabComponent.BUTTON, LabComponent.DATE_PICKER, LabComponent.DATE_RANGE_PICKER)
+            .forEach { component ->
+                val setup = SampleSetup.capture(component, DesignFamily.MATERIAL2, source, API)
+                assertNull(setup.inlineDate)
+                assertNull(setup.dateRange)
+                assertFalse(setup.savedValues().containsKey("inlineDatePresent"))
+                assertFalse(setup.savedValues().containsKey("dateRangePresent"))
+                assertNull(setup.copyTo(DesignFamily.MATERIAL3, API).state)
+            }
+    }
+
+    @Test
     fun boundSelectionsAndKnobsBecomeIndependentFreshTargetInputs() {
         val inputs =
             mapOf(

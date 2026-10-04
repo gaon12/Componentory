@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
@@ -56,8 +57,8 @@ class PlannedCatalogTest {
     @Test
     fun plannedCountsAndProviderVersionsDescribeSourcesWithoutRunnableRows() {
         mode("PLANNED")
-        count(130)
-        mapOf("PLATFORM" to 52, "MATERIAL2" to 22, "MATERIAL3" to 56).forEach { (family, size) ->
+        count(127)
+        mapOf("PLATFORM" to 50, "MATERIAL2" to 22, "MATERIAL3" to 55).forEach { (family, size) ->
             provider(family)
             count(size)
             compose.onNodeWithTag("planned_provider_$family").assertIsSelected()
@@ -102,12 +103,36 @@ class PlannedCatalogTest {
         compose
             .onNodeWithTag("provider_$material2", useUnmergedTree = true)
             .assertTextEquals("Compose Material 2 · ${BuildConfig.MATERIAL2_VERSION}")
+        provider("ALL")
+        listOf("DatePicker", "CalendarView", "DateRangePicker").forEach { source ->
+            search(source)
+            count(0)
+            compose.onNodeWithTag("planned_empty").assertIsDisplayed()
+        }
+        mode("SAMPLES")
+        search("DatePicker")
+        listOf("DATE_PICKER", "DATE_PICKER_DIALOG").forEach { component ->
+            compose
+                .onNodeWithTag("component_list")
+                .performScrollToNode(hasTestTag("list_$component"))
+            compose.onNodeWithTag("list_$component").assertIsDisplayed().assertHasClickAction()
+        }
+        search("CalendarView")
+        compose
+            .onNodeWithTag("component_list")
+            .performScrollToNode(hasTestTag("list_CALENDAR_VIEW"))
+        compose.onNodeWithTag("list_CALENDAR_VIEW").assertIsDisplayed().assertHasClickAction()
+        search("DateRangePicker")
+        compose
+            .onNodeWithTag("component_list")
+            .performScrollToNode(hasTestTag("list_DATE_RANGE_PICKER"))
+        compose.onNodeWithTag("list_DATE_RANGE_PICKER").assertIsDisplayed().assertHasClickAction()
     }
 
     @Test
     fun missingSampleLinkPreservesQueryAndResetsOnlyThePlannedProvider() {
         mode("PLANNED")
-        count(130)
+        count(127)
         provider("MATERIAL2")
         mode("SAMPLES")
         compose.onNodeWithTag("list_category_SELECTION").performClick()
@@ -134,7 +159,7 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("component_list").performScrollToNode(hasTestTag("list_DIALOG"))
         compose.onNodeWithTag("list_DIALOG").assertIsDisplayed()
         mode("PLANNED")
-        count(130)
+        count(127)
         provider("MATERIAL3")
         val identity = "MATERIAL3_androidx.compose.material3.Snackbar"
         showRow(identity)
@@ -144,10 +169,10 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.onNodeWithTag("nav_settings").performClick()
         compose.onNodeWithTag("nav_list").performClick()
-        count(56)
+        count(55)
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.activityRule.scenario.recreate()
-        count(56)
+        count(55)
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_MATERIAL3").assertIsSelected()
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
@@ -158,7 +183,7 @@ class PlannedCatalogTest {
     @Test
     fun everyLanguageLocalizesPendingStatusAndCountsWhileKeepingApiNames() {
         mode("PLANNED")
-        count(130)
+        count(127)
         search("Snackbar")
         AppLanguage.entries
             .filter { it != AppLanguage.SYSTEM }
@@ -190,7 +215,7 @@ class PlannedCatalogTest {
             compose.activity.setContent { Box(Modifier.width(360.dp)) { ComponentoryApp() } }
         }
         mode("PLANNED")
-        count(130)
+        count(127)
         compose.onNodeWithTag("catalog_mode_SAMPLES").assertIsDisplayed()
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsDisplayed()
         search("Snackbar")

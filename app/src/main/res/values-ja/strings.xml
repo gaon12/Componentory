@@ -306,4 +306,16 @@
     <string name="copy_setup_no_inputs">この体験にはコピーできる入力がありません。</string>
     <string name="copy_setup_icon_incompatible">コピー先の提供元ではこのアイコンを使用できません。</string>
     <string name="copy_setup_icon_skipped">コピー元のアイコンを使用できないため、コピー先のアイコンを保持しました。</string>
+    <string name="component_date_picker">日付選択</string>
+    <string name="component_date_picker_description">元のインライン選択画面で直接日付を選びます。</string>
+    <string name="component_calendar_view">カレンダービュー</string>
+    <string name="component_calendar_view_description">選択したテーマの Android フレームワークカレンダーで日付を選びます。</string>
+    <string name="component_date_range_picker">期間選択</string>
+    <string name="component_date_range_picker_description">元の Material 3 選択画面で開始日と終了日を選びます。</string>
+    <string name="status_inline_date">日付: %1$s</string>
+    <string name="status_date_range">開始日: %1$s · 終了日: %2$s</string>
+    <string name="date_no_selection">日付未選択</string>
+    <string name="inline_date_note">選択した日付はすぐにサンプルに反映されます。元の選択画面の操作で日付を変更してください。</string>
+    <string name="inline_date_enabled_note">この選択画面には有効・無効の設定が適用されません。この提供元にはすべての日付操作を無効にする機能がありません。</string>
+    <string name="copy_setup_date_required">コピー先には選択した日付が必要です。</string>
 </resources>

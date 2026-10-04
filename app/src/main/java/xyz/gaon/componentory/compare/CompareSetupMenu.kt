@@ -83,4 +83,5 @@ private val SetupCopyReason.labelRes: Int
             SetupCopyReason.TARGET_UNSUPPORTED -> R.string.copy_setup_target_unsupported
             SetupCopyReason.NO_INPUTS -> R.string.copy_setup_no_inputs
             SetupCopyReason.ICON_UNAVAILABLE -> R.string.copy_setup_icon_incompatible
+            SetupCopyReason.DATE_REQUIRED -> R.string.copy_setup_date_required
         }

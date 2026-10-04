@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.DatePicker
@@ -47,6 +48,7 @@ import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
@@ -78,6 +80,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import java.util.Calendar
+import java.util.GregorianCalendar
+import java.util.TimeZone
 import org.hamcrest.Description
 import org.hamcrest.Matchers.not
 import org.hamcrest.TypeSafeMatcher
@@ -120,22 +125,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 20, 42)
+        verifyFamily(DesignFamily.CLASSIC, 22, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 20, 42)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 22, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 20, 42)
+        verifyFamily(DesignFamily.MATERIAL, 22, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 32, 32)
+        verifyFamily(DesignFamily.MATERIAL2, 32, 35)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 55, 9)
+        verifyFamily(DesignFamily.MATERIAL3, 57, 10)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -144,7 +149,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            64,
+            67,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -226,6 +231,9 @@ class CatalogRenderingSmokeTest {
 
     private fun verifyNative(component: LabComponent, family: DesignFamily) {
         compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
+        if (component == LabComponent.DATE_PICKER || component == LabComponent.CALENDAR_VIEW) {
+            compose.onNodeWithTag("date_viewport_LEFT").performScrollTo().assertIsDisplayed()
+        }
         compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         compose.runOnIdle {
             val view = requireNotNull(compose.activity.findViewById<View>(R.id.sample_left))
@@ -304,6 +312,24 @@ class CatalogRenderingSmokeTest {
                     assertFalse(view.isIconfiedByDefault())
                     assertTrue(view.isSubmitButtonEnabled)
                 }
+                LabComponent.DATE_PICKER -> {
+                    val picker = view as DatePicker
+                    assertEquals(2024, picker.year)
+                    assertEquals(Calendar.JANUARY, picker.month)
+                    assertEquals(15, picker.dayOfMonth)
+                    assertTrue(picker.minDate < picker.maxDate)
+                }
+                LabComponent.CALENDAR_VIEW -> {
+                    val calendar = view as CalendarView
+                    val selected =
+                        GregorianCalendar(TimeZone.getDefault()).apply {
+                            timeInMillis = calendar.date
+                        }
+                    assertEquals(2024, selected.get(Calendar.YEAR))
+                    assertEquals(Calendar.JANUARY, selected.get(Calendar.MONTH))
+                    assertEquals(15, selected.get(Calendar.DAY_OF_MONTH))
+                    assertTrue(calendar.minDate < calendar.maxDate)
+                }
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -343,6 +369,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.SPINNER -> Spinner::class.java
             LabComponent.ICON -> ImageView::class.java
             LabComponent.SEARCH_VIEW -> SearchView::class.java
+            LabComponent.DATE_PICKER -> DatePicker::class.java
+            LabComponent.CALENDAR_VIEW -> CalendarView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")
         }
 
@@ -358,7 +386,9 @@ class CatalogRenderingSmokeTest {
                 LabComponent.TEXT_FIELD -> android.R.attr.editTextStyle
                 LabComponent.SLIDER -> android.R.attr.seekBarStyle
                 LabComponent.PROGRESS -> android.R.attr.progressBarStyleHorizontal
+                LabComponent.DATE_PICKER,
                 LabComponent.DATE_PICKER_DIALOG -> android.R.attr.datePickerStyle
+                LabComponent.CALENDAR_VIEW -> android.R.attr.calendarViewStyle
                 LabComponent.TIME_PICKER_DIALOG -> android.R.attr.timePickerStyle
                 LabComponent.POPUP_MENU -> android.R.attr.popupMenuStyle
                 LabComponent.TOGGLE_BUTTON -> android.R.attr.buttonStyleToggle
@@ -494,10 +524,40 @@ class CatalogRenderingSmokeTest {
             }
             return
         }
-        val sample = displayed("library_LEFT")
+        val inlineDate =
+            component == LabComponent.DATE_PICKER || component == LabComponent.DATE_RANGE_PICKER
+        if (inlineDate)
+            compose.onNodeWithTag("date_viewport_LEFT").performScrollTo().assertIsDisplayed()
+        val sample = displayed("library_LEFT", scroll = !inlineDate)
         // Runtime semantics complement the source/version labels; labels alone cannot prove a
         // renderer.
         when {
+            inlineDate -> {
+                // Inspect an original day control, not only the host's source caption.
+                val day =
+                    compose.onNode(
+                        hasAnyAncestor(hasTestTag("library_LEFT")) and
+                            hasText("January 15, 2024", substring = true) and
+                            hasClickAction()
+                    )
+                day.assertIsDisplayed()
+                    .assertHasClickAction()
+                    .assertIsEnabled()
+                    .assert(role(Role.Button))
+                val size = day.fetchSemanticsNode().size
+                assertTrue(
+                    "The original calendar day must have positive measured bounds",
+                    size.width > 0 && size.height > 0,
+                )
+                if (component == LabComponent.DATE_PICKER) day.assertIsSelected()
+                else day.assertIsNotSelected()
+                compose
+                    .onNode(
+                        hasAnyAncestor(hasTestTag("library_LEFT")) and
+                            hasContentDescription("Switch to text input mode")
+                    )
+                    .assertHasClickAction()
+            }
             component.isDivider -> {
                 sample.assert(SemanticsMatcher.keyNotDefined(SemanticsActions.OnClick))
                 val size = sample.fetchSemanticsNode().size

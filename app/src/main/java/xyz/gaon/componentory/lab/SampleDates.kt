@@ -9,6 +9,7 @@ import java.util.TimeZone
 
 internal object SampleDates {
     const val INITIAL_UTC_MILLIS = 1705276800000L
+    const val INITIAL_MONTH_UTC_MILLIS = 1704067200000L
 
     data class Parts(val year: Int, val month: Int, val day: Int)
 
@@ -25,6 +26,34 @@ internal object SampleDates {
         val calendar = GregorianCalendar(TimeZone.getTimeZone("UTC"))
         calendar.timeInMillis = utcMillis
         return Parts(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.DAY_OF_MONTH),
+        )
+    }
+
+    fun monthUtcMillis(dateUtcMillis: Long): Long {
+        val date = parts(dateUtcMillis)
+        return utcMillis(date.year, date.month, 1)
+    }
+
+    // CalendarView consumes local timestamps; UTC midnight can select the previous local day.
+    fun localMillis(utcMillis: Long, timeZone: TimeZone = TimeZone.getDefault()): Long {
+        val date = parts(utcMillis)
+        return GregorianCalendar(timeZone)
+            .apply {
+                clear()
+                isLenient = false
+                // Local noon avoids ordinary daylight-saving gaps at midnight.
+                set(date.year, date.month - 1, date.day, 12, 0)
+            }
+            .timeInMillis
+    }
+
+    fun utcMillisFromLocal(localMillis: Long, timeZone: TimeZone = TimeZone.getDefault()): Long {
+        val calendar = GregorianCalendar(timeZone)
+        calendar.timeInMillis = localMillis
+        return utcMillis(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) + 1,
             calendar.get(Calendar.DAY_OF_MONTH),

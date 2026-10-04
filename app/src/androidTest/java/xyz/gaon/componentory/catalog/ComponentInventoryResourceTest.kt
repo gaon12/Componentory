@@ -29,8 +29,19 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 109, InventoryStatus.PENDING to 130),
+            mapOf(InventoryStatus.IMPLEMENTED to 112, InventoryStatus.PENDING to 127),
             entries.groupingBy { it.status }.eachCount(),
+        )
+        assertEquals(
+            mapOf(
+                InventoryFamily.PLATFORM to 24,
+                InventoryFamily.MATERIAL2 to 30,
+                InventoryFamily.MATERIAL3 to 58,
+            ),
+            entries
+                .filter { it.status == InventoryStatus.IMPLEMENTED }
+                .groupingBy { it.family }
+                .eachCount(),
         )
         val group = entries.single { it.source == "android.widget.RadioGroup" }
         assertEquals(listOf("RADIO"), group.catalogIds)
@@ -38,22 +49,38 @@ class ComponentInventoryResourceTest {
         val segmented = entries.single { it.source == "androidx.compose.material3.SegmentedButton" }
         assertEquals(listOf("SINGLE_SEGMENTED", "MULTI_SEGMENTED"), segmented.catalogIds)
         assertEquals("Used in both segmented-row samples.", segmented.notes)
-        listOf(
-                "android.app.DatePickerDialog",
-                "androidx.compose.material3.DatePickerDialog",
-                "androidx.compose.material3.DatePicker",
-            )
+        listOf("android.app.DatePickerDialog", "androidx.compose.material3.DatePickerDialog")
             .forEach { source ->
                 val date = entries.single { it.source == source }
                 assertEquals(InventoryStatus.IMPLEMENTED, date.status)
                 assertEquals(listOf("DATE_PICKER_DIALOG"), date.catalogIds)
             }
-        assertTrue(
-            entries
-                .single { it.source == "androidx.compose.material3.DatePicker" }
-                .notes
-                .isNotBlank()
+        mapOf(
+                "android.widget.DatePicker" to ("DATE_PICKER" to 1),
+                "android.widget.CalendarView" to ("CALENDAR_VIEW" to 11),
+            )
+            .forEach { (source, metadata) ->
+                val date = entries.single { it.source == source }
+                assertEquals(InventoryFamily.PLATFORM, date.family)
+                assertEquals(InventoryStatus.IMPLEMENTED, date.status)
+                assertEquals(listOf(metadata.first), date.catalogIds)
+                assertEquals(metadata.second, date.apiIntroduced)
+            }
+        // One canonical API row covers the inline picker and its genuine dialog content.
+        val inlineDate = entries.single { it.source == "androidx.compose.material3.DatePicker" }
+        assertEquals(InventoryFamily.MATERIAL3, inlineDate.family)
+        assertEquals(InventoryStatus.IMPLEMENTED, inlineDate.status)
+        assertEquals(listOf("DATE_PICKER", "DATE_PICKER_DIALOG"), inlineDate.catalogIds)
+        assertNull(inlineDate.apiIntroduced)
+        assertEquals(
+            "Standalone inline sample and interactive calendar content inside the DatePickerDialog sample.",
+            inlineDate.notes,
         )
+        val dateRange = entries.single { it.source == "androidx.compose.material3.DateRangePicker" }
+        assertEquals(InventoryFamily.MATERIAL3, dateRange.family)
+        assertEquals(InventoryStatus.IMPLEMENTED, dateRange.status)
+        assertEquals(listOf("DATE_RANGE_PICKER"), dateRange.catalogIds)
+        assertNull(dateRange.apiIntroduced)
         listOf(
                 "android.app.TimePickerDialog",
                 "android.widget.TimePicker",
@@ -123,12 +150,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(130, pending.size)
+        assertEquals(127, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 52,
+                InventoryFamily.PLATFORM to 50,
                 InventoryFamily.MATERIAL2 to 22,
-                InventoryFamily.MATERIAL3 to 56,
+                InventoryFamily.MATERIAL3 to 55,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -164,13 +191,13 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "no-matching-source-api").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "checkbox").isEmpty())
         assertEquals(
-            listOf("android.widget.DatePicker"),
-            ComponentInventory.pending(entries, "datepicker", InventoryFamily.PLATFORM).map {
+            listOf("android.widget.ListPopupWindow"),
+            ComponentInventory.pending(entries, "listpopupwindow", InventoryFamily.PLATFORM).map {
                 it.source
             },
         )
-        assertTrue(
-            ComponentInventory.pending(entries, "datepicker", InventoryFamily.MATERIAL3).isEmpty()
-        )
+        assertTrue(ComponentInventory.pending(entries, "datepicker").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "calendarview").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "daterangepicker").isEmpty())
     }
 }

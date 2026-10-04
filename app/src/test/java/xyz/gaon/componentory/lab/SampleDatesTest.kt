@@ -1,5 +1,7 @@
 package xyz.gaon.componentory.lab
 
+import java.util.Calendar
+import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
 import org.junit.Assert.assertEquals
@@ -7,6 +9,60 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class SampleDatesTest {
+    @Test
+    fun localCalendarTimestampsKeepCivilDatesAcrossZonesAndDaylightSavingChanges() {
+        val dates =
+            listOf(
+                SampleDates.utcMillis(2024, 1, 15),
+                SampleDates.utcMillis(2024, 2, 29),
+                SampleDates.utcMillis(2024, 3, 10),
+                SampleDates.utcMillis(2024, 11, 3),
+            )
+        listOf(
+                "Pacific/Pago_Pago",
+                "Pacific/Kiritimati",
+                "America/Los_Angeles",
+                "Europe/Berlin",
+                "Asia/Seoul",
+            )
+            .forEach { name ->
+                val zone = TimeZone.getTimeZone(name)
+                dates.forEach { date ->
+                    val local = SampleDates.localMillis(date, zone)
+                    val calendar = GregorianCalendar(zone).apply { timeInMillis = local }
+                    val expected = SampleDates.parts(date)
+                    assertEquals(name, expected.year, calendar.get(Calendar.YEAR))
+                    assertEquals(name, expected.month, calendar.get(Calendar.MONTH) + 1)
+                    assertEquals(name, expected.day, calendar.get(Calendar.DAY_OF_MONTH))
+                    assertEquals(name, 12, calendar.get(Calendar.HOUR_OF_DAY))
+                    assertEquals(name, date, SampleDates.utcMillisFromLocal(local, zone))
+                }
+            }
+    }
+
+    @Test
+    fun utcMidnightWouldMoveBackwardInNegativeZonesButTheLocalBridgeDoesNot() {
+        val zone = TimeZone.getTimeZone("Pacific/Pago_Pago")
+        val date = SampleDates.INITIAL_UTC_MILLIS
+        val unconverted = GregorianCalendar(zone).apply { timeInMillis = date }
+        assertEquals(14, unconverted.get(Calendar.DAY_OF_MONTH))
+        val converted =
+            GregorianCalendar(zone).apply { timeInMillis = SampleDates.localMillis(date, zone) }
+        assertEquals(15, converted.get(Calendar.DAY_OF_MONTH))
+    }
+
+    @Test
+    fun copiedDatesChooseTheirOwnMonthWithoutUsingTheBrowsedMonth() {
+        assertEquals(
+            SampleDates.utcMillis(2024, 2, 1),
+            SampleDates.monthUtcMillis(SampleDates.utcMillis(2024, 2, 29)),
+        )
+        assertEquals(
+            SampleDates.INITIAL_MONTH_UTC_MILLIS,
+            SampleDates.monthUtcMillis(SampleDates.INITIAL_UTC_MILLIS),
+        )
+    }
+
     @Test
     fun fixedInitialDateIsJanuary15AtMidnightUtc() {
         assertEquals(1705276800000L, SampleDates.utcMillis(2024, 1, 15))

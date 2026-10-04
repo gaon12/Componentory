@@ -232,6 +232,22 @@ fun SamplePanel(
                 Text(
                     if (component == LabComponent.ICON)
                         stringResource(R.string.icon_status, requireNotNull(icon).name)
+                    else if (
+                        component in listOf(LabComponent.DATE_PICKER, LabComponent.CALENDAR_VIEW)
+                    )
+                        stringResource(
+                            R.string.status_inline_date,
+                            state.inlineDateUtcMillis?.let { SampleDates.format(it, locale) }
+                                ?: stringResource(R.string.date_no_selection),
+                        )
+                    else if (component == LabComponent.DATE_RANGE_PICKER)
+                        stringResource(
+                            R.string.status_date_range,
+                            state.dateRangeStartUtcMillis?.let { SampleDates.format(it, locale) }
+                                ?: stringResource(R.string.date_no_selection),
+                            state.dateRangeEndUtcMillis?.let { SampleDates.format(it, locale) }
+                                ?: stringResource(R.string.date_no_selection),
+                        )
                     else
                         component.feedback(
                             context,
@@ -245,6 +261,27 @@ fun SamplePanel(
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
                 )
+            if (
+                unsupported == null &&
+                    component in
+                        listOf(
+                            LabComponent.DATE_PICKER,
+                            LabComponent.CALENDAR_VIEW,
+                            LabComponent.DATE_RANGE_PICKER,
+                        )
+            ) {
+                Text(
+                    stringResource(R.string.inline_date_note),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                if (component == LabComponent.CALENDAR_VIEW || family == DesignFamily.MATERIAL3) {
+                    Text(
+                        stringResource(R.string.inline_date_enabled_note),
+                        modifier = Modifier.testTag("date_enabled_note_$panel"),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
             if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
             if (icon != null) {
                 Text(

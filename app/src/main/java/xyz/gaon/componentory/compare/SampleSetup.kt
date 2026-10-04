@@ -20,6 +20,8 @@ private constructor(
     val timeMinutes: Int?,
     val time24Hour: Boolean?,
     val containerClickable: Boolean?,
+    val inlineDate: InlineDateInput?,
+    val dateRange: DateRangeInput?,
 ) {
     private val hasNonIconInputs: Boolean
         get() =
@@ -27,7 +29,9 @@ private constructor(
                 text != null ||
                 dateUtcMillis != null ||
                 timeMinutes != null ||
-                containerClickable != null
+                containerClickable != null ||
+                inlineDate != null ||
+                dateRange != null
 
     fun copyTo(
         targetFamily: DesignFamily,
@@ -43,6 +47,9 @@ private constructor(
         }
         if (!hasNonIconInputs && iconId == null) {
             return SetupCopyResult(reason = SetupCopyReason.NO_INPUTS)
+        }
+        if (inlineDate != null && inlineDate.utcMillis == null && targetFamily.platform != null) {
+            return SetupCopyResult(reason = SetupCopyReason.DATE_REQUIRED)
         }
         val sameIconCatalog = (sourceFamily.platform != null) == (targetFamily.platform != null)
         val iconSkipped = iconId != null && (!sameIconCatalog || !iconAvailable)
@@ -60,6 +67,17 @@ private constructor(
                     initialTimeMinutes = timeMinutes ?: SampleTimes.INITIAL_MINUTES,
                     initialTime24Hour = time24Hour ?: true,
                     initialContainerClickable = containerClickable ?: true,
+                    initialInlineDateUtcMillis =
+                        if (inlineDate != null) inlineDate.utcMillis
+                        else SampleDates.INITIAL_UTC_MILLIS,
+                    initialDateRangeStartUtcMillis = dateRange?.startUtcMillis,
+                    initialDateRangeEndUtcMillis = dateRange?.endUtcMillis,
+                    initialDateDisplayedMonthUtcMillis =
+                        SampleDates.monthUtcMillis(
+                            inlineDate?.utcMillis
+                                ?: dateRange?.startUtcMillis
+                                ?: SampleDates.INITIAL_UTC_MILLIS
+                        ),
                 ),
             iconSkipped = iconSkipped,
         )
@@ -76,6 +94,16 @@ private constructor(
         timeMinutes?.let { put("time", it) }
         time24Hour?.let { put("time24Hour", it) }
         containerClickable?.let { put("containerClickable", it) }
+        // A present empty selection is an input, not the absence of an eligible field.
+        inlineDate?.let {
+            put("inlineDatePresent", true)
+            it.utcMillis?.let { date -> put("inlineDate", date) }
+        }
+        dateRange?.let {
+            put("dateRangePresent", true)
+            it.startUtcMillis?.let { date -> put("dateRangeStart", date) }
+            it.endUtcMillis?.let { date -> put("dateRangeEnd", date) }
+        }
     }
 
     companion object {
@@ -109,6 +137,18 @@ private constructor(
                     else null,
                 containerClickable =
                     if (supported && component.isContainer) state.containerClickable else null,
+                inlineDate =
+                    if (
+                        supported &&
+                            component in
+                                listOf(LabComponent.DATE_PICKER, LabComponent.CALENDAR_VIEW)
+                    )
+                        InlineDateInput(state.inlineDateUtcMillis)
+                    else null,
+                dateRange =
+                    if (supported && component == LabComponent.DATE_RANGE_PICKER)
+                        DateRangeInput(state.dateRangeStartUtcMillis, state.dateRangeEndUtcMillis)
+                    else null,
             )
         }
 
@@ -130,6 +170,15 @@ private constructor(
                     initialTimeMinutes = values["time"] as? Int ?: SampleTimes.INITIAL_MINUTES,
                     initialTime24Hour = values["time24Hour"] as? Boolean ?: true,
                     initialContainerClickable = values["containerClickable"] as? Boolean ?: true,
+                    initialInlineDateUtcMillis =
+                        if (values["inlineDatePresent"] == true) values["inlineDate"] as? Long
+                        else SampleDates.INITIAL_UTC_MILLIS,
+                    initialDateRangeStartUtcMillis =
+                        if (values["dateRangePresent"] == true) values["dateRangeStart"] as? Long
+                        else null,
+                    initialDateRangeEndUtcMillis =
+                        if (values["dateRangePresent"] == true) values["dateRangeEnd"] as? Long
+                        else null,
                 ),
                 Int.MAX_VALUE,
                 values["icon"] as? String,
@@ -138,11 +187,16 @@ private constructor(
     }
 }
 
+data class InlineDateInput(val utcMillis: Long?)
+
+data class DateRangeInput(val startUtcMillis: Long?, val endUtcMillis: Long?)
+
 enum class SetupCopyReason {
     SOURCE_UNSUPPORTED,
     TARGET_UNSUPPORTED,
     NO_INPUTS,
     ICON_UNAVAILABLE,
+    DATE_REQUIRED,
 }
 
 data class SetupCopyResult(

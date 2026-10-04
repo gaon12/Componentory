@@ -7,6 +7,87 @@ import org.junit.Test
 
 class SampleStateTest {
     @Test
+    fun elevenFieldSavesKeepExistingInputsAndDefaultNewInlineDates() {
+        val saved =
+            listOf(
+                4,
+                "text",
+                "icon",
+                65,
+                1705276800000L,
+                Long.MIN_VALUE,
+                630,
+                -1,
+                false,
+                true,
+                false,
+            )
+        val state = requireNotNull(SampleState.Saver.restore(saved))
+        assertEquals(false, state.containerClickable)
+        assertEquals(false, state.time24Hour)
+        assertEquals(true, state.timeInputMode)
+        assertEquals(SampleDates.INITIAL_UTC_MILLIS, state.inlineDateUtcMillis)
+        assertNull(state.dateRangeStartUtcMillis)
+        assertNull(state.dateRangeEndUtcMillis)
+        assertEquals(false, state.dateInputMode)
+        assertEquals(SampleDates.INITIAL_MONTH_UTC_MILLIS, state.dateDisplayedMonthUtcMillis)
+    }
+
+    @Test
+    fun savedInlineDatesKeepEmptyPartialAndCompleteSelectionsAndOriginalEditorState() {
+        val start = SampleDates.utcMillis(2024, 2, 29)
+        val end = SampleDates.utcMillis(2024, 3, 2)
+        listOf(null to null, start to null, start to start, start to end).forEach {
+            (rangeStart, rangeEnd) ->
+            val state =
+                SampleState(
+                    initialInlineDateUtcMillis = null,
+                    initialDateRangeStartUtcMillis = rangeStart,
+                    initialDateRangeEndUtcMillis = rangeEnd,
+                    initialDateInputMode = true,
+                    initialDateDisplayedMonthUtcMillis = SampleDates.utcMillis(2024, 3, 1),
+                )
+            val scope =
+                object : SaverScope {
+                    override fun canBeSaved(value: Any) =
+                        value is Int || value is Long || value is String || value is Boolean
+                }
+            val saved = requireNotNull(with(SampleState.Saver) { scope.save(state) })
+            val restored = requireNotNull(SampleState.Saver.restore(saved))
+            assertNull(restored.inlineDateUtcMillis)
+            assertEquals(rangeStart, restored.dateRangeStartUtcMillis)
+            assertEquals(rangeEnd, restored.dateRangeEndUtcMillis)
+            assertEquals(true, restored.dateInputMode)
+            assertEquals(SampleDates.utcMillis(2024, 3, 1), restored.dateDisplayedMonthUtcMillis)
+            assertEquals(SampleDates.INITIAL_UTC_MILLIS, restored.dateUtcMillis)
+            assertNull(restored.dateDraftUtcMillis)
+        }
+    }
+
+    @Test
+    fun savedSelectedInlineDateDoesNotReplaceDialogCommittedOrDraftDates() {
+        val committed = SampleDates.utcMillis(2024, 5, 10)
+        val draft = SampleDates.utcMillis(2024, 5, 12)
+        val inline = SampleDates.utcMillis(2024, 2, 29)
+        val state =
+            SampleState(
+                initialDateUtcMillis = committed,
+                initialDateDraftUtcMillis = draft,
+                initialInlineDateUtcMillis = inline,
+            )
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val saved = requireNotNull(with(SampleState.Saver) { scope.save(state) })
+        val restored = requireNotNull(SampleState.Saver.restore(saved))
+        assertEquals(inline, restored.inlineDateUtcMillis)
+        assertEquals(committed, restored.dateUtcMillis)
+        assertEquals(draft, restored.dateDraftUtcMillis)
+    }
+
+    @Test
     fun savedMenuChoiceAndLastUserActionUseExistingStateFields() {
         val state = SampleState(initialValue = 2, initialText = SampleMenuAction.SELECTED.name)
         val scope =

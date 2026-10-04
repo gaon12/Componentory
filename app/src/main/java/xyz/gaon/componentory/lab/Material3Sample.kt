@@ -41,6 +41,9 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
     MaterialTheme(colorScheme = lightColorScheme()) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
+                LabComponent.DATE_PICKER,
+                LabComponent.DATE_RANGE_PICKER ->
+                    Material3InlineDateSample(component, panel, sample, state)
                 LabComponent.POPUP_MENU -> Material3PopupMenuSample(panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.ELEVATED_CARD,

@@ -6,6 +6,27 @@ import org.junit.Test
 
 class ComponentAvailabilityTest {
     @Test
+    fun inlineDatePickersUseOnlyTheirGenuineSuppliers() {
+        val platformFamilies =
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        platformFamilies.forEach { family ->
+            assertNull(family.unsupportedReason(LabComponent.DATE_PICKER, 24))
+            assertNull(family.unsupportedReason(LabComponent.CALENDAR_VIEW, 24))
+            assertNotNull(family.unsupportedReason(LabComponent.DATE_RANGE_PICKER, 36))
+            // API 10 and 11 check metadata below the application's API 24 execution minimum.
+            assertNotNull(family.unsupportedReason(LabComponent.CALENDAR_VIEW, 10))
+            assertNull(family.unsupportedReason(LabComponent.CALENDAR_VIEW, 11))
+        }
+        listOf(LabComponent.DATE_PICKER, LabComponent.CALENDAR_VIEW, LabComponent.DATE_RANGE_PICKER)
+            .forEach { component ->
+                assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+            }
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.DATE_PICKER, 24))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.DATE_RANGE_PICKER, 24))
+        assertNotNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.CALENDAR_VIEW, 36))
+    }
+
+    @Test
     fun popupMenuUsesFrameworkApi11AndBothPinnedLibraryFamilies() {
         // API 10 and 11 check metadata; the application itself runs from API 24.
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->

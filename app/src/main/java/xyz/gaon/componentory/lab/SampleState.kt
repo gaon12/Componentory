@@ -47,6 +47,11 @@ class SampleState(
     initialTime24Hour: Boolean = true,
     initialTimeInputMode: Boolean = false,
     initialContainerClickable: Boolean = true,
+    initialInlineDateUtcMillis: Long? = SampleDates.INITIAL_UTC_MILLIS,
+    initialDateRangeStartUtcMillis: Long? = null,
+    initialDateRangeEndUtcMillis: Long? = null,
+    initialDateInputMode: Boolean = false,
+    initialDateDisplayedMonthUtcMillis: Long = SampleDates.INITIAL_MONTH_UTC_MILLIS,
 ) {
     var value by mutableIntStateOf(initialValue)
     var text by mutableStateOf(initialText)
@@ -59,6 +64,11 @@ class SampleState(
     var time24Hour by mutableStateOf(initialTime24Hour)
     var timeInputMode by mutableStateOf(initialTimeInputMode)
     var containerClickable by mutableStateOf(initialContainerClickable)
+    var inlineDateUtcMillis by mutableStateOf(initialInlineDateUtcMillis)
+    var dateRangeStartUtcMillis by mutableStateOf(initialDateRangeStartUtcMillis)
+    var dateRangeEndUtcMillis by mutableStateOf(initialDateRangeEndUtcMillis)
+    var dateInputMode by mutableStateOf(initialDateInputMode)
+    var dateDisplayedMonthUtcMillis by mutableLongStateOf(initialDateDisplayedMonthUtcMillis)
 
     val triState: ToggleableState
         get() =
@@ -84,6 +94,11 @@ class SampleState(
                         it.time24Hour,
                         it.timeInputMode,
                         it.containerClickable,
+                        it.inlineDateUtcMillis ?: Long.MIN_VALUE,
+                        it.dateRangeStartUtcMillis ?: Long.MIN_VALUE,
+                        it.dateRangeEndUtcMillis ?: Long.MIN_VALUE,
+                        it.dateInputMode,
+                        it.dateDisplayedMonthUtcMillis,
                     )
                 },
                 restore = {
@@ -99,6 +114,14 @@ class SampleState(
                         it.getOrNull(8) as? Boolean ?: true,
                         it.getOrNull(9) as? Boolean ?: false,
                         it.getOrNull(10) as? Boolean ?: true,
+                        (it.getOrNull(11) as? Long ?: SampleDates.INITIAL_UTC_MILLIS).takeUnless {
+                            date ->
+                            date == Long.MIN_VALUE
+                        },
+                        (it.getOrNull(12) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
+                        (it.getOrNull(13) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
+                        it.getOrNull(14) as? Boolean ?: false,
+                        it.getOrNull(15) as? Long ?: SampleDates.INITIAL_MONTH_UTC_MILLIS,
                     )
                 },
             )

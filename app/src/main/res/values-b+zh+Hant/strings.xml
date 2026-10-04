@@ -306,4 +306,16 @@
     <string name="copy_setup_no_inputs">此體驗沒有可複製的輸入。</string>
     <string name="copy_setup_icon_incompatible">目標提供方無法使用此圖示。</string>
     <string name="copy_setup_icon_skipped">由於來源圖示無法使用，已保留目標圖示。</string>
+    <string name="component_date_picker">日期選擇器</string>
+    <string name="component_date_picker_description">在原始內嵌選擇器中直接選擇日期。</string>
+    <string name="component_calendar_view">月曆檢視</string>
+    <string name="component_calendar_view_description">在所選主題提供的 Android 框架月曆中選擇日期。</string>
+    <string name="component_date_range_picker">日期範圍選擇器</string>
+    <string name="component_date_range_picker_description">在原始 Material 3 選擇器中選擇開始及結束日期。</string>
+    <string name="status_inline_date">日期: %1$s</string>
+    <string name="status_date_range">開始: %1$s · 結束: %2$s</string>
+    <string name="date_no_selection">未選擇日期</string>
+    <string name="inline_date_note">所選日期會立即套用到範例。請使用原始選擇器的控制項更改日期。</string>
+    <string name="inline_date_enabled_note">啟用設定不適用於此選擇器。此提供者沒有停用所有日期操作的功能。</string>
+    <string name="copy_setup_date_required">目標必須有已選日期。</string>
 </resources>

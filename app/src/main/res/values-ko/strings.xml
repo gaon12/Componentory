@@ -306,4 +306,16 @@
     <string name="copy_setup_no_inputs">이 체험에는 복사할 입력이 없습니다.</string>
     <string name="copy_setup_icon_incompatible">대상 제공자에서 이 아이콘을 사용할 수 없습니다.</string>
     <string name="copy_setup_icon_skipped">원본 아이콘을 사용할 수 없어 대상 아이콘을 유지했습니다.</string>
+    <string name="component_date_picker">날짜 선택기</string>
+    <string name="component_date_picker_description">원본 인라인 선택기에서 직접 날짜를 선택합니다.</string>
+    <string name="component_calendar_view">달력 뷰</string>
+    <string name="component_calendar_view_description">선택한 테마가 제공하는 Android 프레임워크 달력에서 날짜를 선택합니다.</string>
+    <string name="component_date_range_picker">기간 선택기</string>
+    <string name="component_date_range_picker_description">원본 Material 3 선택기에서 시작일과 종료일을 선택합니다.</string>
+    <string name="status_inline_date">날짜: %1$s</string>
+    <string name="status_date_range">시작일: %1$s · 종료일: %2$s</string>
+    <string name="date_no_selection">선택한 날짜 없음</string>
+    <string name="inline_date_note">날짜를 선택하면 샘플에 바로 적용됩니다. 원본 선택기의 컨트롤로 날짜를 변경하세요.</string>
+    <string name="inline_date_enabled_note">이 선택기에는 활성화 설정이 적용되지 않습니다. 이 제공자는 모든 날짜 조작을 비활성화하는 기능을 제공하지 않습니다.</string>
+    <string name="copy_setup_date_required">대상에는 선택한 날짜가 필요합니다.</string>
 </resources>

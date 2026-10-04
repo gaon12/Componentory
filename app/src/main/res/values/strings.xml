@@ -309,4 +309,16 @@
     <string name="copy_setup_no_inputs">This sample has no inputs to copy.</string>
     <string name="copy_setup_icon_incompatible">This icon is unavailable in the target provider.</string>
     <string name="copy_setup_icon_skipped">The target icon was kept because the source icon is unavailable.</string>
+    <string name="component_date_picker">Date picker</string>
+    <string name="component_date_picker_description">Choose a date directly in the original inline picker.</string>
+    <string name="component_calendar_view">Calendar view</string>
+    <string name="component_calendar_view_description">Choose a date in the Android framework calendar supplied by the selected theme.</string>
+    <string name="component_date_range_picker">Date range picker</string>
+    <string name="component_date_range_picker_description">Choose start and end dates in the original Material 3 picker.</string>
+    <string name="status_inline_date">Date: %1$s</string>
+    <string name="status_date_range">Start: %1$s · End: %2$s</string>
+    <string name="date_no_selection">No date selected</string>
+    <string name="inline_date_note">Date selections update the sample immediately. Use the original picker controls to change the date.</string>
+    <string name="inline_date_enabled_note">Enabled does not apply to this picker. This provider has no control that disables all date interactions.</string>
+    <string name="copy_setup_date_required">The target requires a selected date.</string>
 </resources>
