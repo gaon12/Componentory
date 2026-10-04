@@ -11,4 +11,21 @@
     <string name="dialog_message">This dialog uses the selected Android platform theme.</string>
     <string name="dialog_confirm">Confirm</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="no_results">No results</string>
+    <string name="close">Close</string>
+    <string name="icons_title">Icons</string>
+    <string name="choose_icon">Choose icon: %1$s</string>
+    <string name="icon_search_hint">Search all icon names</string>
+    <string name="icon_count">%1$d / %2$d icons</string>
+    <string name="all_styles">All styles</string>
+    <string name="style_filled">Filled</string>
+    <string name="style_outlined">Outlined</string>
+    <string name="style_rounded">Rounded</string>
+    <string name="style_sharp">Sharp</string>
+    <string name="style_two_tone">Two tone</string>
+    <string name="auto_mirrored">Auto mirrored</string>
+    <string name="framework_drawables">Android framework drawables · current OS</string>
+    <string name="framework_drawables_note">All public drawable resources available on this OS, including icons and other UI assets.</string>
+    <string name="icon_status">Icon: %1$s</string>
+    <string name="icon_unavailable">Not available on this OS</string>
 </resources>

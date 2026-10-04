@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import kotlin.math.roundToInt
+import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
 fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, state: SampleState) {
@@ -33,6 +35,10 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
     MaterialTheme(colorScheme = lightColorScheme()) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
+                LabComponent.ICON -> {
+                    val icon = requireNotNull(LocalSampleIcon.current)
+                    Icon(icon.vector(), contentDescription = icon.name, modifier = sample)
+                }
                 LabComponent.BUTTON ->
                     Button(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
                         Text("Tap me")

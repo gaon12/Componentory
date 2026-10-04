@@ -9,9 +9,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.state.ToggleableState
 
 @Stable
-class SampleState(initialValue: Int = 0, initialText: String = "") {
+class SampleState(initialValue: Int = 0, initialText: String = "", initialIcon: String = "") {
     var value by mutableIntStateOf(initialValue)
     var text by mutableStateOf(initialText)
+    var icon by mutableStateOf(initialIcon)
 
     val triState: ToggleableState
         get() =
@@ -24,8 +25,10 @@ class SampleState(initialValue: Int = 0, initialText: String = "") {
     companion object {
         val Saver =
             listSaver<SampleState, Any>(
-                save = { listOf(it.value, it.text) },
-                restore = { SampleState(it[0] as Int, it[1] as String) },
+                save = { listOf(it.value, it.text, it.icon) },
+                restore = {
+                    SampleState(it[0] as Int, it[1] as String, it.getOrNull(2) as? String ?: "")
+                },
             )
     }
 }

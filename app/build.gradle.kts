@@ -1,3 +1,7 @@
+import java.io.ByteArrayInputStream
+import java.util.jar.JarInputStream
+import java.util.zip.ZipFile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -25,6 +29,11 @@ android {
             "MATERIAL3_VERSION",
             "\"${libs.versions.composeMaterial3.get()}\"",
         )
+        buildConfigField(
+            "String",
+            "MATERIAL_ICONS_VERSION",
+            "\"${libs.versions.composeMaterialIcons.get()}\"",
+        )
     }
 
     buildTypes { release { optimization { enable = false } } }
@@ -49,6 +58,9 @@ dependencies {
         version { strictly(libs.versions.composeMaterial3.get()) }
     }
     implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material.icons) {
+        version { strictly(libs.versions.composeMaterialIcons.get()) }
+    }
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
@@ -60,4 +72,67 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+}
+
+abstract class GenerateIconCatalog : DefaultTask() {
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.NONE)
+    abstract val archives: ConfigurableFileCollection
+
+    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val iconClass =
+            Regex(
+                "androidx/compose/material/icons/(automirrored/)?(filled|outlined|rounded|sharp|twotone)/[^/$]+Kt\\.class"
+            )
+        val names = sortedSetOf<String>()
+        archives.files.forEach { archive ->
+            ZipFile(archive).use { aar ->
+                val bytes = aar.getInputStream(aar.getEntry("classes.jar")).use { it.readBytes() }
+                JarInputStream(ByteArrayInputStream(bytes)).use { jar ->
+                    var entry = jar.nextJarEntry
+                    while (entry != null) {
+                        if (iconClass.matches(entry.name))
+                            names += entry.name.removeSuffix(".class").replace('/', '.')
+                        entry = jar.nextJarEntry
+                    }
+                }
+            }
+        }
+        check(names.isNotEmpty()) { "The pinned icon libraries must contain public icons." }
+        outputDirectory.file("material-icons.txt").get().asFile.apply {
+            parentFile.mkdirs()
+            writeText(names.joinToString("\n", postfix = "\n"))
+        }
+    }
+}
+
+val iconCatalogArchives =
+    configurations.create("iconCatalogArchives") {
+        isCanBeConsumed = false
+        isTransitive = false
+    }
+
+dependencies {
+    listOf("material-icons-core-android", "material-icons-extended-android").forEach { artifact ->
+        add(
+            iconCatalogArchives.name,
+            "androidx.compose.material:$artifact:${libs.versions.composeMaterialIcons.get()}@aar",
+        )
+    }
+}
+
+val generateIconCatalog =
+    tasks.register<GenerateIconCatalog>("generateIconCatalog") {
+        archives.from(iconCatalogArchives)
+        outputDirectory.set(layout.buildDirectory.dir("generated/iconCatalog"))
+    }
+
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(
+        generateIconCatalog,
+        GenerateIconCatalog::outputDirectory,
+    )
 }

@@ -13,8 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import xyz.gaon.componentory.R
+import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
 internal fun Material2Actions(
@@ -43,7 +42,7 @@ internal fun Material2Actions(
                 enabled = enabled,
                 modifier = modifier,
             ) {
-                ActionIcon2(state.value == 1)
+                ActionIcon2()
             }
         LabComponent.FAB ->
             FloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = modifier) {
@@ -61,9 +60,7 @@ internal fun Material2Actions(
 }
 
 @Composable
-private fun ActionIcon2(selected: Boolean = false) {
-    Icon(
-        painterResource(if (selected) R.drawable.ic_close else R.drawable.ic_forward),
-        contentDescription = if (selected) "Selected" else "Activate",
-    )
+private fun ActionIcon2() {
+    val icon = requireNotNull(LocalSampleIcon.current)
+    Icon(icon.vector(), contentDescription = icon.name)
 }

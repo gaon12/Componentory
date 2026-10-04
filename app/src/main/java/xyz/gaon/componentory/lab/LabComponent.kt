@@ -385,6 +385,13 @@ enum class LabComponent(
         platformSource = "android.widget.Spinner",
         category = ComponentCategory.INPUT,
     ),
+    ICON(
+        "Icon",
+        "공급원에서 제공하는 모든 아이콘을 찾아 선택하세요",
+        platformSource = "android.widget.ImageView",
+        material2Function = "Icon",
+        category = ComponentCategory.CONTENT,
+    ),
     SEARCH_VIEW(
         "Search view",
         "검색어를 입력하고 검색·지우기 동작을 사용하세요",
@@ -408,6 +415,15 @@ enum class LabComponent(
 
     val isSecureInput: Boolean
         get() = this == SECURE_TEXT_FIELD || this == OUTLINED_SECURE_TEXT_FIELD
+
+    val usesIcon: Boolean
+        get() =
+            this == ICON ||
+                this == IMAGE_BUTTON ||
+                isIconToggle ||
+                isFloatingAction ||
+                this in
+                    listOf(ICON_BUTTON, FILLED_ICON_BUTTON, TONAL_ICON_BUTTON, OUTLINED_ICON_BUTTON)
 
     fun matchesSearch(query: String): Boolean {
         val term = query.trim()

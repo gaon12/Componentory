@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.ProgressBar
 import android.widget.RadioButton
@@ -21,8 +22,10 @@ import android.widget.Switch
 import android.widget.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
 fun PlatformSample(
@@ -33,6 +36,7 @@ fun PlatformSample(
     state: SampleState,
     modifier: Modifier = Modifier,
 ) {
+    val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(
         factory = { context ->
@@ -40,7 +44,13 @@ fun PlatformSample(
                 id = viewId
             }
         },
-        update = { view -> updateWidget(view, component, enabled, state) },
+        update = { view ->
+            updateWidget(view, component, enabled, state)
+            if (view is ImageView && icon != null) {
+                view.setImageResource(requireNotNull(icon.drawableId))
+                view.contentDescription = icon.name
+            }
+        },
         onReset = null,
         onRelease = { view ->
             (view.tag as? AlertDialog)?.apply {
@@ -48,7 +58,8 @@ fun PlatformSample(
                 dismiss()
             }
         },
-        modifier = modifier,
+        modifier =
+            modifier.testTag(if (viewId == R.id.sample_left) "native_LEFT" else "native_RIGHT"),
     )
 }
 
@@ -96,6 +107,15 @@ private fun createWidget(context: Context, component: LabComponent): View =
                 contentDescription = "Add"
                 minimumHeight = (48 * resources.displayMetrics.density).toInt()
             }
+        LabComponent.ICON ->
+            ImageView(context).apply {
+                layoutParams =
+                    ViewGroup.LayoutParams(
+                        (48 * resources.displayMetrics.density).toInt(),
+                        (48 * resources.displayMetrics.density).toInt(),
+                    )
+                scaleType = ImageView.ScaleType.CENTER_INSIDE
+            }
         LabComponent.RATING ->
             RatingBar(context).apply {
                 numStars = 5
@@ -125,6 +145,7 @@ private fun updateWidget(
 ) {
     view.isEnabled = enabled
     when (component) {
+        LabComponent.ICON -> Unit
         LabComponent.BUTTON,
         LabComponent.IMAGE_BUTTON -> view.setOnClickListener { state.value++ }
         LabComponent.CHECKBOX,

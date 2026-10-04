@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -32,8 +33,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.icons.IconCatalog
+import xyz.gaon.componentory.icons.IconPicker
+import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
 fun SamplePanel(
@@ -54,6 +59,12 @@ fun SamplePanel(
     val context = LocalContext.current
     val platform = family.platform
     val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT)
+    val icon =
+        if (component.usesIcon && unsupported == null)
+            remember(platform, state.icon) {
+                IconCatalog.selected(context, platform != null, state.icon)
+            }
+        else null
     val background =
         remember(family) {
             val color = TypedValue()
@@ -96,6 +107,16 @@ fun SamplePanel(
                 }
             }
             Text(family.origin, style = MaterialTheme.typography.bodySmall)
+            if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
+            if (icon != null) {
+                Text(
+                    if (platform != null) "android.R.drawable.${icon.name}"
+                    else
+                        "${icon.id} · icons ${xyz.gaon.componentory.BuildConfig.MATERIAL_ICONS_VERSION}",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.testTag("icon_source_$panel"),
+                )
+            }
             Column(
                 Modifier.fillMaxWidth().background(background).padding(16.dp).heightIn(min = 96.dp),
                 verticalArrangement = Arrangement.Center,
@@ -114,22 +135,24 @@ fun SamplePanel(
                         )
                     }
                 } else
-                    key(family, component, reset) {
-                        if (platform != null) {
-                            PlatformSample(
-                                platform,
-                                component,
-                                if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
-                                enabled,
-                                state,
-                                if (component == LabComponent.RATING)
-                                    Modifier.wrapContentWidth(Alignment.Start)
-                                else Modifier.fillMaxWidth(),
-                            )
-                        } else if (family == DesignFamily.MATERIAL2) {
-                            Material2Sample(component, panel, enabled, state)
-                        } else {
-                            Material3Sample(component, panel, enabled, state)
+                    CompositionLocalProvider(LocalSampleIcon provides icon) {
+                        key(family, component, reset) {
+                            if (platform != null) {
+                                PlatformSample(
+                                    platform,
+                                    component,
+                                    if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
+                                    enabled,
+                                    state,
+                                    if (component == LabComponent.RATING)
+                                        Modifier.wrapContentWidth(Alignment.Start)
+                                    else Modifier.fillMaxWidth(),
+                                )
+                            } else if (family == DesignFamily.MATERIAL2) {
+                                Material2Sample(component, panel, enabled, state)
+                            } else {
+                                Material3Sample(component, panel, enabled, state)
+                            }
                         }
                     }
             }
@@ -153,7 +176,9 @@ fun SamplePanel(
             }
             if (unsupported == null)
                 Text(
-                    component.feedback(state.value, state.text),
+                    if (component == LabComponent.ICON)
+                        stringResource(R.string.icon_status, requireNotNull(icon).name)
+                    else component.feedback(state.value, state.text),
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
                 )

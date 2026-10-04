@@ -20,8 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import xyz.gaon.componentory.R
+import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
 internal fun Material3Actions(
@@ -58,7 +57,7 @@ internal fun Material3Actions(
                 enabled = enabled,
                 modifier = modifier,
             ) {
-                ActionIcon3(state.value == 1)
+                ActionIcon3()
             }
         LabComponent.FILLED_ICON_BUTTON ->
             FilledIconButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
@@ -71,7 +70,7 @@ internal fun Material3Actions(
                 enabled = enabled,
                 modifier = modifier,
             ) {
-                ActionIcon3(state.value == 1)
+                ActionIcon3()
             }
         LabComponent.TONAL_ICON_BUTTON ->
             FilledTonalIconButton(
@@ -88,7 +87,7 @@ internal fun Material3Actions(
                 enabled = enabled,
                 modifier = modifier,
             ) {
-                ActionIcon3(state.value == 1)
+                ActionIcon3()
             }
         LabComponent.OUTLINED_ICON_BUTTON ->
             OutlinedIconButton(
@@ -105,7 +104,7 @@ internal fun Material3Actions(
                 enabled = enabled,
                 modifier = modifier,
             ) {
-                ActionIcon3(state.value == 1)
+                ActionIcon3()
             }
         LabComponent.FAB ->
             FloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = modifier) {
@@ -137,9 +136,7 @@ internal fun Material3Actions(
 }
 
 @Composable
-private fun ActionIcon3(selected: Boolean = false) {
-    Icon(
-        painterResource(if (selected) R.drawable.ic_close else R.drawable.ic_forward),
-        contentDescription = if (selected) "Selected" else "Activate",
-    )
+private fun ActionIcon3() {
+    val icon = requireNotNull(LocalSampleIcon.current)
+    Icon(icon.vector(), contentDescription = icon.name)
 }
