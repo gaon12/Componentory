@@ -7,6 +7,20 @@ import org.junit.Test
 
 class SampleStateTest {
     @Test
+    fun savedMenuChoiceAndLastUserActionUseExistingStateFields() {
+        val state = SampleState(initialValue = 2, initialText = SampleMenuAction.SELECTED.name)
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val bundle = requireNotNull(with(SampleState.Saver) { scope.save(state) })
+        val restored = requireNotNull(SampleState.Saver.restore(bundle))
+        assertEquals(2, restored.value)
+        assertEquals(SampleMenuAction.SELECTED.name, restored.text)
+    }
+
+    @Test
     fun olderSavedPanelsRestoreWithDefaultDateState() {
         listOf(
                 listOf(42, "draft"),

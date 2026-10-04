@@ -291,4 +291,10 @@
     <string name="container_clickable_overload">コンテナをタップすると回数が増えます。</string>
     <string name="container_plain_overload">読み取り専用のコンテナです。タップしても回数は変わりません。</string>
     <string name="container_enabled_note">クリックを処理しないサンプルには有効状態がありません。有効設定はクリック可能なサンプルにのみ適用されます。</string>
+    <string name="component_popup_menu">ポップアップメニュー</string>
+    <string name="component_popup_menu_description">選択したテーマやライブラリのメニュー項目を、ボタンに接続したポップアップで表示します。</string>
+    <string name="open_menu">メニューを開く</string>
+    <string name="menu_disabled_choice">無効な項目</string>
+    <string name="status_menu">選択項目: %1$s · 最後の操作: %2$s</string>
+    <string name="menu_sample_note">項目を選択するとこのサンプルメニューが閉じます。無効な項目は選択できません。</string>
 </resources>

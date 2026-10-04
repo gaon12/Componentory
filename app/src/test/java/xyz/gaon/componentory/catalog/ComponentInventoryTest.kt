@@ -76,6 +76,10 @@ class ComponentInventoryTest {
                             row.provider == "PLATFORM" &&
                                 component == LabComponent.TIME_PICKER_DIALOG ->
                                 setOf("android.widget.TimePicker")
+                            row.provider == "MATERIAL2" && component == LabComponent.POPUP_MENU ->
+                                setOf("androidx.compose.material.DropdownMenuItem")
+                            row.provider == "MATERIAL3" && component == LabComponent.POPUP_MENU ->
+                                setOf("androidx.compose.material3.DropdownMenuItem")
                             row.provider == "MATERIAL3" &&
                                 component == LabComponent.DATE_PICKER_DIALOG ->
                                 setOf("androidx.compose.material3.DatePicker")

@@ -261,6 +261,15 @@ fun SamplePanel(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.testTag("source_$panel"),
             )
+            if (component == LabComponent.POPUP_MENU && platform == null && unsupported == null) {
+                Text(
+                    if (family == DesignFamily.MATERIAL2)
+                        "androidx.compose.material.DropdownMenuItem"
+                    else "androidx.compose.material3.DropdownMenuItem",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.testTag("menu_item_source_$panel"),
+                )
+            }
             Text(
                 family.implementation(context) +
                     if (platform != null && component.platformSource != null)
@@ -321,6 +330,12 @@ fun SamplePanel(
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
+            }
+            if (component == LabComponent.POPUP_MENU && unsupported == null) {
+                Text(
+                    stringResource(R.string.menu_sample_note),
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
         }
     }

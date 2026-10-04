@@ -291,4 +291,10 @@
     <string name="container_clickable_overload">点击容器可增加计数。</string>
     <string name="container_plain_overload">只读容器。点击不会改变计数。</string>
     <string name="container_enabled_note">不处理点击的示例没有启用状态。启用设置只适用于可点击示例。</string>
+    <string name="component_popup_menu">弹出菜单</string>
+    <string name="component_popup_menu_description">打开锚定于按钮的弹出菜单，查看所选主题或库提供的菜单项。</string>
+    <string name="open_menu">打开菜单</string>
+    <string name="menu_disabled_choice">禁用选项</string>
+    <string name="status_menu">所选项: %1$s · 上次操作: %2$s</string>
+    <string name="menu_sample_note">选择选项会关闭此示例菜单。禁用选项无法选择。</string>
 </resources>

@@ -291,4 +291,10 @@
     <string name="container_clickable_overload">컨테이너를 누르면 횟수가 늘어납니다.</string>
     <string name="container_plain_overload">읽기 전용 컨테이너입니다. 눌러도 횟수가 바뀌지 않습니다.</string>
     <string name="container_enabled_note">누르기를 처리하지 않는 샘플에는 활성화 상태가 없습니다. 활성화 설정은 누를 수 있는 샘플에만 적용됩니다.</string>
+    <string name="component_popup_menu">팝업 메뉴</string>
+    <string name="component_popup_menu_description">선택한 테마나 라이브러리가 제공하는 메뉴 항목을 기준 버튼 옆의 팝업에서 살펴봅니다.</string>
+    <string name="open_menu">메뉴 열기</string>
+    <string name="menu_disabled_choice">비활성 항목</string>
+    <string name="status_menu">선택 항목: %1$s · 마지막 동작: %2$s</string>
+    <string name="menu_sample_note">항목을 선택하면 이 샘플 메뉴가 닫힙니다. 비활성 항목은 선택할 수 없습니다.</string>
 </resources>

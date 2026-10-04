@@ -294,4 +294,10 @@
     <string name="container_clickable_overload">Tap the container to increase the counter.</string>
     <string name="container_plain_overload">Read-only container. Taps do not change the counter.</string>
     <string name="container_enabled_note">The non-clickable sample has no enabled state. Enabled applies only to the clickable sample.</string>
+    <string name="component_popup_menu">Popup menu</string>
+    <string name="component_popup_menu_description">Open an anchored popup with menu items supplied by the selected theme or library.</string>
+    <string name="open_menu">Open menu</string>
+    <string name="menu_disabled_choice">Disabled option</string>
+    <string name="status_menu">Choice: %1$s · Last action: %2$s</string>
+    <string name="menu_sample_note">Selecting an option closes this sample menu. The disabled option cannot be selected.</string>
 </resources>

@@ -46,6 +46,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
     MaterialTheme(colors = lightColors()) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
+                LabComponent.POPUP_MENU -> Material2PopupMenuSample(panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.SURFACE -> Material2Containers(component, sample, enabled, state)
                 LabComponent.ICON -> {

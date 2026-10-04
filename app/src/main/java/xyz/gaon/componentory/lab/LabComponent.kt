@@ -223,6 +223,15 @@ enum class LabComponent(
         material3Function = "TimePickerDialog",
         category = ComponentCategory.PICKER,
     ),
+    POPUP_MENU(
+        "Popup menu",
+        R.string.component_popup_menu,
+        R.string.component_popup_menu_description,
+        platformSource = "android.widget.PopupMenu",
+        material2Function = "DropdownMenu",
+        minimumApi = 11,
+        category = ComponentCategory.NAVIGATION,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -628,9 +637,16 @@ enum class LabComponent(
                 material2Function?.let { "androidx.compose.material.$it" },
                 material3Function?.let { "androidx.compose.material3.$it" },
             ) +
-                if (this == TIME_PICKER_DIALOG)
-                    listOf("android.widget.TimePicker", "androidx.compose.material3.TimeInput")
-                else emptyList()
+                when (this) {
+                    TIME_PICKER_DIALOG ->
+                        listOf("android.widget.TimePicker", "androidx.compose.material3.TimeInput")
+                    POPUP_MENU ->
+                        listOf(
+                            "androidx.compose.material.DropdownMenuItem",
+                            "androidx.compose.material3.DropdownMenuItem",
+                        )
+                    else -> emptyList()
+                }
         return term.isEmpty() || names.any { it.contains(term, ignoreCase = true) }
     }
 
@@ -697,6 +713,25 @@ enum class LabComponent(
                         R.string.status_selected,
                         context.getString(if (value == 1) R.string.option_a else R.string.option_b),
                     )
+            this == POPUP_MENU ->
+                context.getString(
+                    R.string.status_menu,
+                    context.getString(
+                        when (value) {
+                            1 -> R.string.option_a
+                            2 -> R.string.option_b
+                            else -> R.string.sample_state_no_selection
+                        }
+                    ),
+                    context.getString(
+                        when (text) {
+                            SampleMenuAction.OPENED.name -> R.string.action_opened
+                            SampleMenuAction.SELECTED.name -> R.string.sample_state_selected
+                            SampleMenuAction.DISMISSED.name -> R.string.action_dismissed
+                            else -> R.string.action_not_opened
+                        }
+                    ),
+                )
             this == RATING -> context.getString(R.string.status_rating, value)
             this == NUMBER_PICKER -> context.getString(R.string.status_number, value)
             this == SLIDER || isDeterminateProgress ->

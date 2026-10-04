@@ -6,6 +6,18 @@ import xyz.gaon.componentory.lab.LabComponent
 
 class ComponentSearchTest {
     @Test
+    fun popupMenuIsSearchableByItsPrimaryAndSupportingSources() {
+        listOf(
+                "android.widget.PopupMenu",
+                "androidx.compose.material.DropdownMenu",
+                "androidx.compose.material3.DropdownMenu",
+                "androidx.compose.material.DropdownMenuItem",
+                "androidx.compose.material3.DropdownMenuItem",
+            )
+            .forEach { source -> assertEquals(listOf(LabComponent.POPUP_MENU), search(source)) }
+    }
+
+    @Test
     fun containerSourcesFindTheirGenuineSamples() {
         assertEquals(listOf(LabComponent.CARD), search("androidx.compose.material.Card"))
         assertEquals(listOf(LabComponent.CARD), search("androidx.compose.material3.Card"))

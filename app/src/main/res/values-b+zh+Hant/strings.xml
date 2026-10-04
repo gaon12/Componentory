@@ -291,4 +291,10 @@
     <string name="container_clickable_overload">點擊容器可增加次數。</string>
     <string name="container_plain_overload">唯讀容器。點擊不會改變次數。</string>
     <string name="container_enabled_note">不處理點擊的範例沒有啟用狀態。啟用設定只適用於可點擊範例。</string>
+    <string name="component_popup_menu">彈出選單</string>
+    <string name="component_popup_menu_description">開啟錨定於按鈕的彈出選單，查看所選主題或函式庫提供的選單項目。</string>
+    <string name="open_menu">開啟選單</string>
+    <string name="menu_disabled_choice">停用選項</string>
+    <string name="status_menu">所選項: %1$s · 上次操作: %2$s</string>
+    <string name="menu_sample_note">選擇選項會關閉此範例選單。停用選項無法選擇。</string>
 </resources>

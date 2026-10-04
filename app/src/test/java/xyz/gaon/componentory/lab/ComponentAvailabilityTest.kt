@@ -6,6 +6,17 @@ import org.junit.Test
 
 class ComponentAvailabilityTest {
     @Test
+    fun popupMenuUsesFrameworkApi11AndBothPinnedLibraryFamilies() {
+        // API 10 and 11 check metadata; the application itself runs from API 24.
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(LabComponent.POPUP_MENU, 10))
+            assertNull(family.unsupportedReason(LabComponent.POPUP_MENU, 11))
+        }
+        assertNull(DesignFamily.MATERIAL2.unsupportedReason(LabComponent.POPUP_MENU, 24))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.POPUP_MENU, 24))
+    }
+
+    @Test
     fun containersUseOnlyLibrariesThatSupplyTheirActualApi() {
         val shared = listOf(LabComponent.CARD, LabComponent.SURFACE)
         val material3Only = listOf(LabComponent.ELEVATED_CARD, LabComponent.OUTLINED_CARD)
