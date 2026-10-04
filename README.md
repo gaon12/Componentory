@@ -7,7 +7,7 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 47 implemented components by translated name or description,
+- **List:** Search 57 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
   Open a detail page, select a UI version, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -17,16 +17,17 @@ The working prototype has three bottom navigation destinations:
 
 The catalog includes the original eight basic types, four framework-only controls,
 and sixteen Material button/icon/FAB variants, eleven chip and selection
-variants, seven additional input types, and an icon browser. It offers Classic,
-Holo, and platform Material light themes, Compose
+variants, seven additional input types, and an icon browser. Ten more entries add
+range sliders, circular and indeterminate progress, dividers, and badges.
+It offers Classic, Holo, and platform Material light themes, Compose
 Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
 appearance keeps the selected samples in their own light themes.
 
 The icon picker searches all **11,385 icon variants** provided by the pinned
 Compose Material icons **1.7.8** core and extended artifacts. Filter by Filled,
 Outlined, Rounded, Sharp, Two tone, or auto mirroring, and apply the choice to
-icons, icon buttons, or floating action buttons. Framework samples use the
-current OS's public `android.R.drawable` resources. Resources that the device
+icons, icon buttons, floating action buttons, or badge anchors. Framework samples
+use the current OS's public `android.R.drawable` resources. Resources that the device
 cannot load remain visible with an unavailable label.
 
 Menus, descriptions, accessibility labels, feedback, and sample text support
@@ -39,6 +40,10 @@ Unavailable combinations show a reason rather than a substitute. Components that
 are still being implemented are tracked as pending in the coverage inventory.
 
 Search and live sample state survive tab changes and Activity recreation.
+An open comparison currently loses or restores stale values when its width
+crosses the two-column layout boundary. The
+[independent review](docs/review-2026-10-04.md) records this defect and the next
+UX priorities.
 The prototype does not yet store or export experiment history, and no original
 historical OS captures have been collected. These are later milestones.
 

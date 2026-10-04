@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**47 component entries**, with **110 runnable component/family combinations**.
+**57 component entries**, with **134 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -48,14 +48,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `18e563f`.
+Application source revision: `843377a`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 18 | 56 |
-| Compose Material 2 1.10.4 | 52 | 21 | 31 |
-| Compose Material 3 1.4.0 | 113 | 39 | 74 |
-| Total | 239 | 78 | 161 |
+| Compose Material 2 1.10.4 | 52 | 26 | 26 |
+| Compose Material 3 1.4.0 | 113 | 46 | 67 |
+| Total | 239 | 90 | 149 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -83,7 +83,17 @@ Its picker indexes all 11,385 public icon getters in the pinned Material icons
 including auto-mirrored variants. Framework choices come from every public
 `android.R.drawable` field on the current OS. The Samsung runtime exposes
 `ic_safety_protection` but cannot load it, so the picker labels it unavailable.
-Selections also apply to icon buttons, toggles, and FABs and survive recreation.
+Selections also apply to icon buttons, toggles, FABs, and badge anchors and
+survive recreation at the same layout width.
+
+Ten additional entries provide real Material range sliders, determinate circular
+progress, horizontal and circular indeterminate progress, horizontal/vertical
+dividers, the deprecated Material 3 Divider API, number/dot badges, and badged
+icons. Framework ProgressBar supplies both indeterminate styles and determinate
+horizontal progress. Its circular styles support indeterminate progress only.
+Material 2 has no dedicated vertical divider; the sample does not recreate one.
+Badges and dividers explain their read-only appearance. Counter controls change
+the number badge from zero to 100; badge anchors use the complete icon picker.
 
 The list and comparison picker combine category filters with translated labels
 and descriptions and the source names that actually supply each sample.
@@ -95,12 +105,11 @@ resources are kept in the app bundle for offline switching.
 
 ## Next implementation groups
 
-1. Range slider, circular and indeterminate progress, dividers, and badges.
-2. Date/time/calendar controls and picker dialogs.
-3. Cards, lists, images, text, and legacy content controls.
-4. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
-5. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
-6. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
+1. Date/time/calendar controls and picker dialogs.
+2. Cards, lists, images, text, and legacy content controls.
+3. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
+4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
+5. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
 
 Keep available but unimplemented combinations pending until their group is
 implemented and tested. Review each group, format/lint, run relevant tests on the
@@ -108,13 +117,44 @@ physical device, and commit that coherent change before starting another group.
 
 ## Verification
 
+The additions through `843377a` passed the following separate focused runs on
+the physical device. These are not a full latest-suite result.
+
+| Source revision | Test scope | Passing tests | Seconds |
+| --- | --- | ---: | ---: |
+| `c9f07fb` | Range sliders, icons, languages | 8 | 28.498 |
+| `1add203` | Progress, libraries, navigation, picker, languages | 17 | 63.452 |
+| `3856bad` | Library dividers and explicit unsupported families | 2 | 12.084 |
+| `843377a` | Badges, progress regression, icons, languages | 12 | 64.559 |
+
+All 10 unit tests passed, including saved range-state compatibility. Formatting,
+lint, and both debug APK builds passed for each addition. Lint retained zero
+errors and the same 16 existing warnings. The current debug app bundle was not
+rebuilt in these focused runs.
+
+Native indeterminate progress initially stalled instrumentation with animator
+duration scale zero on this device. Those interrupted runs are failed evidence,
+not passing tests. The native progress test now temporarily uses animator scale
+1.0 and closes its samples before restoring the prior test value. The outer
+device script restores the user's original animation settings. This passing
+condition does not verify disabled-animation behavior or animation appearance.
+The reports are `.local/range-icon-language-device-tests.txt`,
+`.local/progress-navigation-language-device-tests.txt`,
+`.local/divider-device-tests.txt`, and
+`.local/badge-icon-language-device-tests.txt`.
+
+An independent review also reproduced comparison state loss when changing
+between wide and compact layouts. Same-width recreation passing in the tests
+does not cover that defect. See [the review](review-2026-10-04.md).
+
 The latest full suite at `b51546f` passed **all 44 physical-device tests** in
 **180.839 seconds**, with zero failures or ignored tests. It includes the icon,
 language, native popup, appearance, navigation, and earlier component checks.
 The report is `.local/full-device-tests-2026-10-04.txt`. All **8 unit tests**,
 formatting, lint, both debug APK builds, and the debug app bundle build also
-passed. Lint had zero errors and 16 existing warnings. This verifies the current
-device and pinned libraries; historical OS execution remains unverified.
+passed at that earlier revision. Lint had zero errors and 16 existing warnings.
+This verifies the tested device and pinned libraries at that revision;
+historical OS execution remains unverified.
 
 On SM-X800 / Android 16 API 36, the 3 new selection tests and 2 existing action
 tests passed in **45.642 seconds**. The first 33-test run then passed all 31
