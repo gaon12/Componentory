@@ -223,4 +223,7 @@
     <string name="unsupported_library">%1$s 库未提供%2$s组件。</string>
     <string name="unsupported_platform">Android 平台未提供专用的%1$s组件。</string>
     <string name="widget_api">控件 API %1$d+</string>
+    <string name="component_range_slider">范围滑块</string>
+    <string name="component_range_slider_description">拖动两个滑块以选择起始值和结束值。</string>
+    <string name="status_range">范围：%1$d–%2$d / 100</string>
 </resources>

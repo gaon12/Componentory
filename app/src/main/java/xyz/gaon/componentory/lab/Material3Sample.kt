@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -96,6 +97,17 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     Slider(
                         value = state.value.toFloat(),
                         onValueChange = { state.value = it.roundToInt() },
+                        valueRange = 0f..100f,
+                        enabled = enabled,
+                        modifier = sample,
+                    )
+                LabComponent.RANGE_SLIDER ->
+                    RangeSlider(
+                        value = state.value.toFloat()..state.rangeEnd.toFloat(),
+                        onValueChange = {
+                            state.value = it.start.roundToInt()
+                            state.rangeEnd = it.endInclusive.roundToInt()
+                        },
                         valueRange = 0f..100f,
                         enabled = enabled,
                         modifier = sample,

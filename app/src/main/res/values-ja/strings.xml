@@ -223,4 +223,7 @@
     <string name="unsupported_library">%1$s ライブラリには %2$s がありません。</string>
     <string name="unsupported_platform">Android プラットフォームには %1$s 専用のコンポーネントがありません。</string>
     <string name="widget_api">ウィジェット API %1$d+</string>
+    <string name="component_range_slider">範囲スライダー</string>
+    <string name="component_range_slider_description">2つのつまみをドラッグして開始値と終了値を選択します。</string>
+    <string name="status_range">範囲: %1$d–%2$d / 100</string>
 </resources>

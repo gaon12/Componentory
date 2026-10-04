@@ -178,7 +178,7 @@ fun SamplePanel(
                 Text(
                     if (component == LabComponent.ICON)
                         stringResource(R.string.icon_status, requireNotNull(icon).name)
-                    else component.feedback(context, state.value, state.text),
+                    else component.feedback(context, state.value, state.text, state.rangeEnd),
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
                 )

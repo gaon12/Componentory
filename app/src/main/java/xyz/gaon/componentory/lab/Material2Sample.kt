@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
+import androidx.compose.material.RangeSlider
 import androidx.compose.material.Slider
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
@@ -33,6 +35,7 @@ import kotlin.math.roundToInt
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, state: SampleState) {
     var dialogOpen by remember { mutableStateOf(false) }
@@ -99,6 +102,17 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     Slider(
                         value = state.value.toFloat(),
                         onValueChange = { state.value = it.roundToInt() },
+                        valueRange = 0f..100f,
+                        enabled = enabled,
+                        modifier = sample,
+                    )
+                LabComponent.RANGE_SLIDER ->
+                    RangeSlider(
+                        value = state.value.toFloat()..state.rangeEnd.toFloat(),
+                        onValueChange = {
+                            state.value = it.start.roundToInt()
+                            state.rangeEnd = it.endInclusive.roundToInt()
+                        },
                         valueRange = 0f..100f,
                         enabled = enabled,
                         modifier = sample,

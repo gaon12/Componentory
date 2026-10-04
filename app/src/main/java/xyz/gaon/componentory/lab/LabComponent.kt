@@ -78,6 +78,14 @@ enum class LabComponent(
         minimumApi = 1,
         initialValue = 50,
     ),
+    RANGE_SLIDER(
+        "Range slider",
+        R.string.component_range_slider,
+        R.string.component_range_slider_description,
+        material2Function = "RangeSlider",
+        initialValue = 20,
+        category = ComponentCategory.INPUT,
+    ),
     PROGRESS(
         "Progress",
         R.string.component_progress,
@@ -489,9 +497,15 @@ enum class LabComponent(
         return term.isEmpty() || names.any { it.contains(term, ignoreCase = true) }
     }
 
-    fun feedback(context: android.content.Context, value: Int, text: String): String {
+    fun feedback(
+        context: android.content.Context,
+        value: Int,
+        text: String,
+        rangeEnd: Int = 80,
+    ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
+            this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)
             isSecureInput -> context.getString(R.string.status_characters, value)
             this == SPINNER ->
                 context.getString(R.string.status_selected, listOf("Alpha", "Beta", "Gamma")[value])
