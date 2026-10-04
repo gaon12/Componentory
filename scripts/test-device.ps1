@@ -27,6 +27,7 @@ try {
         throw 'The selected device is unavailable. Check adb devices -l.'
     }
     & $AdbPath -s $Device shell input keyevent KEYCODE_WAKEUP
+    & $AdbPath -s $Device shell wm dismiss-keyguard
     $windowPolicy = & $AdbPath -s $Device shell dumpsys window policy
     if ($windowPolicy -match 'mIsShowing=true') {
         throw 'Unlock the selected device before running touch tests.'
