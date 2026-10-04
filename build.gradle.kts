@@ -22,10 +22,6 @@ spotless {
             it.setMaxWidth(100)
         }
     }
-    java {
-        target("native-samples/src/**/*.java")
-        googleJavaFormat("1.30.0").aosp()
-    }
     format("text") {
         target("*.md", "docs/**/*.md", ".gitignore", ".gitattributes", "gradle/*.toml")
         trimTrailingWhitespace()
