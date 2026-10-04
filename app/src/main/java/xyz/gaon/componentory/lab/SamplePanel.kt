@@ -156,7 +156,7 @@ fun SamplePanel(
                     }
                 } else
                     CompositionLocalProvider(LocalSampleIcon provides icon) {
-                        key(family, component, reset) {
+                        key(family, component, reset, state) {
                             if (platform != null) {
                                 PlatformSample(
                                     platform,

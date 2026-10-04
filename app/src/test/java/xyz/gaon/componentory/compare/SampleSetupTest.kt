@@ -1,0 +1,341 @@
+package xyz.gaon.componentory.compare
+
+import androidx.compose.runtime.saveable.SaverScope
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNotSame
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import xyz.gaon.componentory.lab.DesignFamily
+import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.lab.SampleDates
+import xyz.gaon.componentory.lab.SampleState
+
+class SampleSetupTest {
+    @Test
+    fun boundSelectionsAndKnobsBecomeIndependentFreshTargetInputs() {
+        val inputs =
+            mapOf(
+                LabComponent.CHECKBOX to 1,
+                LabComponent.SWITCH to 0,
+                LabComponent.TOGGLE_BUTTON to 1,
+                LabComponent.RADIO to 2,
+                LabComponent.TRI_STATE_CHECKBOX to 2,
+                LabComponent.ICON_TOGGLE to 0,
+                LabComponent.FILLED_ICON_TOGGLE to 1,
+                LabComponent.TONAL_ICON_TOGGLE to 1,
+                LabComponent.OUTLINED_ICON_TOGGLE to 0,
+                LabComponent.FILTER_CHIP to 1,
+                LabComponent.ELEVATED_FILTER_CHIP to 0,
+                LabComponent.INPUT_CHIP to 1,
+                LabComponent.SINGLE_SEGMENTED to 3,
+                LabComponent.MULTI_SEGMENTED to 5,
+                LabComponent.SPINNER to 2,
+                LabComponent.RATING to 4,
+                LabComponent.NUMBER_PICKER to 9,
+                LabComponent.SLIDER to 0,
+                LabComponent.PROGRESS to 70,
+                LabComponent.CIRCULAR_PROGRESS to 30,
+                LabComponent.BADGE to 0,
+                LabComponent.BADGED_BOX to 12,
+            )
+        inputs.forEach { (component, value) ->
+            val family = supportedFamily(component)
+            val source = SampleState(initialValue = value, initialText = "old action")
+            val setup = SampleSetup.capture(component, family, source, API)
+            val target = requireNotNull(setup.copyTo(family, API).state)
+            assertNotSame(source, target)
+            assertEquals(component.name, value, target.value)
+            assertEquals("", target.text)
+            target.value = component.initialValue
+            assertEquals(value, source.value)
+            assertEquals("old action", source.text)
+        }
+    }
+
+    @Test
+    fun safeTextIncludingEmptyTextCopiesWithoutSubmissionCounts() {
+        listOf(
+                LabComponent.TEXT_FIELD,
+                LabComponent.OUTLINED_TEXT_FIELD,
+                LabComponent.AUTOCOMPLETE,
+                LabComponent.MULTI_AUTOCOMPLETE,
+                LabComponent.SEARCH_VIEW,
+            )
+            .forEach { component ->
+                listOf("", "Input 日本語").forEach { input ->
+                    val family = supportedFamily(component)
+                    val setup = SampleSetup.capture(component, family, SampleState(8, input), API)
+                    val target = requireNotNull(setup.copyTo(family, API).state)
+                    assertEquals(input, target.text)
+                    assertEquals(component.initialValue, target.value)
+                }
+            }
+    }
+
+    @Test
+    fun resultsSecureContentAndStaticPreviewsHaveNoTransferableInput() {
+        listOf(
+                LabComponent.BUTTON,
+                LabComponent.OUTLINED_BUTTON,
+                LabComponent.CHIP,
+                LabComponent.ASSIST_CHIP,
+                LabComponent.SUGGESTION_CHIP,
+                LabComponent.DIALOG,
+                LabComponent.POPUP_MENU,
+                LabComponent.SECURE_TEXT_FIELD,
+                LabComponent.OUTLINED_SECURE_TEXT_FIELD,
+                LabComponent.HORIZONTAL_DIVIDER,
+                LabComponent.DOT_BADGE,
+                LabComponent.INDETERMINATE_LINEAR_PROGRESS,
+            )
+            .forEach { component ->
+                val family = supportedFamily(component)
+                val setup =
+                    SampleSetup.capture(
+                        component,
+                        family,
+                        SampleState(19, "sensitive or observed"),
+                        API,
+                    )
+                assertNull(setup.value)
+                assertNull(setup.text)
+                assertFalse(setup.savedValues().containsKey("value"))
+                assertFalse(setup.savedValues().containsKey("text"))
+                val result = setup.copyTo(family, API)
+                assertNull(result.state)
+                assertEquals(component.name, SetupCopyReason.NO_INPUTS, result.reason)
+            }
+    }
+
+    @Test
+    fun bothRangeThumbsAndPlainContainerModeAreEligibleInputs() {
+        val range =
+            SampleSetup.capture(
+                LabComponent.RANGE_SLIDER,
+                DesignFamily.MATERIAL2,
+                SampleState(initialValue = 15, initialRangeEnd = 65),
+                API,
+            )
+        val targetRange = requireNotNull(range.copyTo(DesignFamily.MATERIAL3, API).state)
+        assertEquals(15, targetRange.value)
+        assertEquals(65, targetRange.rangeEnd)
+        val container =
+            SampleSetup.capture(
+                LabComponent.CARD,
+                DesignFamily.MATERIAL2,
+                SampleState(initialValue = 9, initialContainerClickable = false),
+                API,
+            )
+        val targetContainer = requireNotNull(container.copyTo(DesignFamily.MATERIAL3, API).state)
+        assertFalse(targetContainer.containerClickable)
+        assertEquals(0, targetContainer.value)
+    }
+
+    @Test
+    fun committedDateAndTimeCopyWithoutActionsDraftsOrEditorMode() {
+        val committedDate = SampleDates.utcMillis(2024, 2, 29)
+        val date =
+            SampleSetup.capture(
+                LabComponent.DATE_PICKER_DIALOG,
+                DesignFamily.MATERIAL3,
+                SampleState(
+                    initialValue = 1,
+                    initialDateUtcMillis = committedDate,
+                    initialDateDraftUtcMillis = SampleDates.utcMillis(2025, 7, 4),
+                ),
+                API,
+            )
+        val targetDate = requireNotNull(date.copyTo(DesignFamily.CLASSIC, API).state)
+        assertEquals(committedDate, targetDate.dateUtcMillis)
+        assertEquals(0, targetDate.value)
+        assertNull(targetDate.dateDraftUtcMillis)
+        val time =
+            SampleSetup.capture(
+                LabComponent.TIME_PICKER_DIALOG,
+                DesignFamily.MATERIAL3,
+                SampleState(
+                    initialValue = 2,
+                    initialTimeMinutes = 1425,
+                    initialTimeDraftMinutes = 5,
+                    initialTime24Hour = false,
+                    initialTimeInputMode = true,
+                ),
+                API,
+            )
+        val targetTime = requireNotNull(time.copyTo(DesignFamily.HOLO, API).state)
+        assertEquals(1425, targetTime.timeMinutes)
+        assertFalse(targetTime.time24Hour)
+        assertNull(targetTime.timeDraftMinutes)
+        assertFalse(targetTime.timeInputMode)
+        assertEquals(0, targetTime.value)
+    }
+
+    @Test
+    fun unsupportedProvidersNeverReceiveHiddenInputs() {
+        val source = SampleState(42, "hidden", "hidden icon", 90)
+        val unsupported =
+            SampleSetup.capture(
+                LabComponent.RANGE_SLIDER,
+                DesignFamily.CLASSIC,
+                source,
+                API,
+                "hidden icon",
+            )
+        assertEquals(setOf("component", "family"), unsupported.savedValues().keys)
+        assertEquals(
+            SetupCopyReason.SOURCE_UNSUPPORTED,
+            unsupported.copyTo(DesignFamily.MATERIAL3, API).reason,
+        )
+        val supported =
+            SampleSetup.capture(LabComponent.RANGE_SLIDER, DesignFamily.MATERIAL3, source, API)
+        assertEquals(
+            SetupCopyReason.TARGET_UNSUPPORTED,
+            supported.copyTo(DesignFamily.CLASSIC, API).reason,
+        )
+        // The lower API is an availability-policy input, not an execution environment for this app.
+        val number =
+            SampleSetup.capture(LabComponent.NUMBER_PICKER, DesignFamily.CLASSIC, source, API)
+        assertEquals(
+            SetupCopyReason.SOURCE_UNSUPPORTED,
+            number.copyTo(DesignFamily.HOLO, 10).reason,
+        )
+    }
+
+    @Test
+    fun exactDisplayedIconsCopyWithinTheirCatalogAndMismatchesAreNoOps() {
+        val materialId = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"
+        val source = SampleState(initialIcon = "")
+        val material =
+            SampleSetup.capture(LabComponent.ICON, DesignFamily.MATERIAL2, source, API, materialId)
+        assertEquals(
+            materialId,
+            requireNotNull(material.copyTo(DesignFamily.MATERIAL3, API, true).state).icon,
+        )
+        val mismatch = material.copyTo(DesignFamily.CLASSIC, API, true, "android:ic_input_add")
+        assertNull(mismatch.state)
+        assertEquals(SetupCopyReason.ICON_UNAVAILABLE, mismatch.reason)
+        val unavailable = material.copyTo(DesignFamily.MATERIAL3, API, false)
+        assertNull(unavailable.state)
+        assertEquals(SetupCopyReason.ICON_UNAVAILABLE, unavailable.reason)
+        val native =
+            SampleSetup.capture(
+                LabComponent.ICON,
+                DesignFamily.CLASSIC,
+                source,
+                API,
+                "android:ic_menu_camera",
+            )
+        assertEquals(
+            "android:ic_menu_camera",
+            requireNotNull(native.copyTo(DesignFamily.HOLO, API, true).state).icon,
+        )
+        assertEquals("", source.icon)
+        val actionWithIcon =
+            SampleSetup.capture(
+                LabComponent.FAB,
+                DesignFamily.MATERIAL3,
+                SampleState(8),
+                API,
+                materialId,
+            )
+        val target = requireNotNull(actionWithIcon.copyTo(DesignFamily.MATERIAL2, API, true).state)
+        assertEquals(materialId, target.icon)
+        assertEquals(0, target.value)
+    }
+
+    @Test
+    fun unavailableIconCanBeOmittedWhileOtherInputsStartAFreshTarget() {
+        // Synthetic availability input: today's compound icon samples share the same catalog.
+        val setup =
+            SampleSetup.capture(
+                LabComponent.BADGED_BOX,
+                DesignFamily.MATERIAL2,
+                SampleState(17, "observed action"),
+                API,
+                "androidx.compose.material.icons.filled.HomeKt",
+            )
+        val retainedIcon = "androidx.compose.material.icons.outlined.FavoriteKt"
+        val result = setup.copyTo(DesignFamily.MATERIAL3, API, false, retainedIcon)
+        val target = requireNotNull(result.state)
+        assertTrue(result.iconSkipped)
+        assertEquals(17, target.value)
+        assertEquals(retainedIcon, target.icon)
+        assertEquals("", target.text)
+    }
+
+    @Test
+    fun saveableEntryContainsOnlySanitizedInputsAndKeepsDisabledConfiguration() {
+        val setup =
+            SampleSetup.capture(
+                LabComponent.TIME_PICKER_DIALOG,
+                DesignFamily.MATERIAL3,
+                SampleState(
+                    initialValue = 1,
+                    initialText = "action",
+                    initialTimeMinutes = 65,
+                    initialTimeDraftMinutes = 700,
+                    initialTime24Hour = false,
+                    initialTimeInputMode = true,
+                ),
+                API,
+            )
+        val entry = ComparisonEntry(setup, false)
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val saved = requireNotNull(with(ComparisonEntry.Saver) { scope.save(entry) })
+        val restored = requireNotNull(ComparisonEntry.Saver.restore(saved))
+        assertFalse(restored.enabled)
+        assertEquals(LabComponent.TIME_PICKER_DIALOG, restored.setup.component)
+        assertEquals(DesignFamily.MATERIAL3, restored.setup.sourceFamily)
+        val target = requireNotNull(restored.setup.copyTo(DesignFamily.CLASSIC, API).state)
+        assertEquals(65, target.timeMinutes)
+        assertFalse(target.time24Hour)
+        assertNull(target.timeDraftMinutes)
+        assertFalse(target.timeInputMode)
+        assertEquals(0, target.value)
+        assertEquals("", target.text)
+        assertNull(ComparisonEntry.Saver.restore(emptyList<Any>()))
+    }
+
+    @Test
+    fun restoringAnEntryReappliesTheWhitelistAndRejectsUnknownIdentities() {
+        listOf(LabComponent.POPUP_MENU, LabComponent.SECURE_TEXT_FIELD).forEach { component ->
+            val restored =
+                requireNotNull(
+                    SampleSetup.restore(
+                        mapOf(
+                            "component" to component.name,
+                            "family" to supportedFamily(component).name,
+                            "value" to 2,
+                            "text" to "secret or result",
+                            "icon" to "unrelated",
+                            "date" to 10L,
+                            "time" to 123,
+                            "containerClickable" to false,
+                        )
+                    )
+                )
+            assertEquals(setOf("component", "family"), restored.savedValues().keys)
+            assertEquals(
+                SetupCopyReason.NO_INPUTS,
+                restored.copyTo(restored.sourceFamily, API).reason,
+            )
+        }
+        assertNull(SampleSetup.restore(mapOf("component" to "UNKNOWN", "family" to "CLASSIC")))
+        assertNull(SampleSetup.restore(mapOf("component" to "BUTTON", "family" to "UNKNOWN")))
+        assertNotNull(SampleSetup.restore(mapOf("component" to "CHECKBOX", "family" to "CLASSIC")))
+    }
+
+    private fun supportedFamily(component: LabComponent) =
+        DesignFamily.entries.first { it.unsupportedReason(component, API) == null }
+
+    private companion object {
+        const val API = 36
+    }
+}

@@ -297,4 +297,13 @@
     <string name="menu_disabled_choice">停用選項</string>
     <string name="status_menu">所選項: %1$s · 上次操作: %2$s</string>
     <string name="menu_sample_note">選擇選項會關閉此範例選單。停用選項無法選擇。</string>
+    <string name="copy_inputs">複製輸入</string>
+    <string name="copy_setup_direction">複製 %1$s → %2$s 的輸入</string>
+    <string name="copy_setup_note">複製輸入值，並在目標側開始新的體驗。</string>
+    <string name="copy_setup_done">已將輸入複製到 %1$s，並開始新的體驗。</string>
+    <string name="copy_setup_source_unsupported">來源提供方不支援此體驗。</string>
+    <string name="copy_setup_target_unsupported">目標提供方不支援此體驗。</string>
+    <string name="copy_setup_no_inputs">此體驗沒有可複製的輸入。</string>
+    <string name="copy_setup_icon_incompatible">目標提供方無法使用此圖示。</string>
+    <string name="copy_setup_icon_skipped">由於來源圖示無法使用，已保留目標圖示。</string>
 </resources>

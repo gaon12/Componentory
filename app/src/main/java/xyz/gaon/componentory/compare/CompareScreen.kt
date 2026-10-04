@@ -4,8 +4,8 @@ import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +17,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -34,7 +36,8 @@ import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
-import xyz.gaon.componentory.lab.rememberSampleState
+import xyz.gaon.componentory.lab.SampleState
+import xyz.gaon.componentory.lab.rememberSampleStateSlot
 
 @Composable
 fun CompareScreen(
@@ -44,12 +47,55 @@ fun CompareScreen(
     onLeftChange: (DesignFamily) -> Unit,
     right: DesignFamily,
     onRightChange: (DesignFamily) -> Unit,
+    initialEntry: ComparisonEntry? = null,
 ) {
-    var enabled by rememberSaveable { mutableStateOf(true) }
+    val context = LocalContext.current
+    var enabled by rememberSaveable { mutableStateOf(initialEntry?.enabled ?: true) }
     var reset by rememberSaveable { mutableIntStateOf(0) }
+    var useInitialSetup by rememberSaveable { mutableStateOf(true) }
+    var copiedDirection by rememberSaveable { mutableStateOf<CopySetupDirection?>(null) }
+    var iconSkipped by rememberSaveable { mutableStateOf(false) }
     // Layout changes must move the same experiment, not create new panel values.
-    val leftState = rememberSampleState("LEFT", left, component, reset)
-    val rightState = rememberSampleState("RIGHT", right, component, reset)
+    var leftState by
+        rememberSampleStateSlot("LEFT", left, component, reset) {
+            val setup = initialEntry?.setup
+            if (useInitialSetup && setup?.component == component && setup.sourceFamily == left) {
+                copySampleSetup(context, setup, left, SampleState(component.initialValue)).state
+                    ?: SampleState(component.initialValue)
+            } else SampleState(component.initialValue)
+        }
+    var rightState by rememberSampleStateSlot("RIGHT", right, component, reset)
+    // The entry seeds this session once. Restored panel state owns all later changes.
+    SideEffect { useInitialSetup = false }
+    val clearEntryAndResult = {
+        useInitialSetup = false
+        copiedDirection = null
+        iconSkipped = false
+    }
+    val changeLeft: (DesignFamily) -> Unit = {
+        clearEntryAndResult()
+        onLeftChange(it)
+    }
+    val changeRight: (DesignFamily) -> Unit = {
+        clearEntryAndResult()
+        onRightChange(it)
+    }
+    val previewCopy: (CopySetupDirection) -> SetupCopyResult = { direction ->
+        val fromLeft = direction == CopySetupDirection.LEFT_TO_RIGHT
+        val setup =
+            captureSampleSetup(
+                context,
+                component,
+                if (fromLeft) left else right,
+                if (fromLeft) leftState else rightState,
+            )
+        copySampleSetup(
+            context,
+            setup,
+            if (fromLeft) right else left,
+            if (fromLeft) rightState else leftState,
+        )
+    }
     val enabledLabel = stringResource(R.string.enabled)
     Column(
         Modifier.widthIn(max = 1100.dp)
@@ -64,21 +110,68 @@ fun CompareScreen(
             stringResource(R.string.compare_intro, Build.VERSION.RELEASE),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        ComponentPicker(component, onComponentChange)
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Switch(
-                checked = enabled,
-                onCheckedChange = { enabled = it },
-                modifier =
-                    Modifier.testTag("enabled").semantics { contentDescription = enabledLabel },
+        ComponentPicker(component) {
+            clearEntryAndResult()
+            onComponentChange(it)
+        }
+        FlowRow(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            itemVerticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Switch(
+                    checked = enabled,
+                    onCheckedChange = { enabled = it },
+                    modifier =
+                        Modifier.testTag("enabled").semantics { contentDescription = enabledLabel },
+                )
+                Text(
+                    enabledLabel,
+                    modifier = Modifier.padding(horizontal = 12.dp).clearAndSetSemantics {},
+                )
+            }
+            CompareSetupMenu(
+                onPreview = previewCopy,
+                onCopy = { direction ->
+                    val result = previewCopy(direction)
+                    result.state?.let { newState ->
+                        useInitialSetup = false
+                        if (direction == CopySetupDirection.LEFT_TO_RIGHT) rightState = newState
+                        else leftState = newState
+                        copiedDirection = direction
+                        iconSkipped = result.iconSkipped
+                    }
+                },
             )
-            Text(
-                enabledLabel,
-                modifier = Modifier.padding(horizontal = 12.dp).clearAndSetSemantics {},
-            )
-            Spacer(Modifier.weight(1f))
-            TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) {
+            TextButton(
+                onClick = {
+                    clearEntryAndResult()
+                    reset++
+                },
+                modifier = Modifier.testTag("reset"),
+            ) {
                 Text(stringResource(R.string.reset))
+            }
+        }
+        copiedDirection?.let { direction ->
+            Text(
+                stringResource(
+                    R.string.copy_setup_done,
+                    stringResource(
+                        if (direction == CopySetupDirection.LEFT_TO_RIGHT) R.string.right_ui
+                        else R.string.left_ui
+                    ),
+                ),
+                modifier = Modifier.testTag("copy_setup_result"),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            if (iconSkipped) {
+                Text(
+                    stringResource(R.string.copy_setup_icon_skipped),
+                    modifier = Modifier.testTag("copy_setup_icon_skipped"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
         }
         BoxWithConstraints(Modifier.fillMaxWidth()) {
@@ -87,7 +180,7 @@ fun CompareScreen(
                     SamplePanel(
                         "LEFT",
                         left,
-                        onLeftChange,
+                        changeLeft,
                         component,
                         enabled,
                         reset,
@@ -98,7 +191,7 @@ fun CompareScreen(
                     SamplePanel(
                         "RIGHT",
                         right,
-                        onRightChange,
+                        changeRight,
                         component,
                         enabled,
                         reset,
@@ -112,7 +205,7 @@ fun CompareScreen(
                     SamplePanel(
                         "LEFT",
                         left,
-                        onLeftChange,
+                        changeLeft,
                         component,
                         enabled,
                         reset,
@@ -122,7 +215,7 @@ fun CompareScreen(
                     SamplePanel(
                         "RIGHT",
                         right,
-                        onRightChange,
+                        changeRight,
                         component,
                         enabled,
                         reset,

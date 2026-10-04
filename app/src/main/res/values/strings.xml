@@ -300,4 +300,13 @@
     <string name="menu_disabled_choice">Disabled option</string>
     <string name="status_menu">Choice: %1$s · Last action: %2$s</string>
     <string name="menu_sample_note">Selecting an option closes this sample menu. The disabled option cannot be selected.</string>
+    <string name="copy_inputs">Copy inputs</string>
+    <string name="copy_setup_direction">Copy %1$s → %2$s</string>
+    <string name="copy_setup_note">Copies input values and starts a new target sample.</string>
+    <string name="copy_setup_done">Inputs copied to %1$s. Started a new sample.</string>
+    <string name="copy_setup_source_unsupported">The source provider does not support this sample.</string>
+    <string name="copy_setup_target_unsupported">The target provider does not support this sample.</string>
+    <string name="copy_setup_no_inputs">This sample has no inputs to copy.</string>
+    <string name="copy_setup_icon_incompatible">This icon is unavailable in the target provider.</string>
+    <string name="copy_setup_icon_skipped">The target icon was kept because the source icon is unavailable.</string>
 </resources>

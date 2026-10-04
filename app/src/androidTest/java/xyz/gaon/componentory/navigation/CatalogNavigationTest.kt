@@ -101,7 +101,7 @@ class CatalogNavigationTest {
     }
 
     @Test
-    fun detailTransfersItsComponentAndFamilyToComparison() {
+    fun detailTransfersItsComponentProviderAndCurrentInputToComparison() {
         compose.onNodeWithTag("nav_compare").performClick()
         onView(withId(R.id.sample_left)).perform(click())
         compose.onNodeWithTag("nav_list").performClick()
@@ -114,12 +114,12 @@ class CatalogNavigationTest {
         compose.onNodeWithTag("nav_compare").assertIsSelected()
         compose.onNodeWithTag("component_picker").assertTextEquals("Checkbox")
         compose.onNodeWithTag("source_LEFT").assertTextEquals("androidx.compose.material3.Checkbox")
-        compose.onNodeWithTag("status_LEFT").assertTextEquals("Unchecked")
+        compose.onNodeWithTag("status_LEFT").assertTextEquals("Checked")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Unchecked")
         compose.onNodeWithTag("library_LEFT").performClick()
         compose.onNodeWithTag("nav_settings").performClick()
         compose.onNodeWithTag("nav_compare").performClick()
-        compose.onNodeWithTag("status_LEFT").assertTextEquals("Checked")
+        compose.onNodeWithTag("status_LEFT").assertTextEquals("Unchecked")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Unchecked")
         pressBack()
         compose.onNodeWithTag("detail_screen").assertExists()

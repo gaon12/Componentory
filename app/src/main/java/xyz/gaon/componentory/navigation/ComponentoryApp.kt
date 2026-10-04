@@ -25,6 +25,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -45,6 +47,7 @@ import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.ComponentDetailScreen
 import xyz.gaon.componentory.catalog.ComponentListScreen
 import xyz.gaon.componentory.compare.CompareScreen
+import xyz.gaon.componentory.compare.ComparisonEntry
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.settings.AppAppearance
@@ -107,6 +110,12 @@ private fun ComponentoryNavigation(
     var comparison by rememberSaveable { mutableStateOf(LabComponent.BUTTON) }
     var left by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
     var right by rememberSaveable { mutableStateOf(DesignFamily.HOLO) }
+    var comparisonEntry by
+        rememberSaveable(stateSaver = ComparisonEntry.Saver) {
+            mutableStateOf<ComparisonEntry?>(null)
+        }
+    var comparisonGeneration by rememberSaveable { mutableIntStateOf(0) }
+    var detailExporter by remember { mutableStateOf<(() -> ComparisonEntry)?>(null) }
     val savedScreens = rememberSaveableStateHolder()
     val inDetail = tab == AppTab.LIST && detail != null
 
@@ -143,6 +152,17 @@ private fun ComponentoryNavigation(
                     if (inDetail) {
                         TextButton(
                             onClick = {
+                                val entry = detailExporter?.invoke()
+                                if (
+                                    entry == null ||
+                                        entry.setup.component != detail ||
+                                        entry.setup.sourceFamily != detailFamily
+                                ) {
+                                    return@TextButton
+                                }
+                                comparisonEntry = entry
+                                comparisonGeneration++
+                                savedScreens.removeState(AppTab.COMPARE.name)
                                 comparison = requireNotNull(detail)
                                 left = detailFamily
                                 if (right == left) {
@@ -153,6 +173,7 @@ private fun ComponentoryNavigation(
                                 tab = AppTab.COMPARE
                             },
                             modifier = Modifier.testTag("detail_compare"),
+                            enabled = detailExporter != null,
                         ) {
                             Text(stringResource(R.string.compare_action))
                         }
@@ -220,19 +241,23 @@ private fun ComponentoryNavigation(
                                         detailProviders =
                                             detailProviders + (selected.name to family.name)
                                     },
+                                    onCompareExporterChange = { detailExporter = it },
                                 )
                             }
                         }
                     }
                     AppTab.COMPARE ->
-                        CompareScreen(
-                            comparison,
-                            { comparison = it },
-                            left,
-                            { left = it },
-                            right,
-                            { right = it },
-                        )
+                        key(comparisonGeneration) {
+                            CompareScreen(
+                                comparison,
+                                { comparison = it },
+                                left,
+                                { left = it },
+                                right,
+                                { right = it },
+                                initialEntry = comparisonEntry,
+                            )
+                        }
                     AppTab.SETTINGS ->
                         SettingsScreen(appearance, onAppearanceChange, language, onLanguageChange)
                 }

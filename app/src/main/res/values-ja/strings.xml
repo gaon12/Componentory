@@ -297,4 +297,13 @@
     <string name="menu_disabled_choice">無効な項目</string>
     <string name="status_menu">選択項目: %1$s · 最後の操作: %2$s</string>
     <string name="menu_sample_note">項目を選択するとこのサンプルメニューが閉じます。無効な項目は選択できません。</string>
+    <string name="copy_inputs">入力をコピー</string>
+    <string name="copy_setup_direction">%1$s → %2$s に入力をコピー</string>
+    <string name="copy_setup_note">入力値をコピーし、コピー先で新しい体験を開始します。</string>
+    <string name="copy_setup_done">%1$s に入力をコピーし、新しい体験を開始しました。</string>
+    <string name="copy_setup_source_unsupported">コピー元の提供元はこの体験をサポートしていません。</string>
+    <string name="copy_setup_target_unsupported">コピー先の提供元はこの体験をサポートしていません。</string>
+    <string name="copy_setup_no_inputs">この体験にはコピーできる入力がありません。</string>
+    <string name="copy_setup_icon_incompatible">コピー先の提供元ではこのアイコンを使用できません。</string>
+    <string name="copy_setup_icon_skipped">コピー元のアイコンを使用できないため、コピー先のアイコンを保持しました。</string>
 </resources>

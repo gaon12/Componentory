@@ -15,13 +15,17 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -29,6 +33,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.compare.ComparisonEntry
+import xyz.gaon.componentory.compare.captureSampleSetup
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
@@ -39,10 +45,30 @@ fun ComponentDetailScreen(
     component: LabComponent,
     family: DesignFamily,
     onFamilyChange: (DesignFamily) -> Unit,
+    onCompareExporterChange: ((() -> ComparisonEntry)?) -> Unit = {},
 ) {
     var enabled by rememberSaveable(component) { mutableStateOf(true) }
     var reset by rememberSaveable(component) { mutableIntStateOf(0) }
     val state = rememberSampleState("DETAIL", family, component, reset)
+    val currentContext by rememberUpdatedState(LocalContext.current)
+    val currentState by rememberUpdatedState(state)
+    val currentFamily by rememberUpdatedState(family)
+    val currentEnabled by rememberUpdatedState(enabled)
+    val currentExporterChange by rememberUpdatedState(onCompareExporterChange)
+    // Read the live inputs only when the toolbar action runs, rather than saving every edit.
+    val exporter =
+        remember(component) {
+            {
+                ComparisonEntry(
+                    captureSampleSetup(currentContext, component, currentFamily, currentState),
+                    currentEnabled,
+                )
+            }
+        }
+    DisposableEffect(exporter) {
+        currentExporterChange(exporter)
+        onDispose { currentExporterChange(null) }
+    }
     val enabledLabel = stringResource(R.string.enabled)
     Column(
         Modifier.widthIn(max = 760.dp)

@@ -1,6 +1,7 @@
 package xyz.gaon.componentory.lab
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -18,10 +19,19 @@ internal fun rememberSampleState(
     family: DesignFamily,
     component: LabComponent,
     reset: Int,
-): SampleState =
+): SampleState = rememberSampleStateSlot(panel, family, component, reset).value
+
+@Composable
+internal fun rememberSampleStateSlot(
+    panel: String,
+    family: DesignFamily,
+    component: LabComponent,
+    reset: Int,
+    initialState: () -> SampleState = { SampleState(component.initialValue) },
+): MutableState<SampleState> =
     // Equal providers must not let adjacent panels exchange their remembered state.
     key(panel, family, component, reset) {
-        rememberSaveable(saver = SampleState.Saver) { SampleState(component.initialValue) }
+        rememberSaveable(stateSaver = SampleState.Saver) { mutableStateOf(initialState()) }
     }
 
 @Stable

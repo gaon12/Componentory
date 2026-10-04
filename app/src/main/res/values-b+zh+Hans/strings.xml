@@ -297,4 +297,13 @@
     <string name="menu_disabled_choice">禁用选项</string>
     <string name="status_menu">所选项: %1$s · 上次操作: %2$s</string>
     <string name="menu_sample_note">选择选项会关闭此示例菜单。禁用选项无法选择。</string>
+    <string name="copy_inputs">复制输入</string>
+    <string name="copy_setup_direction">复制 %1$s → %2$s 的输入</string>
+    <string name="copy_setup_note">复制输入值，并在目标侧开始新的体验。</string>
+    <string name="copy_setup_done">已将输入复制到 %1$s，并开始新的体验。</string>
+    <string name="copy_setup_source_unsupported">来源提供方不支持此体验。</string>
+    <string name="copy_setup_target_unsupported">目标提供方不支持此体验。</string>
+    <string name="copy_setup_no_inputs">此体验没有可复制的输入。</string>
+    <string name="copy_setup_icon_incompatible">目标提供方无法使用此图标。</string>
+    <string name="copy_setup_icon_skipped">由于来源图标不可用，已保留目标图标。</string>
 </resources>

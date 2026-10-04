@@ -297,4 +297,13 @@
     <string name="menu_disabled_choice">비활성 항목</string>
     <string name="status_menu">선택 항목: %1$s · 마지막 동작: %2$s</string>
     <string name="menu_sample_note">항목을 선택하면 이 샘플 메뉴가 닫힙니다. 비활성 항목은 선택할 수 없습니다.</string>
+    <string name="copy_inputs">입력 복사</string>
+    <string name="copy_setup_direction">%1$s → %2$s 입력 복사</string>
+    <string name="copy_setup_note">입력 값을 복사해 대상 체험을 새로 시작합니다.</string>
+    <string name="copy_setup_done">%1$s에 입력을 복사하고 새 체험을 시작했습니다.</string>
+    <string name="copy_setup_source_unsupported">원본 제공자는 이 체험을 지원하지 않습니다.</string>
+    <string name="copy_setup_target_unsupported">대상 제공자는 이 체험을 지원하지 않습니다.</string>
+    <string name="copy_setup_no_inputs">이 체험에는 복사할 입력이 없습니다.</string>
+    <string name="copy_setup_icon_incompatible">대상 제공자에서 이 아이콘을 사용할 수 없습니다.</string>
+    <string name="copy_setup_icon_skipped">원본 아이콘을 사용할 수 없어 대상 아이콘을 유지했습니다.</string>
 </resources>
