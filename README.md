@@ -95,12 +95,12 @@ Use `-SkipBuild` only when both APKs already match the current source.
 Pass `-TestClass 'package.TestClass'` to run a focused class, or
 `-TestClass 'package.TestClass#method'` to run one method. Omit it for the full suite.
 
-The resource-only `IconCatalogResourceTest` can run with `-NoUi` while the screen
-is locked. Select that exact class or one of its methods explicitly. This mode
-loads catalogs and checks identities, availability, and selection without an
-Activity or input. It leaves animation settings unchanged. Other test classes
-still require the normal unlocked-screen path. Resource checks do not verify
-icon rendering, touch behavior, or historical appearance.
+The resource-only `IconCatalogResourceTest` and `ComponentInventoryResourceTest`
+can run with `-NoUi` while the screen is locked. Select one exact class or one
+of its methods explicitly. These checks load catalogs and verify resource data
+without an Activity or input. This mode leaves animation settings unchanged.
+Other test classes still require the normal unlocked-screen path. Resource checks
+do not verify rendering, navigation, touch behavior, or historical appearance.
 
 Each executed run has its own `.local/device-runs/<run ID>/` directory with
 `instrumentation.txt` and `manifest.json`, outside Git. The manifest records the

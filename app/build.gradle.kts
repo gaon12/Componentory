@@ -132,9 +132,35 @@ val generateIconCatalog =
         outputDirectory.set(layout.buildDirectory.dir("generated/iconCatalog"))
     }
 
+abstract class PackageComponentInventory : DefaultTask() {
+    @get:InputFile
+    @get:PathSensitive(PathSensitivity.NONE)
+    abstract val sourceFile: RegularFileProperty
+
+    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun packageInventory() {
+        // Keep planned discovery tied to the same audited file as the coverage checks.
+        val destination = outputDirectory.file("component-inventory.csv").get().asFile
+        destination.parentFile.mkdirs()
+        sourceFile.get().asFile.copyTo(destination, overwrite = true)
+    }
+}
+
+val packageComponentInventory =
+    tasks.register<PackageComponentInventory>("packageComponentInventory") {
+        sourceFile.set(rootProject.layout.projectDirectory.file("docs/component-inventory.csv"))
+        outputDirectory.set(layout.buildDirectory.dir("generated/componentInventory"))
+    }
+
 androidComponents.onVariants { variant ->
     variant.sources.assets?.addGeneratedSourceDirectory(
         generateIconCatalog,
         GenerateIconCatalog::outputDirectory,
+    )
+    variant.sources.assets?.addGeneratedSourceDirectory(
+        packageComponentInventory,
+        PackageComponentInventory::outputDirectory,
     )
 }
