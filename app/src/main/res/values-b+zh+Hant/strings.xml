@@ -29,12 +29,12 @@
     <string name="category_picker">選擇器</string>
     <string name="category_selection">選取</string>
     <string name="choose_icon">選擇圖示：%1$s</string>
-    <string name="choose_ui_version">選擇 UI 版本</string>
+    <string name="choose_ui_provider">選擇主題或函式庫</string>
     <string name="clear_search">清除搜尋</string>
     <string name="close">關閉</string>
     <string name="compare_action">比較</string>
     <string name="compare_component_title">選擇要比較的元件</string>
-    <string name="compare_intro">同一元件，不同 UI。在 Android %1$s 上體驗並比較。</string>
+    <string name="compare_intro">在 Android %1$s 上比較主題與函式庫。</string>
     <string name="component_assist_chip">輔助標籤塊</string>
     <string name="component_assist_chip_description">點擊標籤塊執行常用操作。</string>
     <string name="component_autocomplete">自動完成</string>
@@ -174,7 +174,8 @@
     <string name="progress_note">唯讀指示器；此函式庫未提供停用外觀。</string>
     <string name="reset">重設</string>
     <string name="right_ui">右側 UI</string>
-    <string name="runtime_sample_note">執行於 Android %1$s · 所有範例均使用淺色主題</string>
+    <string name="runtime_sample_note">範例在 Android %1$s 上以淺色主題執行。選擇主題或函式庫不會變更作業系統。</string>
+    <string name="sample_available">範例可用</string>
     <string name="runtime_title">執行環境</string>
     <string name="sample_action">操作</string>
     <string name="sample_button">點一下試試</string>
@@ -216,7 +217,7 @@
     <string name="style_sharp">銳角</string>
     <string name="style_two_tone">雙色調</string>
     <string name="target_sdk_detail">目標 SDK：%1$d</string>
-    <string name="theme_origin">源自 %1$s 的主題</string>
+    <string name="theme_origin">於 %1$s 引入的主題</string>
     <string name="ui_libraries">UI 函式庫</string>
     <string name="unsupported">不支援</string>
     <string name="unsupported_api">需要 Android API %1$d 或更新版本。此裝置執行 API %2$d。</string>

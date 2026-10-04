@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
@@ -97,13 +98,34 @@ fun SamplePanel(
                     modifier = Modifier.semantics { testTagsAsResourceId = true },
                 ) {
                     DesignFamily.entries.forEach { option ->
+                        val available =
+                            option.unsupportedReason(component, Build.VERSION.SDK_INT) == null
                         DropdownMenuItem(
-                            text = { Text(option.selectionLabel) },
+                            text = {
+                                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                    Text(option.selectionLabel)
+                                    Text(
+                                        stringResource(
+                                            if (available) R.string.sample_available
+                                            else R.string.unsupported
+                                        ),
+                                        modifier =
+                                            Modifier.testTag(
+                                                "provider_availability_${panel}_${option.name}"
+                                            ),
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
+                            },
                             onClick = {
                                 onFamilyChange(option)
                                 menuOpen = false
                             },
-                            modifier = Modifier.testTag("family_${panel}_${option.name}"),
+                            modifier =
+                                Modifier.testTag("family_${panel}_${option.name}").semantics {
+                                    selected = option == family
+                                },
                         )
                     }
                 }

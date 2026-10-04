@@ -63,6 +63,12 @@ fun ComponentDetailScreen(
                 Text(stringResource(R.string.reset))
             }
         }
+        Text(
+            stringResource(R.string.runtime_sample_note, Build.VERSION.RELEASE),
+            modifier = Modifier.testTag("runtime_sample"),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         SamplePanel(
             "LEFT",
             family,
@@ -71,12 +77,7 @@ fun ComponentDetailScreen(
             enabled,
             reset,
             state,
-            title = stringResource(R.string.choose_ui_version),
-        )
-        Text(
-            stringResource(R.string.runtime_sample_note, Build.VERSION.RELEASE),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            title = stringResource(R.string.choose_ui_provider),
         )
     }
 }

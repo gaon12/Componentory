@@ -29,12 +29,12 @@
     <string name="category_picker">ピッカー</string>
     <string name="category_selection">選択</string>
     <string name="choose_icon">アイコンを選択: %1$s</string>
-    <string name="choose_ui_version">UI バージョンを選択</string>
+    <string name="choose_ui_provider">テーマ・ライブラリを選択</string>
     <string name="clear_search">検索をクリア</string>
     <string name="close">閉じる</string>
     <string name="compare_action">比較する</string>
     <string name="compare_component_title">比較するコンポーネント</string>
-    <string name="compare_intro">同じコンポーネントを異なる UI で比較。Android %1$s で操作できます。</string>
+    <string name="compare_intro">Android %1$s でテーマやライブラリを比較できます。</string>
     <string name="component_assist_chip">アシストチップ</string>
     <string name="component_assist_chip_description">チップを押してよく使う操作を実行します。</string>
     <string name="component_autocomplete">自動補完</string>
@@ -174,7 +174,8 @@
     <string name="progress_note">読み取り専用の表示です。このライブラリには無効時の表示がありません。</string>
     <string name="reset">リセット</string>
     <string name="right_ui">右の UI</string>
-    <string name="runtime_sample_note">Android %1$s で実行中 · すべてのサンプルはライトテーマ</string>
+    <string name="runtime_sample_note">Android %1$s でライトテーマのサンプルを実行します。テーマやライブラリを選んでも OS は変わりません。</string>
+    <string name="sample_available">サンプルあり</string>
     <string name="runtime_title">実行環境</string>
     <string name="sample_action">アクション</string>
     <string name="sample_button">押してください</string>

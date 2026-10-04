@@ -29,12 +29,12 @@
     <string name="category_picker">选择器</string>
     <string name="category_selection">选择</string>
     <string name="choose_icon">选择图标：%1$s</string>
-    <string name="choose_ui_version">选择 UI 版本</string>
+    <string name="choose_ui_provider">选择主题或库</string>
     <string name="clear_search">清空搜索</string>
     <string name="close">关闭</string>
     <string name="compare_action">比较</string>
     <string name="compare_component_title">选择要比较的组件</string>
-    <string name="compare_intro">同一组件，不同 UI。在 Android %1$s 上体验并比较。</string>
+    <string name="compare_intro">在 Android %1$s 上比较主题和库。</string>
     <string name="component_assist_chip">辅助条目块</string>
     <string name="component_assist_chip_description">点击条目块执行常用操作。</string>
     <string name="component_autocomplete">自动补全</string>
@@ -174,7 +174,8 @@
     <string name="progress_note">只读指示器；此库未提供禁用外观。</string>
     <string name="reset">重置</string>
     <string name="right_ui">右侧 UI</string>
-    <string name="runtime_sample_note">运行于 Android %1$s · 所有示例均使用浅色主题</string>
+    <string name="runtime_sample_note">示例在 Android %1$s 上以浅色主题运行。选择主题或库不会更改系统。</string>
+    <string name="sample_available">示例可用</string>
     <string name="runtime_title">运行环境</string>
     <string name="sample_action">操作</string>
     <string name="sample_button">点击试试</string>
@@ -216,7 +217,7 @@
     <string name="style_sharp">尖角</string>
     <string name="style_two_tone">双色调</string>
     <string name="target_sdk_detail">目标 SDK：%1$d</string>
-    <string name="theme_origin">源自 %1$s 的主题</string>
+    <string name="theme_origin">在 %1$s 中引入的主题</string>
     <string name="ui_libraries">UI 库</string>
     <string name="unsupported">不支持</string>
     <string name="unsupported_api">需要 Android API %1$d 或更高版本。此设备运行 API %2$d。</string>

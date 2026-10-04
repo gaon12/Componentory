@@ -30,12 +30,12 @@
     <string name="category_picker">Pickers</string>
     <string name="category_selection">Selection</string>
     <string name="choose_icon">Choose icon: %1$s</string>
-    <string name="choose_ui_version">Choose a UI version</string>
+    <string name="choose_ui_provider">Choose a theme or library</string>
     <string name="clear_search">Clear search</string>
     <string name="close">Close</string>
     <string name="compare_action">Compare</string>
     <string name="compare_component_title">Choose a component to compare</string>
-    <string name="compare_intro">Same component, different UI. Try both on Android %1$s.</string>
+    <string name="compare_intro">Compare themes and libraries on Android %1$s.</string>
     <string name="component_assist_chip">Assist chip</string>
     <string name="component_assist_chip_description">Tap a chip to perform a common action.</string>
     <string name="component_autocomplete">Autocomplete</string>
@@ -176,7 +176,8 @@
     <string name="progress_note">Read-only indicator; this library provides no disabled appearance.</string>
     <string name="reset">Reset</string>
     <string name="right_ui">Right UI</string>
-    <string name="runtime_sample_note">Running on Android %1$s · All samples use a light theme</string>
+    <string name="runtime_sample_note">Samples run on Android %1$s with light themes. Theme or library selection does not change the OS.</string>
+    <string name="sample_available">Sample available</string>
     <string name="runtime_title">Runtime environment</string>
     <string name="sample_action">Action</string>
     <string name="sample_button">Tap me</string>
@@ -218,7 +219,7 @@
     <string name="style_sharp">Sharp</string>
     <string name="style_two_tone">Two tone</string>
     <string name="target_sdk_detail">Target SDK: %1$d</string>
-    <string name="theme_origin">Theme from %1$s</string>
+    <string name="theme_origin">Theme introduced in %1$s</string>
     <string name="ui_libraries">UI libraries</string>
     <string name="unsupported">Not supported</string>
     <string name="unsupported_api">Requires Android API %1$d or later. This device runs API %2$d.</string>

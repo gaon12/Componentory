@@ -29,12 +29,12 @@
     <string name="category_picker">피커</string>
     <string name="category_selection">선택</string>
     <string name="choose_icon">아이콘 선택: %1$s</string>
-    <string name="choose_ui_version">UI 버전 선택</string>
+    <string name="choose_ui_provider">테마·라이브러리 선택</string>
     <string name="clear_search">검색어 지우기</string>
     <string name="close">닫기</string>
     <string name="compare_action">비교하기</string>
     <string name="compare_component_title">비교할 컴포넌트</string>
-    <string name="compare_intro">같은 컴포넌트, 다른 UI. Android %1$s에서 직접 비교하세요.</string>
+    <string name="compare_intro">Android %1$s에서 테마·라이브러리를 비교하세요.</string>
     <string name="component_assist_chip">작업 칩</string>
     <string name="component_assist_chip_description">관련 동작을 실행하는 칩</string>
     <string name="component_autocomplete">자동완성</string>
@@ -174,7 +174,8 @@
     <string name="progress_note">읽기 전용 표시입니다. 이 라이브러리는 비활성 스타일을 제공하지 않습니다.</string>
     <string name="reset">초기화</string>
     <string name="right_ui">오른쪽 UI</string>
-    <string name="runtime_sample_note">현재 Android %1$s에서 실행 중 · 모든 샘플은 밝은 테마</string>
+    <string name="runtime_sample_note">Android %1$s에서 밝은 테마로 실행합니다. 테마·라이브러리 선택은 OS를 바꾸지 않습니다.</string>
+    <string name="sample_available">체험 가능</string>
     <string name="runtime_title">실행 환경</string>
     <string name="sample_action">동작</string>
     <string name="sample_button">눌러 보세요</string>
