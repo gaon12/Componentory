@@ -9,6 +9,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $projectDirectory = Split-Path -Parent $PSScriptRoot
 $originalAnimationSettings = [ordered]@{}
+$testEvidence = $null
+. (Join-Path $PSScriptRoot 'test-evidence.ps1')
 Push-Location $projectDirectory
 
 try {
@@ -78,6 +80,56 @@ try {
     }
     # Keep a recovery record if the host process is forcibly terminated.
     $originalAnimationSettings | ConvertTo-Json | Set-Content -LiteralPath '.local/device-animation-settings.json' -Encoding utf8
+
+    # Keep the source, installed APK identities, and environment with each result.
+    $sourceRevision = ((& git rev-parse HEAD) -join '').Trim()
+    if ($LASTEXITCODE -ne 0) { throw 'Could not read the source revision.' }
+    $sourceChanges = @(& git status --porcelain)
+    if ($LASTEXITCODE -ne 0) { throw 'Could not read the working tree state.' }
+    $apkIdentities = foreach ($apk in @('app/build/outputs/apk/debug/app-debug.apk', 'app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk')) {
+        [ordered]@{ path = $apk; sha256 = (Get-FileHash -LiteralPath $apk -Algorithm SHA256).Hash.ToLowerInvariant() }
+    }
+    $deviceProperties = [ordered]@{}
+    foreach ($property in @('ro.product.manufacturer', 'ro.product.model', 'ro.product.device', 'ro.build.version.release', 'ro.build.version.sdk', 'ro.build.id', 'ro.build.fingerprint', 'persist.sys.locale')) {
+        $value = & $AdbPath -s $Device shell getprop $property
+        if ($LASTEXITCODE -ne 0) { throw "Could not read device property $property." }
+        $deviceProperties[$property] = ($value -join '').Trim()
+    }
+    $providerVersions = [ordered]@{}
+    $versionCatalog = Get-Content -LiteralPath 'gradle/libs.versions.toml' -Raw
+    foreach ($dependency in @('composeMaterial2', 'composeMaterial3', 'composeMaterialIcons')) {
+        $version = [regex]::Match($versionCatalog, '(?m)^' + $dependency + '\s*=\s*"([^"]+)"\s*$')
+        $providerVersions[$dependency] = if ($version.Success) { $version.Groups[1].Value } else { $null }
+    }
+    $testEvidence = New-DeviceTestEvidence -Directory '.local/device-runs' -Metadata ([ordered]@{
+        source = [ordered]@{ revision = $sourceRevision; dirty = ($sourceChanges.Count -gt 0); changes = $sourceChanges }
+        apkIdentities = @($apkIdentities)
+        device = $Device
+        deviceProperties = $deviceProperties
+        displaySize = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('wm', 'size')
+        displayDensity = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('wm', 'density')
+        fontScale = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('settings', 'get', 'system', 'font_scale')
+        logicalDisplayBeforeTests = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('dumpsys', 'display') -LinePattern '^\s*m(?:Base|Override)DisplayInfo=DisplayInfo.*displayId 0,'
+        windowStateBeforeTests = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('dumpsys', 'window', 'displays') -LinePattern 'cur=|app=|mRotation=|mCurrentFocus|mFocusedApp'
+        installedAppIdentity = Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('dumpsys', 'package', 'xyz.gaon.componentory') -LinePattern 'versionCode=|versionName='
+        appLocaleBeforeTests = if ([int]$deviceProperties['ro.build.version.sdk'] -ge 33) {
+            Read-DeviceTestSnapshot -AdbPath $AdbPath -Device $Device -Arguments @('cmd', 'locale', 'get-app-locales', 'xyz.gaon.componentory')
+        } else { [ordered]@{ available = $false; value = $null; nativeExitCode = $null; error = 'LocaleManager unavailable below API 33.' } }
+        pinnedSourceProviderVersions = $providerVersions
+        sampleThemeConfiguration = [ordered]@{
+            CLASSIC = 'android:Theme.Light'
+            HOLO = 'android:Theme.Holo.Light'
+            MATERIAL = 'android:Theme.Material.Light'
+            MATERIAL2 = 'lightColors'
+            MATERIAL3 = 'lightColorScheme'
+        }
+        testScope = if ($TestClass) { $TestClass } else { 'All instrumentation tests' }
+        skippedBuild = [bool]$SkipBuild
+        originalAnimations = $originalAnimationSettings
+        requestedTestAnimations = 0
+        perTestOverride = 'NativeProgressIndicatorsTest uses animator scale 1.0 when included.'
+        captures = @()
+    })
     foreach ($setting in $originalAnimationSettings.Keys) {
         & $AdbPath -s $Device shell settings put global $setting 0
         if ($LASTEXITCODE -ne 0) { throw "Could not disable $setting for testing." }
@@ -88,12 +140,21 @@ try {
     $testOutput = & $AdbPath @instrumentationArguments 2>&1
     $testExitCode = $LASTEXITCODE
     $testOutput | Set-Content -LiteralPath '.local/device-tests.txt' -Encoding utf8
-    $report = $testOutput -join "`n"
+    $passed = Complete-DeviceTestEvidence -Evidence $testEvidence -Output $testOutput -ExitCode $testExitCode
     $testOutput | Where-Object { $_ -match '^INSTRUMENTATION_STATUS: test=|^Time:|^OK \(|^Tests run:|^FAILURES!!!|^INSTRUMENTATION_FAILED|^INSTRUMENTATION_RESULT: shortMsg=' }
     # ADB can exit successfully even when the instrumentation reports failed tests.
-    if ($testExitCode -ne 0 -or $report -notmatch 'OK \([1-9][0-9]* tests?\)' -or $report -match 'FAILURES!!!|INSTRUMENTATION_FAILED|INSTRUMENTATION_ABORTED|shortMsg=') {
-        throw 'Device tests did not pass. See .local/device-tests.txt.'
+    Write-Output "Saved test evidence: $($testEvidence.Directory)"
+    if (-not $passed) {
+        throw "Device tests did not pass. See $($testEvidence.Directory)/instrumentation.txt."
     }
+}
+catch {
+    if ($testEvidence -and $testEvidence.Manifest['status'] -eq 'running') {
+        $testEvidence.Manifest['status'] = 'failed'
+        $testEvidence.Manifest['finishedAtUtc'] = [DateTime]::UtcNow.ToString('o')
+        $testEvidence.Manifest['result'] = [ordered]@{ error = $_.Exception.Message }
+    }
+    throw
 }
 finally {
     foreach ($setting in $originalAnimationSettings.Keys) {
@@ -105,8 +166,10 @@ finally {
             & $AdbPath -s $Device shell settings put global $setting $value
         }
         if ($LASTEXITCODE -ne 0) {
+            if ($testEvidence) { $testEvidence.Manifest['restorationErrors'] += $setting }
             Write-Warning "Could not restore $setting. Original values are in .local/device-animation-settings.json."
         }
     }
+    if ($testEvidence) { Save-DeviceTestEvidence -Evidence $testEvidence }
     Pop-Location
 }

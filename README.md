@@ -95,10 +95,21 @@ Use `-SkipBuild` only when both APKs already match the current source.
 Pass `-TestClass 'package.TestClass'` to run a focused class, or
 `-TestClass 'package.TestClass#method'` to run one method. Omit it for the full suite.
 
-The instrumentation report is written to `.local/device-tests.txt`, outside Git.
-The script requires a successful test summary; an ADB exit code alone is not
-enough. Selecting a legacy theme is a current-device experiment. Exact historical
-OS appearance and behavior require running on that historical OS.
+Each executed run has its own `.local/device-runs/<run ID>/` directory with
+`instrumentation.txt` and `manifest.json`, outside Git. The manifest records the
+Git revision and dirty paths, APK hashes, exact test scope, device build, display
+and window state before testing, app locale, source-pinned library versions, and
+animation settings. Missing metadata and setting restoration errors are explicit.
+The themes listed in the manifest describe sample configuration; they do not
+prove that every provider was exercised by the selected tests. Tests that change
+their own window or settings still need their individual scenario descriptions.
+The latest report is also copied to `.local/device-tests.txt` for convenience.
+
+Run `.\scripts\test-evidence-tests.ps1` to check evidence storage and result
+handling with fixtures. These checks do not operate the device. The script
+requires a successful test summary; an ADB exit code alone is not enough.
+Selecting a legacy theme is a current-device experiment. Exact historical OS
+appearance and behavior require running on that historical OS.
 
 ## License
 
