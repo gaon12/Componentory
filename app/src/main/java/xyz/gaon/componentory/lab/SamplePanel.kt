@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -56,6 +57,7 @@ fun SamplePanel(
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val locale = LocalConfiguration.current.locales[0]
     val platform = family.platform
     val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT, context)
     val icon =
@@ -218,7 +220,14 @@ fun SamplePanel(
                 Text(
                     if (component == LabComponent.ICON)
                         stringResource(R.string.icon_status, requireNotNull(icon).name)
-                    else component.feedback(context, state.value, state.text, state.rangeEnd),
+                    else
+                        component.feedback(
+                            context,
+                            state.value,
+                            state.text,
+                            state.rangeEnd,
+                            state.dateUtcMillis,
+                        ),
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -265,6 +274,15 @@ fun SamplePanel(
             if (component.isSecureInput && unsupported == null) {
                 Text(
                     stringResource(R.string.secure_note),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            if (component == LabComponent.DATE_PICKER_DIALOG && unsupported == null) {
+                Text(
+                    stringResource(
+                        R.string.date_picker_configuration,
+                        SampleDates.format(SampleDates.INITIAL_UTC_MILLIS, locale),
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }

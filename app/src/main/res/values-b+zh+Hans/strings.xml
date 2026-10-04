@@ -266,4 +266,9 @@
     <string name="planned_unavailable">无法加载待添加示例的 API。</string>
     <string name="planned_api_introduced">在 API %1$d 中引入</string>
     <string name="planned_view_matches">查看匹配的待添加示例 API（%1$d 项）</string>
+    <string name="component_date_picker_dialog">日期选择对话框</string>
+    <string name="component_date_picker_dialog_description">打开所选主题或库提供的日期选择对话框。</string>
+    <string name="open_date_picker">选择日期</string>
+    <string name="status_date_action">日期: %1$s · 上次操作: %2$s</string>
+    <string name="date_picker_configuration">示例的初始日期: %1$s。确认会应用日期，取消或返回会保留原来的日期。</string>
 </resources>

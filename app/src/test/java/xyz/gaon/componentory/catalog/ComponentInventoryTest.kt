@@ -74,6 +74,9 @@ class ComponentInventoryTest {
                             row.provider == "PLATFORM" && component == LabComponent.RADIO ->
                                 "android.widget.RadioGroup"
                             row.provider == "MATERIAL3" &&
+                                component == LabComponent.DATE_PICKER_DIALOG ->
+                                "androidx.compose.material3.DatePicker"
+                            row.provider == "MATERIAL3" &&
                                 component in
                                     listOf(
                                         LabComponent.SINGLE_SEGMENTED,

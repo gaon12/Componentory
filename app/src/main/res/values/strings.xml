@@ -269,4 +269,9 @@
     <string name="planned_unavailable">Planned APIs could not be loaded.</string>
     <string name="planned_api_introduced">Introduced in API %1$d</string>
     <string name="planned_view_matches">View planned API matches (%1$d)</string>
+    <string name="component_date_picker_dialog">Date picker dialog</string>
+    <string name="component_date_picker_dialog_description">Open a date picker dialog supplied by the selected theme or library.</string>
+    <string name="open_date_picker">Choose date</string>
+    <string name="status_date_action">Date: %1$s · Last action: %2$s</string>
+    <string name="date_picker_configuration">Initial sample date: %1$s. Confirm applies the date; Cancel or Back keeps the previous date.</string>
 </resources>

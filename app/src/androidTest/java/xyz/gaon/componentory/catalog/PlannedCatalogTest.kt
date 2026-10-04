@@ -56,15 +56,15 @@ class PlannedCatalogTest {
     @Test
     fun plannedCountsAndProviderVersionsDescribeSourcesWithoutRunnableRows() {
         mode("PLANNED")
-        count(149)
-        mapOf("PLATFORM" to 56, "MATERIAL2" to 26, "MATERIAL3" to 67).forEach { (family, size) ->
+        count(146)
+        mapOf("PLATFORM" to 55, "MATERIAL2" to 26, "MATERIAL3" to 65).forEach { (family, size) ->
             provider(family)
             count(size)
             compose.onNodeWithTag("planned_provider_$family").assertIsSelected()
         }
-        search("DatePicker")
+        search("TimePicker")
         count(2)
-        val identity = "MATERIAL3_androidx.compose.material3.DatePicker"
+        val identity = "MATERIAL3_androidx.compose.material3.TimePicker"
         showRow(identity)
         compose
             .onNodeWithTag("planned_$identity")
@@ -72,7 +72,7 @@ class PlannedCatalogTest {
             .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Disabled))
         compose
             .onNodeWithTag("source_$identity", useUnmergedTree = true)
-            .assertTextEquals("androidx.compose.material3.DatePicker")
+            .assertTextEquals("androidx.compose.material3.TimePicker")
         compose
             .onNodeWithTag("provider_$identity", useUnmergedTree = true)
             .assertTextEquals("Compose Material 3 · ${BuildConfig.MATERIAL3_VERSION}")
@@ -85,7 +85,7 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("planned_empty").assertIsDisplayed()
         provider("PLATFORM")
         count(2)
-        val framework = "PLATFORM_android.widget.DatePicker"
+        val framework = "PLATFORM_android.widget.TimePicker"
         showRow(framework)
         compose
             .onNodeWithTag("provider_$framework", useUnmergedTree = true)
@@ -107,22 +107,22 @@ class PlannedCatalogTest {
     @Test
     fun missingSampleLinkPreservesQueryAndResetsOnlyThePlannedProvider() {
         mode("PLANNED")
-        count(149)
+        count(146)
         provider("MATERIAL2")
         mode("SAMPLES")
         compose.onNodeWithTag("list_category_SELECTION").performClick()
-        search("DatePicker")
+        search("TimePicker")
         compose.onNodeWithTag("search_empty").assertIsDisplayed()
         compose
             .onNodeWithTag("show_planned_matches")
             .assertTextEquals(compose.activity.getString(R.string.planned_view_matches, 4))
             .performClick()
-        query("DatePicker")
+        query("TimePicker")
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_ALL").assertIsSelected()
         count(4)
         mode("SAMPLES")
-        query("DatePicker")
+        query("TimePicker")
         compose.onNodeWithTag("list_category_SELECTION").assertIsSelected()
         compose.onNodeWithTag("clear_search").performClick()
         compose.onNodeWithTag("list_CHECKBOX").assertIsDisplayed()
@@ -134,7 +134,7 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("component_list").performScrollToNode(hasTestTag("list_DIALOG"))
         compose.onNodeWithTag("list_DIALOG").assertIsDisplayed()
         mode("PLANNED")
-        count(149)
+        count(146)
         provider("MATERIAL3")
         val identity = "MATERIAL3_androidx.compose.material3.TimePicker"
         showRow(identity)
@@ -144,10 +144,10 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.onNodeWithTag("nav_settings").performClick()
         compose.onNodeWithTag("nav_list").performClick()
-        count(67)
+        count(65)
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.activityRule.scenario.recreate()
-        count(67)
+        count(65)
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_MATERIAL3").assertIsSelected()
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
@@ -158,8 +158,8 @@ class PlannedCatalogTest {
     @Test
     fun everyLanguageLocalizesPendingStatusAndCountsWhileKeepingApiNames() {
         mode("PLANNED")
-        count(149)
-        search("DatePicker")
+        count(146)
+        search("TimePicker")
         AppLanguage.entries
             .filter { it != AppLanguage.SYSTEM }
             .forEach { language ->
@@ -169,12 +169,12 @@ class PlannedCatalogTest {
                 compose.waitForIdle()
                 compose.onNodeWithTag("nav_list").performClick()
                 count(4)
-                query("DatePicker")
-                val identity = "PLATFORM_android.widget.DatePicker"
+                query("TimePicker")
+                val identity = "PLATFORM_android.widget.TimePicker"
                 showRow(identity)
                 compose
                     .onNodeWithTag("source_$identity", useUnmergedTree = true)
-                    .assertTextEquals("android.widget.DatePicker")
+                    .assertTextEquals("android.widget.TimePicker")
                 compose
                     .onNodeWithTag("status_$identity", useUnmergedTree = true)
                     .assertTextEquals(compose.activity.getString(R.string.planned_status))
@@ -190,17 +190,17 @@ class PlannedCatalogTest {
             compose.activity.setContent { Box(Modifier.width(360.dp)) { ComponentoryApp() } }
         }
         mode("PLANNED")
-        count(149)
+        count(146)
         compose.onNodeWithTag("catalog_mode_SAMPLES").assertIsDisplayed()
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsDisplayed()
-        search("DatePicker")
+        search("TimePicker")
         provider("MATERIAL3")
         count(2)
-        showRow("MATERIAL3_androidx.compose.material3.DatePickerDialog")
+        showRow("MATERIAL3_androidx.compose.material3.TimePickerDialog")
         compose.onNodeWithTag("nav_compare").performClick()
         compose.onNodeWithTag("nav_list").performClick()
         count(2)
-        query("DatePicker")
+        query("TimePicker")
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
     }
 

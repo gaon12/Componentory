@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,11 +30,15 @@ class SampleState(
     initialText: String = "",
     initialIcon: String = "",
     initialRangeEnd: Int = 80,
+    initialDateUtcMillis: Long = SampleDates.INITIAL_UTC_MILLIS,
+    initialDateDraftUtcMillis: Long? = null,
 ) {
     var value by mutableIntStateOf(initialValue)
     var text by mutableStateOf(initialText)
     var icon by mutableStateOf(initialIcon)
     var rangeEnd by mutableIntStateOf(initialRangeEnd)
+    var dateUtcMillis by mutableLongStateOf(initialDateUtcMillis)
+    var dateDraftUtcMillis by mutableStateOf(initialDateDraftUtcMillis)
 
     val triState: ToggleableState
         get() =
@@ -46,13 +51,24 @@ class SampleState(
     companion object {
         val Saver =
             listSaver<SampleState, Any>(
-                save = { listOf(it.value, it.text, it.icon, it.rangeEnd) },
+                save = {
+                    listOf(
+                        it.value,
+                        it.text,
+                        it.icon,
+                        it.rangeEnd,
+                        it.dateUtcMillis,
+                        it.dateDraftUtcMillis ?: Long.MIN_VALUE,
+                    )
+                },
                 restore = {
                     SampleState(
                         it[0] as Int,
                         it[1] as String,
                         it.getOrNull(2) as? String ?: "",
                         it.getOrNull(3) as? Int ?: 80,
+                        it.getOrNull(4) as? Long ?: SampleDates.INITIAL_UTC_MILLIS,
+                        (it.getOrNull(5) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
                     )
                 },
             )

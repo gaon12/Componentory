@@ -177,6 +177,15 @@ enum class LabComponent(
         minimumApi = 1,
         initialValue = 0,
     ),
+    DATE_PICKER_DIALOG(
+        "Date picker dialog",
+        R.string.component_date_picker_dialog,
+        R.string.component_date_picker_dialog_description,
+        platformSource = "android.app.DatePickerDialog",
+        material2Function = null,
+        material3Function = "DatePickerDialog",
+        category = ComponentCategory.PICKER,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -587,6 +596,7 @@ enum class LabComponent(
         value: Int,
         text: String,
         rangeEnd: Int = 80,
+        dateUtcMillis: Long = SampleDates.INITIAL_UTC_MILLIS,
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
@@ -646,20 +656,24 @@ enum class LabComponent(
             this == NUMBER_PICKER -> context.getString(R.string.status_number, value)
             this == SLIDER || isDeterminateProgress ->
                 context.getString(R.string.status_value, value)
-            this == DIALOG ->
+            this == DATE_PICKER_DIALOG ->
                 context.getString(
-                    R.string.status_action,
-                    context.getString(
-                        when (value) {
-                            1 -> R.string.action_opened
-                            2 -> R.string.action_confirmed
-                            3 -> R.string.action_cancelled
-                            4 -> R.string.action_dismissed
-                            else -> R.string.action_not_opened
-                        }
-                    ),
+                    R.string.status_date_action,
+                    SampleDates.format(dateUtcMillis, context.resources.configuration.locales[0]),
+                    context.getString(dialogAction(value)),
                 )
+            this == DIALOG ->
+                context.getString(R.string.status_action, context.getString(dialogAction(value)))
             else -> context.getString(R.string.status_clicks, value)
         }
     }
+
+    private fun dialogAction(value: Int): Int =
+        when (value) {
+            1 -> R.string.action_opened
+            2 -> R.string.action_confirmed
+            3 -> R.string.action_cancelled
+            4 -> R.string.action_dismissed
+            else -> R.string.action_not_opened
+        }
 }

@@ -41,6 +41,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
     MaterialTheme(colorScheme = lightColorScheme()) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
+                LabComponent.DATE_PICKER_DIALOG ->
+                    Material3DatePickerDialogSample(panel, sample, enabled, state)
                 LabComponent.ICON -> {
                     val icon = requireNotNull(LocalSampleIcon.current)
                     Icon(icon.vector(), contentDescription = icon.name, modifier = sample)

@@ -29,7 +29,7 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 90, InventoryStatus.PENDING to 149),
+            mapOf(InventoryStatus.IMPLEMENTED to 93, InventoryStatus.PENDING to 146),
             entries.groupingBy { it.status }.eachCount(),
         )
         val group = entries.single { it.source == "android.widget.RadioGroup" }
@@ -38,6 +38,22 @@ class ComponentInventoryResourceTest {
         val segmented = entries.single { it.source == "androidx.compose.material3.SegmentedButton" }
         assertEquals(listOf("SINGLE_SEGMENTED", "MULTI_SEGMENTED"), segmented.catalogIds)
         assertEquals("Used in both segmented-row samples.", segmented.notes)
+        listOf(
+                "android.app.DatePickerDialog",
+                "androidx.compose.material3.DatePickerDialog",
+                "androidx.compose.material3.DatePicker",
+            )
+            .forEach { source ->
+                val date = entries.single { it.source == source }
+                assertEquals(InventoryStatus.IMPLEMENTED, date.status)
+                assertEquals(listOf("DATE_PICKER_DIALOG"), date.catalogIds)
+            }
+        assertTrue(
+            entries
+                .single { it.source == "androidx.compose.material3.DatePicker" }
+                .notes
+                .isNotBlank()
+        )
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -57,12 +73,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(149, pending.size)
+        assertEquals(146, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 56,
+                InventoryFamily.PLATFORM to 55,
                 InventoryFamily.MATERIAL2 to 26,
-                InventoryFamily.MATERIAL3 to 67,
+                InventoryFamily.MATERIAL3 to 65,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -71,25 +87,34 @@ class ComponentInventoryResourceTest {
             assertTrue("Pending sources have no runnable sample IDs", it.catalogIds.isEmpty())
         }
         assertEquals(
-            setOf("android.app.DatePickerDialog", "android.widget.DatePicker"),
-            ComponentInventory.pending(entries, "  DATEPICKER  ", InventoryFamily.PLATFORM)
+            setOf("android.app.TimePickerDialog", "android.widget.TimePicker"),
+            ComponentInventory.pending(entries, "  TIMEPICKER  ", InventoryFamily.PLATFORM)
                 .map { it.source }
                 .toSet(),
         )
-        val libraryDates =
-            ComponentInventory.pending(entries, "datepicker", InventoryFamily.MATERIAL3)
+        val libraryTimes =
+            ComponentInventory.pending(entries, "timepicker", InventoryFamily.MATERIAL3)
         assertEquals(
             setOf(
-                "androidx.compose.material3.DatePicker",
-                "androidx.compose.material3.DatePickerDialog",
+                "androidx.compose.material3.TimePicker",
+                "androidx.compose.material3.TimePickerDialog",
             ),
-            libraryDates.map { it.source }.toSet(),
+            libraryTimes.map { it.source }.toSet(),
         )
-        libraryDates.forEach { assertNull(it.apiIntroduced) }
+        libraryTimes.forEach { assertNull(it.apiIntroduced) }
         assertTrue(
-            ComponentInventory.pending(entries, "datepicker", InventoryFamily.MATERIAL2).isEmpty()
+            ComponentInventory.pending(entries, "timepicker", InventoryFamily.MATERIAL2).isEmpty()
         )
         assertTrue(ComponentInventory.pending(entries, "no-matching-source-api").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "checkbox").isEmpty())
+        assertEquals(
+            listOf("android.widget.DatePicker"),
+            ComponentInventory.pending(entries, "datepicker", InventoryFamily.PLATFORM).map {
+                it.source
+            },
+        )
+        assertTrue(
+            ComponentInventory.pending(entries, "datepicker", InventoryFamily.MATERIAL3).isEmpty()
+        )
     }
 }
