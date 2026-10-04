@@ -1,6 +1,7 @@
 package xyz.gaon.componentory.navigation
 
 import android.app.Activity
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -102,6 +103,7 @@ private fun ComponentoryNavigation(
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
     var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
+    var detailProviders by rememberSaveable { mutableStateOf<Map<String, String>>(emptyMap()) }
     var comparison by rememberSaveable { mutableStateOf(LabComponent.BUTTON) }
     var left by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
     var right by rememberSaveable { mutableStateOf(DesignFamily.HOLO) }
@@ -190,9 +192,35 @@ private fun ComponentoryNavigation(
                         val catalogScreens = rememberSaveableStateHolder()
                         catalogScreens.SaveableStateProvider(selected?.name ?: "catalog") {
                             if (selected == null) {
-                                ComponentListScreen(onOpenComponent = { detail = it })
+                                ComponentListScreen(
+                                    onOpenComponent = { component ->
+                                        val remembered =
+                                            DesignFamily.entries.firstOrNull {
+                                                it.name == detailProviders[component.name]
+                                            }
+                                        val family =
+                                            selectDetailProvider(
+                                                component,
+                                                detailFamily,
+                                                remembered,
+                                                Build.VERSION.SDK_INT,
+                                            )
+                                        detailFamily = family
+                                        detailProviders =
+                                            detailProviders + (component.name to family.name)
+                                        detail = component
+                                    }
+                                )
                             } else {
-                                ComponentDetailScreen(selected, detailFamily, { detailFamily = it })
+                                ComponentDetailScreen(
+                                    selected,
+                                    detailFamily,
+                                    { family ->
+                                        detailFamily = family
+                                        detailProviders =
+                                            detailProviders + (selected.name to family.name)
+                                    },
+                                )
                             }
                         }
                     }
