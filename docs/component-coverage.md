@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**64 component entries**, with **153 runnable component/family combinations**.
+**67 component entries**, with **161 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,15 +49,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `9c73239`. Latest verification source: `ec64799`.
-The verification commit changes tests only; catalog and source counts are unchanged.
+Application and verification source revision: `f39c2cd`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 22 | 52 |
+| Android framework | 74 | 24 | 50 |
 | Compose Material 2 1.10.4 | 52 | 30 | 22 |
-| Compose Material 3 1.4.0 | 113 | 57 | 56 |
-| Total | 239 | 109 | 130 |
+| Compose Material 3 1.4.0 | 113 | 58 | 55 |
+| Total | 239 | 112 | 127 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -99,11 +98,40 @@ the number badge from zero to 100; badge anchors use the complete icon picker.
 
 Date picker dialogs add four combinations: the three framework themes use
 `android.app.DatePickerDialog`, and Material 3 uses its real DatePickerDialog
-with DatePicker content. Material 2 does not supply these APIs. The supporting
-Material 3 calendar is counted as an implemented source inside that dialog;
-there is no standalone inline calendar sample yet. Framework DatePicker and
-DateRangePicker remain planned. Dialog dates use midnight UTC,
-start at January 15, 2024, and distinguish drafts from confirmed values.
+with DatePicker content. Material 2 does not supply these APIs. Dialog dates use
+midnight UTC, start at January 15, 2024, and distinguish drafts from confirmed values.
+
+Three inline entries add eight combinations: DatePicker uses the three framework
+themes or Material 3, CalendarView uses the three framework themes, and
+DateRangePicker uses Material 3. All three are unsupported in Material 2.
+The existing canonical Material 3 DatePicker source row names both the inline
+sample and its supporting use inside DatePickerDialog. It remains one source API;
+only framework DatePicker, framework CalendarView and Material 3 DateRangePicker
+increase the implemented-source count.
+
+Inline selections update immediately. Single library dates can be empty, and
+range state can be empty, start-only or complete, including a same-day range.
+The sixteen-field sample save format keeps those nullable values and the
+library's editor mode and browsed month while accepting older saves.
+Framework DatePicker receives its public enabled flag; that flag alone is not
+proof that every child gesture stops. CalendarView and both Material 3 pickers
+show that global Enabled does not apply. Their original interactions remain
+available without a synthetic blocker or replacement selection policy.
+
+Selected civil dates use UTC storage and UTC localized feedback. CalendarView's
+local timestamp API receives the same civil date at local noon, avoiding an
+ordinary midnight daylight-saving gap or a previous-day shift from UTC midnight.
+Empty and partial inputs remain eligible when copied. An empty single date cannot
+be represented by a framework picker, so that copy explains its reason and leaves
+the target unchanged. A fresh copied library calendar derives its opening month
+from the eligible selected date or range start; source editor modes and browsed
+months are excluded.
+
+Host viewports retain readable original widths with horizontal scrolling.
+The range picker's finite height grows with font scale. Its original Crossfade
+can retain the calendar list while showing input, so a finite maximum bounds that
+list without forcing the input editor to fill an unnecessarily tall viewport.
+These layout decisions are implemented source, not physical usability evidence.
 
 Time picker dialogs add four combinations using the exact framework
 `android.app.TimePickerDialog` or Material 3 TimePickerDialog. The framework's
@@ -155,7 +183,7 @@ resources are kept in the app bundle for offline switching.
 
 ## Next implementation groups
 
-1. Standalone date/time/calendar controls and date-range selection.
+1. Standalone time controls and remaining pickers.
 2. Lists, images, text, and legacy content controls.
 3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
@@ -168,15 +196,73 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest verification source: `ec64799`. Formatting and lint passed with zero errors
+Latest implementation: `f39c2cd`. Spotless and lint passed with zero errors and
+16 existing warnings. All 73 JVM tests actually executed and passed, including
+eleven new checks for genuine suppliers, old save compatibility, nullable
+selections, civil dates across time zones and input-copy presence. Both debug
+APKs built and installed, and Gradle was stopped after the builds. Host logs are
+`.local/inline-dates-format-lint.txt` (2 minutes 26 seconds),
+`.local/inline-dates-tests-build.txt` (1 minute 27 seconds) and
+`.local/inline-dates-unit-results.json`.
+
+Six [inline-date UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineDatePickersTest.kt)
+compile. They include genuine Material 3 day pointers and text editing, nullable
+single dates and partial/complete/same-day ranges, independent panels,
+recreation/reset, one-shot Detail and directional copying, honest native
+empty-date rejection, five locales and bounded 360 dp/font-scale-2 host actions.
+The test code uses the actual Classic increment button, Holo wheel and Material
+virtual day bounds through public accessibility and touch for DatePicker.
+The authored CalendarView scenario includes a Material day gesture; the legacy calendars have
+class, selected-date and recreation assertions, without manufactured day geometry.
+Native enabled-flag checks do not claim child gestures are blocked.
+Host ScrollBy recovery is semantic navigation to the original control, not proof
+of an OS display resize, native keyboard behavior or TalkBack speech.
+
+The updated five-test catalog sweep now spans 335 cells: 155 supported and 174
+unsupported ordinary cells, plus six native animated cells in the separate
+one-method UiAutomation scope. Each framework theme has 22 ordinary supported
+and 43 unsupported cells; Material 2 has 32 and 35, and Material 3 has 57 and 10.
+The normal 93-test scope across twenty classes installed both APKs but stopped
+at the secure-keyguard guard before instrumentation. None of its selected tests
+executed. The separate native animation scope was not attempted while the same
+lock remained active. The attempt is `.local/inline-dates-ui-verification-attempt.txt`;
+scope declarations are `.local/inline-dates-declared-test-scope.json`.
+
+Two inventory-only device tests passed in 1.241 seconds on the SM-X800, with
+native exit 0, `OK (2 tests)` and no restoration errors. They verify the packaged
+239-source inventory, 112 implemented and 127 pending rows, canonical inline and
+dialog mappings, source metadata and pending-query behavior. The retained run is
+`.local/device-runs/20261004T214749565Z-849c6b2c/`. Its manifest records source
+`a1d4030` plus dirty feature changes later committed as `f39c2cd`, exact APK hashes,
+Android 16/API 36 Build.ID `BP2A.250605.031.A3`, the full Samsung OS fingerprint,
+target SDK 37, 340 dpi, font scale 1.0,
+System app locale, display/window snapshots, pinned libraries and configured
+sample themes. No Activity or input ran, and the recorded theme configuration
+does not prove any provider rendered.
+
+`asset-consistency.json` confirms identical 21,094-byte source CSV, APK asset and
+installed asset content with SHA-256:
+`466398c73a2c4b6b80519a390aad625518a726dc16c91dcda8e43b2bf5e92092`.
+The app APK is 19,669,079 bytes with SHA-256:
+`530455048a478d227c8535dbb2bbd8fe185c255988771d334b35f2c1ef5cb07b`.
+The test APK is 1,373,660 bytes with SHA-256:
+`ea6494f9152d38d7136f811a35d95ca95377171137233d2ba2fbc6324a689a8d`.
+APK identities are retained in `.local/inline-dates-apk-hashes.json`.
+The resource result supplies no rendering, interaction, screenshot, experiment
+history or historical OS evidence. All new UI assertions and earlier repairs
+still require unlocked physical verification.
+
+### Earlier verification milestones
+
+Catalog-smoke milestone: `ec64799`. Formatting and lint passed with zero errors
 and 16 existing warnings, and both debug APK build tasks passed. The JVM task was
 `UP-TO-DATE`: it retained the 62 passing results from the input-copy milestone
-and did not rerun for this test-only change. Application source remains `9c73239`.
+and did not rerun for this test-only change. Application source remained `9c73239`.
 
 Five [catalog smoke tests](../app/src/androidTest/java/xyz/gaon/componentory/catalog/CatalogRenderingSmokeTest.kt)
-compile. Their ordinary scope covers 147 supported and 167 unsupported cells:
+compiled. Their ordinary scope covered 147 supported and 167 unsupported cells:
 20 supported and 42 unsupported for each framework theme, 32 and 32 for Material
-2, and 55 and 9 for Material 3. The catalog still has 64 entries across five
+2, and 55 and 9 for Material 3. At that milestone the catalog had 64 entries across five
 providers, or 320 cells. Six native indeterminate progress cells are excluded
 from the ordinary scope and remain in the separate existing
 [native progress test](../app/src/androidTest/java/xyz/gaon/componentory/lab/NativeProgressIndicatorsTest.kt).
@@ -210,8 +296,6 @@ Local evidence is retained in `.local/catalog-smoke-format-lint.txt`,
 and `.local/catalog-smoke-ui-verification-attempt.txt`. Gradle was stopped after
 the builds. These checks and all earlier UI repairs still need unlocked physical
 verification.
-
-### Earlier verification milestones
 
 Input-copy milestone: `9c73239`. Formatting, lint with zero errors and 16 existing
 warnings, all 62 JVM tests, and both debug APK builds passed. Ten new JVM tests

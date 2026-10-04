@@ -69,6 +69,21 @@ action counts, menu results and unconfirmed drafts are excluded. Explain a copy
 that cannot run and leave the target unchanged. Keep these host tools usable when
 the original sample controls are disabled.
 
+Inline date selections apply immediately. Preserve a library picker's empty date
+and a range's empty, start-only or complete selection as actual inputs. Copying
+an empty date to a framework picker cannot represent that input; explain the
+limitation and leave its current sample unchanged. Keep dates as UTC civil days,
+and bridge CalendarView's local timestamp API without changing the selected day.
+Fresh copies open at the copied date or range-start month. Editor modes and the
+source's browsed month stay out of the copied setup.
+
+Explain when the supplier has no control that disables all its interactions.
+Global Enabled does not apply to CalendarView or the Material 3 inline date
+pickers. Framework DatePicker receives its original public enabled flag; verify
+child interactions separately. Preserve original picker controls in readable,
+scrollable viewports and bound the range calendar's own month list. A host layout
+fixture is not evidence that a physical small screen or larger font is usable.
+
 Explain the selected family's origin without presenting each Android release as
 a distinct theme that the device can necessarily provide.
 

@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 64 implemented components by translated name or description,
+- **List:** Search 67 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 130 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 127 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -25,6 +25,13 @@ variants, seven additional input types, and an icon browser. Ten more entries ad
 range sliders, circular and indeterminate progress, dividers, and badges.
 Date picker dialogs use the framework and Material 3 suppliers, with separate
 confirmed and draft dates. Material 2 has no date picker dialog supplier.
+Inline DatePicker uses the framework or Material 3, CalendarView uses the
+framework, and DateRangePicker uses Material 3. Inline selections apply
+immediately; the library supports an empty date and empty or partial ranges.
+CalendarView and the Material 3 pickers explain that global Enabled does not
+apply. Framework DatePicker receives its public enabled flag; blocking every
+child interaction has not been verified. Narrow previews scroll horizontally,
+and the original range calendar has a finite height that grows with font size.
 Time picker dialogs also use genuine framework and Material 3 suppliers, with
 12/24-hour settings and the library's clock and text input modes. Confirmed times
 stay separate from open drafts. Live samples appear before icon and time settings.
@@ -62,17 +69,22 @@ Input copying preserves text, selections, configured values, committed dates and
 times, container mode, and compatible icons. It leaves passwords, action history,
 menu results, and open drafts out. Unsupported copies explain their reason and
 keep the target unchanged. Reset and provider changes cannot replay Detail inputs.
+Empty library dates stay empty when copied. A framework date picker requires a
+selected date, so copying an empty date to it explains the limitation and keeps
+the target. Fresh copied calendars open at the selected input's month without
+copying the source's editor mode or browsed month.
 
-The latest checks pass formatting, lint, and both APK builds. The JVM task was
-up to date and retained 62 earlier passing results; it did not rerun. Five new
-catalog smoke tests compile and cover 147 supported and 167 unsupported cells.
+The latest checks pass formatting, lint, all 73 JVM tests, and both APK builds.
+Two inventory-only tests passed for the inline-date milestone. Six new date UI
+scenarios compile, and the catalog smoke tests cover 155 supported and 174
+unsupported ordinary cells.
 The six native animated cells use a separate existing test. The latest normal
-87-test UI attempt stopped at the secure-keyguard guard before instrumentation;
+93-test UI attempt stopped at the secure-keyguard guard before instrumentation;
 none ran. The separate animation scope was not attempted while the device stayed
-locked. Two inventory-only tests passed at the earlier popup-menu milestone.
+locked. Resource checks supply no rendering or interaction pass.
 Catalog rendering, comparison state, the Planned view, provider selection,
-accessibility, date/time dialogs, cards, surfaces, popup menus, input copying,
-and the preview reorder still require unlocked UI verification. The
+accessibility, inline dates, date/time dialogs, cards, surfaces, popup menus,
+input copying, and the preview reorder still require unlocked UI verification. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original
@@ -135,7 +147,7 @@ do not verify rendering, navigation, touch behavior, or historical appearance.
 
 The catalog smoke class checks current-device rendering, provider identity,
 original dialog and menu windows, and explicit unsupported reasons. Its five
-tests cover 314 of the 320 component/provider cells. Run
+tests cover 329 of the 335 component/provider cells. Run
 `xyz.gaon.componentory.lab.NativeProgressIndicatorsTest` separately for the six
 animated framework cells. It uses UiAutomation with animator scale 1.0; the
 ordinary Espresso sweep excludes continuously animated native controls.
