@@ -9,12 +9,15 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Root
 import androidx.test.espresso.action.ViewActions.click
@@ -59,23 +62,21 @@ class PlatformInputsTest {
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
             chooseFamily(family)
             chooseComponent(LabComponent.AUTOCOMPLETE)
-            onView(withId(R.id.sample_left)).perform(click(), typeText("Al"))
+            clickNativeSample()
+            onView(withId(R.id.sample_left)).perform(typeText("Al"), closeSoftKeyboard())
             status("LEFT", "Text: Al")
             waitForAutocompletePopup()
             choosePopupItem("Alpha")
-            onView(withId(R.id.sample_left))
-                .perform(closeSoftKeyboard())
-                .check(matches(withText("Alpha")))
+            onView(withId(R.id.sample_left)).check(matches(withText("Alpha")))
             status("LEFT", "Text: Alpha")
             status("RIGHT", "Text: empty")
             chooseComponent(LabComponent.MULTI_AUTOCOMPLETE)
-            onView(withId(R.id.sample_left)).perform(click(), typeText("Alpha, Be"))
+            clickNativeSample()
+            onView(withId(R.id.sample_left)).perform(typeText("Alpha, Be"), closeSoftKeyboard())
             status("LEFT", "Text: Alpha, Be")
             waitForAutocompletePopup()
             choosePopupItem("Beta")
-            onView(withId(R.id.sample_left))
-                .perform(closeSoftKeyboard())
-                .check(matches(withText("Alpha, Beta, ")))
+            onView(withId(R.id.sample_left)).check(matches(withText("Alpha, Beta, ")))
             status("LEFT", "Text: Alpha, Beta, ")
             compose.onNodeWithTag("enabled").performClick()
             onView(withId(R.id.sample_left)).check(matches(not(isEnabled())))
@@ -90,14 +91,14 @@ class PlatformInputsTest {
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
             chooseFamily(family)
             chooseComponent(LabComponent.SPINNER)
-            onView(withId(R.id.sample_left)).perform(click())
+            clickNativeSample()
             choosePopupItem("Beta")
             status("LEFT", "Selected: Beta")
             status("RIGHT", "Selected: Alpha")
             compose.activityRule.scenario.recreate()
             status("LEFT", "Selected: Beta")
             compose.onNodeWithTag("enabled").performClick()
-            onView(withId(R.id.sample_left)).perform(click())
+            clickNativeSample()
             status("LEFT", "Selected: Beta")
             compose.onNodeWithTag("enabled").performClick()
             compose.onNodeWithTag("reset").performClick()
@@ -117,7 +118,8 @@ class PlatformInputsTest {
                         isDescendantOfA(withId(R.id.sample_left)),
                     )
                 )
-            query.perform(click(), typeText("Alpha"), pressImeActionButton(), closeSoftKeyboard())
+            clickNativeSample()
+            query.perform(typeText("Alpha"), pressImeActionButton(), closeSoftKeyboard())
             status("LEFT", "Query: Alpha · Searches: 1")
             status("RIGHT", "Query: empty · Searches: 0")
             compose.activityRule.scenario.recreate()
@@ -135,6 +137,27 @@ class PlatformInputsTest {
     private fun chooseFamily(family: DesignFamily) {
         compose.onNodeWithTag("family_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("family_LEFT_${family.name}").performClick()
+        compose.waitForIdle()
+    }
+
+    private fun clickNativeSample() {
+        // Scroll and synchronize Compose before handing the native popup to Espresso.
+        waitForKeyboardToClose()
+        compose.onNodeWithTag("native_LEFT").performScrollTo().performClick()
+        compose.waitForIdle()
+    }
+
+    private fun waitForKeyboardToClose() {
+        compose.waitUntil(5_000) {
+            var hidden = false
+            compose.runOnUiThread {
+                hidden =
+                    ViewCompat.getRootWindowInsets(compose.activity.window.decorView)
+                        ?.isVisible(WindowInsetsCompat.Type.ime()) != true
+            }
+            hidden
+        }
+        compose.waitForIdle()
     }
 
     private fun waitForAutocompletePopup() {
@@ -151,6 +174,7 @@ class PlatformInputsTest {
     }
 
     private fun choosePopupItem(value: String) {
+        waitForKeyboardToClose()
         var item: View? = null
         compose.waitUntil(5_000) {
             compose.runOnUiThread {
@@ -195,8 +219,17 @@ class PlatformInputsTest {
             .onNodeWithTag("component_picker_list")
             .performScrollToNode(hasTestTag("component_${component.name}"))
         compose.onNodeWithTag("component_${component.name}").performClick()
+        compose.waitForIdle()
     }
 
-    private fun status(panel: String, text: String) =
+    private fun status(panel: String, text: String) {
+        // Framework selection callbacks can finish after the popup touch returns.
+        compose.waitUntil(5_000) {
+            compose
+                .onAllNodes(hasTestTag("status_$panel") and hasText(text))
+                .fetchSemanticsNodes()
+                .size == 1
+        }
         compose.onNodeWithTag("status_$panel").assertTextEquals(text)
+    }
 }
