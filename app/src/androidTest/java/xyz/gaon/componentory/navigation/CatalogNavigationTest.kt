@@ -30,7 +30,6 @@ import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
-import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 
 @RunWith(AndroidJUnit4::class)
 class CatalogNavigationTest {
@@ -132,11 +131,7 @@ class CatalogNavigationTest {
     @Test
     fun compactWidthKeepsNavigationSearchAndLastComponentReachable() {
         compose.runOnUiThread {
-            compose.activity.setContent {
-                ComponentoryTheme(dynamicColor = false) {
-                    Box(Modifier.width(360.dp)) { ComponentoryApp() }
-                }
-            }
+            compose.activity.setContent { Box(Modifier.width(360.dp)) { ComponentoryApp() } }
         }
         compose.onNodeWithTag("nav_list").assertIsDisplayed()
         compose.onNodeWithTag("nav_compare").assertIsDisplayed()

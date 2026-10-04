@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.navigation
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,23 +22,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.ComponentDetailScreen
 import xyz.gaon.componentory.catalog.ComponentListScreen
 import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.settings.AppAppearance
+import xyz.gaon.componentory.settings.AppearancePreferences
 import xyz.gaon.componentory.settings.SettingsScreen
+import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 
 private enum class AppTab(val label: String, val icon: Int, val tag: String) {
     LIST("리스트", R.drawable.ic_list, "nav_list"),
@@ -44,9 +54,39 @@ private enum class AppTab(val label: String, val icon: Int, val tag: String) {
     SETTINGS("설정", R.drawable.ic_settings, "nav_settings"),
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComponentoryApp() {
+    val context = LocalContext.current
+    val preferences = remember(context) { AppearancePreferences(context) }
+    var appearance by remember { mutableStateOf(preferences.read()) }
+    val dark =
+        when (appearance) {
+            AppAppearance.SYSTEM -> isSystemInDarkTheme()
+            AppAppearance.LIGHT -> false
+            AppAppearance.DARK -> true
+        }
+    val view = LocalView.current
+    SideEffect {
+        (context as? Activity)?.window?.let { window ->
+            val bars = WindowCompat.getInsetsController(window, view)
+            bars.isAppearanceLightStatusBars = !dark
+            bars.isAppearanceLightNavigationBars = !dark
+        }
+    }
+    ComponentoryTheme(darkTheme = dark, dynamicColor = false) {
+        ComponentoryNavigation(appearance) {
+            preferences.save(it)
+            appearance = it
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ComponentoryNavigation(
+    appearance: AppAppearance,
+    onAppearanceChange: (AppAppearance) -> Unit,
+) {
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
     var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
@@ -146,7 +186,7 @@ fun ComponentoryApp() {
                             right,
                             { right = it },
                         )
-                    AppTab.SETTINGS -> SettingsScreen()
+                    AppTab.SETTINGS -> SettingsScreen(appearance, onAppearanceChange)
                 }
             }
         }

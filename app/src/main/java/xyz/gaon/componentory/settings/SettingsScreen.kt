@@ -2,27 +2,33 @@ package xyz.gaon.componentory.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.lab.RuntimeEnvironment
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(appearance: AppAppearance, onAppearanceChange: (AppAppearance) -> Unit) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val environment = remember(configuration) { RuntimeEnvironment.read(context) }
@@ -35,6 +41,32 @@ fun SettingsScreen() {
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Text("설정", style = MaterialTheme.typography.headlineMedium)
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("앱 테마", style = MaterialTheme.typography.titleMedium)
+                Column(Modifier.selectableGroup()) {
+                    AppAppearance.entries.forEach { option ->
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .selectable(
+                                    selected = appearance == option,
+                                    onClick = { onAppearanceChange(option) },
+                                    role = Role.RadioButton,
+                                )
+                                .testTag("appearance_${option.name}"),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(selected = appearance == option, onClick = null)
+                            Text(option.label, modifier = Modifier.padding(start = 12.dp))
+                        }
+                    }
+                }
+                Text(
+                    "탐색 화면에 적용됩니다. 컴포넌트 샘플은 선택한 UI의 밝은 테마를 유지합니다.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+        }
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("실행 환경", style = MaterialTheme.typography.titleMedium)
