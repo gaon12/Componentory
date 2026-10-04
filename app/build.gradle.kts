@@ -15,6 +15,16 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField(
+            "String",
+            "MATERIAL2_VERSION",
+            "\"${libs.versions.composeMaterial2.get()}\"",
+        )
+        buildConfigField(
+            "String",
+            "MATERIAL3_VERSION",
+            "\"${libs.versions.composeMaterial3.get()}\"",
+        )
     }
 
     buildTypes { release { optimization { enable = false } } }
@@ -22,13 +32,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
 }
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
+    // Pin the sample libraries so the displayed version cannot drift through BOM resolution.
+    implementation(libs.androidx.compose.material) {
+        version { strictly(libs.versions.composeMaterial2.get()) }
+    }
+    implementation(libs.androidx.compose.material3) {
+        version { strictly(libs.versions.composeMaterial3.get()) }
+    }
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)

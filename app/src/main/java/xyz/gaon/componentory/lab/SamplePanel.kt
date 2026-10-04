@@ -35,8 +35,8 @@ import xyz.gaon.componentory.R
 @Composable
 fun SamplePanel(
     panel: String,
-    family: PlatformFamily,
-    onFamilyChange: (PlatformFamily) -> Unit,
+    family: DesignFamily,
+    onFamilyChange: (DesignFamily) -> Unit,
     component: LabComponent,
     enabled: Boolean,
     reset: Int,
@@ -48,13 +48,16 @@ fun SamplePanel(
             SampleState(component.initialValue)
         }
     val context = LocalContext.current
+    val platform = family.platform
     val background =
         remember(family) {
             val color = TypedValue()
-            ContextThemeWrapper(context, family.themeId)
-                .theme
-                .resolveAttribute(android.R.attr.colorBackground, color, true)
-            Color(color.data)
+            if (platform != null) {
+                ContextThemeWrapper(context, platform.themeId)
+                    .theme
+                    .resolveAttribute(android.R.attr.colorBackground, color, true)
+                Color(color.data)
+            } else Color.White
         }
     Card(
         modifier.fillMaxWidth().testTag("panel_$panel"),
@@ -75,7 +78,7 @@ fun SamplePanel(
                     Text("${family.label}  ▾")
                 }
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
-                    PlatformFamily.entries.forEach { option ->
+                    DesignFamily.entries.forEach { option ->
                         DropdownMenuItem(
                             text = { Text(option.label) },
                             onClick = {
@@ -87,20 +90,26 @@ fun SamplePanel(
                     }
                 }
             }
-            Text("Theme from ${family.origin}", style = MaterialTheme.typography.bodySmall)
+            Text(family.origin, style = MaterialTheme.typography.bodySmall)
             Column(
                 Modifier.fillMaxWidth().background(background).padding(16.dp).heightIn(min = 96.dp),
                 verticalArrangement = Arrangement.Center,
             ) {
                 key(family, component, reset) {
-                    PlatformSample(
-                        family,
-                        component,
-                        if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
-                        enabled,
-                        state,
-                        Modifier.fillMaxWidth(),
-                    )
+                    if (platform != null) {
+                        PlatformSample(
+                            platform,
+                            component,
+                            if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
+                            enabled,
+                            state,
+                            Modifier.fillMaxWidth(),
+                        )
+                    } else if (family == DesignFamily.MATERIAL2) {
+                        Material2Sample(component, panel, enabled, state)
+                    } else {
+                        Material3Sample(component, panel, enabled, state)
+                    }
                 }
             }
             if (component == LabComponent.PROGRESS) {
@@ -127,12 +136,24 @@ fun SamplePanel(
                 style = MaterialTheme.typography.titleMedium,
             )
             HorizontalDivider()
-            Text(component.source, style = MaterialTheme.typography.bodySmall)
             Text(
-                "android:${family.themeName} · widget API ${component.minimumApi}+",
+                family.source(component),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.testTag("source_$panel"),
+            )
+            Text(
+                family.implementation +
+                    if (platform != null) " · widget API ${component.minimumApi}+" else "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.testTag("implementation_$panel"),
             )
+            if (component == LabComponent.PROGRESS && platform == null) {
+                Text(
+                    "Read-only indicator; this library provides no disabled appearance.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
         }
     }
 }

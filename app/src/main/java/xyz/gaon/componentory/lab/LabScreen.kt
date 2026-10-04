@@ -39,8 +39,8 @@ fun LabScreen() {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val environment = remember(configuration) { RuntimeEnvironment.read(context) }
-    var left by rememberSaveable { mutableStateOf(PlatformFamily.CLASSIC) }
-    var right by rememberSaveable { mutableStateOf(PlatformFamily.HOLO) }
+    var left by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
+    var right by rememberSaveable { mutableStateOf(DesignFamily.HOLO) }
     var component by rememberSaveable { mutableStateOf(LabComponent.BUTTON) }
     var enabled by rememberSaveable { mutableStateOf(true) }
     var reset by rememberSaveable { mutableIntStateOf(0) }
@@ -158,7 +158,7 @@ fun LabScreen() {
                 }
             }
             Text(
-                "Live platform widgets on the OS shown above. A theme changes the design family, not the Android version. Interaction feedback is separate from automated test results.",
+                "Live controls on the OS shown above. Platform themes and Compose libraries are separate families. Choosing a family does not change the Android version. Feedback shows your actions, not automated test results.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
