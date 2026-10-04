@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 58 implemented components by translated name or description,
+- **List:** Search 59 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 146 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 141 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -23,6 +23,9 @@ variants, seven additional input types, and an icon browser. Ten more entries ad
 range sliders, circular and indeterminate progress, dividers, and badges.
 Date picker dialogs use the framework and Material 3 suppliers, with separate
 confirmed and draft dates. Material 2 has no date picker dialog supplier.
+Time picker dialogs also use genuine framework and Material 3 suppliers, with
+12/24-hour settings and the library's clock and text input modes. Confirmed times
+stay separate from open drafts. Live samples appear before icon and time settings.
 It offers Classic, Holo, and platform Material light themes, Compose
 Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
 appearance keeps the selected samples in their own light themes.
@@ -47,11 +50,12 @@ later visits remember the component's selected provider, including deliberate
 unsupported choices.
 
 Search and live sample state survive tab changes and Activity recreation.
-The latest source passes formatting, lint, 36 JVM tests, and both APK builds.
+The latest source passes formatting, lint, 45 JVM tests, and both APK builds.
 Two inventory-only tests also passed on the physical device. The selected
-57-test UI attempt stopped at the locked-screen guard before instrumentation;
-none ran. The comparison-state, Planned view, provider, accessibility, and date
-dialog changes still require unlocked UI verification. The
+63-test UI attempt stopped at the locked-screen guard before instrumentation;
+none ran. Comparison state, the Planned view, provider selection, accessibility,
+date/time dialogs, and the preview reorder still require unlocked UI verification.
+The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original

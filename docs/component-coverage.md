@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**58 component entries**, with **138 runnable component/family combinations**.
+**59 component entries**, with **142 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,14 +49,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `ac9facb`.
+Application source revision: `c5fbcdf`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 19 | 55 |
+| Android framework | 74 | 21 | 53 |
 | Compose Material 2 1.10.4 | 52 | 26 | 26 |
-| Compose Material 3 1.4.0 | 113 | 48 | 65 |
-| Total | 239 | 93 | 146 |
+| Compose Material 3 1.4.0 | 113 | 51 | 62 |
+| Total | 239 | 98 | 141 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -100,9 +100,24 @@ Date picker dialogs add four combinations: the three framework themes use
 `android.app.DatePickerDialog`, and Material 3 uses its real DatePickerDialog
 with DatePicker content. Material 2 does not supply these APIs. The supporting
 Material 3 calendar is counted as an implemented source inside that dialog;
-there is no standalone inline calendar sample yet. Framework DatePicker,
-DateRangePicker, and time pickers remain planned. Dialog dates use midnight UTC,
+there is no standalone inline calendar sample yet. Framework DatePicker and
+DateRangePicker remain planned. Dialog dates use midnight UTC,
 start at January 15, 2024, and distinguish drafts from confirmed values.
+
+Time picker dialogs add four combinations using the exact framework
+`android.app.TimePickerDialog` or Material 3 TimePickerDialog. The framework's
+TimePicker and the library's TimePicker and TimeInput are supporting sources
+inside these dialogs; standalone inline time samples are not claimed. Material 2
+has no dedicated supplier. Each panel starts at 10:30 and keeps committed time,
+open drafts, and the 12/24-hour setting separate. Material 3 retains its input
+mode across recreation and uses text input when the host window is at most the
+library's 300 dp height breakpoint. The explanatory note stays outside the modal.
+
+The shared panel shows the real sample before host adjustments and icon selection.
+Feedback precedes icon source metadata, while provider identity and behavioral
+guidance remain visible. Compare shows the component name in its picker once,
+with Enabled and Reset in a separate row. These changes shorten the path to the
+sample; narrow screens still stack full panels.
 
 The list and comparison picker combine category filters with translated labels
 and descriptions and the source names that actually supply each sample.
@@ -114,7 +129,7 @@ resources are kept in the app bundle for offline switching.
 
 ## Next implementation groups
 
-1. Standalone date/time/calendar controls and remaining picker dialogs.
+1. Standalone date/time/calendar controls and date-range selection.
 2. Cards, lists, images, text, and legacy content controls.
 3. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
@@ -127,8 +142,45 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `ac9facb`. Formatting, lint (zero errors and 16 existing
-warnings), all 36 JVM tests, and both debug APK builds pass. Eight additional
+Latest implementation: `c5fbcdf`. Formatting, lint (zero errors and 16 existing
+warnings), all 45 JVM tests, and both debug APK builds pass. The time dialog
+feature in `8620d92` adds nine JVM checks for civil-time boundaries, formatting,
+time zones, saved-state compatibility, provider availability, and search for supporting
+sources. Its first lint run introduced two window size warnings. The fallback now
+reads actual host window height through LocalWindowInfo, and the ordered checks
+were repeated with those warnings removed.
+
+Six [time dialog tests](../app/src/androidTest/java/xyz/gaon/componentory/lab/TimePickerDialogsTest.kt)
+compile. They cover real Material 3 clock, text and AM/PM controls, Classic spinner
+editing through IME Done, native theme/class identity, independent committed and
+draft values, recreation, reset, disabled launchers, explicit Material 2 absence,
+and all five Settings languages. Native widget API setup is named separately
+from real pointer editing. The existing six date-dialog regressions also compile.
+
+The latest normal 63-test UI attempt installed both APKs but stopped at the
+locked-screen guard before instrumentation. None of the selected tests ran.
+Its output is `.local/preview-first-ui-verification-attempt.txt`; the time feature
+attempt is `.local/time-picker-dialogs-ui-verification-attempt.txt`. The preview
+reorder in `c5fbcdf` also passed source review and the ordered host checks.
+Date/time interactions, compact modal usability, actual display resizing,
+TalkBack, and the earlier UI repairs still need physical verification.
+
+Two separate inventory-only tests passed in 1.409 seconds on the SM-X800.
+They verify all 239 packaged sources, 98 implemented and 141 pending entries,
+dialog mappings, notes for supporting sources, provider filtering, and pending queries.
+The local run is `.local/device-runs/20261004T190856897Z-4ab8fc34/`. Its manifest
+records the `5899ec5` working tree with changes later committed as `8620d92`,
+the exact APK hashes, device/build/display configuration, resource-only scope,
+result, and no restoration errors. `asset-consistency.json` confirms identical
+20,099-byte source CSV, APK asset, and installed asset content with SHA-256:
+`e836a4856633a7c00250eb971f99a2fe82197f791c2f3f2ddaa4ea8f2da6d36b`.
+This run predates the preview reorder and provides no rendering, touch,
+screenshot, or historical OS evidence.
+
+### Earlier verification milestones
+
+Date dialog milestone: `ac9facb`. Formatting, lint (zero errors and 16 existing
+warnings), all 36 JVM tests, and both debug APK builds passed. Eight additional
 JVM checks cover date suppliers, saved-state compatibility, leap and invalid
 dates, time zones, the Thai default locale, and localized UTC formatting.
 Six [date dialog tests](../app/src/androidTest/java/xyz/gaon/componentory/lab/DatePickerDialogsTest.kt)
@@ -137,7 +189,7 @@ panels, open drafts across recreation, reset, disabled launchers, unavailable
 Material 2, and five-language date feedback. Native `updateDate` setup is
 explicitly distinguished from touching a calendar day.
 
-The latest normal 57-test UI attempt installed both APKs but stopped at the
+That milestone's normal 57-test UI attempt installed both APKs but stopped at the
 locked-screen guard before instrumentation. None of the selected tests ran.
 Its output is `.local/date-picker-dialogs-ui-verification-attempt.txt`.
 Date interactions, compact modal usability, native calendar-day gestures,
@@ -153,8 +205,6 @@ and no restoration errors. `asset-consistency.json` confirms that the source
 CSV, APK asset, and installed asset have identical 19,721-byte content and SHA-256:
 `33318178221e3454ad4a6eaa95953fed6bf66593bf0265be0e0a3835c515b6c1`.
 This run provides no rendering, touch, screenshot, or historical OS evidence.
-
-### Earlier verification milestones
 
 Commit `dd0df74` packages an exact generated copy of the audited CSV as an app
 asset. The small [inventory reader](../app/src/main/java/xyz/gaon/componentory/catalog/ComponentInventory.kt)
