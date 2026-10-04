@@ -234,4 +234,13 @@
     <string name="component_indeterminate_circular_progress_description">使用原始圆形指示器显示进行中任务。</string>
     <string name="status_indeterminate_progress">进度：不确定</string>
     <string name="unsupported_determinate_circle">平台的圆形 ProgressBar 样式仅支持不确定型进度。</string>
+    <string name="component_horizontal_divider">水平分隔线</string>
+    <string name="component_horizontal_divider_description">查看各库提供的水平分隔线。</string>
+    <string name="component_vertical_divider">垂直分隔线</string>
+    <string name="component_vertical_divider_description">在高度为64 dp的预览中查看垂直分隔线。</string>
+    <string name="component_legacy_divider">旧版分隔线</string>
+    <string name="component_legacy_divider_description">查看已弃用的 Material 3 Divider 函数。</string>
+    <string name="status_preview">预览：%1$s</string>
+    <string name="preview_note">只读预览；此库未提供禁用状态的外观。</string>
+    <string name="legacy_divider_note">Material 3 已将此 API 重命名为 HorizontalDivider。此示例仍直接调用固定版本库中的 Divider。</string>
 </resources>

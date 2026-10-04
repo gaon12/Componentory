@@ -121,6 +121,28 @@ enum class LabComponent(
         material2Function = "CircularProgressIndicator",
         category = ComponentCategory.INDICATOR,
     ),
+    HORIZONTAL_DIVIDER(
+        "Horizontal divider",
+        R.string.component_horizontal_divider,
+        R.string.component_horizontal_divider_description,
+        material2Function = "Divider",
+        material3Function = "HorizontalDivider",
+        category = ComponentCategory.LAYOUT,
+    ),
+    VERTICAL_DIVIDER(
+        "Vertical divider",
+        R.string.component_vertical_divider,
+        R.string.component_vertical_divider_description,
+        material3Function = "VerticalDivider",
+        category = ComponentCategory.LAYOUT,
+    ),
+    LEGACY_DIVIDER(
+        "Legacy divider",
+        R.string.component_legacy_divider,
+        R.string.component_legacy_divider_description,
+        material3Function = "Divider",
+        category = ComponentCategory.LAYOUT,
+    ),
     DIALOG(
         "Dialog",
         R.string.component_dialog,
@@ -501,6 +523,9 @@ enum class LabComponent(
     val isDeterminateProgress: Boolean
         get() = this == PROGRESS || this == CIRCULAR_PROGRESS
 
+    val isDivider: Boolean
+        get() = this in listOf(HORIZONTAL_DIVIDER, VERTICAL_DIVIDER, LEGACY_DIVIDER)
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -535,6 +560,7 @@ enum class LabComponent(
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
+            isDivider -> context.getString(R.string.status_preview, context.getString(labelRes))
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)
             isSecureInput -> context.getString(R.string.status_characters, value)

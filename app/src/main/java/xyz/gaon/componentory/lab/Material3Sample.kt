@@ -125,6 +125,7 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 else ->
                     androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth()) {
                         when (component.category) {
+                            ComponentCategory.LAYOUT -> Material3Layouts(component, sample)
                             ComponentCategory.INDICATOR ->
                                 Material3Indicators(component, sample, state)
                             ComponentCategory.SELECTION ->

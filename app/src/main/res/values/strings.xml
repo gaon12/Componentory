@@ -236,4 +236,13 @@
     <string name="component_indeterminate_circular_progress_description">Show ongoing work with the original circular indicator.</string>
     <string name="status_indeterminate_progress">Progress: indeterminate</string>
     <string name="unsupported_determinate_circle">Platform circular ProgressBar styles support indeterminate progress only.</string>
+    <string name="component_horizontal_divider">Horizontal divider</string>
+    <string name="component_horizontal_divider_description">Inspect the horizontal separator supplied by each library.</string>
+    <string name="component_vertical_divider">Vertical divider</string>
+    <string name="component_vertical_divider_description">Inspect the vertical separator in a 64 dp preview.</string>
+    <string name="component_legacy_divider">Legacy divider</string>
+    <string name="component_legacy_divider_description">Inspect the deprecated Material 3 Divider function.</string>
+    <string name="status_preview">Preview: %1$s</string>
+    <string name="preview_note">Read-only preview; this library provides no disabled appearance.</string>
+    <string name="legacy_divider_note">Material 3 renamed this API to HorizontalDivider. This sample still calls Divider from the pinned library.</string>
 </resources>

@@ -234,4 +234,13 @@
     <string name="component_indeterminate_circular_progress_description">원본 원형 표시기로 진행 중인 작업을 표시합니다.</string>
     <string name="status_indeterminate_progress">진행 상태: 불확정</string>
     <string name="unsupported_determinate_circle">플랫폼의 원형 ProgressBar 스타일은 불확정형 진행 상태만 지원합니다.</string>
+    <string name="component_horizontal_divider">가로 구분선</string>
+    <string name="component_horizontal_divider_description">각 라이브러리가 제공하는 가로 구분선을 살펴보세요.</string>
+    <string name="component_vertical_divider">세로 구분선</string>
+    <string name="component_vertical_divider_description">높이 64 dp 미리보기에서 세로 구분선을 살펴보세요.</string>
+    <string name="component_legacy_divider">구형 구분선</string>
+    <string name="component_legacy_divider_description">폐기 예정인 Material 3 Divider 함수를 살펴보세요.</string>
+    <string name="status_preview">미리보기: %1$s</string>
+    <string name="preview_note">읽기 전용 미리보기이며, 이 라이브러리는 비활성화 외형을 제공하지 않습니다.</string>
+    <string name="legacy_divider_note">Material 3에서 이 API의 이름이 HorizontalDivider로 바뀌었습니다. 이 샘플은 고정된 라이브러리의 Divider를 직접 호출합니다.</string>
 </resources>

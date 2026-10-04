@@ -220,6 +220,18 @@ fun SamplePanel(
             if (component.isFloatingAction && unsupported == null) {
                 Text(stringResource(R.string.fab_note), style = MaterialTheme.typography.bodySmall)
             }
+            if (component.isDivider && unsupported == null) {
+                Text(
+                    stringResource(R.string.preview_note),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                if (component == LabComponent.LEGACY_DIVIDER) {
+                    Text(
+                        stringResource(R.string.legacy_divider_note),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
             if (component.isSecureInput && unsupported == null) {
                 Text(
                     stringResource(R.string.secure_note),
