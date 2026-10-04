@@ -250,4 +250,19 @@
     <string name="component_badged_box">圖示徽章</string>
     <string name="component_badged_box_description">選擇程式庫中的圖示並查看附加的數字徽章。</string>
     <string name="status_badge">徽章數量：%1$d</string>
+    <string name="catalog_mode_samples">範例</string>
+    <string name="catalog_mode_planned">待新增範例</string>
+    <string name="planned_intro">這些列出的 API 尚無互動範例。</string>
+    <string name="planned_search_hint">搜尋 API 名稱</string>
+    <string name="planned_status">範例尚未實作</string>
+    <string name="planned_provider_all">所有提供者</string>
+    <string name="planned_provider_framework">Android 框架</string>
+    <plurals name="planned_count">
+        <item quantity="other">待新增範例的 API 項目：%1$d 項</item>
+    </plurals>
+    <string name="planned_empty">沒有符合的待新增範例 API</string>
+    <string name="planned_loading">正在載入待新增範例的 API…</string>
+    <string name="planned_unavailable">無法載入待新增範例的 API。</string>
+    <string name="planned_api_introduced">於 API %1$d 引入</string>
+    <string name="planned_view_matches">查看符合的待新增範例 API（%1$d 項）</string>
 </resources>

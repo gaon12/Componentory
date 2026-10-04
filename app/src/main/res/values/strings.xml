@@ -252,4 +252,20 @@
     <string name="component_badged_box">Badged icon</string>
     <string name="component_badged_box_description">Choose any library icon and inspect its attached number badge.</string>
     <string name="status_badge">Badge count: %1$d</string>
+    <string name="catalog_mode_samples">Samples</string>
+    <string name="catalog_mode_planned">Planned APIs</string>
+    <string name="planned_intro">These listed APIs have no interactive samples yet.</string>
+    <string name="planned_search_hint">Search API names</string>
+    <string name="planned_status">Sample not implemented yet</string>
+    <string name="planned_provider_all">All providers</string>
+    <string name="planned_provider_framework">Android framework</string>
+    <plurals name="planned_count">
+        <item quantity="one">%1$d API source awaiting a sample</item>
+        <item quantity="other">%1$d API sources awaiting samples</item>
+    </plurals>
+    <string name="planned_empty">No matching planned APIs</string>
+    <string name="planned_loading">Loading planned APIs…</string>
+    <string name="planned_unavailable">Planned APIs could not be loaded.</string>
+    <string name="planned_api_introduced">Introduced in API %1$d</string>
+    <string name="planned_view_matches">View planned API matches (%1$d)</string>
 </resources>
