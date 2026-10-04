@@ -23,7 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
@@ -44,19 +46,32 @@ fun ComponentDetailScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text(component.description, style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(component.descriptionRes), style = MaterialTheme.typography.titleLarge)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Switch(
                 checked = enabled,
                 onCheckedChange = { enabled = it },
                 modifier = Modifier.testTag("enabled"),
             )
-            Text("사용 가능", modifier = Modifier.weight(1f).padding(start = 12.dp))
-            TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) { Text("초기화") }
+            Text(
+                stringResource(R.string.enabled),
+                modifier = Modifier.weight(1f).padding(start = 12.dp),
+            )
+            TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) {
+                Text(stringResource(R.string.reset))
+            }
         }
-        SamplePanel("LEFT", family, onFamilyChange, component, enabled, reset, title = "UI 버전 선택")
+        SamplePanel(
+            "LEFT",
+            family,
+            onFamilyChange,
+            component,
+            enabled,
+            reset,
+            title = stringResource(R.string.choose_ui_version),
+        )
         Text(
-            "현재 Android ${Build.VERSION.RELEASE}에서 실행 중 · 모든 샘플은 밝은 테마",
+            stringResource(R.string.runtime_sample_note, Build.VERSION.RELEASE),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

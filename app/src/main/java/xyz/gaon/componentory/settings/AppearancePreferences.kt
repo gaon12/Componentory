@@ -2,11 +2,12 @@ package xyz.gaon.componentory.settings
 
 import android.content.Context
 import androidx.core.content.edit
+import xyz.gaon.componentory.R
 
-enum class AppAppearance(val label: String) {
-    SYSTEM("시스템 설정"),
-    LIGHT("밝게"),
-    DARK("어둡게"),
+enum class AppAppearance(val labelRes: Int) {
+    SYSTEM(R.string.appearance_system),
+    LIGHT(R.string.appearance_light),
+    DARK(R.string.appearance_dark),
 }
 
 class AppearancePreferences(context: Context) {

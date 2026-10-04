@@ -20,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
@@ -32,19 +34,19 @@ internal fun Material3Actions(
     when (component) {
         LabComponent.OUTLINED_BUTTON ->
             OutlinedButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Tap me")
+                Text(stringResource(R.string.sample_button))
             }
         LabComponent.TEXT_BUTTON ->
             TextButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Tap me")
+                Text(stringResource(R.string.sample_button))
             }
         LabComponent.ELEVATED_BUTTON ->
             ElevatedButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Tap me")
+                Text(stringResource(R.string.sample_button))
             }
         LabComponent.TONAL_BUTTON ->
             FilledTonalButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Tap me")
+                Text(stringResource(R.string.sample_button))
             }
         LabComponent.ICON_BUTTON ->
             IconButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
@@ -112,7 +114,7 @@ internal fun Material3Actions(
             }
         LabComponent.EXTENDED_FAB ->
             ExtendedFloatingActionButton(
-                text = { Text("Create") },
+                text = { Text(stringResource(R.string.sample_create)) },
                 icon = { ActionIcon3() },
                 onClick = { if (enabled) state.value++ },
                 modifier = modifier,

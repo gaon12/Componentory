@@ -1,15 +1,17 @@
 package xyz.gaon.componentory.lab
 
-enum class ComponentCategory(val label: String) {
-    ACTION("버튼"),
-    SELECTION("선택"),
-    INPUT("입력"),
-    INDICATOR("표시"),
-    PICKER("피커"),
-    FEEDBACK("피드백"),
-    CONTENT("콘텐츠"),
-    NAVIGATION("탐색"),
-    LAYOUT("레이아웃"),
-    MEDIA("미디어"),
-    LEGACY("레거시"),
+import xyz.gaon.componentory.R
+
+enum class ComponentCategory(val labelRes: Int) {
+    ACTION(R.string.category_action),
+    SELECTION(R.string.category_selection),
+    INPUT(R.string.category_input),
+    INDICATOR(R.string.category_indicator),
+    PICKER(R.string.category_picker),
+    FEEDBACK(R.string.category_feedback),
+    CONTENT(R.string.category_content),
+    NAVIGATION(R.string.category_navigation),
+    LAYOUT(R.string.category_layout),
+    MEDIA(R.string.category_media),
+    LEGACY(R.string.category_legacy),
 }

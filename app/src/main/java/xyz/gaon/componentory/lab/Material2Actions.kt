@@ -13,6 +13,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
@@ -25,11 +27,11 @@ internal fun Material2Actions(
     when (component) {
         LabComponent.OUTLINED_BUTTON ->
             OutlinedButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Tap me")
+                Text(stringResource(R.string.sample_button))
             }
         LabComponent.TEXT_BUTTON ->
             TextButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Tap me")
+                Text(stringResource(R.string.sample_button))
             }
         LabComponent.ICON_BUTTON ->
             IconButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
@@ -50,7 +52,7 @@ internal fun Material2Actions(
             }
         LabComponent.EXTENDED_FAB ->
             ExtendedFloatingActionButton(
-                text = { Text("Create") },
+                text = { Text(stringResource(R.string.sample_create)) },
                 icon = { ActionIcon2() },
                 onClick = { if (enabled) state.value++ },
                 modifier = modifier,

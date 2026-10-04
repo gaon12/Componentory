@@ -23,13 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.BuildConfig
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.RuntimeEnvironment
 
 @Composable
-fun SettingsScreen(appearance: AppAppearance, onAppearanceChange: (AppAppearance) -> Unit) {
+fun SettingsScreen(
+    appearance: AppAppearance,
+    onAppearanceChange: (AppAppearance) -> Unit,
+    language: AppLanguage,
+    onLanguageChange: (AppLanguage) -> Unit,
+) {
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val environment = remember(configuration) { RuntimeEnvironment.read(context) }
@@ -41,10 +48,48 @@ fun SettingsScreen(appearance: AppAppearance, onAppearanceChange: (AppAppearance
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        Text("설정", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.nav_settings), style = MaterialTheme.typography.headlineMedium)
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("앱 테마", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(R.string.app_language),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Column(Modifier.selectableGroup()) {
+                    AppLanguage.entries.forEach { option ->
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .heightIn(min = 48.dp)
+                                .selectable(
+                                    selected = language == option,
+                                    onClick = { onLanguageChange(option) },
+                                    role = Role.RadioButton,
+                                )
+                                .testTag("language_${option.name}"),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            RadioButton(selected = language == option, onClick = null)
+                            Text(
+                                if (option == AppLanguage.SYSTEM)
+                                    stringResource(R.string.language_system)
+                                else option.nativeName,
+                                modifier = Modifier.padding(start = 12.dp),
+                            )
+                        }
+                    }
+                }
+                Text(
+                    stringResource(R.string.language_note),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+        }
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    stringResource(R.string.app_theme),
+                    style = MaterialTheme.typography.titleMedium,
+                )
                 Column(Modifier.selectableGroup()) {
                     AppAppearance.entries.forEach { option ->
                         Row(
@@ -59,30 +104,39 @@ fun SettingsScreen(appearance: AppAppearance, onAppearanceChange: (AppAppearance
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             RadioButton(selected = appearance == option, onClick = null)
-                            Text(option.label, modifier = Modifier.padding(start = 12.dp))
+                            Text(
+                                stringResource(option.labelRes),
+                                modifier = Modifier.padding(start = 12.dp),
+                            )
                         }
                     }
                 }
                 Text(
-                    "탐색 화면에 적용됩니다. 컴포넌트 샘플은 선택한 UI의 밝은 테마를 유지합니다.",
+                    stringResource(R.string.appearance_note),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
         }
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("실행 환경", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(R.string.runtime_title),
+                    style = MaterialTheme.typography.titleMedium,
+                )
                 Text(environment.summary, modifier = Modifier.testTag("runtime"))
                 Text(environment.details, style = MaterialTheme.typography.bodySmall)
             }
         }
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("UI 라이브러리", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(R.string.ui_libraries),
+                    style = MaterialTheme.typography.titleMedium,
+                )
                 Text("Compose Material 2 · ${BuildConfig.MATERIAL2_VERSION}")
                 Text("Compose Material 3 · ${BuildConfig.MATERIAL3_VERSION}")
                 Text(
-                    "플랫폼 샘플은 현재 OS의 Android 프레임워크 위젯을 사용합니다.",
+                    stringResource(R.string.platform_note),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
@@ -92,7 +146,7 @@ fun SettingsScreen(appearance: AppAppearance, onAppearanceChange: (AppAppearance
             style = MaterialTheme.typography.labelLarge,
         )
         Text(
-            "UI 버전 선택은 테마 또는 라이브러리를 바꿉니다. 기기의 Android OS 버전은 그대로입니다. 화면에 표시되는 조작 결과는 자동 테스트 결과와 구분됩니다.",
+            stringResource(R.string.accuracy_note),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

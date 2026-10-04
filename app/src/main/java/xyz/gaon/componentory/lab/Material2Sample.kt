@@ -28,7 +28,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import kotlin.math.roundToInt
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
 @Composable
@@ -44,7 +46,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 }
                 LabComponent.BUTTON ->
                     Button(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
-                        Text("Tap me")
+                        Text(stringResource(R.string.sample_button))
                     }
                 LabComponent.CHECKBOX ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -54,7 +56,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                             enabled = enabled,
                             modifier = sample,
                         )
-                        Text("Select me")
+                        Text(stringResource(R.string.sample_checkbox))
                     }
                 LabComponent.SWITCH ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -64,7 +66,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                             enabled = enabled,
                             modifier = sample,
                         )
-                        Text("Enable option")
+                        Text(stringResource(R.string.sample_switch))
                     }
                 LabComponent.RADIO ->
                     Column {
@@ -76,7 +78,11 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                                     enabled = enabled,
                                     modifier = Modifier.testTag("library_${panel}_$option"),
                                 )
-                                Text(if (option == 1) "Option A" else "Option B")
+                                Text(
+                                    stringResource(
+                                        if (option == 1) R.string.option_a else R.string.option_b
+                                    )
+                                )
                             }
                         }
                     }
@@ -86,7 +92,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         onValueChange = { state.text = it },
                         enabled = enabled,
                         singleLine = true,
-                        label = { Text("Type something") },
+                        label = { Text(stringResource(R.string.sample_hint)) },
                         modifier = sample,
                     )
                 LabComponent.SLIDER ->
@@ -111,7 +117,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         enabled = enabled,
                         modifier = sample,
                     ) {
-                        Text("Open dialog")
+                        Text(stringResource(R.string.open_dialog))
                     }
                 else ->
                     androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth()) {
@@ -131,8 +137,8 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     dialogOpen = false
                     state.value = 4
                 },
-                title = { Text("Sample dialog") },
-                text = { Text("This dialog uses Compose Material 2.") },
+                title = { Text(stringResource(R.string.dialog_title)) },
+                text = { Text(stringResource(R.string.dialog_library_message, "Material 2")) },
                 confirmButton = {
                     TextButton(
                         onClick = {
@@ -141,7 +147,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         },
                         modifier = Modifier.testTag("dialog_confirm"),
                     ) {
-                        Text("Confirm")
+                        Text(stringResource(R.string.dialog_confirm))
                     }
                 },
                 dismissButton = {
@@ -152,7 +158,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         },
                         modifier = Modifier.testTag("dialog_cancel"),
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.dialog_cancel))
                     }
                 },
             )

@@ -140,7 +140,7 @@ class CatalogNavigationTest {
         compose.onNodeWithTag("list_DIALOG").performClick()
         compose.onNodeWithTag("detail_screen").assertExists()
         compose.onNodeWithTag("detail_back").performClick()
-        search("스위치")
+        search("Switch")
         compose.onNodeWithTag("list_SWITCH").assertIsDisplayed()
     }
 

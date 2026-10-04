@@ -26,8 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.CategoryFilter
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
@@ -39,31 +41,35 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
         onClick = { open = true },
         modifier = Modifier.fillMaxWidth().testTag("component_picker"),
     ) {
-        Text(component.label)
+        Text(stringResource(component.labelRes))
     }
     if (open) {
         var query by rememberSaveable { mutableStateOf("") }
         var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
         val focus = LocalFocusManager.current
+        val context = androidx.compose.ui.platform.LocalContext.current
         val options =
             LabComponent.entries.filter {
-                it.matchesSearch(query) && (category == null || it.category == category)
+                it.matchesSearch(query, context) && (category == null || it.category == category)
             }
         AlertDialog(
             onDismissRequest = { open = false },
-            title = { Text("비교할 컴포넌트") },
+            title = { Text(stringResource(R.string.compare_component_title)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     OutlinedTextField(
                         value = query,
                         onValueChange = { query = it },
                         singleLine = true,
-                        label = { Text("이름 또는 클래스 검색") },
+                        label = { Text(stringResource(R.string.component_search_hint)) },
                         modifier = Modifier.fillMaxWidth().testTag("picker_search"),
                     )
                     CategoryFilter(category, { category = it }, "picker", Modifier.fillMaxWidth())
                     if (options.isEmpty())
-                        Text("검색 결과가 없습니다", modifier = Modifier.testTag("picker_empty"))
+                        Text(
+                            stringResource(R.string.no_results),
+                            modifier = Modifier.testTag("picker_empty"),
+                        )
                     LazyColumn(
                         Modifier.heightIn(max = 420.dp)
                             .selectableGroup()
@@ -88,9 +94,12 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
                             ) {
                                 RadioButton(selected = option == component, onClick = null)
                                 Column {
-                                    Text(option.label, style = MaterialTheme.typography.titleSmall)
                                     Text(
-                                        option.description,
+                                        stringResource(option.labelRes),
+                                        style = MaterialTheme.typography.titleSmall,
+                                    )
+                                    Text(
+                                        stringResource(option.descriptionRes),
                                         style = MaterialTheme.typography.bodySmall,
                                     )
                                 }
@@ -107,7 +116,7 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
                     },
                     modifier = Modifier.testTag("picker_close"),
                 ) {
-                    Text("닫기")
+                    Text(stringResource(R.string.close))
                 }
             },
         )

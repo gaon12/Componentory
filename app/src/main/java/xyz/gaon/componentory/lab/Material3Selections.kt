@@ -16,6 +16,8 @@ import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import xyz.gaon.componentory.R
 
 @Composable
 internal fun Material3Selections(
@@ -30,14 +32,14 @@ internal fun Material3Selections(
         LabComponent.ASSIST_CHIP ->
             AssistChip(
                 onClick = { state.value++ },
-                label = { Text("Action") },
+                label = { Text(stringResource(R.string.sample_action)) },
                 enabled = enabled,
                 modifier = modifier,
             )
         LabComponent.ELEVATED_ASSIST_CHIP ->
             ElevatedAssistChip(
                 onClick = { state.value++ },
-                label = { Text("Action") },
+                label = { Text(stringResource(R.string.sample_action)) },
                 enabled = enabled,
                 modifier = modifier,
             )
@@ -45,7 +47,7 @@ internal fun Material3Selections(
             FilterChip(
                 selected = state.value == 1,
                 onClick = toggle,
-                label = { Text("Filter") },
+                label = { Text(stringResource(R.string.sample_filter)) },
                 enabled = enabled,
                 modifier = modifier,
             )
@@ -53,7 +55,7 @@ internal fun Material3Selections(
             ElevatedFilterChip(
                 selected = state.value == 1,
                 onClick = toggle,
-                label = { Text("Filter") },
+                label = { Text(stringResource(R.string.sample_filter)) },
                 enabled = enabled,
                 modifier = modifier,
             )
@@ -61,21 +63,21 @@ internal fun Material3Selections(
             InputChip(
                 selected = state.value == 1,
                 onClick = toggle,
-                label = { Text("Input") },
+                label = { Text(stringResource(R.string.category_input)) },
                 enabled = enabled,
                 modifier = modifier,
             )
         LabComponent.SUGGESTION_CHIP ->
             SuggestionChip(
                 onClick = { state.value++ },
-                label = { Text("Suggestion") },
+                label = { Text(stringResource(R.string.sample_suggestion)) },
                 enabled = enabled,
                 modifier = modifier,
             )
         LabComponent.ELEVATED_SUGGESTION_CHIP ->
             ElevatedSuggestionChip(
                 onClick = { state.value++ },
-                label = { Text("Suggestion") },
+                label = { Text(stringResource(R.string.sample_suggestion)) },
                 enabled = enabled,
                 modifier = modifier,
             )

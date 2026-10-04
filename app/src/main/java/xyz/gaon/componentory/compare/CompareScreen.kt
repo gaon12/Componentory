@@ -24,7 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
@@ -48,15 +50,15 @@ fun CompareScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text("비교", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.nav_compare), style = MaterialTheme.typography.headlineMedium)
         Text(
-            "같은 컴포넌트, 다른 UI. Android ${Build.VERSION.RELEASE}에서 직접 비교하세요.",
+            stringResource(R.string.compare_intro, Build.VERSION.RELEASE),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         ComponentPicker(component, onComponentChange)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(
-                component.label,
+                stringResource(component.labelRes),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.weight(1f),
             )
@@ -65,8 +67,10 @@ fun CompareScreen(
                 onCheckedChange = { enabled = it },
                 modifier = Modifier.testTag("enabled"),
             )
-            Text("사용 가능", modifier = Modifier.padding(horizontal = 12.dp))
-            TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) { Text("초기화") }
+            Text(stringResource(R.string.enabled), modifier = Modifier.padding(horizontal = 12.dp))
+            TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) {
+                Text(stringResource(R.string.reset))
+            }
         }
         BoxWithConstraints(Modifier.fillMaxWidth()) {
             if (maxWidth >= 600.dp) {
@@ -79,7 +83,7 @@ fun CompareScreen(
                         enabled,
                         reset,
                         Modifier.weight(1f),
-                        title = "왼쪽 UI",
+                        title = stringResource(R.string.left_ui),
                     )
                     SamplePanel(
                         "RIGHT",
@@ -89,7 +93,7 @@ fun CompareScreen(
                         enabled,
                         reset,
                         Modifier.weight(1f),
-                        title = "오른쪽 UI",
+                        title = stringResource(R.string.right_ui),
                     )
                 }
             } else {
@@ -101,7 +105,7 @@ fun CompareScreen(
                         component,
                         enabled,
                         reset,
-                        title = "왼쪽 UI",
+                        title = stringResource(R.string.left_ui),
                     )
                     SamplePanel(
                         "RIGHT",
@@ -110,7 +114,7 @@ fun CompareScreen(
                         component,
                         enabled,
                         reset,
-                        title = "오른쪽 UI",
+                        title = stringResource(R.string.right_ui),
                     )
                 }
             }

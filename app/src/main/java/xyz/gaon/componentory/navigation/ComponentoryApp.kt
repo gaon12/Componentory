@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import xyz.gaon.componentory.R
@@ -44,14 +45,16 @@ import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.settings.AppAppearance
+import xyz.gaon.componentory.settings.AppLanguage
 import xyz.gaon.componentory.settings.AppearancePreferences
+import xyz.gaon.componentory.settings.LanguagePreferences
 import xyz.gaon.componentory.settings.SettingsScreen
 import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 
-private enum class AppTab(val label: String, val icon: Int, val tag: String) {
-    LIST("리스트", R.drawable.ic_list, "nav_list"),
-    COMPARE("비교", R.drawable.ic_compare, "nav_compare"),
-    SETTINGS("설정", R.drawable.ic_settings, "nav_settings"),
+private enum class AppTab(val labelRes: Int, val icon: Int, val tag: String) {
+    LIST(R.string.nav_list, R.drawable.ic_list, "nav_list"),
+    COMPARE(R.string.nav_compare, R.drawable.ic_compare, "nav_compare"),
+    SETTINGS(R.string.nav_settings, R.drawable.ic_settings, "nav_settings"),
 }
 
 @Composable
@@ -74,10 +77,15 @@ fun ComponentoryApp() {
         }
     }
     ComponentoryTheme(darkTheme = dark, dynamicColor = false) {
-        ComponentoryNavigation(appearance) {
-            preferences.save(it)
-            appearance = it
-        }
+        ComponentoryNavigation(
+            appearance,
+            LanguagePreferences.read(context),
+            {
+                preferences.save(it)
+                appearance = it
+            },
+            { LanguagePreferences.apply(context as Activity, it) },
+        )
     }
 }
 
@@ -85,7 +93,9 @@ fun ComponentoryApp() {
 @Composable
 private fun ComponentoryNavigation(
     appearance: AppAppearance,
+    language: AppLanguage,
     onAppearanceChange: (AppAppearance) -> Unit,
+    onLanguageChange: (AppLanguage) -> Unit,
 ) {
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
@@ -104,7 +114,12 @@ private fun ComponentoryNavigation(
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
             TopAppBar(
-                title = { Text(if (inDetail) requireNotNull(detail).label else "Componentory") },
+                title = {
+                    Text(
+                        if (inDetail) stringResource(requireNotNull(detail).labelRes)
+                        else "Componentory"
+                    )
+                },
                 navigationIcon = {
                     if (inDetail) {
                         IconButton(
@@ -113,7 +128,7 @@ private fun ComponentoryNavigation(
                         ) {
                             Icon(
                                 painterResource(R.drawable.ic_back),
-                                contentDescription = "목록으로 돌아가기",
+                                contentDescription = stringResource(R.string.back_to_list),
                             )
                         }
                     }
@@ -133,7 +148,7 @@ private fun ComponentoryNavigation(
                             },
                             modifier = Modifier.testTag("detail_compare"),
                         ) {
-                            Text("비교하기")
+                            Text(stringResource(R.string.compare_action))
                         }
                     }
                 },
@@ -153,7 +168,7 @@ private fun ComponentoryNavigation(
                             icon = {
                                 Icon(painterResource(destination.icon), contentDescription = null)
                             },
-                            label = { Text(destination.label) },
+                            label = { Text(stringResource(destination.labelRes)) },
                             modifier = Modifier.testTag(destination.tag),
                         )
                     }
@@ -186,7 +201,8 @@ private fun ComponentoryNavigation(
                             right,
                             { right = it },
                         )
-                    AppTab.SETTINGS -> SettingsScreen(appearance, onAppearanceChange)
+                    AppTab.SETTINGS ->
+                        SettingsScreen(appearance, onAppearanceChange, language, onLanguageChange)
                 }
             }
         }

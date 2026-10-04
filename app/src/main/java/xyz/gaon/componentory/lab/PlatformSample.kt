@@ -98,13 +98,13 @@ private fun createWidget(context: Context, component: LabComponent): View =
         LabComponent.DIALOG -> Button(context).apply { setText(R.string.open_dialog) }
         LabComponent.TOGGLE_BUTTON ->
             ToggleButton(context).apply {
-                textOn = "On"
-                textOff = "Off"
+                textOn = context.getString(R.string.sample_state_on)
+                textOff = context.getString(R.string.sample_state_off)
             }
         LabComponent.IMAGE_BUTTON ->
             ImageButton(context).apply {
                 setImageResource(android.R.drawable.ic_input_add)
-                contentDescription = "Add"
+                contentDescription = context.getString(R.string.sample_create)
                 minimumHeight = (48 * resources.displayMetrics.density).toInt()
             }
         LabComponent.ICON ->

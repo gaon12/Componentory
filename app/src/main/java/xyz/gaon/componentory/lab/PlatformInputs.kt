@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.MultiAutoCompleteTextView
 import android.widget.SearchView
 import android.widget.Spinner
+import xyz.gaon.componentory.R
 
 private val inputOptions = listOf("Alpha", "Beta", "Gamma")
 
@@ -19,7 +20,7 @@ internal fun createPlatformInput(context: Context, component: LabComponent): Vie
     when (component) {
         LabComponent.AUTOCOMPLETE ->
             AutoCompleteTextView(context).apply {
-                hint = "Choose a sample item"
+                hint = context.getString(R.string.sample_item_hint)
                 threshold = 1
                 setSingleLine(true)
                 setAdapter(
@@ -28,7 +29,7 @@ internal fun createPlatformInput(context: Context, component: LabComponent): Vie
             }
         LabComponent.MULTI_AUTOCOMPLETE ->
             MultiAutoCompleteTextView(context).apply {
-                hint = "Choose several sample items"
+                hint = context.getString(R.string.sample_multi_item_hint)
                 threshold = 1
                 setSingleLine(true)
                 setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
@@ -48,7 +49,7 @@ internal fun createPlatformInput(context: Context, component: LabComponent): Vie
             SearchView(context).apply {
                 isIconifiedByDefault = false
                 isSubmitButtonEnabled = true
-                queryHint = "Search sample items"
+                queryHint = context.getString(R.string.sample_search_hint)
             }
         else -> error("Unsupported components must be handled by SamplePanel.")
     }

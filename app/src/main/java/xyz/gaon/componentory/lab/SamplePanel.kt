@@ -49,7 +49,7 @@ fun SamplePanel(
     enabled: Boolean,
     reset: Int,
     modifier: Modifier = Modifier,
-    title: String = "$panel SAMPLE",
+    title: String = stringResource(R.string.sample_title),
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val state =
@@ -58,7 +58,7 @@ fun SamplePanel(
         }
     val context = LocalContext.current
     val platform = family.platform
-    val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT)
+    val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT, context)
     val icon =
         if (component.usesIcon && unsupported == null)
             remember(platform, state.icon) {
@@ -106,7 +106,7 @@ fun SamplePanel(
                     }
                 }
             }
-            Text(family.origin, style = MaterialTheme.typography.bodySmall)
+            Text(family.origin(context), style = MaterialTheme.typography.bodySmall)
             if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
             if (icon != null) {
                 Text(
@@ -124,7 +124,7 @@ fun SamplePanel(
                 if (unsupported != null) {
                     Column(Modifier.testTag("unsupported_$panel")) {
                         Text(
-                            "지원하지 않음",
+                            stringResource(R.string.unsupported),
                             color = Color.Black,
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -178,20 +178,20 @@ fun SamplePanel(
                 Text(
                     if (component == LabComponent.ICON)
                         stringResource(R.string.icon_status, requireNotNull(icon).name)
-                    else component.feedback(state.value, state.text),
+                    else component.feedback(context, state.value, state.text),
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
                 )
             HorizontalDivider()
             Text(
-                family.source(component),
+                family.source(component, context),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.testTag("source_$panel"),
             )
             Text(
-                family.implementation +
+                family.implementation(context) +
                     if (platform != null && component.platformSource != null)
-                        " · widget API ${component.minimumApi}+"
+                        " · " + stringResource(R.string.widget_api, component.minimumApi)
                     else "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -199,19 +199,16 @@ fun SamplePanel(
             )
             if (component == LabComponent.PROGRESS && platform == null) {
                 Text(
-                    "Read-only indicator; this library provides no disabled appearance.",
+                    stringResource(R.string.progress_note),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
             if (component.isFloatingAction && unsupported == null) {
-                Text(
-                    "이 라이브러리는 FAB의 비활성 스타일을 제공하지 않습니다. 사용 가능을 끄면 동작을 멈춥니다.",
-                    style = MaterialTheme.typography.bodySmall,
-                )
+                Text(stringResource(R.string.fab_note), style = MaterialTheme.typography.bodySmall)
             }
             if (component.isSecureInput && unsupported == null) {
                 Text(
-                    "입력 내용은 화면 재생성 시 지워지며, 결과에는 글자 수만 표시합니다.",
+                    stringResource(R.string.secure_note),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }

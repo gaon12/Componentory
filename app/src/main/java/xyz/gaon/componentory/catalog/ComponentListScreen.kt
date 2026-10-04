@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
@@ -40,9 +42,10 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
     var query by rememberSaveable { mutableStateOf("") }
     var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
     val focus = LocalFocusManager.current
+    val context = androidx.compose.ui.platform.LocalContext.current
     val components =
         LabComponent.entries.filter {
-            it.matchesSearch(query) && (category == null || it.category == category)
+            it.matchesSearch(query, context) && (category == null || it.category == category)
         }
     Column(
         Modifier.widthIn(max = 900.dp)
@@ -52,14 +55,20 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("컴포넌트", style = MaterialTheme.typography.headlineMedium)
-            Text("찾고, 선택하고, 직접 사용해 보세요.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(R.string.components_title),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            Text(
+                stringResource(R.string.catalog_intro),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
             modifier = Modifier.fillMaxWidth().testTag("component_search"),
-            placeholder = { Text("이름 또는 클래스 검색") },
+            placeholder = { Text(stringResource(R.string.component_search_hint)) },
             leadingIcon = {
                 Icon(painterResource(R.drawable.ic_search), contentDescription = null)
             },
@@ -69,7 +78,10 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                         onClick = { query = "" },
                         modifier = Modifier.testTag("clear_search"),
                     ) {
-                        Icon(painterResource(R.drawable.ic_close), contentDescription = "검색어 지우기")
+                        Icon(
+                            painterResource(R.drawable.ic_close),
+                            contentDescription = stringResource(R.string.clear_search),
+                        )
                     }
                 }
             },
@@ -79,7 +91,10 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
         )
         CategoryFilter(category, { category = it }, "list", Modifier.fillMaxWidth())
-        Text("${components.size}개 컴포넌트", style = MaterialTheme.typography.labelLarge)
+        Text(
+            pluralStringResource(R.plurals.component_count, components.size, components.size),
+            style = MaterialTheme.typography.labelLarge,
+        )
         LazyColumn(
             contentPadding = PaddingValues(bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -92,7 +107,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            "검색 결과가 없습니다",
+                            stringResource(R.string.no_results),
                             modifier = Modifier.testTag("search_empty"),
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -104,7 +119,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                             },
                             modifier = Modifier.testTag("show_all_components"),
                         ) {
-                            Text("전체 컴포넌트 보기")
+                            Text(stringResource(R.string.show_all_components))
                         }
                     }
                 }
@@ -122,9 +137,12 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                             Modifier.weight(1f),
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                         ) {
-                            Text(component.label, style = MaterialTheme.typography.titleMedium)
                             Text(
-                                component.description,
+                                stringResource(component.labelRes),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            Text(
+                                stringResource(component.descriptionRes),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )

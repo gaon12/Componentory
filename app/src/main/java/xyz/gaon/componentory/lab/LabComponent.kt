@@ -1,8 +1,11 @@
 package xyz.gaon.componentory.lab
 
+import xyz.gaon.componentory.R
+
 enum class LabComponent(
     val label: String,
-    val description: String,
+    val labelRes: Int,
+    val descriptionRes: Int,
     val platformSource: String? = null,
     val material2Function: String? = null,
     val material3Function: String? = material2Function,
@@ -12,7 +15,8 @@ enum class LabComponent(
 ) {
     BUTTON(
         "Button",
-        "버튼을 누르고 반응을 확인하세요",
+        R.string.component_button,
+        R.string.component_button_description,
         platformSource = "android.widget.Button",
         material2Function = "Button",
         material3Function = "Button",
@@ -21,7 +25,8 @@ enum class LabComponent(
     ),
     CHECKBOX(
         "Checkbox",
-        "선택하거나 해제하는 체크박스",
+        R.string.component_checkbox,
+        R.string.component_checkbox_description,
         platformSource = "android.widget.CheckBox",
         category = ComponentCategory.SELECTION,
         material2Function = "Checkbox",
@@ -31,7 +36,8 @@ enum class LabComponent(
     ),
     RADIO(
         "Radio buttons",
-        "여러 옵션 중 하나를 선택하는 라디오 버튼",
+        R.string.component_radio,
+        R.string.component_radio_description,
         platformSource = "android.widget.RadioButton",
         category = ComponentCategory.SELECTION,
         material2Function = "RadioButton",
@@ -41,7 +47,8 @@ enum class LabComponent(
     ),
     SWITCH(
         "Switch",
-        "켜고 끄는 스위치",
+        R.string.component_switch,
+        R.string.component_switch_description,
         platformSource = "android.widget.Switch",
         category = ComponentCategory.SELECTION,
         material2Function = "Switch",
@@ -51,7 +58,8 @@ enum class LabComponent(
     ),
     TEXT_FIELD(
         "Text field",
-        "텍스트를 입력하는 필드",
+        R.string.component_text_field,
+        R.string.component_text_field_description,
         platformSource = "android.widget.EditText",
         category = ComponentCategory.INPUT,
         material2Function = "TextField",
@@ -61,7 +69,8 @@ enum class LabComponent(
     ),
     SLIDER(
         "Slider",
-        "드래그해서 값을 조절하는 슬라이더",
+        R.string.component_slider,
+        R.string.component_slider_description,
         platformSource = "android.widget.SeekBar",
         category = ComponentCategory.INPUT,
         material2Function = "Slider",
@@ -71,7 +80,8 @@ enum class LabComponent(
     ),
     PROGRESS(
         "Progress",
-        "진행 정도를 표시하는 인디케이터",
+        R.string.component_progress,
+        R.string.component_progress_description,
         platformSource = "android.widget.ProgressBar",
         category = ComponentCategory.INDICATOR,
         material2Function = "LinearProgressIndicator",
@@ -81,7 +91,8 @@ enum class LabComponent(
     ),
     DIALOG(
         "Dialog",
-        "확인과 취소를 선택하는 대화상자",
+        R.string.component_dialog,
+        R.string.component_dialog_description,
         platformSource = "android.app.AlertDialog",
         category = ComponentCategory.FEEDBACK,
         material2Function = "AlertDialog",
@@ -91,7 +102,8 @@ enum class LabComponent(
     ),
     TOGGLE_BUTTON(
         "Toggle button",
-        "켜짐과 꺼짐을 선택하는 토글 버튼",
+        R.string.component_toggle_button,
+        R.string.component_toggle_button_description,
         platformSource = "android.widget.ToggleButton",
         category = ComponentCategory.SELECTION,
         material2Function = null,
@@ -101,7 +113,8 @@ enum class LabComponent(
     ),
     IMAGE_BUTTON(
         "Image button",
-        "아이콘을 누르는 이미지 버튼",
+        R.string.component_image_button,
+        R.string.component_image_button_description,
         platformSource = "android.widget.ImageButton",
         material2Function = null,
         material3Function = null,
@@ -110,7 +123,8 @@ enum class LabComponent(
     ),
     RATING(
         "Rating bar",
-        "별을 눌러 점수를 선택하는 별점",
+        R.string.component_rating,
+        R.string.component_rating_description,
         platformSource = "android.widget.RatingBar",
         category = ComponentCategory.PICKER,
         material2Function = null,
@@ -120,7 +134,8 @@ enum class LabComponent(
     ),
     NUMBER_PICKER(
         "Number picker",
-        "숫자를 스크롤하거나 버튼으로 선택하는 피커",
+        R.string.component_number_picker,
+        R.string.component_number_picker_description,
         platformSource = "android.widget.NumberPicker",
         category = ComponentCategory.PICKER,
         material2Function = null,
@@ -130,7 +145,8 @@ enum class LabComponent(
     ),
     OUTLINED_BUTTON(
         "Outlined button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_outlined_button,
+        R.string.component_outlined_button_description,
         platformSource = null,
         material2Function = "OutlinedButton",
         material3Function = "OutlinedButton",
@@ -139,7 +155,8 @@ enum class LabComponent(
     ),
     TEXT_BUTTON(
         "Text button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_text_button,
+        R.string.component_text_button_description,
         platformSource = null,
         material2Function = "TextButton",
         material3Function = "TextButton",
@@ -148,7 +165,8 @@ enum class LabComponent(
     ),
     ELEVATED_BUTTON(
         "Elevated button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_elevated_button,
+        R.string.component_elevated_button_description,
         platformSource = null,
         material2Function = null,
         material3Function = "ElevatedButton",
@@ -157,7 +175,8 @@ enum class LabComponent(
     ),
     TONAL_BUTTON(
         "Tonal button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_tonal_button,
+        R.string.component_tonal_button_description,
         platformSource = null,
         material2Function = null,
         material3Function = "FilledTonalButton",
@@ -166,7 +185,8 @@ enum class LabComponent(
     ),
     ICON_BUTTON(
         "Icon button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_icon_button,
+        R.string.component_icon_button_description,
         platformSource = null,
         material2Function = "IconButton",
         material3Function = "IconButton",
@@ -175,7 +195,8 @@ enum class LabComponent(
     ),
     ICON_TOGGLE(
         "Icon toggle button",
-        "아이콘을 눌러 선택 상태를 전환하세요",
+        R.string.component_icon_toggle,
+        R.string.component_icon_toggle_description,
         platformSource = null,
         material2Function = "IconToggleButton",
         material3Function = "IconToggleButton",
@@ -184,7 +205,8 @@ enum class LabComponent(
     ),
     FILLED_ICON_BUTTON(
         "Filled icon button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_filled_icon_button,
+        R.string.component_filled_icon_button_description,
         platformSource = null,
         material2Function = null,
         material3Function = "FilledIconButton",
@@ -193,7 +215,8 @@ enum class LabComponent(
     ),
     FILLED_ICON_TOGGLE(
         "Filled icon toggle",
-        "아이콘을 눌러 선택 상태를 전환하세요",
+        R.string.component_filled_icon_toggle,
+        R.string.component_filled_icon_toggle_description,
         platformSource = null,
         material2Function = null,
         material3Function = "FilledIconToggleButton",
@@ -202,7 +225,8 @@ enum class LabComponent(
     ),
     TONAL_ICON_BUTTON(
         "Tonal icon button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_tonal_icon_button,
+        R.string.component_tonal_icon_button_description,
         platformSource = null,
         material2Function = null,
         material3Function = "FilledTonalIconButton",
@@ -211,7 +235,8 @@ enum class LabComponent(
     ),
     TONAL_ICON_TOGGLE(
         "Tonal icon toggle",
-        "아이콘을 눌러 선택 상태를 전환하세요",
+        R.string.component_tonal_icon_toggle,
+        R.string.component_tonal_icon_toggle_description,
         platformSource = null,
         material2Function = null,
         material3Function = "FilledTonalIconToggleButton",
@@ -220,7 +245,8 @@ enum class LabComponent(
     ),
     OUTLINED_ICON_BUTTON(
         "Outlined icon button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_outlined_icon_button,
+        R.string.component_outlined_icon_button_description,
         platformSource = null,
         material2Function = null,
         material3Function = "OutlinedIconButton",
@@ -229,7 +255,8 @@ enum class LabComponent(
     ),
     OUTLINED_ICON_TOGGLE(
         "Outlined icon toggle",
-        "아이콘을 눌러 선택 상태를 전환하세요",
+        R.string.component_outlined_icon_toggle,
+        R.string.component_outlined_icon_toggle_description,
         platformSource = null,
         material2Function = null,
         material3Function = "OutlinedIconToggleButton",
@@ -238,7 +265,8 @@ enum class LabComponent(
     ),
     FAB(
         "Floating action button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_fab,
+        R.string.component_fab_description,
         platformSource = null,
         material2Function = "FloatingActionButton",
         material3Function = "FloatingActionButton",
@@ -247,7 +275,8 @@ enum class LabComponent(
     ),
     EXTENDED_FAB(
         "Extended floating action button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_extended_fab,
+        R.string.component_extended_fab_description,
         platformSource = null,
         material2Function = "ExtendedFloatingActionButton",
         material3Function = "ExtendedFloatingActionButton",
@@ -256,7 +285,8 @@ enum class LabComponent(
     ),
     SMALL_FAB(
         "Small floating action button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_small_fab,
+        R.string.component_small_fab_description,
         platformSource = null,
         material2Function = null,
         material3Function = "SmallFloatingActionButton",
@@ -265,7 +295,8 @@ enum class LabComponent(
     ),
     LARGE_FAB(
         "Large floating action button",
-        "버튼을 누르고 디자인과 반응을 비교하세요",
+        R.string.component_large_fab,
+        R.string.component_large_fab_description,
         platformSource = null,
         material2Function = null,
         material3Function = "LargeFloatingActionButton",
@@ -274,127 +305,146 @@ enum class LabComponent(
     ),
     CHIP(
         "Chip",
-        "누르면 동작하는 Material 2 칩",
+        R.string.component_chip,
+        R.string.component_chip_description,
         material2Function = "Chip",
         material3Function = null,
         category = ComponentCategory.SELECTION,
     ),
     ASSIST_CHIP(
         "Assist chip",
-        "관련 동작을 실행하는 칩",
+        R.string.component_assist_chip,
+        R.string.component_assist_chip_description,
         material2Function = null,
         material3Function = "AssistChip",
         category = ComponentCategory.SELECTION,
     ),
     ELEVATED_ASSIST_CHIP(
         "Elevated assist chip",
-        "그림자가 있는 동작 칩",
+        R.string.component_elevated_assist_chip,
+        R.string.component_elevated_assist_chip_description,
         material2Function = null,
         material3Function = "ElevatedAssistChip",
         category = ComponentCategory.SELECTION,
     ),
     FILTER_CHIP(
         "Filter chip",
-        "필터를 선택하거나 해제하는 칩",
+        R.string.component_filter_chip,
+        R.string.component_filter_chip_description,
         material2Function = "FilterChip",
         material3Function = "FilterChip",
         category = ComponentCategory.SELECTION,
     ),
     ELEVATED_FILTER_CHIP(
         "Elevated filter chip",
-        "그림자가 있는 선택 칩",
+        R.string.component_elevated_filter_chip,
+        R.string.component_elevated_filter_chip_description,
         material2Function = null,
         material3Function = "ElevatedFilterChip",
         category = ComponentCategory.SELECTION,
     ),
     INPUT_CHIP(
         "Input chip",
-        "선택한 입력 항목을 표시하는 칩",
+        R.string.component_input_chip,
+        R.string.component_input_chip_description,
         material2Function = null,
         material3Function = "InputChip",
         category = ComponentCategory.SELECTION,
     ),
     SUGGESTION_CHIP(
         "Suggestion chip",
-        "추천 항목을 실행하는 칩",
+        R.string.component_suggestion_chip,
+        R.string.component_suggestion_chip_description,
         material2Function = null,
         material3Function = "SuggestionChip",
         category = ComponentCategory.SELECTION,
     ),
     ELEVATED_SUGGESTION_CHIP(
         "Elevated suggestion chip",
-        "그림자가 있는 추천 칩",
+        R.string.component_elevated_suggestion_chip,
+        R.string.component_elevated_suggestion_chip_description,
         material2Function = null,
         material3Function = "ElevatedSuggestionChip",
         category = ComponentCategory.SELECTION,
     ),
     TRI_STATE_CHECKBOX(
         "Tri-state checkbox",
-        "선택·해제·일부 선택의 세 상태 체크박스",
+        R.string.component_tri_state_checkbox,
+        R.string.component_tri_state_checkbox_description,
         material2Function = "TriStateCheckbox",
         material3Function = "TriStateCheckbox",
         category = ComponentCategory.SELECTION,
     ),
     SINGLE_SEGMENTED(
         "Single-choice segmented buttons",
-        "분할된 버튼 중 하나를 선택하세요",
+        R.string.component_single_segmented,
+        R.string.component_single_segmented_description,
         material2Function = null,
         material3Function = "SingleChoiceSegmentedButtonRow",
         category = ComponentCategory.SELECTION,
     ),
     MULTI_SEGMENTED(
         "Multi-choice segmented buttons",
-        "분할된 버튼을 여러 개 선택하세요",
+        R.string.component_multi_segmented,
+        R.string.component_multi_segmented_description,
         material2Function = null,
         material3Function = "MultiChoiceSegmentedButtonRow",
         category = ComponentCategory.SELECTION,
     ),
     OUTLINED_TEXT_FIELD(
         "Outlined text field",
-        "외곽선이 있는 텍스트 입력창",
+        R.string.component_outlined_text_field,
+        R.string.component_outlined_text_field_description,
         material2Function = "OutlinedTextField",
         category = ComponentCategory.INPUT,
     ),
     SECURE_TEXT_FIELD(
         "Secure text field",
-        "입력한 문자를 가리는 보안 입력창",
+        R.string.component_secure_text_field,
+        R.string.component_secure_text_field_description,
         material2Function = "SecureTextField",
         category = ComponentCategory.INPUT,
     ),
     OUTLINED_SECURE_TEXT_FIELD(
         "Outlined secure text field",
-        "외곽선이 있는 보안 입력창",
+        R.string.component_outlined_secure_text_field,
+        R.string.component_outlined_secure_text_field_description,
         material2Function = "OutlinedSecureTextField",
         category = ComponentCategory.INPUT,
     ),
     AUTOCOMPLETE(
         "Autocomplete",
-        "입력한 글자로 추천 항목을 찾고 선택하세요",
+        R.string.component_autocomplete,
+        R.string.component_autocomplete_description,
         platformSource = "android.widget.AutoCompleteTextView",
         category = ComponentCategory.INPUT,
     ),
     MULTI_AUTOCOMPLETE(
         "Multi autocomplete",
-        "쉼표로 구분한 여러 항목을 자동완성하세요",
+        R.string.component_multi_autocomplete,
+        R.string.component_multi_autocomplete_description,
         platformSource = "android.widget.MultiAutoCompleteTextView",
         category = ComponentCategory.INPUT,
     ),
     SPINNER(
         "Spinner",
-        "펼쳐지는 목록에서 항목을 선택하세요",
+        R.string.component_spinner,
+        R.string.component_spinner_description,
         platformSource = "android.widget.Spinner",
         category = ComponentCategory.INPUT,
     ),
     ICON(
         "Icon",
-        "공급원에서 제공하는 모든 아이콘을 찾아 선택하세요",
+        R.string.component_icon,
+        R.string.component_icon_description,
         platformSource = "android.widget.ImageView",
         material2Function = "Icon",
         category = ComponentCategory.CONTENT,
     ),
     SEARCH_VIEW(
         "Search view",
-        "검색어를 입력하고 검색·지우기 동작을 사용하세요",
+        R.string.component_search_view,
+        R.string.component_search_view_description,
         platformSource = "android.widget.SearchView",
         minimumApi = 11,
         category = ComponentCategory.INPUT,
@@ -425,12 +475,13 @@ enum class LabComponent(
                 this in
                     listOf(ICON_BUTTON, FILLED_ICON_BUTTON, TONAL_ICON_BUTTON, OUTLINED_ICON_BUTTON)
 
-    fun matchesSearch(query: String): Boolean {
+    fun matchesSearch(query: String, context: android.content.Context? = null): Boolean {
         val term = query.trim()
         val names =
             listOfNotNull(
                 label,
-                description,
+                context?.getString(labelRes),
+                context?.getString(descriptionRes),
                 platformSource,
                 material2Function?.let { "androidx.compose.material.$it" },
                 material3Function?.let { "androidx.compose.material3.$it" },
@@ -438,47 +489,73 @@ enum class LabComponent(
         return term.isEmpty() || names.any { it.contains(term, ignoreCase = true) }
     }
 
-    fun feedback(value: Int, text: String): String =
-        when {
-            isSecureInput -> "Characters: $value"
-            this == SPINNER -> "Selected: ${listOf("Alpha", "Beta", "Gamma")[value]}"
-            this == SEARCH_VIEW -> "Query: ${text.ifEmpty { "empty" }} · Searches: $value"
+    fun feedback(context: android.content.Context, value: Int, text: String): String {
+        val empty = context.getString(R.string.sample_state_empty)
+        return when {
+            isSecureInput -> context.getString(R.string.status_characters, value)
+            this == SPINNER ->
+                context.getString(R.string.status_selected, listOf("Alpha", "Beta", "Gamma")[value])
+            this == SEARCH_VIEW ->
+                context.getString(R.string.status_search, text.ifEmpty { empty }, value)
             this in listOf(TEXT_FIELD, OUTLINED_TEXT_FIELD, AUTOCOMPLETE, MULTI_AUTOCOMPLETE) ->
-                if (text.isEmpty()) "Text: empty" else "Text: $text"
+                context.getString(R.string.status_text, text.ifEmpty { empty })
             this == TRI_STATE_CHECKBOX ->
-                when (value) {
-                    1 -> "Checked"
-                    2 -> "Indeterminate"
-                    else -> "Unchecked"
-                }
+                context.getString(
+                    when (value) {
+                        1 -> R.string.sample_state_checked
+                        2 -> R.string.sample_state_indeterminate
+                        else -> R.string.sample_state_unchecked
+                    }
+                )
             this in listOf(FILTER_CHIP, ELEVATED_FILTER_CHIP, INPUT_CHIP) ->
-                if (value == 1) "Selected" else "Not selected"
+                context.getString(
+                    if (value == 1) R.string.sample_state_selected
+                    else R.string.sample_state_not_selected
+                )
             this == SINGLE_SEGMENTED ->
-                if (value == 0) "No selection" else "Selected: ${('A'.code + value - 1).toChar()}"
+                if (value == 0) context.getString(R.string.sample_state_no_selection)
+                else context.getString(R.string.status_selected, ('A'.code + value - 1).toChar())
             this == MULTI_SEGMENTED ->
-                "Selected: " +
+                context.getString(
+                    R.string.status_selected,
                     (0..2)
                         .filter { value and (1 shl it) != 0 }
                         .joinToString(", ") { ('A'.code + it).toChar().toString() }
-                        .ifEmpty { "none" }
+                        .ifEmpty { context.getString(R.string.sample_state_none) },
+                )
             isIconToggle || this == SWITCH || this == TOGGLE_BUTTON ->
-                if (value == 1) "On" else "Off"
-            this == CHECKBOX -> if (value == 1) "Checked" else "Unchecked"
+                context.getString(
+                    if (value == 1) R.string.sample_state_on else R.string.sample_state_off
+                )
+            this == CHECKBOX ->
+                context.getString(
+                    if (value == 1) R.string.sample_state_checked
+                    else R.string.sample_state_unchecked
+                )
             this == RADIO ->
-                when (value) {
-                    1 -> "Selected: Option A"
-                    2 -> "Selected: Option B"
-                    else -> "No selection"
-                }
-            this == RATING -> "Rating: $value / 5"
-            this == NUMBER_PICKER -> "Number: $value / 10"
-            this == SLIDER || this == PROGRESS -> "Value: $value / 100"
+                if (value == 0) context.getString(R.string.sample_state_no_selection)
+                else
+                    context.getString(
+                        R.string.status_selected,
+                        context.getString(if (value == 1) R.string.option_a else R.string.option_b),
+                    )
+            this == RATING -> context.getString(R.string.status_rating, value)
+            this == NUMBER_PICKER -> context.getString(R.string.status_number, value)
+            this == SLIDER || this == PROGRESS -> context.getString(R.string.status_value, value)
             this == DIALOG ->
-                "Last action: ${when (value) { 1 -> "Opened"
- 2 -> "Confirmed"
- 3 -> "Cancelled"
- 4 -> "Dismissed"
- else -> "Not opened" }}"
-            else -> "Clicks: $value"
+                context.getString(
+                    R.string.status_action,
+                    context.getString(
+                        when (value) {
+                            1 -> R.string.action_opened
+                            2 -> R.string.action_confirmed
+                            3 -> R.string.action_cancelled
+                            4 -> R.string.action_dismissed
+                            else -> R.string.action_not_opened
+                        }
+                    ),
+                )
+            else -> context.getString(R.string.status_clicks, value)
         }
+    }
 }

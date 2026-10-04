@@ -71,7 +71,7 @@ try {
     New-Item -ItemType Directory -Path '.local' -Force | Out-Null
     $instrumentationArguments = @('-s', $Device, 'shell', 'am', 'instrument', '-w', '-r')
     if ($TestClass) { $instrumentationArguments += @('-e', 'class', $TestClass) }
-    $instrumentationArguments += 'xyz.gaon.componentory.test/androidx.test.runner.AndroidJUnitRunner'
+    $instrumentationArguments += 'xyz.gaon.componentory.test/xyz.gaon.componentory.testing.ComponentoryTestRunner'
     $testOutput = & $AdbPath @instrumentationArguments 2>&1
     $testExitCode = $LASTEXITCODE
     $testOutput | Set-Content -LiteralPath '.local/device-tests.txt' -Encoding utf8

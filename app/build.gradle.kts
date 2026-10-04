@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "xyz.gaon.componentory.testing.ComponentoryTestRunner"
         buildConfigField(
             "String",
             "MATERIAL2_VERSION",
@@ -45,6 +45,8 @@ android {
         compose = true
         buildConfig = true
     }
+    // Keep every supported language available when switching without a network connection.
+    bundle { language { enableSplit = false } }
 }
 
 dependencies {

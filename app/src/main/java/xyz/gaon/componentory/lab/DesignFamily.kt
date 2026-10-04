@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
+import android.content.Context
 import xyz.gaon.componentory.BuildConfig
+import xyz.gaon.componentory.R
 
 enum class DesignFamily(val label: String, val platform: PlatformFamily? = null) {
     CLASSIC("Classic", PlatformFamily.CLASSIC),
@@ -19,39 +21,50 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
                 MATERIAL3 -> "Material 3 · Compose"
             }
 
-    val origin: String
-        get() = platform?.let { "Theme from ${it.origin}" } ?: "Compose library · $label design"
+    fun origin(context: Context): String =
+        platform?.let { context.getString(R.string.theme_origin, it.origin) }
+            ?: context.getString(R.string.library_origin, label)
 
-    val implementation: String
-        get() =
-            when (this) {
-                MATERIAL2 ->
-                    "androidx.compose.material:material:${BuildConfig.MATERIAL2_VERSION} · light"
-                MATERIAL3 ->
-                    "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION} · light"
-                else -> "android:${requireNotNull(platform).themeName}"
-            }
+    fun implementation(context: Context): String =
+        when (this) {
+            MATERIAL2 ->
+                "androidx.compose.material:material:${BuildConfig.MATERIAL2_VERSION} · ${context.getString(R.string.light_theme)}"
+            MATERIAL3 ->
+                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION} · ${context.getString(R.string.light_theme)}"
+            else -> "android:${requireNotNull(platform).themeName}"
+        }
 
-    fun source(component: LabComponent): String {
-        if (platform != null) return component.platformSource ?: "제공되지 않음"
+    fun source(component: LabComponent, context: Context? = null): String {
+        val absent = context?.getString(R.string.not_provided) ?: "Not provided"
+        if (platform != null) return component.platformSource ?: absent
         val packageName =
             if (this == MATERIAL2) "androidx.compose.material" else "androidx.compose.material3"
         val function =
             (if (this == MATERIAL2) component.material2Function else component.material3Function)
-                ?: return "제공되지 않음"
+                ?: return absent
         return "$packageName.$function"
     }
 
-    fun unsupportedReason(component: LabComponent, runtimeApi: Int): String? {
+    fun unsupportedReason(
+        component: LabComponent,
+        runtimeApi: Int,
+        context: Context? = null,
+    ): String? {
+        val name = context?.getString(component.labelRes) ?: component.label
         if (platform != null) {
             if (component.platformSource == null)
-                return "Android 플랫폼은 ${component.label} 전용 컴포넌트를 제공하지 않습니다."
+                return context?.getString(R.string.unsupported_platform, name)
+                    ?: "The Android platform does not provide a dedicated $name component."
             return if (runtimeApi < component.minimumApi)
-                "Android API ${component.minimumApi} 이상이 필요합니다. 현재 기기는 API ${runtimeApi}입니다."
+                context?.getString(R.string.unsupported_api, component.minimumApi, runtimeApi)
+                    ?: "Requires Android API ${component.minimumApi} or later. This device runs API $runtimeApi."
             else null
         }
         val function =
             if (this == MATERIAL2) component.material2Function else component.material3Function
-        return if (function == null) "$label 라이브러리는 ${component.label} 컴포넌트를 제공하지 않습니다." else null
+        return if (function == null)
+            context?.getString(R.string.unsupported_library, label, name)
+                ?: "The $label library does not provide $name."
+        else null
     }
 }

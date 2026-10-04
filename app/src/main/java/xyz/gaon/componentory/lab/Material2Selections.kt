@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import xyz.gaon.componentory.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -22,7 +24,7 @@ internal fun Material2Selections(
     when (component) {
         LabComponent.CHIP ->
             Chip(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
-                Text("Action")
+                Text(stringResource(R.string.sample_action))
             }
         LabComponent.FILTER_CHIP ->
             FilterChip(
@@ -31,7 +33,7 @@ internal fun Material2Selections(
                 enabled = enabled,
                 modifier = modifier,
             ) {
-                Text("Filter")
+                Text(stringResource(R.string.sample_filter))
             }
         LabComponent.TRI_STATE_CHECKBOX ->
             TriStateCheckbox(

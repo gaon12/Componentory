@@ -7,6 +7,8 @@ import androidx.compose.material3.SecureTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import xyz.gaon.componentory.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,21 +25,21 @@ internal fun Material3Inputs(
                 onValueChange = { state.text = it },
                 enabled = enabled,
                 singleLine = true,
-                label = { Text("Type something") },
+                label = { Text(stringResource(R.string.sample_hint)) },
                 modifier = modifier,
             )
         LabComponent.SECURE_TEXT_FIELD ->
             SecureTextField(
                 state = rememberSecureSampleState(state),
                 enabled = enabled,
-                label = { Text("Sample password") },
+                label = { Text(stringResource(R.string.sample_password)) },
                 modifier = modifier,
             )
         LabComponent.OUTLINED_SECURE_TEXT_FIELD ->
             OutlinedSecureTextField(
                 state = rememberSecureSampleState(state),
                 enabled = enabled,
-                label = { Text("Sample password") },
+                label = { Text(stringResource(R.string.sample_password)) },
                 modifier = modifier,
             )
         else -> error("Unsupported components must be handled by SamplePanel.")

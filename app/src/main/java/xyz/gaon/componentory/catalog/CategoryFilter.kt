@@ -7,7 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
 
@@ -27,7 +29,7 @@ fun CategoryFilter(
             FilterChip(
                 selected = selected == null,
                 onClick = { onSelect(null) },
-                label = { Text("전체") },
+                label = { Text(stringResource(R.string.all_categories)) },
                 modifier = Modifier.testTag("${tagPrefix}_category_ALL"),
             )
         }
@@ -36,7 +38,7 @@ fun CategoryFilter(
                 FilterChip(
                     selected = selected == category,
                     onClick = { onSelect(category) },
-                    label = { Text(category.label) },
+                    label = { Text(stringResource(category.labelRes)) },
                     modifier = Modifier.testTag("${tagPrefix}_category_${category.name}"),
                 )
             }
