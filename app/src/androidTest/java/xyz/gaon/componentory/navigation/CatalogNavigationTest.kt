@@ -112,7 +112,7 @@ class CatalogNavigationTest {
         compose.onNodeWithTag("library_LEFT").performClick()
         compose.onNodeWithTag("detail_compare").performClick()
         compose.onNodeWithTag("nav_compare").assertIsSelected()
-        compose.onNodeWithTag("component_CHECKBOX").assertIsSelected()
+        compose.onNodeWithTag("component_picker").assertTextEquals("Checkbox")
         compose.onNodeWithTag("source_LEFT").assertTextEquals("androidx.compose.material3.Checkbox")
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Unchecked")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Unchecked")

@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.unit.dp
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -239,7 +241,11 @@ class PlatformComponentsTest {
     }
 
     private fun chooseComponent(component: LabComponent) {
-        compose.onNodeWithTag("component_${component.name}").performScrollTo().performClick()
+        compose.onNodeWithTag("component_picker").performScrollTo().performClick()
+        compose
+            .onNodeWithTag("component_picker_list")
+            .performScrollToNode(hasTestTag("component_${component.name}"))
+        compose.onNodeWithTag("component_${component.name}").performClick()
     }
 
     private fun status(panel: String, text: String) {

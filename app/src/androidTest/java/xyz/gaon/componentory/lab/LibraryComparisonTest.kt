@@ -7,10 +7,12 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
@@ -185,7 +187,11 @@ class LibraryComparisonTest {
     }
 
     private fun chooseComponent(component: LabComponent) {
-        compose.onNodeWithTag("component_${component.name}").performScrollTo().performClick()
+        compose.onNodeWithTag("component_picker").performScrollTo().performClick()
+        compose
+            .onNodeWithTag("component_picker_list")
+            .performScrollToNode(hasTestTag("component_${component.name}"))
+        compose.onNodeWithTag("component_${component.name}").performClick()
     }
 
     private fun sample() = compose.onNodeWithTag("library_LEFT")

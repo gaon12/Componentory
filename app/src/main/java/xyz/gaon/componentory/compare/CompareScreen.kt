@@ -1,7 +1,6 @@
 package xyz.gaon.componentory.compare
 
 import android.os.Build
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -55,19 +53,7 @@ fun CompareScreen(
             "같은 컴포넌트, 다른 UI. Android ${Build.VERSION.RELEASE}에서 직접 비교하세요.",
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Row(
-            Modifier.horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            LabComponent.entries.forEach { option ->
-                FilterChip(
-                    selected = component == option,
-                    onClick = { onComponentChange(option) },
-                    label = { Text(option.label) },
-                    modifier = Modifier.testTag("component_${option.name}"),
-                )
-            }
-        }
+        ComponentPicker(component, onComponentChange)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(
                 component.label,
