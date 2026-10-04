@@ -1,10 +1,65 @@
 package xyz.gaon.componentory.lab
 
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ComponentAvailabilityTest {
+    @Test
+    fun textSamplesUseActualSuppliersAndKeepCheckedTextFrameworkOnly() {
+        DesignFamily.entries.forEach { family ->
+            assertNull(family.unsupportedReason(LabComponent.TEXT, 24))
+            assertEquals(
+                when (family) {
+                    DesignFamily.MATERIAL2 -> "androidx.compose.material.Text"
+                    DesignFamily.MATERIAL3 -> "androidx.compose.material3.Text"
+                    else -> "android.widget.TextView"
+                },
+                family.source(LabComponent.TEXT),
+            )
+            if (family.platform != null) {
+                assertNull(family.unsupportedReason(LabComponent.CHECKED_TEXT_VIEW, 24))
+                assertEquals(
+                    "android.widget.CheckedTextView",
+                    family.source(LabComponent.CHECKED_TEXT_VIEW),
+                )
+            } else {
+                assertNotNull(family.unsupportedReason(LabComponent.CHECKED_TEXT_VIEW, 36))
+                assertEquals("Not provided", family.source(LabComponent.CHECKED_TEXT_VIEW))
+            }
+        }
+        assertEquals(1, LabComponent.TEXT.minimumApi)
+        assertEquals(1, LabComponent.CHECKED_TEXT_VIEW.minimumApi)
+        assertEquals(0, LabComponent.CHECKED_TEXT_VIEW.initialValue)
+        assertEquals(ComponentCategory.CONTENT, LabComponent.TEXT.category)
+        assertEquals(ComponentCategory.CONTENT, LabComponent.CHECKED_TEXT_VIEW.category)
+    }
+
+    @Test
+    fun textSearchFindsRealClassNamesWithoutInventingCheckedTextLibrarySources() {
+        listOf(
+                "android.widget.TextView",
+                "androidx.compose.material.Text",
+                "androidx.compose.material3.Text",
+            )
+            .forEach { source -> assertTrue(LabComponent.TEXT.matchesSearch(source)) }
+        assertTrue(LabComponent.CHECKED_TEXT_VIEW.matchesSearch("android.widget.CheckedTextView"))
+        assertFalse(
+            LabComponent.CHECKED_TEXT_VIEW.matchesSearch(
+                "androidx.compose.material.CheckedTextView"
+            )
+        )
+        assertFalse(
+            LabComponent.CHECKED_TEXT_VIEW.matchesSearch(
+                "androidx.compose.material3.CheckedTextView"
+            )
+        )
+        assertFalse(LabComponent.TEXT.matchesSearch("android.widget.CheckedTextView"))
+    }
+
     @Test
     fun inlineDatePickersUseOnlyTheirGenuineSuppliers() {
         val platformFamilies =

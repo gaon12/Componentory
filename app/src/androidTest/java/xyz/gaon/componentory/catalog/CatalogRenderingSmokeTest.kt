@@ -16,6 +16,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.CheckBox
+import android.widget.CheckedTextView
 import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.EditText
@@ -32,6 +33,7 @@ import android.widget.SearchView
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Switch
+import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.ToggleButton
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
@@ -64,8 +66,10 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -125,22 +129,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 22, 43)
+        verifyFamily(DesignFamily.CLASSIC, 24, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 22, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 24, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 22, 43)
+        verifyFamily(DesignFamily.MATERIAL, 24, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 32, 35)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 36)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 57, 10)
+        verifyFamily(DesignFamily.MATERIAL3, 58, 11)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -149,7 +153,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            67,
+            69,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -242,6 +246,42 @@ class CatalogRenderingSmokeTest {
             assertTrue(view.isEnabled)
             assertNativeTheme(view, family, component)
             when (component) {
+                LabComponent.TEXT,
+                LabComponent.CHECKED_TEXT_VIEW -> {
+                    val text = view as TextView
+                    assertEquals(
+                        compose.activity.getString(R.string.sample_display_text),
+                        text.text.toString(),
+                    )
+                    assertFalse(text.isClickable)
+                    assertFalse(text.hasOnClickListeners())
+                    assertNotNull(text.layout)
+                    assertTrue(text.layout.lineCount >= 3)
+                    if (text is CheckedTextView) {
+                        assertFalse(text.isChecked)
+                        val attributes =
+                            text.context.obtainStyledAttributes(
+                                intArrayOf(android.R.attr.listChoiceIndicatorMultiple)
+                            )
+                        try {
+                            val expected = attributes.getDrawable(0)
+                            if (expected == null) assertNull(text.checkMarkDrawable)
+                            else {
+                                val actual = requireNotNull(text.checkMarkDrawable)
+                                expected.state = text.drawableState
+                                assertEquals(expected.javaClass, actual.javaClass)
+                                assertEquals(expected.intrinsicWidth, actual.intrinsicWidth)
+                                assertEquals(expected.intrinsicHeight, actual.intrinsicHeight)
+                            }
+                        } finally {
+                            attributes.recycle()
+                        }
+                        val node = text.createAccessibilityNodeInfo()
+                        assertTrue(node.isCheckable)
+                        assertFalse(node.isChecked)
+                        assertFalse(node.isClickable)
+                    }
+                }
                 LabComponent.CHECKBOX,
                 LabComponent.SWITCH,
                 LabComponent.TOGGLE_BUTTON -> {
@@ -338,6 +378,21 @@ class CatalogRenderingSmokeTest {
                 else -> assertTrue((view as Button).text.isNotEmpty())
             }
         }
+        if (component == LabComponent.CHECKED_TEXT_VIEW) {
+            val missing =
+                compose.runOnIdle {
+                    compose.activity
+                        .findViewById<CheckedTextView>(R.id.sample_left)
+                        .checkMarkDrawable == null
+                }
+            if (missing)
+                compose
+                    .onNodeWithTag("checked_text_missing_mark_LEFT")
+                    .assertTextEquals(
+                        compose.activity.getString(R.string.checked_text_missing_mark)
+                    )
+            else compose.onNodeWithTag("checked_text_missing_mark_LEFT").assertDoesNotExist()
+        }
         when (component) {
             LabComponent.DIALOG,
             LabComponent.DATE_PICKER_DIALOG,
@@ -371,6 +426,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.SEARCH_VIEW -> SearchView::class.java
             LabComponent.DATE_PICKER -> DatePicker::class.java
             LabComponent.CALENDAR_VIEW -> CalendarView::class.java
+            LabComponent.TEXT -> TextView::class.java
+            LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")
         }
 
@@ -381,6 +438,8 @@ class CatalogRenderingSmokeTest {
         val style =
             when (component) {
                 LabComponent.CHECKBOX -> android.R.attr.checkboxStyle
+                LabComponent.TEXT -> android.R.attr.textViewStyle
+                LabComponent.CHECKED_TEXT_VIEW -> android.R.attr.checkedTextViewStyle
                 LabComponent.RADIO -> android.R.attr.radioButtonStyle
                 LabComponent.SWITCH -> android.R.attr.switchStyle
                 LabComponent.TEXT_FIELD -> android.R.attr.editTextStyle
@@ -532,6 +591,29 @@ class CatalogRenderingSmokeTest {
         // Runtime semantics complement the source/version labels; labels alone cannot prove a
         // renderer.
         when {
+            component == LabComponent.TEXT -> {
+                sample
+                    .assertTextEquals(compose.activity.getString(R.string.sample_display_text))
+                    .assert(SemanticsMatcher.keyNotDefined(SemanticsActions.OnClick))
+                    .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Disabled))
+                    .assert(SemanticsMatcher.keyIsDefined(SemanticsActions.GetTextLayoutResult))
+                val size = sample.fetchSemanticsNode().size
+                assertTrue(
+                    "The original library text must have positive measured bounds",
+                    size.width > 0 && size.height > 0,
+                )
+                val layouts = mutableListOf<TextLayoutResult>()
+                sample.performSemanticsAction(SemanticsActions.GetTextLayoutResult) { action ->
+                    assertTrue(action(layouts))
+                }
+                val layout = layouts.single()
+                assertEquals(
+                    compose.activity.getString(R.string.sample_display_text),
+                    layout.layoutInput.text.text,
+                )
+                assertTrue(layout.lineCount >= 3)
+                assertFalse(layout.hasVisualOverflow)
+            }
             inlineDate -> {
                 // Inspect an original day control, not only the host's source caption.
                 val day =

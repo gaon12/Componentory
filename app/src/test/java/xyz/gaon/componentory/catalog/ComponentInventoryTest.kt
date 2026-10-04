@@ -11,6 +11,46 @@ import xyz.gaon.componentory.lab.LabComponent
 
 class ComponentInventoryTest {
     @Test
+    fun textCoverageAddsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
+        val rows = inventory()
+        assertEquals(239, rows.size)
+        assertEquals(69, LabComponent.entries.size)
+        assertEquals(
+            169,
+            LabComponent.entries.sumOf { component ->
+                DesignFamily.entries.count { family ->
+                    family.unsupportedReason(component, 24) == null
+                }
+            },
+        )
+        assertEquals(
+            mapOf("Implemented" to 116, "Pending" to 123),
+            rows.groupingBy { it.status }.eachCount(),
+        )
+        assertEquals(
+            mapOf("PLATFORM" to 26, "MATERIAL2" to 31, "MATERIAL3" to 59),
+            rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
+        )
+        assertEquals(
+            mapOf("PLATFORM" to 48, "MATERIAL2" to 21, "MATERIAL3" to 54),
+            rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
+        )
+        listOf(
+                "android.widget.TextView" to "TEXT",
+                "android.widget.CheckedTextView" to "CHECKED_TEXT_VIEW",
+                "androidx.compose.material.Text" to "TEXT",
+                "androidx.compose.material3.Text" to "TEXT",
+            )
+            .forEach { (source, sampleId) ->
+                val row = rows.single { it.source == source }
+                assertEquals("Implemented", row.status)
+                assertEquals(listOf(sampleId), row.catalogIds)
+                assertEquals(if (row.provider == "PLATFORM") "1" else "", row.apiIntroduced)
+                assertTrue(row.notes.isNotBlank())
+            }
+    }
+
+    @Test
     fun auditedBaselineKeepsProviderCountsAndUniqueSources() {
         val rows = inventory()
         assertEquals(

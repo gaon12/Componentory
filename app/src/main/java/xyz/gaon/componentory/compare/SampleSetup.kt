@@ -240,6 +240,7 @@ private val LabComponent.hasCopiedValue: Boolean
             this in
                 listOf(
                     LabComponent.CHECKBOX,
+                    LabComponent.CHECKED_TEXT_VIEW,
                     LabComponent.SWITCH,
                     LabComponent.TOGGLE_BUTTON,
                     LabComponent.RADIO,

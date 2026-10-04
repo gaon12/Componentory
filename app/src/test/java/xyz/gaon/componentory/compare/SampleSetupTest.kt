@@ -15,6 +15,65 @@ import xyz.gaon.componentory.lab.SampleState
 
 class SampleSetupTest {
     @Test
+    fun checkedTextConfigurationCopiesUncheckedAndCheckedWithoutUnrelatedHistory() {
+        val families = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        listOf(0, 1).forEach { checked ->
+            val source =
+                SampleState(
+                    initialValue = checked,
+                    initialText = "unrelated result",
+                    initialDateDraftUtcMillis = SampleDates.utcMillis(2025, 6, 1),
+                    initialTimeDraftMinutes = 90,
+                )
+            families.forEach { sourceFamily ->
+                val setup =
+                    SampleSetup.capture(LabComponent.CHECKED_TEXT_VIEW, sourceFamily, source, API)
+                assertEquals(setOf("component", "family", "value"), setup.savedValues().keys)
+                val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+                families.forEach { targetFamily ->
+                    val target = requireNotNull(restored.copyTo(targetFamily, API).state)
+                    assertNotSame(source, target)
+                    assertEquals(checked, target.value)
+                    assertEquals("", target.text)
+                    assertNull(target.dateDraftUtcMillis)
+                    assertNull(target.timeDraftMinutes)
+                    target.value = 1 - checked
+                    assertEquals(checked, source.value)
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { targetFamily ->
+                    val result = restored.copyTo(targetFamily, API)
+                    assertNull(result.state)
+                    assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                }
+            }
+        }
+        val unsupported =
+            SampleSetup.capture(
+                LabComponent.CHECKED_TEXT_VIEW,
+                DesignFamily.MATERIAL3,
+                SampleState(1, "hidden"),
+                API,
+            )
+        assertEquals(setOf("component", "family"), unsupported.savedValues().keys)
+        assertEquals(
+            SetupCopyReason.SOURCE_UNSUPPORTED,
+            unsupported.copyTo(DesignFamily.CLASSIC, API).reason,
+        )
+    }
+
+    @Test
+    fun fixedTextFixturesHaveNoTransferablePerPanelInputs() {
+        DesignFamily.entries.forEach { family ->
+            val setup =
+                SampleSetup.capture(LabComponent.TEXT, family, SampleState(7, "unrelated"), API)
+            assertEquals(setOf("component", "family"), setup.savedValues().keys)
+            val result = setup.copyTo(family, API)
+            assertNull(result.state)
+            assertEquals(SetupCopyReason.NO_INPUTS, result.reason)
+        }
+    }
+
+    @Test
     fun inlineDateCopiesAcrossGenuineProvidersWithoutObservedActionsOrEditorMode() {
         val date = SampleDates.utcMillis(2025, 2, 28)
         val state =

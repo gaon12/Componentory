@@ -318,4 +318,13 @@
     <string name="inline_date_note">所選日期會立即套用到範例。請使用原始選擇器的控制項更改日期。</string>
     <string name="inline_date_enabled_note">啟用設定不適用於此選擇器。此提供者沒有停用所有日期操作的功能。</string>
     <string name="copy_setup_date_required">目標必須有已選日期。</string>
+    <string name="component_text">文字</string>
+    <string name="component_text_description">比較原始提供者顯示的固定多行文字。</string>
+    <string name="component_checked_text_view">含勾選狀態的文字檢視</string>
+    <string name="component_checked_text_view_description">查看原始框架控制項的文字與勾選狀態。</string>
+    <string name="sample_display_text">你好，Android。\n此範例包含多行文字。\n比較文字外觀和行距。</string>
+    <string name="text_enabled_note">啟用設定不適用於程式庫的 Text。此 API 沒有啟用參數。</string>
+    <string name="checked_text_config_label">勾選狀態</string>
+    <string name="checked_text_configuration_note">主題提供多選勾選標記時會使用該標記。請透過勾選狀態設定變更狀態。點選文字不會自動切換狀態。</string>
+    <string name="checked_text_missing_mark">此主題沒有可用的多選勾選標記 Drawable。仍可在回饋中查看勾選狀態。</string>
 </resources>

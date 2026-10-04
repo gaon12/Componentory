@@ -318,4 +318,13 @@
     <string name="inline_date_note">選択した日付はすぐにサンプルに反映されます。元の選択画面の操作で日付を変更してください。</string>
     <string name="inline_date_enabled_note">この選択画面には有効・無効の設定が適用されません。この提供元にはすべての日付操作を無効にする機能がありません。</string>
     <string name="copy_setup_date_required">コピー先には選択した日付が必要です。</string>
+    <string name="component_text">テキスト</string>
+    <string name="component_text_description">元の提供元が表示する複数行の固定テキストを比較します。</string>
+    <string name="component_checked_text_view">チェック付きテキストビュー</string>
+    <string name="component_checked_text_view_description">元のフレームワークウィジェットのテキストとチェック状態を確認します。</string>
+    <string name="sample_display_text">こんにちは、Android。\nこのサンプルは複数行で表示されます。\n文字の表示と間隔を比較しましょう。</string>
+    <string name="text_enabled_note">ライブラリの Text には有効・無効の設定が適用されません。この API には有効・無効を指定する引数がありません。</string>
+    <string name="checked_text_config_label">チェック状態</string>
+    <string name="checked_text_configuration_note">テーマの複数選択用チェックマークがある場合は使用します。チェック状態の設定で状態を変更してください。テキストを押しても自動では切り替わりません。</string>
+    <string name="checked_text_missing_mark">このテーマでは複数選択用チェックマークの Drawable を使用できません。チェック状態は結果表示で確認できます。</string>
 </resources>

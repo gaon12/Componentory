@@ -588,6 +588,21 @@ enum class LabComponent(
         platformSource = "android.widget.Spinner",
         category = ComponentCategory.INPUT,
     ),
+    TEXT(
+        "Text",
+        R.string.component_text,
+        R.string.component_text_description,
+        platformSource = "android.widget.TextView",
+        material2Function = "Text",
+        category = ComponentCategory.CONTENT,
+    ),
+    CHECKED_TEXT_VIEW(
+        "Checked text view",
+        R.string.component_checked_text_view,
+        R.string.component_checked_text_view_description,
+        platformSource = "android.widget.CheckedTextView",
+        category = ComponentCategory.CONTENT,
+    ),
     ICON(
         "Icon",
         R.string.component_icon,
@@ -684,7 +699,7 @@ enum class LabComponent(
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
-            isDivider || this == DOT_BADGE ->
+            isDivider || this == DOT_BADGE || this == TEXT ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isCountedBadge -> context.getString(R.string.status_badge, value)
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
@@ -724,7 +739,7 @@ enum class LabComponent(
                 context.getString(
                     if (value == 1) R.string.sample_state_on else R.string.sample_state_off
                 )
-            this == CHECKBOX ->
+            this == CHECKBOX || this == CHECKED_TEXT_VIEW ->
                 context.getString(
                     if (value == 1) R.string.sample_state_checked
                     else R.string.sample_state_unchecked

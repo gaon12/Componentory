@@ -198,6 +198,20 @@ fun SamplePanel(
             if (component.isContainer && unsupported == null) {
                 ContainerSampleConfiguration(panel, enabled, state)
             }
+            if (component == LabComponent.CHECKED_TEXT_VIEW && unsupported == null) {
+                val label = stringResource(R.string.checked_text_config_label)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Switch(
+                        checked = state.value == 1,
+                        onCheckedChange = { state.value = if (it) 1 else 0 },
+                        modifier =
+                            Modifier.testTag("checked_text_config_$panel").semantics {
+                                contentDescription = label
+                            },
+                    )
+                    Text(label, modifier = Modifier.clearAndSetSemantics {})
+                }
+            }
             if (
                 (component.isDeterminateProgress || component.isCountedBadge) && unsupported == null
             ) {
@@ -281,6 +295,20 @@ fun SamplePanel(
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
+            }
+            if (component == LabComponent.TEXT && platform == null && unsupported == null) {
+                Text(
+                    stringResource(R.string.text_enabled_note),
+                    modifier = Modifier.testTag("text_enabled_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            if (component == LabComponent.CHECKED_TEXT_VIEW && unsupported == null) {
+                Text(
+                    stringResource(R.string.checked_text_configuration_note),
+                    modifier = Modifier.testTag("checked_text_configuration_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
             if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
             if (icon != null) {

@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 112, InventoryStatus.PENDING to 127),
+            mapOf(InventoryStatus.IMPLEMENTED to 116, InventoryStatus.PENDING to 123),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 24,
-                InventoryFamily.MATERIAL2 to 30,
-                InventoryFamily.MATERIAL3 to 58,
+                InventoryFamily.PLATFORM to 26,
+                InventoryFamily.MATERIAL2 to 31,
+                InventoryFamily.MATERIAL3 to 59,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -49,6 +49,19 @@ class ComponentInventoryResourceTest {
         val segmented = entries.single { it.source == "androidx.compose.material3.SegmentedButton" }
         assertEquals(listOf("SINGLE_SEGMENTED", "MULTI_SEGMENTED"), segmented.catalogIds)
         assertEquals("Used in both segmented-row samples.", segmented.notes)
+        mapOf(
+                "android.widget.TextView" to "TEXT",
+                "android.widget.CheckedTextView" to "CHECKED_TEXT_VIEW",
+                "androidx.compose.material.Text" to "TEXT",
+                "androidx.compose.material3.Text" to "TEXT",
+            )
+            .forEach { (source, catalogId) ->
+                val text = entries.single { it.source == source }
+                assertEquals(InventoryStatus.IMPLEMENTED, text.status)
+                assertEquals(listOf(catalogId), text.catalogIds)
+                if (text.family == InventoryFamily.PLATFORM) assertEquals(1, text.apiIntroduced)
+                else assertNull(text.apiIntroduced)
+            }
         listOf("android.app.DatePickerDialog", "androidx.compose.material3.DatePickerDialog")
             .forEach { source ->
                 val date = entries.single { it.source == source }
@@ -150,12 +163,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(127, pending.size)
+        assertEquals(123, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 50,
-                InventoryFamily.MATERIAL2 to 22,
-                InventoryFamily.MATERIAL3 to 55,
+                InventoryFamily.PLATFORM to 48,
+                InventoryFamily.MATERIAL2 to 21,
+                InventoryFamily.MATERIAL3 to 54,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -199,5 +212,12 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "datepicker").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "calendarview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "daterangepicker").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "checkedtextview").isEmpty())
+        listOf(
+                "android.widget.TextView",
+                "androidx.compose.material.Text",
+                "androidx.compose.material3.Text",
+            )
+            .forEach { source -> assertTrue(ComponentInventory.pending(entries, source).isEmpty()) }
     }
 }

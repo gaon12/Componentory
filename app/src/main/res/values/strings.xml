@@ -321,4 +321,13 @@
     <string name="inline_date_note">Date selections update the sample immediately. Use the original picker controls to change the date.</string>
     <string name="inline_date_enabled_note">Enabled does not apply to this picker. This provider has no control that disables all date interactions.</string>
     <string name="copy_setup_date_required">The target requires a selected date.</string>
+    <string name="component_text">Text</string>
+    <string name="component_text_description">Compare fixed multiline text from the original provider.</string>
+    <string name="component_checked_text_view">Checked text view</string>
+    <string name="component_checked_text_view_description">Inspect text and its checked state in the original framework widget.</string>
+    <string name="sample_display_text">Hello, Android.\nThis sample uses several lines.\nCompare text appearance and spacing.</string>
+    <string name="text_enabled_note">Enabled does not apply to library Text. Its API has no enabled parameter.</string>
+    <string name="checked_text_config_label">Checked</string>
+    <string name="checked_text_configuration_note">Uses the theme\'s multiple-choice check mark when available. Use Checked to change the state. Tapping the text does not toggle it.</string>
+    <string name="checked_text_missing_mark">No multiple-choice check mark drawable is available in this theme. The checked value remains visible in feedback.</string>
 </resources>

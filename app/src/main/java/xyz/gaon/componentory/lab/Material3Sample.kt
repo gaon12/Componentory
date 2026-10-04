@@ -41,6 +41,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
     MaterialTheme(colorScheme = lightColorScheme()) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
+                LabComponent.TEXT ->
+                    Text(stringResource(R.string.sample_display_text), modifier = sample)
                 LabComponent.DATE_PICKER,
                 LabComponent.DATE_RANGE_PICKER ->
                     Material3InlineDateSample(component, panel, sample, state)

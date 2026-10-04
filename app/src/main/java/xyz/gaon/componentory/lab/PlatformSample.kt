@@ -36,6 +36,10 @@ fun PlatformSample(
     state: SampleState,
     modifier: Modifier = Modifier,
 ) {
+    if (component == LabComponent.TEXT || component == LabComponent.CHECKED_TEXT_VIEW) {
+        PlatformTextSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     if (component == LabComponent.DATE_PICKER || component == LabComponent.CALENDAR_VIEW) {
         PlatformInlineDateSample(family, component, viewId, enabled, state, modifier)
         return
