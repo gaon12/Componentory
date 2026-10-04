@@ -11,6 +11,7 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.core.view.WindowCompat
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -51,19 +52,23 @@ class AppearanceSettingsTest {
     @Test
     fun lightAndDarkAppearanceChangeActualPixelsAndSurviveRecreation() {
         compose.onNodeWithTag("nav_settings").performClick()
-        compose.onNodeWithTag("appearance_DARK").performClick()
+        compose.onNodeWithTag("appearance_DARK").performScrollTo().performClick().assertIsSelected()
         assertTrue(backgroundLuminance() < 0.1f)
         assertSystemBars(dark = true)
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("appearance_DARK").assertIsSelected()
         assertTrue(backgroundLuminance() < 0.1f)
-        compose.onNodeWithTag("appearance_LIGHT").performClick()
+        compose
+            .onNodeWithTag("appearance_LIGHT")
+            .performScrollTo()
+            .performClick()
+            .assertIsSelected()
         assertTrue(backgroundLuminance() > 0.8f)
         assertSystemBars(dark = false)
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("appearance_LIGHT").assertIsSelected()
         assertTrue(backgroundLuminance() > 0.8f)
-        compose.onNodeWithTag("appearance_SYSTEM").performClick()
+        compose.onNodeWithTag("appearance_SYSTEM").performScrollTo().performClick()
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("appearance_SYSTEM").assertIsSelected()
     }
@@ -73,7 +78,7 @@ class AppearanceSettingsTest {
         compose.onNodeWithTag("list_BUTTON").performClick()
         onView(withId(R.id.sample_left)).perform(click())
         compose.onNodeWithTag("nav_settings").performClick()
-        compose.onNodeWithTag("appearance_DARK").performClick()
+        compose.onNodeWithTag("appearance_DARK").performScrollTo().performClick().assertIsSelected()
         compose.onNodeWithTag("nav_list").performClick()
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
         onView(withId(R.id.sample_left)).check { view, error ->
