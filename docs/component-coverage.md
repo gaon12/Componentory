@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `b8a5766`.
+Application source revision: `9c73239`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
@@ -137,8 +137,12 @@ ListPopupWindow and PopupWindow remain planned.
 The shared panel shows the real sample before host adjustments and icon selection.
 Feedback precedes icon source metadata, while provider identity and behavioral
 guidance remain visible. Compare shows the component name in its picker once,
-with Enabled and Reset in a separate row. These changes shorten the path to the
-sample; narrow screens still stack full panels.
+with Enabled, Copy inputs and Reset in wrapping host controls. Detail can seed
+Left with eligible inputs while Right starts at its defaults. Directional copying
+starts a fresh target with independent inputs and neutral interaction history.
+Exact icon compatibility is required, and unsupported copies keep the target
+unchanged. These changes shorten the path to the sample; narrow screens still
+stack full panels.
 
 The list and comparison picker combine category filters with translated labels
 and descriptions and the source names that actually supply each sample.
@@ -163,7 +167,37 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `b8a5766`. Formatting, lint (zero errors and 16 existing
+Latest implementation: `9c73239`. Formatting, lint with zero errors and 16 existing
+warnings, all 62 JVM tests, and both debug APK builds passed. Ten new JVM tests
+cover the positive input whitelist, empty/false/zero values, independent targets,
+excluded results and secrets, committed dates/times, exact icon compatibility,
+synthetic partial-icon omission, and sanitized saved entries. The existing
+eleven-field sample save format is unchanged. Three source reviewers found no
+static blocker.
+
+Seven [input-copy tests](../app/src/androidTest/java/xyz/gaon/componentory/lab/InputCopyNavigationTest.kt)
+compile, including real Detail navigation, independent directional copies,
+original range thumbs and container/badge state, native dialog constructors and
+old-window cleanup, honest no-op reasons, exact reachable icon paths, five
+Settings languages and a bounded 360 dp host with font scale 2.0. Modal host
+dispatch and public widget API fixture setup are explicitly separate from pointer
+actions. The bounded host is not an actual OS display change. The partial-icon
+policy has no currently reachable compound cross-catalog UI case; only its JVM
+test supplies synthetic unavailability.
+
+The latest normal 82-test UI attempt installed both new APKs on the SM-X800 but
+stopped at the secure-keyguard guard before instrumentation. None executed.
+The attempt is `.local/input-copy-ui-verification-attempt.txt`; host results and
+APK identities are retained in `.local/input-copy-unit-results.json` and
+`.local/input-copy-apk-hashes.json`. No executed UI receipt or new resource-only
+result was produced. The inventory is unchanged; earlier resource receipts below
+retain their own APK identities. Gradle was stopped after the builds. Input
+copying, compact rendering, actual OS resize, spoken accessibility and earlier
+UI repairs still need physical verification.
+
+### Earlier verification milestones
+
+Popup-menu milestone: `b8a5766`. Formatting, lint (zero errors and 16 existing
 warnings), all 52 JVM tests, and both debug APK builds pass. Three added JVM
 checks cover menu API metadata, primary/supporting source search, and saved
 choice/action fields. Inventory checks require notes for supporting menu items.
@@ -194,8 +228,6 @@ installed asset content with SHA-256:
 `94dfc2042cd299741a2003c2fdab535619f042fdba15071f71479a94236fc94e`.
 This resource-only result supplies no rendering, interaction, screenshot or
 historical evidence. Gradle was stopped after the builds.
-
-### Earlier verification milestones
 
 Container milestone: `c3484ea`. Formatting, lint (zero errors and 16 existing
 warnings), all 49 JVM tests, and both debug APK builds passed. Four new JVM tests

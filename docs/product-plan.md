@@ -38,7 +38,9 @@ have their own screens, rather than sharing one long lab page.
 2. Open a component detail page and choose its Android UI family or library.
 3. Touch the real control, inspect the feedback, and try disabled state or reset.
 4. Use the detail page's comparison action to compare that component and family
-   against another family. Each panel has independent interaction state.
+   against another family. Left starts with the current eligible Detail inputs;
+   Right starts with its provider defaults. Both share Detail's Enabled setting.
+   Copy inputs in either direction while keeping each panel independently editable.
 5. Switch to Settings to choose app appearance and language, and inspect the
    device, OS build, target SDK, display settings, and exact library versions.
 
@@ -56,6 +58,17 @@ Use two columns when there is enough width and stack panels on narrow screens.
 Keep the two panels' interaction state independent. In comparison, changing a
 component or theme starts a fresh sample so previous state does not silently
 enter a new experiment.
+
+An explicit Detail comparison action starts a new comparison session. Apply its
+inputs once; later Reset, tab restoration, provider changes and Activity recreation
+must not replay the original entry. Directional copying also starts a fresh target
+sample and clears its observed results without changing the source or providers.
+Copy only inputs used by the actual control: safe text, selections, configured
+values, committed date/time, container mode and exact compatible icons. Passwords,
+action counts, menu results and unconfirmed drafts are excluded. Explain a copy
+that cannot run and leave the target unchanged. Keep these host tools usable when
+the original sample controls are disabled.
+
 Explain the selected family's origin without presenting each Android release as
 a distinct theme that the device can necessarily provide.
 

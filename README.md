@@ -13,7 +13,9 @@ The working prototype has three bottom navigation destinations:
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
-  its own state. Wide screens show two columns; narrow screens stack the samples.
+  its own state. Detail starts Left with its current eligible inputs and Right
+  with provider defaults. Copy inputs in either direction to start a fresh target
+  sample. Wide screens show two columns; narrow screens stack the samples.
 - **Settings:** Choose system, light, or dark app appearance and an app language.
   Inspect the device, OS build, display configuration, target SDK, and libraries.
 
@@ -56,12 +58,17 @@ later visits remember the component's selected provider, including deliberate
 unsupported choices.
 
 Search and live sample state survive tab changes and Activity recreation.
-The latest source passes formatting, lint, 52 JVM tests, and both APK builds.
-Two inventory-only tests also passed on the physical device. The selected
-75-test UI attempt stopped at the locked-screen guard before instrumentation;
+Input copying preserves text, selections, configured values, committed dates and
+times, container mode, and compatible icons. It leaves passwords, action history,
+menu results, and open drafts out. Unsupported copies explain their reason and
+keep the target unchanged. Reset and provider changes cannot replay Detail inputs.
+
+The latest source passes formatting, lint, 62 JVM tests, and both APK builds.
+Two inventory-only tests passed at the earlier popup-menu milestone. The latest
+82-test UI attempt stopped at the locked-screen guard before instrumentation;
 none ran. Comparison state, the Planned view, provider selection, accessibility,
-date/time dialogs, cards, surfaces, popup menus, and the preview reorder still
-require unlocked UI verification. The
+date/time dialogs, cards, surfaces, popup menus, input copying, and the preview
+reorder still require unlocked UI verification. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original
