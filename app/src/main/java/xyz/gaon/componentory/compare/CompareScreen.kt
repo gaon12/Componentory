@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -65,11 +66,6 @@ fun CompareScreen(
         )
         ComponentPicker(component, onComponentChange)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                stringResource(component.labelRes),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.weight(1f),
-            )
             Switch(
                 checked = enabled,
                 onCheckedChange = { enabled = it },
@@ -80,6 +76,7 @@ fun CompareScreen(
                 enabledLabel,
                 modifier = Modifier.padding(horizontal = 12.dp).clearAndSetSemantics {},
             )
+            Spacer(Modifier.weight(1f))
             TextButton(onClick = { reset++ }, modifier = Modifier.testTag("reset")) {
                 Text(stringResource(R.string.reset))
             }

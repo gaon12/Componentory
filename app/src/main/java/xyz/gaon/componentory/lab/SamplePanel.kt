@@ -137,31 +137,6 @@ fun SamplePanel(
                 }
             }
             Text(family.origin(context), style = MaterialTheme.typography.bodySmall)
-            if (component == LabComponent.TIME_PICKER_DIALOG && unsupported == null) {
-                val label = stringResource(R.string.time_24_hour)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Switch(
-                        checked = state.time24Hour,
-                        onCheckedChange = { state.time24Hour = it },
-                        enabled = enabled,
-                        modifier =
-                            Modifier.testTag("time_24_hour_$panel").semantics {
-                                contentDescription = label
-                            },
-                    )
-                    Text(label, modifier = Modifier.clearAndSetSemantics {})
-                }
-            }
-            if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
-            if (icon != null) {
-                Text(
-                    if (platform != null) "android.R.drawable.${icon.name}"
-                    else
-                        "${icon.id} · icons ${xyz.gaon.componentory.BuildConfig.MATERIAL_ICONS_VERSION}",
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.testTag("icon_source_$panel"),
-                )
-            }
             Column(
                 Modifier.fillMaxWidth().background(background).padding(16.dp).heightIn(min = 96.dp),
                 verticalArrangement = Arrangement.Center,
@@ -204,6 +179,21 @@ fun SamplePanel(
                             }
                         }
                     }
+            }
+            if (component == LabComponent.TIME_PICKER_DIALOG && unsupported == null) {
+                val label = stringResource(R.string.time_24_hour)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Switch(
+                        checked = state.time24Hour,
+                        onCheckedChange = { state.time24Hour = it },
+                        enabled = enabled,
+                        modifier =
+                            Modifier.testTag("time_24_hour_$panel").semantics {
+                                contentDescription = label
+                            },
+                    )
+                    Text(label, modifier = Modifier.clearAndSetSemantics {})
+                }
             }
             if (
                 (component.isDeterminateProgress || component.isCountedBadge) && unsupported == null
@@ -252,6 +242,16 @@ fun SamplePanel(
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
                 )
+            if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
+            if (icon != null) {
+                Text(
+                    if (platform != null) "android.R.drawable.${icon.name}"
+                    else
+                        "${icon.id} · icons ${xyz.gaon.componentory.BuildConfig.MATERIAL_ICONS_VERSION}",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.testTag("icon_source_$panel"),
+                )
+            }
             HorizontalDivider()
             Text(
                 family.source(component, context),
