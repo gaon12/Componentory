@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**57 component entries**, with **134 runnable component/family combinations**.
+**58 component entries**, with **138 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -33,8 +33,9 @@ Historical OS captures and stored experiments remain separate product milestones
 
 - **Implemented:** The catalog has a real sample for this source. This does not
   mean every overload, style, theme variant, or historical OS has been tested.
-- **Pending:** A source exists, but its dedicated sample has not been added or
-  verified. Never turn this status into an unsupported label to reduce the list.
+- **Pending:** A source exists, but its sample has not been implemented.
+  Verification is recorded separately. Never turn this status into an unsupported
+  label to reduce the list.
 - **Unsupported in a selected family:** That exact family does not provide the
   component, or the running OS is below its framework API requirement. Show the
   reason and do not render another family's widget as a substitute.
@@ -48,14 +49,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `843377a`.
+Application source revision: `ac9facb`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 18 | 56 |
+| Android framework | 74 | 19 | 55 |
 | Compose Material 2 1.10.4 | 52 | 26 | 26 |
-| Compose Material 3 1.4.0 | 113 | 46 | 67 |
-| Total | 239 | 90 | 149 |
+| Compose Material 3 1.4.0 | 113 | 48 | 65 |
+| Total | 239 | 93 | 146 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -95,6 +96,14 @@ Material 2 has no dedicated vertical divider; the sample does not recreate one.
 Badges and dividers explain their read-only appearance. Counter controls change
 the number badge from zero to 100; badge anchors use the complete icon picker.
 
+Date picker dialogs add four combinations: the three framework themes use
+`android.app.DatePickerDialog`, and Material 3 uses its real DatePickerDialog
+with DatePicker content. Material 2 does not supply these APIs. The supporting
+Material 3 calendar is counted as an implemented source inside that dialog;
+there is no standalone inline calendar sample yet. Framework DatePicker,
+DateRangePicker, and time pickers remain planned. Dialog dates use midnight UTC,
+start at January 15, 2024, and distinguish drafts from confirmed values.
+
 The list and comparison picker combine category filters with translated labels
 and descriptions and the source names that actually supply each sample.
 English, Korean, Japanese, Simplified Chinese, and Traditional Chinese resources
@@ -105,17 +114,47 @@ resources are kept in the app bundle for offline switching.
 
 ## Next implementation groups
 
-1. Date/time/calendar controls and picker dialogs.
+1. Standalone date/time/calendar controls and remaining picker dialogs.
 2. Cards, lists, images, text, and legacy content controls.
 3. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
 5. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
 
-Keep available but unimplemented combinations pending until their group is
-implemented and tested. Review each group, format/lint, run relevant tests on the
-physical device, and commit that coherent change before starting another group.
+Keep available but unimplemented combinations pending. Review each group,
+format/lint, and run relevant tests before a focused commit. Attempt physical UI
+checks and record any checks that cannot run; compilation and resource checks
+must not be described as interaction passes.
 
 ## Verification
+
+Latest implementation: `ac9facb`. Formatting, lint (zero errors and 16 existing
+warnings), all 36 JVM tests, and both debug APK builds pass. Eight additional
+JVM checks cover date suppliers, saved-state compatibility, leap and invalid
+dates, time zones, the Thai default locale, and localized UTC formatting.
+Six [date dialog tests](../app/src/androidTest/java/xyz/gaon/componentory/lab/DatePickerDialogsTest.kt)
+compile, covering original input editing, Confirm/Cancel/Back, independent
+panels, open drafts across recreation, reset, disabled launchers, unavailable
+Material 2, and five-language date feedback. Native `updateDate` setup is
+explicitly distinguished from touching a calendar day.
+
+The latest normal 57-test UI attempt installed both APKs but stopped at the
+locked-screen guard before instrumentation. None of the selected tests ran.
+Its output is `.local/date-picker-dialogs-ui-verification-attempt.txt`.
+Date interactions, compact modal usability, native calendar-day gestures,
+and the earlier UI repairs remain unverified.
+
+Two separate inventory-only tests passed in 0.163 seconds on the SM-X800.
+They verify all 239 packaged sources, 93 implemented and 146 pending source
+entries, new dialog mappings, provider filtering, and pending queries. The local
+run is `.local/device-runs/20261004T183239891Z-3004eeff/`. Its manifest records
+the `fd9df18` working tree with the changes later committed as `ac9facb`, exact
+APK hashes, device/build/display configuration, resource-only scope, result,
+and no restoration errors. `asset-consistency.json` confirms that the source
+CSV, APK asset, and installed asset have identical 19,721-byte content and SHA-256:
+`33318178221e3454ad4a6eaa95953fed6bf66593bf0265be0e0a3835c515b6c1`.
+This run provides no rendering, touch, screenshot, or historical OS evidence.
+
+### Earlier verification milestones
 
 Commit `dd0df74` packages an exact generated copy of the audited CSV as an app
 asset. The small [inventory reader](../app/src/main/java/xyz/gaon/componentory/catalog/ComponentInventory.kt)
@@ -125,11 +164,11 @@ empty inventories fail explicitly instead of becoming an empty pending list.
 Commit `ffa6e08` adds the Planned APIs list with source search, provider filtering,
 explicit loading and failure states, and five-language pending labels. Its cards
 are read-only API metadata, not unsupported components or original captures.
-Sample coverage remains 57 entries and 134 runnable combinations.
+That milestone kept coverage at 57 entries and 134 runnable combinations.
 
-The current source passes formatting, lint with zero errors and 16 existing
-warnings, all 28 JVM tests, and both debug APK builds. Five Planned-list tests,
-four detail-provider navigation tests, and five comparison-state regressions
+At that milestone, formatting, lint with zero errors and 16 existing
+warnings, all 28 JVM tests, and both debug APK builds passed. Five Planned-list
+tests, four detail-provider navigation tests, and five comparison-state regressions
 compile. That selected 41-test physical UI attempt installed the APKs but
 stopped at the locked-screen guard before instrumentation. No tests in that
 attempt executed. Planned rendering, navigation, localized UI, and state
@@ -138,11 +177,11 @@ TalkBack, larger fonts, and a separate phone also remain unverified.
 
 Commit `3d44b98` clarifies the theme/library selector and runtime OS note, adds
 availability hints without disabling unsupported choices, and exposes selected
-menu semantics. Three additional provider-identity tests compile. The latest
+menu semantics. Three additional provider-identity tests compile. Its selected
 44-test physical attempt was also rejected by the locked-screen guard before
-instrumentation; none of those selected tests executed. Current formatting, lint,
-28 JVM tests and APK builds pass. Source/provider identity is kept separate from
-theme introduction dates and actual historical OS execution.
+instrumentation; none of those selected tests executed. At that milestone,
+formatting, lint, 28 JVM tests and APK builds passed. Source/provider identity
+is kept separate from theme introduction dates and actual historical OS execution.
 
 Seven parser checks cover quoted fields, escaped notes, metadata validation,
 sample references, filtering, future API metadata, and a completed inventory with
