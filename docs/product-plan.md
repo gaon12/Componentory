@@ -33,19 +33,24 @@ Use bottom navigation with **List**, **Compare**, and **Settings**. Open the
 component list first. Browsing, single-component exploration, and comparison
 have their own screens, rather than sharing one long lab page.
 
-1. Search the list by component name, Android class, or Korean description, and
+1. Search the list by translated name or description, or English API name, and
    combine the query with a component category.
 2. Open a component detail page and choose its Android UI family or library.
 3. Touch the real control, inspect the feedback, and try disabled state or reset.
 4. Use the detail page's comparison action to compare that component and family
    against another family. Each panel has independent interaction state.
-5. Switch to Settings to choose app appearance and inspect the device, OS build,
-   target SDK, display settings, and exact library versions.
+5. Switch to Settings to choose app appearance and language, and inspect the
+   device, OS build, target SDK, display settings, and exact library versions.
 
 Keep the search and scroll position when returning from a detail page. Preserve
 tab state across navigation and Activity recreation. Back from a detail returns
 to its list context. Selecting the already active List tab returns to the list.
 Keep app appearance separate from the selected samples' light themes.
+
+Offer Korean, English, Japanese, Simplified Chinese, Traditional Chinese, and
+System language. Translate the browsing interface, sample text, accessibility
+labels, and interaction feedback. Keep API identifiers and icon names intact.
+Persist language choices across restarts and keep translations available offline.
 
 Use two columns when there is enough width and stack panels on narrow screens.
 Keep the two panels' interaction state independent. In comparison, changing a
@@ -57,9 +62,9 @@ a distinct theme that the device can necessarily provide.
 ## Component coverage
 
 The first prototype included eight basic types in all five families. The catalog
-now includes framework-only controls, library action variants, and chip and
-selection samples. Use the [coverage inventory](component-coverage.md) to keep
-the broad expansion auditable.
+now includes framework-only controls, library action variants, chip and selection
+samples, additional input types, and icon browsing. Use the
+[coverage inventory](component-coverage.md) to keep the broad expansion auditable.
 Continue adding components, visual variants, and historical coverage in focused
 changes.
 Show the actual class or library package alongside the sample. Platform widgets
@@ -70,6 +75,12 @@ Library samples are separate families with exact dependency version labels.
 Only offer actions that the selected component supports. A read-only progress
 indicator should not pretend to respond to taps. Unsupported combinations show
 an explanation rather than a substitute from another family.
+
+An icon sample must offer the selected source's complete available catalog,
+with search, style filters, and preview. Let users apply a chosen icon to the
+current sample and keep comparison selections independent. A resource exposed
+by the framework but missing on a device needs an explicit unavailable label.
+Record the icon artifact version separately from the component library version.
 
 ## Evidence and tests
 
@@ -119,3 +130,7 @@ do not start emulators unless the user later requests them.
   distinguish the two library implementations.
 - [Android Debug Bridge](https://developer.android.com/tools/adb)
   documents wireless device connection and instrumentation execution.
+- [Per-app languages](https://developer.android.com/guide/topics/resources/app-languages)
+  describe locale resources and Android's app language setting.
+- [Compose resources](https://developer.android.com/develop/ui/compose/resources)
+  describe icon styles and the extended Material icons artifact.

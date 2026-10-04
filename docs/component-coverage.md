@@ -1,7 +1,8 @@
 # Component coverage
 
-The broad catalog is still in progress. The committed and verified catalog has
-**39 component entries**, with **87 runnable component/family combinations**.
+The broad catalog is still in progress. The committed catalog implements
+**47 component entries**, with **110 runnable component/family combinations**.
+Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
 ## Baseline and completion rule
@@ -47,14 +48,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `7338696`.
+Application source revision: `18e563f`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 13 | 61 |
-| Compose Material 2 1.10.4 | 52 | 17 | 35 |
-| Compose Material 3 1.4.0 | 113 | 35 | 78 |
-| Total | 239 | 65 | 174 |
+| Android framework | 74 | 18 | 56 |
+| Compose Material 2 1.10.4 | 52 | 21 | 31 |
+| Compose Material 3 1.4.0 | 113 | 39 | 74 |
+| Total | 239 | 78 | 161 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -71,24 +72,49 @@ segmented rows. Each segmented row contains real SegmentedButton controls.
 The generic Material 2 Chip has no public Material 3 counterpart. Unsupported
 families show that absence explicitly.
 
-The list and comparison picker combine category filters with searches by labels,
-Korean descriptions, and the source names that actually supply each sample.
+Seven input entries add outlined, secure, and outlined secure library fields,
+plus framework AutoCompleteTextView, MultiAutoCompleteTextView, Spinner, and
+SearchView. Secure samples retain only their character count in saved feedback;
+their input clears when the sample is recreated.
+
+The Icon entry uses framework ImageView or each library's actual Icon function.
+Its picker indexes all 11,385 public icon getters in the pinned Material icons
+1.7.8 core and extended artifacts: 2,277 variants in each of five styles,
+including auto-mirrored variants. Framework choices come from every public
+`android.R.drawable` field on the current OS. The Samsung runtime exposes
+`ic_safety_protection` but cannot load it, so the picker labels it unavailable.
+Selections also apply to icon buttons, toggles, and FABs and survive recreation.
+
+The list and comparison picker combine category filters with translated labels
+and descriptions and the source names that actually supply each sample.
+English, Korean, Japanese, Simplified Chinese, and Traditional Chinese resources
+cover menus, accessibility labels, sample text, and feedback. The Settings picker
+persists an explicit language or follows System. Android 13 and later use
+LocaleManager; older supported devices use a stored locale context. All language
+resources are kept in the app bundle for offline switching.
 
 ## Next implementation groups
 
-1. Outlined and secure input, autocomplete, spinner, and search.
-2. Range slider, circular and indeterminate progress, dividers, and badges.
-3. Date/time/calendar controls and picker dialogs.
-4. Cards, lists, images, text, and legacy content controls.
-5. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
-6. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
-7. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
+1. Range slider, circular and indeterminate progress, dividers, and badges.
+2. Date/time/calendar controls and picker dialogs.
+3. Cards, lists, images, text, and legacy content controls.
+4. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
+5. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
+6. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
 
 Keep available but unimplemented combinations pending until their group is
 implemented and tested. Review each group, format/lint, run relevant tests on the
 physical device, and commit that coherent change before starting another group.
 
 ## Verification
+
+The latest full suite at `b51546f` passed **all 44 physical-device tests** in
+**180.839 seconds**, with zero failures or ignored tests. It includes the icon,
+language, native popup, appearance, navigation, and earlier component checks.
+The report is `.local/full-device-tests-2026-10-04.txt`. All **8 unit tests**,
+formatting, lint, both debug APK builds, and the debug app bundle build also
+passed. Lint had zero errors and 16 existing warnings. This verifies the current
+device and pinned libraries; historical OS execution remains unverified.
 
 On SM-X800 / Android 16 API 36, the 3 new selection tests and 2 existing action
 tests passed in **45.642 seconds**. The first 33-test run then passed all 31
@@ -99,11 +125,53 @@ All **6 unit tests** passed. Formatting and Android lint passed with zero errors
 and 16 existing warnings.
 The source remains a current-device theme/library experiment.
 
+The later input feature's first 38-test run passed 36 tests and failed two native
+popup tests. The input samples were committed as `cf4c040` with that limitation
+recorded. After synchronizing Compose scrolling, keyboard closure, and framework
+selection feedback, all 3 native input tests passed in **33.987 seconds** at
+`4641052`. They touch actual autocomplete and spinner popup items in all three
+framework themes and verify search submission, disabled/reset behavior,
+recreation, and independent panels. The earlier failed runs remain recorded.
+
+The first later full 44-test run at `4641052` passed 42 tests and failed the
+spinner popup and offscreen appearance-option checks. The appearance test now
+scrolls to its options; both appearance tests passed in **4.718 seconds** at
+`3304799`. The native input tests now inject hardware key events with the
+software keyboard hidden, and the device script temporarily disables system
+animations. All 3 native input tests passed through that script in
+**32.338 seconds** at `b51546f`. Original animation values were restored after
+both successful and failed executions. These are widget behavior checks, not
+verification of the software keyboard UI or animation appearance.
+
+The 3 icon tests passed on the same device in **12.971 seconds**, covering the
+complete indexed getter catalog, available framework drawables, search, style
+and mirroring filters, chosen icon rendering, recreation, and a real image-button
+tap. The icon feature is committed as `97cd4ff`.
+
+The 3 language tests passed in **16.049 seconds** for `18e563f`. They exercised
+all five language selections, persistence across Activity recreation, localized
+search, native and Material 2/3 button text and taps, unsupported messages, and
+return to System language. All **8 unit tests** passed, including resource parity,
+format arguments, and Chinese script handling. Formatting, lint, both debug APK
+builds, and the debug app bundle build passed; lint had zero errors and the same
+16 existing warnings. The pre-Android-13 locale branch was compiled but has not
+yet been tested on an older OS.
+
 The test environment is Samsung SM-X800, OS build
 `BP2A.250605.031.A3.X800XXSBEZH3`, app 1.0 (version code 1), target SDK 37.
 The physical display is 1752 x 2800, used in landscape at 2800 x 1752, with
-340 dpi, font scale 1.0, and locale ko-KR. The three framework light themes and
-both pinned library light themes remain separate samples.
+340 dpi, font scale 1.0, and system locale ko-KR. The test runner temporarily
+uses English for existing behavior assertions and restores the original app
+language afterwards. Language tests choose all five app locales explicitly.
+The three framework light themes and both pinned library light themes remain
+separate samples.
+The latest full run temporarily set window animation, transition animation,
+and animator duration scales to zero. The native input tests hid the software
+keyboard and injected hardware key events before touching real popup items.
+The script restored the original animation settings: window 1.0, transition
+1.0, and an unset animator duration value. The screen timeout was temporarily
+extended during the long development session and restored to its original
+300,000 milliseconds. The original System app language was restored as well.
 
 New tests cover native toggle/image/rating touch in all three framework themes,
 Classic NumberPicker buttons and Holo/Material wheels, explicit unsupported
@@ -117,11 +185,14 @@ transitions, and independent segmented-row state after Activity recreation.
 The prior 28-test full-suite report for `e6b2eed` is locally saved at
 `.local/actions-device-tests.txt`. Selection evidence is saved at
 `.local/selection-device-tests.txt`. The initial category-filter failures are
-saved at `.local/filter-device-tests-failed.txt`. Later input experiments are
-still uncommitted and do not count toward the verified catalog or inventory.
-Their first 38-test run passed 36 tests and failed the autocomplete and spinner
-popup tests. The updated popup tests await a fresh unlocked-device run. Failed
-runs and runs stopped before instrumentation are not passing evidence.
+saved at `.local/filter-device-tests-failed.txt`. The first input failure report
+is `.local/inputs-device-tests-failed.txt`. Passing icon and language reports are
+`.local/icon-device-tests.txt` and `.local/language-device-tests.txt`.
+The corrected native-input report is `.local/input-synchronized-tests.txt`.
+The first full 44-test failure report is `.local/latest-device-tests.txt`.
+The input run under explicit test conditions is
+`.local/native-input-hardware-tests.txt`.
+Failed runs and runs stopped before instrumentation are not passing evidence.
 
 The previous [navigation verification](verification-2026-10-04.md) retains its
 original revision and captures. Screenshots from that record do not show all new
@@ -134,6 +205,10 @@ components and do not prove new interaction behavior.
 - [Material 3 API package](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary)
 - [Framework styles](https://developer.android.com/reference/android/R.style)
 - [Material design systems in Compose](https://developer.android.com/develop/ui/compose/designsystems/material2-material3)
+- [Compose resources and icons](https://developer.android.com/develop/ui/compose/resources)
+- [Per-app languages](https://developer.android.com/guide/topics/resources/app-languages)
+- [App bundle language configuration](https://developer.android.com/guide/app-bundle/configure-base)
+- [Espresso test environment](https://developer.android.com/training/testing/espresso/setup)
 
 The installed SDK's public API classes and API introduction data, plus the
 pinned libraries' source archives, supplied the source-name audit. Local SDK

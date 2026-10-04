@@ -7,19 +7,33 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 39 verified components by name, class/function, or Korean
-  description. Combine search with category filters to browse the growing catalog.
+- **List:** Search 47 implemented components by translated name or description,
+  or by their English class/function names. Combine search with category filters.
   Open a detail page, select a UI version, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
   its own state. Wide screens show two columns; narrow screens stack the samples.
-- **Settings:** Choose system, light, or dark app appearance. Inspect the actual
-  device, OS build, display configuration, target SDK, and library versions.
+- **Settings:** Choose system, light, or dark app appearance and an app language.
+  Inspect the device, OS build, display configuration, target SDK, and libraries.
 
 The catalog includes the original eight basic types, four framework-only controls,
-and sixteen Material button/icon/FAB variants, plus eleven chip and selection
-variants. It offers Classic, Holo, and platform Material light themes, Compose
+and sixteen Material button/icon/FAB variants, eleven chip and selection
+variants, seven additional input types, and an icon browser. It offers Classic,
+Holo, and platform Material light themes, Compose
 Material 2 **1.10.4**, and Compose Material 3 **1.4.0**. Changing the app
 appearance keeps the selected samples in their own light themes.
+
+The icon picker searches all **11,385 icon variants** provided by the pinned
+Compose Material icons **1.7.8** core and extended artifacts. Filter by Filled,
+Outlined, Rounded, Sharp, Two tone, or auto mirroring, and apply the choice to
+icons, icon buttons, or floating action buttons. Framework samples use the
+current OS's public `android.R.drawable` resources. Resources that the device
+cannot load remain visible with an unavailable label.
+
+Menus, descriptions, accessibility labels, feedback, and sample text support
+**Korean, English, Japanese, Simplified Chinese, and Traditional Chinese**.
+Settings offers native language names and a System option. All translations
+are packaged together, so language changes work offline. English API and icon
+names stay searchable.
 
 Unavailable combinations show a reason rather than a substitute. Components that
 are still being implemented are tracked as pending in the coverage inventory.
@@ -46,8 +60,8 @@ historical OS captures have been collected. These are later milestones.
   format, test, and commit workflow.
 - [Physical-device verification](docs/verification-2026-10-04.md) records the
   earlier navigation milestone, environment, and local captures.
-- [Component coverage](docs/component-coverage.md) records the current 28 passing
-  device tests and the broad source inventory that remains to be implemented.
+- [Component coverage](docs/component-coverage.md) records passing and failed
+  verification runs and the source inventory that remains to be implemented.
 
 ## Development and verification
 
@@ -65,6 +79,12 @@ adb devices -l
 The script formats and lints first, runs unit tests and builds both APKs, stops the
 Gradle daemon, and then installs and tests on the explicitly selected device.
 Builds use one worker and a 1 GiB heap. Unlock the device before touch tests.
+The script saves system animation settings, disables them during instrumentation,
+and restores them on success or failure, following the
+[Espresso test setup](https://developer.android.com/training/testing/espresso/setup).
+Native input tests inject hardware key events with the software keyboard hidden;
+they still touch real widgets and popup items. Keyboard UI and animation
+appearance need separate tests.
 Set `ANDROID_HOME`, provide an ignored `local.properties`, or pass `-AdbPath`.
 Use `-SkipBuild` only when both APKs already match the current source.
 Pass `-TestClass 'package.TestClass'` to run a focused class, or
