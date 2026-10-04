@@ -97,6 +97,30 @@ enum class LabComponent(
         minimumApi = 1,
         initialValue = 50,
     ),
+    CIRCULAR_PROGRESS(
+        "Circular progress (determinate)",
+        R.string.component_circular_progress,
+        R.string.component_circular_progress_description,
+        material2Function = "CircularProgressIndicator",
+        initialValue = 50,
+        category = ComponentCategory.INDICATOR,
+    ),
+    INDETERMINATE_LINEAR_PROGRESS(
+        "Linear progress (indeterminate)",
+        R.string.component_indeterminate_linear_progress,
+        R.string.component_indeterminate_linear_progress_description,
+        platformSource = "android.widget.ProgressBar",
+        material2Function = "LinearProgressIndicator",
+        category = ComponentCategory.INDICATOR,
+    ),
+    INDETERMINATE_CIRCULAR_PROGRESS(
+        "Circular progress (indeterminate)",
+        R.string.component_indeterminate_circular_progress,
+        R.string.component_indeterminate_circular_progress_description,
+        platformSource = "android.widget.ProgressBar",
+        material2Function = "CircularProgressIndicator",
+        category = ComponentCategory.INDICATOR,
+    ),
     DIALOG(
         "Dialog",
         R.string.component_dialog,
@@ -474,6 +498,12 @@ enum class LabComponent(
     val isSecureInput: Boolean
         get() = this == SECURE_TEXT_FIELD || this == OUTLINED_SECURE_TEXT_FIELD
 
+    val isDeterminateProgress: Boolean
+        get() = this == PROGRESS || this == CIRCULAR_PROGRESS
+
+    val isIndeterminateProgress: Boolean
+        get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
+
     val usesIcon: Boolean
         get() =
             this == ICON ||
@@ -505,6 +535,7 @@ enum class LabComponent(
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
+            isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)
             isSecureInput -> context.getString(R.string.status_characters, value)
             this == SPINNER ->
@@ -555,7 +586,8 @@ enum class LabComponent(
                     )
             this == RATING -> context.getString(R.string.status_rating, value)
             this == NUMBER_PICKER -> context.getString(R.string.status_number, value)
-            this == SLIDER || this == PROGRESS -> context.getString(R.string.status_value, value)
+            this == SLIDER || isDeterminateProgress ->
+                context.getString(R.string.status_value, value)
             this == DIALOG ->
                 context.getString(
                     R.string.status_action,

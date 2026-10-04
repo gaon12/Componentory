@@ -34,6 +34,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.IconCatalog
@@ -93,7 +95,11 @@ fun SamplePanel(
                 ) {
                     Text("${family.selectionLabel}  ▾")
                 }
-                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                DropdownMenu(
+                    expanded = menuOpen,
+                    onDismissRequest = { menuOpen = false },
+                    modifier = Modifier.semantics { testTagsAsResourceId = true },
+                ) {
                     DesignFamily.entries.forEach { option ->
                         DropdownMenuItem(
                             text = { Text(option.selectionLabel) },
@@ -144,7 +150,11 @@ fun SamplePanel(
                                     if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
                                     enabled,
                                     state,
-                                    if (component == LabComponent.RATING)
+                                    if (
+                                        component == LabComponent.RATING ||
+                                            component ==
+                                                LabComponent.INDETERMINATE_CIRCULAR_PROGRESS
+                                    )
                                         Modifier.wrapContentWidth(Alignment.Start)
                                     else Modifier.fillMaxWidth(),
                                 )
@@ -156,7 +166,7 @@ fun SamplePanel(
                         }
                     }
             }
-            if (component == LabComponent.PROGRESS) {
+            if (component.isDeterminateProgress && unsupported == null) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(
                         onClick = { state.value = (state.value - 10).coerceAtLeast(0) },
@@ -197,7 +207,11 @@ fun SamplePanel(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.testTag("implementation_$panel"),
             )
-            if (component == LabComponent.PROGRESS && platform == null) {
+            if (
+                (component.isDeterminateProgress || component.isIndeterminateProgress) &&
+                    platform == null &&
+                    unsupported == null
+            ) {
                 Text(
                     stringResource(R.string.progress_note),
                     style = MaterialTheme.typography.bodySmall,

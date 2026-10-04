@@ -226,4 +226,12 @@
     <string name="component_range_slider">範囲スライダー</string>
     <string name="component_range_slider_description">2つのつまみをドラッグして開始値と終了値を選択します。</string>
     <string name="status_range">範囲: %1$d–%2$d / 100</string>
+    <string name="component_circular_progress">円形進捗インジケーター（確定型）</string>
+    <string name="component_circular_progress_description">値を変えて0から100までの円形進捗を確認します。</string>
+    <string name="component_indeterminate_linear_progress">線形進捗インジケーター（不確定型）</string>
+    <string name="component_indeterminate_linear_progress_description">完了値が不明な進行中の処理を表示します。</string>
+    <string name="component_indeterminate_circular_progress">円形進捗インジケーター（不確定型）</string>
+    <string name="component_indeterminate_circular_progress_description">元の円形インジケーターで進行中の処理を表示します。</string>
+    <string name="status_indeterminate_progress">進捗: 不確定</string>
+    <string name="unsupported_determinate_circle">プラットフォームの円形 ProgressBar スタイルは不確定型の進捗のみ対応しています。</string>
 </resources>

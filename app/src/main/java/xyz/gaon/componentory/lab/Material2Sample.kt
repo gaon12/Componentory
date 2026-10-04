@@ -11,7 +11,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RangeSlider
@@ -117,11 +116,6 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         enabled = enabled,
                         modifier = sample,
                     )
-                LabComponent.PROGRESS ->
-                    LinearProgressIndicator(
-                        progress = state.value / 100f,
-                        modifier = sample.fillMaxWidth(),
-                    )
                 LabComponent.DIALOG ->
                     Button(
                         onClick = {
@@ -136,6 +130,8 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 else ->
                     androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth()) {
                         when (component.category) {
+                            ComponentCategory.INDICATOR ->
+                                Material2Indicators(component, sample, state)
                             ComponentCategory.SELECTION ->
                                 Material2Selections(component, sample, enabled, state)
                             ComponentCategory.INPUT ->

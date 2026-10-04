@@ -228,4 +228,12 @@
     <string name="component_range_slider">Range slider</string>
     <string name="component_range_slider_description">Drag two thumbs to select a start and end value.</string>
     <string name="status_range">Range: %1$d–%2$d / 100</string>
+    <string name="component_circular_progress">Circular progress (determinate)</string>
+    <string name="component_circular_progress_description">Change the value to inspect circular progress from 0 to 100.</string>
+    <string name="component_indeterminate_linear_progress">Linear progress (indeterminate)</string>
+    <string name="component_indeterminate_linear_progress_description">Show ongoing work without a known completion value.</string>
+    <string name="component_indeterminate_circular_progress">Circular progress (indeterminate)</string>
+    <string name="component_indeterminate_circular_progress_description">Show ongoing work with the original circular indicator.</string>
+    <string name="status_indeterminate_progress">Progress: indeterminate</string>
+    <string name="unsupported_determinate_circle">Platform circular ProgressBar styles support indeterminate progress only.</string>
 </resources>

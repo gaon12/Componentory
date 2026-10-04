@@ -36,6 +36,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import xyz.gaon.componentory.R
@@ -111,6 +113,8 @@ private fun ComponentoryNavigation(
     }
 
     Scaffold(
+        // Native automation can find live animated samples without waiting for an idle renderer.
+        modifier = Modifier.semantics { testTagsAsResourceId = true },
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
             TopAppBar(

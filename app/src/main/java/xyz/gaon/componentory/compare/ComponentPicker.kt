@@ -28,6 +28,8 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.CategoryFilter
@@ -53,6 +55,7 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
                 it.matchesSearch(query, context) && (category == null || it.category == category)
             }
         AlertDialog(
+            modifier = Modifier.semantics { testTagsAsResourceId = true },
             onDismissRequest = { open = false },
             title = { Text(stringResource(R.string.compare_component_title)) },
             text = {

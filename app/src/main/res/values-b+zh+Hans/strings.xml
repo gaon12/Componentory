@@ -226,4 +226,12 @@
     <string name="component_range_slider">范围滑块</string>
     <string name="component_range_slider_description">拖动两个滑块以选择起始值和结束值。</string>
     <string name="status_range">范围：%1$d–%2$d / 100</string>
+    <string name="component_circular_progress">圆形进度指示器（确定型）</string>
+    <string name="component_circular_progress_description">更改数值以查看从0到100的圆形进度。</string>
+    <string name="component_indeterminate_linear_progress">线性进度指示器（不确定型）</string>
+    <string name="component_indeterminate_linear_progress_description">显示完成值未知的进行中任务。</string>
+    <string name="component_indeterminate_circular_progress">圆形进度指示器（不确定型）</string>
+    <string name="component_indeterminate_circular_progress_description">使用原始圆形指示器显示进行中任务。</string>
+    <string name="status_indeterminate_progress">进度：不确定</string>
+    <string name="unsupported_determinate_circle">平台的圆形 ProgressBar 样式仅支持不确定型进度。</string>
 </resources>

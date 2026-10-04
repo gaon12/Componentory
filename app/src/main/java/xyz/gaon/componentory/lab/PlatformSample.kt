@@ -95,6 +95,11 @@ private fun createWidget(context: Context, component: LabComponent): View =
             ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
                 max = 100
             }
+        LabComponent.INDETERMINATE_LINEAR_PROGRESS ->
+            ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
+                isIndeterminate = true
+            }
+        LabComponent.INDETERMINATE_CIRCULAR_PROGRESS -> ProgressBar(context)
         LabComponent.DIALOG -> Button(context).apply { setText(R.string.open_dialog) }
         LabComponent.TOGGLE_BUTTON ->
             ToggleButton(context).apply {
@@ -187,6 +192,8 @@ private fun updateWidget(
                 )
             }
         LabComponent.PROGRESS -> (view as ProgressBar).progress = state.value
+        LabComponent.INDETERMINATE_LINEAR_PROGRESS,
+        LabComponent.INDETERMINATE_CIRCULAR_PROGRESS -> Unit
         LabComponent.RATING ->
             (view as RatingBar).apply {
                 setOnRatingBarChangeListener(null)

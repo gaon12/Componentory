@@ -52,6 +52,9 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
     ): String? {
         val name = context?.getString(component.labelRes) ?: component.label
         if (platform != null) {
+            if (component == LabComponent.CIRCULAR_PROGRESS)
+                return context?.getString(R.string.unsupported_determinate_circle)
+                    ?: "Platform circular ProgressBar styles support indeterminate progress only."
             if (component.platformSource == null)
                 return context?.getString(R.string.unsupported_platform, name)
                     ?: "The Android platform does not provide a dedicated $name component."
