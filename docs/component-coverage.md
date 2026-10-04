@@ -117,6 +117,15 @@ physical device, and commit that coherent change before starting another group.
 
 ## Verification
 
+The four JVM checks in
+[ComponentInventoryTest](../app/src/test/java/xyz/gaon/componentory/catalog/ComponentInventoryTest.kt)
+check provider counts and unique source identities, provider and API metadata,
+implemented sample mappings, and inventory entries for every declared supported
+combination. Remaining Pending rows must not name runnable samples; completing
+all pending entries is allowed. These are metadata consistency checks. They do
+not independently pin every audited source name, render widgets, test touch
+behavior, or verify historical OS execution.
+
 The additions through `843377a` passed the following separate focused runs on
 the physical device. These are not a full latest-suite result.
 
