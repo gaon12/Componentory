@@ -130,11 +130,19 @@ Sample coverage remains 57 entries and 134 runnable combinations.
 The current source passes formatting, lint with zero errors and 16 existing
 warnings, all 28 JVM tests, and both debug APK builds. Five Planned-list tests,
 four detail-provider navigation tests, and five comparison-state regressions
-compile. The latest selected 41-test physical UI attempt installed the APKs but
+compile. That selected 41-test physical UI attempt installed the APKs but
 stopped at the locked-screen guard before instrumentation. No tests in that
 attempt executed. Planned rendering, navigation, localized UI, and state
 restoration therefore still need physical confirmation. Loading-failure injection,
 TalkBack, larger fonts, and a separate phone also remain unverified.
+
+Commit `3d44b98` clarifies the theme/library selector and runtime OS note, adds
+availability hints without disabling unsupported choices, and exposes selected
+menu semantics. Three additional provider-identity tests compile. The latest
+44-test physical attempt was also rejected by the locked-screen guard before
+instrumentation; none of those selected tests executed. Current formatting, lint,
+28 JVM tests and APK builds pass. Source/provider identity is kept separate from
+theme introduction dates and actual historical OS execution.
 
 Seven parser checks cover quoted fields, escaped notes, metadata validation,
 sample references, filtering, future API metadata, and a completed inventory with
