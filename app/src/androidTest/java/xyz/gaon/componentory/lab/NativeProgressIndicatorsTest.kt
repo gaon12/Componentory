@@ -2,6 +2,7 @@ package xyz.gaon.componentory.lab
 
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.os.SystemClock
@@ -77,72 +78,143 @@ class NativeProgressIndicatorsTest {
     fun nativeIndeterminateStylesUseLiveWidgetsWithWorkingLabControls() {
         // Native progress keeps drawing. Accessibility input does not require an idle renderer.
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
-            clickTag("family_LEFT")
-            clickTag("family_LEFT_${family.name}")
             listOf(
                     LabComponent.INDETERMINATE_LINEAR_PROGRESS,
                     LabComponent.INDETERMINATE_CIRCULAR_PROGRESS,
                 )
                 .forEach { component ->
-                    clickTag("component_picker")
-                    val search =
-                        waitForNode("picker search") { it.viewIdResourceName == "picker_search" }
-                    assertTrue(
-                        search.performAction(
-                            AccessibilityNodeInfo.ACTION_SET_TEXT,
-                            Bundle().apply {
-                                putCharSequence(
-                                    AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
-                                    component.label,
-                                )
-                            },
-                        )
-                    )
-                    clickTag("component_${component.name}")
-                    waitForNode { it.viewIdResourceName == "xyz.gaon.componentory:id/sample_left" }
-                    val bounds = Rect()
-                    activity.scenario.onActivity {
-                        val progress = it.findViewById<ProgressBar>(R.id.sample_left)
-                        assertNotNull(progress)
-                        assertEquals(ProgressBar::class.java, progress.javaClass)
-                        assertTrue(progress.isShown)
-                        assertTrue(progress.isIndeterminate)
-                        assertNotNull(progress.indeterminateDrawable)
-                        val expectedTheme = ContextThemeWrapper(it, family.platform!!.themeId).theme
-                        listOf(
-                                android.R.attr.progressBarStyle,
-                                android.R.attr.progressBarStyleHorizontal,
-                            )
-                            .forEach { attribute ->
-                                val expected = TypedValue()
-                                val actual = TypedValue()
-                                assertTrue(
-                                    expectedTheme.resolveAttribute(attribute, expected, true)
-                                )
-                                assertTrue(
-                                    progress.context.theme.resolveAttribute(attribute, actual, true)
-                                )
-                                assertEquals(expected.resourceId, actual.resourceId)
+                    verifyCell(family, component) {
+                        clickTag("family_LEFT")
+                        clickTag("family_LEFT_${family.name}")
+                        clickTag("component_picker")
+                        val search =
+                            waitForNode("picker search") {
+                                it.viewIdResourceName == "picker_search"
                             }
-                        assertTrue(progress.getGlobalVisibleRect(bounds))
-                    }
-                    tap(bounds)
-                    waitForNode { it.text?.toString() == "Progress: indeterminate" }
-                    setEnabled(false)
-                    activity.scenario.onActivity {
-                        assertFalse(it.findViewById<ProgressBar>(R.id.sample_left).isEnabled)
-                    }
-                    setEnabled(true)
-                    activity.scenario.onActivity {
-                        assertTrue(it.findViewById<ProgressBar>(R.id.sample_left).isEnabled)
+                        assertTrue(
+                            search.performAction(
+                                AccessibilityNodeInfo.ACTION_SET_TEXT,
+                                Bundle().apply {
+                                    putCharSequence(
+                                        AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
+                                        component.label,
+                                    )
+                                },
+                            )
+                        )
+                        clickTag("component_${component.name}")
+                        waitForTag("component_picker", "Selected component") {
+                            it.text?.toString() == component.label
+                        }
+                        waitForTag("source_LEFT", "Left framework source") {
+                            it.text?.toString() == "android.widget.ProgressBar"
+                        }
+                        waitForTag("implementation_LEFT", "Left selected platform theme") {
+                            it.text
+                                ?.toString()
+                                ?.startsWith("android:${family.platform!!.themeName}") == true
+                        }
+                        // Metadata scrolling must not turn an offscreen widget into tap evidence.
+                        waitForTag(
+                            "xyz.gaon.componentory:id/sample_left",
+                            "Visible original indicator",
+                        )
+                        val bounds = Rect()
+                        activity.scenario.onActivity {
+                            val progress = it.findViewById<ProgressBar>(R.id.sample_left)
+                            assertNotNull(progress)
+                            assertEquals(ProgressBar::class.java, progress.javaClass)
+                            assertEquals(
+                                ContextThemeWrapper::class.java,
+                                progress.context.javaClass,
+                            )
+                            assertTrue(progress.isShown)
+                            assertTrue(progress.isIndeterminate)
+                            assertNotNull(progress.indeterminateDrawable)
+                            val expectedContext = ContextThemeWrapper(it, family.platform!!.themeId)
+                            val expectedTheme = expectedContext.theme
+                            listOf(
+                                    android.R.attr.progressBarStyle,
+                                    android.R.attr.progressBarStyleHorizontal,
+                                )
+                                .forEach { attribute ->
+                                    val expected = TypedValue()
+                                    val actual = TypedValue()
+                                    assertTrue(
+                                        expectedTheme.resolveAttribute(attribute, expected, true)
+                                    )
+                                    assertTrue(
+                                        progress.context.theme.resolveAttribute(
+                                            attribute,
+                                            actual,
+                                            true,
+                                        )
+                                    )
+                                    assertEquals(expected.resourceId, actual.resourceId)
+                                }
+                            // A detached public constructor supplies a default-style reference.
+                            // Drawable class and intrinsic size are limited constructor evidence,
+                            // not pixel equality or evidence from a historical Android release.
+                            val reference =
+                                if (component == LabComponent.INDETERMINATE_LINEAR_PROGRESS)
+                                    ProgressBar(
+                                            expectedContext,
+                                            null,
+                                            android.R.attr.progressBarStyleHorizontal,
+                                        )
+                                        .apply { isIndeterminate = true }
+                                else ProgressBar(expectedContext)
+                            val expectedDrawable = requireNotNull(reference.indeterminateDrawable)
+                            val actualDrawable = requireNotNull(progress.indeterminateDrawable)
+                            assertEquals(expectedDrawable.javaClass, actualDrawable.javaClass)
+                            assertEquals(
+                                expectedDrawable.intrinsicWidth,
+                                actualDrawable.intrinsicWidth,
+                            )
+                            assertEquals(
+                                expectedDrawable.intrinsicHeight,
+                                actualDrawable.intrinsicHeight,
+                            )
+                            assertTrue(progress.getGlobalVisibleRect(bounds))
+                        }
+                        tap(bounds)
+                        waitForTag("status_LEFT", "Left indeterminate feedback") {
+                            it.text?.toString() == "Progress: indeterminate"
+                        }
+                        setEnabled(false)
+                        activity.scenario.onActivity {
+                            assertFalse(it.findViewById<ProgressBar>(R.id.sample_left).isEnabled)
+                        }
+                        setEnabled(true)
+                        activity.scenario.onActivity {
+                            assertTrue(it.findViewById<ProgressBar>(R.id.sample_left).isEnabled)
+                        }
                     }
                 }
         }
     }
 
+    private fun verifyCell(family: DesignFamily, component: LabComponent, verify: () -> Unit) {
+        val cell =
+            "${component.name}/${family.name} · android.widget.ProgressBar · ${family.platform!!.themeName} · API ${Build.VERSION.SDK_INT} · ${Build.DISPLAY}"
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        instrumentation.sendStatus(
+            0,
+            Bundle().apply { putString("stream", "\nNative animated cell BEGIN: $cell\n") },
+        )
+        try {
+            verify()
+        } catch (failure: Throwable) {
+            throw AssertionError("Native animated catalog cell failed: $cell", failure)
+        }
+        instrumentation.sendStatus(
+            0,
+            Bundle().apply { putString("stream", "\nNative animated cell PASS: $cell\n") },
+        )
+    }
+
     private fun clickTag(tag: String) {
-        val node =
-            waitForNode("tag: $tag") { it.viewIdResourceName == tag && clickableParent(it) != null }
+        val node = waitForTag(tag) { clickableParent(it) != null }
         assertTrue(
             "Could not click $tag",
             requireNotNull(clickableParent(node)).performAction(AccessibilityNodeInfo.ACTION_CLICK),
@@ -161,11 +233,41 @@ class NativeProgressIndicatorsTest {
     // The boolean getter also works on the minimum supported Android API.
     @Suppress("DEPRECATION")
     private fun setEnabled(enabled: Boolean) {
-        val control =
-            waitForNode("Enabled switch") { it.viewIdResourceName == "enabled" && it.isCheckable }
+        val control = waitForTag("enabled", "Enabled switch") { it.isCheckable }
         assertEquals(!enabled, control.isChecked)
         assertTrue(control.performAction(AccessibilityNodeInfo.ACTION_CLICK))
-        waitForNode("Enabled switch state: $enabled") { it.isCheckable && it.isChecked == enabled }
+        waitForNode("Enabled switch state: $enabled") {
+            it.viewIdResourceName == "enabled" && it.isCheckable && it.isChecked == enabled
+        }
+    }
+
+    private fun waitForTag(
+        tag: String,
+        description: String = tag,
+        predicate: (AccessibilityNodeInfo) -> Boolean = { true },
+    ): AccessibilityNodeInfo {
+        val deadline = SystemClock.uptimeMillis() + 10_000
+        var action = AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD
+        var searchedToEnd = false
+        while (SystemClock.uptimeMillis() < deadline) {
+            val root = automation.rootInActiveWindow
+            findNode(root) { it.viewIdResourceName == tag && it.isVisibleToUser && predicate(it) }
+                ?.let {
+                    return it
+                }
+            if (!searchedToEnd) {
+                val host =
+                    findNode(root) { it.viewIdResourceName == "compare_screen" && it.isScrollable }
+                if (host != null && !host.performAction(action)) {
+                    if (action == AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) {
+                        action = AccessibilityNodeInfo.ACTION_SCROLL_FORWARD
+                    } else searchedToEnd = true
+                }
+            }
+            // Public accessibility scrolling can update across frames while the widget draws.
+            SystemClock.sleep(150)
+        }
+        error("The visible accessibility tag did not appear: $description ($tag)")
     }
 
     private fun waitForNode(
