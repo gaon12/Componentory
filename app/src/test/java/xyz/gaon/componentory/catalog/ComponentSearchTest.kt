@@ -16,6 +16,7 @@ class ComponentSearchTest {
         assertEquals(listOf(LabComponent.TEXT_FIELD), search("EditText"))
         assertEquals(listOf(LabComponent.RADIO), search("라디오"))
         assertEquals(emptyList<LabComponent>(), search("unknown component"))
+        assertEquals(listOf(LabComponent.TONAL_BUTTON), search("FilledTonalButton"))
     }
 
     private fun search(query: String) = LabComponent.entries.filter { it.matchesSearch(query) }

@@ -28,4 +28,12 @@ class ComponentAvailabilityTest {
             }
         assertNull(DesignFamily.MATERIAL2.unsupportedReason(LabComponent.BUTTON, 36))
     }
+
+    @Test
+    fun newerLibraryVariantsAreUnavailableInOlderFamilies() {
+        assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(LabComponent.TONAL_BUTTON, 36))
+        assertNotNull(DesignFamily.CLASSIC.unsupportedReason(LabComponent.TONAL_BUTTON, 36))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.TONAL_BUTTON, 36))
+        assertNull(DesignFamily.MATERIAL2.unsupportedReason(LabComponent.OUTLINED_BUTTON, 36))
+    }
 }

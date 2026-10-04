@@ -115,6 +115,7 @@ private fun createWidget(context: Context, component: LabComponent): View =
                 wrapSelectorWheel = false
                 descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
             }
+        else -> error("Unsupported components must be handled by SamplePanel.")
     }
 
 @Suppress("DEPRECATION")
@@ -225,5 +226,6 @@ private fun updateWidget(
                 dialog.show()
                 state.value = 1
             }
+        else -> error("Unsupported components must be handled by SamplePanel.")
     }
 }

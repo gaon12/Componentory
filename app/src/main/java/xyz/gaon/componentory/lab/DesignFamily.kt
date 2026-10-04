@@ -33,37 +33,25 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
             }
 
     fun source(component: LabComponent): String {
-        if (platform != null) return component.source
+        if (platform != null) return component.platformSource ?: "제공되지 않음"
         val packageName =
             if (this == MATERIAL2) "androidx.compose.material" else "androidx.compose.material3"
         val function =
-            when (component) {
-                LabComponent.BUTTON -> "Button"
-                LabComponent.CHECKBOX -> "Checkbox"
-                LabComponent.RADIO -> "RadioButton"
-                LabComponent.SWITCH -> "Switch"
-                LabComponent.TEXT_FIELD -> "TextField"
-                LabComponent.SLIDER -> "Slider"
-                LabComponent.PROGRESS -> "LinearProgressIndicator"
-                LabComponent.DIALOG -> "AlertDialog"
-                else -> return "제공되지 않음"
-            }
+            (if (this == MATERIAL2) component.material2Function else component.material3Function)
+                ?: return "제공되지 않음"
         return "$packageName.$function"
     }
 
     fun unsupportedReason(component: LabComponent, runtimeApi: Int): String? {
         if (platform != null) {
+            if (component.platformSource == null)
+                return "Android 플랫폼은 ${component.label} 전용 컴포넌트를 제공하지 않습니다."
             return if (runtimeApi < component.minimumApi)
                 "Android API ${component.minimumApi} 이상이 필요합니다. 현재 기기는 API ${runtimeApi}입니다."
             else null
         }
-        return when (component) {
-            LabComponent.TOGGLE_BUTTON,
-            LabComponent.IMAGE_BUTTON,
-            LabComponent.RATING,
-            LabComponent.NUMBER_PICKER ->
-                "$label 라이브러리는 ${component.source.substringAfterLast('.')} 컴포넌트를 제공하지 않습니다."
-            else -> null
-        }
+        val function =
+            if (this == MATERIAL2) component.material2Function else component.material3Function
+        return if (function == null) "$label 라이브러리는 ${component.label} 컴포넌트를 제공하지 않습니다." else null
     }
 }

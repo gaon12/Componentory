@@ -165,7 +165,9 @@ fun SamplePanel(
             )
             Text(
                 family.implementation +
-                    if (platform != null) " · widget API ${component.minimumApi}+" else "",
+                    if (platform != null && component.platformSource != null)
+                        " · widget API ${component.minimumApi}+"
+                    else "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.testTag("implementation_$panel"),
@@ -173,6 +175,12 @@ fun SamplePanel(
             if (component == LabComponent.PROGRESS && platform == null) {
                 Text(
                     "Read-only indicator; this library provides no disabled appearance.",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            if (component.isFloatingAction && unsupported == null) {
+                Text(
+                    "이 라이브러리는 FAB의 비활성 스타일을 제공하지 않습니다. 사용 가능을 끄면 동작을 멈춥니다.",
                     style = MaterialTheme.typography.bodySmall,
                 )
             }

@@ -104,7 +104,10 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     ) {
                         Text("Open dialog")
                     }
-                else -> error("Unsupported components must be handled by SamplePanel.")
+                else ->
+                    androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth()) {
+                        Material3Actions(component, sample, enabled, state)
+                    }
             }
         }
         if (dialogOpen) {
