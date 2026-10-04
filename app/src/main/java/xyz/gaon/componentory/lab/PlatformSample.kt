@@ -7,15 +7,20 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.ContextThemeWrapper
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.NumberPicker
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.RatingBar
 import android.widget.SeekBar
 import android.widget.Switch
+import android.widget.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
@@ -82,6 +87,34 @@ private fun createWidget(context: Context, component: LabComponent): View =
                 max = 100
             }
         LabComponent.DIALOG -> Button(context).apply { setText(R.string.open_dialog) }
+        LabComponent.TOGGLE_BUTTON ->
+            ToggleButton(context).apply {
+                textOn = "On"
+                textOff = "Off"
+            }
+        LabComponent.IMAGE_BUTTON ->
+            ImageButton(context).apply {
+                setImageResource(android.R.drawable.ic_input_add)
+                contentDescription = "Add"
+                minimumHeight = (48 * resources.displayMetrics.density).toInt()
+            }
+        LabComponent.RATING ->
+            RatingBar(context).apply {
+                numStars = 5
+                stepSize = 1f
+                layoutParams =
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                    )
+            }
+        LabComponent.NUMBER_PICKER ->
+            NumberPicker(context).apply {
+                minValue = 0
+                maxValue = 10
+                wrapSelectorWheel = false
+                descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+            }
     }
 
 @Suppress("DEPRECATION")
@@ -93,9 +126,11 @@ private fun updateWidget(
 ) {
     view.isEnabled = enabled
     when (component) {
-        LabComponent.BUTTON -> view.setOnClickListener { state.value++ }
+        LabComponent.BUTTON,
+        LabComponent.IMAGE_BUTTON -> view.setOnClickListener { state.value++ }
         LabComponent.CHECKBOX,
-        LabComponent.SWITCH ->
+        LabComponent.SWITCH,
+        LabComponent.TOGGLE_BUTTON ->
             (view as CompoundButton).apply {
                 setOnCheckedChangeListener(null)
                 isChecked = state.value == 1
@@ -161,6 +196,20 @@ private fun updateWidget(
                 )
             }
         LabComponent.PROGRESS -> (view as ProgressBar).progress = state.value
+        LabComponent.RATING ->
+            (view as RatingBar).apply {
+                setOnRatingBarChangeListener(null)
+                rating = state.value.toFloat()
+                setOnRatingBarChangeListener { _, rating, fromUser ->
+                    if (fromUser) state.value = rating.toInt()
+                }
+            }
+        LabComponent.NUMBER_PICKER ->
+            (view as NumberPicker).apply {
+                setOnValueChangedListener(null)
+                value = state.value
+                setOnValueChangedListener { _, _, number -> state.value = number }
+            }
         LabComponent.DIALOG ->
             view.setOnClickListener {
                 if ((view.tag as? AlertDialog)?.isShowing == true) return@setOnClickListener

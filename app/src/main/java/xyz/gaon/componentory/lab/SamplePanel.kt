@@ -1,5 +1,6 @@
 package xyz.gaon.componentory.lab
 
+import android.os.Build
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import androidx.compose.foundation.background
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
@@ -25,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -50,6 +53,7 @@ fun SamplePanel(
         }
     val context = LocalContext.current
     val platform = family.platform
+    val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT)
     val background =
         remember(family) {
             val color = TypedValue()
@@ -96,22 +100,38 @@ fun SamplePanel(
                 Modifier.fillMaxWidth().background(background).padding(16.dp).heightIn(min = 96.dp),
                 verticalArrangement = Arrangement.Center,
             ) {
-                key(family, component, reset) {
-                    if (platform != null) {
-                        PlatformSample(
-                            platform,
-                            component,
-                            if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
-                            enabled,
-                            state,
-                            Modifier.fillMaxWidth(),
+                if (unsupported != null) {
+                    Column(Modifier.testTag("unsupported_$panel")) {
+                        Text(
+                            "지원하지 않음",
+                            color = Color.Black,
+                            style = MaterialTheme.typography.titleMedium,
                         )
-                    } else if (family == DesignFamily.MATERIAL2) {
-                        Material2Sample(component, panel, enabled, state)
-                    } else {
-                        Material3Sample(component, panel, enabled, state)
+                        Text(
+                            unsupported,
+                            color = Color.Black,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     }
-                }
+                } else
+                    key(family, component, reset) {
+                        if (platform != null) {
+                            PlatformSample(
+                                platform,
+                                component,
+                                if (panel == "LEFT") R.id.sample_left else R.id.sample_right,
+                                enabled,
+                                state,
+                                if (component == LabComponent.RATING)
+                                    Modifier.wrapContentWidth(Alignment.Start)
+                                else Modifier.fillMaxWidth(),
+                            )
+                        } else if (family == DesignFamily.MATERIAL2) {
+                            Material2Sample(component, panel, enabled, state)
+                        } else {
+                            Material3Sample(component, panel, enabled, state)
+                        }
+                    }
             }
             if (component == LabComponent.PROGRESS) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -131,11 +151,12 @@ fun SamplePanel(
                     }
                 }
             }
-            Text(
-                component.feedback(state.value, state.text),
-                modifier = Modifier.testTag("status_$panel"),
-                style = MaterialTheme.typography.titleMedium,
-            )
+            if (unsupported == null)
+                Text(
+                    component.feedback(state.value, state.text),
+                    modifier = Modifier.testTag("status_$panel"),
+                    style = MaterialTheme.typography.titleMedium,
+                )
             HorizontalDivider()
             Text(
                 family.source(component),

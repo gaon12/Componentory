@@ -107,6 +107,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     ) {
                         Text("Open dialog")
                     }
+                else -> error("Unsupported components must be handled by SamplePanel.")
             }
         }
         if (dialogOpen) {

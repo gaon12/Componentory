@@ -46,7 +46,24 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
                 LabComponent.SLIDER -> "Slider"
                 LabComponent.PROGRESS -> "LinearProgressIndicator"
                 LabComponent.DIALOG -> "AlertDialog"
+                else -> return "제공되지 않음"
             }
         return "$packageName.$function"
+    }
+
+    fun unsupportedReason(component: LabComponent, runtimeApi: Int): String? {
+        if (platform != null) {
+            return if (runtimeApi < component.minimumApi)
+                "Android API ${component.minimumApi} 이상이 필요합니다. 현재 기기는 API ${runtimeApi}입니다."
+            else null
+        }
+        return when (component) {
+            LabComponent.TOGGLE_BUTTON,
+            LabComponent.IMAGE_BUTTON,
+            LabComponent.RATING,
+            LabComponent.NUMBER_PICKER ->
+                "$label 라이브러리는 ${component.source.substringAfterLast('.')} 컴포넌트를 제공하지 않습니다."
+            else -> null
+        }
     }
 }
