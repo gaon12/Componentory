@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**59 component entries**, with **142 runnable component/family combinations**.
+**63 component entries**, with **148 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,14 +49,14 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `c5fbcdf`.
+Application source revision: `c3484ea`.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 21 | 53 |
-| Compose Material 2 1.10.4 | 52 | 26 | 26 |
-| Compose Material 3 1.4.0 | 113 | 51 | 62 |
-| Total | 239 | 98 | 141 |
+| Compose Material 2 1.10.4 | 52 | 28 | 24 |
+| Compose Material 3 1.4.0 | 113 | 55 | 58 |
+| Total | 239 | 104 | 135 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -113,6 +113,15 @@ open drafts, and the 12/24-hour setting separate. Material 3 retains its input
 mode across recreation and uses text input when the host window is at most the
 library's 300 dp height breakpoint. The explanatory note stays outside the modal.
 
+Four container entries add six library combinations: Card and Surface in both
+Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
+real clickable or plain overload with default shape, color, border and elevation.
+The host switch follows the preview and keeps its mode per panel. Clickable
+containers count taps; plain overloads have no click or enabled parameter, and
+the panel explains that the global Enabled setting applies to clickable samples.
+Old saved panels default to clickable mode. Framework providers and Material 2
+card variants without a supplier show an explicit unsupported reason.
+
 The shared panel shows the real sample before host adjustments and icon selection.
 Feedback precedes icon source metadata, while provider identity and behavioral
 guidance remain visible. Compare shows the component name in its picker once,
@@ -130,7 +139,7 @@ resources are kept in the app bundle for offline switching.
 ## Next implementation groups
 
 1. Standalone date/time/calendar controls and date-range selection.
-2. Cards, lists, images, text, and legacy content controls.
+2. Lists, images, text, and legacy content controls.
 3. Menus, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
 5. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
@@ -142,8 +151,40 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `c5fbcdf`. Formatting, lint (zero errors and 16 existing
-warnings), all 45 JVM tests, and both debug APK builds pass. The time dialog
+Latest implementation: `c3484ea`. Formatting, lint (zero errors and 16 existing
+warnings), all 49 JVM tests, and both debug APK builds pass. Four new JVM tests
+cover genuine container suppliers, source search, older saved panels, and plain
+mode with a retained click count. Independent code, UX and test source reviews
+found no static blocker.
+
+Six [container tests](../app/src/androidTest/java/xyz/gaon/componentory/lab/ContainerSamplesTest.kt)
+compile. They cover all six supported pairs, actual pointer clicks, plain and
+disabled behavior, independent modes and counts, recreation/reset, fourteen
+unavailable pairs, and five Settings languages. They preserve the libraries'
+absence of an invented role or enabled state on plain overloads.
+
+The normal 69-test UI attempt installed both APKs but stopped at the secure
+keyguard guard before instrumentation. None of the selected tests executed.
+The attempt is `.local/containers-ui-verification-attempt.txt`. Runtime taps,
+compact rendering, TalkBack and the earlier UI repairs remain unverified.
+
+Two separately scoped inventory-only device tests passed in 0.169 seconds on
+the SM-X800. They verify 239 source rows, 104 implemented and 135 pending sources,
+six new container mappings, provider filtering and pending queries. The run is
+`.local/device-runs/20261004T194439311Z-a965e7ef/`. Its manifest records the
+`dbcdae7` working tree with changes later committed as `c3484ea`, exact APK and
+environment identities, resource-only scope, native exit 0, and no restoration
+errors. `asset-consistency.json` confirms identical 20,525-byte source CSV, APK
+asset and installed asset content with SHA-256:
+`645681580407d9da8762556fb098b175978166ce30471b65fde384ea505f2622`.
+These results provide no rendering, interaction, screenshot or historical evidence.
+Gradle was stopped after the builds.
+
+### Earlier verification milestones
+
+Time dialogs and preview order: `8620d92` and `c5fbcdf`. Formatting, lint (zero
+errors and 16 existing warnings), all 45 JVM tests, and both debug APK builds
+passed. The time dialog
 feature in `8620d92` adds nine JVM checks for civil-time boundaries, formatting,
 time zones, saved-state compatibility, provider availability, and search for supporting
 sources. Its first lint run introduced two window size warnings. The fallback now
@@ -157,7 +198,7 @@ draft values, recreation, reset, disabled launchers, explicit Material 2 absence
 and all five Settings languages. Native widget API setup is named separately
 from real pointer editing. The existing six date-dialog regressions also compile.
 
-The latest normal 63-test UI attempt installed both APKs but stopped at the
+That milestone's normal 63-test UI attempt installed both APKs but stopped at the
 locked-screen guard before instrumentation. None of the selected tests ran.
 Its output is `.local/preview-first-ui-verification-attempt.txt`; the time feature
 attempt is `.local/time-picker-dialogs-ui-verification-attempt.txt`. The preview
@@ -176,8 +217,6 @@ result, and no restoration errors. `asset-consistency.json` confirms identical
 `e836a4856633a7c00250eb971f99a2fe82197f791c2f3f2ddaa4ea8f2da6d36b`.
 This run predates the preview reorder and provides no rendering, touch,
 screenshot, or historical OS evidence.
-
-### Earlier verification milestones
 
 Date dialog milestone: `ac9facb`. Formatting, lint (zero errors and 16 existing
 warnings), all 36 JVM tests, and both debug APK builds passed. Eight additional
