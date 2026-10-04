@@ -52,10 +52,10 @@ try {
     # Wait for a ready screen, then allow the dismissal request to finish.
     for ($attempt = 0; $attempt -lt 10; $attempt++) {
         $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
-        if ($windowPolicy -match 'screenState=SCREEN_STATE_ON') { break }
+        if ($windowPolicy -match 'screenState=SCREEN_STATE_ON' -and $windowPolicy -match 'interactiveState=INTERACTIVE_STATE_AWAKE') { break }
         Start-Sleep -Milliseconds 500
     }
-    if ($windowPolicy -notmatch 'screenState=SCREEN_STATE_ON') {
+    if ($windowPolicy -notmatch 'screenState=SCREEN_STATE_ON' -or $windowPolicy -notmatch 'interactiveState=INTERACTIVE_STATE_AWAKE') {
         throw 'The selected screen did not wake. Turn it on before running touch tests.'
     }
     & $AdbPath -s $Device shell wm dismiss-keyguard
