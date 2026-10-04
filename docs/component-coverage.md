@@ -122,15 +122,26 @@ asset. The small [inventory reader](../app/src/main/java/xyz/gaon/componentory/c
 preserves source providers, API introductions, statuses, sample IDs, and notes.
 Pending API search uses source names and an optional provider filter. Invalid or
 empty inventories fail explicitly instead of becoming an empty pending list.
-This supplies the data for planned discovery; the planned list screen is still
-to be added. Sample coverage remains 57 entries and 134 runnable combinations.
+Commit `ffa6e08` adds the Planned APIs list with source search, provider filtering,
+explicit loading and failure states, and five-language pending labels. Its cards
+are read-only API metadata, not unsupported components or original captures.
+Sample coverage remains 57 entries and 134 runnable combinations.
+
+The current source passes formatting, lint with zero errors and 16 existing
+warnings, all 28 JVM tests, and both debug APK builds. Five Planned-list tests,
+four detail-provider navigation tests, and five comparison-state regressions
+compile. The latest selected 41-test physical UI attempt installed the APKs but
+stopped at the locked-screen guard before instrumentation. No tests in that
+attempt executed. Planned rendering, navigation, localized UI, and state
+restoration therefore still need physical confirmation. Loading-failure injection,
+TalkBack, larger fonts, and a separate phone also remain unverified.
 
 Seven parser checks cover quoted fields, escaped notes, metadata validation,
 sample references, filtering, future API metadata, and a completed inventory with
-no pending rows. All 21 JVM tests pass. Two resource-only tests passed on the
-Samsung SM-X800, Android 16/API 36, in 0.148 seconds. They read all 239 packaged
-sources and verified 149 pending entries, provider filtering, notes, and sample
-IDs. The source file, APK asset, and installed asset have the same SHA-256:
+no pending rows. All 21 JVM tests passed at that data milestone. Two resource-only
+tests passed on the Samsung SM-X800, Android 16/API 36, in 0.148 seconds. They read
+all 239 packaged sources and verified 149 pending entries, provider filtering,
+notes, and sample IDs. The source file, APK asset, and installed asset have the same SHA-256:
 `c7b23a296bbbc70e3cb25fabe1096b11b133416091516d0118875687d1be26d1`.
 
 The unique local run is `.local/device-runs/20261004T162138822Z-a1f61114/`. Its

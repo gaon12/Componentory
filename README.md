@@ -9,7 +9,9 @@ The working prototype has three bottom navigation destinations:
 
 - **List:** Search 57 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Open a detail page, select a UI version, and interact with the real component.
+  Switch to Planned APIs to inspect 149 source APIs awaiting interactive samples,
+  with source-name search and provider filters. Open a sample detail page, select
+  a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
   its own state. Wide screens show two columns; narrow screens stack the samples.
 - **Settings:** Choose system, light, or dark app appearance and an app language.
@@ -36,14 +38,19 @@ Settings offers native language names and a System option. All translations
 are packaged together, so language changes work offline. English API and icon
 names stay searchable.
 
-Unavailable combinations show a reason rather than a substitute. Components that
-are still being implemented are tracked as pending in the coverage inventory.
+Unavailable combinations show a reason rather than a substitute. Planned APIs
+explicitly show that their samples are not implemented; this does not mean that
+the API is unsupported. A first detail visit chooses an available provider, and
+later visits remember the component's selected provider, including deliberate
+unsupported choices.
 
 Search and live sample state survive tab changes and Activity recreation.
-An open comparison currently loses or restores stale values when its width
-crosses the two-column layout boundary. The
-[independent review](docs/review-2026-10-04.md) records this defect and the next
-UX priorities.
+The comparison width-state repair, Planned APIs view, and detail-provider memory
+have passed formatting, lint, 28 JVM tests, and APK builds. Their latest physical
+UI attempt stopped at the locked-screen guard before instrumentation, so these
+changes still require unlocked device verification. The
+[independent review](docs/review-2026-10-04.md) records the original defect,
+repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original
 historical OS captures have been collected. These are later milestones.
 
