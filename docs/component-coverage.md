@@ -49,7 +49,8 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application source revision: `9c73239`.
+Application source revision: `9c73239`. Latest verification source: `ec64799`.
+The verification commit changes tests only; catalog and source counts are unchanged.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
@@ -167,7 +168,52 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `9c73239`. Formatting, lint with zero errors and 16 existing
+Latest verification source: `ec64799`. Formatting and lint passed with zero errors
+and 16 existing warnings, and both debug APK build tasks passed. The JVM task was
+`UP-TO-DATE`: it retained the 62 passing results from the input-copy milestone
+and did not rerun for this test-only change. Application source remains `9c73239`.
+
+Five [catalog smoke tests](../app/src/androidTest/java/xyz/gaon/componentory/catalog/CatalogRenderingSmokeTest.kt)
+compile. Their ordinary scope covers 147 supported and 167 unsupported cells:
+20 supported and 42 unsupported for each framework theme, 32 and 32 for Material
+2, and 55 and 9 for Material 3. The catalog still has 64 entries across five
+providers, or 320 cells. Six native indeterminate progress cells are excluded
+from the ordinary scope and remain in the separate existing
+[native progress test](../app/src/androidTest/java/xyz/gaon/componentory/lab/NativeProgressIndicatorsTest.kt).
+Its single method covers both styles across all three framework themes with
+UiAutomation and animator scale 1.0. The ordinary Espresso scope excludes these
+continuously animated controls to avoid an infinite-animation idle wait.
+
+The smoke assertions check actual framework classes and selected theme styles,
+pinned library identity and provider semantics, rendered controls and their
+defaults, original dialog/menu windows, and explicit unsupported reasons. The
+animated test adds Left-panel source and theme checks, visible pointer targets,
+bounded host scrolling and per-cell diagnostics. A detached original constructor
+provides a drawable-class and intrinsic-size reference; those comparisons are
+limited default-style evidence, not pixel or historical appearance checks.
+Neither scope replaces component-specific behavior tests.
+
+Both APKs installed on the SM-X800, but the normal 87-test attempt stopped at the
+secure-keyguard guard before instrumentation. None executed, and no new executed
+run manifest was produced. The separate one-test native animation scope was not
+attempted while the same locked state remained active. No resource-only test was
+rerun. The authored assertions and successful test APK build supply no new
+rendering, interaction, compact-device or historical OS evidence.
+
+The unchanged app APK is 19,660,199 bytes with SHA-256:
+`577c331f0782ad87afc6c40e5a6f6298ae5de47ccec7f5525c0e68b82ef66617`.
+The new test APK is 1,350,454 bytes with SHA-256:
+`6e042760268d0265d2186de5ae00a8fbe72d4e685245c018f1643bd6f8c7c776`.
+Local evidence is retained in `.local/catalog-smoke-format-lint.txt`,
+`.local/catalog-smoke-tests-build.txt`, `.local/catalog-smoke-unit-results.json`,
+`.local/catalog-smoke-apk-hashes.json`, `.local/catalog-smoke-declared-test-scope.json`
+and `.local/catalog-smoke-ui-verification-attempt.txt`. Gradle was stopped after
+the builds. These checks and all earlier UI repairs still need unlocked physical
+verification.
+
+### Earlier verification milestones
+
+Input-copy milestone: `9c73239`. Formatting, lint with zero errors and 16 existing
 warnings, all 62 JVM tests, and both debug APK builds passed. Ten new JVM tests
 cover the positive input whitelist, empty/false/zero values, independent targets,
 excluded results and secrets, committed dates/times, exact icon compatibility,
@@ -185,8 +231,8 @@ actions. The bounded host is not an actual OS display change. The partial-icon
 policy has no currently reachable compound cross-catalog UI case; only its JVM
 test supplies synthetic unavailability.
 
-The latest normal 82-test UI attempt installed both new APKs on the SM-X800 but
-stopped at the secure-keyguard guard before instrumentation. None executed.
+That milestone's normal 82-test UI attempt installed both new APKs on the SM-X800
+but stopped at the secure-keyguard guard before instrumentation. None executed.
 The attempt is `.local/input-copy-ui-verification-attempt.txt`; host results and
 APK identities are retained in `.local/input-copy-unit-results.json` and
 `.local/input-copy-apk-hashes.json`. No executed UI receipt or new resource-only
@@ -194,8 +240,6 @@ result was produced. The inventory is unchanged; earlier resource receipts below
 retain their own APK identities. Gradle was stopped after the builds. Input
 copying, compact rendering, actual OS resize, spoken accessibility and earlier
 UI repairs still need physical verification.
-
-### Earlier verification milestones
 
 Popup-menu milestone: `b8a5766`. Formatting, lint (zero errors and 16 existing
 warnings), all 52 JVM tests, and both debug APK builds pass. Three added JVM

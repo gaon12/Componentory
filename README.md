@@ -63,12 +63,16 @@ times, container mode, and compatible icons. It leaves passwords, action history
 menu results, and open drafts out. Unsupported copies explain their reason and
 keep the target unchanged. Reset and provider changes cannot replay Detail inputs.
 
-The latest source passes formatting, lint, 62 JVM tests, and both APK builds.
-Two inventory-only tests passed at the earlier popup-menu milestone. The latest
-82-test UI attempt stopped at the locked-screen guard before instrumentation;
-none ran. Comparison state, the Planned view, provider selection, accessibility,
-date/time dialogs, cards, surfaces, popup menus, input copying, and the preview
-reorder still require unlocked UI verification. The
+The latest checks pass formatting, lint, and both APK builds. The JVM task was
+up to date and retained 62 earlier passing results; it did not rerun. Five new
+catalog smoke tests compile and cover 147 supported and 167 unsupported cells.
+The six native animated cells use a separate existing test. The latest normal
+87-test UI attempt stopped at the secure-keyguard guard before instrumentation;
+none ran. The separate animation scope was not attempted while the device stayed
+locked. Two inventory-only tests passed at the earlier popup-menu milestone.
+Catalog rendering, comparison state, the Planned view, provider selection,
+accessibility, date/time dialogs, cards, surfaces, popup menus, input copying,
+and the preview reorder still require unlocked UI verification. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original
@@ -128,6 +132,14 @@ of its methods explicitly. These checks load catalogs and verify resource data
 without an Activity or input. This mode leaves animation settings unchanged.
 Other test classes still require the normal unlocked-screen path. Resource checks
 do not verify rendering, navigation, touch behavior, or historical appearance.
+
+The catalog smoke class checks current-device rendering, provider identity,
+original dialog and menu windows, and explicit unsupported reasons. Its five
+tests cover 314 of the 320 component/provider cells. Run
+`xyz.gaon.componentory.lab.NativeProgressIndicatorsTest` separately for the six
+animated framework cells. It uses UiAutomation with animator scale 1.0; the
+ordinary Espresso sweep excludes continuously animated native controls.
+These scopes are not complete interaction, pixel, or historical OS tests.
 
 Each executed run has its own `.local/device-runs/<run ID>/` directory with
 `instrumentation.txt` and `manifest.json`, outside Git. The manifest records the
