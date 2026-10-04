@@ -26,29 +26,29 @@ import xyz.gaon.componentory.R
 @Composable
 internal fun Material3Actions(
     component: LabComponent,
-    sample: Modifier,
+    modifier: Modifier,
     enabled: Boolean,
     state: SampleState,
 ) {
     when (component) {
         LabComponent.OUTLINED_BUTTON ->
-            OutlinedButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            OutlinedButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 Text("Tap me")
             }
         LabComponent.TEXT_BUTTON ->
-            TextButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            TextButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 Text("Tap me")
             }
         LabComponent.ELEVATED_BUTTON ->
-            ElevatedButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            ElevatedButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 Text("Tap me")
             }
         LabComponent.TONAL_BUTTON ->
-            FilledTonalButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            FilledTonalButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 Text("Tap me")
             }
         LabComponent.ICON_BUTTON ->
-            IconButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            IconButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 ActionIcon3()
             }
         LabComponent.ICON_TOGGLE ->
@@ -56,12 +56,12 @@ internal fun Material3Actions(
                 checked = state.value == 1,
                 onCheckedChange = { state.value = if (it) 1 else 0 },
                 enabled = enabled,
-                modifier = sample,
+                modifier = modifier,
             ) {
                 ActionIcon3(state.value == 1)
             }
         LabComponent.FILLED_ICON_BUTTON ->
-            FilledIconButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            FilledIconButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 ActionIcon3()
             }
         LabComponent.FILLED_ICON_TOGGLE ->
@@ -69,7 +69,7 @@ internal fun Material3Actions(
                 checked = state.value == 1,
                 onCheckedChange = { state.value = if (it) 1 else 0 },
                 enabled = enabled,
-                modifier = sample,
+                modifier = modifier,
             ) {
                 ActionIcon3(state.value == 1)
             }
@@ -77,7 +77,7 @@ internal fun Material3Actions(
             FilledTonalIconButton(
                 onClick = { state.value++ },
                 enabled = enabled,
-                modifier = sample,
+                modifier = modifier,
             ) {
                 ActionIcon3()
             }
@@ -86,12 +86,16 @@ internal fun Material3Actions(
                 checked = state.value == 1,
                 onCheckedChange = { state.value = if (it) 1 else 0 },
                 enabled = enabled,
-                modifier = sample,
+                modifier = modifier,
             ) {
                 ActionIcon3(state.value == 1)
             }
         LabComponent.OUTLINED_ICON_BUTTON ->
-            OutlinedIconButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            OutlinedIconButton(
+                onClick = { state.value++ },
+                enabled = enabled,
+                modifier = modifier,
+            ) {
                 ActionIcon3()
             }
         LabComponent.OUTLINED_ICON_TOGGLE ->
@@ -99,12 +103,12 @@ internal fun Material3Actions(
                 checked = state.value == 1,
                 onCheckedChange = { state.value = if (it) 1 else 0 },
                 enabled = enabled,
-                modifier = sample,
+                modifier = modifier,
             ) {
                 ActionIcon3(state.value == 1)
             }
         LabComponent.FAB ->
-            FloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = sample) {
+            FloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = modifier) {
                 ActionIcon3()
             }
         LabComponent.EXTENDED_FAB ->
@@ -112,14 +116,20 @@ internal fun Material3Actions(
                 text = { Text("Create") },
                 icon = { ActionIcon3() },
                 onClick = { if (enabled) state.value++ },
-                modifier = sample,
+                modifier = modifier,
             )
         LabComponent.SMALL_FAB ->
-            SmallFloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = sample) {
+            SmallFloatingActionButton(
+                onClick = { if (enabled) state.value++ },
+                modifier = modifier,
+            ) {
                 ActionIcon3()
             }
         LabComponent.LARGE_FAB ->
-            LargeFloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = sample) {
+            LargeFloatingActionButton(
+                onClick = { if (enabled) state.value++ },
+                modifier = modifier,
+            ) {
                 ActionIcon3()
             }
         else -> error("Unsupported components must be handled by SamplePanel.")

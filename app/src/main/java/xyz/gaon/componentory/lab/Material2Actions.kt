@@ -19,21 +19,21 @@ import xyz.gaon.componentory.R
 @Composable
 internal fun Material2Actions(
     component: LabComponent,
-    sample: Modifier,
+    modifier: Modifier,
     enabled: Boolean,
     state: SampleState,
 ) {
     when (component) {
         LabComponent.OUTLINED_BUTTON ->
-            OutlinedButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            OutlinedButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 Text("Tap me")
             }
         LabComponent.TEXT_BUTTON ->
-            TextButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            TextButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 Text("Tap me")
             }
         LabComponent.ICON_BUTTON ->
-            IconButton(onClick = { state.value++ }, enabled = enabled, modifier = sample) {
+            IconButton(onClick = { state.value++ }, enabled = enabled, modifier = modifier) {
                 ActionIcon2()
             }
         LabComponent.ICON_TOGGLE ->
@@ -41,12 +41,12 @@ internal fun Material2Actions(
                 checked = state.value == 1,
                 onCheckedChange = { state.value = if (it) 1 else 0 },
                 enabled = enabled,
-                modifier = sample,
+                modifier = modifier,
             ) {
                 ActionIcon2(state.value == 1)
             }
         LabComponent.FAB ->
-            FloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = sample) {
+            FloatingActionButton(onClick = { if (enabled) state.value++ }, modifier = modifier) {
                 ActionIcon2()
             }
         LabComponent.EXTENDED_FAB ->
@@ -54,7 +54,7 @@ internal fun Material2Actions(
                 text = { Text("Create") },
                 icon = { ActionIcon2() },
                 onClick = { if (enabled) state.value++ },
-                modifier = sample,
+                modifier = modifier,
             )
         else -> error("Unsupported components must be handled by SamplePanel.")
     }

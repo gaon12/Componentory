@@ -109,7 +109,9 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     }
                 else ->
                     androidx.compose.foundation.layout.Box(Modifier.fillMaxWidth()) {
-                        Material2Actions(component, sample, enabled, state)
+                        if (component.category == ComponentCategory.SELECTION)
+                            Material2Selections(component, sample, enabled, state)
+                        else Material2Actions(component, sample, enabled, state)
                     }
             }
         }

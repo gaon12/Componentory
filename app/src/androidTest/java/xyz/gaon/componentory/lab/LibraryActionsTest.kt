@@ -22,7 +22,10 @@ import xyz.gaon.componentory.MainActivity
 @RunWith(AndroidJUnit4::class)
 class LibraryActionsTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
-    private val actions = LabComponent.entries.filter { it.platformSource == null }
+    private val actions =
+        LabComponent.entries.filter {
+            it.platformSource == null && it.category == ComponentCategory.ACTION
+        }
 
     @Before
     fun openComparison() {
