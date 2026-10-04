@@ -73,3 +73,8 @@ The instrumentation report is written to `.local/device-tests.txt`, outside Git.
 The script requires a successful test summary; an ADB exit code alone is not
 enough. Selecting a legacy theme is a current-device experiment. Exact historical
 OS appearance and behavior require running on that historical OS.
+
+## License
+
+Componentory is licensed under the [MIT License](LICENSE).
+Third-party dependencies retain their own licenses.
