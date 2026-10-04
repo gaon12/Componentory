@@ -26,7 +26,8 @@ class PlatformComparisonTest {
     @Before
     fun waitForTheLabToBeReady() {
         compose.waitForIdle()
-        compose.onNodeWithTag("runtime").assertExists()
+        compose.onNodeWithTag("nav_compare").performClick()
+        compose.onNodeWithTag("compare_screen").assertExists()
     }
 
     @Test

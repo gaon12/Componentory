@@ -1,0 +1,154 @@
+package xyz.gaon.componentory.navigation
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.R
+import xyz.gaon.componentory.catalog.ComponentDetailScreen
+import xyz.gaon.componentory.catalog.ComponentListScreen
+import xyz.gaon.componentory.compare.CompareScreen
+import xyz.gaon.componentory.lab.DesignFamily
+import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.settings.SettingsScreen
+
+private enum class AppTab(val label: String, val icon: Int, val tag: String) {
+    LIST("리스트", R.drawable.ic_list, "nav_list"),
+    COMPARE("비교", R.drawable.ic_compare, "nav_compare"),
+    SETTINGS("설정", R.drawable.ic_settings, "nav_settings"),
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ComponentoryApp() {
+    var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
+    var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
+    var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
+    var comparison by rememberSaveable { mutableStateOf(LabComponent.BUTTON) }
+    var left by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
+    var right by rememberSaveable { mutableStateOf(DesignFamily.HOLO) }
+    val savedScreens = rememberSaveableStateHolder()
+    val inDetail = tab == AppTab.LIST && detail != null
+
+    BackHandler(enabled = inDetail || tab != AppTab.LIST) {
+        if (inDetail) detail = null else tab = AppTab.LIST
+    }
+
+    Scaffold(
+        contentWindowInsets = WindowInsets.safeDrawing,
+        topBar = {
+            TopAppBar(
+                title = { Text(if (inDetail) requireNotNull(detail).label else "Componentory") },
+                navigationIcon = {
+                    if (inDetail) {
+                        IconButton(
+                            onClick = { detail = null },
+                            modifier = Modifier.testTag("detail_back"),
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_back),
+                                contentDescription = "목록으로 돌아가기",
+                            )
+                        }
+                    }
+                },
+                actions = {
+                    if (inDetail) {
+                        TextButton(
+                            onClick = {
+                                comparison = requireNotNull(detail)
+                                left = detailFamily
+                                if (right == left) {
+                                    right =
+                                        if (left == DesignFamily.MATERIAL3) DesignFamily.CLASSIC
+                                        else DesignFamily.MATERIAL3
+                                }
+                                tab = AppTab.COMPARE
+                            },
+                            modifier = Modifier.testTag("detail_compare"),
+                        ) {
+                            Text("비교하기")
+                        }
+                    }
+                },
+            )
+        },
+        bottomBar = {
+            NavigationBar {
+                Spacer(Modifier.weight(1f))
+                Row(Modifier.widthIn(max = 480.dp).fillMaxWidth()) {
+                    AppTab.entries.forEach { destination ->
+                        NavigationBarItem(
+                            selected = tab == destination,
+                            onClick = {
+                                if (tab == AppTab.LIST && destination == AppTab.LIST) detail = null
+                                tab = destination
+                            },
+                            icon = {
+                                Icon(painterResource(destination.icon), contentDescription = null)
+                            },
+                            label = { Text(destination.label) },
+                            modifier = Modifier.testTag(destination.tag),
+                        )
+                    }
+                }
+                Spacer(Modifier.weight(1f))
+            }
+        },
+    ) { insets ->
+        Box(Modifier.fillMaxSize().padding(insets), contentAlignment = Alignment.TopCenter) {
+            // Keep each tab's search, scroll position, and live sample state when switching tabs.
+            savedScreens.SaveableStateProvider(tab.name) {
+                when (tab) {
+                    AppTab.LIST -> {
+                        val selected = detail
+                        val catalogScreens = rememberSaveableStateHolder()
+                        catalogScreens.SaveableStateProvider(selected?.name ?: "catalog") {
+                            if (selected == null) {
+                                ComponentListScreen(onOpenComponent = { detail = it })
+                            } else {
+                                ComponentDetailScreen(selected, detailFamily, { detailFamily = it })
+                            }
+                        }
+                    }
+                    AppTab.COMPARE ->
+                        CompareScreen(
+                            comparison,
+                            { comparison = it },
+                            left,
+                            { left = it },
+                            right,
+                            { right = it },
+                        )
+                    AppTab.SETTINGS -> SettingsScreen()
+                }
+            }
+        }
+    }
+}

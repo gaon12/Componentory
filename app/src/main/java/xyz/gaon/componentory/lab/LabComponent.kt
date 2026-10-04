@@ -34,6 +34,25 @@ enum class LabComponent(
         "android.app.AlertDialog",
     );
 
+    val description: String
+        get() =
+            when (this) {
+                BUTTON -> "버튼을 누르고 반응을 확인하세요"
+                CHECKBOX -> "선택하거나 해제하는 체크박스"
+                RADIO -> "여러 옵션 중 하나를 선택하는 라디오 버튼"
+                SWITCH -> "켜고 끄는 스위치"
+                TEXT_FIELD -> "텍스트를 입력하는 필드"
+                SLIDER -> "드래그해서 값을 조절하는 슬라이더"
+                PROGRESS -> "진행 정도를 표시하는 인디케이터"
+                DIALOG -> "확인과 취소를 선택하는 대화상자"
+            }
+
+    fun matchesSearch(query: String): Boolean {
+        val term = query.trim()
+        return term.isEmpty() ||
+            listOf(label, description, source).any { it.contains(term, ignoreCase = true) }
+    }
+
     fun feedback(value: Int, text: String): String =
         when (this) {
             BUTTON -> "Clicks: $value"

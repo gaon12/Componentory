@@ -39,6 +39,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 
 @RunWith(AndroidJUnit4::class)
@@ -51,7 +52,8 @@ class PlatformComponentsTest {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
         compose.waitForIdle()
-        compose.onNodeWithTag("runtime").assertExists()
+        compose.onNodeWithTag("nav_compare").performClick()
+        compose.onNodeWithTag("compare_screen").assertExists()
     }
 
     @Test
@@ -171,7 +173,16 @@ class PlatformComponentsTest {
         compose.runOnUiThread {
             compose.activity.setContent {
                 ComponentoryTheme(dynamicColor = false) {
-                    Box(Modifier.width(360.dp)) { LabScreen() }
+                    Box(Modifier.width(360.dp)) {
+                        CompareScreen(
+                            LabComponent.BUTTON,
+                            {},
+                            DesignFamily.CLASSIC,
+                            {},
+                            DesignFamily.HOLO,
+                            {},
+                        )
+                    }
                 }
             }
         }

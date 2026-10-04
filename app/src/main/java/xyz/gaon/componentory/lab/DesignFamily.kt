@@ -9,6 +9,16 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
     MATERIAL2("Material 2"),
     MATERIAL3("Material 3");
 
+    val selectionLabel: String
+        get() =
+            when (this) {
+                CLASSIC -> "Android 1.0 · Classic"
+                HOLO -> "Android 3.0 · Holo"
+                MATERIAL -> "Android 5.0 · Material"
+                MATERIAL2 -> "Material 2 · Compose"
+                MATERIAL3 -> "Material 3 · Compose"
+            }
+
     val origin: String
         get() = platform?.let { "Theme from ${it.origin}" } ?: "Compose library · $label design"
 

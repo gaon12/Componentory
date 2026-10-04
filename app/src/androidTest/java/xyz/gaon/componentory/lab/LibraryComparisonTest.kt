@@ -42,7 +42,8 @@ class LibraryComparisonTest {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
         compose.waitForIdle()
-        compose.onNodeWithTag("runtime").assertExists()
+        compose.onNodeWithTag("nav_compare").performClick()
+        compose.onNodeWithTag("compare_screen").assertExists()
     }
 
     @Test

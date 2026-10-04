@@ -41,11 +41,12 @@ fun SamplePanel(
     enabled: Boolean,
     reset: Int,
     modifier: Modifier = Modifier,
+    title: String = "$panel SAMPLE",
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     val state =
-        rememberSaveable(family, component, reset, saver = SampleState.Saver) {
-            SampleState(component.initialValue)
+        key(family, component, reset) {
+            rememberSaveable(saver = SampleState.Saver) { SampleState(component.initialValue) }
         }
     val context = LocalContext.current
     val platform = family.platform
@@ -66,7 +67,7 @@ fun SamplePanel(
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(
-                "$panel SAMPLE",
+                title,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -75,12 +76,12 @@ fun SamplePanel(
                     onClick = { menuOpen = true },
                     modifier = Modifier.fillMaxWidth().testTag("family_$panel"),
                 ) {
-                    Text("${family.label}  ▾")
+                    Text("${family.selectionLabel}  ▾")
                 }
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                     DesignFamily.entries.forEach { option ->
                         DropdownMenuItem(
-                            text = { Text(option.label) },
+                            text = { Text(option.selectionLabel) },
                             onClick = {
                                 onFamilyChange(option)
                                 menuOpen = false
