@@ -245,4 +245,11 @@
     <string name="status_preview">Preview: %1$s</string>
     <string name="preview_note">Read-only preview; this library provides no disabled appearance.</string>
     <string name="legacy_divider_note">Material 3 renamed this API to HorizontalDivider. This sample still calls Divider from the pinned library.</string>
+    <string name="component_badge">Badge (number)</string>
+    <string name="component_badge_description">Change the counter to inspect single-digit and wider number badges.</string>
+    <string name="component_dot_badge">Dot badge</string>
+    <string name="component_dot_badge_description">Inspect a status badge without text.</string>
+    <string name="component_badged_box">Badged icon</string>
+    <string name="component_badged_box_description">Choose any library icon and inspect its attached number badge.</string>
+    <string name="status_badge">Badge count: %1$d</string>
 </resources>

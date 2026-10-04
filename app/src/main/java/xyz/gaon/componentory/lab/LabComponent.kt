@@ -143,6 +143,29 @@ enum class LabComponent(
         material3Function = "Divider",
         category = ComponentCategory.LAYOUT,
     ),
+    BADGE(
+        "Badge (number)",
+        R.string.component_badge,
+        R.string.component_badge_description,
+        material2Function = "Badge",
+        initialValue = 7,
+        category = ComponentCategory.INDICATOR,
+    ),
+    DOT_BADGE(
+        "Dot badge",
+        R.string.component_dot_badge,
+        R.string.component_dot_badge_description,
+        material2Function = "Badge",
+        category = ComponentCategory.INDICATOR,
+    ),
+    BADGED_BOX(
+        "Badged icon",
+        R.string.component_badged_box,
+        R.string.component_badged_box_description,
+        material2Function = "BadgedBox",
+        initialValue = 7,
+        category = ComponentCategory.INDICATOR,
+    ),
     DIALOG(
         "Dialog",
         R.string.component_dialog,
@@ -529,9 +552,16 @@ enum class LabComponent(
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
+    val isBadge: Boolean
+        get() = this in listOf(BADGE, DOT_BADGE, BADGED_BOX)
+
+    val isCountedBadge: Boolean
+        get() = this == BADGE || this == BADGED_BOX
+
     val usesIcon: Boolean
         get() =
             this == ICON ||
+                this == BADGED_BOX ||
                 this == IMAGE_BUTTON ||
                 isIconToggle ||
                 isFloatingAction ||
@@ -560,7 +590,9 @@ enum class LabComponent(
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
-            isDivider -> context.getString(R.string.status_preview, context.getString(labelRes))
+            isDivider || this == DOT_BADGE ->
+                context.getString(R.string.status_preview, context.getString(labelRes))
+            isCountedBadge -> context.getString(R.string.status_badge, value)
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)
             isSecureInput -> context.getString(R.string.status_characters, value)

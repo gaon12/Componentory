@@ -132,7 +132,7 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         when (component.category) {
                             ComponentCategory.LAYOUT -> Material2Layouts(component, sample)
                             ComponentCategory.INDICATOR ->
-                                Material2Indicators(component, sample, state)
+                                Material2Indicators(component, panel, sample, state)
                             ComponentCategory.SELECTION ->
                                 Material2Selections(component, sample, enabled, state)
                             ComponentCategory.INPUT ->

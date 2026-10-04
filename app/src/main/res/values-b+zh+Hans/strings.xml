@@ -243,4 +243,11 @@
     <string name="status_preview">预览：%1$s</string>
     <string name="preview_note">只读预览；此库未提供禁用状态的外观。</string>
     <string name="legacy_divider_note">Material 3 已将此 API 重命名为 HorizontalDivider。此示例仍直接调用固定版本库中的 Divider。</string>
+    <string name="component_badge">数字徽标</string>
+    <string name="component_badge_description">更改计数以查看一位数和多位数徽标。</string>
+    <string name="component_dot_badge">圆点徽标</string>
+    <string name="component_dot_badge_description">查看不含文字的状态徽标。</string>
+    <string name="component_badged_box">图标徽标</string>
+    <string name="component_badged_box_description">选择库中的图标并查看附加的数字徽标。</string>
+    <string name="status_badge">徽标数量：%1$d</string>
 </resources>

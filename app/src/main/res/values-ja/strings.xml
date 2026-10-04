@@ -243,4 +243,11 @@
     <string name="status_preview">プレビュー: %1$s</string>
     <string name="preview_note">読み取り専用のプレビューです。このライブラリには無効状態の外観がありません。</string>
     <string name="legacy_divider_note">Material 3 ではこの API が HorizontalDivider に改名されました。このサンプルは固定されたライブラリの Divider を直接呼び出します。</string>
+    <string name="component_badge">数字バッジ</string>
+    <string name="component_badge_description">カウンターを変えて1桁と複数桁の数字バッジを確認します。</string>
+    <string name="component_dot_badge">ドットバッジ</string>
+    <string name="component_dot_badge_description">文字のない状態表示バッジを確認します。</string>
+    <string name="component_badged_box">アイコンのバッジ</string>
+    <string name="component_badged_box_description">ライブラリのアイコンを選択し、付属する数字バッジを確認します。</string>
+    <string name="status_badge">バッジ数: %1$d</string>
 </resources>

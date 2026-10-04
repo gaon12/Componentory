@@ -243,4 +243,11 @@
     <string name="status_preview">미리보기: %1$s</string>
     <string name="preview_note">읽기 전용 미리보기이며, 이 라이브러리는 비활성화 외형을 제공하지 않습니다.</string>
     <string name="legacy_divider_note">Material 3에서 이 API의 이름이 HorizontalDivider로 바뀌었습니다. 이 샘플은 고정된 라이브러리의 Divider를 직접 호출합니다.</string>
+    <string name="component_badge">숫자 배지</string>
+    <string name="component_badge_description">개수를 바꾸어 한 자리와 여러 자리 숫자 배지를 살펴보세요.</string>
+    <string name="component_dot_badge">점 배지</string>
+    <string name="component_dot_badge_description">글자가 없는 상태 표시 배지를 살펴보세요.</string>
+    <string name="component_badged_box">아이콘 배지</string>
+    <string name="component_badged_box_description">라이브러리의 아이콘을 선택하고 붙어 있는 숫자 배지를 살펴보세요.</string>
+    <string name="status_badge">배지 개수: %1$d</string>
 </resources>

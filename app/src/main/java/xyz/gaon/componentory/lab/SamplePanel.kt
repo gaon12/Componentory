@@ -166,21 +166,33 @@ fun SamplePanel(
                         }
                     }
             }
-            if (component.isDeterminateProgress && unsupported == null) {
+            if (
+                (component.isDeterminateProgress || component.isCountedBadge) && unsupported == null
+            ) {
+                val step = if (component.isCountedBadge) 1 else 10
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(
-                        onClick = { state.value = (state.value - 10).coerceAtLeast(0) },
+                        onClick = { state.value = (state.value - step).coerceAtLeast(0) },
                         enabled = enabled,
                         modifier = Modifier.testTag("decrease_$panel"),
                     ) {
-                        Text("−10")
+                        Text("−$step")
                     }
                     TextButton(
-                        onClick = { state.value = (state.value + 10).coerceAtMost(100) },
+                        onClick = { state.value = (state.value + step).coerceAtMost(100) },
                         enabled = enabled,
                         modifier = Modifier.testTag("increase_$panel"),
                     ) {
-                        Text("+10")
+                        Text("+$step")
+                    }
+                    if (component.isCountedBadge) {
+                        TextButton(
+                            onClick = { state.value = (state.value + 10).coerceAtMost(100) },
+                            enabled = enabled,
+                            modifier = Modifier.testTag("increase_ten_$panel"),
+                        ) {
+                            Text("+10")
+                        }
                     }
                 }
             }
@@ -220,7 +232,7 @@ fun SamplePanel(
             if (component.isFloatingAction && unsupported == null) {
                 Text(stringResource(R.string.fab_note), style = MaterialTheme.typography.bodySmall)
             }
-            if (component.isDivider && unsupported == null) {
+            if ((component.isDivider || component.isBadge) && unsupported == null) {
                 Text(
                     stringResource(R.string.preview_note),
                     style = MaterialTheme.typography.bodySmall,

@@ -243,4 +243,11 @@
     <string name="status_preview">預覽：%1$s</string>
     <string name="preview_note">唯讀預覽；此程式庫未提供停用狀態的外觀。</string>
     <string name="legacy_divider_note">Material 3 已將此 API 重新命名為 HorizontalDivider。此範例仍直接呼叫固定版本程式庫中的 Divider。</string>
+    <string name="component_badge">數字徽章</string>
+    <string name="component_badge_description">變更計數以查看一位數和多位數徽章。</string>
+    <string name="component_dot_badge">圓點徽章</string>
+    <string name="component_dot_badge_description">查看不含文字的狀態徽章。</string>
+    <string name="component_badged_box">圖示徽章</string>
+    <string name="component_badged_box_description">選擇程式庫中的圖示並查看附加的數字徽章。</string>
+    <string name="status_badge">徽章數量：%1$d</string>
 </resources>
