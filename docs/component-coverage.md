@@ -117,6 +117,29 @@ physical device, and commit that coherent change before starting another group.
 
 ## Verification
 
+Commit `dd0df74` packages an exact generated copy of the audited CSV as an app
+asset. The small [inventory reader](../app/src/main/java/xyz/gaon/componentory/catalog/ComponentInventory.kt)
+preserves source providers, API introductions, statuses, sample IDs, and notes.
+Pending API search uses source names and an optional provider filter. Invalid or
+empty inventories fail explicitly instead of becoming an empty pending list.
+This supplies the data for planned discovery; the planned list screen is still
+to be added. Sample coverage remains 57 entries and 134 runnable combinations.
+
+Seven parser checks cover quoted fields, escaped notes, metadata validation,
+sample references, filtering, future API metadata, and a completed inventory with
+no pending rows. All 21 JVM tests pass. Two resource-only tests passed on the
+Samsung SM-X800, Android 16/API 36, in 0.148 seconds. They read all 239 packaged
+sources and verified 149 pending entries, provider filtering, notes, and sample
+IDs. The source file, APK asset, and installed asset have the same SHA-256:
+`c7b23a296bbbc70e3cb25fabe1096b11b133416091516d0118875687d1be26d1`.
+
+The unique local run is `.local/device-runs/20261004T162138822Z-a1f61114/`. Its
+manifest records the exact scope, APK hashes, source state, device fingerprint,
+target SDK, display configuration, and locale. `asset-consistency.json` retains
+the three-way hash comparison. No restoration errors were recorded. These
+checks verify inventory data and packaging; rendering, planned-list navigation,
+touch behavior, runtime support, and historical OS accuracy remain separate.
+
 The four JVM checks in
 [ComponentInventoryTest](../app/src/test/java/xyz/gaon/componentory/catalog/ComponentInventoryTest.kt)
 check provider counts and unique source identities, provider and API metadata,
