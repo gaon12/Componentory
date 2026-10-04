@@ -278,4 +278,17 @@
     <string name="time_24_hour">24小時制</string>
     <string name="time_picker_configuration">範例從 10:30 開始。切換顯示格式會保留所選時間。確認會套用時間，取消或返回會保留原來的時間。</string>
     <string name="time_small_window_note">視窗高度不足以顯示時鐘時，Material 3 會使用文字輸入。</string>
+    <string name="component_card">卡片</string>
+    <string name="component_card_description">採用函式庫預設樣式的卡片，可選擇是否處理點擊。</string>
+    <string name="component_elevated_card">浮起卡片</string>
+    <string name="component_elevated_card_description">採用預設高度的 Material 3 卡片，可選擇是否處理點擊。</string>
+    <string name="component_outlined_card">外框卡片</string>
+    <string name="component_outlined_card_description">採用預設邊框的 Material 3 卡片，可選擇是否處理點擊。</string>
+    <string name="component_surface">表面</string>
+    <string name="component_surface_description">採用預設形狀、顏色和高度的函式庫表面，可選擇是否處理點擊。</string>
+    <string name="sample_container_content">範例內容</string>
+    <string name="container_clickable">可點擊容器</string>
+    <string name="container_clickable_overload">點擊容器可增加次數。</string>
+    <string name="container_plain_overload">唯讀容器。點擊不會改變次數。</string>
+    <string name="container_enabled_note">不處理點擊的範例沒有啟用狀態。啟用設定只適用於可點擊範例。</string>
 </resources>

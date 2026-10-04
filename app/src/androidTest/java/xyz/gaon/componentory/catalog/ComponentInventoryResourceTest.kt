@@ -29,7 +29,7 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 98, InventoryStatus.PENDING to 141),
+            mapOf(InventoryStatus.IMPLEMENTED to 104, InventoryStatus.PENDING to 135),
             entries.groupingBy { it.status }.eachCount(),
         )
         val group = entries.single { it.source == "android.widget.RadioGroup" }
@@ -74,6 +74,20 @@ class ComponentInventoryResourceTest {
             .forEach { source ->
                 assertTrue(entries.single { it.source == source }.notes.isNotBlank())
             }
+        mapOf(
+                "androidx.compose.material.Card" to "CARD",
+                "androidx.compose.material.Surface" to "SURFACE",
+                "androidx.compose.material3.Card" to "CARD",
+                "androidx.compose.material3.ElevatedCard" to "ELEVATED_CARD",
+                "androidx.compose.material3.OutlinedCard" to "OUTLINED_CARD",
+                "androidx.compose.material3.Surface" to "SURFACE",
+            )
+            .forEach { (source, catalogId) ->
+                val container = entries.single { it.source == source }
+                assertEquals(InventoryStatus.IMPLEMENTED, container.status)
+                assertEquals(listOf(catalogId), container.catalogIds)
+                assertNull(container.apiIntroduced)
+            }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -93,12 +107,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(141, pending.size)
+        assertEquals(135, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 53,
-                InventoryFamily.MATERIAL2 to 26,
-                InventoryFamily.MATERIAL3 to 62,
+                InventoryFamily.MATERIAL2 to 24,
+                InventoryFamily.MATERIAL3 to 58,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -136,6 +150,8 @@ class ComponentInventoryResourceTest {
         )
         assertTrue(ComponentInventory.pending(entries, "timepicker").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "timeinput").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "card").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "surface").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "no-matching-source-api").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "checkbox").isEmpty())
         assertEquals(

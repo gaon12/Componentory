@@ -195,6 +195,9 @@ fun SamplePanel(
                     Text(label, modifier = Modifier.clearAndSetSemantics {})
                 }
             }
+            if (component.isContainer && unsupported == null) {
+                ContainerSampleConfiguration(panel, enabled, state)
+            }
             if (
                 (component.isDeterminateProgress || component.isCountedBadge) && unsupported == null
             ) {

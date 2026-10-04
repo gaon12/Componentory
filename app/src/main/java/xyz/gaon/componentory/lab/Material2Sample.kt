@@ -46,6 +46,8 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
     MaterialTheme(colors = lightColors()) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
+                LabComponent.CARD,
+                LabComponent.SURFACE -> Material2Containers(component, sample, enabled, state)
                 LabComponent.ICON -> {
                     val icon = requireNotNull(LocalSampleIcon.current)
                     Icon(icon.vector(), contentDescription = icon.name, modifier = sample)

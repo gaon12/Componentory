@@ -6,6 +6,16 @@ import xyz.gaon.componentory.lab.LabComponent
 
 class ComponentSearchTest {
     @Test
+    fun containerSourcesFindTheirGenuineSamples() {
+        assertEquals(listOf(LabComponent.CARD), search("androidx.compose.material.Card"))
+        assertEquals(listOf(LabComponent.CARD), search("androidx.compose.material3.Card"))
+        assertEquals(listOf(LabComponent.SURFACE), search("androidx.compose.material.Surface"))
+        assertEquals(listOf(LabComponent.SURFACE), search("androidx.compose.material3.Surface"))
+        assertEquals(listOf(LabComponent.ELEVATED_CARD), search("ElevatedCard"))
+        assertEquals(listOf(LabComponent.OUTLINED_CARD), search("OutlinedCard"))
+    }
+
+    @Test
     fun timeDialogIsSearchableByItsInteractiveSupportingApis() {
         assertEquals(listOf(LabComponent.TIME_PICKER_DIALOG), search("android.widget.TimePicker"))
         assertEquals(

@@ -21,6 +21,7 @@ class SampleStateTest {
                 assertEquals(bundle.getOrNull(3) ?: 80, state.rangeEnd)
                 assertEquals(SampleDates.INITIAL_UTC_MILLIS, state.dateUtcMillis)
                 assertNull(state.dateDraftUtcMillis)
+                assertEquals(true, state.containerClickable)
             }
     }
 
@@ -109,5 +110,42 @@ class SampleStateTest {
         assertEquals(5, restored.timeDraftMinutes)
         assertEquals(false, restored.time24Hour)
         assertEquals(true, restored.timeInputMode)
+    }
+
+    @Test
+    fun tenFieldSavedPanelsKeepExistingStateAndDefaultToClickableContainers() {
+        val committed = SampleDates.utcMillis(2024, 1, 22)
+        val draft = SampleDates.utcMillis(2024, 2, 29)
+        val restored =
+            requireNotNull(
+                SampleState.Saver.restore(
+                    listOf(7, "draft", "Filled.Home", 65, committed, draft, 1425, 5, false, true)
+                )
+            )
+        assertEquals(7, restored.value)
+        assertEquals("draft", restored.text)
+        assertEquals("Filled.Home", restored.icon)
+        assertEquals(65, restored.rangeEnd)
+        assertEquals(committed, restored.dateUtcMillis)
+        assertEquals(draft, restored.dateDraftUtcMillis)
+        assertEquals(1425, restored.timeMinutes)
+        assertEquals(5, restored.timeDraftMinutes)
+        assertEquals(false, restored.time24Hour)
+        assertEquals(true, restored.timeInputMode)
+        assertEquals(true, restored.containerClickable)
+    }
+
+    @Test
+    fun savedPlainContainerKeepsItsModeAndPreviousClickCount() {
+        val state = SampleState(initialValue = 3, initialContainerClickable = false)
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val bundle = requireNotNull(with(SampleState.Saver) { scope.save(state) })
+        val restored = requireNotNull(SampleState.Saver.restore(bundle))
+        assertEquals(3, restored.value)
+        assertEquals(false, restored.containerClickable)
     }
 }

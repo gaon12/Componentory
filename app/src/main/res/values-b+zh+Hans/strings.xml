@@ -278,4 +278,17 @@
     <string name="time_24_hour">24小时制</string>
     <string name="time_picker_configuration">示例从 10:30 开始。切换显示格式会保留所选时间。确认会应用时间，取消或返回会保留原来的时间。</string>
     <string name="time_small_window_note">窗口高度不足以显示时钟时，Material 3 会使用文本输入。</string>
+    <string name="component_card">卡片</string>
+    <string name="component_card_description">采用库默认样式的卡片，可选择是否处理点击。</string>
+    <string name="component_elevated_card">浮起卡片</string>
+    <string name="component_elevated_card_description">采用默认高度的 Material 3 卡片，可选择是否处理点击。</string>
+    <string name="component_outlined_card">描边卡片</string>
+    <string name="component_outlined_card_description">采用默认边框的 Material 3 卡片，可选择是否处理点击。</string>
+    <string name="component_surface">表面</string>
+    <string name="component_surface_description">采用默认形状、颜色和高度的库表面，可选择是否处理点击。</string>
+    <string name="sample_container_content">示例内容</string>
+    <string name="container_clickable">可点击容器</string>
+    <string name="container_clickable_overload">点击容器可增加计数。</string>
+    <string name="container_plain_overload">只读容器。点击不会改变计数。</string>
+    <string name="container_enabled_note">不处理点击的示例没有启用状态。启用设置只适用于可点击示例。</string>
 </resources>

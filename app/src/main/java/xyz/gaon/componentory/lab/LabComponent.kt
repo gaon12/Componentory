@@ -143,6 +143,34 @@ enum class LabComponent(
         material3Function = "Divider",
         category = ComponentCategory.LAYOUT,
     ),
+    CARD(
+        "Card",
+        R.string.component_card,
+        R.string.component_card_description,
+        material2Function = "Card",
+        category = ComponentCategory.LAYOUT,
+    ),
+    ELEVATED_CARD(
+        "Elevated card",
+        R.string.component_elevated_card,
+        R.string.component_elevated_card_description,
+        material3Function = "ElevatedCard",
+        category = ComponentCategory.LAYOUT,
+    ),
+    OUTLINED_CARD(
+        "Outlined card",
+        R.string.component_outlined_card,
+        R.string.component_outlined_card_description,
+        material3Function = "OutlinedCard",
+        category = ComponentCategory.LAYOUT,
+    ),
+    SURFACE(
+        "Surface",
+        R.string.component_surface,
+        R.string.component_surface_description,
+        material2Function = "Surface",
+        category = ComponentCategory.LAYOUT,
+    ),
     BADGE(
         "Badge (number)",
         R.string.component_badge,
@@ -566,6 +594,9 @@ enum class LabComponent(
 
     val isDivider: Boolean
         get() = this in listOf(HORIZONTAL_DIVIDER, VERTICAL_DIVIDER, LEGACY_DIVIDER)
+
+    val isContainer: Boolean
+        get() = this in listOf(CARD, ELEVATED_CARD, OUTLINED_CARD, SURFACE)
 
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS

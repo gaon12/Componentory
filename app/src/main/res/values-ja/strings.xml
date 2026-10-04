@@ -278,4 +278,17 @@
     <string name="time_24_hour">24時間表示</string>
     <string name="time_picker_configuration">サンプルは 10:30 から始まります。表示形式を変えても選択した時刻は保持されます。確認すると時刻を適用し、キャンセルや戻るでは変更前の時刻を保持します。</string>
     <string name="time_small_window_note">ウィンドウの高さが時計表示に足りない場合、Material 3 はテキスト入力を使います。</string>
+    <string name="component_card">カード</string>
+    <string name="component_card_description">ライブラリの既定スタイルのカードです。クリック処理の有無を選べます。</string>
+    <string name="component_elevated_card">浮き上がったカード</string>
+    <string name="component_elevated_card_description">既定の高さを使う Material 3 カードです。クリック処理の有無を選べます。</string>
+    <string name="component_outlined_card">枠線付きカード</string>
+    <string name="component_outlined_card_description">既定の枠線を使う Material 3 カードです。クリック処理の有無を選べます。</string>
+    <string name="component_surface">サーフェス</string>
+    <string name="component_surface_description">既定の形、色、高さを使うライブラリのサーフェスです。クリック処理の有無を選べます。</string>
+    <string name="sample_container_content">サンプルの内容</string>
+    <string name="container_clickable">クリック可能なコンテナ</string>
+    <string name="container_clickable_overload">コンテナをタップすると回数が増えます。</string>
+    <string name="container_plain_overload">読み取り専用のコンテナです。タップしても回数は変わりません。</string>
+    <string name="container_enabled_note">クリックを処理しないサンプルには有効状態がありません。有効設定はクリック可能なサンプルにのみ適用されます。</string>
 </resources>

@@ -6,6 +6,25 @@ import org.junit.Test
 
 class ComponentAvailabilityTest {
     @Test
+    fun containersUseOnlyLibrariesThatSupplyTheirActualApi() {
+        val shared = listOf(LabComponent.CARD, LabComponent.SURFACE)
+        val material3Only = listOf(LabComponent.ELEVATED_CARD, LabComponent.OUTLINED_CARD)
+        (shared + material3Only).forEach { component ->
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family
+                ->
+                assertNotNull(family.unsupportedReason(component, 36))
+            }
+            assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 24))
+        }
+        shared.forEach { component ->
+            assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 24))
+        }
+        material3Only.forEach { component ->
+            assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+        }
+    }
+
+    @Test
     fun timePickerDialogHasGenuineFrameworkAndMaterial3SuppliersOnly() {
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
             assertNull(family.unsupportedReason(LabComponent.TIME_PICKER_DIALOG, 24))

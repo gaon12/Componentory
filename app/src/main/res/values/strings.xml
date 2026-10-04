@@ -281,4 +281,17 @@
     <string name="time_24_hour">24-hour clock</string>
     <string name="time_picker_configuration">The sample starts at 10:30. Changing the clock format keeps the selected time. Confirm applies the time; Cancel or Back keeps the previous time.</string>
     <string name="time_small_window_note">Material 3 uses text input when this window is too short for the clock.</string>
+    <string name="component_card">Card</string>
+    <string name="component_card_description">A card with library defaults and optional click handling.</string>
+    <string name="component_elevated_card">Elevated card</string>
+    <string name="component_elevated_card_description">A Material 3 card with its default elevation and optional click handling.</string>
+    <string name="component_outlined_card">Outlined card</string>
+    <string name="component_outlined_card_description">A Material 3 card with its default border and optional click handling.</string>
+    <string name="component_surface">Surface</string>
+    <string name="component_surface_description">A library surface with default shape, color and elevation, and optional click handling.</string>
+    <string name="sample_container_content">Sample content</string>
+    <string name="container_clickable">Clickable container</string>
+    <string name="container_clickable_overload">Tap the container to increase the counter.</string>
+    <string name="container_plain_overload">Read-only container. Taps do not change the counter.</string>
+    <string name="container_enabled_note">The non-clickable sample has no enabled state. Enabled applies only to the clickable sample.</string>
 </resources>

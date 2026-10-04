@@ -36,6 +36,7 @@ class SampleState(
     initialTimeDraftMinutes: Int? = null,
     initialTime24Hour: Boolean = true,
     initialTimeInputMode: Boolean = false,
+    initialContainerClickable: Boolean = true,
 ) {
     var value by mutableIntStateOf(initialValue)
     var text by mutableStateOf(initialText)
@@ -47,6 +48,7 @@ class SampleState(
     var timeDraftMinutes by mutableStateOf(initialTimeDraftMinutes)
     var time24Hour by mutableStateOf(initialTime24Hour)
     var timeInputMode by mutableStateOf(initialTimeInputMode)
+    var containerClickable by mutableStateOf(initialContainerClickable)
 
     val triState: ToggleableState
         get() =
@@ -71,6 +73,7 @@ class SampleState(
                         it.timeDraftMinutes ?: -1,
                         it.time24Hour,
                         it.timeInputMode,
+                        it.containerClickable,
                     )
                 },
                 restore = {
@@ -85,6 +88,7 @@ class SampleState(
                         (it.getOrNull(7) as? Int)?.takeUnless { time -> time == -1 },
                         it.getOrNull(8) as? Boolean ?: true,
                         it.getOrNull(9) as? Boolean ?: false,
+                        it.getOrNull(10) as? Boolean ?: true,
                     )
                 },
             )
