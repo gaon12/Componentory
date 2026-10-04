@@ -55,9 +55,11 @@ a distinct theme that the device can necessarily provide.
 
 ## Component coverage
 
-The first prototype includes Button, Checkbox, Radio buttons, Switch, Text field,
-Slider, Progress, and Dialog in all five supported families. Continue expanding
-components, theme variants, and historical coverage in focused changes.
+The first prototype included eight basic types in all five families. The catalog
+now includes framework-only controls and library action variants. Use the
+[coverage inventory](component-coverage.md) to keep the broad expansion auditable.
+Continue adding components, visual variants, and historical coverage in focused
+changes.
 Show the actual class or library package alongside the sample. Platform widgets
 must use `android.widget` or framework dialogs directly. The Compose shell must
 not replace them with an AppCompat or Material library equivalent.
