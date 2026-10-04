@@ -1,12 +1,27 @@
 package xyz.gaon.componentory.lab
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.state.ToggleableState
+
+@Composable
+internal fun rememberSampleState(
+    panel: String,
+    family: DesignFamily,
+    component: LabComponent,
+    reset: Int,
+): SampleState =
+    // Equal providers must not let adjacent panels exchange their remembered state.
+    key(panel, family, component, reset) {
+        rememberSaveable(saver = SampleState.Saver) { SampleState(component.initialValue) }
+    }
 
 @Stable
 class SampleState(

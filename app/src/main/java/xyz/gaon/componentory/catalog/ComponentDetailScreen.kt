@@ -29,6 +29,7 @@ import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
+import xyz.gaon.componentory.lab.rememberSampleState
 
 @Composable
 fun ComponentDetailScreen(
@@ -38,6 +39,7 @@ fun ComponentDetailScreen(
 ) {
     var enabled by rememberSaveable(component) { mutableStateOf(true) }
     var reset by rememberSaveable(component) { mutableIntStateOf(0) }
+    val state = rememberSampleState("DETAIL", family, component, reset)
     Column(
         Modifier.widthIn(max = 760.dp)
             .fillMaxSize()
@@ -68,6 +70,7 @@ fun ComponentDetailScreen(
             component,
             enabled,
             reset,
+            state,
             title = stringResource(R.string.choose_ui_version),
         )
         Text(

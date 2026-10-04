@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,14 +49,11 @@ fun SamplePanel(
     component: LabComponent,
     enabled: Boolean,
     reset: Int,
+    state: SampleState,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.sample_title),
 ) {
     var menuOpen by remember { mutableStateOf(false) }
-    val state =
-        key(family, component, reset) {
-            rememberSaveable(saver = SampleState.Saver) { SampleState(component.initialValue) }
-        }
     val context = LocalContext.current
     val platform = family.platform
     val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT, context)

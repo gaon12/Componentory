@@ -30,6 +30,7 @@ import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
+import xyz.gaon.componentory.lab.rememberSampleState
 
 @Composable
 fun CompareScreen(
@@ -42,6 +43,9 @@ fun CompareScreen(
 ) {
     var enabled by rememberSaveable { mutableStateOf(true) }
     var reset by rememberSaveable { mutableIntStateOf(0) }
+    // Layout changes must move the same experiment, not create new panel values.
+    val leftState = rememberSampleState("LEFT", left, component, reset)
+    val rightState = rememberSampleState("RIGHT", right, component, reset)
     Column(
         Modifier.widthIn(max = 1100.dp)
             .fillMaxSize()
@@ -82,6 +86,7 @@ fun CompareScreen(
                         component,
                         enabled,
                         reset,
+                        leftState,
                         Modifier.weight(1f),
                         title = stringResource(R.string.left_ui),
                     )
@@ -92,6 +97,7 @@ fun CompareScreen(
                         component,
                         enabled,
                         reset,
+                        rightState,
                         Modifier.weight(1f),
                         title = stringResource(R.string.right_ui),
                     )
@@ -105,6 +111,7 @@ fun CompareScreen(
                         component,
                         enabled,
                         reset,
+                        leftState,
                         title = stringResource(R.string.left_ui),
                     )
                     SamplePanel(
@@ -114,6 +121,7 @@ fun CompareScreen(
                         component,
                         enabled,
                         reset,
+                        rightState,
                         title = stringResource(R.string.right_ui),
                     )
                 }
