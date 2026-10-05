@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**71 component entries**, with **174 runnable component/family combinations**.
+**75 component entries**, with **186 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `a0cc043`. Executed resource
+Application and latest verification source revision: `c03ec58`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 26 | 48 |
+| Android framework | 74 | 30 | 44 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 116 | 123 |
+| Total | 239 | 120 | 119 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -155,6 +155,20 @@ one. Inline edits apply immediately as civil minutes; copying transfers the
 selected time and format only, never dialog drafts, input modes, or action
 history.
 
+Four standalone clock entries add twelve combinations through the three
+platform themes only; both Material libraries report explicit unsupported
+reasons. TextClock (`android.widget.TextClock`, API 17) renders the live device
+time and pins both of its format fields to the panel's own 12/24-hour switch so
+the display does not silently follow the system preference; copying transfers
+that format choice only. AnalogClock and DigitalClock keep their original
+framework widgets in the legacy category and label their API 23 and API 17
+deprecations; they own no inputs, so copying reports no inputs. Chronometer
+drives the real `android.widget.Chronometer` with framework Start, Stop and
+Reset buttons, stores a wall-clock anchor that doubles as the frozen elapsed
+value while stopped, and resumes a copied or recreated running timer at the
+same offset. Older saved panels without the anchor default to a stopped
+zero state.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -230,7 +244,7 @@ resources are kept in the app bundle for offline switching.
 2. Lists, images, remaining text variants, and legacy content controls.
 3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
-5. Framework layouts, view switchers, clocks, zoom, media, and system-hosted UI.
+5. Framework layouts, view switchers, zoom, media, and system-hosted UI.
 
 Keep available but unimplemented combinations pending. Review each group,
 format/lint, and run relevant tests before a focused commit. Attempt physical UI
@@ -239,13 +253,13 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `381794a`, preceded by the instrumentation repair in
-`34ceff1`. Spotless and lint pass with zero errors. All 82 JVM tests actually
+Latest implementation: `c03ec58`, preceded by the instrumentation repair in
+`34ceff1`. Spotless and lint pass with zero errors. All 88 JVM tests actually
 executed and passed without failures, errors or skips. Both debug APKs build:
-the app APK is 19,683,635 bytes with SHA-256
-`7f02abcf4f45098a80d4e3c0ad80dece9fae5d71bb571df7386b174e10a752fb` and the test
-APK is 1,387,166 bytes with SHA-256
-`2ce15552cada8410bf84a2018ab6d08d010cbb352dc060fdfad0e3b989c5450e`.
+the app APK is 19,698,279 bytes with SHA-256
+`1c9eb943c4fca59c4a48346749899890b4d709b38c4a01f05077f05576b202cb` and the test
+APK is 1,399,473 bytes with SHA-256
+`e8e5cf5ed9f917be1a32b4978184ea438b1a5d16829aedd6967824d0a8547a47`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -254,8 +268,17 @@ compile. They cover the real framework `TimePicker` and Material 3
 copying without shared editors, recreation, five locales, and bounded host
 widths. They are authored assertions awaiting a clean device run.
 
-The catalog now declares 71 entries and 174 supported combinations. The smoke
-sweep spans 355 cells: 168 supported and 181 unsupported ordinary cells; the
+Four [clock UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ClockSamplesTest.kt)
+compile in the same state. They cover the real `TextClock`, `AnalogClock`,
+`DigitalClock` and `Chronometer` classes inside each platform theme, the pinned
+format fields, chronometer start/stop/reset behavior including a frozen stopped
+display and a running anchor across recreation, format-only and running-state
+copies, unsupported Compose targets, and localized labels, notes and buttons in
+five locales. These are likewise authored assertions awaiting a clean device
+run on the unlocked hardware.
+
+The catalog now declares 75 entries and 186 supported combinations. The smoke
+sweep spans 375 cells: 180 supported and 189 unsupported ordinary cells; the
 six native animated cells use the separate UiAutomation scope.
 
 A device instrumentation attempt ran `.local/device-runs/20261005T103758416Z-abf2e279/`

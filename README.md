@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 71 implemented components by translated name or description,
+- **List:** Search 75 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 123 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 119 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -41,6 +41,11 @@ framework families and Material 2 explain their missing suppliers. Inline edits
 apply the committed time immediately and store civil minutes rather than a
 timestamp. The framework control follows host Enabled; the library controls have
 no enabled parameter and say so.
+Four framework-only clock entries wrap the original widgets. TextClock follows
+the panel's own 12/24-hour switch rather than the system preference. AnalogClock
+and DigitalClock stay in the legacy category with their deprecation levels
+explained, while Chronometer drives the real timer through framework Start, Stop
+and Reset buttons and keeps its running anchor across copying and recreation.
 Card and Surface use both libraries' genuine clickable and plain overloads.
 Material 3 also provides ElevatedCard and OutlinedCard. Each panel keeps its own
 mode and click count; plain containers explain their lack of an enabled state.
@@ -88,9 +93,9 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `381794a` pass formatting, lint, all 82 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 168 supported
-and 181 unsupported ordinary cells; the six native animated cells use a separate
+The latest checks for `c03ec58` pass formatting, lint, all 88 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 180 supported
+and 189 unsupported ordinary cells; the six native animated cells use a separate
 existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process
 crashed, so it cannot be described as passing. Nearly every failure traced to a
@@ -98,7 +103,8 @@ suite-wide assertion defect: the resolved Compose UI test version defaults
 `assertTextContains` to exact equality, while the tests intended substring
 matching. That defect plus three unrelated test bugs are repaired in `34ceff1`.
 Catalog rendering, comparison state, the Planned view, provider selection,
-accessibility, text, inline dates, inline time, date/time dialogs, cards,
+accessibility, text, inline dates, inline time, the clock samples, date/time
+dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
