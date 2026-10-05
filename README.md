@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 77 implemented components by translated name or description,
+- **List:** Search 82 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 117 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 112 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -49,6 +49,10 @@ and Reset buttons and keeps its running anchor across copying and recreation.
 ScrollView and HorizontalScrollView host fixed themed line content inside a
 bounded viewport, so real touch scrolling moves the original container while
 the panel notes that scroll position is never part of a copied setup.
+ViewAnimator, ViewSwitcher, ViewFlipper, TextSwitcher, and ImageSwitcher render
+the original framework containers with themed child pages, framework fade
+transitions, and themed Previous/Next buttons; the displayed child index is the
+copyable state and restores without an animation.
 Card and Surface use both libraries' genuine clickable and plain overloads.
 Material 3 also provides ElevatedCard and OutlinedCard. Each panel keeps its own
 mode and click count; plain containers explain their lack of an enabled state.
@@ -96,18 +100,19 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `cd82cc6` pass formatting, lint, all 89 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 186 supported
-and 187 unsupported ordinary cells; the six native animated cells use a separate
-existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
+The latest checks for `96d861b` pass formatting, lint, all 91 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 202 supported
+and 202 unsupported ordinary cells after a hand-count correction that aligned
+the baselines with the enum's resolved suppliers; the six native animated cells
+use a separate existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process
 crashed, so it cannot be described as passing. Nearly every failure traced to a
 suite-wide assertion defect: the resolved Compose UI test version defaults
 `assertTextContains` to exact equality, while the tests intended substring
 matching. That defect plus three unrelated test bugs are repaired in `34ceff1`.
 Catalog rendering, comparison state, the Planned view, provider selection,
-accessibility, text, inline dates, inline time, the clock and scroll samples,
-date/time dialogs, cards,
+accessibility, text, inline dates, inline time, the clock, scroll and view
+switcher samples, date/time dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,

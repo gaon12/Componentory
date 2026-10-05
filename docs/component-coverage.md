@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**77 component entries**, with **192 runnable component/family combinations**.
+**82 component entries**, with **207 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `cd82cc6`. Executed resource
+Application and latest verification source revision: `96d861b`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 32 | 42 |
+| Android framework | 74 | 37 | 37 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 122 | 117 |
+| Total | 239 | 127 | 112 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -178,6 +178,19 @@ that overflows the panel for sideways scrolling. Both libraries report explicit
 unsupported reasons. The samples own no inputs — scroll position is ephemeral
 touch state, so copying reports no inputs rather than inventing a saved offset.
 
+Five view-switcher entries add fifteen combinations through the platform themes
+only. ViewAnimator (`android.widget.ViewAnimator`, API 1) and ViewFlipper
+(`android.widget.ViewFlipper`, API 1) each hold four themed text pages;
+ViewSwitcher (`android.widget.ViewSwitcher`, API 1) holds two. TextSwitcher
+(`android.widget.TextSwitcher`, API 1) cycles four localized lines through its
+two factory children, and ImageSwitcher (`android.widget.ImageSwitcher`, API 1)
+alternates two AOSP star drawables. Widgets constructed in code ship no default
+transition, so the samples load the framework `fade_in`/`fade_out` resources.
+Themed Previous and Next buttons step each container with its own
+showNext/showPrevious, setText or setImageResource call. The displayed child
+index is the copyable state and restores without an animation; timed
+auto-flipping is not enabled on the ViewFlipper sample.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -253,7 +266,7 @@ resources are kept in the app bundle for offline switching.
 2. Lists, images, remaining text variants, and legacy content controls.
 3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
-5. Framework layouts, view switchers, zoom, media, and system-hosted UI.
+5. Framework layouts, zoom, media, and system-hosted UI.
 
 Keep available but unimplemented combinations pending. Review each group,
 format/lint, and run relevant tests before a focused commit. Attempt physical UI
@@ -262,13 +275,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `cd82cc6`, preceded by the instrumentation repair in
-`34ceff1`. Spotless and lint pass with zero errors. All 89 JVM tests actually
-executed and passed without failures, errors or skips. Both debug APKs build:
-the app APK is 19,703,239 bytes with SHA-256
-`9a91e01c8223a4506db03b57e3f2ba27ef0f584448adef7de281c1fd06e0353c` and the test
-APK is 1,406,474 bytes with SHA-256
-`62013fa431429015da877c04cf4a05c7d46fe9863049300d4373fa5edfca8ffe`.
+Latest implementation: `6290f59`, preceded by the sweep baseline correction in
+`96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
+with zero errors. All 91 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,715,431
+bytes with SHA-256
+`7387b6be0e2e03c33045fe441e6da16084ce5d87676a9388d3cc109254b087ff` and the test
+APK is 1,466,191 bytes with SHA-256
+`1c01596f51b1feea0a7718016e88bed557d7775967de56667dd96a7fd781d17a`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -293,9 +307,19 @@ actual Compose touch swipes, expose no copyable inputs, reject Compose library
 targets, and keep localized labels, notes and line text in five locales. They
 also await a clean unlocked-device run.
 
-The catalog now declares 77 entries and 192 supported combinations. The smoke
-sweep spans 379 cells: 186 supported and 187 unsupported ordinary cells; the
-six native animated cells use the separate UiAutomation scope.
+Five [view-switcher scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ViewSwitchersTest.kt)
+compile in the same state. They verify the real `ViewAnimator`, `ViewSwitcher`,
+`ViewFlipper`, `TextSwitcher` and `ImageSwitcher` classes inside platform themes,
+Previous/Next stepping with wrap-around, localized lines and drawables, disabled
+controls, index copying, recreation restore, independent panels and five
+locales. They also await a clean unlocked-device run.
+
+The catalog now declares 82 entries and 207 supported combinations. The smoke
+sweep spans 404 cells: 202 supported and 202 unsupported ordinary cells; the
+six native animated cells use the separate UiAutomation scope. The sweep
+baselines were recomputed from the enum in `96d861b` after a hand count
+under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
+the earlier numbers were never executed on a device, so no run is contradicted.
 
 A device instrumentation attempt ran `.local/device-runs/20261005T103758416Z-abf2e279/`
 on the Samsung SM-X800 (Android 16, API 36, build `BP2A.250605.031.A3`,
