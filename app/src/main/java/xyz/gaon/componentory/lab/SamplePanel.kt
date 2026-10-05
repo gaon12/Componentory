@@ -328,6 +328,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isScrollContainer && unsupported == null) {
+                Text(
+                    stringResource(R.string.scroll_view_note),
+                    modifier = Modifier.testTag("scroll_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isInlineTime && unsupported == null) {
                 Text(
                     stringResource(R.string.inline_time_note),

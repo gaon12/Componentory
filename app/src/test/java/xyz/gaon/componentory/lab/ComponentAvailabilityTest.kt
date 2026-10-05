@@ -72,6 +72,31 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun scrollContainersUseOnlyFrameworkSuppliersWithTheirRealApiLevels() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.SCROLL_VIEW to ("android.widget.ScrollView" to 1),
+                LabComponent.HORIZONTAL_SCROLL_VIEW to ("android.widget.HorizontalScrollView" to 3),
+            )
+            .forEach { (component, metadata) ->
+                val (source, minimumApi) = metadata
+                platform.forEach { family ->
+                    if (minimumApi > 1)
+                        assertNotNull(family.unsupportedReason(component, minimumApi - 1))
+                    assertNull(family.unsupportedReason(component, minimumApi))
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(ComponentCategory.LAYOUT, component.category)
+                assertTrue(component.matchesSearch(source))
+            }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

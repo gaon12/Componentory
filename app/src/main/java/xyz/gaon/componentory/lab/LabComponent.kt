@@ -298,6 +298,21 @@ enum class LabComponent(
         material3Function = null,
         category = ComponentCategory.CONTENT,
     ),
+    SCROLL_VIEW(
+        "Scroll view",
+        R.string.component_scroll_view,
+        R.string.component_scroll_view_description,
+        platformSource = "android.widget.ScrollView",
+        category = ComponentCategory.LAYOUT,
+    ),
+    HORIZONTAL_SCROLL_VIEW(
+        "Horizontal scroll view",
+        R.string.component_horizontal_scroll_view,
+        R.string.component_horizontal_scroll_view_description,
+        platformSource = "android.widget.HorizontalScrollView",
+        minimumApi = 3,
+        category = ComponentCategory.LAYOUT,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -703,6 +718,9 @@ enum class LabComponent(
     val isClockDisplay: Boolean
         get() = this in listOf(TEXT_CLOCK, ANALOG_CLOCK, DIGITAL_CLOCK)
 
+    val isScrollContainer: Boolean
+        get() = this == SCROLL_VIEW || this == HORIZONTAL_SCROLL_VIEW
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -762,7 +780,8 @@ enum class LabComponent(
                 this == DOT_BADGE ||
                 this == TEXT ||
                 this == ANALOG_CLOCK ||
-                this == DIGITAL_CLOCK ->
+                this == DIGITAL_CLOCK ||
+                isScrollContainer ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             this == TEXT_CLOCK ->
                 context.getString(

@@ -23,6 +23,7 @@ import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.DigitalClock
 import android.widget.EditText
+import android.widget.HorizontalScrollView
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.MultiAutoCompleteTextView
@@ -32,6 +33,7 @@ import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RatingBar
+import android.widget.ScrollView
 import android.widget.SearchView
 import android.widget.SeekBar
 import android.widget.Spinner
@@ -133,22 +135,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 29, 44)
+        verifyFamily(DesignFamily.CLASSIC, 31, 42)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 29, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 31, 42)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 29, 44)
+        verifyFamily(DesignFamily.MATERIAL, 31, 42)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 42)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 44)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 60, 15)
+        verifyFamily(DesignFamily.MATERIAL3, 60, 17)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -157,7 +159,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            75,
+            77,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -400,6 +402,12 @@ class CatalogRenderingSmokeTest {
                 LabComponent.ANALOG_CLOCK -> Unit
                 LabComponent.DIGITAL_CLOCK -> assertTrue((view as DigitalClock).text.isNotEmpty())
                 LabComponent.CHRONOMETER -> assertTrue((view as Chronometer).text.isNotEmpty())
+                LabComponent.SCROLL_VIEW,
+                LabComponent.HORIZONTAL_SCROLL_VIEW -> {
+                    assertEquals(1, (view as ViewGroup).childCount)
+                    val lines = view.getChildAt(0) as ViewGroup
+                    assertEquals(24, lines.childCount)
+                }
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -461,6 +469,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.ANALOG_CLOCK -> AnalogClock::class.java
             LabComponent.DIGITAL_CLOCK -> DigitalClock::class.java
             LabComponent.CHRONOMETER -> Chronometer::class.java
+            LabComponent.SCROLL_VIEW -> ScrollView::class.java
+            LabComponent.HORIZONTAL_SCROLL_VIEW -> HorizontalScrollView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

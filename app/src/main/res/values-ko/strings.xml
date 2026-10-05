@@ -354,4 +354,10 @@
     <string name="text_clock_note">기기의 현재 시간을 보여주며 스스로 갱신합니다. 24시간 스위치가 두 형식 필드를 고정해서 시스템 설정이 아닌 이 샘플의 선택을 따릅니다.</string>
     <string name="chronometer_note">시작, 정지, 초기화 버튼이 원본 Chronometer를 구동합니다. 실행 중인 타이머는 계속 세며 화면 회전 후에도 이어집니다. 정지하면 경과 시간이 고정됩니다.</string>
     <string name="clock_deprecated_note">API %1$d부터 지원 중단됐습니다. 프레임워크는 계속 제공하고 그리지만 Compose 라이브러리에는 대체품이 없습니다.</string>
+    <string name="component_scroll_view">스크롤 뷰</string>
+    <string name="component_scroll_view_description">일정한 높이 안에서 테마의 텍스트 줄 열을 담는 원본 프레임워크 ScrollView입니다.</string>
+    <string name="component_horizontal_scroll_view">가로 스크롤 뷰</string>
+    <string name="component_horizontal_scroll_view_description">패널 너비를 넘는 테마의 텍스트 줄 행을 담는 원본 프레임워크 HorizontalScrollView입니다.</string>
+    <string name="scroll_sample_line">스크롤 줄 %1$d</string>
+    <string name="scroll_view_note">스크롤은 실제 컨테이너의 자유로운 터치 입력입니다. 스크롤 위치는 임시 상태로 복사 대상에 포함되지 않습니다.</string>
 </resources>

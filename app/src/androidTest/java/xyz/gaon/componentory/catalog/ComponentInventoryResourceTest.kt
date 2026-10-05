@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 116, InventoryStatus.PENDING to 123),
+            mapOf(InventoryStatus.IMPLEMENTED to 122, InventoryStatus.PENDING to 117),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 26,
+                InventoryFamily.PLATFORM to 32,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -143,6 +143,21 @@ class ComponentInventoryResourceTest {
                 else assertNull(menu.apiIntroduced)
                 if (source.endsWith("DropdownMenuItem")) assertTrue(menu.notes.isNotBlank())
             }
+        mapOf(
+                "android.widget.TextClock" to ("TEXT_CLOCK" to 17),
+                "android.widget.AnalogClock" to ("ANALOG_CLOCK" to 1),
+                "android.widget.DigitalClock" to ("DIGITAL_CLOCK" to 1),
+                "android.widget.Chronometer" to ("CHRONOMETER" to 1),
+                "android.widget.ScrollView" to ("SCROLL_VIEW" to 1),
+                "android.widget.HorizontalScrollView" to ("HORIZONTAL_SCROLL_VIEW" to 3),
+            )
+            .forEach { (source, metadata) ->
+                val row = entries.single { it.source == source }
+                assertEquals(InventoryFamily.PLATFORM, row.family)
+                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(listOf(metadata.first), row.catalogIds)
+                assertEquals(metadata.second, row.apiIntroduced)
+            }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -162,10 +177,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(123, pending.size)
+        assertEquals(117, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 48,
+                InventoryFamily.PLATFORM to 42,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -212,6 +227,10 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "calendarview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "daterangepicker").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "checkedtextview").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "clock").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "chronometer").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "scrollview").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "horizontalscrollview").isEmpty())
         listOf(
                 "android.widget.TextView",
                 "androidx.compose.material.Text",

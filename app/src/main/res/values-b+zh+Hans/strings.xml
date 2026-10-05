@@ -354,4 +354,10 @@
     <string name="text_clock_note">显示设备当前时间并自动更新。24小时开关会固定两个格式字段，因此显示遵循此示例的选择而非系统设置。</string>
     <string name="chronometer_note">开始、停止和重置按钮驱动原始 Chronometer。运行中的计时器会持续计时并在重建后恢复；停止会冻结已计时间。</string>
     <string name="clock_deprecated_note">自 API %1$d 起已废弃。框架仍会提供并渲染它；Compose 库中没有替代品。</string>
+    <string name="component_scroll_view">滚动视图</string>
+    <string name="component_scroll_view_description">原始框架 ScrollView，在固定高度内容纳一列主题文本行。</string>
+    <string name="component_horizontal_scroll_view">水平滚动视图</string>
+    <string name="component_horizontal_scroll_view_description">原始框架 HorizontalScrollView，容纳超出面板宽度的一行主题文本行。</string>
+    <string name="scroll_sample_line">滚动行 %1$d</string>
+    <string name="scroll_view_note">滚动是对真实容器的自由触摸输入。滚动位置是临时状态，不属于复制的设置。</string>
 </resources>

@@ -357,4 +357,10 @@
     <string name="text_clock_note">Shows the current device time and updates itself. The 24-hour switch pins both format fields so the display follows this sample, not the system setting.</string>
     <string name="chronometer_note">Start, Stop and Reset drive the original Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.</string>
     <string name="clock_deprecated_note">Deprecated since API %1$d. The framework still supplies and renders it; Compose libraries have no replacement.</string>
+    <string name="component_scroll_view">Scroll view</string>
+    <string name="component_scroll_view_description">The original framework ScrollView hosting a fixed column of themed text lines inside a bounded height.</string>
+    <string name="component_horizontal_scroll_view">Horizontal scroll view</string>
+    <string name="component_horizontal_scroll_view_description">The original framework HorizontalScrollView hosting a wide row of themed text lines that overflows the panel.</string>
+    <string name="scroll_sample_line">Scrollable line %1$d</string>
+    <string name="scroll_view_note">Scrolling is free-form touch input on the real container. Scroll position is ephemeral and is not part of the copied setup.</string>
 </resources>

@@ -354,4 +354,10 @@
     <string name="text_clock_note">顯示裝置目前時間並自動更新。24小時開關會固定兩個格式欄位，因此顯示遵循此範例的選擇而非系統設定。</string>
     <string name="chronometer_note">開始、停止和重設按鈕驅動原始 Chronometer。執行中的計時器會持續計時並在重建後恢復；停止會凍結已計時間。</string>
     <string name="clock_deprecated_note">自 API %1$d 起已棄用。架構仍會提供並繪製它；Compose 函式庫中沒有替代品。</string>
+    <string name="component_scroll_view">捲動檢視</string>
+    <string name="component_scroll_view_description">原始架構 ScrollView，在固定高度內容納一欄主題文字行。</string>
+    <string name="component_horizontal_scroll_view">水平捲動檢視</string>
+    <string name="component_horizontal_scroll_view_description">原始架構 HorizontalScrollView，容納超出面板寬度的一列主題文字行。</string>
+    <string name="scroll_sample_line">捲動行 %1$d</string>
+    <string name="scroll_view_note">捲動是對真實容器的自由觸控輸入。捲動位置是暫時狀態，不屬於複製的設定。</string>
 </resources>

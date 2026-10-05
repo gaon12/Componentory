@@ -354,4 +354,10 @@
     <string name="text_clock_note">端末の現在時刻を表示し、自動で更新します。24時間スイッチが両方の形式フィールドを固定するため、システム設定ではなくこのサンプルの選択に従います。</string>
     <string name="chronometer_note">開始、停止、リセットが元のChronometerを動かします。実行中のタイマーはカウントを続け、画面回転後も再開します。停止すると経過時間が固定されます。</string>
     <string name="clock_deprecated_note">API %1$dで非推奨になりました。フレームワークは引き続き提供・描画しますが、Composeライブラリに代替はありません。</string>
+    <string name="component_scroll_view">スクロールビュー</string>
+    <string name="component_scroll_view_description">一定の高さの中でテーマのテキスト行の列を収める元のフレームワークScrollViewです。</string>
+    <string name="component_horizontal_scroll_view">水平スクロールビュー</string>
+    <string name="component_horizontal_scroll_view_description">パネル幅を超えるテーマのテキスト行の行を収める元のフレームワークHorizontalScrollViewです。</string>
+    <string name="scroll_sample_line">スクロール行 %1$d</string>
+    <string name="scroll_view_note">スクロールは実際のコンテナへの自由なタッチ入力です。スクロール位置は一時的な状態であり、コピー対象には含まれません。</string>
 </resources>

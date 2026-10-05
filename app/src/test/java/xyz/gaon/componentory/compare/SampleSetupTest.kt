@@ -662,14 +662,21 @@ class SampleSetupTest {
                     }
                 }
             }
-        // Purely visual clocks own no copyable inputs.
-        listOf(LabComponent.ANALOG_CLOCK, LabComponent.DIGITAL_CLOCK).forEach { component ->
-            val captured = SampleSetup.capture(component, DesignFamily.CLASSIC, SampleState(), API)
-            assertEquals(setOf("component", "family"), captured.savedValues().keys)
-            val result = captured.copyTo(DesignFamily.HOLO, API)
-            assertNull(result.state)
-            assertEquals(SetupCopyReason.NO_INPUTS, result.reason)
-        }
+        // Purely visual clocks and scroll containers own no copyable inputs.
+        listOf(
+                LabComponent.ANALOG_CLOCK,
+                LabComponent.DIGITAL_CLOCK,
+                LabComponent.SCROLL_VIEW,
+                LabComponent.HORIZONTAL_SCROLL_VIEW,
+            )
+            .forEach { component ->
+                val captured =
+                    SampleSetup.capture(component, DesignFamily.CLASSIC, SampleState(), API)
+                assertEquals(setOf("component", "family"), captured.savedValues().keys)
+                val result = captured.copyTo(DesignFamily.HOLO, API)
+                assertNull(result.state)
+                assertEquals(SetupCopyReason.NO_INPUTS, result.reason)
+            }
     }
 
     private fun supportedFamily(component: LabComponent) =
