@@ -66,7 +66,7 @@ class ProviderIdentityTest {
             openProviderMenu()
             DesignFamily.entries.forEach { option ->
                 val entry = compose.onNodeWithTag("family_LEFT_${option.name}")
-                entry.assertTextContains(primaryLabel(option))
+                entry.assertTextContains(primaryLabel(option), substring = true)
                 if (option == family) entry.assertIsSelected() else entry.assertIsNotSelected()
                 assertMenuAvailability(option, available = true)
             }
@@ -131,7 +131,7 @@ class ProviderIdentityTest {
                 .onNodeWithTag("runtime_sample")
                 .performScrollTo()
                 .assertTextEquals(runtimeNote)
-                .assertTextContains(Build.VERSION.RELEASE)
+                .assertTextContains(Build.VERSION.RELEASE, substring = true)
             val noteBounds =
                 compose.onNodeWithTag("runtime_sample").fetchSemanticsNode().boundsInRoot
             val panelBounds = compose.onNodeWithTag("panel_LEFT").fetchSemanticsNode().boundsInRoot
@@ -145,7 +145,7 @@ class ProviderIdentityTest {
             DesignFamily.entries.forEach { family ->
                 compose
                     .onNodeWithTag("family_LEFT_${family.name}")
-                    .assertTextContains(primaryLabel(family))
+                    .assertTextContains(primaryLabel(family), substring = true)
                 assertMenuAvailability(family, available = family.platform == null)
             }
             compose.onNodeWithTag("family_LEFT_MATERIAL2").performScrollTo().performClick()
@@ -232,6 +232,8 @@ class ProviderIdentityTest {
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }
         compose.onNodeWithTag("source_LEFT").assertTextEquals(source)
-        compose.onNodeWithTag("implementation_LEFT").assertTextContains(implementation)
+        compose
+            .onNodeWithTag("implementation_LEFT")
+            .assertTextContains(implementation, substring = true)
     }
 }

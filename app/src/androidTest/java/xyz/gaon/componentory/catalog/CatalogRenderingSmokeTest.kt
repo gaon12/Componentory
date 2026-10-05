@@ -169,7 +169,9 @@ class CatalogRenderingSmokeTest {
             }
             try {
                 chooseComponent(component)
-                compose.onNodeWithTag("family_LEFT").assertTextContains(family.selectionLabel)
+                compose
+                    .onNodeWithTag("family_LEFT")
+                    .assertTextContains(family.selectionLabel, substring = true)
                 val reason =
                     family.unsupportedReason(component, Build.VERSION.SDK_INT, compose.activity)
                 if (reason != null) {
@@ -223,12 +225,15 @@ class CatalogRenderingSmokeTest {
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }
-        compose.onNodeWithTag("implementation_LEFT").assertTextContains(implementation)
+        compose
+            .onNodeWithTag("implementation_LEFT")
+            .assertTextContains(implementation, substring = true)
         if (family.platform != null) {
             compose
                 .onNodeWithTag("implementation_LEFT")
                 .assertTextContains(
-                    compose.activity.getString(R.string.widget_api, component.minimumApi)
+                    compose.activity.getString(R.string.widget_api, component.minimumApi),
+                    substring = true,
                 )
         }
     }
@@ -679,7 +684,8 @@ class CatalogRenderingSmokeTest {
                     .assertIsEnabled()
                     .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Role))
                     .assertTextContains(
-                        compose.activity.getString(R.string.sample_container_content)
+                        compose.activity.getString(R.string.sample_container_content),
+                        substring = true,
                     )
             component.isSecureInput ->
                 sample

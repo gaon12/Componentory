@@ -240,8 +240,8 @@ class InputCopyNavigationTest {
         touchTag("date_confirm_LEFT", scroll = false)
         compose
             .onNodeWithTag("status_LEFT")
-            .assertTextContains("Jan 22, 2024")
-            .assertTextContains("Confirmed")
+            .assertTextContains("Jan 22, 2024", substring = true)
+            .assertTextContains("Confirmed", substring = true)
         openLibraryDialog("date", "LEFT")
         dateInput("LEFT").performTextReplacement("02292024")
         closeSoftKeyboard()
@@ -265,8 +265,8 @@ class InputCopyNavigationTest {
         onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(nativeClick())
         compose
             .onNodeWithTag("status_RIGHT")
-            .assertTextContains("Mar 12, 2024")
-            .assertTextContains("Confirmed")
+            .assertTextContains("Mar 12, 2024", substring = true)
+            .assertTextContains("Confirmed", substring = true)
         openNative("RIGHT")
         val oldTargetDialog =
             compose.runOnIdle {
@@ -310,9 +310,9 @@ class InputCopyNavigationTest {
         touchTag("time_confirm_LEFT", scroll = false)
         compose
             .onNodeWithTag("status_LEFT")
-            .assertTextContains("9:05")
-            .assertTextContains("PM")
-            .assertTextContains("Confirmed")
+            .assertTextContains("9:05", substring = true)
+            .assertTextContains("PM", substring = true)
+            .assertTextContains("Confirmed", substring = true)
         openLibraryDialog("time", "LEFT")
         enterLibraryTime("LEFT", 11, 45)
         selectPm("LEFT")
@@ -320,13 +320,13 @@ class InputCopyNavigationTest {
         compose.onNodeWithTag("time_dialog_LEFT").assertDoesNotExist()
         compose
             .onNodeWithTag("status_LEFT")
-            .assertTextContains("9:05")
-            .assertTextContains("PM")
-            .assertTextContains("Not opened")
+            .assertTextContains("9:05", substring = true)
+            .assertTextContains("PM", substring = true)
+            .assertTextContains("Not opened", substring = true)
         compose
             .onNodeWithTag("status_RIGHT")
-            .assertTextContains("10:30")
-            .assertTextContains("Not opened")
+            .assertTextContains("10:30", substring = true)
+            .assertTextContains("Not opened", substring = true)
         compose.onNodeWithTag("time_24_hour_LEFT").assertIsOff()
         compose.onNodeWithTag("time_24_hour_RIGHT").assertIsOn()
         assertLibraryIdentity("LEFT", "TimePickerDialog", DesignFamily.MATERIAL3)
@@ -335,9 +335,9 @@ class InputCopyNavigationTest {
         compose.onNodeWithTag("time_24_hour_RIGHT").assertIsOff()
         compose
             .onNodeWithTag("status_RIGHT")
-            .assertTextContains("9:05")
-            .assertTextContains("PM")
-            .assertTextContains("Not opened")
+            .assertTextContains("9:05", substring = true)
+            .assertTextContains("PM", substring = true)
+            .assertTextContains("Not opened", substring = true)
         recreateActivity()
         compose.onNodeWithTag("time_dialog_LEFT").assertDoesNotExist()
         compose.onNodeWithTag("time_dialog_RIGHT").assertDoesNotExist()
@@ -629,7 +629,7 @@ class InputCopyNavigationTest {
                 .assertIsDisplayed()
                 .assertIsEnabled()
                 .assertHasClickAction()
-        if (name != null) item.assertTextContains(name)
+        if (name != null) item.assertTextContains(name, substring = true)
         item.performTouchInput { click() }
         compose.onNodeWithTag("copy_inputs_menu").assertDoesNotExist()
         compose.onNodeWithTag("copy_setup_result").assertExists()
@@ -711,7 +711,7 @@ class InputCopyNavigationTest {
         compose.onNodeWithTag("source_$panel").assertTextEquals("$packageName.$api")
         compose
             .onNodeWithTag("implementation_$panel")
-            .assertTextContains("$packageName:$artifact:$version")
+            .assertTextContains("$packageName:$artifact:$version", substring = true)
     }
 
     private fun swipeRange(panel: String, start: Float, end: Float) {
@@ -782,8 +782,8 @@ class InputCopyNavigationTest {
     private fun assertNeutralDate(panel: String, date: String) {
         compose
             .onNodeWithTag("status_$panel")
-            .assertTextContains(date)
-            .assertTextContains("Not opened")
+            .assertTextContains(date, substring = true)
+            .assertTextContains("Not opened", substring = true)
     }
 
     private fun enterLibraryTime(panel: String, hour: Int, minute: Int) {

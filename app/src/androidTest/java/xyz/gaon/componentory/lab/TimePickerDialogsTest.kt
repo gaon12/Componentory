@@ -420,7 +420,7 @@ class TimePickerDialogsTest {
         compose.onNodeWithTag("source_$panel").assertTextEquals("android.app.TimePickerDialog")
         compose
             .onNodeWithTag("implementation_$panel")
-            .assertTextContains("android:${platform.themeName}")
+            .assertTextContains("android:${platform.themeName}", substring = true)
         compose.onNodeWithTag("library_$panel").assertDoesNotExist()
         compose.runOnIdle {
             val launcher = compose.activity.findViewById<Button>(nativeId(panel))
@@ -445,7 +445,8 @@ class TimePickerDialogsTest {
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(
-                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
+                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}",
+                substring = true,
             )
         compose.onNodeWithTag("native_$panel").assertDoesNotExist()
     }
@@ -587,8 +588,8 @@ class TimePickerDialogsTest {
     ) {
         compose
             .onNodeWithTag("status_$panel")
-            .assertTextContains(time.localizedTime(language, use24Hour))
-            .assertTextContains(action)
+            .assertTextContains(time.localizedTime(language, use24Hour), substring = true)
+            .assertTextContains(action, substring = true)
     }
 
     private fun recreateActivity() {

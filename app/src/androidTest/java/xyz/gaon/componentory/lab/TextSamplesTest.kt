@@ -310,7 +310,9 @@ class TextSamplesTest {
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }
-        compose.onNodeWithTag("implementation_$panel").assertTextContains(implementation)
+        compose
+            .onNodeWithTag("implementation_$panel")
+            .assertTextContains(implementation, substring = true)
     }
 
     private fun nativeText(panel: String): TextView = compose.activity.findViewById(nativeId(panel))

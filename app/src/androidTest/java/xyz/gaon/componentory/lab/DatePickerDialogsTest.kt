@@ -3,6 +3,8 @@ package xyz.gaon.componentory.lab
 import android.app.DatePickerDialog
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.DatePicker
@@ -39,19 +41,16 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard as nativeClos
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import java.text.DateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.sameInstance
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -135,14 +134,11 @@ class DatePickerDialogsTest {
         openNative("LEFT")
         assertNativeDate("LEFT", initial)
 
-        // Edit the actual spinner field. The framework positive button commits its pending focus.
-        onView(
-                allOf(
-                    isAssignableFrom(EditText::class.java),
-                    withText("15"),
-                    isDescendantOfA(isAssignableFrom(DatePicker::class.java)),
-                )
-            )
+        // Edit the actual spinner day field of the live dialog. Matching the displayed
+        // text instead would couple the check to the seeded date. The framework positive
+        // button commits its pending focus.
+        val dayField: View = compose.runOnIdle { dayInput(requireNativeDialog("LEFT").datePicker) }
+        onView(sameInstance(dayField))
             .inRoot(isDialog())
             .perform(replaceText("22"), nativeCloseSoftKeyboard())
         clickNativeDialogButton(android.R.id.button1)
@@ -351,7 +347,7 @@ class DatePickerDialogsTest {
         compose.onNodeWithTag("source_$panel").assertTextEquals("android.app.DatePickerDialog")
         compose
             .onNodeWithTag("implementation_$panel")
-            .assertTextContains("android:${platform.themeName}")
+            .assertTextContains("android:${platform.themeName}", substring = true)
         compose.onNodeWithTag("library_$panel").assertDoesNotExist()
         compose.runOnIdle {
             val launcher = compose.activity.findViewById<Button>(nativeId(panel))
@@ -376,7 +372,8 @@ class DatePickerDialogsTest {
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(
-                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
+                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}",
+                substring = true,
             )
         compose.onNodeWithTag("native_$panel").assertDoesNotExist()
     }
@@ -406,6 +403,19 @@ class DatePickerDialogsTest {
         requireNotNull(
             compose.activity.findViewById<Button>(nativeId(panel)).tag as? DatePickerDialog
         )
+
+    // The day spinner is the only field under the picker holding a number at most 31;
+    // the English month field spells its name and the year input holds a larger number.
+    private fun dayInput(picker: DatePicker): EditText {
+        val fields = ArrayList<EditText>()
+        fun collect(view: View) {
+            if (view is EditText) fields += view
+            if (view is ViewGroup)
+                for (index in 0 until view.childCount) collect(view.getChildAt(index))
+        }
+        collect(picker)
+        return fields.single { it.text.toString().toIntOrNull() in 1..31 }
+    }
 
     private fun assertNoNativeDialog(panel: String) {
         compose.runOnIdle {
@@ -472,8 +482,8 @@ class DatePickerDialogsTest {
     ) {
         compose
             .onNodeWithTag("status_$panel")
-            .assertTextContains(date.localizedMediumDate(language))
-            .assertTextContains(action)
+            .assertTextContains(date.localizedMediumDate(language), substring = true)
+            .assertTextContains(action, substring = true)
     }
 
     private fun recreateActivity() {

@@ -214,11 +214,19 @@ class NativeProgressIndicatorsTest {
     }
 
     private fun clickTag(tag: String) {
-        val node = waitForTag(tag) { clickableParent(it) != null }
-        assertTrue(
-            "Could not click $tag",
-            requireNotNull(clickableParent(node)).performAction(AccessibilityNodeInfo.ACTION_CLICK),
-        )
+        // Accessibility nodes found while a dialog list is still rebuilding can go stale
+        // before the click lands, so refresh the resolved node and retry briefly.
+        val deadline = SystemClock.uptimeMillis() + 10_000
+        while (true) {
+            val node = waitForTag(tag) { clickableParent(it) != null }
+            val target = requireNotNull(clickableParent(node))
+            if (target.refresh() && target.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+                return
+            }
+            if (SystemClock.uptimeMillis() >= deadline) break
+            SystemClock.sleep(150)
+        }
+        error("Could not click $tag")
     }
 
     private fun clickableParent(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {

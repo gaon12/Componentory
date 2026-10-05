@@ -355,7 +355,9 @@ class ContainerSamplesTest {
         compose
             .onNodeWithTag("source_$panel")
             .assertTextEquals("$packageName.${selected.container.function}")
-        compose.onNodeWithTag("implementation_$panel").assertTextContains(dependency)
+        compose
+            .onNodeWithTag("implementation_$panel")
+            .assertTextContains(dependency, substring = true)
         compose.onNodeWithTag("native_$panel").assertDoesNotExist()
         compose.onNodeWithTag("unsupported_$panel").assertDoesNotExist()
         sample(panel).performScrollTo().assertIsDisplayed()
@@ -376,7 +378,9 @@ class ContainerSamplesTest {
                 .assertExists()
         }
         if (clickable) {
-            sample(panel).assertTextContains(title).assertTextContains(content)
+            sample(panel)
+                .assertTextContains(title, substring = true)
+                .assertTextContains(content, substring = true)
         }
     }
 

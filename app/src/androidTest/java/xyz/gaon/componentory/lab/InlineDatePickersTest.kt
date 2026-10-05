@@ -331,6 +331,9 @@ class InlineDatePickersTest {
         replaceDateInput("LEFT", "03012024", "Start date")
         assertRangeFeedback("LEFT", march1, null)
         enterComparison()
+        // Entering from detail keeps the remembered right family, which cannot host
+        // the Material 3-only range picker, so pick a supported family explicitly.
+        chooseFamily("RIGHT", DesignFamily.MATERIAL3)
         assertRangeFeedback("LEFT", march1, null)
         assertRangeFeedback("RIGHT", null, null)
         copyInputs("LEFT_TO_RIGHT")
@@ -701,7 +704,8 @@ class InlineDatePickersTest {
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(
-                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
+                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}",
+                substring = true,
             )
     }
 

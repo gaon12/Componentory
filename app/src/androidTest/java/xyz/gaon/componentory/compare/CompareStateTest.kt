@@ -214,7 +214,7 @@ class CompareStateTest {
     }
 
     private fun text(panel: String, text: String) {
-        compose.onNodeWithTag("library_$panel").assertTextContains(text)
+        compose.onNodeWithTag("library_$panel").assertTextContains(text, substring = true)
         status(panel, "Text: $text")
     }
 

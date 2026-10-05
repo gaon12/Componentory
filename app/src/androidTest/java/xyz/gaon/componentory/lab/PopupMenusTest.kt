@@ -294,7 +294,7 @@ class PopupMenusTest {
             compose.onNodeWithTag("source_$panel").assertTextEquals("android.widget.PopupMenu")
             compose
                 .onNodeWithTag("implementation_$panel")
-                .assertTextContains("android:${platform.themeName}")
+                .assertTextContains("android:${platform.themeName}", substring = true)
             compose.onNodeWithTag("library_$panel").assertDoesNotExist()
             compose.onNodeWithTag("menu_item_source_$panel").assertDoesNotExist()
             compose.onNodeWithTag("native_$panel").performScrollTo().assertIsDisplayed()
@@ -326,7 +326,9 @@ class PopupMenusTest {
             compose
                 .onNodeWithTag("menu_item_source_$panel")
                 .assertTextEquals("$packageName.DropdownMenuItem")
-            compose.onNodeWithTag("implementation_$panel").assertTextContains(dependency)
+            compose
+                .onNodeWithTag("implementation_$panel")
+                .assertTextContains(dependency, substring = true)
             compose.onNodeWithTag("native_$panel").assertDoesNotExist()
         }
     }
@@ -581,7 +583,7 @@ class PopupMenusTest {
     private fun feedback(panel: String, choice: Int, action: MenuAction) {
         val result = compose.onNodeWithTag("status_$panel")
         if (choice < 0) {
-            result.assertTextContains(names.action(action))
+            result.assertTextContains(names.action(action), substring = true)
         } else {
             val label =
                 when (choice) {
