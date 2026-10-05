@@ -97,6 +97,38 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun viewSwitchersUseOnlyFrameworkSuppliersFromApiOne() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.VIEW_ANIMATOR to "android.widget.ViewAnimator",
+                LabComponent.VIEW_SWITCHER to "android.widget.ViewSwitcher",
+                LabComponent.VIEW_FLIPPER to "android.widget.ViewFlipper",
+                LabComponent.TEXT_SWITCHER to "android.widget.TextSwitcher",
+                LabComponent.IMAGE_SWITCHER to "android.widget.ImageSwitcher",
+            )
+            .forEach { (component, source) ->
+                platform.forEach { family ->
+                    assertNull(family.unsupportedReason(component, 1))
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(1, component.minimumApi)
+                assertEquals(ComponentCategory.LAYOUT, component.category)
+                assertTrue(component.matchesSearch(source))
+                assertFalse(component.matchesSearch("androidx.compose.material3.Switcher"))
+            }
+        assertEquals(4, LabComponent.VIEW_ANIMATOR.switcherPageCount)
+        assertEquals(2, LabComponent.VIEW_SWITCHER.switcherPageCount)
+        assertEquals(4, LabComponent.VIEW_FLIPPER.switcherPageCount)
+        assertEquals(4, LabComponent.TEXT_SWITCHER.switcherPageCount)
+        assertEquals(2, LabComponent.IMAGE_SWITCHER.switcherPageCount)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

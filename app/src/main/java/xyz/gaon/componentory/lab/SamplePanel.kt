@@ -335,6 +335,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isViewSwitcher && unsupported == null) {
+                Text(
+                    stringResource(R.string.switcher_note),
+                    modifier = Modifier.testTag("switcher_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isInlineTime && unsupported == null) {
                 Text(
                     stringResource(R.string.inline_time_note),

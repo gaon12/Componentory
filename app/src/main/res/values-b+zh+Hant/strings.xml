@@ -360,4 +360,20 @@
     <string name="component_horizontal_scroll_view_description">原始架構 HorizontalScrollView，容納超出面板寬度的一列主題文字行。</string>
     <string name="scroll_sample_line">捲動行 %1$d</string>
     <string name="scroll_view_note">捲動是對真實容器的自由觸控輸入。捲動位置是暫時狀態，不屬於複製的設定。</string>
+    <string name="component_view_animator">檢視動畫器</string>
+    <string name="component_view_animator_description">透過「上一頁/下一頁」按鈕逐頁切換主題子頁面的原始架構 ViewAnimator。</string>
+    <string name="component_view_switcher">檢視切換器</string>
+    <string name="component_view_switcher_description">在兩個主題子檢視之間以動畫切換的原始架構 ViewSwitcher。</string>
+    <string name="component_view_flipper">檢視翻轉器</string>
+    <string name="component_view_flipper_description">手動逐頁切換主題子頁面的原始架構 ViewFlipper。此範例不啟用定時自動翻轉。</string>
+    <string name="component_text_switcher">文字切換器</string>
+    <string name="component_text_switcher_description">透過內部文字檢視循環顯示本地化文字列的原始架構 TextSwitcher。</string>
+    <string name="component_image_switcher">影像切換器</string>
+    <string name="component_image_switcher_description">在兩個原始架構可繪製物件之間交替顯示的原始架構 ImageSwitcher。</string>
+    <string name="switcher_previous">上一頁</string>
+    <string name="switcher_next">下一頁</string>
+    <string name="switcher_page">第 %1$d 頁</string>
+    <string name="switcher_line">切換器列 %1$d</string>
+    <string name="status_switcher_child">正在顯示第 %1$d 個子項，共 %2$d 個</string>
+    <string name="switcher_note">「上一頁」和「下一頁」以原始容器自帶的切換效果移動。複製會轉移目前顯示的子項索引。</string>
 </resources>

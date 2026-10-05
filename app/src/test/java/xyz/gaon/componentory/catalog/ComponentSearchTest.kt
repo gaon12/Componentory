@@ -52,7 +52,15 @@ class ComponentSearchTest {
 
     @Test
     fun searchAcceptsCanonicalNamesAndClasses() {
-        assertEquals(listOf(LabComponent.SWITCH), search("  sWITCH  "))
+        assertEquals(
+            listOf(
+                LabComponent.SWITCH,
+                LabComponent.VIEW_SWITCHER,
+                LabComponent.TEXT_SWITCHER,
+                LabComponent.IMAGE_SWITCHER,
+            ),
+            search("  sWITCH  "),
+        )
         assertEquals(listOf(LabComponent.TEXT_FIELD), search("EditText"))
         assertEquals(listOf(LabComponent.RADIO), search("Radio"))
         assertEquals(emptyList<LabComponent>(), search("unknown component"))

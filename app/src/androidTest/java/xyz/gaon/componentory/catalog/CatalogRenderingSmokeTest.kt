@@ -25,6 +25,7 @@ import android.widget.DigitalClock
 import android.widget.EditText
 import android.widget.HorizontalScrollView
 import android.widget.ImageButton
+import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.MultiAutoCompleteTextView
 import android.widget.NumberPicker
@@ -39,9 +40,13 @@ import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextClock
+import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.ToggleButton
+import android.widget.ViewAnimator
+import android.widget.ViewFlipper
+import android.widget.ViewSwitcher
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsActions
@@ -135,22 +140,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 31, 42)
+        verifyFamily(DesignFamily.CLASSIC, 36, 37)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 31, 42)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 36, 37)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 31, 42)
+        verifyFamily(DesignFamily.MATERIAL, 36, 37)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 44)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 49)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 60, 17)
+        verifyFamily(DesignFamily.MATERIAL3, 60, 22)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -159,7 +164,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            77,
+            82,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -408,6 +413,32 @@ class CatalogRenderingSmokeTest {
                     val lines = view.getChildAt(0) as ViewGroup
                     assertEquals(24, lines.childCount)
                 }
+                LabComponent.VIEW_ANIMATOR,
+                LabComponent.VIEW_SWITCHER,
+                LabComponent.VIEW_FLIPPER -> {
+                    val animator = view as ViewAnimator
+                    assertEquals(0, animator.displayedChild)
+                    assertEquals(component.switcherPageCount, animator.childCount)
+                    repeat(animator.childCount) { index ->
+                        assertEquals(
+                            compose.activity.getString(R.string.switcher_page, index + 1),
+                            (animator.getChildAt(index) as TextView).text.toString(),
+                        )
+                    }
+                }
+                LabComponent.TEXT_SWITCHER -> {
+                    val switcher = view as TextSwitcher
+                    assertEquals(2, switcher.childCount)
+                    assertEquals(
+                        compose.activity.getString(R.string.switcher_line, 1),
+                        (switcher.currentView as TextView).text.toString(),
+                    )
+                }
+                LabComponent.IMAGE_SWITCHER -> {
+                    val switcher = view as ImageSwitcher
+                    assertEquals(2, switcher.childCount)
+                    assertNotNull((switcher.currentView as ImageView).drawable)
+                }
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -471,6 +502,11 @@ class CatalogRenderingSmokeTest {
             LabComponent.CHRONOMETER -> Chronometer::class.java
             LabComponent.SCROLL_VIEW -> ScrollView::class.java
             LabComponent.HORIZONTAL_SCROLL_VIEW -> HorizontalScrollView::class.java
+            LabComponent.VIEW_ANIMATOR -> ViewAnimator::class.java
+            LabComponent.VIEW_SWITCHER -> ViewSwitcher::class.java
+            LabComponent.VIEW_FLIPPER -> ViewFlipper::class.java
+            LabComponent.TEXT_SWITCHER -> TextSwitcher::class.java
+            LabComponent.IMAGE_SWITCHER -> ImageSwitcher::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

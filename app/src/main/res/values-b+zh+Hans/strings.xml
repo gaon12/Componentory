@@ -360,4 +360,20 @@
     <string name="component_horizontal_scroll_view_description">原始框架 HorizontalScrollView，容纳超出面板宽度的一行主题文本行。</string>
     <string name="scroll_sample_line">滚动行 %1$d</string>
     <string name="scroll_view_note">滚动是对真实容器的自由触摸输入。滚动位置是临时状态，不属于复制的设置。</string>
+    <string name="component_view_animator">视图动画器</string>
+    <string name="component_view_animator_description">通过“上一页/下一页”按钮逐页切换主题子页面的原始框架 ViewAnimator。</string>
+    <string name="component_view_switcher">视图切换器</string>
+    <string name="component_view_switcher_description">在两个主题子视图之间以动画切换的原始框架 ViewSwitcher。</string>
+    <string name="component_view_flipper">视图翻转器</string>
+    <string name="component_view_flipper_description">手动逐页切换主题子页面的原始框架 ViewFlipper。此示例不启用定时自动翻转。</string>
+    <string name="component_text_switcher">文本切换器</string>
+    <string name="component_text_switcher_description">通过内部文本视图循环显示本地化文本行的原始框架 TextSwitcher。</string>
+    <string name="component_image_switcher">图像切换器</string>
+    <string name="component_image_switcher_description">在两个原始框架可绘制对象之间交替显示的原始框架 ImageSwitcher。</string>
+    <string name="switcher_previous">上一页</string>
+    <string name="switcher_next">下一页</string>
+    <string name="switcher_page">第 %1$d 页</string>
+    <string name="switcher_line">切换器行 %1$d</string>
+    <string name="status_switcher_child">正在显示第 %1$d 个子项，共 %2$d 个</string>
+    <string name="switcher_note">“上一页”和“下一页”以原始容器自带的过渡效果切换。复制会转移当前显示的子项索引。</string>
 </resources>

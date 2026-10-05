@@ -360,4 +360,20 @@
     <string name="component_horizontal_scroll_view_description">パネル幅を超えるテーマのテキスト行の行を収める元のフレームワークHorizontalScrollViewです。</string>
     <string name="scroll_sample_line">スクロール行 %1$d</string>
     <string name="scroll_view_note">スクロールは実際のコンテナへの自由なタッチ入力です。スクロール位置は一時的な状態であり、コピー対象には含まれません。</string>
+    <string name="component_view_animator">ビューアニメーター</string>
+    <string name="component_view_animator_description">前へ/次へボタンでテーマの子ページを切り替える元のフレームワークViewAnimatorです。</string>
+    <string name="component_view_switcher">ビュースイッチャー</string>
+    <string name="component_view_switcher_description">テーマの2つの子ビュー間をアニメーションで切り替える元のフレームワークViewSwitcherです。</string>
+    <string name="component_view_flipper">ビューフリッパー</string>
+    <string name="component_view_flipper_description">テーマの子ページを手動で切り替える元のフレームワークViewFlipperです。このサンプルでは時間ベースの自動切り替えを有効にしません。</string>
+    <string name="component_text_switcher">テキストスイッチャー</string>
+    <string name="component_text_switcher_description">内部のテキストビューを通じてローカライズされた行を循環する元のフレームワークTextSwitcherです。</string>
+    <string name="component_image_switcher">イメージスイッチャー</string>
+    <string name="component_image_switcher_description">2つの元のフレームワークドローアブルを交互に表示する元のフレームワークImageSwitcherです。</string>
+    <string name="switcher_previous">前へ</string>
+    <string name="switcher_next">次へ</string>
+    <string name="switcher_page">ページ %1$d</string>
+    <string name="switcher_line">スイッチャー行 %1$d</string>
+    <string name="status_switcher_child">%2$d個中%1$d番目の子を表示中</string>
+    <string name="switcher_note">前へ/次へボタンが元のコンテナーの独自の遷移で移動します。コピーは表示中の子インデックスを移します。</string>
 </resources>

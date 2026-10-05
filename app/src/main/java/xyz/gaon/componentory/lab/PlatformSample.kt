@@ -72,6 +72,10 @@ fun PlatformSample(
         PlatformScrollSample(family, component, viewId, enabled, modifier)
         return
     }
+    if (component.isViewSwitcher) {
+        PlatformSwitcherSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

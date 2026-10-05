@@ -360,4 +360,20 @@
     <string name="component_horizontal_scroll_view_description">패널 너비를 넘는 테마의 텍스트 줄 행을 담는 원본 프레임워크 HorizontalScrollView입니다.</string>
     <string name="scroll_sample_line">스크롤 줄 %1$d</string>
     <string name="scroll_view_note">스크롤은 실제 컨테이너의 자유로운 터치 입력입니다. 스크롤 위치는 임시 상태로 복사 대상에 포함되지 않습니다.</string>
+    <string name="component_view_animator">뷰 애니메이터</string>
+    <string name="component_view_animator_description">이전/다음 버튼으로 테마의 자식 페이지를 넘기는 원본 프레임워크 ViewAnimator입니다.</string>
+    <string name="component_view_switcher">뷰 스위처</string>
+    <string name="component_view_switcher_description">테마의 두 자식 뷰 사이를 전환하는 원본 프레임워크 ViewSwitcher입니다.</string>
+    <string name="component_view_flipper">뷰 플리퍼</string>
+    <string name="component_view_flipper_description">테마의 자식 페이지를 수동으로 넘기는 원본 프레임워크 ViewFlipper입니다. 이 샘플은 시간 기반 자동 전환을 켜지 않습니다.</string>
+    <string name="component_text_switcher">텍스트 스위처</string>
+    <string name="component_text_switcher_description">내부 텍스트 뷰를 통해 지역화된 줄을 순환하는 원본 프레임워크 TextSwitcher입니다.</string>
+    <string name="component_image_switcher">이미지 스위처</string>
+    <string name="component_image_switcher_description">두 개의 원본 프레임워크 드로어블을 번갈아 표시하는 원본 프레임워크 ImageSwitcher입니다.</string>
+    <string name="switcher_previous">이전</string>
+    <string name="switcher_next">다음</string>
+    <string name="switcher_page">페이지 %1$d</string>
+    <string name="switcher_line">스위처 줄 %1$d</string>
+    <string name="status_switcher_child">%2$d개 중 %1$d번째 자식 표시 중</string>
+    <string name="switcher_note">이전과 다음 버튼이 원본 컨테이너의 전환으로 이동합니다. 복사는 표시된 자식 인덱스를 옮깁니다.</string>
 </resources>

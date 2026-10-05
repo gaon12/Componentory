@@ -363,4 +363,20 @@
     <string name="component_horizontal_scroll_view_description">The original framework HorizontalScrollView hosting a wide row of themed text lines that overflows the panel.</string>
     <string name="scroll_sample_line">Scrollable line %1$d</string>
     <string name="scroll_view_note">Scrolling is free-form touch input on the real container. Scroll position is ephemeral and is not part of the copied setup.</string>
+    <string name="component_view_animator">View animator</string>
+    <string name="component_view_animator_description">The original framework ViewAnimator stepping through themed child pages with Previous and Next buttons.</string>
+    <string name="component_view_switcher">View switcher</string>
+    <string name="component_view_switcher_description">The original framework ViewSwitcher animating between two themed child views.</string>
+    <string name="component_view_flipper">View flipper</string>
+    <string name="component_view_flipper_description">The original framework ViewFlipper stepped manually through themed child pages. This sample does not enable timed auto-flipping.</string>
+    <string name="component_text_switcher">Text switcher</string>
+    <string name="component_text_switcher_description">The original framework TextSwitcher cycling localized lines through its internal text views.</string>
+    <string name="component_image_switcher">Image switcher</string>
+    <string name="component_image_switcher_description">The original framework ImageSwitcher alternating between two original framework drawables.</string>
+    <string name="switcher_previous">Previous</string>
+    <string name="switcher_next">Next</string>
+    <string name="switcher_page">Page %1$d</string>
+    <string name="switcher_line">Switcher line %1$d</string>
+    <string name="status_switcher_child">Showing child %1$d of %2$d</string>
+    <string name="switcher_note">Previous and Next step the original container with its own transition. Copying carries the displayed child index.</string>
 </resources>

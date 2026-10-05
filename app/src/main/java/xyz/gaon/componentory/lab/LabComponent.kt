@@ -313,6 +313,41 @@ enum class LabComponent(
         minimumApi = 3,
         category = ComponentCategory.LAYOUT,
     ),
+    VIEW_ANIMATOR(
+        "View animator",
+        R.string.component_view_animator,
+        R.string.component_view_animator_description,
+        platformSource = "android.widget.ViewAnimator",
+        category = ComponentCategory.LAYOUT,
+    ),
+    VIEW_SWITCHER(
+        "View switcher",
+        R.string.component_view_switcher,
+        R.string.component_view_switcher_description,
+        platformSource = "android.widget.ViewSwitcher",
+        category = ComponentCategory.LAYOUT,
+    ),
+    VIEW_FLIPPER(
+        "View flipper",
+        R.string.component_view_flipper,
+        R.string.component_view_flipper_description,
+        platformSource = "android.widget.ViewFlipper",
+        category = ComponentCategory.LAYOUT,
+    ),
+    TEXT_SWITCHER(
+        "Text switcher",
+        R.string.component_text_switcher,
+        R.string.component_text_switcher_description,
+        platformSource = "android.widget.TextSwitcher",
+        category = ComponentCategory.LAYOUT,
+    ),
+    IMAGE_SWITCHER(
+        "Image switcher",
+        R.string.component_image_switcher,
+        R.string.component_image_switcher_description,
+        platformSource = "android.widget.ImageSwitcher",
+        category = ComponentCategory.LAYOUT,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -721,6 +756,21 @@ enum class LabComponent(
     val isScrollContainer: Boolean
         get() = this == SCROLL_VIEW || this == HORIZONTAL_SCROLL_VIEW
 
+    val isViewSwitcher: Boolean
+        get() =
+            this in
+                listOf(VIEW_ANIMATOR, VIEW_SWITCHER, VIEW_FLIPPER, TEXT_SWITCHER, IMAGE_SWITCHER)
+
+    // Logical page count a switcher steps through; TextSwitcher and ImageSwitcher
+    // reuse their two internal children for more content.
+    val switcherPageCount: Int
+        get() =
+            when (this) {
+                VIEW_SWITCHER,
+                IMAGE_SWITCHER -> 2
+                else -> 4
+            }
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -797,6 +847,8 @@ enum class LabComponent(
                         R.string.status_chronometer_stopped,
                         SampleTimes.formatElapsed(chronometerBaseMillis),
                     )
+            isViewSwitcher ->
+                context.getString(R.string.status_switcher_child, value + 1, switcherPageCount)
             isCountedBadge -> context.getString(R.string.status_badge, value)
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)

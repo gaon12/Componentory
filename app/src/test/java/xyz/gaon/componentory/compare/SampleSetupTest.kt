@@ -679,6 +679,37 @@ class SampleSetupTest {
             }
     }
 
+    @Test
+    fun switcherCopiesCarryOnlyTheDisplayedChildIndex() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        listOf(
+                LabComponent.VIEW_ANIMATOR to 3,
+                LabComponent.VIEW_SWITCHER to 1,
+                LabComponent.VIEW_FLIPPER to 2,
+                LabComponent.TEXT_SWITCHER to 2,
+                LabComponent.IMAGE_SWITCHER to 1,
+            )
+            .forEach { (component, index) ->
+                val source = SampleState(initialValue = index, initialText = "ignored")
+                platform.forEach { sourceFamily ->
+                    val setup = SampleSetup.capture(component, sourceFamily, source, API)
+                    assertEquals(setOf("component", "family", "value"), setup.savedValues().keys)
+                    val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+                    platform.forEach { targetFamily ->
+                        val target = requireNotNull(restored.copyTo(targetFamily, API).state)
+                        assertNotSame(source, target)
+                        assertEquals(index, target.value)
+                        assertEquals("", target.text)
+                    }
+                    listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                        val result = restored.copyTo(family, API)
+                        assertNull(result.state)
+                        assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                    }
+                }
+            }
+    }
+
     private fun supportedFamily(component: LabComponent) =
         DesignFamily.entries.first { it.unsupportedReason(component, API) == null }
 
