@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**75 component entries**, with **186 runnable component/family combinations**.
+**77 component entries**, with **192 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `c03ec58`. Executed resource
+Application and latest verification source revision: `cd82cc6`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 30 | 44 |
+| Android framework | 74 | 32 | 42 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 120 | 119 |
+| Total | 239 | 122 | 117 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -169,6 +169,15 @@ value while stopped, and resumes a copied or recreated running timer at the
 same offset. Older saved panels without the anchor default to a stopped
 zero state.
 
+Two scroll container entries add six combinations through the platform themes
+only. ScrollView (`android.widget.ScrollView`, API 1) holds a fixed column of
+themed text lines inside a bounded 240 dp height so the original container
+clips and scrolls vertically; HorizontalScrollView
+(`android.widget.HorizontalScrollView`, API 3) holds a row of fixed-width lines
+that overflows the panel for sideways scrolling. Both libraries report explicit
+unsupported reasons. The samples own no inputs — scroll position is ephemeral
+touch state, so copying reports no inputs rather than inventing a saved offset.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -253,13 +262,13 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `c03ec58`, preceded by the instrumentation repair in
-`34ceff1`. Spotless and lint pass with zero errors. All 88 JVM tests actually
+Latest implementation: `cd82cc6`, preceded by the instrumentation repair in
+`34ceff1`. Spotless and lint pass with zero errors. All 89 JVM tests actually
 executed and passed without failures, errors or skips. Both debug APKs build:
-the app APK is 19,698,279 bytes with SHA-256
-`1c9eb943c4fca59c4a48346749899890b4d709b38c4a01f05077f05576b202cb` and the test
-APK is 1,399,473 bytes with SHA-256
-`e8e5cf5ed9f917be1a32b4978184ea438b1a5d16829aedd6967824d0a8547a47`.
+the app APK is 19,703,239 bytes with SHA-256
+`9a91e01c8223a4506db03b57e3f2ba27ef0f584448adef7de281c1fd06e0353c` and the test
+APK is 1,406,474 bytes with SHA-256
+`62013fa431429015da877c04cf4a05c7d46fe9863049300d4373fa5edfca8ffe`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -277,8 +286,15 @@ copies, unsupported Compose targets, and localized labels, notes and buttons in
 five locales. These are likewise authored assertions awaiting a clean device
 run on the unlocked hardware.
 
-The catalog now declares 75 entries and 186 supported combinations. The smoke
-sweep spans 375 cells: 180 supported and 189 unsupported ordinary cells; the
+Four [scroll container scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ScrollContainersTest.kt)
+compile in the same state. They verify the real `ScrollView` and
+`HorizontalScrollView` classes clip overflowing themed content, move under
+actual Compose touch swipes, expose no copyable inputs, reject Compose library
+targets, and keep localized labels, notes and line text in five locales. They
+also await a clean unlocked-device run.
+
+The catalog now declares 77 entries and 192 supported combinations. The smoke
+sweep spans 379 cells: 186 supported and 187 unsupported ordinary cells; the
 six native animated cells use the separate UiAutomation scope.
 
 A device instrumentation attempt ran `.local/device-runs/20261005T103758416Z-abf2e279/`
