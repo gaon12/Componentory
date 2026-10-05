@@ -335,4 +335,23 @@
     <string name="inline_time_note">變更會立即套用。預設設定為24小時制的10:30。此值是一天中的時間，而不是時間戳記。</string>
     <string name="inline_time_enabled_note">這些函式庫控制項沒有 Enabled 參數。關閉啟用設定後仍可操作。</string>
     <string name="native_time_enabled_note">啟用設定使用原始 TimePicker API。內部控制項的行為取決於此裝置的實作。</string>
+    <string name="component_text_clock">文字時鐘</string>
+    <string name="component_text_clock_description">使用所選主題的原始 TextClock 控制項顯示裝置的目前時間。</string>
+    <string name="component_analog_clock">類比時鐘</string>
+    <string name="component_analog_clock_description">原始的類比時鐘錶面。自 API 23 起已棄用，但架構仍使用主題的錶面可繪製資源進行繪製。</string>
+    <string name="component_digital_clock">數位時鐘</string>
+    <string name="component_digital_clock_description">原始的數位時鐘。自 API 17 起已棄用，但架構仍將其繪製為每秒更新的文字顯示。</string>
+    <string name="component_chronometer">計時器</string>
+    <string name="component_chronometer_description">由架構按鈕驅動的原始 Chronometer 計時控制項。</string>
+    <string name="status_clock_format">時鐘格式: %1$s</string>
+    <string name="clock_format_24">24小時制</string>
+    <string name="clock_format_12">12小時制</string>
+    <string name="status_chronometer_running">計時器: 執行中</string>
+    <string name="status_chronometer_stopped">計時器: 已停止於 %1$s</string>
+    <string name="chronometer_start">開始</string>
+    <string name="chronometer_stop">停止</string>
+    <string name="chronometer_reset">重設</string>
+    <string name="text_clock_note">顯示裝置目前時間並自動更新。24小時開關會固定兩個格式欄位，因此顯示遵循此範例的選擇而非系統設定。</string>
+    <string name="chronometer_note">開始、停止和重設按鈕驅動原始 Chronometer。執行中的計時器會持續計時並在重建後恢復；停止會凍結已計時間。</string>
+    <string name="clock_deprecated_note">自 API %1$d 起已棄用。架構仍會提供並繪製它；Compose 函式庫中沒有替代品。</string>
 </resources>

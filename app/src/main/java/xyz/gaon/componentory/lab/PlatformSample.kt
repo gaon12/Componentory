@@ -60,6 +60,14 @@ fun PlatformSample(
         PlatformPopupMenuSample(family, viewId, enabled, state, modifier)
         return
     }
+    if (component.isClockDisplay) {
+        PlatformClockSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
+    if (component == LabComponent.CHRONOMETER) {
+        PlatformChronometerSample(family, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

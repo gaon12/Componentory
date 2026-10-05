@@ -613,6 +613,65 @@ class SampleSetupTest {
         assertNotNull(SampleSetup.restore(mapOf("component" to "CHECKBOX", "family" to "CLASSIC")))
     }
 
+    @Test
+    fun clockCopiesCarryOnlyTheFormatOrRunningStateTheirPanelActuallyOwns() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        // The text clock's only input is its pinned format choice.
+        val clockSource = SampleState(initialTime24Hour = false, initialText = "ignored")
+        platform.forEach { sourceFamily ->
+            val setup = SampleSetup.capture(LabComponent.TEXT_CLOCK, sourceFamily, clockSource, API)
+            assertEquals(setOf("component", "family", "time24Hour"), setup.savedValues().keys)
+            val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+            platform.forEach { targetFamily ->
+                val target = requireNotNull(restored.copyTo(targetFamily, API).state)
+                assertNotSame(clockSource, target)
+                assertFalse(target.time24Hour)
+                assertEquals("", target.text)
+                assertEquals(LabComponent.TEXT_CLOCK.initialValue, target.value)
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { targetFamily ->
+                val result = restored.copyTo(targetFamily, API)
+                assertNull(result.state)
+                assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+            }
+        }
+    }
+
+    @Test
+    fun chronometerCopiesRunningFlagAndAnchorWithoutUnrelatedState() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        listOf(
+                SampleState(initialValue = 0, initialChronometerBaseMillis = 90_000),
+                SampleState(initialValue = 1, initialChronometerBaseMillis = 1_700_000_000_000),
+            )
+            .forEach { source ->
+                platform.forEach { sourceFamily ->
+                    val setup =
+                        SampleSetup.capture(LabComponent.CHRONOMETER, sourceFamily, source, API)
+                    assertEquals(
+                        setOf("component", "family", "value", "chronometerBase"),
+                        setup.savedValues().keys,
+                    )
+                    val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+                    platform.forEach { targetFamily ->
+                        val target = requireNotNull(restored.copyTo(targetFamily, API).state)
+                        assertNotSame(source, target)
+                        assertEquals(source.value, target.value)
+                        assertEquals(source.chronometerBaseMillis, target.chronometerBaseMillis)
+                        assertEquals("", target.text)
+                    }
+                }
+            }
+        // Purely visual clocks own no copyable inputs.
+        listOf(LabComponent.ANALOG_CLOCK, LabComponent.DIGITAL_CLOCK).forEach { component ->
+            val captured = SampleSetup.capture(component, DesignFamily.CLASSIC, SampleState(), API)
+            assertEquals(setOf("component", "family"), captured.savedValues().keys)
+            val result = captured.copyTo(DesignFamily.HOLO, API)
+            assertNull(result.state)
+            assertEquals(SetupCopyReason.NO_INPUTS, result.reason)
+        }
+    }
+
     private fun supportedFamily(component: LabComponent) =
         DesignFamily.entries.first { it.unsupportedReason(component, API) == null }
 

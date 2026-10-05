@@ -11,6 +11,24 @@ import xyz.gaon.componentory.lab.LabComponent
 
 class ComponentInventoryTest {
     @Test
+    fun standaloneClocksReuseTheirOwnCanonicalRowsWithoutSharingClockSources() {
+        val rows = inventory()
+        mapOf(
+                "android.widget.TextClock" to ("TEXT_CLOCK" to "17"),
+                "android.widget.AnalogClock" to ("ANALOG_CLOCK" to "1"),
+                "android.widget.DigitalClock" to ("DIGITAL_CLOCK" to "1"),
+                "android.widget.Chronometer" to ("CHRONOMETER" to "1"),
+            )
+            .forEach { (source, metadata) ->
+                val row = rows.single { it.source == source }
+                assertEquals("PLATFORM", row.provider)
+                assertEquals("Implemented", row.status)
+                assertEquals(listOf(metadata.first), row.catalogIds)
+                assertEquals(metadata.second, row.apiIntroduced)
+            }
+    }
+
+    @Test
     fun standaloneTimeControlsReuseCanonicalRowsWithoutInflatingSourceCounts() {
         val rows = inventory()
         mapOf(
@@ -31,9 +49,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(71, LabComponent.entries.size)
+        assertEquals(75, LabComponent.entries.size)
         assertEquals(
-            174,
+            186,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -41,15 +59,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 116, "Pending" to 123),
+            mapOf("Implemented" to 120, "Pending" to 119),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 26, "MATERIAL2" to 31, "MATERIAL3" to 59),
+            mapOf("PLATFORM" to 30, "MATERIAL2" to 31, "MATERIAL3" to 59),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 48, "MATERIAL2" to 21, "MATERIAL3" to 54),
+            mapOf("PLATFORM" to 44, "MATERIAL2" to 21, "MATERIAL3" to 54),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(

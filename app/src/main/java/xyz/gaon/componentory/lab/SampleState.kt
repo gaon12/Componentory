@@ -52,6 +52,7 @@ class SampleState(
     initialDateRangeEndUtcMillis: Long? = null,
     initialDateInputMode: Boolean = false,
     initialDateDisplayedMonthUtcMillis: Long = SampleDates.INITIAL_MONTH_UTC_MILLIS,
+    initialChronometerBaseMillis: Long = 0,
 ) {
     var value by mutableIntStateOf(initialValue)
     var text by mutableStateOf(initialText)
@@ -69,6 +70,8 @@ class SampleState(
     var dateRangeEndUtcMillis by mutableStateOf(initialDateRangeEndUtcMillis)
     var dateInputMode by mutableStateOf(initialDateInputMode)
     var dateDisplayedMonthUtcMillis by mutableLongStateOf(initialDateDisplayedMonthUtcMillis)
+    // Running: wall-clock instant the counter started from zero. Stopped: frozen elapsed.
+    var chronometerBaseMillis by mutableLongStateOf(initialChronometerBaseMillis)
 
     val triState: ToggleableState
         get() =
@@ -99,6 +102,7 @@ class SampleState(
                         it.dateRangeEndUtcMillis ?: Long.MIN_VALUE,
                         it.dateInputMode,
                         it.dateDisplayedMonthUtcMillis,
+                        it.chronometerBaseMillis,
                     )
                 },
                 restore = {
@@ -122,6 +126,7 @@ class SampleState(
                         (it.getOrNull(13) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
                         it.getOrNull(14) as? Boolean ?: false,
                         it.getOrNull(15) as? Long ?: SampleDates.INITIAL_MONTH_UTC_MILLIS,
+                        it.getOrNull(16) as? Long ?: 0,
                     )
                 },
             )

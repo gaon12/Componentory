@@ -335,4 +335,23 @@
     <string name="inline_time_note">更改会立即应用。默认设置为24小时制的10:30。该值是一天中的时间，而不是时间戳。</string>
     <string name="inline_time_enabled_note">这些库控件没有 Enabled 参数。关闭启用设置后仍可操作。</string>
     <string name="native_time_enabled_note">启用设置使用原始 TimePicker API。内部控件的行为取决于此设备的实现。</string>
+    <string name="component_text_clock">文本时钟</string>
+    <string name="component_text_clock_description">使用所选主题的原始 TextClock 控件显示设备的当前时间。</string>
+    <string name="component_analog_clock">模拟时钟</string>
+    <string name="component_analog_clock_description">原始的模拟时钟表盘。自 API 23 起已废弃，但框架仍使用主题的表盘可绘制资源进行渲染。</string>
+    <string name="component_digital_clock">数字时钟</string>
+    <string name="component_digital_clock_description">原始的数字时钟。自 API 17 起已废弃，但框架仍将其渲染为每秒更新的文本显示。</string>
+    <string name="component_chronometer">计时器</string>
+    <string name="component_chronometer_description">由框架按钮驱动的原始 Chronometer 计时控件。</string>
+    <string name="status_clock_format">时钟格式: %1$s</string>
+    <string name="clock_format_24">24小时制</string>
+    <string name="clock_format_12">12小时制</string>
+    <string name="status_chronometer_running">计时器: 运行中</string>
+    <string name="status_chronometer_stopped">计时器: 已停止于 %1$s</string>
+    <string name="chronometer_start">开始</string>
+    <string name="chronometer_stop">停止</string>
+    <string name="chronometer_reset">重置</string>
+    <string name="text_clock_note">显示设备当前时间并自动更新。24小时开关会固定两个格式字段，因此显示遵循此示例的选择而非系统设置。</string>
+    <string name="chronometer_note">开始、停止和重置按钮驱动原始 Chronometer。运行中的计时器会持续计时并在重建后恢复；停止会冻结已计时间。</string>
+    <string name="clock_deprecated_note">自 API %1$d 起已废弃。框架仍会提供并渲染它；Compose 库中没有替代品。</string>
 </resources>

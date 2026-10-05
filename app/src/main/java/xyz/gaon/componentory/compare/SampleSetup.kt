@@ -22,6 +22,7 @@ private constructor(
     val containerClickable: Boolean?,
     val inlineDate: InlineDateInput?,
     val dateRange: DateRangeInput?,
+    val chronometerBaseMillis: Long?,
 ) {
     private val hasNonIconInputs: Boolean
         get() =
@@ -29,9 +30,11 @@ private constructor(
                 text != null ||
                 dateUtcMillis != null ||
                 timeMinutes != null ||
+                time24Hour != null ||
                 containerClickable != null ||
                 inlineDate != null ||
-                dateRange != null
+                dateRange != null ||
+                chronometerBaseMillis != null
 
     fun copyTo(
         targetFamily: DesignFamily,
@@ -72,6 +75,7 @@ private constructor(
                         else SampleDates.INITIAL_UTC_MILLIS,
                     initialDateRangeStartUtcMillis = dateRange?.startUtcMillis,
                     initialDateRangeEndUtcMillis = dateRange?.endUtcMillis,
+                    initialChronometerBaseMillis = chronometerBaseMillis ?: 0,
                     initialDateDisplayedMonthUtcMillis =
                         SampleDates.monthUtcMillis(
                             inlineDate?.utcMillis
@@ -104,6 +108,7 @@ private constructor(
             it.startUtcMillis?.let { date -> put("dateRangeStart", date) }
             it.endUtcMillis?.let { date -> put("dateRangeEnd", date) }
         }
+        chronometerBaseMillis?.let { put("chronometerBase", it) }
     }
 
     companion object {
@@ -139,7 +144,9 @@ private constructor(
                 time24Hour =
                     if (
                         supported &&
-                            (component == LabComponent.TIME_PICKER_DIALOG || component.isInlineTime)
+                            (component == LabComponent.TIME_PICKER_DIALOG ||
+                                component.isInlineTime ||
+                                component == LabComponent.TEXT_CLOCK)
                     )
                         state.time24Hour
                     else null,
@@ -156,6 +163,10 @@ private constructor(
                 dateRange =
                     if (supported && component == LabComponent.DATE_RANGE_PICKER)
                         DateRangeInput(state.dateRangeStartUtcMillis, state.dateRangeEndUtcMillis)
+                    else null,
+                chronometerBaseMillis =
+                    if (supported && component == LabComponent.CHRONOMETER)
+                        state.chronometerBaseMillis
                     else null,
             )
         }
@@ -187,6 +198,7 @@ private constructor(
                     initialDateRangeEndUtcMillis =
                         if (values["dateRangePresent"] == true) values["dateRangeEnd"] as? Long
                         else null,
+                    initialChronometerBaseMillis = values["chronometerBase"] as? Long ?: 0,
                 ),
                 Int.MAX_VALUE,
                 values["icon"] as? String,
@@ -263,4 +275,5 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.NUMBER_PICKER,
                     LabComponent.SLIDER,
                     LabComponent.RANGE_SLIDER,
+                    LabComponent.CHRONOMETER,
                 )

@@ -335,4 +335,23 @@
     <string name="inline_time_note">変更はすぐに反映されます。初期設定は24時間表示の10:30です。値は一日の時刻であり、タイムスタンプではありません。</string>
     <string name="inline_time_enabled_note">このライブラリのコントロールにEnabledパラメータはありません。有効の設定をオフにしても操作できます。</string>
     <string name="native_time_enabled_note">有効の設定は元のTimePicker APIに適用します。内部コントロールの動作はこの端末の実装に従います。</string>
+    <string name="component_text_clock">テキスト時計</string>
+    <string name="component_text_clock_description">選択したテーマの元のTextClockウィジェットで端末の現在時刻を表示します。</string>
+    <string name="component_analog_clock">アナログ時計</string>
+    <string name="component_analog_clock_description">元のアナログ時計の文字盤です。API 23で非推奨になりましたが、フレームワークはテーマの文字盤ドローアブルで描画し続けます。</string>
+    <string name="component_digital_clock">デジタル時計</string>
+    <string name="component_digital_clock_description">元のデジタル時計です。API 17で非推奨になりましたが、フレームワークは毎秒更新するテキスト表示として描画し続けます。</string>
+    <string name="component_chronometer">クロノメーター</string>
+    <string name="component_chronometer_description">フレームワークのボタンで動かす元のChronometer経過時間タイマーです。</string>
+    <string name="status_clock_format">時計の形式: %1$s</string>
+    <string name="clock_format_24">24時間</string>
+    <string name="clock_format_12">12時間</string>
+    <string name="status_chronometer_running">クロノメーター: 実行中</string>
+    <string name="status_chronometer_stopped">クロノメーター: %1$sで停止</string>
+    <string name="chronometer_start">開始</string>
+    <string name="chronometer_stop">停止</string>
+    <string name="chronometer_reset">リセット</string>
+    <string name="text_clock_note">端末の現在時刻を表示し、自動で更新します。24時間スイッチが両方の形式フィールドを固定するため、システム設定ではなくこのサンプルの選択に従います。</string>
+    <string name="chronometer_note">開始、停止、リセットが元のChronometerを動かします。実行中のタイマーはカウントを続け、画面回転後も再開します。停止すると経過時間が固定されます。</string>
+    <string name="clock_deprecated_note">API %1$dで非推奨になりました。フレームワークは引き続き提供・描画しますが、Composeライブラリに代替はありません。</string>
 </resources>

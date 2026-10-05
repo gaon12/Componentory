@@ -335,4 +335,23 @@
     <string name="inline_time_note">변경하면 바로 적용됩니다. 기본 설정은 24시간 표시의 10:30입니다. 값은 하루 중 시간이며 타임스탬프가 아닙니다.</string>
     <string name="inline_time_enabled_note">이 라이브러리 컨트롤에는 Enabled 매개변수가 없습니다. 사용 설정을 꺼도 계속 조작할 수 있습니다.</string>
     <string name="native_time_enabled_note">사용 설정은 원본 TimePicker API로 적용합니다. 내부 컨트롤의 동작은 이 기기의 구현을 따릅니다.</string>
+    <string name="component_text_clock">텍스트 시계</string>
+    <string name="component_text_clock_description">선택한 테마의 원본 TextClock 위젯으로 기기의 현재 시간을 표시합니다.</string>
+    <string name="component_analog_clock">아날로그 시계</string>
+    <string name="component_analog_clock_description">원본 아날로그 시계입니다. API 23부터 지원 중단됐지만 프레임워크가 테마의 시계판 드로어블로 계속 그립니다.</string>
+    <string name="component_digital_clock">디지털 시계</string>
+    <string name="component_digital_clock_description">원본 디지털 시계입니다. API 17부터 지원 중단됐지만 프레임워크가 매초 갱신되는 텍스트로 계속 표시합니다.</string>
+    <string name="component_chronometer">크로노미터</string>
+    <string name="component_chronometer_description">프레임워크 버튼으로 구동하는 원본 Chronometer 경과 시간 타이머입니다.</string>
+    <string name="status_clock_format">시계 형식: %1$s</string>
+    <string name="clock_format_24">24시간</string>
+    <string name="clock_format_12">12시간</string>
+    <string name="status_chronometer_running">크로노미터: 실행 중</string>
+    <string name="status_chronometer_stopped">크로노미터: %1$s에서 정지</string>
+    <string name="chronometer_start">시작</string>
+    <string name="chronometer_stop">정지</string>
+    <string name="chronometer_reset">초기화</string>
+    <string name="text_clock_note">기기의 현재 시간을 보여주며 스스로 갱신합니다. 24시간 스위치가 두 형식 필드를 고정해서 시스템 설정이 아닌 이 샘플의 선택을 따릅니다.</string>
+    <string name="chronometer_note">시작, 정지, 초기화 버튼이 원본 Chronometer를 구동합니다. 실행 중인 타이머는 계속 세며 화면 회전 후에도 이어집니다. 정지하면 경과 시간이 고정됩니다.</string>
+    <string name="clock_deprecated_note">API %1$d부터 지원 중단됐습니다. 프레임워크는 계속 제공하고 그리지만 Compose 라이브러리에는 대체품이 없습니다.</string>
 </resources>

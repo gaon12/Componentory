@@ -12,13 +12,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AnalogClock
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.CheckBox
 import android.widget.CheckedTextView
+import android.widget.Chronometer
 import android.widget.CompoundButton
 import android.widget.DatePicker
+import android.widget.DigitalClock
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -33,6 +36,7 @@ import android.widget.SearchView
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Switch
+import android.widget.TextClock
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.ToggleButton
@@ -129,22 +133,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 25, 44)
+        verifyFamily(DesignFamily.CLASSIC, 29, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 25, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 29, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 25, 44)
+        verifyFamily(DesignFamily.MATERIAL, 29, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 38)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 42)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 60, 11)
+        verifyFamily(DesignFamily.MATERIAL3, 60, 15)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -153,7 +157,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            71,
+            75,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -388,6 +392,14 @@ class CatalogRenderingSmokeTest {
                     assertEquals(15, selected.get(Calendar.DAY_OF_MONTH))
                     assertTrue(calendar.minDate < calendar.maxDate)
                 }
+                LabComponent.TEXT_CLOCK -> {
+                    val clock = view as TextClock
+                    assertEquals("HH:mm:ss", clock.format24Hour.toString())
+                    assertEquals("HH:mm:ss", clock.format12Hour.toString())
+                }
+                LabComponent.ANALOG_CLOCK -> Unit
+                LabComponent.DIGITAL_CLOCK -> assertTrue((view as DigitalClock).text.isNotEmpty())
+                LabComponent.CHRONOMETER -> assertTrue((view as Chronometer).text.isNotEmpty())
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -445,6 +457,10 @@ class CatalogRenderingSmokeTest {
             LabComponent.DATE_PICKER -> DatePicker::class.java
             LabComponent.TIME_PICKER -> TimePicker::class.java
             LabComponent.CALENDAR_VIEW -> CalendarView::class.java
+            LabComponent.TEXT_CLOCK -> TextClock::class.java
+            LabComponent.ANALOG_CLOCK -> AnalogClock::class.java
+            LabComponent.DIGITAL_CLOCK -> DigitalClock::class.java
+            LabComponent.CHRONOMETER -> Chronometer::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")
@@ -478,6 +494,12 @@ class CatalogRenderingSmokeTest {
                 LabComponent.MULTI_AUTOCOMPLETE -> android.R.attr.autoCompleteTextViewStyle
                 LabComponent.SPINNER -> android.R.attr.spinnerStyle
                 LabComponent.SEARCH_VIEW -> android.R.attr.searchViewStyle
+                LabComponent.TEXT_CLOCK,
+                LabComponent.DIGITAL_CLOCK,
+                LabComponent.CHRONOMETER -> android.R.attr.textViewStyle
+                // AnalogClock styles its dial from an internal attribute; the generic
+                // fallback still proves the view runs inside the family's theme.
+                LabComponent.ANALOG_CLOCK -> android.R.attr.buttonStyle
                 else -> android.R.attr.buttonStyle
             }
         listOf(android.R.attr.colorBackground, style).forEach { attribute ->

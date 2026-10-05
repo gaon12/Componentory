@@ -26,4 +26,12 @@ internal object SampleTimes {
             .apply { timeZone = TimeZone.getTimeZone("UTC") }
             .format(Date(minutes * 60_000L))
     }
+
+    fun formatElapsed(millis: Long): String {
+        val totalSeconds = millis.coerceAtLeast(0) / 1000
+        val hours = totalSeconds / 3600
+        val minutes = totalSeconds % 3600 / 60
+        val seconds = totalSeconds % 60
+        return "%d:%02d:%02d".format(hours, minutes, seconds)
+    }
 }

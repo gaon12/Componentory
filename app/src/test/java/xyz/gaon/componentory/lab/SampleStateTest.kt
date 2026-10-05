@@ -231,6 +231,28 @@ class SampleStateTest {
     }
 
     @Test
+    fun savedPanelsKeepChronometerAnchorAndOlderBundlesDefaultToStopped() {
+        val state = SampleState(initialValue = 1, initialChronometerBaseMillis = 1_700_000_000_000)
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val bundle = requireNotNull(with(SampleState.Saver) { scope.save(state) })
+        val restored = requireNotNull(SampleState.Saver.restore(bundle))
+        assertEquals(1, restored.value)
+        assertEquals(1_700_000_000_000, restored.chronometerBaseMillis)
+        // Bundles saved before the field existed restart the clock safely.
+        val sixteenField =
+            requireNotNull(
+                @Suppress("UNCHECKED_CAST")
+                SampleState.Saver.restore((bundle as List<Any>).dropLast(1))
+            )
+        assertEquals(1, sixteenField.value)
+        assertEquals(0, sixteenField.chronometerBaseMillis)
+    }
+
+    @Test
     fun savedPlainContainerKeepsItsModeAndPreviousClickCount() {
         val state = SampleState(initialValue = 3, initialContainerClickable = false)
         val scope =

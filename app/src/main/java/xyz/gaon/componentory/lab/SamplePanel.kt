@@ -181,8 +181,9 @@ fun SamplePanel(
                     }
             }
             if (
-                (component == LabComponent.TIME_PICKER_DIALOG || component.isInlineTime) &&
-                    unsupported == null
+                (component == LabComponent.TIME_PICKER_DIALOG ||
+                    component.isInlineTime ||
+                    component == LabComponent.TEXT_CLOCK) && unsupported == null
             ) {
                 val label = stringResource(R.string.time_24_hour)
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -274,6 +275,7 @@ fun SamplePanel(
                             state.dateUtcMillis,
                             state.timeMinutes,
                             state.time24Hour,
+                            state.chronometerBaseMillis,
                         ),
                     modifier = Modifier.testTag("status_$panel"),
                     style = MaterialTheme.typography.titleMedium,
@@ -298,6 +300,33 @@ fun SamplePanel(
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
+            }
+            if (component == LabComponent.TEXT_CLOCK && unsupported == null) {
+                Text(
+                    stringResource(R.string.text_clock_note),
+                    modifier = Modifier.testTag("clock_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            if (
+                (component == LabComponent.ANALOG_CLOCK ||
+                    component == LabComponent.DIGITAL_CLOCK) && unsupported == null
+            ) {
+                Text(
+                    stringResource(
+                        R.string.clock_deprecated_note,
+                        if (component == LabComponent.ANALOG_CLOCK) 23 else 17,
+                    ),
+                    modifier = Modifier.testTag("clock_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            if (component == LabComponent.CHRONOMETER && unsupported == null) {
+                Text(
+                    stringResource(R.string.chronometer_note),
+                    modifier = Modifier.testTag("clock_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
             if (component.isInlineTime && unsupported == null) {
                 Text(

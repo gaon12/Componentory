@@ -338,4 +338,23 @@
     <string name="inline_time_note">Changes apply immediately. Default setup is 10:30 in 24-hour format. The value is a time of day, not a timestamp.</string>
     <string name="inline_time_enabled_note">These library controls have no Enabled parameter. They remain interactive when Enabled is off.</string>
     <string name="native_time_enabled_note">Enabled uses the original TimePicker API. Internal controls follow this device implementation.</string>
+    <string name="component_text_clock">Text clock</string>
+    <string name="component_text_clock_description">Show the live device time with the original TextClock widget from the selected theme.</string>
+    <string name="component_analog_clock">Analog clock</string>
+    <string name="component_analog_clock_description">The original analog clock face. Deprecated since API 23; the framework still renders it with the theme\'s dial drawables.</string>
+    <string name="component_digital_clock">Digital clock</string>
+    <string name="component_digital_clock_description">The original digital clock. Deprecated since API 17; the framework still renders it as a ticking text display.</string>
+    <string name="component_chronometer">Chronometer</string>
+    <string name="component_chronometer_description">A counting timer driven by the original Chronometer widget with framework buttons.</string>
+    <string name="status_clock_format">Clock format: %1$s</string>
+    <string name="clock_format_24">24-hour</string>
+    <string name="clock_format_12">12-hour</string>
+    <string name="status_chronometer_running">Chronometer: running</string>
+    <string name="status_chronometer_stopped">Chronometer: stopped at %1$s</string>
+    <string name="chronometer_start">Start</string>
+    <string name="chronometer_stop">Stop</string>
+    <string name="chronometer_reset">Reset</string>
+    <string name="text_clock_note">Shows the current device time and updates itself. The 24-hour switch pins both format fields so the display follows this sample, not the system setting.</string>
+    <string name="chronometer_note">Start, Stop and Reset drive the original Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.</string>
+    <string name="clock_deprecated_note">Deprecated since API %1$d. The framework still supplies and renders it; Compose libraries have no replacement.</string>
 </resources>

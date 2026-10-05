@@ -261,6 +261,43 @@ enum class LabComponent(
         material3Function = "TimePickerDialog",
         category = ComponentCategory.PICKER,
     ),
+    TEXT_CLOCK(
+        "Text clock",
+        R.string.component_text_clock,
+        R.string.component_text_clock_description,
+        platformSource = "android.widget.TextClock",
+        material2Function = null,
+        material3Function = null,
+        minimumApi = 17,
+        category = ComponentCategory.CONTENT,
+    ),
+    ANALOG_CLOCK(
+        "Analog clock",
+        R.string.component_analog_clock,
+        R.string.component_analog_clock_description,
+        platformSource = "android.widget.AnalogClock",
+        material2Function = null,
+        material3Function = null,
+        category = ComponentCategory.LEGACY,
+    ),
+    DIGITAL_CLOCK(
+        "Digital clock",
+        R.string.component_digital_clock,
+        R.string.component_digital_clock_description,
+        platformSource = "android.widget.DigitalClock",
+        material2Function = null,
+        material3Function = null,
+        category = ComponentCategory.LEGACY,
+    ),
+    CHRONOMETER(
+        "Chronometer",
+        R.string.component_chronometer,
+        R.string.component_chronometer_description,
+        platformSource = "android.widget.Chronometer",
+        material2Function = null,
+        material3Function = null,
+        category = ComponentCategory.CONTENT,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -663,6 +700,9 @@ enum class LabComponent(
     val isInlineTime: Boolean
         get() = this == TIME_PICKER || this == TIME_INPUT
 
+    val isClockDisplay: Boolean
+        get() = this in listOf(TEXT_CLOCK, ANALOG_CLOCK, DIGITAL_CLOCK)
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -714,11 +754,30 @@ enum class LabComponent(
         dateUtcMillis: Long = SampleDates.INITIAL_UTC_MILLIS,
         timeMinutes: Int = SampleTimes.INITIAL_MINUTES,
         time24Hour: Boolean = true,
+        chronometerBaseMillis: Long = 0,
     ): String {
         val empty = context.getString(R.string.sample_state_empty)
         return when {
-            isDivider || this == DOT_BADGE || this == TEXT ->
+            isDivider ||
+                this == DOT_BADGE ||
+                this == TEXT ||
+                this == ANALOG_CLOCK ||
+                this == DIGITAL_CLOCK ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
+            this == TEXT_CLOCK ->
+                context.getString(
+                    R.string.status_clock_format,
+                    context.getString(
+                        if (time24Hour) R.string.clock_format_24 else R.string.clock_format_12
+                    ),
+                )
+            this == CHRONOMETER ->
+                if (value == 1) context.getString(R.string.status_chronometer_running)
+                else
+                    context.getString(
+                        R.string.status_chronometer_stopped,
+                        SampleTimes.formatElapsed(chronometerBaseMillis),
+                    )
             isCountedBadge -> context.getString(R.string.status_badge, value)
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)

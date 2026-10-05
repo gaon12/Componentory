@@ -40,6 +40,55 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun standaloneClocksUseOnlyFrameworkSuppliersWithTheirRealApiLevels() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        val clocks =
+            mapOf(
+                LabComponent.TEXT_CLOCK to ("android.widget.TextClock" to 17),
+                LabComponent.ANALOG_CLOCK to ("android.widget.AnalogClock" to 1),
+                LabComponent.DIGITAL_CLOCK to ("android.widget.DigitalClock" to 1),
+                LabComponent.CHRONOMETER to ("android.widget.Chronometer" to 1),
+            )
+        clocks.forEach { (component, metadata) ->
+            val (source, minimumApi) = metadata
+            platform.forEach { family ->
+                if (minimumApi > 1)
+                    assertNotNull(family.unsupportedReason(component, minimumApi - 1))
+                assertNull(family.unsupportedReason(component, minimumApi))
+                assertNull(family.unsupportedReason(component, 36))
+                assertEquals(source, family.source(component))
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertTrue(component.matchesSearch(source))
+        }
+        assertEquals(17, LabComponent.TEXT_CLOCK.minimumApi)
+        assertEquals(ComponentCategory.CONTENT, LabComponent.TEXT_CLOCK.category)
+        assertEquals(ComponentCategory.CONTENT, LabComponent.CHRONOMETER.category)
+        assertEquals(ComponentCategory.LEGACY, LabComponent.ANALOG_CLOCK.category)
+        assertEquals(ComponentCategory.LEGACY, LabComponent.DIGITAL_CLOCK.category)
+    }
+
+    @Test
+    fun clockSearchDoesNotInventLibrarySources() {
+        listOf(
+                LabComponent.TEXT_CLOCK,
+                LabComponent.ANALOG_CLOCK,
+                LabComponent.DIGITAL_CLOCK,
+                LabComponent.CHRONOMETER,
+            )
+            .forEach { component ->
+                assertTrue(component.matchesSearch(component.platformSource!!))
+                assertFalse(component.matchesSearch("androidx.compose.material.Clock"))
+                assertFalse(component.matchesSearch("androidx.compose.material3.Clock"))
+            }
+        assertFalse(LabComponent.TEXT_CLOCK.matchesSearch("android.widget.Chronometer"))
+        assertFalse(LabComponent.CHRONOMETER.matchesSearch("android.widget.TextClock"))
+    }
+
+    @Test
     fun textSamplesUseActualSuppliersAndKeepCheckedTextFrameworkOnly() {
         DesignFamily.entries.forEach { family ->
             assertNull(family.unsupportedReason(LabComponent.TEXT, 24))
