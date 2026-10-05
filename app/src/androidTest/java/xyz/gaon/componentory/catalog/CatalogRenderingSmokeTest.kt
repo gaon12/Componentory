@@ -140,14 +140,14 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 36, 37)
+        verifyFamily(DesignFamily.CLASSIC, 36, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 36, 37)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 36, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 36, 37)
+        verifyFamily(DesignFamily.MATERIAL, 36, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
@@ -155,7 +155,7 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 60, 22)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 21)
 
     private fun verifyFamily(
         family: DesignFamily,
