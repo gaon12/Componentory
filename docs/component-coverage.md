@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**69 component entries**, with **169 runnable component/family combinations**.
+**71 component entries**, with **174 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -136,13 +136,24 @@ list without forcing the input editor to fill an unnecessarily tall viewport.
 These layout decisions are implemented source, not physical usability evidence.
 
 Time picker dialogs add four combinations using the exact framework
-`android.app.TimePickerDialog` or Material 3 TimePickerDialog. The framework's
-TimePicker and the library's TimePicker and TimeInput are supporting sources
-inside these dialogs; standalone inline time samples are not claimed. Material 2
+`android.app.TimePickerDialog` or Material 3 TimePickerDialog. Material 2
 has no dedicated supplier. Each panel starts at 10:30 and keeps committed time,
 open drafts, and the 12/24-hour setting separate. Material 3 retains its input
 mode across recreation and uses text input when the host window is at most the
 library's 300 dp height breakpoint. The explanatory note stays outside the modal.
+
+Two standalone entries add five combinations through the same three audited
+sources: inline TimePicker uses framework `android.widget.TimePicker` in the
+three platform themes or Material 3 `TimePicker`, and TimeInput uses Material 3
+`TimeInput` alone. The framework families and Material 2 report explicit
+unsupported reasons for the missing inline input. The native widget is built
+inside the selected theme with only public `setIs24HourView`, `hour`, `minute`
+and `OnTimeChangedListener` APIs. Material 3 rebuilds its original control when
+the format flag changes because `is24Hour` is an initialization argument, and
+keeps the library's lack of an enabled parameter visible rather than inventing
+one. Inline edits apply immediately as civil minutes; copying transfers the
+selected time and format only, never dialog drafts, input modes, or action
+history.
 
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
@@ -215,7 +226,7 @@ resources are kept in the app bundle for offline switching.
 
 ## Next implementation groups
 
-1. Standalone time controls and remaining pickers.
+1. Remaining pickers and date/time variants.
 2. Lists, images, remaining text variants, and legacy content controls.
 3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
@@ -228,11 +239,52 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `a0cc043`. Spotless and lint passed in 1 minute 29 seconds
-with zero errors and 16 existing warnings. All 78 JVM tests actually executed
-again and passed without failures, errors or skips; result timestamps are
-October 4, 2026 at 22:39:30 UTC. Both debug APKs built in 31 seconds and installed.
-Gradle reported one daemon stopped afterward. The logs are
+Latest implementation: `381794a`, preceded by the instrumentation repair in
+`34ceff1`. Spotless and lint pass with zero errors. All 82 JVM tests actually
+executed and passed without failures, errors or skips. Both debug APKs build:
+the app APK is 19,683,635 bytes with SHA-256
+`7f02abcf4f45098a80d4e3c0ad80dece9fae5d71bb571df7386b174e10a752fb` and the test
+APK is 1,387,166 bytes with SHA-256
+`2ce15552cada8410bf84a2018ab6d08d010cbb352dc060fdfad0e3b989c5450e`.
+
+Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
+compile. They cover the real framework `TimePicker` and Material 3
+`TimePicker`/`TimeInput` suppliers, the configured 10:30 24-hour start,
+12/24-hour switching, Material 3's absent enabled parameter, civil-minute state,
+copying without shared editors, recreation, five locales, and bounded host
+widths. They are authored assertions awaiting a clean device run.
+
+The catalog now declares 71 entries and 174 supported combinations. The smoke
+sweep spans 355 cells: 168 supported and 181 unsupported ordinary cells; the
+six native animated cells use the separate UiAutomation scope.
+
+A device instrumentation attempt ran `.local/device-runs/20261005T103758416Z-abf2e279/`
+on the Samsung SM-X800 (Android 16, API 36, build `BP2A.250605.031.A3`,
+1752×2800 at 340 dpi, font scale 1.0). 107 of the 134 selected tests started;
+the stream recorded 73 pass and 34 failure results before the secure keyguard
+returned mid-run and the test process crashed during
+`fiveLanguagesLocalizeProviderGuidanceBeforeTheSampleWhileKeepingApiIdentity`.
+The attempt cannot be described as passing. Thirty-one failures traced to a
+suite-wide assertion defect: the resolved Compose UI test version defaults
+`assertTextContains` to exact equality while the tests intended substring
+matching, and the catalog smoke cells wrapped the same defect. The remaining
+three were independent test bugs — an unsupported right provider in the
+date-range copy test, a displayed-text matcher for the spinner day field, and a
+stale accessibility node in the animated progress sweep. `34ceff1` repairs all
+of them, so the failed run is evidence of test defects rather than product
+regressions; the repaired suite, including the six new inline-time scenarios,
+still requires a clean run on the unlocked device. The resource-only
+`packagedInventoryRetainsAuditedSourcesAndStatuses` test did pass in that run,
+verifying the new `TIME_PICKER` and `TIME_INPUT` catalog identifiers in the
+packaged inventory.
+
+### Earlier verification milestones
+
+Typography isolation milestone: `a0cc043`. Spotless and lint passed in 1 minute
+29 seconds with zero errors and 16 existing warnings. All 78 JVM tests actually
+executed again and passed without failures, errors or skips; result timestamps
+are October 4, 2026 at 22:39:30 UTC. Both debug APKs built in 31 seconds and
+installed. Gradle reported one daemon stopped afterward. The logs are
 `.local/typography-isolation-format-lint.txt`,
 `.local/typography-isolation-tests-build.txt`,
 `.local/typography-isolation-unit-results.json` and
@@ -244,8 +296,8 @@ production Material 3 Text renderer under a caller with Serif, 42 sp text and
 library typography, including font family, metrics and paragraph/platform
 fields. This is an authored rendering regression awaiting device execution.
 
-The catalog still declares 69 entries and 169 supported combinations. The
-ordinary smoke scope remains 163 supported and 176 unsupported cells, or 339 of
+The catalog then declared 69 entries and 169 supported combinations. The
+ordinary smoke scope remained 163 supported and 176 unsupported cells, or 339 of
 the 345 cells; six native animated cells use the separate existing test. The
 latest normal 98-test scope across 21 classes installed both APKs but stopped at
 the secure-keyguard guard before instrumentation. None executed. The separate
@@ -255,9 +307,9 @@ Attempt, raw keyguard state and declared scope are retained in
 `.local/typography-isolation-keyguard-state.txt` and
 `.local/typography-isolation-declared-test-scope.json`.
 
-The latest app APK is 19,676,899 bytes with SHA-256:
+The milestone app APK is 19,676,899 bytes with SHA-256:
 `2c66d2ecd2ce7c09105d112fa0b8b8b9770d2671124d7a325d4ccf942958bf36`.
-The latest test APK is 1,391,905 bytes with SHA-256:
+The milestone test APK is 1,391,905 bytes with SHA-256:
 `1f55c9d065dcc722ae77c9316c7d23106f7f747f1db2853b784a5b0e8b65a9e9`.
 Identities are retained in `.local/typography-isolation-apk-hashes.json`.
 `.local/typography-isolation-inventory-identity.json` confirms that the latest
@@ -266,8 +318,6 @@ runtime digest below. No resource tests reran for this fix. The older
 two-test resource result and its hashes belong to the text milestone below;
 they are not a test of these latest binaries. No new renderer, interaction,
 capture or historical OS pass is claimed.
-
-### Earlier verification milestones
 
 Text milestone: `96dea3f`. Spotless and lint passed with zero errors and
 16 existing warnings in 2 minutes 45 seconds. All 78 JVM tests actually executed

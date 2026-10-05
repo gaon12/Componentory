@@ -7,7 +7,7 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 69 implemented components by translated name or description,
+- **List:** Search 71 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
   Switch to Planned APIs to inspect 123 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
@@ -35,6 +35,12 @@ and the original range calendar has a finite height that grows with font size.
 Time picker dialogs also use genuine framework and Material 3 suppliers, with
 12/24-hour settings and the library's clock and text input modes. Confirmed times
 stay separate from open drafts. Live samples appear before icon and time settings.
+Standalone TimePicker uses the framework widget in the three platform themes or
+the Material 3 clock; TimeInput uses the Material 3 text-entry control, while
+framework families and Material 2 explain their missing suppliers. Inline edits
+apply the committed time immediately and store civil minutes rather than a
+timestamp. The framework control follows host Enabled; the library controls have
+no enabled parameter and say so.
 Card and Surface use both libraries' genuine clickable and plain overloads.
 Material 3 also provides ElevatedCard and OutlinedCard. Each panel keeps its own
 mode and click count; plain containers explain their lack of an enabled state.
@@ -82,18 +88,19 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `a0cc043` pass formatting, lint, all 78 executed JVM tests,
-and both APK builds. Five text UI scenarios compile, including a conflicting
-host-font regression. The earlier text milestone passed two inventory-only tests;
-those resource tests did not rerun for the theme fix. The authored catalog smoke
-tests cover 163 supported and 176 unsupported ordinary cells.
-The six native animated cells use a separate existing test. The latest normal
-98-test UI attempt stopped at the secure-keyguard guard before instrumentation;
-none ran. The separate animation scope was not attempted while the device stayed
-locked. Resource checks supply no rendering or interaction pass.
+The latest checks for `381794a` pass formatting, lint, all 82 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 168 supported
+and 181 unsupported ordinary cells; the six native animated cells use a separate
+existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
+passes and 34 failures before the secure keyguard returned and the test process
+crashed, so it cannot be described as passing. Nearly every failure traced to a
+suite-wide assertion defect: the resolved Compose UI test version defaults
+`assertTextContains` to exact equality, while the tests intended substring
+matching. That defect plus three unrelated test bugs are repaired in `34ceff1`.
 Catalog rendering, comparison state, the Planned view, provider selection,
-accessibility, text, inline dates, date/time dialogs, cards, surfaces, popup menus,
-input copying, and the preview reorder still require unlocked UI verification. The
+accessibility, text, inline dates, inline time, date/time dialogs, cards,
+surfaces, popup menus, input copying, and the preview reorder still require a
+clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
 The prototype does not yet store or export experiment history, and no original
@@ -156,7 +163,7 @@ do not verify rendering, navigation, touch behavior, or historical appearance.
 
 The catalog smoke class checks current-device rendering, provider identity,
 original dialog and menu windows, and explicit unsupported reasons. Its five
-tests cover 339 of the 345 component/provider cells. Run
+tests cover 349 of the 355 component/provider cells. Run
 `xyz.gaon.componentory.lab.NativeProgressIndicatorsTest` separately for the six
 animated framework cells. It uses UiAutomation with animator scale 1.0; the
 ordinary Espresso sweep excludes continuously animated native controls.
