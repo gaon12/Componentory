@@ -130,10 +130,18 @@ private constructor(
                         state.dateUtcMillis
                     else null,
                 timeMinutes =
-                    if (supported && component == LabComponent.TIME_PICKER_DIALOG) state.timeMinutes
+                    if (
+                        supported &&
+                            (component == LabComponent.TIME_PICKER_DIALOG || component.isInlineTime)
+                    )
+                        state.timeMinutes
                     else null,
                 time24Hour =
-                    if (supported && component == LabComponent.TIME_PICKER_DIALOG) state.time24Hour
+                    if (
+                        supported &&
+                            (component == LabComponent.TIME_PICKER_DIALOG || component.isInlineTime)
+                    )
+                        state.time24Hour
                     else null,
                 containerClickable =
                     if (supported && component.isContainer) state.containerClickable else null,

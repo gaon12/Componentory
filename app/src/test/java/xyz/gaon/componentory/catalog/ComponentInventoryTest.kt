@@ -11,12 +11,29 @@ import xyz.gaon.componentory.lab.LabComponent
 
 class ComponentInventoryTest {
     @Test
-    fun textCoverageAddsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
+    fun standaloneTimeControlsReuseCanonicalRowsWithoutInflatingSourceCounts() {
+        val rows = inventory()
+        mapOf(
+                "android.widget.TimePicker" to "TIME_PICKER",
+                "androidx.compose.material3.TimePicker" to "TIME_PICKER",
+                "androidx.compose.material3.TimeInput" to "TIME_INPUT",
+            )
+            .forEach { (source, sampleId) ->
+                val row = rows.single { it.source == source }
+                assertEquals("Implemented", row.status)
+                assertEquals(listOf(sampleId, "TIME_PICKER_DIALOG"), row.catalogIds)
+                assertEquals(if (row.provider == "PLATFORM") "1" else "", row.apiIntroduced)
+                assertTrue(row.notes.startsWith("Standalone inline sample and interactive"))
+            }
+    }
+
+    @Test
+    fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(69, LabComponent.entries.size)
+        assertEquals(71, LabComponent.entries.size)
         assertEquals(
-            169,
+            174,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null

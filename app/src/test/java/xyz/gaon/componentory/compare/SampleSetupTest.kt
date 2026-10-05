@@ -15,6 +15,100 @@ import xyz.gaon.componentory.lab.SampleState
 
 class SampleSetupTest {
     @Test
+    fun standaloneTimesCopyMidnightNoonAndDayEndWithTheirFormatOnly() {
+        listOf(LabComponent.TIME_PICKER, LabComponent.TIME_INPUT).forEach { component ->
+            val families =
+                DesignFamily.entries.filter { it.unsupportedReason(component, API) == null }
+            listOf(0, 720, 1439).forEach { minutes ->
+                listOf(false, true).forEach { format ->
+                    val source =
+                        SampleState(
+                            initialValue = 4,
+                            initialText = "uncommitted editor text",
+                            initialTimeMinutes = minutes,
+                            initialTime24Hour = format,
+                            initialTimeDraftMinutes = 77,
+                            initialTimeInputMode = true,
+                            initialDateDraftUtcMillis = SampleDates.utcMillis(2025, 12, 25),
+                        )
+                    families.forEach { sourceFamily ->
+                        val captured = SampleSetup.capture(component, sourceFamily, source, API)
+                        assertEquals(
+                            setOf("component", "family", "time", "time24Hour"),
+                            captured.savedValues().keys,
+                        )
+                        val restored = requireNotNull(SampleSetup.restore(captured.savedValues()))
+                        families.forEach { targetFamily ->
+                            val target = requireNotNull(restored.copyTo(targetFamily, API).state)
+                            assertNotSame(source, target)
+                            assertEquals(minutes, target.timeMinutes)
+                            assertEquals(format, target.time24Hour)
+                            assertEquals(component.initialValue, target.value)
+                            assertEquals("", target.text)
+                            assertNull(target.timeDraftMinutes)
+                            assertFalse(target.timeInputMode)
+                            assertNull(target.dateDraftUtcMillis)
+                            target.timeMinutes = (minutes + 1) % 1440
+                            target.time24Hour = !format
+                            assertEquals(minutes, source.timeMinutes)
+                            assertEquals(format, source.time24Hour)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun standaloneTimeCopiesRejectUnsupportedDirectionsAndSanitizeRestoredFields() {
+        listOf(LabComponent.TIME_PICKER, LabComponent.TIME_INPUT).forEach { component ->
+            DesignFamily.entries.forEach { family ->
+                val restored =
+                    requireNotNull(
+                        SampleSetup.restore(
+                            mapOf(
+                                "component" to component.name,
+                                "family" to family.name,
+                                "time" to 0,
+                                "time24Hour" to false,
+                                "value" to 2,
+                                "text" to "unrelated observation",
+                                "icon" to "unrelated icon",
+                                "date" to 10L,
+                                "containerClickable" to false,
+                            )
+                        )
+                    )
+                if (family.unsupportedReason(component, API) != null) {
+                    assertEquals(setOf("component", "family"), restored.savedValues().keys)
+                    val result = restored.copyTo(DesignFamily.MATERIAL3, API)
+                    assertNull(result.state)
+                    assertEquals(SetupCopyReason.SOURCE_UNSUPPORTED, result.reason)
+                } else {
+                    assertEquals(
+                        setOf("component", "family", "time", "time24Hour"),
+                        restored.savedValues().keys,
+                    )
+                    DesignFamily.entries
+                        .filter { it.unsupportedReason(component, API) != null }
+                        .forEach { target ->
+                            val result = restored.copyTo(target, API)
+                            assertNull(result.state)
+                            assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                        }
+                    val copy = requireNotNull(restored.copyTo(DesignFamily.MATERIAL3, API).state)
+                    assertEquals(0, copy.timeMinutes)
+                    assertFalse(copy.time24Hour)
+                    assertEquals(0, copy.value)
+                    assertEquals("", copy.text)
+                    assertEquals("", copy.icon)
+                    assertTrue(copy.containerClickable)
+                }
+            }
+        }
+    }
+
+    @Test
     fun checkedTextConfigurationCopiesUncheckedAndCheckedWithoutUnrelatedHistory() {
         val families = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
         listOf(0, 1).forEach { checked ->

@@ -327,4 +327,12 @@
     <string name="checked_text_config_label">체크 상태</string>
     <string name="checked_text_configuration_note">테마의 다중 선택 표시가 있으면 사용합니다. 체크 상태 설정으로 상태를 변경하세요. 텍스트를 눌러도 자동으로 바뀌지 않습니다.</string>
     <string name="checked_text_missing_mark">이 테마에는 다중 선택 표시용 드로어블이 없습니다. 체크 상태는 결과 표시에서 계속 확인할 수 있습니다.</string>
+    <string name="component_time_picker">시간 선택기</string>
+    <string name="component_time_picker_description">선택한 테마나 라이브러리의 원본 선택기로 시간을 바로 선택합니다.</string>
+    <string name="component_time_input">시간 입력기</string>
+    <string name="component_time_input_description">Material 3의 원본 시간 입력 필드에 시간을 바로 입력합니다.</string>
+    <string name="status_inline_time">선택한 시간: %1$s</string>
+    <string name="inline_time_note">변경하면 바로 적용됩니다. 기본 설정은 24시간 표시의 10:30입니다. 값은 하루 중 시간이며 타임스탬프가 아닙니다.</string>
+    <string name="inline_time_enabled_note">이 라이브러리 컨트롤에는 Enabled 매개변수가 없습니다. 사용 설정을 꺼도 계속 조작할 수 있습니다.</string>
+    <string name="native_time_enabled_note">사용 설정은 원본 TimePicker API로 적용합니다. 내부 컨트롤의 동작은 이 기기의 구현을 따릅니다.</string>
 </resources>

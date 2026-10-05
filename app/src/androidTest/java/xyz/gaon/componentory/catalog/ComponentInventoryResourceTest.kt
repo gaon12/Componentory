@@ -94,25 +94,24 @@ class ComponentInventoryResourceTest {
         assertEquals(InventoryStatus.IMPLEMENTED, dateRange.status)
         assertEquals(listOf("DATE_RANGE_PICKER"), dateRange.catalogIds)
         assertNull(dateRange.apiIntroduced)
-        listOf(
-                "android.app.TimePickerDialog",
-                "android.widget.TimePicker",
-                "androidx.compose.material3.TimePickerDialog",
-                "androidx.compose.material3.TimePicker",
-                "androidx.compose.material3.TimeInput",
-            )
+        listOf("android.app.TimePickerDialog", "androidx.compose.material3.TimePickerDialog")
             .forEach { source ->
                 val time = entries.single { it.source == source }
                 assertEquals(InventoryStatus.IMPLEMENTED, time.status)
                 assertEquals(listOf("TIME_PICKER_DIALOG"), time.catalogIds)
             }
-        listOf(
-                "android.widget.TimePicker",
-                "androidx.compose.material3.TimePicker",
-                "androidx.compose.material3.TimeInput",
+        mapOf(
+                "android.widget.TimePicker" to "TIME_PICKER",
+                "androidx.compose.material3.TimePicker" to "TIME_PICKER",
+                "androidx.compose.material3.TimeInput" to "TIME_INPUT",
             )
-            .forEach { source ->
-                assertTrue(entries.single { it.source == source }.notes.isNotBlank())
+            .forEach { (source, catalogId) ->
+                val time = entries.single { it.source == source }
+                assertEquals(InventoryStatus.IMPLEMENTED, time.status)
+                assertEquals(listOf(catalogId, "TIME_PICKER_DIALOG"), time.catalogIds)
+                assertTrue(time.notes.startsWith("Standalone inline sample and interactive"))
+                if (time.family == InventoryFamily.PLATFORM) assertEquals(1, time.apiIntroduced)
+                else assertNull(time.apiIntroduced)
             }
         mapOf(
                 "androidx.compose.material.Card" to "CARD",

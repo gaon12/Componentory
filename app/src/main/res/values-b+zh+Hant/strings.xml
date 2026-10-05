@@ -327,4 +327,12 @@
     <string name="checked_text_config_label">勾選狀態</string>
     <string name="checked_text_configuration_note">主題提供多選勾選標記時會使用該標記。請透過勾選狀態設定變更狀態。點選文字不會自動切換狀態。</string>
     <string name="checked_text_missing_mark">此主題沒有可用的多選勾選標記 Drawable。仍可在回饋中查看勾選狀態。</string>
+    <string name="component_time_picker">時間選擇器</string>
+    <string name="component_time_picker_description">直接使用所選主題或函式庫的原始選擇器選擇時間。</string>
+    <string name="component_time_input">時間輸入</string>
+    <string name="component_time_input_description">直接在 Material 3 的原始時間輸入欄位中輸入時間。</string>
+    <string name="status_inline_time">所選時間: %1$s</string>
+    <string name="inline_time_note">變更會立即套用。預設設定為24小時制的10:30。此值是一天中的時間，而不是時間戳記。</string>
+    <string name="inline_time_enabled_note">這些函式庫控制項沒有 Enabled 參數。關閉啟用設定後仍可操作。</string>
+    <string name="native_time_enabled_note">啟用設定使用原始 TimePicker API。內部控制項的行為取決於此裝置的實作。</string>
 </resources>

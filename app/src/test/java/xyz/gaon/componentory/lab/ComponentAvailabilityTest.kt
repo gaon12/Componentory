@@ -9,6 +9,37 @@ import org.junit.Test
 
 class ComponentAvailabilityTest {
     @Test
+    fun standaloneTimeControlsUseActualFrameworkAndMaterial3Suppliers() {
+        DesignFamily.entries.forEach { family ->
+            val clockSupported = family != DesignFamily.MATERIAL2
+            assertEquals(
+                clockSupported,
+                family.unsupportedReason(LabComponent.TIME_PICKER, 24) == null,
+            )
+            assertEquals(
+                family == DesignFamily.MATERIAL3,
+                family.unsupportedReason(LabComponent.TIME_INPUT, 24) == null,
+            )
+            assertEquals(
+                when {
+                    family.platform != null -> "android.widget.TimePicker"
+                    family == DesignFamily.MATERIAL3 -> "androidx.compose.material3.TimePicker"
+                    else -> "Not provided"
+                },
+                family.source(LabComponent.TIME_PICKER),
+            )
+            assertEquals(
+                if (family == DesignFamily.MATERIAL3) "androidx.compose.material3.TimeInput"
+                else "Not provided",
+                family.source(LabComponent.TIME_INPUT),
+            )
+        }
+        assertEquals(1, LabComponent.TIME_PICKER.minimumApi)
+        assertEquals(ComponentCategory.PICKER, LabComponent.TIME_PICKER.category)
+        assertEquals(ComponentCategory.PICKER, LabComponent.TIME_INPUT.category)
+    }
+
+    @Test
     fun textSamplesUseActualSuppliersAndKeepCheckedTextFrameworkOnly() {
         DesignFamily.entries.forEach { family ->
             assertNull(family.unsupportedReason(LabComponent.TEXT, 24))

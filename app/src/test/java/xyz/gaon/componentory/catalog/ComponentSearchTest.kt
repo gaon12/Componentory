@@ -28,12 +28,21 @@ class ComponentSearchTest {
     }
 
     @Test
-    fun timeDialogIsSearchableByItsInteractiveSupportingApis() {
-        assertEquals(listOf(LabComponent.TIME_PICKER_DIALOG), search("android.widget.TimePicker"))
+    fun timeControlsAndTheirDialogAreSearchableByGenuineInteractiveSources() {
         assertEquals(
-            listOf(LabComponent.TIME_PICKER_DIALOG),
+            listOf(LabComponent.TIME_PICKER, LabComponent.TIME_PICKER_DIALOG),
+            search("android.widget.TimePicker"),
+        )
+        assertEquals(
+            listOf(LabComponent.TIME_INPUT, LabComponent.TIME_PICKER_DIALOG),
             search("androidx.compose.material3.TimeInput"),
         )
+        assertEquals(
+            listOf(LabComponent.TIME_PICKER, LabComponent.TIME_PICKER_DIALOG),
+            search("androidx.compose.material3.TimePicker"),
+        )
+        assertEquals(emptyList<LabComponent>(), search("androidx.compose.material.TimePicker"))
+        assertEquals(emptyList<LabComponent>(), search("android.widget.TimeInput"))
     }
 
     @Test

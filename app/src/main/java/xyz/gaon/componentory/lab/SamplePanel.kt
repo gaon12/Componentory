@@ -180,13 +180,16 @@ fun SamplePanel(
                         }
                     }
             }
-            if (component == LabComponent.TIME_PICKER_DIALOG && unsupported == null) {
+            if (
+                (component == LabComponent.TIME_PICKER_DIALOG || component.isInlineTime) &&
+                    unsupported == null
+            ) {
                 val label = stringResource(R.string.time_24_hour)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Switch(
                         checked = state.time24Hour,
                         onCheckedChange = { state.time24Hour = it },
-                        enabled = enabled,
+                        enabled = component.isInlineTime || enabled,
                         modifier =
                             Modifier.testTag("time_24_hour_$panel").semantics {
                                 contentDescription = label
@@ -295,6 +298,21 @@ fun SamplePanel(
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
+            }
+            if (component.isInlineTime && unsupported == null) {
+                Text(
+                    stringResource(R.string.inline_time_note),
+                    modifier = Modifier.testTag("time_configuration_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Text(
+                    stringResource(
+                        if (platform == null) R.string.inline_time_enabled_note
+                        else R.string.native_time_enabled_note
+                    ),
+                    modifier = Modifier.testTag("time_enabled_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
             }
             if (component == LabComponent.TEXT && platform == null && unsupported == null) {
                 Text(

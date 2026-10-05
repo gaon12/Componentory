@@ -49,6 +49,9 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.DATE_PICKER,
                 LabComponent.DATE_RANGE_PICKER ->
                     Material3InlineDateSample(component, panel, sample, state)
+                LabComponent.TIME_PICKER,
+                LabComponent.TIME_INPUT ->
+                    Material3InlineTimeSample(component, panel, sample, state)
                 LabComponent.POPUP_MENU -> Material3PopupMenuSample(panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.ELEVATED_CARD,

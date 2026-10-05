@@ -237,6 +237,21 @@ enum class LabComponent(
         material3Function = "DatePickerDialog",
         category = ComponentCategory.PICKER,
     ),
+    TIME_PICKER(
+        "Time picker",
+        R.string.component_time_picker,
+        R.string.component_time_picker_description,
+        platformSource = "android.widget.TimePicker",
+        material3Function = "TimePicker",
+        category = ComponentCategory.PICKER,
+    ),
+    TIME_INPUT(
+        "Time input",
+        R.string.component_time_input,
+        R.string.component_time_input_description,
+        material3Function = "TimeInput",
+        category = ComponentCategory.PICKER,
+    ),
     TIME_PICKER_DIALOG(
         "Time picker dialog",
         R.string.component_time_picker_dialog,
@@ -645,6 +660,9 @@ enum class LabComponent(
     val isContainer: Boolean
         get() = this in listOf(CARD, ELEVATED_CARD, OUTLINED_CARD, SURFACE)
 
+    val isInlineTime: Boolean
+        get() = this == TIME_PICKER || this == TIME_INPUT
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -780,18 +798,21 @@ enum class LabComponent(
                     SampleDates.format(dateUtcMillis, context.resources.configuration.locales[0]),
                     context.getString(dialogAction(value)),
                 )
-            this == TIME_PICKER_DIALOG -> {
+            this == TIME_PICKER_DIALOG || isInlineTime -> {
                 val locale = context.resources.configuration.locales[0]
                 val pattern =
                     android.text.format.DateFormat.getBestDateTimePattern(
                         locale,
                         if (time24Hour) "Hm" else "hm",
                     )
-                context.getString(
-                    R.string.status_time_action,
-                    SampleTimes.format(timeMinutes, locale, pattern),
-                    context.getString(dialogAction(value)),
-                )
+                val formatted = SampleTimes.format(timeMinutes, locale, pattern)
+                if (isInlineTime) context.getString(R.string.status_inline_time, formatted)
+                else
+                    context.getString(
+                        R.string.status_time_action,
+                        formatted,
+                        context.getString(dialogAction(value)),
+                    )
             }
             this == DIALOG ->
                 context.getString(R.string.status_action, context.getString(dialogAction(value)))

@@ -330,4 +330,12 @@
     <string name="checked_text_config_label">Checked</string>
     <string name="checked_text_configuration_note">Uses the theme\'s multiple-choice check mark when available. Use Checked to change the state. Tapping the text does not toggle it.</string>
     <string name="checked_text_missing_mark">No multiple-choice check mark drawable is available in this theme. The checked value remains visible in feedback.</string>
+    <string name="component_time_picker">Time picker</string>
+    <string name="component_time_picker_description">Choose a time directly with the original picker from the selected theme or library.</string>
+    <string name="component_time_input">Time input</string>
+    <string name="component_time_input_description">Enter a time directly with the original Material 3 time fields.</string>
+    <string name="status_inline_time">Selected time: %1$s</string>
+    <string name="inline_time_note">Changes apply immediately. Default setup is 10:30 in 24-hour format. The value is a time of day, not a timestamp.</string>
+    <string name="inline_time_enabled_note">These library controls have no Enabled parameter. They remain interactive when Enabled is off.</string>
+    <string name="native_time_enabled_note">Enabled uses the original TimePicker API. Internal controls follow this device implementation.</string>
 </resources>

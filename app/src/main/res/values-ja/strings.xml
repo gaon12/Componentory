@@ -327,4 +327,12 @@
     <string name="checked_text_config_label">チェック状態</string>
     <string name="checked_text_configuration_note">テーマの複数選択用チェックマークがある場合は使用します。チェック状態の設定で状態を変更してください。テキストを押しても自動では切り替わりません。</string>
     <string name="checked_text_missing_mark">このテーマでは複数選択用チェックマークの Drawable を使用できません。チェック状態は結果表示で確認できます。</string>
+    <string name="component_time_picker">時刻選択</string>
+    <string name="component_time_picker_description">選択したテーマやライブラリの元の選択コントロールで時刻を直接選びます。</string>
+    <string name="component_time_input">時刻入力</string>
+    <string name="component_time_input_description">Material 3の元の時刻入力フィールドに直接入力します。</string>
+    <string name="status_inline_time">選択した時刻: %1$s</string>
+    <string name="inline_time_note">変更はすぐに反映されます。初期設定は24時間表示の10:30です。値は一日の時刻であり、タイムスタンプではありません。</string>
+    <string name="inline_time_enabled_note">このライブラリのコントロールにEnabledパラメータはありません。有効の設定をオフにしても操作できます。</string>
+    <string name="native_time_enabled_note">有効の設定は元のTimePicker APIに適用します。内部コントロールの動作はこの端末の実装に従います。</string>
 </resources>

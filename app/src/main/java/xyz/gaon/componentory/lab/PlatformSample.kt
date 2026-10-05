@@ -44,6 +44,10 @@ fun PlatformSample(
         PlatformInlineDateSample(family, component, viewId, enabled, state, modifier)
         return
     }
+    if (component == LabComponent.TIME_PICKER) {
+        PlatformInlineTimeSample(family, viewId, enabled, state, modifier)
+        return
+    }
     if (component == LabComponent.DATE_PICKER_DIALOG) {
         PlatformDatePickerDialogSample(family, viewId, enabled, state, modifier)
         return

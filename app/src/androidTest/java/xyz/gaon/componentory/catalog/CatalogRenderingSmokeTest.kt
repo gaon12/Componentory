@@ -129,22 +129,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 24, 43)
+        verifyFamily(DesignFamily.CLASSIC, 25, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 24, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 25, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 24, 43)
+        verifyFamily(DesignFamily.MATERIAL, 25, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 36)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 38)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 58, 11)
+        verifyFamily(DesignFamily.MATERIAL3, 60, 11)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -153,7 +153,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            69,
+            71,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -242,6 +242,9 @@ class CatalogRenderingSmokeTest {
         compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
         if (component == LabComponent.DATE_PICKER || component == LabComponent.CALENDAR_VIEW) {
             compose.onNodeWithTag("date_viewport_LEFT").performScrollTo().assertIsDisplayed()
+        }
+        if (component == LabComponent.TIME_PICKER) {
+            compose.onNodeWithTag("time_viewport_LEFT").performScrollTo().assertIsDisplayed()
         }
         compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         compose.runOnIdle {
@@ -364,6 +367,16 @@ class CatalogRenderingSmokeTest {
                     assertEquals(15, picker.dayOfMonth)
                     assertTrue(picker.minDate < picker.maxDate)
                 }
+                LabComponent.TIME_PICKER -> {
+                    val picker = view as TimePicker
+                    assertEquals(10, picker.hour)
+                    assertEquals(30, picker.minute)
+                    assertTrue(picker.is24HourView())
+                    assertTrue(
+                        "The original inline TimePicker must contain its controls",
+                        picker.childCount > 0,
+                    )
+                }
                 LabComponent.CALENDAR_VIEW -> {
                     val calendar = view as CalendarView
                     val selected =
@@ -430,6 +443,7 @@ class CatalogRenderingSmokeTest {
             LabComponent.ICON -> ImageView::class.java
             LabComponent.SEARCH_VIEW -> SearchView::class.java
             LabComponent.DATE_PICKER -> DatePicker::class.java
+            LabComponent.TIME_PICKER -> TimePicker::class.java
             LabComponent.CALENDAR_VIEW -> CalendarView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
@@ -453,6 +467,7 @@ class CatalogRenderingSmokeTest {
                 LabComponent.DATE_PICKER,
                 LabComponent.DATE_PICKER_DIALOG -> android.R.attr.datePickerStyle
                 LabComponent.CALENDAR_VIEW -> android.R.attr.calendarViewStyle
+                LabComponent.TIME_PICKER,
                 LabComponent.TIME_PICKER_DIALOG -> android.R.attr.timePickerStyle
                 LabComponent.POPUP_MENU -> android.R.attr.popupMenuStyle
                 LabComponent.TOGGLE_BUTTON -> android.R.attr.buttonStyleToggle
@@ -590,12 +605,40 @@ class CatalogRenderingSmokeTest {
         }
         val inlineDate =
             component == LabComponent.DATE_PICKER || component == LabComponent.DATE_RANGE_PICKER
+        val inlineTime = component.isInlineTime
         if (inlineDate)
             compose.onNodeWithTag("date_viewport_LEFT").performScrollTo().assertIsDisplayed()
-        val sample = displayed("library_LEFT", scroll = !inlineDate)
+        if (inlineTime)
+            compose.onNodeWithTag("time_viewport_LEFT").performScrollTo().assertIsDisplayed()
+        val sample = displayed("library_LEFT", scroll = !inlineDate && !inlineTime)
         // Runtime semantics complement the source/version labels; labels alone cannot prove a
         // renderer.
         when {
+            component == LabComponent.TIME_PICKER -> {
+                listOf(true to "10", false to "30").forEach { (hour, value) ->
+                    val selector =
+                        compose.onNode(
+                            hasAnyAncestor(hasTestTag("library_LEFT")) and
+                                hasClickAction() and
+                                hasContentDescription(if (hour) "Select hour" else "Select minutes")
+                        )
+                    revealInlineTimeControl(selector)
+                        .assertHasClickAction()
+                        .assertIsEnabled()
+                        .assertTextContains(value, substring = true)
+                }
+                val dial =
+                    compose.onNode(
+                        hasAnyAncestor(hasTestTag("library_LEFT")) and
+                            hasClickAction() and
+                            hasContentDescription("9 hours")
+                    )
+                revealInlineTimeControl(dial).assertHasClickAction().assertIsEnabled()
+            }
+            component == LabComponent.TIME_INPUT -> {
+                assertTimeInputField(hour = true, expected = 10, inline = true)
+                assertTimeInputField(hour = false, expected = 30, inline = true)
+            }
             component == LabComponent.TEXT -> {
                 sample
                     .assertTextEquals(compose.activity.getString(R.string.sample_display_text))
@@ -891,24 +934,26 @@ class CatalogRenderingSmokeTest {
     private fun role(expected: Role) =
         SemanticsMatcher.expectValue(SemanticsProperties.Role, expected)
 
-    private fun assertTimeInputField(hour: Boolean, expected: Int) {
+    private fun assertTimeInputField(hour: Boolean, expected: Int, inline: Boolean = false) {
         // The original inactive editor is unplaced; activate its visible selector before
         // inspection.
+        val rootTag = if (inline) "library_LEFT" else "time_input_LEFT"
         val selector =
-            hasAnyAncestor(hasTestTag("time_input_LEFT")) and
+            hasAnyAncestor(hasTestTag(rootTag)) and
                 hasContentDescription(if (hour) "Select hour" else "Select minutes") and
                 hasClickAction()
         if (compose.onAllNodes(selector).fetchSemanticsNodes().isNotEmpty()) {
-            compose.onNode(selector).assertIsDisplayed().performTouchInput { click() }
+            val control = compose.onNode(selector)
+            if (inline) revealInlineTimeControl(control) else control.assertIsDisplayed()
+            control.performTouchInput { click() }
         }
         val field =
-            compose
-                .onNode(
-                    hasAnyAncestor(hasTestTag("time_input_LEFT")) and
-                        hasContentDescription(if (hour) "for hour" else "for minutes") and
-                        hasSetTextAction()
-                )
-                .assertIsDisplayed()
+            compose.onNode(
+                hasAnyAncestor(hasTestTag(rootTag)) and
+                    hasContentDescription(if (hour) "for hour" else "for minutes") and
+                    hasSetTextAction()
+            )
+        if (inline) revealInlineTimeControl(field) else field.assertIsDisplayed()
         val size = field.fetchSemanticsNode().size
         assertTrue(
             "The active time editor must have positive measured bounds",
@@ -919,6 +964,35 @@ class CatalogRenderingSmokeTest {
             field.fetchSemanticsNode().config[SemanticsProperties.EditableText].text.toInt(),
         )
         closeSoftKeyboard()
+    }
+
+    private fun revealInlineTimeControl(
+        control: SemanticsNodeInteraction
+    ): SemanticsNodeInteraction {
+        control.performScrollTo()
+        val page = compose.onNodeWithTag("compare_screen")
+        // Reach the original control through its horizontal viewport and the outer host.
+        // This host scroll action is not a picker interaction or an OS display resize.
+        repeat(4) {
+            val node = control.fetchSemanticsNode()
+            val viewport = page.fetchSemanticsNode().boundsInRoot
+            val top = node.positionInRoot.y
+            val bottom = top + node.size.height
+            val delta =
+                when {
+                    top < viewport.top -> top - viewport.top
+                    bottom > viewport.bottom -> bottom - viewport.bottom
+                    else -> 0f
+                }
+            if (delta != 0f)
+                page.performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, delta) }
+        }
+        val bounds = control.assertIsDisplayed().fetchSemanticsNode().boundsInRoot
+        assertTrue(
+            "An original inline time control must have positive visible bounds",
+            bounds.width > 0f && bounds.height > 0f,
+        )
+        return control
     }
 
     private fun assertMenuSelection() {
