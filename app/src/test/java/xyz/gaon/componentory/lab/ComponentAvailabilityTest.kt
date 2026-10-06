@@ -230,6 +230,35 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun adapterAnimatorsUseOnlyFrameworkSuppliersWithRealApiLevels() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.ADAPTER_VIEW_FLIPPER to ("android.widget.AdapterViewFlipper" to 4),
+                LabComponent.STACK_VIEW to ("android.widget.StackView" to 6),
+            )
+            .forEach { (component, metadata) ->
+                val (source, pages) = metadata
+                platform.forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 10))
+                    assertNull(family.unsupportedReason(component, 11))
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(11, component.minimumApi)
+                assertNull(component.deprecatedApi)
+                assertEquals(pages, component.adapterPageCount)
+                assertEquals(ComponentCategory.LAYOUT, component.category)
+                assertEquals(0, component.initialValue)
+                assertTrue(component.matchesSearch(source))
+            }
+        assertFalse(LabComponent.ADAPTER_VIEW_FLIPPER.matchesSearch("android.widget.StackView"))
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

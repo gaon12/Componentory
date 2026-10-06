@@ -260,6 +260,7 @@ private val LabComponent.hasCopiedValue: Boolean
             isViewSwitcher ||
             isAdapterList ||
             isZoomControl ||
+            isAdapterAnimator ||
             this in
                 listOf(
                     LabComponent.CHECKBOX,

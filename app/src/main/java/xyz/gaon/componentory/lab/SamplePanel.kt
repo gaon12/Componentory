@@ -332,7 +332,7 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (component.isViewSwitcher && unsupported == null) {
+            if ((component.isViewSwitcher || component.isAdapterAnimator) && unsupported == null) {
                 Text(
                     stringResource(R.string.switcher_note),
                     modifier = Modifier.testTag("switcher_note_$panel"),

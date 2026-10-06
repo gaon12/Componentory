@@ -411,4 +411,8 @@
     <string name="zoom_note">縮放點擊驅動層級計數器；層級是可複製的輸入。</string>
     <string name="zoom_target">縮放目標</string>
     <string name="status_zoom">縮放層級 %1$d/%2$d</string>
+    <string name="component_adapter_view_flipper">配接器檢視翻轉器</string>
+    <string name="component_adapter_view_flipper_description">原始架構 AdapterViewFlipper，以真實架構轉場動畫切換配接器頁面。</string>
+    <string name="component_stack_view">堆疊檢視</string>
+    <string name="component_stack_view_description">原始架構 StackView，以滑動轉場堆疊主題配接器卡片。</string>
 </resources>

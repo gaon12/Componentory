@@ -446,6 +446,22 @@ enum class LabComponent(
         platformSource = "android.widget.ZoomButtonsController",
         category = ComponentCategory.LEGACY,
     ),
+    ADAPTER_VIEW_FLIPPER(
+        "Adapter view flipper",
+        R.string.component_adapter_view_flipper,
+        R.string.component_adapter_view_flipper_description,
+        minimumApi = 11,
+        platformSource = "android.widget.AdapterViewFlipper",
+        category = ComponentCategory.LAYOUT,
+    ),
+    STACK_VIEW(
+        "Stack view",
+        R.string.component_stack_view,
+        R.string.component_stack_view_description,
+        minimumApi = 11,
+        platformSource = "android.widget.StackView",
+        category = ComponentCategory.LAYOUT,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -888,6 +904,18 @@ enum class LabComponent(
     val isZoomControl: Boolean
         get() = this in listOf(ZOOM_CONTROLS, ZOOM_BUTTON, ZOOM_BUTTONS_CONTROLLER)
 
+    val isAdapterAnimator: Boolean
+        get() = this == ADAPTER_VIEW_FLIPPER || this == STACK_VIEW
+
+    // Logical page count an adapter animator steps through.
+    val adapterPageCount: Int
+        get() =
+            when (this) {
+                ADAPTER_VIEW_FLIPPER -> 4
+                STACK_VIEW -> 6
+                else -> 0
+            }
+
     val zoomLevelMax: Int
         get() = if (isZoomControl) 10 else 0
 
@@ -993,6 +1021,8 @@ enum class LabComponent(
                     )
             isViewSwitcher ->
                 context.getString(R.string.status_switcher_child, value + 1, switcherPageCount)
+            isAdapterAnimator ->
+                context.getString(R.string.status_switcher_child, value + 1, adapterPageCount)
             this == LIST_VIEW || this == GRID_VIEW ->
                 if (value == 0) context.getString(R.string.sample_state_no_selection)
                 else

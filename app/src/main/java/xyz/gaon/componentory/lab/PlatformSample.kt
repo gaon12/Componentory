@@ -88,6 +88,10 @@ fun PlatformSample(
         PlatformZoomSample(family, component, viewId, enabled, state, modifier)
         return
     }
+    if (component.isAdapterAnimator) {
+        PlatformAdapterAnimatorSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

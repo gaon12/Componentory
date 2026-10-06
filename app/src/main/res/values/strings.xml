@@ -414,4 +414,8 @@
     <string name="zoom_note">Zoom taps move the level counter; the level is the copyable input.</string>
     <string name="zoom_target">Zoom target</string>
     <string name="status_zoom">Zoom level %1$d of %2$d</string>
+    <string name="component_adapter_view_flipper">Adapter view flipper</string>
+    <string name="component_adapter_view_flipper_description">The original framework AdapterViewFlipper animating adapter pages through real framework transitions.</string>
+    <string name="component_stack_view">Stack view</string>
+    <string name="component_stack_view_description">The original framework StackView stacking themed adapter cards with sliding transitions.</string>
 </resources>

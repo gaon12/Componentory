@@ -411,4 +411,8 @@
     <string name="zoom_note">줌 탭은 레벨 카운터를 움직입니다. 레벨이 복사되는 입력입니다.</string>
     <string name="zoom_target">줌 대상</string>
     <string name="status_zoom">줌 레벨 %1$d/%2$d</string>
+    <string name="component_adapter_view_flipper">어댑터 뷰 플리퍼</string>
+    <string name="component_adapter_view_flipper_description">실제 프레임워크 전환으로 어댑터 페이지를 애니메이션하는 원본 프레임워크 AdapterViewFlipper입니다.</string>
+    <string name="component_stack_view">스택 뷰</string>
+    <string name="component_stack_view_description">슬라이딩 전환으로 테마의 어댑터 카드를 쌓는 원본 프레임워크 StackView입니다.</string>
 </resources>

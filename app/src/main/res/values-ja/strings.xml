@@ -411,4 +411,8 @@
     <string name="zoom_note">ズームタップはレベルカウンターを動かします。レベルがコピーされる入力です。</string>
     <string name="zoom_target">ズーム対象</string>
     <string name="status_zoom">ズームレベル %1$d/%2$d</string>
+    <string name="component_adapter_view_flipper">アダプタービューフリッパー</string>
+    <string name="component_adapter_view_flipper_description">実際のフレームワーク遷移でアダプターページをアニメーションする元のフレームワークAdapterViewFlipperです。</string>
+    <string name="component_stack_view">スタックビュー</string>
+    <string name="component_stack_view_description">スライド遷移でテーマのアダプターカードを積み重ねる元のフレームワークStackViewです。</string>
 </resources>

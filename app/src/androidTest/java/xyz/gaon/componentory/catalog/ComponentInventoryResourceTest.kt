@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 141, InventoryStatus.PENDING to 98),
+            mapOf(InventoryStatus.IMPLEMENTED to 143, InventoryStatus.PENDING to 96),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 51,
+                InventoryFamily.PLATFORM to 53,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -216,6 +216,17 @@ class ComponentInventoryResourceTest {
                 assertEquals(listOf(metadata.first), row.catalogIds)
                 assertEquals(metadata.second, row.apiIntroduced)
             }
+        mapOf(
+                "android.widget.AdapterViewFlipper" to "ADAPTER_VIEW_FLIPPER",
+                "android.widget.StackView" to "STACK_VIEW",
+            )
+            .forEach { (source, catalogId) ->
+                val row = entries.single { it.source == source }
+                assertEquals(InventoryFamily.PLATFORM, row.family)
+                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(listOf(catalogId), row.catalogIds)
+                assertEquals(11, row.apiIntroduced)
+            }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -235,10 +246,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(98, pending.size)
+        assertEquals(96, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 23,
+                InventoryFamily.PLATFORM to 21,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -291,10 +302,9 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "horizontalscrollview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "viewanimator").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "viewswitcher").isEmpty())
-        assertEquals(
-            listOf("android.widget.AdapterViewFlipper"),
-            ComponentInventory.pending(entries, "viewflipper").map { it.source },
-        )
+        assertTrue(ComponentInventory.pending(entries, "viewflipper").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "adapterviewflipper").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "stackview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "textswitcher").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "imageswitcher").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "framelayout").isEmpty())
