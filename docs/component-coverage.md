@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**149 component entries**, with **354 runnable component/family combinations**.
+**152 component entries**, with **357 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `a879bab`. Executed resource
+Application and latest verification source revision: `7a0ef33`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 52 | 0 |
-| Compose Material 3 1.4.0 | 113 | 104 | 9 |
-| Total | 239 | 228 | 11 |
+| Compose Material 3 1.4.0 | 113 | 107 | 6 |
+| Total | 239 | 231 | 8 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -443,6 +443,14 @@ confirmed, cancelled and dismissed — and its last action is a result
 record that the copy direction reports as having no transferable
 input.
 
+Three layout entries add three Material 3-only combinations covering
+the carousels: MULTI_BROWSE_CAROUSEL packs several items into view,
+UNCONTAINED_CAROUSEL keeps items at full size, and
+CENTERED_HERO_CAROUSEL features one centered item. Each drives a real
+CarouselState with ten card items; the tapped item index is the
+copyable input while scroll offset stays transient. The carousel
+sources live in the androidx.compose.material3.carousel subpackage.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -527,14 +535,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `a879bab`, preceded by the sweep baseline correction in
+Latest implementation: `7a0ef33`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 123 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,256,710
+with zero errors. All 125 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,666,925
 bytes with SHA-256
-`e4902a7de3ee95ce008d0fa474d6a3d65717a8a652b296d82dd3168f741e3eab` and the test
-APK is 1,522,617 bytes with SHA-256
-`78c8189c7c14aaee3924fed8fab2a56ad5ed72b04cc3805096254c8efd6c865b`.
+`02388970d723d5709880e1cc19f1e5849d849a3e6c494a94bc5d31ac66e01946` and the test
+APK is 1,524,613 bytes with SHA-256
+`6d6368d461769cdd26b15d34d61067748f8b475e3fe2dd76f83891748df4cf65`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -696,6 +704,12 @@ ExpandedFullScreenSearchBar overlay, query copying between panels,
 recreation restore, the disabled closed state, and the missing-provider
 explanation. They also await a clean unlocked-device run.
 
+Three [carousel scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/CarouselsTest.kt)
+compile in the same state. They verify the multi-browse item selection
+and index copying across panels, recreation restore, the uncontained
+and hero variants, and the Material 2 missing-source cell. They also
+await a clean unlocked-device run.
+
 Three [basic-dialog scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/BasicAlertDialogsTest.kt)
 compile in the same state. They verify the unstyled window opens through
 the real button, confirm and cancel report the shared outcome codes,
@@ -703,8 +717,8 @@ the copy direction explains the missing inputs, and the Material 2
 cell explains its missing source. They also await a clean
 unlocked-device run.
 
-The catalog now declares 149 entries and 354 supported combinations. The smoke
-sweep spans 739 ordinary cells: 357 supported and 382 unsupported; the six
+The catalog now declares 152 entries and 357 supported combinations. The smoke
+sweep spans 754 ordinary cells: 360 supported and 394 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
