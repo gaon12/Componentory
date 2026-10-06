@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**95 component entries**, with **246 runnable component/family combinations**.
+**97 component entries**, with **252 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -229,6 +229,14 @@ container. The 0..10 level counter is the copyable input, and a shared
 `deprecatedApi` property now drives the deprecation notes that previously
 hardcoded API levels for the clocks and AbsoluteLayout.
 
+Two adapter-animator entries add six combinations through the platform themes
+only. AdapterViewFlipper (`android.widget.AdapterViewFlipper`, API 11) and
+StackView (`android.widget.StackView`, API 11) each host a real ArrayAdapter of
+themed pages behind Previous/Next buttons; taps animate with the widget's own
+ObjectAnimator transitions loaded from the AOSP fade resources, while restores
+and copies set `displayedChild` directly so no transition replays on
+recomposition. The displayed page index is the only copyable input.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -313,14 +321,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `0f85204`, preceded by the sweep baseline correction in
+Latest implementation: `8bde0f3`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 96 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,741,679
+with zero errors. All 97 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,744,915
 bytes with SHA-256
-`c7b4fe1a0fa9681dd7dff20984a010be34972c07101e1ef57f42e00bad921a9b` and the test
-APK is 1,436,408 bytes with SHA-256
-`8c218de3589a97ed7b486673f44eb479fe8d13df02cc8f3e407ff95319a578ef`.
+`579bece5dd37c6253d62dda20fcae8b4ce612c1ecd1abb15a238b60909baf954` and the test
+APK is 1,443,764 bytes with SHA-256
+`de146f0fb1226fe3b7dce451943bc81a7644545bbcc2930dbeccc62cb3dfe986`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -377,8 +385,16 @@ the deprecation notes, level copying, unsupported library targets, the
 disabled flag, and localized labels and statuses in five locales. They also
 await a clean unlocked-device run.
 
-The catalog now declares 95 entries and 246 supported combinations. The smoke
-sweep spans 469 ordinary cells: 241 supported and 228 unsupported; the six
+Five [adapter-animator scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/AdapterAnimatorsTest.kt)
+compile in the same state. They verify the real `AdapterViewFlipper` and
+`StackView` classes inside platform themes, adapter counts and themed page
+content, `showNext`/`showPrevious` stepping with wrap-around, page-index copies
+and recreation restore, independent panels, the disabled flag, and localized
+labels, pages and buttons in five locales. They also await a clean
+unlocked-device run.
+
+The catalog now declares 97 entries and 252 supported combinations. The smoke
+sweep spans 479 ordinary cells: 247 supported and 232 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
