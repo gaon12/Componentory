@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 82 implemented components by translated name or description,
+- **List:** Search 89 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 112 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 104 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -112,7 +112,7 @@ suite-wide assertion defect: the resolved Compose UI test version defaults
 matching. That defect plus three unrelated test bugs are repaired in `34ceff1`.
 Catalog rendering, comparison state, the Planned view, provider selection,
 accessibility, text, inline dates, inline time, the clock, scroll and view
-switcher samples, date/time dialogs, cards,
+switcher samples, framework layouts, date/time dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,

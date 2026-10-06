@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**82 component entries**, with **207 runnable component/family combinations**.
+**89 component entries**, with **228 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -191,6 +191,22 @@ showNext/showPrevious, setText or setImageResource call. The displayed child
 index is the copyable state and restores without an animation; timed
 auto-flipping is not enabled on the ViewFlipper sample.
 
+Seven layout entries add twenty-one combinations through the platform themes
+only. FrameLayout (`android.widget.FrameLayout`, API 1) stacks a centered label
+under a corner marker; LinearLayout (`android.widget.LinearLayout`, API 1)
+distributes three themed children with equal weight; TableLayout
+(`android.widget.TableLayout`, API 1) lays cells out through two real TableRow
+children, so `android.widget.TableRow` joins TABLE_LAYOUT as a supporting
+source like RadioGroup joins RADIO; GridLayout (`android.widget.GridLayout`,
+API 14) places four themed children in two columns; RelativeLayout
+(`android.widget.RelativeLayout`, API 1) anchors two children with a real BELOW
+rule; Space (`android.widget.Space`, API 14) keeps a real gap between two
+labels because it is a View rather than a container; AbsoluteLayout
+(`android.widget.AbsoluteLayout`, API 1) places children at fixed coordinates,
+carries the LEGACY category, and reports its API 3 deprecation note. The
+samples are static previews: no layout field is whitelisted for copying, so
+the panels report the no-inputs reason and show a localized preview note.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -275,14 +291,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `6290f59`, preceded by the sweep baseline correction in
+Latest implementation: `f7b5855`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 91 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,715,431
+with zero errors. All 92 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,728,295
 bytes with SHA-256
-`7387b6be0e2e03c33045fe441e6da16084ce5d87676a9388d3cc109254b087ff` and the test
-APK is 1,466,191 bytes with SHA-256
-`1c01596f51b1feea0a7718016e88bed557d7775967de56667dd96a7fd781d17a`.
+`652fd7c17fc9aa2bb2380cb8db06a47700e6744db2e29091f8a2fbd993eace6d` and the test
+APK is 1,423,808 bytes with SHA-256
+`a62cbc85cc3aef6b57195c2bee2403140ad6d04e1afc0af25bfbe63f96863a8e`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -314,9 +330,18 @@ Previous/Next stepping with wrap-around, localized lines and drawables, disabled
 controls, index copying, recreation restore, independent panels and five
 locales. They also await a clean unlocked-device run.
 
-The catalog now declares 82 entries and 207 supported combinations. The smoke
-sweep spans 404 cells: 202 supported and 202 unsupported ordinary cells; the
-six native animated cells use the separate UiAutomation scope. The sweep
+Three [framework layout scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/FrameworkLayoutsTest.kt)
+compile in the same state. They verify the real `FrameLayout`, `LinearLayout`,
+`TableLayout`, `TableRow`, `GridLayout`, `RelativeLayout`, `Space` and
+`AbsoluteLayout` classes inside platform themes, child counts and structure,
+the relative-layout BELOW rule, the deprecation note, unsupported library
+targets, the no-inputs copy result, the disabled flag, and localized labels,
+cell text and notes in five locales. They also await a clean unlocked-device
+run.
+
+The catalog now declares 89 entries and 228 supported combinations. The smoke
+sweep spans 439 ordinary cells: 217 supported and 216 unsupported; the six
+native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
 the earlier numbers were never executed on a device, so no run is contradicted.
