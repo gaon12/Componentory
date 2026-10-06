@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import java.text.DateFormat
 import java.util.Date
@@ -68,16 +70,14 @@ fun RunsScreen(
 @Composable
 private fun RunRow(record: RunRecord, onOpen: (RunRecord) -> Unit, onDelete: (RunRecord) -> Unit) {
     val component = LabComponent.entries.firstOrNull { it.name == record.component }
+    val componentLabel = component?.let { stringResource(it.labelRes) } ?: record.component
     val timestamp =
         remember(record.createdAtEpochMillis) {
             DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT)
                 .format(Date(record.createdAtEpochMillis))
         }
     Column(Modifier.fillMaxWidth().testTag("run_${record.id}")) {
-        Text(
-            component?.let { stringResource(it.labelRes) } ?: record.component,
-            style = MaterialTheme.typography.titleMedium,
-        )
+        Text(componentLabel, style = MaterialTheme.typography.titleMedium)
         Text(
             "${stringResource(R.string.left_ui)}: ${familyLabel(record.leftFamily)} · " +
                 "${stringResource(R.string.right_ui)}: ${familyLabel(record.rightFamily)}",
@@ -99,16 +99,25 @@ private fun RunRow(record: RunRecord, onOpen: (RunRecord) -> Unit, onDelete: (Ru
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+        // Rows repeat the same labels, so name the component for assistive tech.
+        val openDescription = "${stringResource(R.string.run_open)} $componentLabel"
+        val deleteDescription = "${stringResource(R.string.run_delete)} $componentLabel"
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             TextButton(
                 onClick = { onOpen(record) },
-                modifier = Modifier.testTag("run_open_${record.id}"),
+                modifier =
+                    Modifier.testTag("run_open_${record.id}").semantics {
+                        contentDescription = openDescription
+                    },
             ) {
                 Text(stringResource(R.string.run_open))
             }
             TextButton(
                 onClick = { onDelete(record) },
-                modifier = Modifier.testTag("run_delete_${record.id}"),
+                modifier =
+                    Modifier.testTag("run_delete_${record.id}").semantics {
+                        contentDescription = deleteDescription
+                    },
             ) {
                 Text(stringResource(R.string.run_delete))
             }
