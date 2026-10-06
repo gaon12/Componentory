@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**144 component entries**, with **348 runnable component/family combinations**.
+**145 component entries**, with **350 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `70f615a`. Executed resource
+Application and latest verification source revision: `df602ac`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
-| Compose Material 2 1.10.4 | 52 | 51 | 1 |
-| Compose Material 3 1.4.0 | 113 | 98 | 15 |
-| Total | 239 | 221 | 18 |
+| Compose Material 2 1.10.4 | 52 | 52 | 0 |
+| Compose Material 3 1.4.0 | 113 | 99 | 14 |
+| Total | 239 | 223 | 16 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -419,6 +419,13 @@ overlays content for real. The item composables count as supporting
 sources of their containers; selected destination index copies as with
 the base suite.
 
+One layout entry adds two library combinations: SCAFFOLD pairs the
+Scaffold both libraries publish, each arranging a real body slot with
+the library's scaffold padding applied. The scaffold is structural, so
+the panel reports a preview status and the copy direction explains
+there are no inputs. This completes the audited Material 2 surface
+list — all 52 audited sources now have real samples.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -503,14 +510,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `70f615a`, preceded by the sweep baseline correction in
+Latest implementation: `df602ac`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 120 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,231,410
+with zero errors. All 121 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,235,066
 bytes with SHA-256
-`dfed932126e7dea10bd036edcd5a4a78a2e942caa76bc8ab29e4d81bfda0a60f` and the test
-APK is 1,515,922 bytes with SHA-256
-`3bf2ce4249829268595a7f7af082afaa9468fbe2f8a98794cd527623d958ebb7`.
+`7a9e7cde20193e5ad4d8d0db070eceb7f4f947a23ba102925de4154960f62ddb` and the test
+APK is 1,517,405 bytes with SHA-256
+`706eb6839b2f7c8f8d6b32b1f6e7049f1cb94144a9fe168231343623f6133869`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -660,8 +667,13 @@ through each library's threshold logic, cross-library copy of the
 dismissed flag, recreation restore, and the disabled settle-back. They
 also await a clean unlocked-device run.
 
-The catalog now declares 144 entries and 348 supported combinations. The smoke
-sweep spans 714 ordinary cells: 351 supported and 363 unsupported; the six
+One [scaffold scenario](../app/src/androidTest/java/xyz/gaon/componentory/lab/ScaffoldsTest.kt)
+compiles in the same state. It verifies both library sources, the real
+scaffold body, the preview status, and the no-inputs copy explanation.
+It also awaits a clean unlocked-device run.
+
+The catalog now declares 145 entries and 350 supported combinations. The smoke
+sweep spans 719 ordinary cells: 353 supported and 366 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
