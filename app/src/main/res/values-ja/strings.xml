@@ -496,6 +496,14 @@
     <string name="component_tab_row_description">実際の Tab および LeadingIconTab 項目をホストする Material TabRow です。</string>
     <string name="component_scrollable_tab_row">スクロール可能なタブ行</string>
     <string name="component_scrollable_tab_row_description">実際のスクロール Tab 項目をホストする Material ScrollableTabRow です。</string>
+    <string name="component_primary_tab_row">プライマリタブ行</string>
+    <string name="component_primary_tab_row_description">プライマリインジケーターと区切り線スタイルを持つ Material 3 PrimaryTabRow です。</string>
+    <string name="component_secondary_tab_row">セカンダリタブ行</string>
+    <string name="component_secondary_tab_row_description">セカンダリインジケータースタイルを持つ Material 3 SecondaryTabRow です。</string>
+    <string name="component_primary_scrollable_tab_row">プライマリスクロールタブ行</string>
+    <string name="component_primary_scrollable_tab_row_description">行の幅を超えるタブ向けの Material 3 PrimaryScrollableTabRow です。</string>
+    <string name="component_secondary_scrollable_tab_row">セカンダリスクロールタブ行</string>
+    <string name="component_secondary_scrollable_tab_row_description">行の幅を超えるタブ向けの Material 3 SecondaryScrollableTabRow です。</string>
 
     <string name="component_snackbar">スナックバー</string>
     <string name="component_snackbar_description">実際の SnackbarHost を通じて表示する Material Snackbar です。</string>

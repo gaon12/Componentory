@@ -571,6 +571,36 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun secondaryTabRowsAreHonestMaterial3Only() {
+        listOf(
+                LabComponent.PRIMARY_TAB_ROW to ("PrimaryTabRow" to 3),
+                LabComponent.SECONDARY_TAB_ROW to ("SecondaryTabRow" to 3),
+                LabComponent.PRIMARY_SCROLLABLE_TAB_ROW to ("PrimaryScrollableTabRow" to 8),
+                LabComponent.SECONDARY_SCROLLABLE_TAB_ROW to ("SecondaryScrollableTabRow" to 8),
+            )
+            .forEach { (component, spec) ->
+                listOf(
+                        DesignFamily.CLASSIC,
+                        DesignFamily.HOLO,
+                        DesignFamily.MATERIAL,
+                        DesignFamily.MATERIAL2,
+                    )
+                    .forEach { family ->
+                        assertNotNull(family.unsupportedReason(component, 36))
+                        assertEquals("Not provided", family.source(component))
+                    }
+                assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                assertEquals(
+                    "androidx.compose.material3.${spec.first}",
+                    DesignFamily.MATERIAL3.source(component),
+                )
+                assertTrue(component.isTabRow)
+                assertEquals(spec.second, component.tabCount)
+                assertEquals(ComponentCategory.NAVIGATION, component.category)
+            }
+    }
+
+    @Test
     fun snackbarUsesTheRealHostInBothComposeLibraries() {
         val component = LabComponent.SNACKBAR
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->

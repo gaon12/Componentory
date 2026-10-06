@@ -496,6 +496,14 @@
     <string name="component_tab_row_description">承载真实 Tab 和 LeadingIconTab 项的 Material TabRow。</string>
     <string name="component_scrollable_tab_row">可滚动标签行</string>
     <string name="component_scrollable_tab_row_description">承载真实滚动 Tab 项的 Material ScrollableTabRow。</string>
+    <string name="component_primary_tab_row">主要标签行</string>
+    <string name="component_primary_tab_row_description">带主指示线和分隔线样式的 Material 3 PrimaryTabRow。</string>
+    <string name="component_secondary_tab_row">次要标签行</string>
+    <string name="component_secondary_tab_row_description">带次要指示线样式的 Material 3 SecondaryTabRow。</string>
+    <string name="component_primary_scrollable_tab_row">主要可滚动标签行</string>
+    <string name="component_primary_scrollable_tab_row_description">用于超出此行宽度标签的 Material 3 PrimaryScrollableTabRow。</string>
+    <string name="component_secondary_scrollable_tab_row">次要可滚动标签行</string>
+    <string name="component_secondary_scrollable_tab_row_description">用于超出此行宽度标签的 Material 3 SecondaryScrollableTabRow。</string>
 
     <string name="component_snackbar">信息条</string>
     <string name="component_snackbar_description">通过真实 SnackbarHost 显示的 Material Snackbar。</string>

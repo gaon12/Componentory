@@ -638,6 +638,38 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 1,
     ),
+    PRIMARY_TAB_ROW(
+        "Primary tab row",
+        R.string.component_primary_tab_row,
+        R.string.component_primary_tab_row_description,
+        material3Function = "PrimaryTabRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    SECONDARY_TAB_ROW(
+        "Secondary tab row",
+        R.string.component_secondary_tab_row,
+        R.string.component_secondary_tab_row_description,
+        material3Function = "SecondaryTabRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    PRIMARY_SCROLLABLE_TAB_ROW(
+        "Primary scrollable tab row",
+        R.string.component_primary_scrollable_tab_row,
+        R.string.component_primary_scrollable_tab_row_description,
+        material3Function = "PrimaryScrollableTabRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    SECONDARY_SCROLLABLE_TAB_ROW(
+        "Secondary scrollable tab row",
+        R.string.component_secondary_scrollable_tab_row,
+        R.string.component_secondary_scrollable_tab_row_description,
+        material3Function = "SecondaryScrollableTabRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
     LIST_ITEM(
         "List item",
         R.string.component_list_item,
@@ -1243,8 +1275,12 @@ enum class LabComponent(
         get() =
             when (this) {
                 TAB_HOST,
-                TAB_ROW -> 3
-                SCROLLABLE_TAB_ROW -> 8
+                TAB_ROW,
+                PRIMARY_TAB_ROW,
+                SECONDARY_TAB_ROW -> 3
+                SCROLLABLE_TAB_ROW,
+                PRIMARY_SCROLLABLE_TAB_ROW,
+                SECONDARY_SCROLLABLE_TAB_ROW -> 8
                 else -> 0
             }
 
@@ -1276,7 +1312,13 @@ enum class LabComponent(
         get() = this == NAVIGATION_BAR || this == NAVIGATION_RAIL
 
     val isTabRow: Boolean
-        get() = this == TAB_ROW || this == SCROLLABLE_TAB_ROW
+        get() =
+            this == TAB_ROW ||
+                this == SCROLLABLE_TAB_ROW ||
+                this == PRIMARY_TAB_ROW ||
+                this == SECONDARY_TAB_ROW ||
+                this == PRIMARY_SCROLLABLE_TAB_ROW ||
+                this == SECONDARY_SCROLLABLE_TAB_ROW
 
     // App bars count action clicks instead of carrying selection state.
     val isAppBar: Boolean

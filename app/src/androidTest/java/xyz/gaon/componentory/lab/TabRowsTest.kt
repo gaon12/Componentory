@@ -89,6 +89,32 @@ class TabRowsTest {
     }
 
     @Test
+    fun material3VariantsRenderAndCopySelection() {
+        val expected =
+            mapOf(
+                LabComponent.PRIMARY_TAB_ROW to ("PrimaryTabRow" to 1..3),
+                LabComponent.SECONDARY_TAB_ROW to ("SecondaryTabRow" to 1..3),
+                LabComponent.PRIMARY_SCROLLABLE_TAB_ROW to ("PrimaryScrollableTabRow" to 1..8),
+                LabComponent.SECONDARY_SCROLLABLE_TAB_ROW to ("SecondaryScrollableTabRow" to 1..8),
+            )
+        expected.forEach { (component, spec) ->
+            configure(component, DesignFamily.MATERIAL3, DesignFamily.MATERIAL2)
+            compose
+                .onNodeWithTag("source_LEFT")
+                .assertTextEquals("androidx.compose.material3.${spec.first}")
+            compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
+            compose.onNodeWithTag("unsupported_RIGHT").assertIsDisplayed()
+            spec.second.take(3).forEach { tab ->
+                compose.onNodeWithTag("library_LEFT_tab_$tab").assertExists()
+            }
+            selectTab("LEFT", 2)
+            status("LEFT", "Selected: Item 2")
+            compose.onNodeWithTag("library_LEFT_tab_2").assertIsSelected()
+            blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
+        }
+    }
+
+    @Test
     fun disabledRowsIgnoreSelectionAndPlatformCellsExplainThemselves() {
         configure(LabComponent.SCROLLABLE_TAB_ROW, DesignFamily.MATERIAL3, DesignFamily.CLASSIC)
         setEnabled(false)

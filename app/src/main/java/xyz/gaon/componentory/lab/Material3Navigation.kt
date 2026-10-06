@@ -12,7 +12,11 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.PrimaryScrollableTabRow
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -121,14 +125,31 @@ internal fun Material3Navigation(
                 )
             }
         }
-        if (component == LabComponent.TAB_ROW) {
-            TabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
-                for (tab in tabs) content(tab)
-            }
-        } else {
-            ScrollableTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
-                for (tab in tabs) content(tab)
-            }
+        when (component) {
+            LabComponent.TAB_ROW ->
+                TabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                    for (tab in tabs) content(tab)
+                }
+            LabComponent.SCROLLABLE_TAB_ROW ->
+                ScrollableTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                    for (tab in tabs) content(tab)
+                }
+            LabComponent.PRIMARY_TAB_ROW ->
+                PrimaryTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                    for (tab in tabs) content(tab)
+                }
+            LabComponent.SECONDARY_TAB_ROW ->
+                SecondaryTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                    for (tab in tabs) content(tab)
+                }
+            LabComponent.PRIMARY_SCROLLABLE_TAB_ROW ->
+                PrimaryScrollableTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                    for (tab in tabs) content(tab)
+                }
+            else ->
+                SecondaryScrollableTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                    for (tab in tabs) content(tab)
+                }
         }
     }
 }

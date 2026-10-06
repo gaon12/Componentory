@@ -174,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 65)
+        verifyFamily(DesignFamily.CLASSIC, 70, 69)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 65)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 69)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 65)
+        verifyFamily(DesignFamily.MATERIAL, 70, 69)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 50, 87)
+        verifyFamily(DesignFamily.MATERIAL2, 50, 91)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 84, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 88, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -198,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            137,
+            141,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)

@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 212, InventoryStatus.PENDING to 27),
+            mapOf(InventoryStatus.IMPLEMENTED to 216, InventoryStatus.PENDING to 23),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
                 InventoryFamily.MATERIAL2 to 51,
-                InventoryFamily.MATERIAL3 to 89,
+                InventoryFamily.MATERIAL3 to 93,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,12 +283,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(27, pending.size)
+        assertEquals(23, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 2,
                 InventoryFamily.MATERIAL2 to 1,
-                InventoryFamily.MATERIAL3 to 24,
+                InventoryFamily.MATERIAL3 to 20,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -377,6 +377,8 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "modalbottomsheet").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "tooltip").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "swipetodismiss").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "tabrow").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "scrollabletabrow").isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

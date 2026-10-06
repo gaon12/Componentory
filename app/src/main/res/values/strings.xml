@@ -499,6 +499,14 @@
     <string name="component_tab_row_description">The Material TabRow hosting real Tab and LeadingIconTab items.</string>
     <string name="component_scrollable_tab_row">Scrollable tab row</string>
     <string name="component_scrollable_tab_row_description">The Material ScrollableTabRow hosting real scrolling Tab items.</string>
+    <string name="component_primary_tab_row">Primary tab row</string>
+    <string name="component_primary_tab_row_description">The Material 3 PrimaryTabRow with primary indicator and divider styling.</string>
+    <string name="component_secondary_tab_row">Secondary tab row</string>
+    <string name="component_secondary_tab_row_description">The Material 3 SecondaryTabRow with secondary indicator styling.</string>
+    <string name="component_primary_scrollable_tab_row">Primary scrollable tab row</string>
+    <string name="component_primary_scrollable_tab_row_description">The Material 3 PrimaryScrollableTabRow for tabs that overflow the row width.</string>
+    <string name="component_secondary_scrollable_tab_row">Secondary scrollable tab row</string>
+    <string name="component_secondary_scrollable_tab_row_description">The Material 3 SecondaryScrollableTabRow for tabs that overflow the row width.</string>
 
     <string name="component_snackbar">Snackbar</string>
     <string name="component_snackbar_description">The Material Snackbar shown through a real SnackbarHost.</string>

@@ -496,6 +496,14 @@
     <string name="component_tab_row_description">承載真實 Tab 和 LeadingIconTab 項目的 Material TabRow。</string>
     <string name="component_scrollable_tab_row">可捲動分頁列</string>
     <string name="component_scrollable_tab_row_description">承載真實捲動 Tab 項目的 Material ScrollableTabRow。</string>
+    <string name="component_primary_tab_row">主要分頁列</string>
+    <string name="component_primary_tab_row_description">帶主指標線和分隔線樣式的 Material 3 PrimaryTabRow。</string>
+    <string name="component_secondary_tab_row">次要分頁列</string>
+    <string name="component_secondary_tab_row_description">帶次要指標線樣式的 Material 3 SecondaryTabRow。</string>
+    <string name="component_primary_scrollable_tab_row">主要可捲動分頁列</string>
+    <string name="component_primary_scrollable_tab_row_description">用於超出此列寬度分頁的 Material 3 PrimaryScrollableTabRow。</string>
+    <string name="component_secondary_scrollable_tab_row">次要可捲動分頁列</string>
+    <string name="component_secondary_scrollable_tab_row_description">用於超出此列寬度分頁的 Material 3 SecondaryScrollableTabRow。</string>
 
     <string name="component_snackbar">資訊列</string>
     <string name="component_snackbar_description">透過真實 SnackbarHost 顯示的 Material Snackbar。</string>
