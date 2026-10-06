@@ -329,6 +329,8 @@ class SampleSetupTest {
                 LabComponent.TAB_ROW to 3,
                 LabComponent.SCROLLABLE_TAB_ROW to 8,
                 LabComponent.SNACKBAR to 4,
+                LabComponent.TOP_APP_BAR to 2,
+                LabComponent.BOTTOM_APP_BAR to 3,
             )
         inputs.forEach { (component, value) ->
             val family = supportedFamily(component)

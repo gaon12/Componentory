@@ -1,7 +1,13 @@
 package xyz.gaon.componentory.lab
 
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LeadingIconTab
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
@@ -10,6 +16,7 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -17,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun Material3Navigation(
     component: LabComponent,
@@ -56,7 +64,36 @@ internal fun Material3Navigation(
             }
         LabComponent.TAB_ROW,
         LabComponent.SCROLLABLE_TAB_ROW -> Unit
+        LabComponent.TOP_APP_BAR,
+        LabComponent.CENTER_ALIGNED_TOP_APP_BAR,
+        LabComponent.MEDIUM_TOP_APP_BAR,
+        LabComponent.LARGE_TOP_APP_BAR,
+        LabComponent.BOTTOM_APP_BAR -> Unit
         else -> error("Unsupported components must be handled by SamplePanel.")
+    }
+    if (component.isAppBar) {
+        val action: @Composable () -> Unit = {
+            IconButton(
+                onClick = { state.value++ },
+                enabled = enabled,
+                modifier = Modifier.testTag("library_${panel}_action"),
+            ) {
+                Icon(icon.vector(), contentDescription = null)
+            }
+        }
+        val title: @Composable () -> Unit = { Text(stringResource(component.labelRes)) }
+        when (component) {
+            LabComponent.TOP_APP_BAR ->
+                TopAppBar(title = title, actions = { action() }, modifier = modifier)
+            LabComponent.CENTER_ALIGNED_TOP_APP_BAR ->
+                CenterAlignedTopAppBar(title = title, actions = { action() }, modifier = modifier)
+            LabComponent.MEDIUM_TOP_APP_BAR ->
+                MediumTopAppBar(title = title, actions = { action() }, modifier = modifier)
+            LabComponent.LARGE_TOP_APP_BAR ->
+                LargeTopAppBar(title = title, actions = { action() }, modifier = modifier)
+            LabComponent.BOTTOM_APP_BAR -> BottomAppBar(actions = { action() }, modifier = modifier)
+            else -> Unit
+        }
     }
     if (component.isTabRow) {
         val tabs = 1..component.tabCount

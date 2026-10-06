@@ -603,6 +603,43 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun appBarsKeepTheirPerLibrarySources() {
+        val expected =
+            mapOf(
+                LabComponent.TOP_APP_BAR to
+                    ("androidx.compose.material.TopAppBar" to
+                        "androidx.compose.material3.TopAppBar"),
+                LabComponent.CENTER_ALIGNED_TOP_APP_BAR to
+                    (null to "androidx.compose.material3.CenterAlignedTopAppBar"),
+                LabComponent.MEDIUM_TOP_APP_BAR to
+                    (null to "androidx.compose.material3.MediumTopAppBar"),
+                LabComponent.LARGE_TOP_APP_BAR to
+                    (null to "androidx.compose.material3.LargeTopAppBar"),
+                LabComponent.BOTTOM_APP_BAR to
+                    ("androidx.compose.material.BottomAppBar" to
+                        "androidx.compose.material3.BottomAppBar"),
+            )
+        expected.forEach { (component, sources) ->
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family
+                ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            if (sources.first == null) {
+                assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+                assertEquals("Not provided", DesignFamily.MATERIAL2.source(component))
+            } else {
+                assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+                assertEquals(sources.first, DesignFamily.MATERIAL2.source(component))
+            }
+            assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+            assertEquals(sources.second, DesignFamily.MATERIAL3.source(component))
+            assertTrue(component.isAppBar)
+            assertEquals(ComponentCategory.NAVIGATION, component.category)
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

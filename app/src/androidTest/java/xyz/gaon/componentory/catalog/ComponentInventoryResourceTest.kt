@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 184, InventoryStatus.PENDING to 55),
+            mapOf(InventoryStatus.IMPLEMENTED to 191, InventoryStatus.PENDING to 48),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
-                InventoryFamily.MATERIAL2 to 42,
-                InventoryFamily.MATERIAL3 to 70,
+                InventoryFamily.MATERIAL2 to 44,
+                InventoryFamily.MATERIAL3 to 75,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,12 +283,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(55, pending.size)
+        assertEquals(48, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 2,
-                InventoryFamily.MATERIAL2 to 10,
-                InventoryFamily.MATERIAL3 to 43,
+                InventoryFamily.MATERIAL2 to 8,
+                InventoryFamily.MATERIAL3 to 38,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -366,6 +366,10 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "tab", InventoryFamily.MATERIAL2).isEmpty())
         assertTrue(ComponentInventory.pending(entries, "snackbar").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "listitem").isEmpty())
+        assertTrue(
+            ComponentInventory.pending(entries, "topappbar", InventoryFamily.MATERIAL2).isEmpty()
+        )
+        assertTrue(ComponentInventory.pending(entries, "bottomappbar").isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

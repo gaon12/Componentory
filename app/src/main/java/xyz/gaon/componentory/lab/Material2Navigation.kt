@@ -3,9 +3,11 @@
 
 package xyz.gaon.componentory.lab
 
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.NavigationRail
 import androidx.compose.material.NavigationRailItem
@@ -13,6 +15,7 @@ import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -56,6 +59,31 @@ internal fun Material2Navigation(
                         modifier = Modifier.testTag("library_${panel}_item_$item"),
                     )
                 }
+            }
+        LabComponent.TOP_APP_BAR ->
+            TopAppBar(
+                title = { Text(stringResource(R.string.component_top_app_bar)) },
+                actions = {
+                    IconButton(
+                        onClick = { state.value++ },
+                        enabled = enabled,
+                        modifier = Modifier.testTag("library_${panel}_action"),
+                    ) {
+                        Icon(icon.vector(), contentDescription = null)
+                    }
+                },
+                modifier = modifier,
+            )
+        LabComponent.BOTTOM_APP_BAR ->
+            BottomAppBar(modifier = modifier) {
+                IconButton(
+                    onClick = { state.value++ },
+                    enabled = enabled,
+                    modifier = Modifier.testTag("library_${panel}_action"),
+                ) {
+                    Icon(icon.vector(), contentDescription = null)
+                }
+                Text(stringResource(R.string.component_bottom_app_bar))
             }
         LabComponent.TAB_ROW,
         LabComponent.SCROLLABLE_TAB_ROW -> Unit

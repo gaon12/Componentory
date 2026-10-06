@@ -504,6 +504,17 @@
 
     <string name="component_list_item">목록 항목</string>
     <string name="component_list_item_description">실제 헤드라인 및 보조 텍스트가 있는 Material ListItem 행입니다.</string>
+
+    <string name="component_top_app_bar">상단 앱 바</string>
+    <string name="component_top_app_bar_description">제목과 실제 작업 항목이 있는 Material 상단 앱 바입니다.</string>
+    <string name="component_center_top_app_bar">가운데 정렬 상단 앱 바</string>
+    <string name="component_center_top_app_bar_description">제목이 가운데에 배치된 Material 3 CenterAlignedTopAppBar입니다.</string>
+    <string name="component_medium_top_app_bar">중간 상단 앱 바</string>
+    <string name="component_medium_top_app_bar_description">두 줄 높이의 Material 3 MediumTopAppBar입니다.</string>
+    <string name="component_large_top_app_bar">큰 상단 앱 바</string>
+    <string name="component_large_top_app_bar_description">세 줄 높이의 Material 3 LargeTopAppBar입니다.</string>
+    <string name="component_bottom_app_bar">하단 앱 바</string>
+    <string name="component_bottom_app_bar_description">실제 작업 항목이 있는 Material 하단 앱 바입니다.</string>
     <string name="component_edge_effect_description">평범한 View가 가장자리를 드래그하는 동안 그리는 프레임워크 EdgeEffect 글로입니다.</string>
     <string name="edge_effect_note">뷰 위를 드래그하여 실제 EdgeEffect 글로를 당기세요. 당긴 횟수가 복사되는 상태입니다.</string>
     <string name="status_pulls">당김: %1$d</string>

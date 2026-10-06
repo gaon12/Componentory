@@ -507,6 +507,17 @@
 
     <string name="component_list_item">List item</string>
     <string name="component_list_item_description">The Material ListItem row with real headline and supporting text.</string>
+
+    <string name="component_top_app_bar">Top app bar</string>
+    <string name="component_top_app_bar_description">The Material top app bar with a title and a real action item.</string>
+    <string name="component_center_top_app_bar">Center-aligned top app bar</string>
+    <string name="component_center_top_app_bar_description">The Material 3 CenterAlignedTopAppBar with a centered title.</string>
+    <string name="component_medium_top_app_bar">Medium top app bar</string>
+    <string name="component_medium_top_app_bar_description">The Material 3 MediumTopAppBar with a two-row height.</string>
+    <string name="component_large_top_app_bar">Large top app bar</string>
+    <string name="component_large_top_app_bar_description">The Material 3 LargeTopAppBar with a three-row height.</string>
+    <string name="component_bottom_app_bar">Bottom app bar</string>
+    <string name="component_bottom_app_bar_description">The Material bottom app bar with a real action item.</string>
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
     <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
     <string name="status_pulls">Pulls: %1$d</string>

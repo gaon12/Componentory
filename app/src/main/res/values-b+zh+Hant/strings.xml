@@ -504,6 +504,17 @@
 
     <string name="component_list_item">清單項目</string>
     <string name="component_list_item_description">帶有真實標題和輔助文字的 Material ListItem 列。</string>
+
+    <string name="component_top_app_bar">頂部應用列</string>
+    <string name="component_top_app_bar_description">帶有標題和真實操作項目的 Material 頂部應用列。</string>
+    <string name="component_center_top_app_bar">置中對齊頂部應用列</string>
+    <string name="component_center_top_app_bar_description">標題置中的 Material 3 CenterAlignedTopAppBar。</string>
+    <string name="component_medium_top_app_bar">中型頂部應用列</string>
+    <string name="component_medium_top_app_bar_description">兩行高度的 Material 3 MediumTopAppBar。</string>
+    <string name="component_large_top_app_bar">大型頂部應用列</string>
+    <string name="component_large_top_app_bar_description">三行高度的 Material 3 LargeTopAppBar。</string>
+    <string name="component_bottom_app_bar">底部應用列</string>
+    <string name="component_bottom_app_bar_description">帶有真實操作項目的 Material 底部應用列。</string>
     <string name="component_edge_effect_description">架構 EdgeEffect 光暈，由一般 View 在拖曳其邊緣時繪製。</string>
     <string name="edge_effect_note">在檢視上拖曳即可拉動真實的 EdgeEffect 光暈。拉動次數即為被複製的狀態。</string>
     <string name="status_pulls">拉動：%1$d</string>

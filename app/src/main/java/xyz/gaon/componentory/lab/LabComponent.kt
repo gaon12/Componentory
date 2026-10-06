@@ -646,6 +646,48 @@ enum class LabComponent(
         material3Function = "ListItem",
         category = ComponentCategory.LAYOUT,
     ),
+    TOP_APP_BAR(
+        "Top app bar",
+        R.string.component_top_app_bar,
+        R.string.component_top_app_bar_description,
+        material2Function = "TopAppBar",
+        material3Function = "TopAppBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    CENTER_ALIGNED_TOP_APP_BAR(
+        "Center-aligned top app bar",
+        R.string.component_center_top_app_bar,
+        R.string.component_center_top_app_bar_description,
+        material3Function = "CenterAlignedTopAppBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    MEDIUM_TOP_APP_BAR(
+        "Medium top app bar",
+        R.string.component_medium_top_app_bar,
+        R.string.component_medium_top_app_bar_description,
+        material3Function = "MediumTopAppBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    LARGE_TOP_APP_BAR(
+        "Large top app bar",
+        R.string.component_large_top_app_bar,
+        R.string.component_large_top_app_bar_description,
+        material3Function = "LargeTopAppBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    BOTTOM_APP_BAR(
+        "Bottom app bar",
+        R.string.component_bottom_app_bar,
+        R.string.component_bottom_app_bar_description,
+        material2Function = "BottomAppBar",
+        material3Function = "BottomAppBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1145,6 +1187,15 @@ enum class LabComponent(
     val isTabRow: Boolean
         get() = this == TAB_ROW || this == SCROLLABLE_TAB_ROW
 
+    // App bars count action clicks instead of carrying selection state.
+    val isAppBar: Boolean
+        get() =
+            this == TOP_APP_BAR ||
+                this == CENTER_ALIGNED_TOP_APP_BAR ||
+                this == MEDIUM_TOP_APP_BAR ||
+                this == LARGE_TOP_APP_BAR ||
+                this == BOTTOM_APP_BAR
+
     // The samples draw three destination items; the selected index copies.
     val navigationItemCount: Int
         get() = if (isNavigationSuite) 3 else 0
@@ -1291,6 +1342,7 @@ enum class LabComponent(
             this == SHARE_ACTION_PROVIDER -> context.getString(R.string.status_shares, value)
             this == EDGE_EFFECT -> context.getString(R.string.status_pulls, value)
             this == SNACKBAR -> context.getString(R.string.status_shown_times, value)
+            isAppBar -> context.getString(R.string.status_clicks, value)
             isNavigationSuite || isTabRow ->
                 context.getString(
                     R.string.status_selected,

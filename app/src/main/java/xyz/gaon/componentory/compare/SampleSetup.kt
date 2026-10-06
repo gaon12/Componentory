@@ -295,4 +295,9 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.TAB_ROW,
                     LabComponent.SCROLLABLE_TAB_ROW,
                     LabComponent.SNACKBAR,
+                    LabComponent.TOP_APP_BAR,
+                    LabComponent.CENTER_ALIGNED_TOP_APP_BAR,
+                    LabComponent.MEDIUM_TOP_APP_BAR,
+                    LabComponent.LARGE_TOP_APP_BAR,
+                    LabComponent.BOTTOM_APP_BAR,
                 )
