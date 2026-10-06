@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**104 component entries**, with **273 runnable component/family combinations**.
+**106 component entries**, with **279 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `954a2e5`. Executed resource
+Application and latest verification source revision: `a77b292`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 61 | 13 |
+| Android framework | 74 | 63 | 11 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 151 | 88 |
+| Total | 239 | 153 | 86 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -267,6 +267,16 @@ inflated from the platform two_line_list_item layout so the sample root is the
 genuine deprecated class. Copying carries only the Gallery selection and the
 drawer open flag; the two-line item has no copyable inputs.
 
+Two popup-window entries add six combinations through the platform themes only.
+POPUP_WINDOW (android.widget.PopupWindow, API 1) shows a real themed floating
+content view anchored below the panel button with outside-tap dismissal, and its
+open count is the reported state. LIST_POPUP_WINDOW
+(android.widget.ListPopupWindow, API 11) anchors a real adapter-backed list; its
+OnItemClickListener records the selection and the popup dismisses itself. Both
+objects live on the trigger button's tag, are dismissed when the panel is
+disabled, released, or paused, and only their reported state copies — never an
+open window.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -351,14 +361,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `954a2e5`, preceded by the sweep baseline correction in
+Latest implementation: `a77b292`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 101 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,767,049
+with zero errors. All 102 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,772,573
 bytes with SHA-256
-`81c15b0a1be92f1ed927bb5ce8044cf2b87791c37a1bc94c4016e20497acce62` and the test
-APK is 1,462,484 bytes with SHA-256
-`a7c6c182bc86aff9f0afee6fb52fbe3bda6d459886147e5da9eff16fd19bdf90`.
+`63c2ac05ad1e9368a37e729e724cccfbe6decf6bd2910a5d0bb00c9ea934e2ec` and the test
+APK is 1,468,831 bytes with SHA-256
+`691ef09a03feab47e6b696c2b884760b0af598d4df2634be434fd0ff0030a050`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -443,8 +453,15 @@ structure, selection and open-state copying, recreation restore, the lock/unlock
 disabled behavior, unsupported Compose targets and five locales. They also
 await a clean unlocked-device run.
 
-The catalog now declares 104 entries and 273 supported combinations. The smoke
-sweep spans 514 ordinary cells: 271 supported and 243 unsupported; the six
+Four [popup-window scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/PopupWindowsTest.kt)
+compile in the same state. They verify the real `PopupWindow` and
+`ListPopupWindow` objects anchored to the trigger button, outside-tap and
+item-click dismissal, selection and open-count copying, recreation restore, the
+disabled trigger, unsupported Compose targets and five locales. They also await
+a clean unlocked-device run.
+
+The catalog now declares 106 entries and 279 supported combinations. The smoke
+sweep spans 524 ordinary cells: 277 supported and 247 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
