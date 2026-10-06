@@ -150,6 +150,7 @@
     <string name="framework_drawables">Android フレームワーク drawable · 現在の OS</string>
     <string name="framework_drawables_note">現在の OS で利用できる公開 drawable の全一覧です。アイコンとその他の UI 素材を含みます。</string>
     <string name="icon_count">アイコン: %1$d / %2$d</string>
+    <string name="icons_loading">アイコンを読み込んでいます…</string>
     <string name="icon_search_hint">すべてのアイコン名を検索</string>
     <string name="icon_status">アイコン: %1$s</string>
     <string name="icon_unavailable">この OS では利用できません</string>

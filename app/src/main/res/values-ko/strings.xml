@@ -150,6 +150,7 @@
     <string name="framework_drawables">Android 프레임워크 drawable · 현재 OS</string>
     <string name="framework_drawables_note">현재 OS에서 제공하는 공개 drawable 전체입니다. 아이콘과 기타 UI 리소스를 포함합니다.</string>
     <string name="icon_count">아이콘: %1$d / %2$d</string>
+    <string name="icons_loading">아이콘을 불러오는 중…</string>
     <string name="icon_search_hint">전체 아이콘 이름 검색</string>
     <string name="icon_status">아이콘: %1$s</string>
     <string name="icon_unavailable">이 OS에서 사용할 수 없음</string>

@@ -152,6 +152,7 @@
     <string name="framework_drawables">Android framework drawables · current OS</string>
     <string name="framework_drawables_note">All public drawable resources available on this OS, including icons and other UI assets.</string>
     <string name="icon_count">Icons: %1$d / %2$d</string>
+    <string name="icons_loading">Loading icons…</string>
     <string name="icon_search_hint">Search all icon names</string>
     <string name="icon_status">Icon: %1$s</string>
     <string name="icon_unavailable">Not available on this OS</string>

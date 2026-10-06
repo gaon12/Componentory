@@ -28,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -44,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.R
 
@@ -58,7 +61,14 @@ fun IconPicker(
 ) {
     var open by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
-    val entries = remember(platform) { IconCatalog.entries(context, platform) }
+    // The material index is ~11k lines; parse it off the main thread so
+    // composing a panel that hosts this picker never stalls. A null value
+    // means the catalog is still loading.
+    val loaded by
+        produceState<List<CatalogIcon>?>(null, platform) {
+            value = withContext(Dispatchers.IO) { IconCatalog.entries(context, platform) }
+        }
+    val entries = loaded.orEmpty()
     OutlinedButton(onClick = { open = true }, modifier = Modifier.testTag("icon_picker_$panel")) {
         Text(stringResource(R.string.choose_icon, selected.name))
     }
@@ -140,6 +150,10 @@ fun IconPicker(
                         label = { Text(stringResource(R.string.auto_mirrored)) },
                         modifier = Modifier.testTag("icon_mirrored"),
                     )
+                }
+                if (loaded == null) {
+                    Text(stringResource(R.string.icons_loading), Modifier.testTag("icons_loading"))
+                    return@Card
                 }
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Text(

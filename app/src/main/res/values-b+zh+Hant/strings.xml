@@ -150,6 +150,7 @@
     <string name="framework_drawables">Android 框架 drawable · 目前系統</string>
     <string name="framework_drawables_note">目前系統可用的全部公開 drawable 資源，包含圖示及其他 UI 素材。</string>
     <string name="icon_count">圖示: %1$d / %2$d</string>
+    <string name="icons_loading">正在載入圖示…</string>
     <string name="icon_search_hint">搜尋所有圖示名稱</string>
     <string name="icon_status">圖示：%1$s</string>
     <string name="icon_unavailable">此系統無法使用</string>
