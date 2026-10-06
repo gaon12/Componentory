@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**100 component entries**, with **261 runnable component/family combinations**.
+**101 component entries**, with **264 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -247,6 +247,14 @@ context. The stored window is dismissed or cancelled when the panel releases,
 repeated taps while a dialog is showing are ignored, and the open count is the
 only copyable input.
 
+The deprecated tab host adds three combinations through the platform themes
+only. TAB_HOST (android.widget.TabHost, API 1, deprecated 30) calls setup() so
+the framework builds its genuine TabWidget strip and content frame, then adds
+three TabSpecs with localized indicators and themed content. The
+android.widget.TabWidget row folds into TAB_HOST as a supporting source, the
+deprecation note reports API 30, and the selected tab index is the only
+copyable input.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -331,14 +339,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `325e291`, preceded by the sweep baseline correction in
+Latest implementation: `3fde06b`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 99 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,752,419
+with zero errors. All 100 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,756,731
 bytes with SHA-256
-`ccd988522914a3fd7d76b3f79114e2d3956c5ced812c025619f21befe47a084d` and the test
-APK is 1,450,405 bytes with SHA-256
-`32d622f0e084b5dd0f9f9f405737cab7000b7ae72ed9473c1a9e913a07583567`.
+`9c84284243f0eb6b114f7cd23d67b533bbaa80706f5ae339ca2eb5ca993fa854` and the test
+APK is 1,456,330 bytes with SHA-256
+`f74f8f9f04d5636b7c62e905e5758b9659b63af008db2c8d545986455e9a0e1e`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -409,8 +417,15 @@ compile in the same state. They verify the real base `Dialog`, the deprecated
 trigger, count copies and recreation restore, unsupported Compose targets and
 five locales. They also await a clean unlocked-device run.
 
-The catalog now declares 100 entries and 261 supported combinations. The smoke
-sweep spans 494 ordinary cells: 256 supported and 238 unsupported; the six
+Five [tab host scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/TabHostTest.kt)
+compile in the same state. They verify the real `TabHost` and its `TabWidget`
+strip, tab switching through the real indicators, content replacement, the
+disabled strip, index copying and recreation restore, the deprecation note,
+unsupported Compose targets and five locales. They also await a clean
+unlocked-device run.
+
+The catalog now declares 101 entries and 264 supported combinations. The smoke
+sweep spans 499 ordinary cells: 262 supported and 237 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
