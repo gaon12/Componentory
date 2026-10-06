@@ -5,34 +5,40 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
@@ -46,6 +52,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.ComponentCategory
@@ -84,8 +91,16 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
     var query by rememberSaveable { mutableStateOf("") }
     var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
     var provider by rememberSaveable { mutableStateOf<InventoryFamily?>(null) }
-    val sampleListState = rememberLazyListState()
+    val sampleListState = rememberLazyGridState()
     val plannedListState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    val changeQuery: (String) -> Unit = {
+        query = it
+        scope.launch {
+            sampleListState.scrollToItem(0)
+            plannedListState.scrollToItem(0)
+        }
+    }
     val focus = LocalFocusManager.current
     val context = LocalContext.current
     val inventory by
@@ -113,7 +128,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             .fillMaxSize()
             .testTag("list_screen")
             .padding(horizontal = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
@@ -126,6 +141,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                     else R.string.planned_intro
                 ),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
         SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
@@ -148,21 +164,21 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                 if (mode == CatalogMode.SAMPLES) R.string.component_search_hint
                 else R.string.planned_search_hint
             )
-        OutlinedTextField(
+        TextField(
             value = query,
-            onValueChange = { query = it },
+            onValueChange = changeQuery,
             modifier =
                 Modifier.fillMaxWidth().testTag("component_search").semantics {
                     contentDescription = searchLabel
                 },
-            label = { Text(searchLabel, Modifier.clearAndSetSemantics {}) },
+            placeholder = { Text(searchLabel, Modifier.clearAndSetSemantics {}) },
             leadingIcon = {
                 Icon(painterResource(R.drawable.ic_search), contentDescription = null)
             },
             trailingIcon = {
                 if (query.isNotEmpty()) {
                     IconButton(
-                        onClick = { query = "" },
+                        onClick = { changeQuery("") },
                         modifier = Modifier.testTag("clear_search"),
                     ) {
                         Icon(
@@ -174,6 +190,13 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             },
             singleLine = true,
             shape = MaterialTheme.shapes.large,
+            colors =
+                TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
         )
@@ -207,20 +230,30 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                 }
             }
         } else {
-            CategoryFilter(category, { category = it }, "list", Modifier.fillMaxWidth())
+            CategoryFilter(
+                category,
+                {
+                    category = it
+                    scope.launch { sampleListState.scrollToItem(0) }
+                },
+                "list",
+                Modifier.fillMaxWidth(),
+            )
             Text(
                 pluralStringResource(R.plurals.component_count, components.size, components.size),
                 modifier = Modifier.testTag("sample_count"),
                 style = MaterialTheme.typography.labelLarge,
             )
-            LazyColumn(
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(340.dp),
                 state = sampleListState,
                 contentPadding = PaddingValues(bottom = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxWidth().weight(1f).testTag("component_list"),
             ) {
                 if (components.isEmpty()) {
-                    item {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
                         Column(
                             Modifier.fillMaxWidth().padding(vertical = 32.dp),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -232,7 +265,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                             )
                             TextButton(
                                 onClick = {
-                                    query = ""
+                                    changeQuery("")
                                     category = null
                                     focus.clearFocus()
                                 },
@@ -261,37 +294,18 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                     }
                 }
                 items(components, key = { it.name }) { component ->
-                    OutlinedCard(
+                    Card(
                         onClick = {
                             focus.clearFocus()
                             onOpenComponent(component)
                         },
                         modifier = Modifier.fillMaxWidth().testTag("list_${component.name}"),
+                        colors =
+                            CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                            ),
                     ) {
-                        Row(
-                            Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Column(
-                                Modifier.weight(1f),
-                                verticalArrangement = Arrangement.spacedBy(4.dp),
-                            ) {
-                                Text(
-                                    stringResource(component.labelRes),
-                                    style = MaterialTheme.typography.titleMedium,
-                                )
-                                Text(
-                                    stringResource(component.descriptionRes),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                                Text(
-                                    providerSummary(component),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.testTag("providers_${component.name}"),
-                                )
-                            }
+                        ComponentSummary(component, providers = providerSummary(component)) {
                             Icon(
                                 painterResource(R.drawable.ic_forward),
                                 contentDescription = null,

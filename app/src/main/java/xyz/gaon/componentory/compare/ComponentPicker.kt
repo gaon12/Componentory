@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -33,6 +31,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.CategoryFilter
+import xyz.gaon.componentory.catalog.ComponentSummary
 import xyz.gaon.componentory.catalog.matchesSearch
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
@@ -92,20 +91,11 @@ fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
                                             open = false
                                         },
                                     )
-                                    .testTag("component_${option.name}")
-                                    .padding(vertical = 8.dp),
+                                    .testTag("component_${option.name}"),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                RadioButton(selected = option == component, onClick = null)
-                                Column {
-                                    Text(
-                                        stringResource(option.labelRes),
-                                        style = MaterialTheme.typography.titleSmall,
-                                    )
-                                    Text(
-                                        stringResource(option.descriptionRes),
-                                        style = MaterialTheme.typography.bodySmall,
-                                    )
+                                ComponentSummary(option) {
+                                    RadioButton(selected = option == component, onClick = null)
                                 }
                             }
                         }

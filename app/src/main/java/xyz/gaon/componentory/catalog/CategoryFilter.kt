@@ -3,6 +3,8 @@ package xyz.gaon.componentory.catalog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,6 +33,13 @@ fun CategoryFilter(
                 onClick = { onSelect(null) },
                 label = { Text(stringResource(R.string.all_categories)) },
                 modifier = Modifier.testTag("${tagPrefix}_category_ALL"),
+                shape = MaterialTheme.shapes.small,
+                colors =
+                    FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedLabelColor = MaterialTheme.colorScheme.primary,
+                    ),
+                border = null,
             )
         }
         categories.forEach { category ->
@@ -40,6 +49,13 @@ fun CategoryFilter(
                     onClick = { onSelect(category) },
                     label = { Text(stringResource(category.labelRes)) },
                     modifier = Modifier.testTag("${tagPrefix}_category_${category.name}"),
+                    shape = MaterialTheme.shapes.small,
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.primary,
+                        ),
+                    border = null,
                 )
             }
         }

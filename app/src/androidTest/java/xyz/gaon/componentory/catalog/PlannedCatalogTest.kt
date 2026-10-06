@@ -62,6 +62,7 @@ class PlannedCatalogTest {
             count(size)
             compose.onNodeWithTag("planned_provider_$family").assertIsSelected()
         }
+        provider("PLATFORM")
         search("ActionBar")
         count(1)
         val identity = "PLATFORM_android.app.ActionBar"
