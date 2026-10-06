@@ -461,4 +461,12 @@
     <string name="toolbar_nav_action">導覽</string>
     <string name="toolbar_navigate">導覽</string>
     <string name="toolbar_note">操作與導覽點擊會更新最後操作狀態。複製僅轉移所回報的操作。</string>
+    <string name="component_web_view">網頁檢視</string>
+    <string name="component_web_view_description">架構 WebView，在主題面板中渲染真實 HTML。</string>
+    <string name="component_quick_contact_badge">快速聯絡人徽章</string>
+    <string name="component_quick_contact_badge_description">架構 QuickContactBadge，指派給固定的聯絡人地址。</string>
+    <string name="webview_body">真實的架構 WebView 渲染這段主題 HTML 內容。</string>
+    <string name="webview_link">Android 開發者</string>
+    <string name="webview_note">小工具渲染真實 HTML。頁面捲動與導覽不會被複製，宿主 Enabled 不影響頁面內容。</string>
+    <string name="contact_badge_note">點擊會開啟所指派地址的架構聯絡人浮層。沒有可複製的狀態。</string>
 </resources>

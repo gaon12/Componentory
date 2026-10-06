@@ -552,6 +552,22 @@ enum class LabComponent(
         minimumApi = 21,
         category = ComponentCategory.NAVIGATION,
     ),
+    WEB_VIEW(
+        "Web view",
+        R.string.component_web_view,
+        R.string.component_web_view_description,
+        platformSource = "android.webkit.WebView",
+        minimumApi = 1,
+        category = ComponentCategory.CONTENT,
+    ),
+    QUICK_CONTACT_BADGE(
+        "Quick contact badge",
+        R.string.component_quick_contact_badge,
+        R.string.component_quick_contact_badge_description,
+        platformSource = "android.widget.QuickContactBadge",
+        minimumApi = 5,
+        category = ComponentCategory.CONTENT,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -1007,6 +1023,10 @@ enum class LabComponent(
     val isMenuHost: Boolean
         get() = this == TOOLBAR || this == ACTION_MENU_VIEW
 
+    // Self-contained surfaces whose real content lives inside the widget.
+    val isContentSurface: Boolean
+        get() = this == WEB_VIEW || this == QUICK_CONTACT_BADGE
+
     val galleryItemCount: Int
         get() = if (this == GALLERY) 6 else 0
 
@@ -1111,7 +1131,8 @@ enum class LabComponent(
                 this == ANALOG_CLOCK ||
                 this == DIGITAL_CLOCK ||
                 isScrollContainer ||
-                isFrameworkLayout ->
+                isFrameworkLayout ||
+                isContentSurface ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             this == TEXT_CLOCK ->
                 context.getString(

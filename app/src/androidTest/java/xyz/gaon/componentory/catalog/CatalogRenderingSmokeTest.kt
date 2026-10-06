@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.WebView
 import android.widget.AbsListView
 import android.widget.AbsoluteLayout
 import android.widget.ActionMenuView
@@ -46,6 +47,7 @@ import android.widget.NumberPicker
 import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.ProgressBar
+import android.widget.QuickContactBadge
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RatingBar
@@ -166,22 +168,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 63, 43)
+        verifyFamily(DesignFamily.CLASSIC, 65, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 63, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 65, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 63, 43)
+        verifyFamily(DesignFamily.MATERIAL, 65, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 75)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 77)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 47)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 49)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -190,7 +192,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            108,
+            110,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -553,6 +555,9 @@ class CatalogRenderingSmokeTest {
                 }
                 LabComponent.ACTION_MENU_VIEW ->
                     assertEquals(2, (view as ActionMenuView).menu.size())
+                LabComponent.QUICK_CONTACT_BADGE ->
+                    assertNotNull((view as QuickContactBadge).drawable)
+                LabComponent.WEB_VIEW -> Unit
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -652,6 +657,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.TWO_LINE_LIST_ITEM -> TwoLineListItem::class.java
             LabComponent.TOOLBAR -> Toolbar::class.java
             LabComponent.ACTION_MENU_VIEW -> ActionMenuView::class.java
+            LabComponent.WEB_VIEW -> WebView::class.java
+            LabComponent.QUICK_CONTACT_BADGE -> QuickContactBadge::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

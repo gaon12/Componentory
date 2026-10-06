@@ -464,4 +464,12 @@
     <string name="toolbar_nav_action">Navigation</string>
     <string name="toolbar_navigate">Navigate</string>
     <string name="toolbar_note">Action and navigation clicks feed the last action state. Copying carries only that reported action.</string>
+    <string name="component_web_view">Web view</string>
+    <string name="component_web_view_description">The framework WebView rendering real HTML inside the themed panel.</string>
+    <string name="component_quick_contact_badge">Quick contact badge</string>
+    <string name="component_quick_contact_badge_description">The framework QuickContactBadge assigned to a fixed contact address.</string>
+    <string name="webview_body">A real framework WebView renders this themed HTML content.</string>
+    <string name="webview_link">Android Developers</string>
+    <string name="webview_note">The widget renders real HTML. Page scroll and navigation are never copied, and host Enabled does not reach page content.</string>
+    <string name="contact_badge_note">Taps open the framework contact overlay for the assigned address. Copying has no state to carry.</string>
 </resources>

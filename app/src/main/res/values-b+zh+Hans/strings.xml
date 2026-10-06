@@ -461,4 +461,12 @@
     <string name="toolbar_nav_action">导航</string>
     <string name="toolbar_navigate">导航</string>
     <string name="toolbar_note">操作和导航点击会更新最后操作状态。复制仅转移所报告的操作。</string>
+    <string name="component_web_view">网页视图</string>
+    <string name="component_web_view_description">框架 WebView，在主题面板中渲染真实 HTML。</string>
+    <string name="component_quick_contact_badge">快捷联系人徽章</string>
+    <string name="component_quick_contact_badge_description">框架 QuickContactBadge，分配到固定的联系人地址。</string>
+    <string name="webview_body">真实的框架 WebView 渲染这段主题 HTML 内容。</string>
+    <string name="webview_link">Android 开发者</string>
+    <string name="webview_note">该小部件渲染真实 HTML。页面滚动与导航不会被复制，宿主 Enabled 不影响页面内容。</string>
+    <string name="contact_badge_note">点击会打开所分配地址的框架联系人浮层。没有可复制的状态。</string>
 </resources>

@@ -371,6 +371,8 @@ class SampleSetupTest {
                 LabComponent.HORIZONTAL_DIVIDER,
                 LabComponent.DOT_BADGE,
                 LabComponent.INDETERMINATE_LINEAR_PROGRESS,
+                LabComponent.WEB_VIEW,
+                LabComponent.QUICK_CONTACT_BADGE,
             )
             .forEach { component ->
                 val family = supportedFamily(component)

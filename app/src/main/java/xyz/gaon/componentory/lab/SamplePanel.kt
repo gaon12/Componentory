@@ -381,6 +381,16 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isContentSurface && unsupported == null) {
+                Text(
+                    stringResource(
+                        if (component == LabComponent.WEB_VIEW) R.string.webview_note
+                        else R.string.contact_badge_note
+                    ),
+                    modifier = Modifier.testTag("content_surface_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isTransientWindow && unsupported == null) {
                 Text(
                     stringResource(R.string.transient_note),

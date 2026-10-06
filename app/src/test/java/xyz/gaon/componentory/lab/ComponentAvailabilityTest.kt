@@ -401,6 +401,35 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun contentSurfacesKeepPlatformOnlySourcesAndMinimumApis() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        val componentToSource =
+            mapOf(
+                LabComponent.WEB_VIEW to ("android.webkit.WebView" to 1),
+                LabComponent.QUICK_CONTACT_BADGE to ("android.widget.QuickContactBadge" to 5),
+            )
+        componentToSource.forEach { (component, metadata) ->
+            platform.forEach { family ->
+                if (metadata.second > 1) {
+                    assertNotNull(family.unsupportedReason(component, metadata.second - 1))
+                }
+                assertNull(family.unsupportedReason(component, metadata.second))
+                assertNull(family.unsupportedReason(component, 36))
+                assertEquals(metadata.first, family.source(component))
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertTrue(component.isContentSurface)
+            assertFalse(component.isMenuHost)
+            assertEquals(metadata.second, component.minimumApi)
+            assertEquals(ComponentCategory.CONTENT, component.category)
+            assertTrue(component.matchesSearch(metadata.first))
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

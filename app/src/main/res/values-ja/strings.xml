@@ -461,4 +461,12 @@
     <string name="toolbar_nav_action">ナビゲーション</string>
     <string name="toolbar_navigate">移動</string>
     <string name="toolbar_note">アクションとナビゲーションのクリックが最後の操作状態を更新します。コピーは報告された操作のみを移します。</string>
+    <string name="component_web_view">ウェブビュー</string>
+    <string name="component_web_view_description">テーマのパネル内で実際のHTMLをレンダリングするフレームワークWebViewです。</string>
+    <string name="component_quick_contact_badge">クイック連絡先バッジ</string>
+    <string name="component_quick_contact_badge_description">固定された連絡先アドレスに割り当てられたフレームワークQuickContactBadgeです。</string>
+    <string name="webview_body">実際のフレームワークWebViewがこのテーマのHTMLコンテンツをレンダリングします。</string>
+    <string name="webview_link">Androidデベロッパー</string>
+    <string name="webview_note">ウィジェットは実際のHTMLをレンダリングします。ページのスクロールやナビゲーションはコピーされず、ホストのEnabledはページコンテンツに届きません。</string>
+    <string name="contact_badge_note">タップすると割り当てられたアドレスのフレームワーク連絡先オーバーレイが開きます。コピーする状態はありません。</string>
 </resources>

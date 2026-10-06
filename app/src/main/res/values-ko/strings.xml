@@ -461,4 +461,12 @@
     <string name="toolbar_nav_action">내비게이션</string>
     <string name="toolbar_navigate">이동</string>
     <string name="toolbar_note">작업 및 내비게이션 클릭이 마지막 작업 상태를 갱신합니다. 복사는 보고된 작업만 옮깁니다.</string>
+    <string name="component_web_view">웹 뷰</string>
+    <string name="component_web_view_description">테마 패널 안에서 실제 HTML을 렌더링하는 프레임워크 WebView입니다.</string>
+    <string name="component_quick_contact_badge">빠른 연락처 배지</string>
+    <string name="component_quick_contact_badge_description">고정된 연락처 주소에 할당된 프레임워크 QuickContactBadge입니다.</string>
+    <string name="webview_body">실제 프레임워크 WebView가 이 테마의 HTML 콘텐츠를 렌더링합니다.</string>
+    <string name="webview_link">Android 개발자</string>
+    <string name="webview_note">위젯이 실제 HTML을 렌더링합니다. 페이지 스크롤과 내비게이션은 복사되지 않으며, 호스트의 Enabled는 페이지 콘텐츠에 적용되지 않습니다.</string>
+    <string name="contact_badge_note">누르면 할당된 주소의 프레임워크 연락처 오버레이가 열립니다. 복사할 상태가 없습니다.</string>
 </resources>

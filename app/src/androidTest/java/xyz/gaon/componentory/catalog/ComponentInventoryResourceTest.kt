@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 148, InventoryStatus.PENDING to 91),
+            mapOf(InventoryStatus.IMPLEMENTED to 157, InventoryStatus.PENDING to 82),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 58,
+                InventoryFamily.PLATFORM to 67,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -283,10 +283,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(84, pending.size)
+        assertEquals(82, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 9,
+                InventoryFamily.PLATFORM to 7,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -350,6 +350,14 @@ class ComponentInventoryResourceTest {
         assertEquals(
             listOf("androidx.compose.material3.BasicAlertDialog"),
             ComponentInventory.pending(entries, "dialog", InventoryFamily.MATERIAL3).map {
+                it.source
+            },
+        )
+        assertTrue(ComponentInventory.pending(entries, "webview").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "quickcontactbadge").isEmpty())
+        assertEquals(
+            listOf("android.widget.inline.InlineContentView"),
+            ComponentInventory.pending(entries, "inlinecontentview", InventoryFamily.PLATFORM).map {
                 it.source
             },
         )

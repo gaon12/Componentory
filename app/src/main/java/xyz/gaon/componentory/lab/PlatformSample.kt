@@ -112,6 +112,10 @@ fun PlatformSample(
         PlatformMenuHostSample(family, component, viewId, enabled, state, modifier)
         return
     }
+    if (component.isContentSurface) {
+        PlatformContentSurfaceSample(family, component, viewId, enabled, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(
