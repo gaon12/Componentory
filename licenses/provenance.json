@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "aosp-frameworks-base-NOTICE.txt",
+      "repository": "platform/frameworks/base",
+      "commit": "63ade05d76785975fc3292ca030abbaa1dda8891",
+      "sourcePath": "NOTICE",
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/NOTICE",
+      "sha256": "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530",
+      "scope": "Unmodified framework repository notice retained for the historical resource workflow. Framework resources are exported separately, not bundled as original OS captures."
+    },
+    {
+      "path": "android-sdk-NOTICE.txt",
+      "repository": "platform/prebuilts/sdk",
+      "commit": "3af7c93524be6f51e092b87b17f009f13ee98b43",
+      "sourcePath": "NOTICE",
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/NOTICE",
+      "sha256": "29714c52481af51064f56bca49bfbbec4d1004eadfc82415fc35bd200bee4e3c",
+      "scope": "Unmodified SDK repository terms retained with the class metadata source attribution. This file is not an Apache license declaration."
+    },
+    {
+      "path": "Apache-2.0.txt",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "scope": "Full Apache 2.0 license text. Individual upstream file licenses and notices still apply."
+    }
+  ]
+}

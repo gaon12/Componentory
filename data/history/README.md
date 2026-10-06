@@ -21,3 +21,10 @@ graphs, archives, caches, and screenshots belong outside Git.
 API labels follow the [Android API level table](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels).
 An API revision label does not identify an OS patch release or prove original UI
 appearance. See [the source analysis workflow](../../docs/android-history.md).
+
+The original SDK repository [NOTICE](../../licenses/android-sdk-NOTICE.txt) is
+retained unchanged, with its immutable URL and hash in
+[notice provenance](../../licenses/provenance.json). It contains SDK terms and
+is not labelled Apache 2.0. The app bundles these terms and its own MIT license
+for offline reading in Settings. See the project [NOTICE](../../NOTICE) for the
+scope of each attribution and the separately retained AOSP framework notice.

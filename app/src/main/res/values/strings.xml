@@ -640,4 +640,8 @@
     <string name="run_export_failed">Could not export saved runs. Try again.</string>
     <string name="runs_retry">Try again</string>
     <string name="runs_create">Start a comparison</string>
+    <string name="source_notices">Source licenses and notices</string>
+    <string name="source_notices_note">Componentory uses MIT. AOSP framework notices and SDK source terms are retained separately. Read the original documents below.</string>
+    <string name="source_notices_loading">Loading document…</string>
+    <string name="source_notices_unavailable">This document could not be loaded.</string>
 </resources>

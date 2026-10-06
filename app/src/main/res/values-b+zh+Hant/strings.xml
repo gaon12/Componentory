@@ -637,4 +637,8 @@
     <string name="run_export_failed">無法匯出執行。請重試。</string>
     <string name="runs_retry">重試</string>
     <string name="runs_create">開始比較</string>
+    <string name="source_notices">原始碼授權與聲明</string>
+    <string name="source_notices_note">Componentory 使用 MIT 授權。AOSP 框架聲明與 SDK 原始碼條款分別保留。請查看下方的原始文件。</string>
+    <string name="source_notices_loading">正在載入文件…</string>
+    <string name="source_notices_unavailable">無法載入此文件。</string>
 </resources>

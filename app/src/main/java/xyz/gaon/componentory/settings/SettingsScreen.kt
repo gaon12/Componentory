@@ -104,6 +104,7 @@ fun SettingsScreen(
             LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
             SettingsNote(stringResource(R.string.platform_note))
         }
+        SettingsGroup(stringResource(R.string.source_notices)) { SourceNotices() }
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
                 "Componentory ${BuildConfig.VERSION_NAME}",

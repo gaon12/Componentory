@@ -2,3 +2,5 @@
 *.bat text eol=crlf
 *.jar binary
 *.webp binary
+# Preserve original legal notices byte for byte, including upstream whitespace.
+licenses/*NOTICE.txt -text -diff

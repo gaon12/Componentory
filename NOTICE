@@ -1,0 +1,28 @@
+Componentory
+Copyright (c) 2026 gaon12
+
+Componentory's own code and documentation are licensed under MIT; see LICENSE.
+Third-party files retain their original terms and attribution.
+
+The offline history catalog contains reviewed class metadata derived from public
+Android SDK signatures at platform/prebuilts/sdk commit
+3af7c93524be6f51e092b87b17f009f13ee98b43. Complete SDK binaries and signature files
+are not bundled in the app. The original repository NOTICE is retained as
+licenses/android-sdk-NOTICE.txt. It contains SDK terms, not an Apache declaration.
+
+The historical resource exporter analyzes Android Open Source Project framework
+sources. The reviewed KitKat framework commit is
+63ade05d76785975fc3292ca030abbaa1dda8891. Its root module declares Apache 2.0.
+The original root NOTICE is retained as licenses/aosp-frameworks-base-NOTICE.txt,
+including its additional third-party attributions. The full Apache 2.0 license
+is in licenses/Apache-2.0.txt. Framework resource exports include notices from
+their actual release commits; the bundled KitKat notice does not replace those.
+
+Original historical resources and captures are not bundled in this app. Current
+platform samples use widgets from the installed Android OS. Library samples use
+the explicitly recorded Compose Material library versions. Source analysis does
+not establish original historical OS appearance or behavior.
+
+Original notice URLs, immutable commits, and byte hashes are in
+licenses/provenance.json. These attribution files do not change upstream terms
+or assign a single license to every AOSP or SDK file.

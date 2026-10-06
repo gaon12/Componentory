@@ -176,7 +176,52 @@ val packageAndroidHistory =
         outputDirectory.set(layout.buildDirectory.dir("generated/androidHistory"))
     }
 
+abstract class PackageSourceNotices : DefaultTask() {
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val sourceDirectory: DirectoryProperty
+    @get:InputFile
+    @get:PathSensitive(PathSensitivity.NONE)
+    abstract val applicationLicense: RegularFileProperty
+    @get:InputFile
+    @get:PathSensitive(PathSensitivity.NONE)
+    abstract val applicationNotice: RegularFileProperty
+    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun packageNotices() {
+        val sources =
+            listOf(
+                "Apache-2.0.txt" to sourceDirectory.file("Apache-2.0.txt").get().asFile,
+                "aosp-frameworks-base-NOTICE.txt" to
+                    sourceDirectory.file("aosp-frameworks-base-NOTICE.txt").get().asFile,
+                "android-sdk-NOTICE.txt" to
+                    sourceDirectory.file("android-sdk-NOTICE.txt").get().asFile,
+                "provenance.json" to sourceDirectory.file("provenance.json").get().asFile,
+                "Componentory-MIT.txt" to applicationLicense.get().asFile,
+                "NOTICE.txt" to applicationNotice.get().asFile,
+            )
+        sources.forEach { (name, source) ->
+            val destination = outputDirectory.file("legal/$name").get().asFile
+            destination.parentFile.mkdirs()
+            source.copyTo(destination, overwrite = true)
+        }
+    }
+}
+
+val packageSourceNotices =
+    tasks.register<PackageSourceNotices>("packageSourceNotices") {
+        sourceDirectory.set(rootProject.layout.projectDirectory.dir("licenses"))
+        applicationLicense.set(rootProject.layout.projectDirectory.file("LICENSE"))
+        applicationNotice.set(rootProject.layout.projectDirectory.file("NOTICE"))
+        outputDirectory.set(layout.buildDirectory.dir("generated/sourceNotices"))
+    }
+
 androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(
+        packageSourceNotices,
+        PackageSourceNotices::outputDirectory,
+    )
     variant.sources.assets?.addGeneratedSourceDirectory(
         packageAndroidHistory,
         PackageAndroidHistory::outputDirectory,
