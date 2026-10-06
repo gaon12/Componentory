@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**134 component entries**, with **337 runnable component/family combinations**.
+**136 component entries**, with **339 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `9a99c33`. Executed resource
+Application and latest verification source revision: `810b547`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 50 | 2 |
-| Compose Material 3 1.4.0 | 113 | 85 | 28 |
-| Total | 239 | 207 | 32 |
+| Compose Material 3 1.4.0 | 113 | 88 | 25 |
+| Total | 239 | 210 | 29 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -387,6 +387,14 @@ ways, so the open-or-closed flag is the copied state and drags write it
 back. Material 3's pinned BottomSheetScaffold has no gestures switch, so
 disabled panels gate the open button while the sheet stays draggable.
 
+Two feedback entries add two Material 3-only combinations. PLAIN_TOOLTIP
+and RICH_TOOLTIP each host their tooltip in a real TooltipBox behind
+their experimental opt-in; long press or hover reveals the overlay. The
+tooltips are transient, so both cells report a preview status and the
+copy direction explains there are no inputs. The shared TooltipBox host
+counts as a supporting source of both entries, matching the
+NavigationBarItem convention.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -471,14 +479,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `9a99c33`, preceded by the sweep baseline correction in
+Latest implementation: `810b547`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 116 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,192,418
+with zero errors. All 117 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,203,166
 bytes with SHA-256
-`29186116b54c2f002736ed9faa5f43da866d3ba29e4281cf6e1690e788765f40` and the test
-APK is 1,510,007 bytes with SHA-256
-`38d0934ea36e86e956ee6bc363bc3db25d2c9924d85b737de14d840dc13aaa17`.
+`3daac34b36bc98a926d649977eb7366eeb7289acd20740d71d99489a7dbabb97` and the test
+APK is 1,512,087 bytes with SHA-256
+`badba5e6bf3360d0bef181402dd33c6baf9c8c8f094220d0f52e4bce49a2c547`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -616,8 +624,14 @@ the backdrop scaffold's honest Material 3 unsupported cell, disabled
 buttons keeping the sheet closed, and recreation restore. They also
 await a clean unlocked-device run.
 
-The catalog now declares 134 entries and 337 supported combinations. The smoke
-sweep spans 664 ordinary cells: 340 supported and 324 unsupported; the six
+Three [tooltip scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/TooltipsTest.kt)
+compile in the same state. They verify the real TooltipBox anchors and
+long-press reveal, the rich tooltip's title and content, the no-inputs
+copy explanation, and the Material 2 missing-source cell. They also
+await a clean unlocked-device run.
+
+The catalog now declares 136 entries and 339 supported combinations. The smoke
+sweep spans 674 ordinary cells: 342 supported and 332 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
