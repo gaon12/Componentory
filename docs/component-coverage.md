@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**101 component entries**, with **264 runnable component/family combinations**.
+**104 component entries**, with **273 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `96d861b`. Executed resource
+Application and latest verification source revision: `954a2e5`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 37 | 37 |
+| Android framework | 74 | 61 | 13 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 127 | 112 |
+| Total | 239 | 151 | 88 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -255,6 +255,18 @@ android.widget.TabWidget row folds into TAB_HOST as a supporting source, the
 deprecation note reports API 30, and the selected tab index is the only
 copyable input.
 
+Three deprecated containers add nine combinations through the platform themes
+only. GALLERY (android.widget.Gallery, API 1, deprecated 16) drives a real
+ArrayAdapter of six pages and reports the selection through the widget's own
+OnItemSelectedListener. SLIDING_DRAWER (android.widget.SlidingDrawer, API 3,
+deprecated 17) is inflated from an app layout because the constructor throws
+without the handle/content attributes; its open and close listeners feed
+SampleState and the panel's Enabled toggle maps to the real lock/unlock API.
+TWO_LINE_LIST_ITEM (android.widget.TwoLineListItem, API 1, deprecated 17) is
+inflated from the platform two_line_list_item layout so the sample root is the
+genuine deprecated class. Copying carries only the Gallery selection and the
+drawer open flag; the two-line item has no copyable inputs.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -339,14 +351,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `3fde06b`, preceded by the sweep baseline correction in
+Latest implementation: `954a2e5`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 100 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,756,731
+with zero errors. All 101 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,767,049
 bytes with SHA-256
-`9c84284243f0eb6b114f7cd23d67b533bbaa80706f5ae339ca2eb5ca993fa854` and the test
-APK is 1,456,330 bytes with SHA-256
-`f74f8f9f04d5636b7c62e905e5758b9659b63af008db2c8d545986455e9a0e1e`.
+`81c15b0a1be92f1ed927bb5ce8044cf2b87791c37a1bc94c4016e20497acce62` and the test
+APK is 1,462,484 bytes with SHA-256
+`a7c6c182bc86aff9f0afee6fb52fbe3bda6d459886147e5da9eff16fd19bdf90`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -424,8 +436,15 @@ disabled strip, index copying and recreation restore, the deprecation note,
 unsupported Compose targets and five locales. They also await a clean
 unlocked-device run.
 
-The catalog now declares 101 entries and 264 supported combinations. The smoke
-sweep spans 499 ordinary cells: 262 supported and 237 unsupported; the six
+Four [legacy-container scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/LegacyContainersTest.kt)
+compile in the same state. They verify the real `Gallery`, `SlidingDrawer` and
+`TwoLineListItem` classes inside platform themes, the adapter and handle
+structure, selection and open-state copying, recreation restore, the lock/unlock
+disabled behavior, unsupported Compose targets and five locales. They also
+await a clean unlocked-device run.
+
+The catalog now declares 104 entries and 273 supported combinations. The smoke
+sweep spans 514 ordinary cells: 271 supported and 243 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
