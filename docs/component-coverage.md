@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**106 component entries**, with **279 runnable component/family combinations**.
+**108 component entries**, with **285 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `a77b292`. Executed resource
+Application and latest verification source revision: `d63d98e`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 63 | 11 |
+| Android framework | 74 | 65 | 9 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 153 | 86 |
+| Total | 239 | 155 | 84 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -277,6 +277,15 @@ objects live on the trigger button's tag, are dismissed when the panel is
 disabled, released, or paused, and only their reported state copies — never an
 open window.
 
+Two menu-host entries add six combinations through the platform themes only.
+TOOLBAR (android.widget.Toolbar, API 21) hosts a themed title, subtitle, the
+theme's own homeAsUpIndicator navigation icon, and two always-visible action
+items; the real OnMenuItemClickListener and OnNavigationClickListener report
+the last invoked action. ACTION_MENU_VIEW (android.widget.ActionMenuView,
+API 21) lazily builds its real ActionMenuPresenter through getMenu() so the
+items render as genuine action buttons. The Enabled toggle disables the menu
+items themselves; only the last invoked action copies.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -361,14 +370,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `a77b292`, preceded by the sweep baseline correction in
+Latest implementation: `d63d98e`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 102 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,772,573
+with zero errors. All 103 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,779,033
 bytes with SHA-256
-`63c2ac05ad1e9368a37e729e724cccfbe6decf6bd2910a5d0bb00c9ea934e2ec` and the test
-APK is 1,468,831 bytes with SHA-256
-`691ef09a03feab47e6b696c2b884760b0af598d4df2634be434fd0ff0030a050`.
+`2b8e0dafb63e5a184a2afbf44621febb8b5531220e822b684cd87c3a2556876a` and the test
+APK is 1,474,086 bytes with SHA-256
+`fa66295144065dd21b5be711daf88064ecfd3ccc7dc0fef56f16ac4dd595ef09`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -460,8 +469,15 @@ item-click dismissal, selection and open-count copying, recreation restore, the
 disabled trigger, unsupported Compose targets and five locales. They also await
 a clean unlocked-device run.
 
-The catalog now declares 106 entries and 279 supported combinations. The smoke
-sweep spans 524 ordinary cells: 277 supported and 247 unsupported; the six
+Four [menu-host scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/MenuHostsTest.kt)
+compile in the same state. They verify the real `Toolbar` and `ActionMenuView`
+classes inside platform themes, the themed title, navigation icon and action
+buttons, item and navigation clicks through the rendered action views,
+last-action copying, recreation restore, disabled items, unsupported Compose
+targets and five locales. They also await a clean unlocked-device run.
+
+The catalog now declares 108 entries and 285 supported combinations. The smoke
+sweep spans 534 ordinary cells: 283 supported and 251 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
