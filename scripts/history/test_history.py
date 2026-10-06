@@ -8,6 +8,7 @@ import urllib.error
 from pathlib import Path
 from unittest.mock import patch
 
+from .__main__ import api_signature
 from .aosp import extract_resources, read_url, sha256
 from .resources import ResourceIndex, analysis_grade, java_references
 from .sdk import parse_signature, public_ui, source_path
@@ -182,6 +183,54 @@ class ResourceTests(unittest.TestCase):
 
 
 class ArchiveTests(unittest.TestCase):
+    def test_internal_qualifier_aliases_keep_files_and_record_the_original_target(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            archive = root / "resources.tar.gz"
+            with tarfile.open(archive, "w:gz") as bundle:
+                info = tarfile.TarInfo("values-mcc310-mnc150/colors.xml")
+                info.size = 3
+                bundle.addfile(info, io.BytesIO(b"xml"))
+                alias = tarfile.TarInfo("values-mcc310-mnc170")
+                alias.type = tarfile.SYMTYPE
+                alias.linkname = "./values-mcc310-mnc150"
+                bundle.addfile(alias)
+            aliases = extract_resources(archive, root / "export")
+            self.assertEqual(b"xml", (root / "export/values-mcc310-mnc170/colors.xml").read_bytes())
+            self.assertFalse((root / "export/values-mcc310-mnc170").is_symlink())
+            self.assertEqual(
+                [{"path": "values-mcc310-mnc170", "target": "values-mcc310-mnc150"}], aliases
+            )
+
+    def test_cycles_in_internal_aliases_are_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            archive = root / "resources.tar.gz"
+            with tarfile.open(archive, "w:gz") as bundle:
+                for name, target in (("one", "two"), ("two", "one")):
+                    info = tarfile.TarInfo(name)
+                    info.type = tarfile.SYMTYPE
+                    info.linkname = target
+                    bundle.addfile(info)
+            with self.assertRaises(ValueError):
+                extract_resources(archive, root / "export")
+
+    def test_old_release_signature_falls_back_to_a_pinned_sdk_with_provenance(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            from .aosp import SourceCache
+
+            framework = SourceCache(Path(temporary), "platform/frameworks/base", "a" * 40)
+            sdk = SourceCache(Path(temporary), "platform/prebuilts/sdk", "b" * 40)
+            with (
+                patch.object(framework, "file", return_value=None),
+                patch.object(sdk, "file", return_value=b"signature"),
+            ):
+                data, provenance = api_signature(framework, sdk, 10)
+            self.assertEqual(b"signature", data)
+            self.assertEqual("PUBLIC_SDK_API_SIGNATURE", provenance["basis"])
+            self.assertEqual("b" * 40, provenance["commit"])
+            self.assertTrue(provenance["url"].endswith("/10/public/api/android.txt"))
+
     def test_temporary_rate_limit_retries_without_changing_source(self):
         error = urllib.error.HTTPError(
             "https://example.invalid/pinned", 429, "rate limited", {"Retry-After": "1"}, None

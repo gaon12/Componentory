@@ -4,6 +4,7 @@ import base64
 import hashlib
 import json
 import re
+import shutil
 import tarfile
 import time
 import urllib.error
@@ -84,23 +85,35 @@ class SourceCache:
             archive.parent.mkdir(parents=True, exist_ok=True)
             data = read_url(f"{HOST}{self.repository}/+archive/{self.commit}/core/res/res.tar.gz")
             archive.write_bytes(data)
-        extract_resources(archive, destination)
+        aliases = extract_resources(archive, destination)
+        (destination / ".aliases.json").write_text(
+            json.dumps(aliases, indent=2) + "\n", encoding="utf-8"
+        )
         marker.write_text(sha256(archive.read_bytes()))
         return destination
 
 
-def extract_resources(archive: Path, destination: Path) -> None:
+def extract_resources(archive: Path, destination: Path) -> list[dict]:
     destination.mkdir(parents=True, exist_ok=True)
     root = destination.resolve()
     with tarfile.open(archive, "r:gz") as bundle:
         members = bundle.getmembers()
+        aliases = []
         for member in members:
             target = (root / member.name).resolve()
-            if not target.is_relative_to(root) or member.issym() or member.islnk():
+            if not target.is_relative_to(root):
                 raise ValueError(f"Unsafe resource archive entry: {member.name}")
+            if member.issym() or member.islnk():
+                source = ((target.parent if member.issym() else root) / member.linkname).resolve()
+                if not source.is_relative_to(root):
+                    raise ValueError(f"Unsafe resource archive entry: {member.name}")
+                aliases.append((target, source))
+                continue
             if not member.isdir() and not member.isfile():
                 raise ValueError(f"Unsupported archive entry: {member.name}")
         for member in members:
+            if member.issym() or member.islnk():
+                continue
             target = root / member.name
             if member.isdir():
                 target.mkdir(parents=True, exist_ok=True)
@@ -108,3 +121,28 @@ def extract_resources(archive: Path, destination: Path) -> None:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 with bundle.extractfile(member) as source:
                     target.write_bytes(source.read())
+        pending = list(aliases)
+        while pending:
+            progressed = []
+            for target, source in pending:
+                # Materialize only internal targets; never create operating-system symlinks.
+                if not source.exists() or any(
+                    other_target.is_relative_to(source) for other_target, _ in pending
+                ):
+                    continue
+                target.parent.mkdir(parents=True, exist_ok=True)
+                if source.is_dir():
+                    shutil.copytree(source, target, dirs_exist_ok=True)
+                else:
+                    shutil.copyfile(source, target)
+                progressed.append((target, source))
+            if not progressed:
+                raise ValueError("Resource archive aliases are missing or cyclic.")
+            pending = [item for item in pending if item not in progressed]
+        return [
+            {
+                "path": target.relative_to(root).as_posix(),
+                "target": source.relative_to(root).as_posix(),
+            }
+            for target, source in aliases
+        ]

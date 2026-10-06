@@ -38,8 +38,11 @@ Omit `--component` to analyze all classified public UI classes in that release.
 Repeat `--theme` to choose themes. The default themes are `Theme.Holo` and
 `Theme.Holo.Light`; choose appropriate themes for another release. The release
 tag is resolved to a framework commit. Its declared SDK version is checked against
-the same release's pinned `platform/build` metadata. The release must provide
-`frameworks/base/api/current.txt`. Unsupported layouts or source locations must be
+the same release's pinned `platform/build` metadata. When a release has no text
+`api/current.txt`, the tool uses that API revision's pinned public SDK signature
+and records this separate source basis in the manifest. Internal qualifier-folder
+aliases are materialized without OS symlinks and their original targets are recorded.
+Unsupported layouts or source locations must be
 reported and investigated rather than silently replaced with modern widgets.
 
 The tool combines constructor style attributes with Java `R.layout`, `drawable`,

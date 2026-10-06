@@ -79,12 +79,32 @@ def inventory(args) -> None:
     print(f"Exported {len(rows)} public UI records across {len(versions)} API levels.")
 
 
+def api_signature(framework: SourceCache, sdk: SourceCache, api: int) -> tuple[bytes, dict]:
+    path = "api/current.txt"
+    source = framework
+    basis = "RELEASE_API_SIGNATURE"
+    signature = source.file(path)
+    if signature is None:
+        source = sdk
+        path = f"{api}/public/api/android.txt"
+        basis = "PUBLIC_SDK_API_SIGNATURE"
+        signature = source.file(path)
+    if signature is None:
+        raise ValueError("Neither the release nor the pinned public SDK contains this signature.")
+    return signature, {
+        "basis": basis,
+        "repository": source.repository,
+        "commit": source.commit,
+        "url": source.url(path),
+        "sha256": sha256(signature),
+    }
+
+
 def export(args) -> None:
     commit = resolve_commit(FRAMEWORK_REPOSITORY, args.release)
     cache = SourceCache(args.cache, FRAMEWORK_REPOSITORY, commit)
-    signature = cache.file("api/current.txt")
-    if signature is None:
-        raise ValueError("This release has no api/current.txt; use a supported release signature.")
+    sdk = SourceCache(args.cache, SDK_REPOSITORY, args.sdk_commit)
+    signature, signature_source = api_signature(cache, sdk, args.api)
     classes = parse_signature(signature.decode("utf-8"))
     candidates = public_ui(classes)
     requested = args.component or list(candidates)
@@ -181,10 +201,12 @@ def export(args) -> None:
             "release": args.release,
             "apiLevel": args.api,
             "frameworkCommit": commit,
-            "apiSignature": {
-                "url": cache.url("api/current.txt"),
-                "sha256": sha256(signature),
-            },
+            "apiSignature": signature_source,
+            "resourceAliases": json.loads(
+                (index.root / ".aliases.json").read_text(encoding="utf-8")
+            )
+            if (index.root / ".aliases.json").is_file()
+            else [],
             "releaseMetadata": {
                 "url": build_cache.url("core/version_defaults.mk"),
                 "commit": build_commit,
@@ -227,6 +249,7 @@ def main() -> None:
     resources.add_argument("--cache", type=Path, default=Path(".local"))
     resources.add_argument("--release", required=True)
     resources.add_argument("--api", type=int, required=True)
+    resources.add_argument("--sdk-commit", default=SDK_COMMIT)
     resources.add_argument("--component", action="append")
     resources.add_argument("--theme", action="append", default=None)
     resources.add_argument("--output", type=Path, required=True)
