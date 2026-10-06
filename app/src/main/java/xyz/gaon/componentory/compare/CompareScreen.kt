@@ -2,6 +2,7 @@ package xyz.gaon.componentory.compare
 
 import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -131,15 +132,25 @@ fun CompareScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text(stringResource(R.string.nav_compare), style = MaterialTheme.typography.headlineMedium)
+        // Heading and selector share one row: the picker is the screen's
+        // primary action, so it gets the remaining width instead of its own line.
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                stringResource(R.string.nav_compare),
+                Modifier.padding(end = 16.dp),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            Box(Modifier.weight(1f)) {
+                ComponentPicker(component) {
+                    clearEntryAndResult()
+                    onComponentChange(it)
+                }
+            }
+        }
         Text(
             stringResource(R.string.compare_intro, Build.VERSION.RELEASE),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        ComponentPicker(component) {
-            clearEntryAndResult()
-            onComponentChange(it)
-        }
         FlowRow(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
