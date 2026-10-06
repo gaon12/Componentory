@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**97 component entries**, with **252 runnable component/family combinations**.
+**100 component entries**, with **261 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -237,6 +237,16 @@ ObjectAnimator transitions loaded from the AOSP fade resources, while restores
 and copies set `displayedChild` directly so no transition replays on
 recomposition. The displayed page index is the only copyable input.
 
+Three transient-window entries add nine combinations through the platform
+themes only. PLAIN_DIALOG opens the base android.app.Dialog — not the
+AlertDialog subclass the existing DIALOG entry uses — with a themed title and
+message content. PROGRESS_DIALOG (deprecated API 26) calls the real
+ProgressDialog.show as an indeterminate cancelable dialog and shares the
+deprecatedApi property. TOAST creates a real Toast in the panel's themed
+context. The stored window is dismissed or cancelled when the panel releases,
+repeated taps while a dialog is showing are ignored, and the open count is the
+only copyable input.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -321,14 +331,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `8bde0f3`, preceded by the sweep baseline correction in
+Latest implementation: `325e291`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 97 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,744,915
+with zero errors. All 99 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,752,419
 bytes with SHA-256
-`579bece5dd37c6253d62dda20fcae8b4ce612c1ecd1abb15a238b60909baf954` and the test
-APK is 1,443,764 bytes with SHA-256
-`de146f0fb1226fe3b7dce451943bc81a7644545bbcc2930dbeccc62cb3dfe986`.
+`ccd988522914a3fd7d76b3f79114e2d3956c5ced812c025619f21befe47a084d` and the test
+APK is 1,450,405 bytes with SHA-256
+`32d622f0e084b5dd0f9f9f405737cab7000b7ae72ed9473c1a9e913a07583567`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -393,8 +403,14 @@ and recreation restore, independent panels, the disabled flag, and localized
 labels, pages and buttons in five locales. They also await a clean
 unlocked-device run.
 
-The catalog now declares 97 entries and 252 supported combinations. The smoke
-sweep spans 479 ordinary cells: 247 supported and 232 unsupported; the six
+Five [transient-window scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/TransientWindowsTest.kt)
+compile in the same state. They verify the real base `Dialog`, the deprecated
+`ProgressDialog` and the real `Toast` object, the open counts, the disabled
+trigger, count copies and recreation restore, unsupported Compose targets and
+five locales. They also await a clean unlocked-device run.
+
+The catalog now declares 100 entries and 261 supported combinations. The smoke
+sweep spans 494 ordinary cells: 256 supported and 238 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;

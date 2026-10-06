@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 97 implemented components by translated name or description,
+- **List:** Search 100 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 96 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 93 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -100,9 +100,9 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `8bde0f3` pass formatting, lint, all 97 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 247 supported
-and 232 unsupported ordinary cells after the baselines were recomputed from the
+The latest checks for `325e291` pass formatting, lint, all 99 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 256 supported
+and 238 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
 use a separate existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process
@@ -113,7 +113,7 @@ matching. That defect plus three unrelated test bugs are repaired in `34ceff1`.
 Catalog rendering, comparison state, the Planned view, provider selection,
 accessibility, text, inline dates, inline time, the clock, scroll and view
 switcher samples, framework layouts, adapter lists, zoom widgets, adapter
-animators,
+animators, transient windows,
 date/time dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
