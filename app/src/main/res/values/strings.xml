@@ -405,4 +405,13 @@
     <string name="list_item">Item %1$d</string>
     <string name="list_group">Group %1$d</string>
     <string name="status_expanded">Expanded: %1$s</string>
+    <string name="component_zoom_controls">Zoom controls</string>
+    <string name="component_zoom_controls_description">The original framework ZoomControls pairing zoom-in and zoom-out buttons that move a level counter.</string>
+    <string name="component_zoom_button">Zoom button</string>
+    <string name="component_zoom_button_description">The original framework ZoomButton image button that steps the zoom level on each tap.</string>
+    <string name="component_zoom_buttons_controller">Zoom buttons controller</string>
+    <string name="component_zoom_buttons_controller_description">The original framework ZoomButtonsController overlaying its controls on a themed owner view.</string>
+    <string name="zoom_note">Zoom taps move the level counter; the level is the copyable input.</string>
+    <string name="zoom_target">Zoom target</string>
+    <string name="status_zoom">Zoom level %1$d of %2$d</string>
 </resources>

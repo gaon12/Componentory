@@ -402,4 +402,13 @@
     <string name="list_item">항목 %1$d</string>
     <string name="list_group">그룹 %1$d</string>
     <string name="status_expanded">펼침: %1$s</string>
+    <string name="component_zoom_controls">줌 컨트롤</string>
+    <string name="component_zoom_controls_description">레벨 카운터를 움직이는 확대·축소 버튼 쌍을 제공하는 원본 프레임워크 ZoomControls입니다.</string>
+    <string name="component_zoom_button">줌 버튼</string>
+    <string name="component_zoom_button_description">탭할 때마다 줌 레벨을 올리는 원본 프레임워크 ZoomButton 이미지 버튼입니다.</string>
+    <string name="component_zoom_buttons_controller">줌 버튼 컨트롤러</string>
+    <string name="component_zoom_buttons_controller_description">테마의 소유자 뷰 위에 컨트롤을 겹쳐 표시하는 원본 프레임워크 ZoomButtonsController입니다.</string>
+    <string name="zoom_note">줌 탭은 레벨 카운터를 움직입니다. 레벨이 복사되는 입력입니다.</string>
+    <string name="zoom_target">줌 대상</string>
+    <string name="status_zoom">줌 레벨 %1$d/%2$d</string>
 </resources>

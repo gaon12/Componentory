@@ -402,4 +402,13 @@
     <string name="list_item">项目 %1$d</string>
     <string name="list_group">组 %1$d</string>
     <string name="status_expanded">已展开：%1$s</string>
+    <string name="component_zoom_controls">缩放控件</string>
+    <string name="component_zoom_controls_description">原始框架 ZoomControls，以放大和缩小按钮对驱动级别计数器。</string>
+    <string name="component_zoom_button">缩放按钮</string>
+    <string name="component_zoom_button_description">原始框架 ZoomButton 图片按钮，每次点击提高缩放级别。</string>
+    <string name="component_zoom_buttons_controller">缩放按钮控制器</string>
+    <string name="component_zoom_buttons_controller_description">原始框架 ZoomButtonsController，把控件叠加在主题所有者视图上。</string>
+    <string name="zoom_note">缩放点击驱动级别计数器；级别是可复制的输入。</string>
+    <string name="zoom_target">缩放目标</string>
+    <string name="status_zoom">缩放级别 %1$d/%2$d</string>
 </resources>

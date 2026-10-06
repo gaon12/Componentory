@@ -198,6 +198,38 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun zoomControlsUseDeprecatedFrameworkSuppliersWithRealApiLevels() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.ZOOM_CONTROLS to ("android.widget.ZoomControls" to (1 to 29)),
+                LabComponent.ZOOM_BUTTON to ("android.widget.ZoomButton" to (1 to 26)),
+                LabComponent.ZOOM_BUTTONS_CONTROLLER to
+                    ("android.widget.ZoomButtonsController" to (4 to 26)),
+            )
+            .forEach { (component, metadata) ->
+                val (source, levels) = metadata
+                val (minimumApi, deprecatedApi) = levels
+                platform.forEach { family ->
+                    if (minimumApi > 1)
+                        assertNotNull(family.unsupportedReason(component, minimumApi - 1))
+                    assertNull(family.unsupportedReason(component, minimumApi))
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(minimumApi, component.minimumApi)
+                assertEquals(deprecatedApi, component.deprecatedApi)
+                assertEquals(ComponentCategory.LEGACY, component.category)
+                assertEquals(5, component.initialValue)
+                assertEquals(10, component.zoomLevelMax)
+                assertTrue(component.matchesSearch(source))
+            }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

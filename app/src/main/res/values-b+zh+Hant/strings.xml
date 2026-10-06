@@ -402,4 +402,13 @@
     <string name="list_item">項目 %1$d</string>
     <string name="list_group">群組 %1$d</string>
     <string name="status_expanded">已展開：%1$s</string>
+    <string name="component_zoom_controls">縮放控制項</string>
+    <string name="component_zoom_controls_description">原始架構 ZoomControls，以放大和縮小按鈕組驅動層級計數器。</string>
+    <string name="component_zoom_button">縮放按鈕</string>
+    <string name="component_zoom_button_description">原始架構 ZoomButton 圖片按鈕，每次點擊提高縮放層級。</string>
+    <string name="component_zoom_buttons_controller">縮放按鈕控制器</string>
+    <string name="component_zoom_buttons_controller_description">原始架構 ZoomButtonsController，將控制項疊加在主題所有者檢視上。</string>
+    <string name="zoom_note">縮放點擊驅動層級計數器；層級是可複製的輸入。</string>
+    <string name="zoom_target">縮放目標</string>
+    <string name="status_zoom">縮放層級 %1$d/%2$d</string>
 </resources>

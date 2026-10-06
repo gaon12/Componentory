@@ -59,6 +59,8 @@ import android.widget.ToggleButton
 import android.widget.ViewAnimator
 import android.widget.ViewFlipper
 import android.widget.ViewSwitcher
+import android.widget.ZoomButton
+import android.widget.ZoomControls
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsActions
@@ -152,22 +154,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 46, 44)
+        verifyFamily(DesignFamily.CLASSIC, 49, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 46, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 49, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 46, 44)
+        verifyFamily(DesignFamily.MATERIAL, 49, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 59)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 62)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 31)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 34)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -176,7 +178,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            92,
+            95,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -488,6 +490,17 @@ class CatalogRenderingSmokeTest {
                     assertEquals(3, list.expandableListAdapter.groupCount)
                     assertEquals(2, list.expandableListAdapter.getChildrenCount(0))
                 }
+                LabComponent.ZOOM_CONTROLS -> {
+                    val controls = view as ZoomControls
+                    assertEquals(2, controls.childCount)
+                    assertTrue(controls.getChildAt(0).isEnabled)
+                    assertTrue(controls.getChildAt(1).isEnabled)
+                }
+                LabComponent.ZOOM_BUTTON -> assertTrue((view as ZoomButton).isEnabled)
+                // The controller host holds the owner view; its controls attach
+                // once the owner is laid out.
+                LabComponent.ZOOM_BUTTONS_CONTROLLER ->
+                    assertTrue((view as FrameLayout).childCount >= 1)
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -566,6 +579,10 @@ class CatalogRenderingSmokeTest {
             LabComponent.LIST_VIEW -> ListView::class.java
             LabComponent.GRID_VIEW -> GridView::class.java
             LabComponent.EXPANDABLE_LIST_VIEW -> ExpandableListView::class.java
+            LabComponent.ZOOM_CONTROLS -> ZoomControls::class.java
+            LabComponent.ZOOM_BUTTON -> ZoomButton::class.java
+            // ZoomButtonsController is not a View; the host frame carries the id.
+            LabComponent.ZOOM_BUTTONS_CONTROLLER -> FrameLayout::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

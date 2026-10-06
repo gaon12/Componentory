@@ -308,14 +308,11 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (
-                (component == LabComponent.ANALOG_CLOCK ||
-                    component == LabComponent.DIGITAL_CLOCK) && unsupported == null
-            ) {
+            if (component.deprecatedApi != null && unsupported == null) {
                 Text(
                     stringResource(
                         R.string.clock_deprecated_note,
-                        if (component == LabComponent.ANALOG_CLOCK) 23 else 17,
+                        requireNotNull(component.deprecatedApi),
                     ),
                     modifier = Modifier.testTag("clock_note_$panel"),
                     style = MaterialTheme.typography.bodySmall,
@@ -349,10 +346,10 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (component == LabComponent.ABSOLUTE_LAYOUT && unsupported == null) {
+            if (component.isZoomControl && unsupported == null) {
                 Text(
-                    stringResource(R.string.clock_deprecated_note, 3),
-                    modifier = Modifier.testTag("clock_note_$panel"),
+                    stringResource(R.string.zoom_note),
+                    modifier = Modifier.testTag("zoom_note_$panel"),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }

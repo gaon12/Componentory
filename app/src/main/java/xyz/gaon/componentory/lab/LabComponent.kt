@@ -421,6 +421,31 @@ enum class LabComponent(
         platformSource = "android.widget.ExpandableListView",
         category = ComponentCategory.LAYOUT,
     ),
+    ZOOM_CONTROLS(
+        "Zoom controls",
+        R.string.component_zoom_controls,
+        R.string.component_zoom_controls_description,
+        initialValue = 5,
+        platformSource = "android.widget.ZoomControls",
+        category = ComponentCategory.LEGACY,
+    ),
+    ZOOM_BUTTON(
+        "Zoom button",
+        R.string.component_zoom_button,
+        R.string.component_zoom_button_description,
+        initialValue = 5,
+        platformSource = "android.widget.ZoomButton",
+        category = ComponentCategory.LEGACY,
+    ),
+    ZOOM_BUTTONS_CONTROLLER(
+        "Zoom buttons controller",
+        R.string.component_zoom_buttons_controller,
+        R.string.component_zoom_buttons_controller_description,
+        initialValue = 5,
+        minimumApi = 4,
+        platformSource = "android.widget.ZoomButtonsController",
+        category = ComponentCategory.LEGACY,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -860,6 +885,26 @@ enum class LabComponent(
     val isAdapterList: Boolean
         get() = this in listOf(LIST_VIEW, GRID_VIEW, EXPANDABLE_LIST_VIEW)
 
+    val isZoomControl: Boolean
+        get() = this in listOf(ZOOM_CONTROLS, ZOOM_BUTTON, ZOOM_BUTTONS_CONTROLLER)
+
+    val zoomLevelMax: Int
+        get() = if (isZoomControl) 10 else 0
+
+    // The API level that deprecated the framework source, or null when the
+    // component is not deprecated.
+    val deprecatedApi: Int?
+        get() =
+            when (this) {
+                ABSOLUTE_LAYOUT -> 3
+                DIGITAL_CLOCK -> 17
+                ANALOG_CLOCK -> 23
+                ZOOM_BUTTON,
+                ZOOM_BUTTONS_CONTROLLER -> 26
+                ZOOM_CONTROLS -> 29
+                else -> null
+            }
+
     val listRowCount: Int
         get() =
             when (this) {
@@ -963,6 +1008,7 @@ enum class LabComponent(
                         .joinToString(", ") { context.getString(R.string.list_group, it + 1) }
                         .ifEmpty { context.getString(R.string.sample_state_none) },
                 )
+            isZoomControl -> context.getString(R.string.status_zoom, value, zoomLevelMax)
             isCountedBadge -> context.getString(R.string.status_badge, value)
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)

@@ -716,6 +716,35 @@ class SampleSetupTest {
     }
 
     @Test
+    fun zoomCopiesCarryOnlyTheZoomLevel() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        listOf(
+                LabComponent.ZOOM_CONTROLS,
+                LabComponent.ZOOM_BUTTON,
+                LabComponent.ZOOM_BUTTONS_CONTROLLER,
+            )
+            .forEach { component ->
+                val source = SampleState(initialValue = 8, initialText = "ignored")
+                platform.forEach { sourceFamily ->
+                    val setup = SampleSetup.capture(component, sourceFamily, source, API)
+                    assertEquals(setOf("component", "family", "value"), setup.savedValues().keys)
+                    val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+                    platform.forEach { targetFamily ->
+                        val target = requireNotNull(restored.copyTo(targetFamily, API).state)
+                        assertNotSame(source, target)
+                        assertEquals(8, target.value)
+                        assertEquals("", target.text)
+                    }
+                    listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                        val result = restored.copyTo(family, API)
+                        assertNull(result.state)
+                        assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                    }
+                }
+            }
+    }
+
+    @Test
     fun switcherCopiesCarryOnlyTheDisplayedChildIndex() {
         val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
         listOf(
