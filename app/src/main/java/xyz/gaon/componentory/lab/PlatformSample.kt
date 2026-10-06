@@ -80,6 +80,10 @@ fun PlatformSample(
         PlatformLayoutSample(family, component, viewId, enabled, modifier)
         return
     }
+    if (component.isAdapterList) {
+        PlatformListSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

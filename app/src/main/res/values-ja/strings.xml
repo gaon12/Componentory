@@ -393,4 +393,13 @@
     <string name="layout_child">子 %1$d</string>
     <string name="layout_cell">R%1$d C%2$d</string>
     <string name="layout_note">実際のコンテナーとテーマの子を示す静的プレビューです。レイアウトにコピーする入力はありません。</string>
+    <string name="component_list_view">リストビュー</string>
+    <string name="component_list_view_description">ArrayAdapterを使用し、単一選択でチェックされた項目がコピーされる元のフレームワークListViewです。</string>
+    <string name="component_grid_view">グリッドビュー</string>
+    <string name="component_grid_view_description">ArrayAdapterから3列を生成し、単一選択でチェックされた項目がコピーされる元のフレームワークGridViewです。</string>
+    <string name="component_expandable_list_view">展開型リストビュー</string>
+    <string name="component_expandable_list_view_description">展開状態がコピーされる実際のグループと子を持つ元のフレームワークExpandableListViewです。</string>
+    <string name="list_item">項目 %1$d</string>
+    <string name="list_group">グループ %1$d</string>
+    <string name="status_expanded">展開済み: %1$s</string>
 </resources>

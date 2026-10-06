@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 135, InventoryStatus.PENDING to 104),
+            mapOf(InventoryStatus.IMPLEMENTED to 138, InventoryStatus.PENDING to 101),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 45,
+                InventoryFamily.PLATFORM to 48,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -192,6 +192,18 @@ class ComponentInventoryResourceTest {
         val tableRow = entries.single { it.source == "android.widget.TableRow" }
         assertEquals(InventoryStatus.IMPLEMENTED, tableRow.status)
         assertEquals(listOf("TABLE_LAYOUT"), tableRow.catalogIds)
+        mapOf(
+                "android.widget.ListView" to "LIST_VIEW",
+                "android.widget.GridView" to "GRID_VIEW",
+                "android.widget.ExpandableListView" to "EXPANDABLE_LIST_VIEW",
+            )
+            .forEach { (source, catalogId) ->
+                val row = entries.single { it.source == source }
+                assertEquals(InventoryFamily.PLATFORM, row.family)
+                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(listOf(catalogId), row.catalogIds)
+                assertEquals(1, row.apiIntroduced)
+            }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -211,10 +223,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(104, pending.size)
+        assertEquals(101, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 29,
+                InventoryFamily.PLATFORM to 26,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -281,6 +293,9 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "relativelayout").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "space").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "absolutelayout").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "listview").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "gridview").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "expandablelistview").isEmpty())
         listOf(
                 "android.widget.TextView",
                 "androidx.compose.material.Text",

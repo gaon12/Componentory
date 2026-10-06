@@ -258,6 +258,7 @@ private val LabComponent.hasCopiedValue: Boolean
             isDeterminateProgress ||
             isCountedBadge ||
             isViewSwitcher ||
+            isAdapterList ||
             this in
                 listOf(
                     LabComponent.CHECKBOX,

@@ -393,4 +393,13 @@
     <string name="layout_child">子项 %1$d</string>
     <string name="layout_cell">R%1$d C%2$d</string>
     <string name="layout_note">展示真实容器及其主题子项的静态预览。布局没有可复制的输入。</string>
+    <string name="component_list_view">列表视图</string>
+    <string name="component_list_view_description">原始框架 ListView，由 ArrayAdapter 提供数据，单选选中项可复制。</string>
+    <string name="component_grid_view">网格视图</string>
+    <string name="component_grid_view_description">原始框架 GridView，由 ArrayAdapter 填充三列，单选选中项可复制。</string>
+    <string name="component_expandable_list_view">可展开列表视图</string>
+    <string name="component_expandable_list_view_description">原始框架 ExpandableListView，包含真实的组和子项，展开状态可复制。</string>
+    <string name="list_item">项目 %1$d</string>
+    <string name="list_group">组 %1$d</string>
+    <string name="status_expanded">已展开：%1$s</string>
 </resources>

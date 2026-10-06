@@ -169,6 +169,35 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun adapterListsUseOnlyFrameworkSuppliersAndCarryRealRowCounts() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.LIST_VIEW to ("android.widget.ListView" to 6),
+                LabComponent.GRID_VIEW to ("android.widget.GridView" to 9),
+                LabComponent.EXPANDABLE_LIST_VIEW to ("android.widget.ExpandableListView" to 3),
+            )
+            .forEach { (component, metadata) ->
+                val (source, rows) = metadata
+                platform.forEach { family ->
+                    assertNull(family.unsupportedReason(component, 24))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(1, component.minimumApi)
+                assertEquals(rows, component.listRowCount)
+                assertEquals(ComponentCategory.LAYOUT, component.category)
+                assertTrue(component.matchesSearch(source))
+            }
+        // The expandable list starts with one open group; plain lists start unchecked.
+        assertEquals(0, LabComponent.LIST_VIEW.initialValue)
+        assertEquals(0, LabComponent.GRID_VIEW.initialValue)
+        assertEquals(1, LabComponent.EXPANDABLE_LIST_VIEW.initialValue)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

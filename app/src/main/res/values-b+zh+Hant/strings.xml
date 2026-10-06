@@ -393,4 +393,13 @@
     <string name="layout_child">子項 %1$d</string>
     <string name="layout_cell">R%1$d C%2$d</string>
     <string name="layout_note">展示真實容器及其主題子項的靜態預覽。版面配置沒有可複製的輸入。</string>
+    <string name="component_list_view">清單檢視</string>
+    <string name="component_list_view_description">原始架構 ListView，以 ArrayAdapter 提供資料，單選勾選項目可複製。</string>
+    <string name="component_grid_view">格線檢視</string>
+    <string name="component_grid_view_description">原始架構 GridView，以 ArrayAdapter 填入三欄，單選勾選項目可複製。</string>
+    <string name="component_expandable_list_view">可展開清單檢視</string>
+    <string name="component_expandable_list_view_description">原始架構 ExpandableListView，包含真實的群組與子項，展開狀態可複製。</string>
+    <string name="list_item">項目 %1$d</string>
+    <string name="list_group">群組 %1$d</string>
+    <string name="status_expanded">已展開：%1$s</string>
 </resources>

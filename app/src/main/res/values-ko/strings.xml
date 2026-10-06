@@ -393,4 +393,13 @@
     <string name="layout_child">자식 %1$d</string>
     <string name="layout_cell">R%1$d C%2$d</string>
     <string name="layout_note">실제 컨테이너와 테마의 자식들을 보여주는 정적 미리보기입니다. 레이아웃에는 복사할 입력이 없습니다.</string>
+    <string name="component_list_view">리스트 뷰</string>
+    <string name="component_list_view_description">원본 프레임워크 ListView로, ArrayAdapter를 사용하고 단일 선택으로 체크된 항목이 복사됩니다.</string>
+    <string name="component_grid_view">그리드 뷰</string>
+    <string name="component_grid_view_description">원본 프레임워크 GridView로, ArrayAdapter에서 세 열을 채우고 단일 선택으로 체크된 항목이 복사됩니다.</string>
+    <string name="component_expandable_list_view">확장형 리스트 뷰</string>
+    <string name="component_expandable_list_view_description">확장 상태가 복사되는 실제 그룹과 자식을 가진 원본 프레임워크 ExpandableListView입니다.</string>
+    <string name="list_item">항목 %1$d</string>
+    <string name="list_group">그룹 %1$d</string>
+    <string name="status_expanded">펼침: %1$s</string>
 </resources>

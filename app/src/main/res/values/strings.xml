@@ -396,4 +396,13 @@
     <string name="layout_child">Child %1$d</string>
     <string name="layout_cell">R%1$d C%2$d</string>
     <string name="layout_note">A static preview of the real container and its themed children. The layout has no inputs to copy.</string>
+    <string name="component_list_view">List view</string>
+    <string name="component_list_view_description">The original framework ListView backed by an ArrayAdapter, with a single-choice checked item that copies.</string>
+    <string name="component_grid_view">Grid view</string>
+    <string name="component_grid_view_description">The original framework GridView backing three columns from an ArrayAdapter, with a single-choice checked item that copies.</string>
+    <string name="component_expandable_list_view">Expandable list view</string>
+    <string name="component_expandable_list_view_description">The original framework ExpandableListView with real groups and children whose expanded state copies.</string>
+    <string name="list_item">Item %1$d</string>
+    <string name="list_group">Group %1$d</string>
+    <string name="status_expanded">Expanded: %1$s</string>
 </resources>

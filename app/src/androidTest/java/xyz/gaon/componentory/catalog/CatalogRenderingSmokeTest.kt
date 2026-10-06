@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AbsListView
 import android.widget.AbsoluteLayout
 import android.widget.AnalogClock
 import android.widget.AutoCompleteTextView
@@ -24,13 +25,16 @@ import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.DigitalClock
 import android.widget.EditText
+import android.widget.ExpandableListView
 import android.widget.FrameLayout
 import android.widget.GridLayout
+import android.widget.GridView
 import android.widget.HorizontalScrollView
 import android.widget.ImageButton
 import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.MultiAutoCompleteTextView
 import android.widget.NumberPicker
 import android.widget.PopupMenu
@@ -148,22 +152,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 43, 44)
+        verifyFamily(DesignFamily.CLASSIC, 46, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 43, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 46, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 43, 44)
+        verifyFamily(DesignFamily.MATERIAL, 46, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 56)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 59)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 28)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 31)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -172,7 +176,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            89,
+            92,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -469,6 +473,21 @@ class CatalogRenderingSmokeTest {
                 }
                 LabComponent.RELATIVE_LAYOUT -> assertEquals(2, (view as RelativeLayout).childCount)
                 LabComponent.SPACE -> assertEquals(View.VISIBLE, view.visibility)
+                LabComponent.LIST_VIEW -> {
+                    val list = view as ListView
+                    assertEquals(6, list.adapter.count)
+                    assertEquals(AbsListView.CHOICE_MODE_SINGLE, list.choiceMode)
+                }
+                LabComponent.GRID_VIEW -> {
+                    val grid = view as GridView
+                    assertEquals(9, grid.adapter.count)
+                    assertEquals(3, grid.numColumns)
+                }
+                LabComponent.EXPANDABLE_LIST_VIEW -> {
+                    val list = view as ExpandableListView
+                    assertEquals(3, list.expandableListAdapter.groupCount)
+                    assertEquals(2, list.expandableListAdapter.getChildrenCount(0))
+                }
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -544,6 +563,9 @@ class CatalogRenderingSmokeTest {
             LabComponent.RELATIVE_LAYOUT -> RelativeLayout::class.java
             LabComponent.SPACE -> Space::class.java
             LabComponent.ABSOLUTE_LAYOUT -> AbsoluteLayout::class.java
+            LabComponent.LIST_VIEW -> ListView::class.java
+            LabComponent.GRID_VIEW -> GridView::class.java
+            LabComponent.EXPANDABLE_LIST_VIEW -> ExpandableListView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

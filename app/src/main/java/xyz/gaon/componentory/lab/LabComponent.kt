@@ -399,6 +399,28 @@ enum class LabComponent(
         platformSource = "android.widget.AbsoluteLayout",
         category = ComponentCategory.LEGACY,
     ),
+    LIST_VIEW(
+        "List view",
+        R.string.component_list_view,
+        R.string.component_list_view_description,
+        platformSource = "android.widget.ListView",
+        category = ComponentCategory.LAYOUT,
+    ),
+    GRID_VIEW(
+        "Grid view",
+        R.string.component_grid_view,
+        R.string.component_grid_view_description,
+        platformSource = "android.widget.GridView",
+        category = ComponentCategory.LAYOUT,
+    ),
+    EXPANDABLE_LIST_VIEW(
+        "Expandable list view",
+        R.string.component_expandable_list_view,
+        R.string.component_expandable_list_view_description,
+        initialValue = 1,
+        platformSource = "android.widget.ExpandableListView",
+        category = ComponentCategory.LAYOUT,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -835,6 +857,18 @@ enum class LabComponent(
                     ABSOLUTE_LAYOUT,
                 )
 
+    val isAdapterList: Boolean
+        get() = this in listOf(LIST_VIEW, GRID_VIEW, EXPANDABLE_LIST_VIEW)
+
+    val listRowCount: Int
+        get() =
+            when (this) {
+                LIST_VIEW -> 6
+                GRID_VIEW -> 9
+                EXPANDABLE_LIST_VIEW -> 3
+                else -> 0
+            }
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -914,6 +948,21 @@ enum class LabComponent(
                     )
             isViewSwitcher ->
                 context.getString(R.string.status_switcher_child, value + 1, switcherPageCount)
+            this == LIST_VIEW || this == GRID_VIEW ->
+                if (value == 0) context.getString(R.string.sample_state_no_selection)
+                else
+                    context.getString(
+                        R.string.status_selected,
+                        context.getString(R.string.list_item, value),
+                    )
+            this == EXPANDABLE_LIST_VIEW ->
+                context.getString(
+                    R.string.status_expanded,
+                    (0 until listRowCount)
+                        .filter { value and (1 shl it) != 0 }
+                        .joinToString(", ") { context.getString(R.string.list_group, it + 1) }
+                        .ifEmpty { context.getString(R.string.sample_state_none) },
+                )
             isCountedBadge -> context.getString(R.string.status_badge, value)
             isIndeterminateProgress -> context.getString(R.string.status_indeterminate_progress)
             this == RANGE_SLIDER -> context.getString(R.string.status_range, value, rangeEnd)
