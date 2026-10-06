@@ -398,6 +398,12 @@ class ComponentInventoryResourceTest {
                 it.source
             },
         )
+        // Both remaining pending rows explain why no panel can instantiate them.
+        assertEquals(
+            listOf("android.app.ActionBar", "android.widget.inline.InlineContentView"),
+            pending.map { it.source }.sorted(),
+        )
+        pending.forEach { assertTrue("Pending rows explain their status", it.notes.isNotBlank()) }
         assertTrue(ComponentInventory.pending(entries, "textswitcher").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "imageswitcher").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "framelayout").isEmpty())

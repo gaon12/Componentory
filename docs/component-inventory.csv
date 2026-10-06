@@ -1,5 +1,5 @@
 family,source,apiIntroduced,status,catalogId,notes
-"PLATFORM","android.app.ActionBar","11","Pending","",""
+"PLATFORM","android.app.ActionBar","11","Pending","","Not a view; obtained from an Activity whose theme supplies an action bar, and the host theme is NoActionBar."
 "PLATFORM","android.app.AlertDialog","1","Implemented","DIALOG",""
 "PLATFORM","android.app.DatePickerDialog","1","Implemented","DATE_PICKER_DIALOG",""
 "PLATFORM","android.app.Dialog","1","Implemented","PLAIN_DIALOG","The base Dialog, not AlertDialog."
