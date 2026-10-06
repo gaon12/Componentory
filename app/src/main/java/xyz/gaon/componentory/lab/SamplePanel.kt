@@ -174,7 +174,10 @@ fun SamplePanel(
                         unsupported == null &&
                         (component == LabComponent.SCAFFOLD ||
                             component.isSheetSuite ||
-                            component.isDrawerSuite)
+                            component.isDrawerSuite ||
+                            component == LabComponent.NAVIGATION_RAIL ||
+                            component == LabComponent.WIDE_NAVIGATION_RAIL ||
+                            component == LabComponent.MODAL_WIDE_NAVIGATION_RAIL)
                 ) {
                     Modifier.height(320.dp * LocalDensity.current.fontScale.coerceAtLeast(1f))
                         .clipToBounds()

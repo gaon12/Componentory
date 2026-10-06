@@ -8,10 +8,11 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertIsSelected
-import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -126,14 +127,14 @@ class NavigationSuiteTest {
         compose.onNodeWithTag("library_LEFT_item_2").assertIsNotEnabled()
         selectItem("LEFT", 2)
         status("LEFT", "Selected: Item 1")
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Android platform does not provide a dedicated Navigation rail component.",
-                substring = true,
+            .onNode(
+                hasText(
+                    "The Android platform does not provide a dedicated Navigation rail component."
+                ) and hasAnyAncestor(hasTestTag("unsupported_RIGHT"))
             )
+            .assertExists()
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
     }
 
