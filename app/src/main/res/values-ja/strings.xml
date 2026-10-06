@@ -612,4 +612,21 @@
     <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>
     <string name="edge_effect_note">ビュー上をドラッグすると実際のEdgeEffectグローを引きます。引いた回数がコピーされる状態です。</string>
     <string name="status_pulls">引き: %1$d</string>
+    <string name="catalog_mode_history">バージョン</string>
+    <string name="history_intro">Android の公開 UI と変更履歴を API ごとに確認できます。</string>
+    <string name="history_search_hint">公開 UI クラスを検索</string>
+    <string name="history_loading">API 記録を読み込み中…</string>
+    <string name="history_unavailable">API 記録を読み込めませんでした。</string>
+    <string name="history_all">すべて</string>
+    <string name="history_added">追加</string>
+    <string name="history_deprecated">非推奨化</string>
+    <string name="history_removed">削除</string>
+    <string name="history_count">公開 UI クラス %1$d 件</string>
+    <string name="history_evidence">公開 SDK 記録 · 当時の OS のキャプチャなし。外観と動作は未検証です。</string>
+    <string name="history_source">公開 SDK · %1$s</string>
+    <string name="history_since">API %1$d で導入</string>
+    <string name="history_abstract">抽象 UI 基底クラス</string>
+    <string name="history_deprecated_state">非推奨、公開 API は維持</string>
+    <string name="history_removed_at">API %1$d の一覧に存在しません</string>
+    <string name="history_identical_snapshot">監査したソースでは API %1$d と同じシグネチャです。</string>
 </resources>

@@ -1,6 +1,7 @@
 package xyz.gaon.componentory.catalog
 
 import android.os.Build
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,6 +56,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.history.HistoryBrowser
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
@@ -62,6 +64,7 @@ import xyz.gaon.componentory.lab.LabComponent
 private enum class CatalogMode(val labelRes: Int) {
     SAMPLES(R.string.catalog_mode_samples),
     PLANNED(R.string.catalog_mode_planned),
+    HISTORY(R.string.catalog_mode_history),
 }
 
 private sealed interface InventoryLoadState {
@@ -137,8 +140,11 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             )
             Text(
                 stringResource(
-                    if (mode == CatalogMode.SAMPLES) R.string.catalog_intro
-                    else R.string.planned_intro
+                    when (mode) {
+                        CatalogMode.SAMPLES -> R.string.catalog_intro
+                        CatalogMode.PLANNED -> R.string.planned_intro
+                        CatalogMode.HISTORY -> R.string.history_intro
+                    }
                 ),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
@@ -154,6 +160,15 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                     },
                     shape = SegmentedButtonDefaults.itemShape(index, CatalogMode.entries.size),
                     modifier = Modifier.testTag("catalog_mode_${option.name}"),
+                    colors =
+                        SegmentedButtonDefaults.colors(
+                            activeContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            activeContentColor = MaterialTheme.colorScheme.primary,
+                            inactiveContainerColor = MaterialTheme.colorScheme.surface,
+                            inactiveContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
+                    border = BorderStroke(0.dp, Color.Transparent),
+                    icon = {},
                 ) {
                     Text(stringResource(option.labelRes))
                 }
@@ -161,8 +176,11 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
         }
         val searchLabel =
             stringResource(
-                if (mode == CatalogMode.SAMPLES) R.string.component_search_hint
-                else R.string.planned_search_hint
+                when (mode) {
+                    CatalogMode.SAMPLES -> R.string.component_search_hint
+                    CatalogMode.PLANNED -> R.string.planned_search_hint
+                    CatalogMode.HISTORY -> R.string.history_search_hint
+                }
             )
         TextField(
             value = query,
@@ -200,7 +218,9 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
         )
-        if (mode == CatalogMode.PLANNED) {
+        if (mode == CatalogMode.HISTORY) {
+            HistoryBrowser(query, Modifier.fillMaxWidth().weight(1f))
+        } else if (mode == CatalogMode.PLANNED) {
             PlannedProviderFilter(provider, { provider = it }, Modifier.fillMaxWidth())
             when (val loaded = inventory) {
                 InventoryLoadState.Loading,

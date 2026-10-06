@@ -154,7 +154,33 @@ val packageComponentInventory =
         outputDirectory.set(layout.buildDirectory.dir("generated/componentInventory"))
     }
 
+abstract class PackageAndroidHistory : DefaultTask() {
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val sourceDirectory: DirectoryProperty
+    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun packageHistory() {
+        listOf("public-ui.csv", "provenance.json").forEach { name ->
+            val destination = outputDirectory.file("history/$name").get().asFile
+            destination.parentFile.mkdirs()
+            sourceDirectory.file(name).get().asFile.copyTo(destination, overwrite = true)
+        }
+    }
+}
+
+val packageAndroidHistory =
+    tasks.register<PackageAndroidHistory>("packageAndroidHistory") {
+        sourceDirectory.set(rootProject.layout.projectDirectory.dir("data/history"))
+        outputDirectory.set(layout.buildDirectory.dir("generated/androidHistory"))
+    }
+
 androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(
+        packageAndroidHistory,
+        PackageAndroidHistory::outputDirectory,
+    )
     variant.sources.assets?.addGeneratedSourceDirectory(
         generateIconCatalog,
         GenerateIconCatalog::outputDirectory,

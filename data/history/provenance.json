@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "repository": "platform/prebuilts/sdk",
+  "commit": "3af7c93524be6f51e092b87b17f009f13ee98b43",
+  "classification": "Public class ancestry: View, Dialog, PopupWindow, Preference; explicit visual controllers.",
+  "versions": [
+    {
+      "api": 1,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/1/public/api/android.txt",
+      "sha256": "00273deb661e998147063b5f0eda8cf615cce341f869ebc5a949eabf103e59d9",
+      "publicUiClasses": 71
+    },
+    {
+      "api": 2,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/2/public/api/android.txt",
+      "sha256": "0a1acc2c19d449fafb55c5f19c702586fb19b122c29d72554adcb21d9c9e8d74",
+      "publicUiClasses": 71
+    },
+    {
+      "api": 3,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/3/public/api/android.txt",
+      "sha256": "cb3b1d3c61a56d25409de8860df803d594539cf460cdb2c3660c5f93aecf3196",
+      "publicUiClasses": 73
+    },
+    {
+      "api": 4,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/4/public/api/android.txt",
+      "sha256": "70a85db1ce84c660fca2eccea035a7161f678b1262b0fc713dbe2c7f390feff1",
+      "publicUiClasses": 75
+    },
+    {
+      "api": 5,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/5/public/api/android.txt",
+      "sha256": "c4ed071a48800873ca38cece9e8d63323cc9d414a59bc821c855075942cb7089",
+      "publicUiClasses": 76
+    },
+    {
+      "api": 6,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/6/public/api/android.txt",
+      "sha256": "f4999b3ef3c8d87f1d526b4302dfa1bea8342272436c47ceda9ac666bb0e2706",
+      "publicUiClasses": 76
+    },
+    {
+      "api": 7,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/7/public/api/android.txt",
+      "sha256": "daa63491b17aac0d9cbf2985e3aa02414a38f196617f9edf39d1315f9e3c32fd",
+      "publicUiClasses": 76
+    },
+    {
+      "api": 8,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/8/public/api/android.txt",
+      "sha256": "f664426651cfaae0b66710f91befccb2ccf7775326cd5dd295314d182186cea8",
+      "publicUiClasses": 76
+    },
+    {
+      "api": 9,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/9/public/api/android.txt",
+      "sha256": "0a3edbf7ce79471ace325aff5e8a0266a7e4119086afb8e3074fe42b21139992",
+      "publicUiClasses": 76
+    },
+    {
+      "api": 10,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/10/public/api/android.txt",
+      "sha256": "c22f97988f460272bcd18520a3d203d8120f74f3d566eb5b5fde2a4654e0b279",
+      "publicUiClasses": 76
+    },
+    {
+      "api": 11,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/11/public/api/android.txt",
+      "sha256": "27ab2c1cd48a21b2e676c2f5666434f52d771a92d0682f72f5dabf502c0fb0b0",
+      "publicUiClasses": 87
+    },
+    {
+      "api": 12,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/12/public/api/android.txt",
+      "sha256": "5efe49de3278896bfd8cc77682dd319cbf74bd78673580737e013a740d18e8b0",
+      "publicUiClasses": 87
+    },
+    {
+      "api": 13,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/13/public/api/android.txt",
+      "sha256": "58824f4ec9a62720511442e596ca9123f45230ad1481e6e9cec865443701d412",
+      "publicUiClasses": 87
+    },
+    {
+      "api": 14,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/14/public/api/android.txt",
+      "sha256": "6fe3178768b4b4c455b6588a65c7e2b5b3876bd46e247a39a70bf81cccc2dc4d",
+      "publicUiClasses": 94
+    },
+    {
+      "api": 15,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/15/public/api/android.txt",
+      "sha256": "3081123e1b897ce1a10a823e772bb0132ed6c03272d305c6703939b681475479",
+      "publicUiClasses": 94
+    },
+    {
+      "api": 16,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/16/public/api/android.txt",
+      "sha256": "48a839eeef9110959070356a203628ef0d0b17cd0bc8e5758fab3f87cc4ad6e1",
+      "publicUiClasses": 95
+    },
+    {
+      "api": 17,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/17/public/api/android.txt",
+      "sha256": "463c8a60dd74500bd6fba981dd9f44d790a9f3b19f581cd2301f32c2cd16b5f9",
+      "publicUiClasses": 97
+    },
+    {
+      "api": 18,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/18/public/api/android.txt",
+      "sha256": "c257ee5687bb59c2a306b273c78e645eecfe423581f70d72270dfdeec008d710",
+      "publicUiClasses": 97
+    },
+    {
+      "api": 19,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/19/public/api/android.txt",
+      "sha256": "f97d21abd6685d3a00b68d2796ab0560b0703fa43c74c023cc9a88cce6c64b07",
+      "publicUiClasses": 97
+    },
+    {
+      "api": 20,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/20/public/api/android.txt",
+      "sha256": "d8e81b3831e7a2176965939db90a8d0c641c6347d1b1ae463c6262af1b7cceb3",
+      "publicUiClasses": 97
+    },
+    {
+      "api": 21,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/21/public/api/android.txt",
+      "sha256": "d52e38a9bf7510f993a8b179cb430d17088c93e027bef59a520e9ff4056f151d",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 22,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/22/public/api/android.txt",
+      "sha256": "614b99dec82f9cbfe7312e94f36980ff08399cea0570c70d3514c9d67057f11c",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 23,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/23/public/api/android.txt",
+      "sha256": "c19d70ac09161a8ff3f8bb4d8f0258dd64048b9f48171dd9b763cf75e019922b",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 24,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/24/public/api/android.txt",
+      "sha256": "8ace7de7fb51919e5d3ef3c90e35333416220d7d50323c8ed55b5da6a42eb6c5",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 25,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/25/public/api/android.txt",
+      "sha256": "6967ddb19c252029dfced2bb958979a7acffac66ef227a555e58f961783d7118",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 26,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/26/public/api/android.txt",
+      "sha256": "86f8893d69eb09e1a880c2551b2e554867f8ecf1202f724226651e9dba79336b",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 27,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/27/public/api/android.txt",
+      "sha256": "a796a414778d874540c883a653d13e751824796256ac7d0f8aa124e1145bd20d",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 28,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/28/public/api/android.txt",
+      "sha256": "0b5b955ca79dedb7e4fcc4efc937188e866197b0d4d4943593c9b2a8af561fd7",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 29,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/29/public/api/android.txt",
+      "sha256": "2f889e659ac96e2a37de01ae8dd497995a8a599510993449bd0d5e2447534b63",
+      "publicUiClasses": 99
+    },
+    {
+      "api": 30,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/30/public/api/android.txt",
+      "sha256": "0b3392ca959e5e230ceabfc66af360d1cd9dd2895fb723fe881d300228ab4860",
+      "publicUiClasses": 100
+    },
+    {
+      "api": 31,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/31/public/api/android.txt",
+      "sha256": "e4c0068f3c356869adc8418ac083e2099ffc03d6038042fa144547f842b08855",
+      "publicUiClasses": 100
+    },
+    {
+      "api": 32,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/32/public/api/android.txt",
+      "sha256": "a7a6e062b68acdb0a9faa09045bd06c38ca6f7ecb3a3c9aa6697394f51433355",
+      "publicUiClasses": 100
+    },
+    {
+      "api": 33,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/33/public/api/android.txt",
+      "sha256": "51cccd84d6838f9178b6165944f2f605d8a9ab0bcaa42eeeec886ccd72536f6f",
+      "publicUiClasses": 100
+    },
+    {
+      "api": 34,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/34/public/api/android.txt",
+      "sha256": "d2c8443f9f0153c8f931c89490040f2e99ec766f05b7296df964f0bf22e59470",
+      "publicUiClasses": 100
+    },
+    {
+      "api": 35,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/35/public/api/android.txt",
+      "sha256": "c90c76f4aba36b78659643533aacb5028e3178258bb4a83f6de23d8b35a83f38",
+      "publicUiClasses": 100
+    },
+    {
+      "api": 36,
+      "url": "https://android.googlesource.com/platform/prebuilts/sdk/+/3af7c93524be6f51e092b87b17f009f13ee98b43/36/public/api/android.txt",
+      "sha256": "c90c76f4aba36b78659643533aacb5028e3178258bb4a83f6de23d8b35a83f38",
+      "publicUiClasses": 100
+    }
+  ],
+  "originalCaptures": "MISSING",
+  "scope": "Android framework; no library APIs.",
+  "tableSha256": "098cfd378be9f717cb955ae00b937be493134e16838d55446c66d95b7d1f8471"
+}

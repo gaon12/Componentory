@@ -615,4 +615,21 @@
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
     <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
     <string name="status_pulls">Pulls: %1$d</string>
+    <string name="catalog_mode_history">Versions</string>
+    <string name="history_intro">Explore public Android UI across API versions.</string>
+    <string name="history_search_hint">Search a public UI class</string>
+    <string name="history_loading">Loading API records…</string>
+    <string name="history_unavailable">API records could not be loaded.</string>
+    <string name="history_all">All</string>
+    <string name="history_added">Added here</string>
+    <string name="history_deprecated">Deprecated here</string>
+    <string name="history_removed">Removed here</string>
+    <string name="history_count">%1$d public UI classes</string>
+    <string name="history_evidence">Public SDK records · Original OS captures missing. Historical appearance and behavior are unverified.</string>
+    <string name="history_source">Public SDK · %1$s</string>
+    <string name="history_since">Introduced in API %1$d</string>
+    <string name="history_abstract">Abstract UI base class</string>
+    <string name="history_deprecated_state">Deprecated, still public</string>
+    <string name="history_removed_at">Absent in the API %1$d snapshot</string>
+    <string name="history_identical_snapshot">This signature is identical to API %1$d in the audited source.</string>
 </resources>

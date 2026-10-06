@@ -612,4 +612,21 @@
     <string name="component_edge_effect_description">架構 EdgeEffect 光暈，由一般 View 在拖曳其邊緣時繪製。</string>
     <string name="edge_effect_note">在檢視上拖曳即可拉動真實的 EdgeEffect 光暈。拉動次數即為被複製的狀態。</string>
     <string name="status_pulls">拉動：%1$d</string>
+    <string name="catalog_mode_history">版本記錄</string>
+    <string name="history_intro">依 Android API 版本查看公開 UI 與變更。</string>
+    <string name="history_search_hint">搜尋公開 UI 類別</string>
+    <string name="history_loading">正在載入 API 記錄…</string>
+    <string name="history_unavailable">無法載入 API 記錄。</string>
+    <string name="history_all">全部</string>
+    <string name="history_added">新增</string>
+    <string name="history_deprecated">設為棄用</string>
+    <string name="history_removed">移除</string>
+    <string name="history_count">%1$d 個公開 UI 類別</string>
+    <string name="history_evidence">公開 SDK 記錄 · 缺少原始 OS 截圖。當時的外觀與行為尚未驗證。</string>
+    <string name="history_source">公開 SDK · %1$s</string>
+    <string name="history_since">在 API %1$d 引入</string>
+    <string name="history_abstract">抽象 UI 基底類別</string>
+    <string name="history_deprecated_state">已棄用，仍為公開 API</string>
+    <string name="history_removed_at">API %1$d 的快照中不存在</string>
+    <string name="history_identical_snapshot">審核的原始碼中，此簽章與 API %1$d 相同。</string>
 </resources>

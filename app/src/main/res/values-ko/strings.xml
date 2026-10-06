@@ -612,4 +612,21 @@
     <string name="component_edge_effect_description">평범한 View가 가장자리를 드래그하는 동안 그리는 프레임워크 EdgeEffect 글로입니다.</string>
     <string name="edge_effect_note">뷰 위를 드래그하여 실제 EdgeEffect 글로를 당기세요. 당긴 횟수가 복사되는 상태입니다.</string>
     <string name="status_pulls">당김: %1$d</string>
+    <string name="catalog_mode_history">버전 기록</string>
+    <string name="history_intro">Android 버전별 공개 UI와 변경 이력을 살펴보세요.</string>
+    <string name="history_search_hint">공개 UI 클래스 검색</string>
+    <string name="history_loading">API 기록을 불러오는 중…</string>
+    <string name="history_unavailable">API 기록을 불러오지 못했습니다.</string>
+    <string name="history_all">전체</string>
+    <string name="history_added">추가됨</string>
+    <string name="history_deprecated">사용 중단 권고</string>
+    <string name="history_removed">제거됨</string>
+    <string name="history_count">공개 UI 클래스 %1$d개</string>
+    <string name="history_evidence">공개 SDK 기록 · 과거 OS 원본 캡처 없음. 당시 모습과 동작은 검증되지 않았습니다.</string>
+    <string name="history_source">공개 SDK · %1$s</string>
+    <string name="history_since">API %1$d에서 도입</string>
+    <string name="history_abstract">추상 UI 기반 클래스</string>
+    <string name="history_deprecated_state">사용 중단 권고, 공개 API 유지</string>
+    <string name="history_removed_at">API %1$d 목록에 없음</string>
+    <string name="history_identical_snapshot">검토한 소스에서 API %1$d와 동일한 시그니처입니다.</string>
 </resources>
