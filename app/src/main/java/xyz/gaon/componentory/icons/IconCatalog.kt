@@ -52,6 +52,9 @@ object IconCatalog {
     const val DEFAULT_MATERIAL = "androidx.compose.material.icons.filled.AddKt"
     const val DEFAULT_PLATFORM = "android:ic_input_add"
 
+    // Fixed sample fixtures can use the real pinned icon without loading the full catalog.
+    val defaultMaterialIcon = CatalogIcon(DEFAULT_MATERIAL, "Add", IconStyle.FILLED)
+
     @Volatile private var materialCache: List<CatalogIcon>? = null
 
     // Public identities stay fixed for the process. Availability depends on the current resources.

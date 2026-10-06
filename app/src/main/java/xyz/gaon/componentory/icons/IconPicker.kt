@@ -60,6 +60,9 @@ fun IconPicker(
     onSelect: (CatalogIcon) -> Unit,
 ) {
     var open by rememberSaveable { mutableStateOf(false) }
+    var query by rememberSaveable { mutableStateOf("") }
+    var style by rememberSaveable { mutableStateOf<IconStyle?>(null) }
+    var mirrored by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     // The material index is ~11k lines; parse it off the main thread so
     // composing a panel that hosts this picker never stalls. A null value
@@ -73,9 +76,6 @@ fun IconPicker(
         Text(stringResource(R.string.choose_icon, selected.name))
     }
     if (!open) return
-    var query by rememberSaveable { mutableStateOf("") }
-    var style by rememberSaveable { mutableStateOf<IconStyle?>(null) }
-    var mirrored by rememberSaveable { mutableStateOf(false) }
     val focus = LocalFocusManager.current
     val filtered =
         remember(entries, query, style, mirrored) {

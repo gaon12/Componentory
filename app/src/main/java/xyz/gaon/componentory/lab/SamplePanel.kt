@@ -77,8 +77,8 @@ fun SamplePanel(
     val platform = family.platform
     val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT, context)
     // Material icon resolution parses a large index, so it loads off the main
-    // thread like the picker; platform drawables resolve cheaply in place. A
-    // null icon while loading keeps the picker, source, and status quiet.
+    // thread like the picker; platform drawables resolve cheaply in place.
+    // Icon samples wait for the selected icon before rendering their provider.
     val icon =
         if (component.usesIcon && unsupported == null) {
             if (platform != null)
@@ -176,8 +176,17 @@ fun SamplePanel(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
+                } else if (component.usesIcon && icon == null) {
+                    Text(
+                        stringResource(R.string.icons_loading),
+                        modifier = Modifier.testTag("sample_icon_loading_$panel"),
+                        color = Color.Black,
+                    )
                 } else
-                    CompositionLocalProvider(LocalSampleIcon provides icon) {
+                    CompositionLocalProvider(
+                        LocalSampleIcon provides
+                            if (platform == null) icon ?: IconCatalog.defaultMaterialIcon else icon
+                    ) {
                         key(family, component, reset, state) {
                             if (platform != null) {
                                 PlatformSample(
@@ -478,7 +487,9 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
+            key(family, component, reset, state) {
+                if (icon != null) IconPicker(platform != null, icon, panel) { state.icon = it.id }
+            }
             if (icon != null) {
                 Text(
                     if (platform != null) "android.R.drawable.${icon.name}"
