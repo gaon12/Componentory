@@ -225,16 +225,31 @@ data class SetupCopyResult(
     val iconSkipped: Boolean = false,
 )
 
-class ComparisonEntry(val setup: SampleSetup, val enabled: Boolean) {
+// left carries the primary seed; right is set only when a saved run restores
+// both panels at once.
+class ComparisonEntry(val left: SampleSetup, val enabled: Boolean, val right: SampleSetup? = null) {
     companion object {
         val Saver =
             mapSaver<ComparisonEntry?>(
                 save = { entry ->
-                    entry?.let { it.setup.savedValues() + ("enabled" to it.enabled) } ?: emptyMap()
+                    entry?.let {
+                        val rightValues =
+                            it.right?.savedValues()?.mapKeys { (key, _) -> "right.$key" }
+                                ?: emptyMap()
+                        it.left.savedValues() + ("enabled" to it.enabled) + rightValues
+                    } ?: emptyMap()
                 },
                 restore = { values ->
-                    SampleSetup.restore(values)?.let {
-                        ComparisonEntry(it, values["enabled"] as? Boolean ?: true)
+                    val rightValues =
+                        values
+                            .filterKeys { it.startsWith("right.") }
+                            .mapKeys { (key, _) -> key.removePrefix("right.") }
+                    SampleSetup.restore(values)?.let { left ->
+                        ComparisonEntry(
+                            left,
+                            values["enabled"] as? Boolean ?: true,
+                            if (rightValues.isEmpty()) null else SampleSetup.restore(rightValues),
+                        )
                     }
                 },
             )

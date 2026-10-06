@@ -614,9 +614,10 @@ class SampleSetupTest {
         val saved = requireNotNull(with(ComparisonEntry.Saver) { scope.save(entry) })
         val restored = requireNotNull(ComparisonEntry.Saver.restore(saved))
         assertFalse(restored.enabled)
-        assertEquals(LabComponent.TIME_PICKER_DIALOG, restored.setup.component)
-        assertEquals(DesignFamily.MATERIAL3, restored.setup.sourceFamily)
-        val target = requireNotNull(restored.setup.copyTo(DesignFamily.CLASSIC, API).state)
+        assertEquals(LabComponent.TIME_PICKER_DIALOG, restored.left.component)
+        assertEquals(DesignFamily.MATERIAL3, restored.left.sourceFamily)
+        assertNull(restored.right)
+        val target = requireNotNull(restored.left.copyTo(DesignFamily.CLASSIC, API).state)
         assertEquals(65, target.timeMinutes)
         assertFalse(target.time24Hour)
         assertNull(target.timeDraftMinutes)
@@ -624,6 +625,45 @@ class SampleSetupTest {
         assertEquals(0, target.value)
         assertEquals("", target.text)
         assertNull(ComparisonEntry.Saver.restore(emptyList<Any>()))
+    }
+
+    @Test
+    fun saveableEntryRestoresASecondPanelSeedIndependently() {
+        val left =
+            SampleSetup.capture(
+                LabComponent.SLIDER,
+                DesignFamily.MATERIAL2,
+                SampleState(initialValue = 40),
+                API,
+            )
+        val right =
+            SampleSetup.capture(
+                LabComponent.SLIDER,
+                DesignFamily.MATERIAL3,
+                SampleState(initialValue = 70, initialText = "ignored"),
+                API,
+            )
+        val entry = ComparisonEntry(left, true, right)
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val saved = requireNotNull(with(ComparisonEntry.Saver) { scope.save(entry) })
+        val restored = requireNotNull(ComparisonEntry.Saver.restore(saved))
+        assertTrue(restored.enabled)
+        assertEquals(DesignFamily.MATERIAL2, restored.left.sourceFamily)
+        assertEquals(
+            40,
+            requireNotNull(restored.left.copyTo(DesignFamily.MATERIAL2, API).state).value,
+        )
+        val restoredRight = requireNotNull(restored.right)
+        assertEquals(LabComponent.SLIDER, restoredRight.component)
+        assertEquals(DesignFamily.MATERIAL3, restoredRight.sourceFamily)
+        assertEquals(
+            70,
+            requireNotNull(restoredRight.copyTo(DesignFamily.MATERIAL3, API).state).value,
+        )
     }
 
     @Test

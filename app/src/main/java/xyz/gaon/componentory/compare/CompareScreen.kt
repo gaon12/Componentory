@@ -56,15 +56,20 @@ fun CompareScreen(
     var copiedDirection by rememberSaveable { mutableStateOf<CopySetupDirection?>(null) }
     var iconSkipped by rememberSaveable { mutableStateOf(false) }
     // Layout changes must move the same experiment, not create new panel values.
+    val seedState: (SampleSetup?, DesignFamily) -> SampleState = { setup, family ->
+        if (useInitialSetup && setup?.component == component && setup.sourceFamily == family) {
+            copySampleSetup(context, setup, family, SampleState(component.initialValue)).state
+                ?: SampleState(component.initialValue)
+        } else SampleState(component.initialValue)
+    }
     var leftState by
         rememberSampleStateSlot("LEFT", left, component, reset) {
-            val setup = initialEntry?.setup
-            if (useInitialSetup && setup?.component == component && setup.sourceFamily == left) {
-                copySampleSetup(context, setup, left, SampleState(component.initialValue)).state
-                    ?: SampleState(component.initialValue)
-            } else SampleState(component.initialValue)
+            seedState(initialEntry?.left, left)
         }
-    var rightState by rememberSampleStateSlot("RIGHT", right, component, reset)
+    var rightState by
+        rememberSampleStateSlot("RIGHT", right, component, reset) {
+            seedState(initialEntry?.right, right)
+        }
     // The entry seeds this session once. Restored panel state owns all later changes.
     SideEffect { useInitialSetup = false }
     val clearEntryAndResult = {

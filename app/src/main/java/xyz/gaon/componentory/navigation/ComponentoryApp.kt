@@ -155,8 +155,8 @@ private fun ComponentoryNavigation(
                                 val entry = detailExporter?.invoke()
                                 if (
                                     entry == null ||
-                                        entry.setup.component != detail ||
-                                        entry.setup.sourceFamily != detailFamily
+                                        entry.left.component != detail ||
+                                        entry.left.sourceFamily != detailFamily
                                 ) {
                                     return@TextButton
                                 }
