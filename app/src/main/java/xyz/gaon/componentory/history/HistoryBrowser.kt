@@ -12,9 +12,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -82,7 +83,7 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
     val entries = catalog.select(selectedApi, query, filter)
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Column {
-            OutlinedButton(
+            FilledTonalButton(
                 onClick = { menuOpen = true },
                 modifier = Modifier.fillMaxWidth().testTag("history_version"),
             ) {
@@ -123,6 +124,13 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
                         )
                     },
                     modifier = Modifier.testTag("history_filter_${option.name}"),
+                    shape = MaterialTheme.shapes.small,
+                    colors =
+                        FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedLabelColor = MaterialTheme.colorScheme.primary,
+                        ),
+                    border = null,
                 )
             }
         }
