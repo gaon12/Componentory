@@ -593,6 +593,15 @@ enum class LabComponent(
         minimumApi = 1,
         category = ComponentCategory.MEDIA,
     ),
+    EDGE_EFFECT(
+        "Edge effect",
+        R.string.component_edge_effect,
+        R.string.component_edge_effect_description,
+        platformSource = "android.widget.EdgeEffect",
+        minimumApi = 14,
+        category = ComponentCategory.CONTENT,
+        initialValue = 0,
+    ),
     SHARE_ACTION_PROVIDER(
         "Share action provider",
         R.string.component_share_action_provider,
@@ -1065,6 +1074,10 @@ enum class LabComponent(
     val isMediaWidget: Boolean
         get() = this == VIDEO_VIEW || this == MEDIA_CONTROLLER
 
+    // EdgeEffect is a drawable-like effect, not a View; a host View draws it.
+    val isEdgeEffect: Boolean
+        get() = this == EDGE_EFFECT
+
     val galleryItemCount: Int
         get() = if (this == GALLERY) 6 else 0
 
@@ -1205,6 +1218,7 @@ enum class LabComponent(
                     if (value == 1) R.string.status_playing else R.string.status_paused
                 )
             this == SHARE_ACTION_PROVIDER -> context.getString(R.string.status_shares, value)
+            this == EDGE_EFFECT -> context.getString(R.string.status_pulls, value)
             this == MEDIA_CONTROLLER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isMenuHost ->

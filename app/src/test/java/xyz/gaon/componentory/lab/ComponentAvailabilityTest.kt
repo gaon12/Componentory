@@ -495,6 +495,25 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun edgeEffectKeepsItsApi14PlatformSource() {
+        val component = LabComponent.EDGE_EFFECT
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 13))
+            assertNull(family.unsupportedReason(component, 14))
+            assertNull(family.unsupportedReason(component, 36))
+            assertEquals("android.widget.EdgeEffect", family.source(component))
+        }
+        listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertTrue(component.isEdgeEffect)
+        assertEquals(14, component.minimumApi)
+        assertEquals(ComponentCategory.CONTENT, component.category)
+        assertTrue(component.matchesSearch("android.widget.EdgeEffect"))
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

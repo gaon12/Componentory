@@ -485,4 +485,8 @@
     <string name="share_text">来自 Componentory 实验室的共享内容</string>
     <string name="share_provider_note">点击共享操作会打开真实的目标子菜单。选择目标即计为一次共享。</string>
     <string name="status_shares">共享次数：%1$d</string>
+    <string name="component_edge_effect">边缘效果</string>
+    <string name="component_edge_effect_description">框架 EdgeEffect 光晕，由普通 View 在拖动其边缘时绘制。</string>
+    <string name="edge_effect_note">在视图上拖动即可拉动真实的 EdgeEffect 光晕。拉动次数即为被复制的状态。</string>
+    <string name="status_pulls">拉动：%1$d</string>
 </resources>

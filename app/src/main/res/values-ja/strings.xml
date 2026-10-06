@@ -485,4 +485,8 @@
     <string name="share_text">Componentoryラボから共有</string>
     <string name="share_provider_note">共有アクションをタップすると実際のターゲットサブメニューが開きます。ターゲットを選ぶと共有1回として報告されます。</string>
     <string name="status_shares">共有: %1$d</string>
+    <string name="component_edge_effect">エッジエフェクト</string>
+    <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>
+    <string name="edge_effect_note">ビュー上をドラッグすると実際のEdgeEffectグローを引きます。引いた回数がコピーされる状態です。</string>
+    <string name="status_pulls">引き: %1$d</string>
 </resources>

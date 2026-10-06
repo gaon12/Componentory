@@ -381,6 +381,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isEdgeEffect && unsupported == null) {
+                Text(
+                    stringResource(R.string.edge_effect_note),
+                    modifier = Modifier.testTag("edge_effect_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component == LabComponent.SHARE_ACTION_PROVIDER && unsupported == null) {
                 Text(
                     stringResource(R.string.share_provider_note),

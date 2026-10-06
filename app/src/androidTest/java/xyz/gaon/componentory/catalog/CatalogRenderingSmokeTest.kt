@@ -30,6 +30,7 @@ import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.DialerFilter
 import android.widget.DigitalClock
+import android.widget.EdgeEffect
 import android.widget.EditText
 import android.widget.ExpandableListView
 import android.widget.FrameLayout
@@ -146,6 +147,7 @@ import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
+import xyz.gaon.componentory.lab.EdgeEffectHostView
 import xyz.gaon.componentory.lab.LabComponent
 
 // This is a current-device rendering sweep, not historical OS or complete interaction coverage.
@@ -172,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 69, 43)
+        verifyFamily(DesignFamily.CLASSIC, 70, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 68, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 69, 43)
+        verifyFamily(DesignFamily.MATERIAL, 70, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 81)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 82)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 54)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -196,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            114,
+            115,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -564,6 +566,7 @@ class CatalogRenderingSmokeTest {
                 LabComponent.DIALER_FILTER -> assertTrue((view as DialerFilter).childCount > 0)
                 LabComponent.VIDEO_VIEW -> assertTrue(view.tag !is MediaController)
                 LabComponent.MEDIA_CONTROLLER -> assertTrue(view.tag is MediaController)
+                LabComponent.EDGE_EFFECT -> assertTrue(view.tag is EdgeEffect)
                 LabComponent.SHARE_ACTION_PROVIDER -> {
                     val item = view.tag as MenuItem
                     assertEquals(
@@ -678,6 +681,7 @@ class CatalogRenderingSmokeTest {
             LabComponent.VIDEO_VIEW,
             LabComponent.MEDIA_CONTROLLER -> VideoView::class.java
             LabComponent.SHARE_ACTION_PROVIDER -> ActionMenuView::class.java
+            LabComponent.EDGE_EFFECT -> EdgeEffectHostView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

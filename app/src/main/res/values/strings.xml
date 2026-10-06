@@ -488,4 +488,8 @@
     <string name="share_text">Shared from the Componentory lab</string>
     <string name="share_provider_note">Tap the share action to open the real target submenu. Picking a target reports one share.</string>
     <string name="status_shares">Shares: %1$d</string>
+    <string name="component_edge_effect">Edge effect</string>
+    <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
+    <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
+    <string name="status_pulls">Pulls: %1$d</string>
 </resources>

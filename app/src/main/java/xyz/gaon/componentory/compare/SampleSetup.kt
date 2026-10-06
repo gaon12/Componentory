@@ -289,4 +289,5 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.CHRONOMETER,
                     LabComponent.VIDEO_VIEW,
                     LabComponent.SHARE_ACTION_PROVIDER,
+                    LabComponent.EDGE_EFFECT,
                 )

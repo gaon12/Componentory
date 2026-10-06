@@ -485,4 +485,8 @@
     <string name="share_text">來自 Componentory 實驗室的共用內容</string>
     <string name="share_provider_note">點擊共用操作會開啟真實的目標子選單。選取目標即計為一次共用。</string>
     <string name="status_shares">共用次數：%1$d</string>
+    <string name="component_edge_effect">邊緣效果</string>
+    <string name="component_edge_effect_description">架構 EdgeEffect 光暈，由一般 View 在拖曳其邊緣時繪製。</string>
+    <string name="edge_effect_note">在檢視上拖曳即可拉動真實的 EdgeEffect 光暈。拉動次數即為被複製的狀態。</string>
+    <string name="status_pulls">拉動：%1$d</string>
 </resources>
