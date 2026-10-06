@@ -12,9 +12,12 @@ import android.widget.Gallery
 import android.widget.SlidingDrawer
 import android.widget.TextView
 import android.widget.TwoLineListItem
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
@@ -29,6 +32,11 @@ internal fun PlatformLegacyContainerSample(
     modifier: Modifier,
 ) {
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
+    // SlidingDrawer rejects an unspecified height inside the scrolling workspace.
+    val sampleModifier =
+        if (component == LabComponent.SLIDING_DRAWER)
+            modifier.height(320.dp * LocalDensity.current.fontScale)
+        else modifier
     AndroidView(
         factory = { context ->
             val themed = ContextThemeWrapper(context, family.themeId)
@@ -74,7 +82,7 @@ internal fun PlatformLegacyContainerSample(
                 else -> Unit
             }
         },
-        modifier = modifier.testTag("native_$panel"),
+        modifier = sampleModifier.testTag("native_$panel"),
     )
 }
 
@@ -113,7 +121,7 @@ private fun createLegacyContainer(
                     )
                 }
         else ->
-            (LayoutInflater.from(themed).inflate(android.R.layout.two_line_list_item, null)
+            (LayoutInflater.from(themed).inflate(R.layout.sample_two_line_list_item, null)
                     as TwoLineListItem)
                 .apply {
                     id = viewId

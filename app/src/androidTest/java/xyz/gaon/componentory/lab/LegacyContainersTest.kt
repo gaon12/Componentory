@@ -4,7 +4,6 @@ import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.Gallery
 import android.widget.SlidingDrawer
 import android.widget.TextView
@@ -19,7 +18,9 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -27,12 +28,18 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click as nativeClick
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -62,6 +69,27 @@ class LegacyContainersTest {
     }
 
     @Test
+    fun slidingDrawerHasFiniteBoundsAndAcceptsTouchInEveryPlatformTheme() {
+        nativeFamilies.forEach { family ->
+            configure(LabComponent.SLIDING_DRAWER, family, DesignFamily.MATERIAL3)
+            compose.runOnIdle {
+                val drawer = view("LEFT") as SlidingDrawer
+                assertTrue(drawer.width > 0 && drawer.height > 0)
+                assertFalse(drawer.isOpened)
+            }
+            tapDrawerHandle("LEFT")
+            status("LEFT", "Drawer open")
+            clickDrawerHandle("LEFT")
+            compose.waitUntil(10_000) { !(view("LEFT") as SlidingDrawer).isOpened }
+            status("LEFT", "Drawer closed")
+            setEnabled(false)
+            clickDrawerHandle("LEFT")
+            compose.runOnIdle { assertFalse((view("LEFT") as SlidingDrawer).isOpened) }
+            status("LEFT", "Drawer closed")
+        }
+    }
+
+    @Test
     fun nativeLegacyContainersUseTheRealFrameworkWidgets() {
         nativeFamilies.forEach { family ->
             configure(LabComponent.GALLERY, family, DesignFamily.MATERIAL3)
@@ -87,6 +115,8 @@ class LegacyContainersTest {
             assertNativeIdentity("LEFT", LabComponent.TWO_LINE_LIST_ITEM, family)
             compose.runOnIdle {
                 val item = view("LEFT") as TwoLineListItem
+                assertSame(item.findViewById<TextView>(android.R.id.text1), item.text1)
+                assertSame(item.findViewById<TextView>(android.R.id.text2), item.text2)
                 assertEquals(
                     compose.activity.getString(R.string.two_line_primary),
                     item.findViewById<TextView>(android.R.id.text1).text.toString(),
@@ -138,34 +168,17 @@ class LegacyContainersTest {
     fun disabledLegacyContainersStopRespondingAndLibraryCellsExplainThemselves() {
         configure(LabComponent.SLIDING_DRAWER, DesignFamily.CLASSIC, DesignFamily.MATERIAL2)
         setEnabled(false)
-        // Both panels carry the same handle id, so tap the left one directly.
-        compose.runOnIdle {
-            (view("LEFT") as SlidingDrawer).findViewById<Button>(R.id.sliding_handle).performClick()
-        }
+        clickDrawerHandle("LEFT")
         compose.waitForIdle()
         compose.runOnIdle { assertFalse((view("LEFT") as SlidingDrawer).isOpened) }
         status("LEFT", "Drawer closed")
-        compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Material 2 library does not provide Sliding drawer.",
-                substring = true,
-            )
+        unsupportedReason("The Material 2 library does not provide Sliding drawer.")
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
 
         configure(LabComponent.GALLERY, DesignFamily.CLASSIC, DesignFamily.MATERIAL3)
         setEnabled(false)
         compose.runOnIdle { assertFalse((view("LEFT") as Gallery).isEnabled) }
-        compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Material 3 library does not provide Gallery.",
-                substring = true,
-            )
+        unsupportedReason("The Material 3 library does not provide Gallery.")
     }
 
     @Test
@@ -211,11 +224,23 @@ class LegacyContainersTest {
     }
 
     private fun tapDrawerHandle(panel: String) {
-        compose.runOnIdle {
-            (view(panel) as SlidingDrawer).findViewById<Button>(R.id.sliding_handle).performClick()
-        }
+        clickDrawerHandle(panel)
         compose.waitUntil(10_000) { (view(panel) as SlidingDrawer).isOpened }
         compose.waitForIdle()
+    }
+
+    private fun clickDrawerHandle(panel: String) {
+        compose.onNodeWithTag("native_$panel").performScrollTo().assertIsDisplayed()
+        onView(allOf(withId(R.id.sliding_handle), isDescendantOfA(withId(nativeId(panel)))))
+            .perform(nativeClick())
+        compose.waitForIdle()
+    }
+
+    private fun unsupportedReason(reason: String) {
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
+        compose
+            .onNode(hasText(reason) and hasAnyAncestor(hasTestTag("unsupported_RIGHT")))
+            .assertIsDisplayed()
     }
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
