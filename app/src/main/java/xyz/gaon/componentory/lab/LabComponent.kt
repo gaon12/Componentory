@@ -536,6 +536,22 @@ enum class LabComponent(
         minimumApi = 11,
         category = ComponentCategory.NAVIGATION,
     ),
+    TOOLBAR(
+        "Toolbar",
+        R.string.component_toolbar,
+        R.string.component_toolbar_description,
+        platformSource = "android.widget.Toolbar",
+        minimumApi = 21,
+        category = ComponentCategory.NAVIGATION,
+    ),
+    ACTION_MENU_VIEW(
+        "Action menu view",
+        R.string.component_action_menu_view,
+        R.string.component_action_menu_view_description,
+        platformSource = "android.widget.ActionMenuView",
+        minimumApi = 21,
+        category = ComponentCategory.NAVIGATION,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -987,6 +1003,10 @@ enum class LabComponent(
     val isPopupWindow: Boolean
         get() = this == POPUP_WINDOW || this == LIST_POPUP_WINDOW
 
+    // Menu hosts that report the last invoked action as their state.
+    val isMenuHost: Boolean
+        get() = this == TOOLBAR || this == ACTION_MENU_VIEW
+
     val galleryItemCount: Int
         get() = if (this == GALLERY) 6 else 0
 
@@ -1119,6 +1139,19 @@ enum class LabComponent(
                     context.getString(
                         R.string.status_selected,
                         context.getString(R.string.list_item, value),
+                    )
+            isMenuHost ->
+                if (value == 0) context.getString(R.string.sample_state_no_selection)
+                else
+                    context.getString(
+                        R.string.status_selected,
+                        context.getString(
+                            when (value) {
+                                1 -> R.string.option_a
+                                2 -> R.string.option_b
+                                else -> R.string.toolbar_nav_action
+                            }
+                        ),
                     )
             this == TAB_HOST -> context.getString(R.string.status_tab, value + 1, tabCount)
             this == GALLERY ->

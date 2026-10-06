@@ -452,4 +452,13 @@
     <string name="open_popup">팝업 열기</string>
     <string name="popup_content">플로팅 팝업 콘텐츠</string>
     <string name="popup_window_note">버튼을 누르면 버튼에 고정된 실제 팝업 창이 열립니다. 복사는 팝업이 보고한 상태만 옮깁니다.</string>
+    <string name="component_toolbar">툴바</string>
+    <string name="component_toolbar_description">테마의 제목, 부제, 내비게이션 아이콘 및 실제 작업 항목을 호스팅하는 프레임워크 Toolbar입니다.</string>
+    <string name="component_action_menu_view">작업 메뉴 뷰</string>
+    <string name="component_action_menu_view_description">실제 메뉴 항목을 가로 작업 버튼으로 표시하는 프레임워크 ActionMenuView입니다.</string>
+    <string name="toolbar_title">샘플 툴바</string>
+    <string name="toolbar_subtitle">프레임워크 Toolbar 위젯</string>
+    <string name="toolbar_nav_action">내비게이션</string>
+    <string name="toolbar_navigate">이동</string>
+    <string name="toolbar_note">작업 및 내비게이션 클릭이 마지막 작업 상태를 갱신합니다. 복사는 보고된 작업만 옮깁니다.</string>
 </resources>

@@ -452,4 +452,13 @@
     <string name="open_popup">開啟彈出視窗</string>
     <string name="popup_content">浮動彈出內容</string>
     <string name="popup_window_note">按鈕會開啟錨定到它的真實彈出視窗。複製僅轉移彈出視窗所回報的狀態。</string>
+    <string name="component_toolbar">工具列</string>
+    <string name="component_toolbar_description">架構 Toolbar，承載帶主題的標題、副標題、導覽圖示與真實的操作項目。</string>
+    <string name="component_action_menu_view">操作選單檢視</string>
+    <string name="component_action_menu_view_description">架構 ActionMenuView，將真實選單項目呈現為水平操作按鈕。</string>
+    <string name="toolbar_title">範例工具列</string>
+    <string name="toolbar_subtitle">架構 Toolbar 小工具</string>
+    <string name="toolbar_nav_action">導覽</string>
+    <string name="toolbar_navigate">導覽</string>
+    <string name="toolbar_note">操作與導覽點擊會更新最後操作狀態。複製僅轉移所回報的操作。</string>
 </resources>

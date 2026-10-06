@@ -375,6 +375,32 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun menuHostsKeepPlatformOnlyApi21Sources() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        val componentToSource =
+            mapOf(
+                LabComponent.TOOLBAR to "android.widget.Toolbar",
+                LabComponent.ACTION_MENU_VIEW to "android.widget.ActionMenuView",
+            )
+        componentToSource.forEach { (component, source) ->
+            platform.forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 20))
+                assertNull(family.unsupportedReason(component, 21))
+                assertNull(family.unsupportedReason(component, 36))
+                assertEquals(source, family.source(component))
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertTrue(component.isMenuHost)
+            assertEquals(21, component.minimumApi)
+            assertEquals(ComponentCategory.NAVIGATION, component.category)
+            assertFalse(component.matchesSearch("androidx.appcompat.widget.Toolbar"))
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

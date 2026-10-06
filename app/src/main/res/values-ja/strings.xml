@@ -452,4 +452,13 @@
     <string name="open_popup">ポップアップを開く</string>
     <string name="popup_content">フローティングポップアップコンテンツ</string>
     <string name="popup_window_note">ボタンで実際のポップアップウィンドウをそのボタンにアンカーして開きます。コピーはポップアップが報告した状態のみを移します。</string>
+    <string name="component_toolbar">ツールバー</string>
+    <string name="component_toolbar_description">テーマのタイトル、サブタイトル、ナビゲーションアイコン、実際のアクション項目をホストするフレームワークToolbarです。</string>
+    <string name="component_action_menu_view">アクションメニュービュー</string>
+    <string name="component_action_menu_view_description">実際のメニュー項目を水平アクションボタンとして表示するフレームワークActionMenuViewです。</string>
+    <string name="toolbar_title">サンプルツールバー</string>
+    <string name="toolbar_subtitle">フレームワークToolbarウィジェット</string>
+    <string name="toolbar_nav_action">ナビゲーション</string>
+    <string name="toolbar_navigate">移動</string>
+    <string name="toolbar_note">アクションとナビゲーションのクリックが最後の操作状態を更新します。コピーは報告された操作のみを移します。</string>
 </resources>

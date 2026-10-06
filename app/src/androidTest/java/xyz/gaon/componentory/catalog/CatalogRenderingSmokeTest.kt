@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AbsListView
 import android.widget.AbsoluteLayout
+import android.widget.ActionMenuView
 import android.widget.AdapterViewFlipper
 import android.widget.AnalogClock
 import android.widget.AutoCompleteTextView
@@ -65,6 +66,7 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.ToggleButton
+import android.widget.Toolbar
 import android.widget.TwoLineListItem
 import android.widget.ViewAnimator
 import android.widget.ViewFlipper
@@ -164,22 +166,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 61, 43)
+        verifyFamily(DesignFamily.CLASSIC, 63, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 61, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 63, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 61, 43)
+        verifyFamily(DesignFamily.MATERIAL, 63, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 73)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 75)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 45)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 47)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -188,7 +190,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            106,
+            108,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -540,6 +542,17 @@ class CatalogRenderingSmokeTest {
                         item.findViewById<TextView>(android.R.id.text2).text.toString(),
                     )
                 }
+                LabComponent.TOOLBAR -> {
+                    val toolbar = view as Toolbar
+                    assertEquals(
+                        compose.activity.getString(R.string.toolbar_title),
+                        toolbar.title.toString(),
+                    )
+                    assertEquals(2, toolbar.menu.size())
+                    assertNotNull(toolbar.navigationIcon)
+                }
+                LabComponent.ACTION_MENU_VIEW ->
+                    assertEquals(2, (view as ActionMenuView).menu.size())
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -637,6 +650,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.GALLERY -> Gallery::class.java
             LabComponent.SLIDING_DRAWER -> SlidingDrawer::class.java
             LabComponent.TWO_LINE_LIST_ITEM -> TwoLineListItem::class.java
+            LabComponent.TOOLBAR -> Toolbar::class.java
+            LabComponent.ACTION_MENU_VIEW -> ActionMenuView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

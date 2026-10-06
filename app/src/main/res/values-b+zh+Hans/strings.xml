@@ -452,4 +452,13 @@
     <string name="open_popup">打开弹出窗口</string>
     <string name="popup_content">浮动弹出内容</string>
     <string name="popup_window_note">按钮会打开锚定到它的真实弹出窗口。复制仅转移弹窗所报告的状态。</string>
+    <string name="component_toolbar">工具栏</string>
+    <string name="component_toolbar_description">框架 Toolbar，承载带主题的标题、副标题、导航图标和真实的操作项。</string>
+    <string name="component_action_menu_view">操作菜单视图</string>
+    <string name="component_action_menu_view_description">框架 ActionMenuView，将真实菜单项呈现为水平操作按钮。</string>
+    <string name="toolbar_title">示例工具栏</string>
+    <string name="toolbar_subtitle">框架 Toolbar 小部件</string>
+    <string name="toolbar_nav_action">导航</string>
+    <string name="toolbar_navigate">导航</string>
+    <string name="toolbar_note">操作和导航点击会更新最后操作状态。复制仅转移所报告的操作。</string>
 </resources>

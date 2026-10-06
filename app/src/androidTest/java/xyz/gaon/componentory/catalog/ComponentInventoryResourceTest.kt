@@ -254,6 +254,8 @@ class ComponentInventoryResourceTest {
                 "android.widget.TwoLineListItem" to ("TWO_LINE_LIST_ITEM" to 1),
                 "android.widget.PopupWindow" to ("POPUP_WINDOW" to 1),
                 "android.widget.ListPopupWindow" to ("LIST_POPUP_WINDOW" to 11),
+                "android.widget.Toolbar" to ("TOOLBAR" to 21),
+                "android.widget.ActionMenuView" to ("ACTION_MENU_VIEW" to 21),
             )
             .forEach { (source, metadata) ->
                 val row = entries.single { it.source == source }
@@ -281,10 +283,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(86, pending.size)
+        assertEquals(84, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 11,
+                InventoryFamily.PLATFORM to 9,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -368,6 +370,8 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "zoombutton").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "zoombuttonscontroller").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "popupwindow").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "toolbar").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "actionmenuview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "gallery").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "slidingdrawer").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "twolinelistitem").isEmpty())

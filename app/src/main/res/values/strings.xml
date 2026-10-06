@@ -455,4 +455,13 @@
     <string name="open_popup">Open popup</string>
     <string name="popup_content">Floating popup content</string>
     <string name="popup_window_note">The button opens the real popup window anchored to it. Copying carries the popup\'s reported state.</string>
+    <string name="component_toolbar">Toolbar</string>
+    <string name="component_toolbar_description">The framework Toolbar hosting a themed title, subtitle, navigation icon, and real action items.</string>
+    <string name="component_action_menu_view">Action menu view</string>
+    <string name="component_action_menu_view_description">The framework ActionMenuView presenting real menu items as horizontal action buttons.</string>
+    <string name="toolbar_title">Sample toolbar</string>
+    <string name="toolbar_subtitle">Framework Toolbar widget</string>
+    <string name="toolbar_nav_action">Navigation</string>
+    <string name="toolbar_navigate">Navigate</string>
+    <string name="toolbar_note">Action and navigation clicks feed the last action state. Copying carries only that reported action.</string>
 </resources>

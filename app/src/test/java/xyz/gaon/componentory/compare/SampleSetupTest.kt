@@ -761,6 +761,8 @@ class SampleSetupTest {
                 LabComponent.SLIDING_DRAWER to 1,
                 LabComponent.POPUP_WINDOW to 3,
                 LabComponent.LIST_POPUP_WINDOW to 2,
+                LabComponent.TOOLBAR to 3,
+                LabComponent.ACTION_MENU_VIEW to 2,
             )
             .forEach { (component, index) ->
                 val source = SampleState(initialValue = index, initialText = "ignored")

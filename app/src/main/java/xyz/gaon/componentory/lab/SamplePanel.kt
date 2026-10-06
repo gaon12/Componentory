@@ -367,6 +367,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isMenuHost && unsupported == null) {
+                Text(
+                    stringResource(R.string.toolbar_note),
+                    modifier = Modifier.testTag("toolbar_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isPopupWindow && unsupported == null) {
                 Text(
                     stringResource(R.string.popup_window_note),
