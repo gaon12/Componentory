@@ -10,3 +10,5 @@
 .cxx
 local.properties
 .local/
+__pycache__/
+.ruff_cache/
