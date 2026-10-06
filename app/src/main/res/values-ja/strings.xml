@@ -526,6 +526,16 @@
     <string name="component_bottom_drawer_description">コンテンツの上にスライドして上がる Material 2 BottomDrawer です。</string>
     <string name="open_drawer">ドロワーを開く</string>
     <string name="drawer_item">移動先 %1$d</string>
+    <string name="component_bottom_sheet_scaffold">ボトムシートスキャフォールド</string>
+    <string name="component_bottom_sheet_scaffold_description">コンテンツとともに永続的なボトムシートをホストするスキャフォールドです。</string>
+    <string name="component_modal_bottom_sheet">モーダルボトムシート</string>
+    <string name="component_modal_bottom_sheet_description">背後のコンテンツとの操作をブロックするモーダルボトムシートです。</string>
+    <string name="component_backdrop_scaffold">バックドロップスキャフォールド</string>
+    <string name="component_backdrop_scaffold_description">前面レイヤーの上に隠れた背面レイヤーを表示する Material 2 BackdropScaffold です。</string>
+    <string name="open_sheet">シートを開く</string>
+    <string name="sheet_open">シートが開いています</string>
+    <string name="sheet_closed">シートが閉じています</string>
+    <string name="sheet_back_layer">背面レイヤー</string>
 
     <string name="component_exposed_dropdown">公開ドロップダウンメニューボックス</string>
     <string name="component_exposed_dropdown_description">実際のメニューをテキストフィールドに固定する Material ExposedDropdownMenuBox です。</string>

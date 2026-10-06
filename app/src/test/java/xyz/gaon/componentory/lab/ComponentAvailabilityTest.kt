@@ -701,6 +701,45 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun sheetSuitesUseGenuineLibraryStates() {
+        listOf(
+                Triple(
+                    LabComponent.BOTTOM_SHEET_SCAFFOLD,
+                    "androidx.compose.material.BottomSheetScaffold",
+                    "androidx.compose.material3.BottomSheetScaffold",
+                ),
+                Triple(
+                    LabComponent.MODAL_BOTTOM_SHEET,
+                    "androidx.compose.material.ModalBottomSheetLayout",
+                    "androidx.compose.material3.ModalBottomSheet",
+                ),
+                Triple(
+                    LabComponent.BACKDROP_SCAFFOLD,
+                    "androidx.compose.material.BackdropScaffold",
+                    null,
+                ),
+            )
+            .forEach { (component, material2, material3) ->
+                listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach {
+                    family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+                assertEquals(material2, DesignFamily.MATERIAL2.source(component))
+                if (material3 == null) {
+                    assertNotNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                    assertEquals("Not provided", DesignFamily.MATERIAL3.source(component))
+                } else {
+                    assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                    assertEquals(material3, DesignFamily.MATERIAL3.source(component))
+                }
+                assertTrue(component.isSheetSuite)
+                assertEquals(ComponentCategory.LAYOUT, component.category)
+            }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

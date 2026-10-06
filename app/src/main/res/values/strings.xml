@@ -529,6 +529,16 @@
     <string name="component_bottom_drawer_description">The Material 2 BottomDrawer that slides up over content.</string>
     <string name="open_drawer">Open drawer</string>
     <string name="drawer_item">Destination %1$d</string>
+    <string name="component_bottom_sheet_scaffold">Bottom sheet scaffold</string>
+    <string name="component_bottom_sheet_scaffold_description">A scaffold that hosts a persistent bottom sheet below its content.</string>
+    <string name="component_modal_bottom_sheet">Modal bottom sheet</string>
+    <string name="component_modal_bottom_sheet_description">A modal bottom sheet that blocks interaction with the content behind it.</string>
+    <string name="component_backdrop_scaffold">Backdrop scaffold</string>
+    <string name="component_backdrop_scaffold_description">The Material 2 BackdropScaffold with a concealed back layer revealed over the front layer.</string>
+    <string name="open_sheet">Open sheet</string>
+    <string name="sheet_open">Sheet open</string>
+    <string name="sheet_closed">Sheet closed</string>
+    <string name="sheet_back_layer">Back layer</string>
 
     <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
     <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>

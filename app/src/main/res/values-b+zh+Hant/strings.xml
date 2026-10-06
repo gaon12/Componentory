@@ -526,6 +526,16 @@
     <string name="component_bottom_drawer_description">從內容下方滑入的 Material 2 BottomDrawer。</string>
     <string name="open_drawer">開啟抽屜</string>
     <string name="drawer_item">目的地 %1$d</string>
+    <string name="component_bottom_sheet_scaffold">底部工作表鷹架</string>
+    <string name="component_bottom_sheet_scaffold_description">在內容旁託管常駐底部工作表的鷹架。</string>
+    <string name="component_modal_bottom_sheet">模態底部工作表</string>
+    <string name="component_modal_bottom_sheet_description">阻止與其後內容互動的模態底部工作表。</string>
+    <string name="component_backdrop_scaffold">背景鷹架</string>
+    <string name="component_backdrop_scaffold_description">在前層上方顯示隱藏後層的 Material 2 BackdropScaffold。</string>
+    <string name="open_sheet">開啟工作表</string>
+    <string name="sheet_open">工作表已開啟</string>
+    <string name="sheet_closed">工作表已關閉</string>
+    <string name="sheet_back_layer">後層</string>
 
     <string name="component_exposed_dropdown">展開式下拉功能表方塊</string>
     <string name="component_exposed_dropdown_description">將真實功能表錨定到其文字欄位的 Material ExposedDropdownMenuBox。</string>

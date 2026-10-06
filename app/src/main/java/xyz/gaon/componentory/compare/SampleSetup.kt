@@ -304,4 +304,7 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.MODAL_NAVIGATION_DRAWER,
                     LabComponent.DISMISSIBLE_NAVIGATION_DRAWER,
                     LabComponent.BOTTOM_DRAWER,
+                    LabComponent.BOTTOM_SHEET_SCAFFOLD,
+                    LabComponent.MODAL_BOTTOM_SHEET,
+                    LabComponent.BACKDROP_SCAFFOLD,
                 )

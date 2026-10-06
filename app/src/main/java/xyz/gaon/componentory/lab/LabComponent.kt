@@ -729,6 +729,33 @@ enum class LabComponent(
         material3Function = "ExposedDropdownMenuBox",
         category = ComponentCategory.INPUT,
     ),
+    BOTTOM_SHEET_SCAFFOLD(
+        "Bottom sheet scaffold",
+        R.string.component_bottom_sheet_scaffold,
+        R.string.component_bottom_sheet_scaffold_description,
+        material2Function = "BottomSheetScaffold",
+        material3Function = "BottomSheetScaffold",
+        category = ComponentCategory.LAYOUT,
+        initialValue = 0,
+    ),
+    MODAL_BOTTOM_SHEET(
+        "Modal bottom sheet",
+        R.string.component_modal_bottom_sheet,
+        R.string.component_modal_bottom_sheet_description,
+        material2Function = "ModalBottomSheetLayout",
+        material3Function = "ModalBottomSheet",
+        category = ComponentCategory.LAYOUT,
+        initialValue = 0,
+    ),
+    BACKDROP_SCAFFOLD(
+        "Backdrop scaffold",
+        R.string.component_backdrop_scaffold,
+        R.string.component_backdrop_scaffold_description,
+        material2Function = "BackdropScaffold",
+        material3Function = null,
+        category = ComponentCategory.LAYOUT,
+        initialValue = 0,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1248,6 +1275,12 @@ enum class LabComponent(
     val isDrawerSuite: Boolean
         get() = isToggleableDrawer || this == PERMANENT_NAVIGATION_DRAWER
 
+    // Sheets whose open state is real and copyable; every sheet in this group
+    // exposes a genuine state object that a button and dismissals both drive.
+    val isSheetSuite: Boolean
+        get() =
+            this == BOTTOM_SHEET_SCAFFOLD || this == MODAL_BOTTOM_SHEET || this == BACKDROP_SCAFFOLD
+
     // The samples draw three destination items; the selected index copies.
     val navigationItemCount: Int
         get() = if (isNavigationSuite) 3 else 0
@@ -1401,6 +1434,8 @@ enum class LabComponent(
                 context.getString(
                     if (value == 1) R.string.drawer_opened else R.string.drawer_closed
                 )
+            isSheetSuite ->
+                context.getString(if (value == 1) R.string.sheet_open else R.string.sheet_closed)
             isNavigationSuite || isTabRow ->
                 context.getString(
                     R.string.status_selected,

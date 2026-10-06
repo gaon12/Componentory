@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 202, InventoryStatus.PENDING to 37),
+            mapOf(InventoryStatus.IMPLEMENTED to 207, InventoryStatus.PENDING to 32),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
-                InventoryFamily.MATERIAL2 to 47,
-                InventoryFamily.MATERIAL3 to 83,
+                InventoryFamily.MATERIAL2 to 50,
+                InventoryFamily.MATERIAL3 to 85,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,12 +283,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(37, pending.size)
+        assertEquals(32, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 2,
-                InventoryFamily.MATERIAL2 to 5,
-                InventoryFamily.MATERIAL3 to 30,
+                InventoryFamily.MATERIAL2 to 2,
+                InventoryFamily.MATERIAL3 to 28,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -372,6 +372,9 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "bottomappbar").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "drawer").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "exposeddropdownmenubox").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "backdrop").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "bottomsheet").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "modalbottomsheet").isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)
