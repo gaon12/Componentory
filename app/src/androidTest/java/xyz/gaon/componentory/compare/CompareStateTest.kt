@@ -1,5 +1,6 @@
 package xyz.gaon.componentory.compare
 
+import android.content.pm.ActivityInfo
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -29,9 +30,11 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,6 +51,26 @@ class CompareStateTest {
     private var width by mutableStateOf(800.dp)
     private var leftFamily by mutableStateOf(DesignFamily.CLASSIC)
     private var rightFamily by mutableStateOf(DesignFamily.HOLO)
+    private var originalOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
+    @Before
+    fun provideARealWindowForBothLayouts() {
+        // A width modifier cannot make a portrait phone wider than its window.
+        compose.runOnUiThread {
+            originalOrientation = compose.activity.requestedOrientation
+            compose.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+        compose.waitUntil(timeoutMillis = 10_000) {
+            compose.activity.resources.configuration.screenWidthDp >= 600
+        }
+        compose.waitForIdle()
+    }
+
+    @After
+    fun restoreTheActivityOrientation() {
+        compose.runOnUiThread { compose.activity.requestedOrientation = originalOrientation }
+        compose.waitForIdle()
+    }
 
     @Test
     fun equalProviderTransitionsCannotMoveStateBetweenPanels() {
