@@ -76,6 +76,15 @@ class ComponentInventoryTest {
                 assertEquals(listOf(metadata.first), row.catalogIds)
                 assertEquals(metadata.second, row.apiIntroduced)
             }
+        // The TabWidget row lives inside the TabHost sample like TableRow inside
+        // TableLayout.
+        listOf("android.widget.TabHost", "android.widget.TabWidget").forEach { source ->
+            val row = rows.single { it.source == source }
+            assertEquals("PLATFORM", row.provider)
+            assertEquals("Implemented", row.status)
+            assertEquals(listOf("TAB_HOST"), row.catalogIds)
+            assertEquals("1", row.apiIntroduced)
+        }
         mapOf(
                 "android.widget.ViewAnimator" to "VIEW_ANIMATOR",
                 "android.widget.ViewSwitcher" to "VIEW_SWITCHER",
@@ -113,9 +122,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(100, LabComponent.entries.size)
+        assertEquals(101, LabComponent.entries.size)
         assertEquals(
-            261,
+            264,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -123,15 +132,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 146, "Pending" to 93),
+            mapOf("Implemented" to 148, "Pending" to 91),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 56, "MATERIAL2" to 31, "MATERIAL3" to 59),
+            mapOf("PLATFORM" to 58, "MATERIAL2" to 31, "MATERIAL3" to 59),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 18, "MATERIAL2" to 21, "MATERIAL3" to 54),
+            mapOf("PLATFORM" to 16, "MATERIAL2" to 21, "MATERIAL3" to 54),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -214,6 +223,8 @@ class ComponentInventoryTest {
                                 setOf("android.widget.RadioGroup")
                             row.provider == "PLATFORM" && component == LabComponent.TABLE_LAYOUT ->
                                 setOf("android.widget.TableRow")
+                            row.provider == "PLATFORM" && component == LabComponent.TAB_HOST ->
+                                setOf("android.widget.TabWidget")
                             row.provider == "PLATFORM" &&
                                 component == LabComponent.TIME_PICKER_DIALOG ->
                                 setOf("android.widget.TimePicker")

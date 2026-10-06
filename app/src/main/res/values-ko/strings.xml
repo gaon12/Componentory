@@ -425,4 +425,10 @@
     <string name="toast_message">선택한 플랫폼 테마 컨텍스트에서 만든 토스트입니다.</string>
     <string name="status_shown_times">%1$d번 표시됨</string>
     <string name="transient_note">버튼이 실제 일시적 창을 엽니다. 복사는 열린 횟수만 옮깁니다.</string>
+    <string name="component_tab_host">탭 호스트</string>
+    <string name="component_tab_host_description">실제 TabWidget 스트립으로 테마의 탭 콘텐츠를 전환하는 지원 중단된 프레임워크 TabHost입니다.</string>
+    <string name="tab_indicator">탭 %1$d</string>
+    <string name="tab_content">탭 %1$d 콘텐츠</string>
+    <string name="status_tab">선택된 탭 %1$d/%2$d</string>
+    <string name="tab_note">탭을 누르면 원본 TabHost 콘텐츠가 전환됩니다. 복사는 선택된 탭 인덱스를 옮깁니다.</string>
 </resources>

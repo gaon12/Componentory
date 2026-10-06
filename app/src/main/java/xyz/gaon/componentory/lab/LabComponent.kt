@@ -483,6 +483,13 @@ enum class LabComponent(
         platformSource = "android.widget.Toast",
         category = ComponentCategory.FEEDBACK,
     ),
+    TAB_HOST(
+        "Tab host",
+        R.string.component_tab_host,
+        R.string.component_tab_host_description,
+        platformSource = "android.widget.TabHost",
+        category = ComponentCategory.LEGACY,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -932,6 +939,9 @@ enum class LabComponent(
     val isTransientWindow: Boolean
         get() = this == PLAIN_DIALOG || this == PROGRESS_DIALOG || this == TOAST
 
+    val tabCount: Int
+        get() = if (this == TAB_HOST) 3 else 0
+
     // Logical page count an adapter animator steps through.
     val adapterPageCount: Int
         get() =
@@ -956,6 +966,7 @@ enum class LabComponent(
                 ZOOM_BUTTONS_CONTROLLER,
                 PROGRESS_DIALOG -> 26
                 ZOOM_CONTROLS -> 29
+                TAB_HOST -> 30
                 else -> null
             }
 
@@ -1050,6 +1061,7 @@ enum class LabComponent(
             isAdapterAnimator ->
                 context.getString(R.string.status_switcher_child, value + 1, adapterPageCount)
             isTransientWindow -> context.getString(R.string.status_shown_times, value)
+            this == TAB_HOST -> context.getString(R.string.status_tab, value + 1, tabCount)
             this == LIST_VIEW || this == GRID_VIEW ->
                 if (value == 0) context.getString(R.string.sample_state_no_selection)
                 else

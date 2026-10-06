@@ -425,4 +425,10 @@
     <string name="toast_message">此 Toast 在所选平台主题上下文中创建。</string>
     <string name="status_shown_times">已显示 %1$d 次</string>
     <string name="transient_note">按钮打开真实的瞬时窗口。复制仅转移打开次数。</string>
+    <string name="component_tab_host">标签页宿主</string>
+    <string name="component_tab_host_description">已弃用的框架 TabHost，用真实的 TabWidget 标签条切换主题标签内容。</string>
+    <string name="tab_indicator">标签 %1$d</string>
+    <string name="tab_content">标签 %1$d 内容</string>
+    <string name="status_tab">已选中标签 %1$d/%2$d</string>
+    <string name="tab_note">标签点击切换原始 TabHost 内容。复制转移所选标签索引。</string>
 </resources>

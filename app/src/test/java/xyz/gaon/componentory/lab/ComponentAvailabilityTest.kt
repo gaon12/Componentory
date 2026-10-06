@@ -292,6 +292,28 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun tabHostUsesTheDeprecatedFrameworkSupplierWithThreeTabs() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        platform.forEach { family ->
+            assertNull(family.unsupportedReason(LabComponent.TAB_HOST, 1))
+            assertNull(family.unsupportedReason(LabComponent.TAB_HOST, 36))
+            assertEquals("android.widget.TabHost", family.source(LabComponent.TAB_HOST))
+        }
+        listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+            assertNotNull(family.unsupportedReason(LabComponent.TAB_HOST, 36))
+            assertEquals("Not provided", family.source(LabComponent.TAB_HOST))
+        }
+        assertEquals(1, LabComponent.TAB_HOST.minimumApi)
+        assertEquals(30, LabComponent.TAB_HOST.deprecatedApi)
+        assertEquals(ComponentCategory.LEGACY, LabComponent.TAB_HOST.category)
+        assertEquals(3, LabComponent.TAB_HOST.tabCount)
+        assertEquals(0, LabComponent.TAB_HOST.initialValue)
+        assertTrue(LabComponent.TAB_HOST.matchesSearch("android.widget.TabHost"))
+        assertTrue(LabComponent.TAB_HOST.matchesSearch("tab"))
+        assertFalse(LabComponent.TAB_HOST.matchesSearch("androidx.compose.material3.Tab"))
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

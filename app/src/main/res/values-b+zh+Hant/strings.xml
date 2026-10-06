@@ -425,4 +425,10 @@
     <string name="toast_message">此 Toast 在所選平台佈景內容中建立。</string>
     <string name="status_shown_times">已顯示 %1$d 次</string>
     <string name="transient_note">按鈕開啟真實的暫時性視窗。複製僅轉移開啟次數。</string>
+    <string name="component_tab_host">分頁主機</string>
+    <string name="component_tab_host_description">已棄用的架構 TabHost，以真實的 TabWidget 分頁列切換主題分頁內容。</string>
+    <string name="tab_indicator">分頁 %1$d</string>
+    <string name="tab_content">分頁 %1$d 內容</string>
+    <string name="status_tab">已選取分頁 %1$d/%2$d</string>
+    <string name="tab_note">分頁點擊切換原始 TabHost 內容。複製會轉移所選分頁索引。</string>
 </resources>

@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 146, InventoryStatus.PENDING to 93),
+            mapOf(InventoryStatus.IMPLEMENTED to 148, InventoryStatus.PENDING to 91),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 56,
+                InventoryFamily.PLATFORM to 58,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -239,6 +239,15 @@ class ComponentInventoryResourceTest {
                 assertEquals(listOf(catalogId), row.catalogIds)
                 assertEquals(1, row.apiIntroduced)
             }
+        // The TabWidget row lives inside the TabHost sample like TableRow inside
+        // TableLayout.
+        listOf("android.widget.TabHost", "android.widget.TabWidget").forEach { source ->
+            val row = entries.single { it.source == source }
+            assertEquals(InventoryFamily.PLATFORM, row.family)
+            assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+            assertEquals(listOf("TAB_HOST"), row.catalogIds)
+            assertEquals(1, row.apiIntroduced)
+        }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -258,10 +267,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(93, pending.size)
+        assertEquals(91, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 18,
+                InventoryFamily.PLATFORM to 16,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -319,6 +328,8 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "stackview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "toast").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "progressdialog").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "tabhost").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "tabwidget").isEmpty())
         assertEquals(
             emptyList<String>(),
             ComponentInventory.pending(entries, "dialog", InventoryFamily.PLATFORM).map {

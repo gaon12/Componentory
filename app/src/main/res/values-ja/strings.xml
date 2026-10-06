@@ -425,4 +425,10 @@
     <string name="toast_message">選択したプラットフォームテーマコンテキストで作成されたトーストです。</string>
     <string name="status_shown_times">%1$d回表示</string>
     <string name="transient_note">ボタンが実際の一時的なウィンドウを開きます。コピーは開いた回数のみを移します。</string>
+    <string name="component_tab_host">タブホスト</string>
+    <string name="component_tab_host_description">実際のTabWidgetストリップでテーマのタブコンテンツを切り替える非推奨のフレームワークTabHostです。</string>
+    <string name="tab_indicator">タブ %1$d</string>
+    <string name="tab_content">タブ %1$d のコンテンツ</string>
+    <string name="status_tab">選択中のタブ %1$d/%2$d</string>
+    <string name="tab_note">タブタップは元のTabHostコンテンツを切り替えます。コピーは選択中のタブインデックスを移します。</string>
 </resources>

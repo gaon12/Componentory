@@ -96,6 +96,10 @@ fun PlatformSample(
         PlatformAdapterAnimatorSample(family, component, viewId, enabled, state, modifier)
         return
     }
+    if (component == LabComponent.TAB_HOST) {
+        PlatformTabSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

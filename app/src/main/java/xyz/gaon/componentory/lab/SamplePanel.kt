@@ -353,6 +353,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component == LabComponent.TAB_HOST && unsupported == null) {
+                Text(
+                    stringResource(R.string.tab_note),
+                    modifier = Modifier.testTag("tab_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isTransientWindow && unsupported == null) {
                 Text(
                     stringResource(R.string.transient_note),

@@ -755,6 +755,7 @@ class SampleSetupTest {
                 LabComponent.IMAGE_SWITCHER to 1,
                 LabComponent.ADAPTER_VIEW_FLIPPER to 3,
                 LabComponent.STACK_VIEW to 5,
+                LabComponent.TAB_HOST to 2,
             )
             .forEach { (component, index) ->
                 val source = SampleState(initialValue = index, initialText = "ignored")

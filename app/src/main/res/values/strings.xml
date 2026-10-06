@@ -428,4 +428,10 @@
     <string name="toast_message">This toast was created in the selected platform theme context.</string>
     <string name="status_shown_times">Shown %1$d times</string>
     <string name="transient_note">The button opens the real transient window. Copying carries only the count of opens.</string>
+    <string name="component_tab_host">Tab host</string>
+    <string name="component_tab_host_description">The deprecated framework TabHost with its real TabWidget strip switching themed tab content.</string>
+    <string name="tab_indicator">Tab %1$d</string>
+    <string name="tab_content">Tab %1$d content</string>
+    <string name="status_tab">Selected tab %1$d of %2$d</string>
+    <string name="tab_note">Tab taps switch the original TabHost content. Copying carries the selected tab index.</string>
 </resources>

@@ -53,6 +53,7 @@ import android.widget.Space
 import android.widget.Spinner
 import android.widget.StackView
 import android.widget.Switch
+import android.widget.TabHost
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextClock
@@ -158,22 +159,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 54, 44)
+        verifyFamily(DesignFamily.CLASSIC, 56, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 54, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 56, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 54, 44)
+        verifyFamily(DesignFamily.MATERIAL, 56, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 67)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 68)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 39)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 40)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -182,7 +183,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            100,
+            101,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -508,6 +509,15 @@ class CatalogRenderingSmokeTest {
                 LabComponent.ADAPTER_VIEW_FLIPPER ->
                     assertEquals(4, (view as AdapterViewFlipper).adapter.count)
                 LabComponent.STACK_VIEW -> assertEquals(6, (view as StackView).adapter.count)
+                LabComponent.TAB_HOST -> {
+                    val host = view as TabHost
+                    assertEquals(3, host.tabWidget.childCount)
+                    assertEquals(0, host.currentTab)
+                    assertEquals(
+                        compose.activity.getString(R.string.tab_content, 1),
+                        (host.tabContentView.getChildAt(0) as? TextView)?.text?.toString(),
+                    )
+                }
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -597,6 +607,7 @@ class CatalogRenderingSmokeTest {
             LabComponent.ZOOM_BUTTONS_CONTROLLER -> FrameLayout::class.java
             LabComponent.ADAPTER_VIEW_FLIPPER -> AdapterViewFlipper::class.java
             LabComponent.STACK_VIEW -> StackView::class.java
+            LabComponent.TAB_HOST -> TabHost::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")
