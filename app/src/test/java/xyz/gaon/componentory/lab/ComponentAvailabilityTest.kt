@@ -314,6 +314,38 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun legacyContainersKeepPlatformOnlySourcesAndDeprecationLevels() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        val componentToSource =
+            mapOf(
+                LabComponent.GALLERY to "android.widget.Gallery",
+                LabComponent.SLIDING_DRAWER to "android.widget.SlidingDrawer",
+                LabComponent.TWO_LINE_LIST_ITEM to "android.widget.TwoLineListItem",
+            )
+        componentToSource.forEach { (component, source) ->
+            platform.forEach { family ->
+                assertNull(family.unsupportedReason(component, component.minimumApi))
+                assertNull(family.unsupportedReason(component, 36))
+                assertEquals(source, family.source(component))
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertTrue(component.isLegacyContainer)
+            assertEquals(ComponentCategory.LEGACY, component.category)
+            assertFalse(component.matchesSearch("androidx.compose.material3.Drawer"))
+        }
+        assertEquals(1, LabComponent.GALLERY.minimumApi)
+        assertEquals(16, LabComponent.GALLERY.deprecatedApi)
+        assertEquals(6, LabComponent.GALLERY.galleryItemCount)
+        assertEquals(3, LabComponent.SLIDING_DRAWER.minimumApi)
+        assertEquals(17, LabComponent.SLIDING_DRAWER.deprecatedApi)
+        assertEquals(1, LabComponent.TWO_LINE_LIST_ITEM.minimumApi)
+        assertEquals(17, LabComponent.TWO_LINE_LIST_ITEM.deprecatedApi)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

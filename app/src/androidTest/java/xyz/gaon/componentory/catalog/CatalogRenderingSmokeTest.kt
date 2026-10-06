@@ -30,6 +30,7 @@ import android.widget.DigitalClock
 import android.widget.EditText
 import android.widget.ExpandableListView
 import android.widget.FrameLayout
+import android.widget.Gallery
 import android.widget.GridLayout
 import android.widget.GridView
 import android.widget.HorizontalScrollView
@@ -49,6 +50,7 @@ import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.SearchView
 import android.widget.SeekBar
+import android.widget.SlidingDrawer
 import android.widget.Space
 import android.widget.Spinner
 import android.widget.StackView
@@ -61,6 +63,7 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.ToggleButton
+import android.widget.TwoLineListItem
 import android.widget.ViewAnimator
 import android.widget.ViewFlipper
 import android.widget.ViewSwitcher
@@ -159,22 +162,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 56, 43)
+        verifyFamily(DesignFamily.CLASSIC, 59, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 56, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 59, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 56, 43)
+        verifyFamily(DesignFamily.MATERIAL, 59, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 68)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 71)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 40)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 43)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -183,7 +186,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            101,
+            104,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -518,6 +521,23 @@ class CatalogRenderingSmokeTest {
                         (host.tabContentView.getChildAt(0) as? TextView)?.text?.toString(),
                     )
                 }
+                LabComponent.GALLERY -> assertEquals(6, (view as Gallery).adapter.count)
+                LabComponent.SLIDING_DRAWER -> {
+                    val drawer = view as SlidingDrawer
+                    assertNotNull(drawer.findViewById<View>(R.id.sliding_handle))
+                    assertNotNull(drawer.findViewById<View>(R.id.sliding_content))
+                }
+                LabComponent.TWO_LINE_LIST_ITEM -> {
+                    val item = view as TwoLineListItem
+                    assertEquals(
+                        compose.activity.getString(R.string.two_line_primary),
+                        item.findViewById<TextView>(android.R.id.text1).text.toString(),
+                    )
+                    assertEquals(
+                        compose.activity.getString(R.string.two_line_secondary),
+                        item.findViewById<TextView>(android.R.id.text2).text.toString(),
+                    )
+                }
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -608,6 +628,9 @@ class CatalogRenderingSmokeTest {
             LabComponent.ADAPTER_VIEW_FLIPPER -> AdapterViewFlipper::class.java
             LabComponent.STACK_VIEW -> StackView::class.java
             LabComponent.TAB_HOST -> TabHost::class.java
+            LabComponent.GALLERY -> Gallery::class.java
+            LabComponent.SLIDING_DRAWER -> SlidingDrawer::class.java
+            LabComponent.TWO_LINE_LIST_ITEM -> TwoLineListItem::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

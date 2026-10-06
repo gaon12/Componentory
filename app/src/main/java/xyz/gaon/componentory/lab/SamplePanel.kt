@@ -360,6 +360,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isLegacyContainer && unsupported == null) {
+                Text(
+                    stringResource(R.string.legacy_container_note),
+                    modifier = Modifier.testTag("legacy_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isTransientWindow && unsupported == null) {
                 Text(
                     stringResource(R.string.transient_note),

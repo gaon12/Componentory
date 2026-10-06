@@ -263,6 +263,8 @@ private val LabComponent.hasCopiedValue: Boolean
             isAdapterAnimator ||
             isTransientWindow ||
             this == LabComponent.TAB_HOST ||
+            this == LabComponent.GALLERY ||
+            this == LabComponent.SLIDING_DRAWER ||
             this in
                 listOf(
                     LabComponent.CHECKBOX,

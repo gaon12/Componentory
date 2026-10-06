@@ -248,6 +248,18 @@ class ComponentInventoryResourceTest {
             assertEquals(listOf("TAB_HOST"), row.catalogIds)
             assertEquals(1, row.apiIntroduced)
         }
+        mapOf(
+                "android.widget.Gallery" to ("GALLERY" to 1),
+                "android.widget.SlidingDrawer" to ("SLIDING_DRAWER" to 3),
+                "android.widget.TwoLineListItem" to ("TWO_LINE_LIST_ITEM" to 1),
+            )
+            .forEach { (source, metadata) ->
+                val row = entries.single { it.source == source }
+                assertEquals(InventoryFamily.PLATFORM, row.family)
+                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(listOf(metadata.first), row.catalogIds)
+                assertEquals(metadata.second, row.apiIntroduced)
+            }
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -267,10 +279,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(91, pending.size)
+        assertEquals(88, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 16,
+                InventoryFamily.PLATFORM to 13,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),

@@ -675,6 +675,7 @@ class SampleSetupTest {
                 LabComponent.RELATIVE_LAYOUT,
                 LabComponent.SPACE,
                 LabComponent.ABSOLUTE_LAYOUT,
+                LabComponent.TWO_LINE_LIST_ITEM,
             )
             .forEach { component ->
                 val captured =
@@ -756,6 +757,8 @@ class SampleSetupTest {
                 LabComponent.ADAPTER_VIEW_FLIPPER to 3,
                 LabComponent.STACK_VIEW to 5,
                 LabComponent.TAB_HOST to 2,
+                LabComponent.GALLERY to 4,
+                LabComponent.SLIDING_DRAWER to 1,
             )
             .forEach { (component, index) ->
                 val source = SampleState(initialValue = index, initialText = "ignored")

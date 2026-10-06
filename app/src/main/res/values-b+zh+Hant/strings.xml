@@ -431,4 +431,18 @@
     <string name="tab_content">分頁 %1$d 內容</string>
     <string name="status_tab">已選取分頁 %1$d/%2$d</string>
     <string name="tab_note">分頁點擊切換原始 TabHost 內容。複製會轉移所選分頁索引。</string>
+    <string name="component_gallery">圖片瀏覽器</string>
+    <string name="component_gallery_description">已棄用的架構 Gallery，以選取項橫向捲動配接器頁面。</string>
+    <string name="component_sliding_drawer">滑動抽屜</string>
+    <string name="component_sliding_drawer_description">已棄用的架構 SlidingDrawer，將內容隱藏在真實可拖曳把手後。</string>
+    <string name="component_two_line_list_item">雙行清單項目</string>
+    <string name="component_two_line_list_item_description">已棄用的架構 TwoLineListItem，由平台 two_line_list_item 版面加載而來。</string>
+    <string name="drawer_handle">抽屜把手</string>
+    <string name="drawer_content">隱藏的抽屜內容</string>
+    <string name="two_line_primary">雙行項目的第一行</string>
+    <string name="two_line_secondary">雙行項目的第二行</string>
+    <string name="status_gallery">已選取第 %1$d 項，共 %2$d 項</string>
+    <string name="drawer_opened">抽屜已開啟</string>
+    <string name="drawer_closed">抽屜已關閉</string>
+    <string name="legacy_container_note">小工具已棄用但仍可渲染。複製僅轉移目前可見的選擇。</string>
 </resources>

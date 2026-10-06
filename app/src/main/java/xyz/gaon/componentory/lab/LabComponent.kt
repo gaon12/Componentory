@@ -490,6 +490,28 @@ enum class LabComponent(
         platformSource = "android.widget.TabHost",
         category = ComponentCategory.LEGACY,
     ),
+    GALLERY(
+        "Gallery",
+        R.string.component_gallery,
+        R.string.component_gallery_description,
+        platformSource = "android.widget.Gallery",
+        category = ComponentCategory.LEGACY,
+    ),
+    SLIDING_DRAWER(
+        "Sliding drawer",
+        R.string.component_sliding_drawer,
+        R.string.component_sliding_drawer_description,
+        minimumApi = 3,
+        platformSource = "android.widget.SlidingDrawer",
+        category = ComponentCategory.LEGACY,
+    ),
+    TWO_LINE_LIST_ITEM(
+        "Two-line list item",
+        R.string.component_two_line_list_item,
+        R.string.component_two_line_list_item_description,
+        platformSource = "android.widget.TwoLineListItem",
+        category = ComponentCategory.LEGACY,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -942,6 +964,13 @@ enum class LabComponent(
     val tabCount: Int
         get() = if (this == TAB_HOST) 3 else 0
 
+    // Deprecated containers that keep real interaction but no library twin.
+    val isLegacyContainer: Boolean
+        get() = this == GALLERY || this == SLIDING_DRAWER || this == TWO_LINE_LIST_ITEM
+
+    val galleryItemCount: Int
+        get() = if (this == GALLERY) 6 else 0
+
     // Logical page count an adapter animator steps through.
     val adapterPageCount: Int
         get() =
@@ -960,7 +989,10 @@ enum class LabComponent(
         get() =
             when (this) {
                 ABSOLUTE_LAYOUT -> 3
-                DIGITAL_CLOCK -> 17
+                GALLERY -> 16
+                DIGITAL_CLOCK,
+                SLIDING_DRAWER,
+                TWO_LINE_LIST_ITEM -> 17
                 ANALOG_CLOCK -> 23
                 ZOOM_BUTTON,
                 ZOOM_BUTTONS_CONTROLLER,
@@ -1062,6 +1094,14 @@ enum class LabComponent(
                 context.getString(R.string.status_switcher_child, value + 1, adapterPageCount)
             isTransientWindow -> context.getString(R.string.status_shown_times, value)
             this == TAB_HOST -> context.getString(R.string.status_tab, value + 1, tabCount)
+            this == GALLERY ->
+                context.getString(R.string.status_gallery, value + 1, galleryItemCount)
+            this == SLIDING_DRAWER ->
+                context.getString(
+                    if (value == 1) R.string.drawer_opened else R.string.drawer_closed
+                )
+            this == TWO_LINE_LIST_ITEM ->
+                context.getString(R.string.status_preview, context.getString(labelRes))
             this == LIST_VIEW || this == GRID_VIEW ->
                 if (value == 0) context.getString(R.string.sample_state_no_selection)
                 else

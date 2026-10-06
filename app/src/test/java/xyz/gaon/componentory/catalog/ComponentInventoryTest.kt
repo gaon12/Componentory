@@ -86,6 +86,18 @@ class ComponentInventoryTest {
             assertEquals("1", row.apiIntroduced)
         }
         mapOf(
+                "android.widget.Gallery" to ("GALLERY" to "1"),
+                "android.widget.SlidingDrawer" to ("SLIDING_DRAWER" to "3"),
+                "android.widget.TwoLineListItem" to ("TWO_LINE_LIST_ITEM" to "1"),
+            )
+            .forEach { (source, metadata) ->
+                val row = rows.single { it.source == source }
+                assertEquals("PLATFORM", row.provider)
+                assertEquals("Implemented", row.status)
+                assertEquals(listOf(metadata.first), row.catalogIds)
+                assertEquals(metadata.second, row.apiIntroduced)
+            }
+        mapOf(
                 "android.widget.ViewAnimator" to "VIEW_ANIMATOR",
                 "android.widget.ViewSwitcher" to "VIEW_SWITCHER",
                 "android.widget.ViewFlipper" to "VIEW_FLIPPER",
@@ -122,9 +134,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(101, LabComponent.entries.size)
+        assertEquals(104, LabComponent.entries.size)
         assertEquals(
-            264,
+            273,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -132,15 +144,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 148, "Pending" to 91),
+            mapOf("Implemented" to 151, "Pending" to 88),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 58, "MATERIAL2" to 31, "MATERIAL3" to 59),
+            mapOf("PLATFORM" to 61, "MATERIAL2" to 31, "MATERIAL3" to 59),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 16, "MATERIAL2" to 21, "MATERIAL3" to 54),
+            mapOf("PLATFORM" to 13, "MATERIAL2" to 21, "MATERIAL3" to 54),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(

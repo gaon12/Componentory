@@ -434,4 +434,18 @@
     <string name="tab_content">Tab %1$d content</string>
     <string name="status_tab">Selected tab %1$d of %2$d</string>
     <string name="tab_note">Tab taps switch the original TabHost content. Copying carries the selected tab index.</string>
+    <string name="component_gallery">Gallery</string>
+    <string name="component_gallery_description">The deprecated framework Gallery scrolling adapter pages horizontally with a selected item.</string>
+    <string name="component_sliding_drawer">Sliding drawer</string>
+    <string name="component_sliding_drawer_description">The deprecated framework SlidingDrawer hiding content behind a real draggable handle.</string>
+    <string name="component_two_line_list_item">Two-line list item</string>
+    <string name="component_two_line_list_item_description">The deprecated framework TwoLineListItem inflated from the platform two_line_list_item layout.</string>
+    <string name="drawer_handle">Drawer handle</string>
+    <string name="drawer_content">Hidden drawer content</string>
+    <string name="two_line_primary">First line of the two-line item</string>
+    <string name="two_line_secondary">Second line of the two-line item</string>
+    <string name="status_gallery">Selected item %1$d of %2$d</string>
+    <string name="drawer_opened">Drawer open</string>
+    <string name="drawer_closed">Drawer closed</string>
+    <string name="legacy_container_note">The widget is deprecated but still renders. Copying carries only the visible selection.</string>
 </resources>

@@ -431,4 +431,18 @@
     <string name="tab_content">标签 %1$d 内容</string>
     <string name="status_tab">已选中标签 %1$d/%2$d</string>
     <string name="tab_note">标签点击切换原始 TabHost 内容。复制转移所选标签索引。</string>
+    <string name="component_gallery">画廊</string>
+    <string name="component_gallery_description">已弃用的框架 Gallery，以选中项横向滚动适配器页面。</string>
+    <string name="component_sliding_drawer">滑动抽屉</string>
+    <string name="component_sliding_drawer_description">已弃用的框架 SlidingDrawer，将内容隐藏在真实的可拖动把手后。</string>
+    <string name="component_two_line_list_item">双行列表项</string>
+    <string name="component_two_line_list_item_description">已弃用的框架 TwoLineListItem，由平台 two_line_list_item 布局填充而来。</string>
+    <string name="drawer_handle">抽屉把手</string>
+    <string name="drawer_content">隐藏的抽屉内容</string>
+    <string name="two_line_primary">双行项的第一行</string>
+    <string name="two_line_secondary">双行项的第二行</string>
+    <string name="status_gallery">已选中第 %1$d 项，共 %2$d 项</string>
+    <string name="drawer_opened">抽屉已打开</string>
+    <string name="drawer_closed">抽屉已关闭</string>
+    <string name="legacy_container_note">该小部件已弃用但仍可渲染。复制仅转移当前可见的选择。</string>
 </resources>

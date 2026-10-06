@@ -431,4 +431,18 @@
     <string name="tab_content">タブ %1$d のコンテンツ</string>
     <string name="status_tab">選択中のタブ %1$d/%2$d</string>
     <string name="tab_note">タブタップは元のTabHostコンテンツを切り替えます。コピーは選択中のタブインデックスを移します。</string>
+    <string name="component_gallery">ギャラリー</string>
+    <string name="component_gallery_description">選択された項目でアダプターページを横スクロールする非推奨のフレームワークGalleryです。</string>
+    <string name="component_sliding_drawer">スライディングドロワー</string>
+    <string name="component_sliding_drawer_description">実際のドラッグハンドルの後ろにコンテンツを隠す非推奨のフレームワークSlidingDrawerです。</string>
+    <string name="component_two_line_list_item">2行リスト項目</string>
+    <string name="component_two_line_list_item_description">プラットフォームのtwo_line_list_itemレイアウトからインフレートされた非推奨のフレームワークTwoLineListItemです。</string>
+    <string name="drawer_handle">ドロワーハンドル</string>
+    <string name="drawer_content">隠れたドロワーコンテンツ</string>
+    <string name="two_line_primary">2行項目の1行目</string>
+    <string name="two_line_secondary">2行項目の2行目</string>
+    <string name="status_gallery">選択中の項目 %1$d/%2$d</string>
+    <string name="drawer_opened">ドロワーが開いています</string>
+    <string name="drawer_closed">ドロワーが閉じています</string>
+    <string name="legacy_container_note">ウィジェットは非推奨ですが引き続きレンダリングされます。コピーは表示中の選択のみを移します。</string>
 </resources>

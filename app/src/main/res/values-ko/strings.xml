@@ -431,4 +431,18 @@
     <string name="tab_content">탭 %1$d 콘텐츠</string>
     <string name="status_tab">선택된 탭 %1$d/%2$d</string>
     <string name="tab_note">탭을 누르면 원본 TabHost 콘텐츠가 전환됩니다. 복사는 선택된 탭 인덱스를 옮깁니다.</string>
+    <string name="component_gallery">갤러리</string>
+    <string name="component_gallery_description">선택된 항목으로 어댑터 페이지를 가로로 스크롤하는 지원 중단된 프레임워크 Gallery입니다.</string>
+    <string name="component_sliding_drawer">슬라이딩 드로어</string>
+    <string name="component_sliding_drawer_description">실제 드래그 핸들 뒤로 콘텐츠를 숨기는 지원 중단된 프레임워크 SlidingDrawer입니다.</string>
+    <string name="component_two_line_list_item">두 줄 목록 항목</string>
+    <string name="component_two_line_list_item_description">플랫폼 two_line_list_item 레이아웃으로 인플레이트된 지원 중단된 프레임워크 TwoLineListItem입니다.</string>
+    <string name="drawer_handle">드로어 핸들</string>
+    <string name="drawer_content">숨겨진 드로어 콘텐츠</string>
+    <string name="two_line_primary">두 줄 항목의 첫 번째 줄</string>
+    <string name="two_line_secondary">두 줄 항목의 두 번째 줄</string>
+    <string name="status_gallery">선택된 항목 %1$d/%2$d</string>
+    <string name="drawer_opened">드로어 열림</string>
+    <string name="drawer_closed">드로어 닫힘</string>
+    <string name="legacy_container_note">위젯은 지원 중단됐지만 여전히 렌더링됩니다. 복사는 보이는 선택만 옮깁니다.</string>
 </resources>

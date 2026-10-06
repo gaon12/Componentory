@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The deprecated SlidingDrawer refuses to build without handle/content
+     attributes, so this sample is inflated rather than constructed in code. -->
+<SlidingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:handle="@+id/sliding_handle"
+    android:content="@+id/sliding_content">
+
+    <Button
+        android:id="@+id/sliding_handle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/sliding_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</SlidingDrawer>
