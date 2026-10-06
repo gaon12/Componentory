@@ -29,9 +29,9 @@ cover every release. Missing components and uncollected captures stay explicit.
 
 ## Main experience
 
-Use bottom navigation with **List**, **Compare**, and **Settings**. Open the
-component list first. Browsing, single-component exploration, and comparison
-have their own screens, rather than sharing one long lab page.
+Use bottom navigation with **List**, **Compare**, **Runs**, and **Settings**.
+Open the component list first. Browsing, single-component exploration, and
+comparison have their own screens, rather than sharing one long lab page.
 
 1. Search the list by translated name or description, or English API name, and
    combine the query with a component category.
