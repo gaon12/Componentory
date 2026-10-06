@@ -163,6 +163,7 @@
     <string name="locale_detail">语言区域：%1$s</string>
     <string name="nav_compare">比较</string>
     <string name="nav_list">列表</string>
+    <string name="nav_runs">记录</string>
     <string name="nav_settings">设置</string>
     <string name="no_results">没有搜索结果</string>
     <string name="not_provided">未提供</string>
@@ -176,6 +177,11 @@
     <string name="progress_note">只读指示器；此库未提供禁用外观。</string>
     <string name="reset">重置</string>
     <string name="right_ui">右侧 UI</string>
+    <string name="run_delete">删除</string>
+    <string name="run_export">导出</string>
+    <string name="run_open">打开</string>
+    <string name="run_saved">运行已保存。</string>
+    <string name="runs_empty">还没有已保存的运行。在“比较”页保存后会在这里保留输入状态。</string>
     <string name="runtime_sample_note">示例在 Android %1$s 上以浅色主题运行。选择主题或库不会更改系统。</string>
     <string name="sample_available">示例可用</string>
     <string name="runtime_title">运行环境</string>
@@ -192,6 +198,7 @@
     <string name="sample_suggestion">建议</string>
     <string name="sample_switch">启用选项</string>
     <string name="sample_title">示例</string>
+    <string name="save_run">保存运行</string>
     <string name="secure_note">页面重建时会清除输入。结果仅显示字符数。</string>
     <string name="show_all_components">显示所有组件</string>
     <string name="sample_state_checked">已勾选</string>

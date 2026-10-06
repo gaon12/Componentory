@@ -163,6 +163,7 @@
     <string name="locale_detail">언어: %1$s</string>
     <string name="nav_compare">비교</string>
     <string name="nav_list">리스트</string>
+    <string name="nav_runs">기록</string>
     <string name="nav_settings">설정</string>
     <string name="no_results">검색 결과가 없습니다</string>
     <string name="not_provided">제공되지 않음</string>
@@ -176,6 +177,11 @@
     <string name="progress_note">읽기 전용 표시입니다. 이 라이브러리는 비활성 스타일을 제공하지 않습니다.</string>
     <string name="reset">초기화</string>
     <string name="right_ui">오른쪽 UI</string>
+    <string name="run_delete">삭제</string>
+    <string name="run_export">보내기</string>
+    <string name="run_open">열기</string>
+    <string name="run_saved">실험을 저장했습니다.</string>
+    <string name="runs_empty">저장된 실험이 없습니다. 비교 화면에서 저장하면 입력 상태가 여기에 보관됩니다.</string>
     <string name="runtime_sample_note">Android %1$s에서 밝은 테마로 실행합니다. 테마·라이브러리 선택은 OS를 바꾸지 않습니다.</string>
     <string name="sample_available">체험 가능</string>
     <string name="runtime_title">실행 환경</string>
@@ -192,6 +198,7 @@
     <string name="sample_suggestion">추천</string>
     <string name="sample_switch">옵션 켜기</string>
     <string name="sample_title">샘플</string>
+    <string name="save_run">실험 저장</string>
     <string name="secure_note">입력 내용은 화면 재생성 시 지워지며, 결과에는 글자 수만 표시합니다.</string>
     <string name="show_all_components">전체 컴포넌트 보기</string>
     <string name="sample_state_checked">선택됨</string>

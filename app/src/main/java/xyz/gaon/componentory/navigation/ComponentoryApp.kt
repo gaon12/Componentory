@@ -1,6 +1,7 @@
 package xyz.gaon.componentory.navigation
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -50,6 +51,9 @@ import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.compare.ComparisonEntry
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.runs.RunStore
+import xyz.gaon.componentory.runs.RunsScreen
+import xyz.gaon.componentory.runs.toComparisonEntry
 import xyz.gaon.componentory.settings.AppAppearance
 import xyz.gaon.componentory.settings.AppLanguage
 import xyz.gaon.componentory.settings.AppearancePreferences
@@ -60,6 +64,7 @@ import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 private enum class AppTab(val labelRes: Int, val icon: Int, val tag: String) {
     LIST(R.string.nav_list, R.drawable.ic_list, "nav_list"),
     COMPARE(R.string.nav_compare, R.drawable.ic_compare, "nav_compare"),
+    RUNS(R.string.nav_runs, R.drawable.ic_history, "nav_runs"),
     SETTINGS(R.string.nav_settings, R.drawable.ic_settings, "nav_settings"),
 }
 
@@ -103,6 +108,7 @@ private fun ComponentoryNavigation(
     onAppearanceChange: (AppAppearance) -> Unit,
     onLanguageChange: (AppLanguage) -> Unit,
 ) {
+    val context = LocalContext.current
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
     var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
@@ -116,6 +122,8 @@ private fun ComponentoryNavigation(
         }
     var comparisonGeneration by rememberSaveable { mutableIntStateOf(0) }
     var detailExporter by remember { mutableStateOf<(() -> ComparisonEntry)?>(null) }
+    val runStore = remember { RunStore(context.filesDir) }
+    var runRecords by remember { mutableStateOf(runStore.list()) }
     val savedScreens = rememberSaveableStateHolder()
     val inDetail = tab == AppTab.LIST && detail != null
 
@@ -256,8 +264,37 @@ private fun ComponentoryNavigation(
                                 right,
                                 { right = it },
                                 initialEntry = comparisonEntry,
-                            )
+                            ) { record ->
+                                runStore.append(record)
+                                runRecords = runStore.list()
+                            }
                         }
+                    AppTab.RUNS ->
+                        RunsScreen(
+                            runRecords,
+                            onOpen = { record ->
+                                record.toComparisonEntry()?.let { entry ->
+                                    comparisonEntry = entry
+                                    comparisonGeneration++
+                                    savedScreens.removeState(AppTab.COMPARE.name)
+                                    comparison = entry.left.component
+                                    left = entry.left.sourceFamily
+                                    right = requireNotNull(entry.right).sourceFamily
+                                    tab = AppTab.COMPARE
+                                }
+                            },
+                            onDelete = { record ->
+                                runStore.delete(record.id)
+                                runRecords = runStore.list()
+                            },
+                            onExport = {
+                                val send =
+                                    Intent(Intent.ACTION_SEND)
+                                        .setType("text/plain")
+                                        .putExtra(Intent.EXTRA_TEXT, runStore.exportText())
+                                context.startActivity(Intent.createChooser(send, null))
+                            },
+                        )
                     AppTab.SETTINGS ->
                         SettingsScreen(appearance, onAppearanceChange, language, onLanguageChange)
                 }

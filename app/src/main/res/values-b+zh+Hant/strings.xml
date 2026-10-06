@@ -163,6 +163,7 @@
     <string name="locale_detail">語言區域：%1$s</string>
     <string name="nav_compare">比較</string>
     <string name="nav_list">清單</string>
+    <string name="nav_runs">記錄</string>
     <string name="nav_settings">設定</string>
     <string name="no_results">沒有搜尋結果</string>
     <string name="not_provided">未提供</string>
@@ -176,6 +177,11 @@
     <string name="progress_note">唯讀指示器；此函式庫未提供停用外觀。</string>
     <string name="reset">重設</string>
     <string name="right_ui">右側 UI</string>
+    <string name="run_delete">刪除</string>
+    <string name="run_export">匯出</string>
+    <string name="run_open">開啟</string>
+    <string name="run_saved">執行已儲存。</string>
+    <string name="runs_empty">尚無已儲存的執行。在「比較」頁儲存後會在這裡保留輸入狀態。</string>
     <string name="runtime_sample_note">範例在 Android %1$s 上以淺色主題執行。選擇主題或函式庫不會變更作業系統。</string>
     <string name="sample_available">範例可用</string>
     <string name="runtime_title">執行環境</string>
@@ -192,6 +198,7 @@
     <string name="sample_suggestion">建議</string>
     <string name="sample_switch">啟用選項</string>
     <string name="sample_title">範例</string>
+    <string name="save_run">儲存執行</string>
     <string name="secure_note">頁面重建時會清除輸入。結果僅顯示字元數。</string>
     <string name="show_all_components">顯示所有元件</string>
     <string name="sample_state_checked">已勾選</string>

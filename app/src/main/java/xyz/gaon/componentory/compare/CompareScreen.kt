@@ -32,12 +32,16 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import java.util.UUID
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
 import xyz.gaon.componentory.lab.SampleState
 import xyz.gaon.componentory.lab.rememberSampleStateSlot
+import xyz.gaon.componentory.runs.RunRecord
+import xyz.gaon.componentory.runs.comparisonRecord
+import xyz.gaon.componentory.runs.environmentSnapshot
 
 @Composable
 fun CompareScreen(
@@ -48,6 +52,7 @@ fun CompareScreen(
     right: DesignFamily,
     onRightChange: (DesignFamily) -> Unit,
     initialEntry: ComparisonEntry? = null,
+    onSaveRun: (RunRecord) -> Unit = {},
 ) {
     val context = LocalContext.current
     var enabled by rememberSaveable { mutableStateOf(initialEntry?.enabled ?: true) }
@@ -55,6 +60,7 @@ fun CompareScreen(
     var useInitialSetup by rememberSaveable { mutableStateOf(true) }
     var copiedDirection by rememberSaveable { mutableStateOf<CopySetupDirection?>(null) }
     var iconSkipped by rememberSaveable { mutableStateOf(false) }
+    var runSaved by rememberSaveable { mutableStateOf(false) }
     // Layout changes must move the same experiment, not create new panel values.
     val seedState: (SampleSetup?, DesignFamily) -> SampleState = { setup, family ->
         if (useInitialSetup && setup?.component == component && setup.sourceFamily == family) {
@@ -76,6 +82,21 @@ fun CompareScreen(
         useInitialSetup = false
         copiedDirection = null
         iconSkipped = false
+        runSaved = false
+    }
+    val saveRun = {
+        onSaveRun(
+            comparisonRecord(
+                UUID.randomUUID().toString(),
+                System.currentTimeMillis(),
+                captureSampleSetup(context, component, left, leftState),
+                captureSampleSetup(context, component, right, rightState),
+                enabled,
+                environmentSnapshot(context),
+            )
+        )
+        clearEntryAndResult()
+        runSaved = true
     }
     val changeLeft: (DesignFamily) -> Unit = {
         clearEntryAndResult()
@@ -158,6 +179,16 @@ fun CompareScreen(
             ) {
                 Text(stringResource(R.string.reset))
             }
+            TextButton(onClick = saveRun, modifier = Modifier.testTag("save_run")) {
+                Text(stringResource(R.string.save_run))
+            }
+        }
+        if (runSaved) {
+            Text(
+                stringResource(R.string.run_saved),
+                modifier = Modifier.testTag("run_saved"),
+                style = MaterialTheme.typography.bodySmall,
+            )
         }
         copiedDirection?.let { direction ->
             Text(

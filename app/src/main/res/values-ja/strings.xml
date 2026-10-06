@@ -163,6 +163,7 @@
     <string name="locale_detail">ロケール: %1$s</string>
     <string name="nav_compare">比較</string>
     <string name="nav_list">一覧</string>
+    <string name="nav_runs">履歴</string>
     <string name="nav_settings">設定</string>
     <string name="no_results">検索結果がありません</string>
     <string name="not_provided">提供されていません</string>
@@ -176,6 +177,11 @@
     <string name="progress_note">読み取り専用の表示です。このライブラリには無効時の表示がありません。</string>
     <string name="reset">リセット</string>
     <string name="right_ui">右の UI</string>
+    <string name="run_delete">削除</string>
+    <string name="run_export">エクスポート</string>
+    <string name="run_open">開く</string>
+    <string name="run_saved">実行を保存しました。</string>
+    <string name="runs_empty">保存済みの実行はありません。比較画面で保存すると入力状態がここに残ります。</string>
     <string name="runtime_sample_note">Android %1$s でライトテーマのサンプルを実行します。テーマやライブラリを選んでも OS は変わりません。</string>
     <string name="sample_available">サンプルあり</string>
     <string name="runtime_title">実行環境</string>
@@ -192,6 +198,7 @@
     <string name="sample_suggestion">候補</string>
     <string name="sample_switch">オプションを有効にする</string>
     <string name="sample_title">サンプル</string>
+    <string name="save_run">実行を保存</string>
     <string name="secure_note">画面が再生成されると入力を消去します。結果には文字数のみ表示します。</string>
     <string name="show_all_components">すべてのコンポーネントを表示</string>
     <string name="sample_state_checked">チェック済み</string>

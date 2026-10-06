@@ -165,6 +165,7 @@
     <string name="locale_detail">Locale: %1$s</string>
     <string name="nav_compare">Compare</string>
     <string name="nav_list">List</string>
+    <string name="nav_runs">Runs</string>
     <string name="nav_settings">Settings</string>
     <string name="no_results">No results</string>
     <string name="not_provided">Not provided</string>
@@ -178,6 +179,11 @@
     <string name="progress_note">Read-only indicator; this library provides no disabled appearance.</string>
     <string name="reset">Reset</string>
     <string name="right_ui">Right UI</string>
+    <string name="run_delete">Delete</string>
+    <string name="run_export">Export</string>
+    <string name="run_open">Open</string>
+    <string name="run_saved">Run saved.</string>
+    <string name="runs_empty">No saved runs yet. Save a comparison to keep its inputs here.</string>
     <string name="runtime_sample_note">Samples run on Android %1$s with light themes. Theme or library selection does not change the OS.</string>
     <string name="sample_available">Sample available</string>
     <string name="runtime_title">Runtime environment</string>
@@ -194,6 +200,7 @@
     <string name="sample_suggestion">Suggestion</string>
     <string name="sample_switch">Enable option</string>
     <string name="sample_title">Sample</string>
+    <string name="save_run">Save run</string>
     <string name="secure_note">Input clears when the screen is recreated. Results show only the character count.</string>
     <string name="show_all_components">Show all components</string>
     <string name="sample_state_checked">Checked</string>
