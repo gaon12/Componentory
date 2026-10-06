@@ -259,6 +259,7 @@ class ViewSwitchersTest {
     }
 
     private fun tapSwitcher(panel: String, index: Int) {
+        compose.onNodeWithTag("native_$panel").performScrollTo().assertIsDisplayed()
         val action = listOf("prev", "next")[index]
         onView(
                 allOf(
