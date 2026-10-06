@@ -529,6 +529,9 @@
     <string name="component_bottom_drawer_description">The Material 2 BottomDrawer that slides up over content.</string>
     <string name="open_drawer">Open drawer</string>
     <string name="drawer_item">Destination %1$d</string>
+
+    <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
+    <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
     <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
     <string name="status_pulls">Pulls: %1$d</string>

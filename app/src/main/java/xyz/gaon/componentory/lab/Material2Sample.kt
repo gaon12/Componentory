@@ -49,6 +49,8 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.TEXT ->
                     Text(stringResource(R.string.sample_display_text), modifier = sample)
                 LabComponent.POPUP_MENU -> Material2PopupMenuSample(panel, sample, enabled, state)
+                LabComponent.EXPOSED_DROPDOWN ->
+                    Material2DropdownSample(component, panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.SURFACE -> Material2Containers(component, sample, enabled, state)
                 LabComponent.ICON -> {

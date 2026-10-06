@@ -526,6 +526,9 @@
     <string name="component_bottom_drawer_description">コンテンツの上にスライドして上がる Material 2 BottomDrawer です。</string>
     <string name="open_drawer">ドロワーを開く</string>
     <string name="drawer_item">移動先 %1$d</string>
+
+    <string name="component_exposed_dropdown">公開ドロップダウンメニューボックス</string>
+    <string name="component_exposed_dropdown_description">実際のメニューをテキストフィールドに固定する Material ExposedDropdownMenuBox です。</string>
     <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>
     <string name="edge_effect_note">ビュー上をドラッグすると実際のEdgeEffectグローを引きます。引いた回数がコピーされる状態です。</string>
     <string name="status_pulls">引き: %1$d</string>

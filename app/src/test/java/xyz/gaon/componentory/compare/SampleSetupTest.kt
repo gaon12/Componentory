@@ -358,6 +358,7 @@ class SampleSetupTest {
                 LabComponent.MULTI_AUTOCOMPLETE,
                 LabComponent.SEARCH_VIEW,
                 LabComponent.DIALER_FILTER,
+                LabComponent.EXPOSED_DROPDOWN,
             )
             .forEach { component ->
                 listOf("", "Input 日本語").forEach { input ->
@@ -387,6 +388,8 @@ class SampleSetupTest {
                 LabComponent.INDETERMINATE_LINEAR_PROGRESS,
                 LabComponent.WEB_VIEW,
                 LabComponent.QUICK_CONTACT_BADGE,
+                LabComponent.PERMANENT_NAVIGATION_DRAWER,
+                LabComponent.LIST_ITEM,
             )
             .forEach { component ->
                 val family = supportedFamily(component)

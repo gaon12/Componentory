@@ -53,6 +53,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.TIME_INPUT ->
                     Material3InlineTimeSample(component, panel, sample, state)
                 LabComponent.POPUP_MENU -> Material3PopupMenuSample(panel, sample, enabled, state)
+                LabComponent.EXPOSED_DROPDOWN ->
+                    Material3DropdownSample(component, panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.ELEVATED_CARD,
                 LabComponent.OUTLINED_CARD,

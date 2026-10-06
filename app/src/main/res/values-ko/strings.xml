@@ -526,6 +526,9 @@
     <string name="component_bottom_drawer_description">콘텐츠 위로 밀려 올라오는 Material 2 BottomDrawer입니다.</string>
     <string name="open_drawer">창 열기</string>
     <string name="drawer_item">목적지 %1$d</string>
+
+    <string name="component_exposed_dropdown">노출된 드롭다운 메뉴 상자</string>
+    <string name="component_exposed_dropdown_description">실제 메뉴를 텍스트 필드에 고정하는 Material ExposedDropdownMenuBox입니다.</string>
     <string name="component_edge_effect_description">평범한 View가 가장자리를 드래그하는 동안 그리는 프레임워크 EdgeEffect 글로입니다.</string>
     <string name="edge_effect_note">뷰 위를 드래그하여 실제 EdgeEffect 글로를 당기세요. 당긴 횟수가 복사되는 상태입니다.</string>
     <string name="status_pulls">당김: %1$d</string>

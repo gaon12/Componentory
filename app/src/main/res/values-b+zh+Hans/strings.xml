@@ -526,6 +526,9 @@
     <string name="component_bottom_drawer_description">从内容下方滑入的 Material 2 BottomDrawer。</string>
     <string name="open_drawer">打开抽屉</string>
     <string name="drawer_item">目的地 %1$d</string>
+
+    <string name="component_exposed_dropdown">展开式下拉菜单框</string>
+    <string name="component_exposed_dropdown_description">将真实菜单锚定到其文本字段的 Material ExposedDropdownMenuBox。</string>
     <string name="component_edge_effect_description">框架 EdgeEffect 光晕，由普通 View 在拖动其边缘时绘制。</string>
     <string name="edge_effect_note">在视图上拖动即可拉动真实的 EdgeEffect 光晕。拉动次数即为被复制的状态。</string>
     <string name="status_pulls">拉动：%1$d</string>

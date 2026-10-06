@@ -721,6 +721,14 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 0,
     ),
+    EXPOSED_DROPDOWN(
+        "Exposed dropdown menu box",
+        R.string.component_exposed_dropdown,
+        R.string.component_exposed_dropdown_description,
+        material2Function = "ExposedDropdownMenuBox",
+        material3Function = "ExposedDropdownMenuBox",
+        category = ComponentCategory.INPUT,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1453,6 +1461,7 @@ enum class LabComponent(
                     AUTOCOMPLETE,
                     MULTI_AUTOCOMPLETE,
                     DIALER_FILTER,
+                    EXPOSED_DROPDOWN,
                 ) -> context.getString(R.string.status_text, text.ifEmpty { empty })
             this == TRI_STATE_CHECKBOX ->
                 context.getString(
