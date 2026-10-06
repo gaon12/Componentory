@@ -4,6 +4,8 @@ import android.view.WindowManager
 import android.widget.ImageButton
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.test.assertContentDescriptionEquals
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -108,6 +110,26 @@ class IconBrowserTest {
         }
         compose.onNodeWithTag("native_LEFT").performClick()
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
+    }
+
+    @Test
+    fun pickerMarksTheSelectedIconAndResetsFilters() {
+        compare(LabComponent.ICON, DesignFamily.MATERIAL2)
+        compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
+        compose.onNodeWithTag("icon_search").performTextReplacement("arrow_back")
+        compose.onNodeWithTag("icon_style_OUTLINED").performClick()
+        compose.onNodeWithTag("icon_mirrored").performClick()
+        val id = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"
+        compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$id"))
+        compose.onNodeWithTag("icon_entry_$id").performClick()
+        compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
+        compose.onNodeWithTag("icon_entry_$id").assertIsSelected()
+        compose.onNodeWithTag("icon_reset").performClick()
+        compose.onNodeWithTag("icon_style_ALL").assertIsSelected()
+        compose.onNodeWithTag("icon_mirrored").assertIsNotSelected()
+        compose
+            .onNodeWithTag("icon_count")
+            .assertTextEquals(compose.activity.getString(R.string.icon_count, 11_385, 11_385))
     }
 
     private fun compare(component: LabComponent, family: DesignFamily) {

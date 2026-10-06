@@ -1,6 +1,7 @@
 package xyz.gaon.componentory.icons
 
 import android.widget.ImageView
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +38,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
@@ -137,10 +141,25 @@ fun IconPicker(
                         modifier = Modifier.testTag("icon_mirrored"),
                     )
                 }
-                Text(
-                    stringResource(R.string.icon_count, filtered.size, entries.size),
-                    Modifier.testTag("icon_count"),
-                )
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        stringResource(R.string.icon_count, filtered.size, entries.size),
+                        Modifier.weight(1f).testTag("icon_count"),
+                    )
+                    // Filters persist across opens, so a clean sweep needs an explicit reset.
+                    TextButton(
+                        onClick = {
+                            query = ""
+                            style = null
+                            mirrored = false
+                            focus.clearFocus()
+                        },
+                        enabled = query.isNotEmpty() || style != null || mirrored,
+                        modifier = Modifier.testTag("icon_reset"),
+                    ) {
+                        Text(stringResource(R.string.reset))
+                    }
+                }
                 if (filtered.isEmpty())
                     Text(stringResource(R.string.no_results), Modifier.testTag("icon_empty"))
                 LazyVerticalGrid(
@@ -150,13 +169,21 @@ fun IconPicker(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(filtered, key = { it.id }) { icon ->
+                        val isSelected = icon.id == selected.id
                         OutlinedCard(
                             onClick = {
                                 focus.clearFocus()
                                 onSelect(icon)
                                 open = false
                             },
-                            modifier = Modifier.testTag("icon_entry_${icon.id}"),
+                            modifier =
+                                Modifier.testTag("icon_entry_${icon.id}").semantics {
+                                    if (isSelected) this.selected = true
+                                },
+                            border =
+                                if (isSelected)
+                                    BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                                else CardDefaults.outlinedCardBorder(enabled = icon.available),
                             enabled = icon.available,
                         ) {
                             Column(
