@@ -124,6 +124,10 @@ fun PlatformSample(
         PlatformMediaSample(family, component, viewId, enabled, state, modifier)
         return
     }
+    if (component == LabComponent.SHARE_ACTION_PROVIDER) {
+        PlatformShareProviderSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

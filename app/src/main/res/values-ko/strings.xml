@@ -479,4 +479,10 @@
     <string name="status_playing">재생: 재생 중</string>
     <string name="status_paused">재생: 일시 정지</string>
     <string name="media_controller_note">앵커된 비디오를 눌러 실제 MediaController를 표시하세요. 전송 버튼이 플레이어를 직접 제어합니다.</string>
+    <string name="component_share_action_provider">공유 작업 프로바이더</string>
+    <string name="component_share_action_provider_description">메뉴 항목에서 실제 공유 대상 하위 메뉴를 렌더링하는 프레임워크 ShareActionProvider입니다.</string>
+    <string name="share_action">공유</string>
+    <string name="share_text">Componentory 실험실에서 공유됨</string>
+    <string name="share_provider_note">공유 작업을 눌러 실제 대상 하위 메뉴를 여세요. 대상을 고르면 공유 한 번으로 보고됩니다.</string>
+    <string name="status_shares">공유: %1$d</string>
 </resources>

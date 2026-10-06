@@ -322,6 +322,7 @@ class SampleSetupTest {
                 LabComponent.BADGE to 0,
                 LabComponent.BADGED_BOX to 12,
                 LabComponent.VIDEO_VIEW to 1,
+                LabComponent.SHARE_ACTION_PROVIDER to 2,
             )
         inputs.forEach { (component, value) ->
             val family = supportedFamily(component)

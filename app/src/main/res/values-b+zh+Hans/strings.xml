@@ -479,4 +479,10 @@
     <string name="status_playing">播放：正在播放</string>
     <string name="status_paused">播放：已暂停</string>
     <string name="media_controller_note">点击锚定的视频即可显示真实的 MediaController。其传输按钮直接控制播放器。</string>
+    <string name="component_share_action_provider">共享操作提供器</string>
+    <string name="component_share_action_provider_description">框架 ShareActionProvider，在菜单项中渲染真实的共享目标子菜单。</string>
+    <string name="share_action">共享</string>
+    <string name="share_text">来自 Componentory 实验室的共享内容</string>
+    <string name="share_provider_note">点击共享操作会打开真实的目标子菜单。选择目标即计为一次共享。</string>
+    <string name="status_shares">共享次数：%1$d</string>
 </resources>

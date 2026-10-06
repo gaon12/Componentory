@@ -482,4 +482,10 @@
     <string name="status_playing">Playback: playing</string>
     <string name="status_paused">Playback: paused</string>
     <string name="media_controller_note">Tap the anchored video to reveal the real MediaController. Its transport buttons drive the player directly.</string>
+    <string name="component_share_action_provider">Share action provider</string>
+    <string name="component_share_action_provider_description">The framework ShareActionProvider rendering the real share-target submenu in a menu item.</string>
+    <string name="share_action">Share</string>
+    <string name="share_text">Shared from the Componentory lab</string>
+    <string name="share_provider_note">Tap the share action to open the real target submenu. Picking a target reports one share.</string>
+    <string name="status_shares">Shares: %1$d</string>
 </resources>

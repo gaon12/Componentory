@@ -57,6 +57,7 @@ import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.SearchView
 import android.widget.SeekBar
+import android.widget.ShareActionProvider
 import android.widget.SlidingDrawer
 import android.widget.Space
 import android.widget.Spinner
@@ -171,22 +172,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 68, 43)
+        verifyFamily(DesignFamily.CLASSIC, 69, 43)
 
     @Test
     fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 68, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 68, 43)
+        verifyFamily(DesignFamily.MATERIAL, 69, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 80)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 81)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 52)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -195,7 +196,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            113,
+            114,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -563,6 +564,14 @@ class CatalogRenderingSmokeTest {
                 LabComponent.DIALER_FILTER -> assertTrue((view as DialerFilter).childCount > 0)
                 LabComponent.VIDEO_VIEW -> assertTrue(view.tag !is MediaController)
                 LabComponent.MEDIA_CONTROLLER -> assertTrue(view.tag is MediaController)
+                LabComponent.SHARE_ACTION_PROVIDER -> {
+                    val item = view.tag as MenuItem
+                    assertEquals(
+                        compose.activity.getString(R.string.share_action),
+                        item.title.toString(),
+                    )
+                    assertTrue(item.actionProvider is ShareActionProvider)
+                }
                 LabComponent.WEB_VIEW -> Unit
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
@@ -668,6 +677,7 @@ class CatalogRenderingSmokeTest {
             LabComponent.DIALER_FILTER -> DialerFilter::class.java
             LabComponent.VIDEO_VIEW,
             LabComponent.MEDIA_CONTROLLER -> VideoView::class.java
+            LabComponent.SHARE_ACTION_PROVIDER -> ActionMenuView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

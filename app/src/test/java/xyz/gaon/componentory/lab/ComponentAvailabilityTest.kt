@@ -468,10 +468,30 @@ class ComponentAvailabilityTest {
             }
             assertTrue(component.isMediaWidget)
             assertEquals(1, component.minimumApi)
-            assertEquals(ComponentCategory.CONTENT, component.category)
+            assertEquals(ComponentCategory.MEDIA, component.category)
             assertNull(component.deprecatedApi)
             assertTrue(component.matchesSearch(source))
         }
+    }
+
+    @Test
+    fun shareActionProviderKeepsItsApi14PlatformSource() {
+        val component = LabComponent.SHARE_ACTION_PROVIDER
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 13))
+            assertNull(family.unsupportedReason(component, 14))
+            assertNull(family.unsupportedReason(component, 36))
+            assertEquals("android.widget.ShareActionProvider", family.source(component))
+        }
+        listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertEquals(14, component.minimumApi)
+        assertNull(component.deprecatedApi)
+        assertEquals(ComponentCategory.ACTION, component.category)
+        assertTrue(component.matchesSearch("android.widget.ShareActionProvider"))
+        assertFalse(component.matchesSearch("androidx.appcompat.widget.ShareActionProvider"))
     }
 
     @Test

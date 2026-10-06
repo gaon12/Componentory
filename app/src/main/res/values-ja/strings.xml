@@ -479,4 +479,10 @@
     <string name="status_playing">再生: 再生中</string>
     <string name="status_paused">再生: 一時停止</string>
     <string name="media_controller_note">アンカーされたビデオをタップすると実際のMediaControllerが表示されます。トランスポートボタンがプレーヤーを直接操作します。</string>
+    <string name="component_share_action_provider">共有アクションプロバイダー</string>
+    <string name="component_share_action_provider_description">メニュー項目で実際の共有ターゲットサブメニューをレンダリングするフレームワークShareActionProviderです。</string>
+    <string name="share_action">共有</string>
+    <string name="share_text">Componentoryラボから共有</string>
+    <string name="share_provider_note">共有アクションをタップすると実際のターゲットサブメニューが開きます。ターゲットを選ぶと共有1回として報告されます。</string>
+    <string name="status_shares">共有: %1$d</string>
 </resources>

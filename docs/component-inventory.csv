@@ -47,7 +47,7 @@ family,source,apiIntroduced,status,catalogId,notes
 "PLATFORM","android.widget.ScrollView","1","Implemented","SCROLL_VIEW","Fixed column of themed lines inside a bounded height for real vertical scrolling."
 "PLATFORM","android.widget.SearchView","11","Implemented","SEARCH_VIEW",""
 "PLATFORM","android.widget.SeekBar","1","Implemented","SLIDER",""
-"PLATFORM","android.widget.ShareActionProvider","14","Pending","",""
+"PLATFORM","android.widget.ShareActionProvider","14","Implemented","SHARE_ACTION_PROVIDER","Hosted as a real ActionProvider on a menu item."
 "PLATFORM","android.widget.SlidingDrawer","3","Implemented","SLIDING_DRAWER","Deprecated at API 17; inflated with handle/content attrs."
 "PLATFORM","android.widget.Space","14","Implemented","SPACE","Real gap widget between two themed labels."
 "PLATFORM","android.widget.Spinner","1","Implemented","SPINNER",""

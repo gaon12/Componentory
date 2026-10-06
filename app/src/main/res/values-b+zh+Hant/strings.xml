@@ -479,4 +479,10 @@
     <string name="status_playing">播放：正在播放</string>
     <string name="status_paused">播放：已暫停</string>
     <string name="media_controller_note">點擊錨定的影片即可顯示真實的 MediaController。其傳輸按鈕直接控制播放器。</string>
+    <string name="component_share_action_provider">共用操作提供者</string>
+    <string name="component_share_action_provider_description">架構 ShareActionProvider，在選單項目中渲染真實的共用目標子選單。</string>
+    <string name="share_action">共用</string>
+    <string name="share_text">來自 Componentory 實驗室的共用內容</string>
+    <string name="share_provider_note">點擊共用操作會開啟真實的目標子選單。選取目標即計為一次共用。</string>
+    <string name="status_shares">共用次數：%1$d</string>
 </resources>

@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 160, InventoryStatus.PENDING to 79),
+            mapOf(InventoryStatus.IMPLEMENTED to 161, InventoryStatus.PENDING to 78),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 70,
+                InventoryFamily.PLATFORM to 71,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -283,10 +283,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(79, pending.size)
+        assertEquals(78, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 4,
+                InventoryFamily.PLATFORM to 3,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -357,6 +357,7 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "dialerfilter").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "videoview").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "mediacontroller").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "shareactionprovider").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "quickcontactbadge").isEmpty())
         assertEquals(
             listOf("android.widget.inline.InlineContentView"),

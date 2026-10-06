@@ -582,7 +582,7 @@ enum class LabComponent(
         R.string.component_video_view_description,
         platformSource = "android.widget.VideoView",
         minimumApi = 1,
-        category = ComponentCategory.CONTENT,
+        category = ComponentCategory.MEDIA,
         initialValue = 0,
     ),
     MEDIA_CONTROLLER(
@@ -591,7 +591,16 @@ enum class LabComponent(
         R.string.component_media_controller_description,
         platformSource = "android.widget.MediaController",
         minimumApi = 1,
-        category = ComponentCategory.CONTENT,
+        category = ComponentCategory.MEDIA,
+    ),
+    SHARE_ACTION_PROVIDER(
+        "Share action provider",
+        R.string.component_share_action_provider,
+        R.string.component_share_action_provider_description,
+        platformSource = "android.widget.ShareActionProvider",
+        minimumApi = 14,
+        category = ComponentCategory.ACTION,
+        initialValue = 0,
     ),
     TOGGLE_BUTTON(
         "Toggle button",
@@ -1195,6 +1204,7 @@ enum class LabComponent(
                 context.getString(
                     if (value == 1) R.string.status_playing else R.string.status_paused
                 )
+            this == SHARE_ACTION_PROVIDER -> context.getString(R.string.status_shares, value)
             this == MEDIA_CONTROLLER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isMenuHost ->

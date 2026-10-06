@@ -381,6 +381,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component == LabComponent.SHARE_ACTION_PROVIDER && unsupported == null) {
+                Text(
+                    stringResource(R.string.share_provider_note),
+                    modifier = Modifier.testTag("share_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component == LabComponent.MEDIA_CONTROLLER && unsupported == null) {
                 Text(
                     stringResource(R.string.media_controller_note),
