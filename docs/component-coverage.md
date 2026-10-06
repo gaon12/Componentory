@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**108 component entries**, with **285 runnable component/family combinations**.
+**110 component entries**, with **291 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `d63d98e`. Executed resource
+Application and latest verification source revision: `a8f33a7`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 65 | 9 |
+| Android framework | 74 | 67 | 7 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 155 | 84 |
+| Total | 239 | 157 | 82 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -286,6 +286,17 @@ API 21) lazily builds its real ActionMenuPresenter through getMenu() so the
 items render as genuine action buttons. The Enabled toggle disables the menu
 items themselves; only the last invoked action copies.
 
+Two content-surface entries add six combinations through the platform themes
+only. WEB_VIEW (android.webkit.WebView, API 1) renders real localized HTML
+inside the themed panel, with a default WebViewClient keeping link taps inside
+the widget. QUICK_CONTACT_BADGE (android.widget.QuickContactBadge, API 5)
+assigns a fixed address, so taps open the genuine framework contact overlay.
+Neither exposes copyable inputs: page scroll, navigation and the overlay are
+transient surface state, and copying reports that no inputs exist.
+InlineContentView remains pending by design — its constructor is
+package-private, so no public API can host it outside an inline content
+session; the row now states that reason.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -370,14 +381,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `d63d98e`, preceded by the sweep baseline correction in
+Latest implementation: `a8f33a7`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 103 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,779,033
+with zero errors. All 104 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,785,689
 bytes with SHA-256
-`2b8e0dafb63e5a184a2afbf44621febb8b5531220e822b684cd87c3a2556876a` and the test
-APK is 1,474,086 bytes with SHA-256
-`fa66295144065dd21b5be711daf88064ecfd3ccc7dc0fef56f16ac4dd595ef09`.
+`838af0b4692982e5fc91801e05d206aeecbd34fd625959620ad7aac0dbdab177` and the test
+APK is 1,478,403 bytes with SHA-256
+`e537c742c8032a2117edabde7cf55055de7b041ed32f393c1dc1e2d8c6c7d249`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -476,8 +487,15 @@ buttons, item and navigation clicks through the rendered action views,
 last-action copying, recreation restore, disabled items, unsupported Compose
 targets and five locales. They also await a clean unlocked-device run.
 
-The catalog now declares 108 entries and 285 supported combinations. The smoke
-sweep spans 534 ordinary cells: 283 supported and 251 unsupported; the six
+Four [content-surface scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ContentSurfacesTest.kt)
+compile in the same state. They verify the real `WebView` and
+`QuickContactBadge` classes inside platform themes, actual rendered web content
+via the widget's measured content height, the assigned contact drawable, the
+no-inputs copy explanation, recreation restore, the disabled flag, unsupported
+Compose targets and five locales. They also await a clean unlocked-device run.
+
+The catalog now declares 110 entries and 291 supported combinations. The smoke
+sweep spans 544 ordinary cells: 289 supported and 255 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
