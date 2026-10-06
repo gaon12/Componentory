@@ -100,9 +100,9 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `e23d264` pass formatting, lint, all 126 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 363 supported
-and 406 unsupported ordinary cells after the baselines were recomputed from the
+The latest checks for `d33a10e` pass formatting, lint, all 126 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 364 supported
+and 410 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
 use a separate existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process

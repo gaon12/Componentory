@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**155 component entries**, with **360 runnable component/family combinations**.
+**156 component entries**, with **361 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `e23d264`. Executed resource
+Application and latest verification source revision: `d33a10e`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 52 | 0 |
-| Compose Material 3 1.4.0 | 113 | 110 | 3 |
-| Total | 239 | 234 | 5 |
+| Compose Material 3 1.4.0 | 113 | 111 | 2 |
+| Total | 239 | 235 | 4 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -464,6 +464,12 @@ maxItemCount 2, so the third item genuinely overflows behind the
 overflow indicator. Clicking any item increments the same click count
 the other app bars report and copy.
 
+One input entry adds one Material 3-only combination:
+EXPANDED_DOCKED_SEARCH_BAR follows the canonical pairing of a
+collapsed TopSearchBar with the real ExpandedDockedSearchBar results
+overlay driven by one SearchBarState. Picking a result writes the
+query text, which stays the copied input.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -548,14 +554,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `e23d264`, preceded by the sweep baseline correction in
+Latest implementation: `d33a10e`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
 with zero errors. All 126 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,280,010
+failures, errors or skips. Both debug APKs build: the app APK is 20,283,814
 bytes with SHA-256
-`0761bfd17a0e359c2333867c873df1424662f4e376dedde3150f9bef8d55b636` and the test
-APK is 1,529,678 bytes with SHA-256
-`687739e27d246200f0cc9f12ceacd3e9388e3b8cb022f6cf0f1fdde97f5b643a`.
+`b69869db09362334a136beeb0c4c1fe733bf330efcfd3fc427b247d0a77d2a3b` and the test
+APK is 1,529,590 bytes with SHA-256
+`e6795a9c6861f542a0fae22750d1ff0a45b827e0932ef2e9472e4b4d3068338b`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -741,10 +747,11 @@ compile in the same state. They verify the unstyled window opens through
 the real button, confirm and cancel report the shared outcome codes,
 the copy direction explains the missing inputs, and the Material 2
 cell explains its missing source. They also await a clean
-unlocked-device run.
+unlocked-device run. The search-bar scenario now also covers the
+expanded docked overlay picking a result.
 
-The catalog now declares 155 entries and 360 supported combinations. The smoke
-sweep spans 769 ordinary cells: 363 supported and 406 unsupported; the six
+The catalog now declares 156 entries and 361 supported combinations. The smoke
+sweep spans 774 ordinary cells: 364 supported and 410 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
