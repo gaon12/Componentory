@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**156 component entries**, with **361 runnable component/family combinations**.
+**158 component entries**, with **363 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `d33a10e`. Executed resource
+Application and latest verification source revision: `c7a0635`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 52 | 0 |
-| Compose Material 3 1.4.0 | 113 | 111 | 2 |
-| Total | 239 | 235 | 4 |
+| Compose Material 3 1.4.0 | 113 | 113 | 0 |
+| Total | 239 | 237 | 2 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -470,6 +470,14 @@ collapsed TopSearchBar with the real ExpandedDockedSearchBar results
 overlay driven by one SearchBarState. Picking a result writes the
 query text, which stays the copied input.
 
+Two final library entries add two Material 3-only combinations:
+LABEL joins the tooltip family, anchoring its tooltip to a TextButton
+through a shared interaction source, and carries no copyable inputs;
+VERTICAL_DRAG_HANDLE puts the real resize grip inside a pane whose
+width percent is the copied input. With these, every audited library
+row is implemented; only the platform ActionBar and the uninstantiable
+InlineContentView remain pending.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -554,14 +562,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `d33a10e`, preceded by the sweep baseline correction in
+Latest implementation: `c7a0635`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 126 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,283,814
+with zero errors. All 127 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,294,950
 bytes with SHA-256
-`b69869db09362334a136beeb0c4c1fe733bf330efcfd3fc427b247d0a77d2a3b` and the test
-APK is 1,529,590 bytes with SHA-256
-`e6795a9c6861f542a0fae22750d1ff0a45b827e0932ef2e9472e4b4d3068338b`.
+`1a93cd5ddf1ff70c6f618e62f53eb9ac740b256ee38026a9c5586d6e9d213f5c` and the test
+APK is 1,532,064 bytes with SHA-256
+`4791eac653eafe4fe45a8de9501cd3a50fc89dcc8f331e536cb5a07accaf4db5`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -750,8 +758,16 @@ cell explains its missing source. They also await a clean
 unlocked-device run. The search-bar scenario now also covers the
 expanded docked overlay picking a result.
 
-The catalog now declares 156 entries and 361 supported combinations. The smoke
-sweep spans 774 ordinary cells: 364 supported and 410 unsupported; the six
+Three [label-and-handle scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/LabelsAndHandlesTest.kt)
+compile in the same state. They verify the label's anchored tooltip
+appears while its content is pressed, a real drag on the
+VerticalDragHandle resizes and copies the pane width across panels and
+recreation, and a disabled handle ignores drags while the platform
+cell explains its missing source. They also await a clean
+unlocked-device run.
+
+The catalog now declares 158 entries and 363 supported combinations. The smoke
+sweep spans 784 ordinary cells: 366 supported and 418 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
