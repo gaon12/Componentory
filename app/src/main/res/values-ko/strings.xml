@@ -181,6 +181,7 @@
     <string name="right_ui">오른쪽 UI</string>
     <string name="run_delete">삭제</string>
     <string name="run_export">보내기</string>
+    <string name="run_environment">실행 환경</string>
     <string name="run_open">열기</string>
     <string name="run_saved">실험을 저장했습니다.</string>
     <string name="runs_empty">저장된 실험이 없습니다. 비교 화면에서 저장하면 입력 상태가 여기에 보관됩니다.</string>

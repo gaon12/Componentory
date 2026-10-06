@@ -181,6 +181,7 @@
     <string name="right_ui">右側 UI</string>
     <string name="run_delete">刪除</string>
     <string name="run_export">匯出</string>
+    <string name="run_environment">執行環境</string>
     <string name="run_open">開啟</string>
     <string name="run_saved">執行已儲存。</string>
     <string name="runs_empty">尚無已儲存的執行。在「比較」頁儲存後會在這裡保留輸入狀態。</string>

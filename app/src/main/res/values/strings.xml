@@ -183,6 +183,7 @@
     <string name="right_ui">Right UI</string>
     <string name="run_delete">Delete</string>
     <string name="run_export">Export</string>
+    <string name="run_environment">Environment</string>
     <string name="run_open">Open</string>
     <string name="run_saved">Run saved.</string>
     <string name="runs_empty">No saved runs yet. Save a comparison to keep its inputs here.</string>

@@ -8,16 +8,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -99,6 +109,42 @@ private fun RunRow(record: RunRecord, onOpen: (RunRecord) -> Unit, onDelete: (Ru
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+        // The record holds the full environment snapshot; the row keeps the
+        // glanceable fields visible and collapses the rest into a details
+        // toggle instead of dumping every key inline.
+        if (record.environment.isNotEmpty()) {
+            var expanded by rememberSaveable(record.id) { mutableStateOf(false) }
+            Row(
+                Modifier.fillMaxWidth()
+                    .toggleable(
+                        value = expanded,
+                        role = Role.Button,
+                        onValueChange = { expanded = it },
+                    )
+                    .testTag("run_details_${record.id}"),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    stringResource(R.string.run_environment),
+                    Modifier.weight(1f),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                Icon(
+                    if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            if (expanded) {
+                record.environment.toSortedMap().forEach { (key, value) ->
+                    Text(
+                        "$key: $value",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
+        }
         // Rows repeat the same labels, so name the component for assistive tech.
         val openDescription = "${stringResource(R.string.run_open)} $componentLabel"
         val deleteDescription = "${stringResource(R.string.run_delete)} $componentLabel"

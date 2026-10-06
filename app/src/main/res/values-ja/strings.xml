@@ -181,6 +181,7 @@
     <string name="right_ui">右の UI</string>
     <string name="run_delete">削除</string>
     <string name="run_export">エクスポート</string>
+    <string name="run_environment">実行環境</string>
     <string name="run_open">開く</string>
     <string name="run_saved">実行を保存しました。</string>
     <string name="runs_empty">保存済みの実行はありません。比較画面で保存すると入力状態がここに残ります。</string>

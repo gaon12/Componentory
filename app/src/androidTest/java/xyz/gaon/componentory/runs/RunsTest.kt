@@ -9,6 +9,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
@@ -64,6 +65,20 @@ class RunsTest {
     }
 
     @Test
+    fun aRunRowExpandsItsFullEnvironmentRecord() {
+        pickComponent("Button", "component_BUTTON")
+        compose.onNodeWithTag("save_run").performScrollTo().performClick()
+        compose.onNodeWithTag("nav_runs").performClick()
+        val toggles = compose.onAllNodesWithText(environmentLabel())
+        toggles.fetchSemanticsNodes().single()
+        toggles[0].performClick()
+        compose.onNodeWithText("api: ${android.os.Build.VERSION.SDK_INT}").assertIsDisplayed()
+        compose
+            .onNodeWithText("targetSdk: ${compose.activity.applicationInfo.targetSdkVersion}")
+            .assertIsDisplayed()
+    }
+
+    @Test
     fun deletingARunRemovesItsRowAndExportWaitsForRecords() {
         compose.onNodeWithTag("nav_runs").performClick()
         compose.onNodeWithTag("runs_empty").assertIsDisplayed()
@@ -89,4 +104,6 @@ class RunsTest {
     private fun openLabel() = compose.activity.getString(R.string.run_open)
 
     private fun deleteLabel() = compose.activity.getString(R.string.run_delete)
+
+    private fun environmentLabel() = compose.activity.getString(R.string.run_environment)
 }
