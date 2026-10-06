@@ -17,7 +17,9 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -34,6 +36,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -69,6 +72,8 @@ class DialerFilterTest {
             compose.runOnIdle {
                 val dialer = view("LEFT") as DialerFilter
                 assertEquals(DialerFilter.DIGITS_AND_LETTERS, dialer.mode)
+                assertEquals(2, dialer.children.filterIsInstance<EditText>().count())
+                assertTrue(dialer.width > 0 && dialer.height > 0)
             }
             status("LEFT", "Text: empty")
         }
@@ -91,6 +96,29 @@ class DialerFilterTest {
     }
 
     @Test
+    fun nativeModeChangesKeepTheComposedTextAndItsRestoration() {
+        nativeFamilies.forEach { family ->
+            configure(family, DesignFamily.HOLO)
+            typeKeys("LEFT", listOf(KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_B))
+            status("LEFT", "Text: AB")
+            compose.runOnIdle {
+                assertEquals(
+                    DialerFilter.DIGITS_AND_LETTERS_NO_DIGITS,
+                    (view("LEFT") as DialerFilter).mode,
+                )
+            }
+            copyInputs("LEFT_TO_RIGHT")
+            status("RIGHT", "Text: AB")
+            compose.runOnIdle {
+                assertEquals("AB", (view("RIGHT") as DialerFilter).filterText.toString())
+            }
+            recreateActivity()
+            status("LEFT", "Text: AB")
+            status("RIGHT", "Text: AB")
+        }
+    }
+
+    @Test
     fun disabledFieldsStopTypingAndLibraryCellsExplainThemselves() {
         configure(DesignFamily.CLASSIC, DesignFamily.MATERIAL2)
         setEnabled(false)
@@ -103,14 +131,13 @@ class DialerFilterTest {
             .assertTextEquals(
                 "Type into the real digits field. The composed filter text is the copied input."
             )
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Material 2 library does not provide Dialer filter.",
-                substring = true,
+            .onNode(
+                hasText("The Material 2 library does not provide Dialer filter.") and
+                    hasAnyAncestor(hasTestTag("unsupported_RIGHT"))
             )
+            .assertIsDisplayed()
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
     }
 
@@ -128,9 +155,20 @@ class DialerFilterTest {
     }
 
     private fun typeIntoDigits(panel: String, digits: String) {
+        typeKeys(panel, digits.map { KeyEvent.KEYCODE_0 + (it - '0') })
+    }
+
+    private fun typeKeys(panel: String, keys: List<Int>) {
+        compose
+            .onNode(
+                hasTestTag("sample-dialer_filter") and hasAnyAncestor(hasTestTag("panel_$panel"))
+            )
+            .performScrollTo()
+            .assertIsDisplayed()
+        compose.runOnIdle { assertTrue(view(panel).requestFocusFromTouch()) }
         // DialerFilter's real input path is View.dispatchKeyEvent -> onKeyDown,
         // which filters digit keys into the composed filter text.
-        val presses = digits.map { pressKey(KeyEvent.KEYCODE_0 + (it - '0')) }.toTypedArray()
+        val presses = keys.map { pressKey(it) }.toTypedArray()
         onView(withId(nativeId(panel))).perform(*presses)
         compose.waitForIdle()
     }
