@@ -145,9 +145,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(145, LabComponent.entries.size)
+        assertEquals(148, LabComponent.entries.size)
         assertEquals(
-            350,
+            353,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -155,15 +155,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 223, "Pending" to 16),
+            mapOf("Implemented" to 227, "Pending" to 12),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 72, "MATERIAL2" to 52, "MATERIAL3" to 99),
+            mapOf("PLATFORM" to 72, "MATERIAL2" to 52, "MATERIAL3" to 103),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 2, "MATERIAL3" to 14),
+            mapOf("PLATFORM" to 2, "MATERIAL3" to 10),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -333,6 +333,9 @@ class ComponentInventoryTest {
                                 component in
                                     listOf(LabComponent.PLAIN_TOOLTIP, LabComponent.RICH_TOOLTIP) ->
                                 setOf("androidx.compose.material3.TooltipBox")
+                            row.provider == "MATERIAL3" &&
+                                component == LabComponent.TOP_SEARCH_BAR ->
+                                setOf("androidx.compose.material3.ExpandedFullScreenSearchBar")
                             else -> emptySet()
                         }
                     assertTrue(

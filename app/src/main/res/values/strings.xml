@@ -571,6 +571,13 @@
     <string name="dismissed">Dismissed</string>
     <string name="settled">Settled</string>
 
+    <string name="component_search_bar">Search bar</string>
+    <string name="component_search_bar_description">The Material 3 SearchBar that expands full screen over its results.</string>
+    <string name="component_docked_search_bar">Docked search bar</string>
+    <string name="component_docked_search_bar_description">The Material 3 DockedSearchBar that expands within its bounds.</string>
+    <string name="component_top_search_bar">Top search bar</string>
+    <string name="component_top_search_bar_description">The Material 3 TopSearchBar pinned at the top of its content.</string>
+    <string name="search_placeholder">Search</string>
     <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
     <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>

@@ -568,6 +568,13 @@
     <string name="dismissed">已關閉</string>
     <string name="settled">已保留</string>
 
+    <string name="component_search_bar">搜尋列</string>
+    <string name="component_search_bar_description">在結果上方展開為全螢幕的 Material 3 SearchBar。</string>
+    <string name="component_docked_search_bar">固定搜尋列</string>
+    <string name="component_docked_search_bar_description">在自身邊界內展開的 Material 3 DockedSearchBar。</string>
+    <string name="component_top_search_bar">頂部搜尋列</string>
+    <string name="component_top_search_bar_description">固定在內容頂部的 Material 3 TopSearchBar。</string>
+    <string name="search_placeholder">搜尋</string>
     <string name="component_exposed_dropdown">展開式下拉功能表方塊</string>
     <string name="component_exposed_dropdown_description">將真實功能表錨定到其文字欄位的 Material ExposedDropdownMenuBox。</string>
     <string name="component_edge_effect_description">架構 EdgeEffect 光暈，由一般 View 在拖曳其邊緣時繪製。</string>

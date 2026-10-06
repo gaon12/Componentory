@@ -252,6 +252,9 @@ private val LabComponent.hasCopiedText: Boolean
                 LabComponent.SEARCH_VIEW,
                 LabComponent.DIALER_FILTER,
                 LabComponent.EXPOSED_DROPDOWN,
+                LabComponent.SEARCH_BAR,
+                LabComponent.DOCKED_SEARCH_BAR,
+                LabComponent.TOP_SEARCH_BAR,
             )
 
 private val LabComponent.hasCopiedValue: Boolean

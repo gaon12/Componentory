@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 223, InventoryStatus.PENDING to 16),
+            mapOf(InventoryStatus.IMPLEMENTED to 227, InventoryStatus.PENDING to 12),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
                 InventoryFamily.MATERIAL2 to 52,
-                InventoryFamily.MATERIAL3 to 99,
+                InventoryFamily.MATERIAL3 to 103,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,9 +283,9 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(16, pending.size)
+        assertEquals(12, pending.size)
         assertEquals(
-            mapOf(InventoryFamily.PLATFORM to 2, InventoryFamily.MATERIAL3 to 14),
+            mapOf(InventoryFamily.PLATFORM to 2, InventoryFamily.MATERIAL3 to 10),
             pending.groupingBy { it.family }.eachCount(),
         )
         pending.forEach {
@@ -378,6 +378,13 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "shortnavigationbar").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "widenavigationrail").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "scaffold").isEmpty())
+        // The expanded docked variant stays pending beside the implemented bars.
+        assertEquals(
+            listOf("androidx.compose.material3.ExpandedDockedSearchBar"),
+            ComponentInventory.pending(entries, "searchbar", InventoryFamily.MATERIAL3).map {
+                it.source
+            },
+        )
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

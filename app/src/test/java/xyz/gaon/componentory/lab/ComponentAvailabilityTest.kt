@@ -588,6 +588,33 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun searchBarsAreHonestMaterial3Only() {
+        listOf(
+                LabComponent.SEARCH_BAR to "SearchBar",
+                LabComponent.DOCKED_SEARCH_BAR to "DockedSearchBar",
+                LabComponent.TOP_SEARCH_BAR to "TopSearchBar",
+            )
+            .forEach { (component, function) ->
+                listOf(
+                        DesignFamily.CLASSIC,
+                        DesignFamily.HOLO,
+                        DesignFamily.MATERIAL,
+                        DesignFamily.MATERIAL2,
+                    )
+                    .forEach { family ->
+                        assertNotNull(family.unsupportedReason(component, 36))
+                        assertEquals("Not provided", family.source(component))
+                    }
+                assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                assertEquals(
+                    "androidx.compose.material3.$function",
+                    DesignFamily.MATERIAL3.source(component),
+                )
+                assertEquals(ComponentCategory.INPUT, component.category)
+            }
+    }
+
+    @Test
     fun wideRailsAndShortBarAreHonestMaterial3Only() {
         listOf(
                 LabComponent.SHORT_NAVIGATION_BAR to "ShortNavigationBar",

@@ -568,6 +568,13 @@
     <string name="dismissed">消去済み</string>
     <string name="settled">保持</string>
 
+    <string name="component_search_bar">検索バー</string>
+    <string name="component_search_bar_description">結果の上に全画面で展開する Material 3 SearchBar です。</string>
+    <string name="component_docked_search_bar">ドック検索バー</string>
+    <string name="component_docked_search_bar_description">自身の境界内で展開する Material 3 DockedSearchBar です。</string>
+    <string name="component_top_search_bar">上部検索バー</string>
+    <string name="component_top_search_bar_description">コンテンツの上部に固定される Material 3 TopSearchBar です。</string>
+    <string name="search_placeholder">検索</string>
     <string name="component_exposed_dropdown">公開ドロップダウンメニューボックス</string>
     <string name="component_exposed_dropdown_description">実際のメニューをテキストフィールドに固定する Material ExposedDropdownMenuBox です。</string>
     <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>

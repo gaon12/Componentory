@@ -834,6 +834,27 @@ enum class LabComponent(
         material3Function = "RichTooltip",
         category = ComponentCategory.FEEDBACK,
     ),
+    SEARCH_BAR(
+        "Search bar",
+        R.string.component_search_bar,
+        R.string.component_search_bar_description,
+        material3Function = "SearchBar",
+        category = ComponentCategory.INPUT,
+    ),
+    DOCKED_SEARCH_BAR(
+        "Docked search bar",
+        R.string.component_docked_search_bar,
+        R.string.component_docked_search_bar_description,
+        material3Function = "DockedSearchBar",
+        category = ComponentCategory.INPUT,
+    ),
+    TOP_SEARCH_BAR(
+        "Top search bar",
+        R.string.component_top_search_bar,
+        R.string.component_top_search_bar_description,
+        material3Function = "TopSearchBar",
+        category = ComponentCategory.INPUT,
+    ),
     SWIPE_TO_DISMISS(
         "Swipe to dismiss",
         R.string.component_swipe_to_dismiss,
@@ -1609,6 +1630,9 @@ enum class LabComponent(
                     MULTI_AUTOCOMPLETE,
                     DIALER_FILTER,
                     EXPOSED_DROPDOWN,
+                    SEARCH_BAR,
+                    DOCKED_SEARCH_BAR,
+                    TOP_SEARCH_BAR,
                 ) -> context.getString(R.string.status_text, text.ifEmpty { empty })
             this == TRI_STATE_CHECKBOX ->
                 context.getString(

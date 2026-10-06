@@ -55,6 +55,10 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.POPUP_MENU -> Material3PopupMenuSample(panel, sample, enabled, state)
                 LabComponent.EXPOSED_DROPDOWN ->
                     Material3DropdownSample(component, panel, sample, enabled, state)
+                LabComponent.SEARCH_BAR,
+                LabComponent.DOCKED_SEARCH_BAR,
+                LabComponent.TOP_SEARCH_BAR ->
+                    Material3SearchBarSample(component, panel, sample, enabled, state)
                 LabComponent.BOTTOM_SHEET_SCAFFOLD,
                 LabComponent.MODAL_BOTTOM_SHEET ->
                     Material3SheetSample(component, panel, sample, enabled, state)
