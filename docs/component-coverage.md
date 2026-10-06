@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**136 component entries**, with **339 runnable component/family combinations**.
+**137 component entries**, with **341 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `810b547`. Executed resource
+Application and latest verification source revision: `99fa2b8`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
-| Compose Material 2 1.10.4 | 52 | 50 | 2 |
-| Compose Material 3 1.4.0 | 113 | 88 | 25 |
-| Total | 239 | 210 | 29 |
+| Compose Material 2 1.10.4 | 52 | 51 | 1 |
+| Compose Material 3 1.4.0 | 113 | 89 | 24 |
+| Total | 239 | 212 | 27 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -395,6 +395,15 @@ copy direction explains there are no inputs. The shared TooltipBox host
 counts as a supporting source of both entries, matching the
 NavigationBarItem convention.
 
+One action entry adds two library combinations: SWIPE_TO_DISMISS pairs
+Material 2's SwipeToDismiss with Material 3's SwipeToDismissBox. Each
+row reveals a real background through the genuine dismiss state, and
+settling writes the state back through snapshotFlow, so the
+settled-or-dismissed flag is the copied state. Both libraries' confirm
+callbacks block dismissal while the panel is disabled, so a disabled
+swipe settles back instead of pretending to dismiss. Material 2's
+audited surface list is now one row from complete.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -479,14 +488,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `810b547`, preceded by the sweep baseline correction in
+Latest implementation: `99fa2b8`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 117 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,203,166
+with zero errors. All 118 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,215,182
 bytes with SHA-256
-`3daac34b36bc98a926d649977eb7366eeb7289acd20740d71d99489a7dbabb97` and the test
-APK is 1,512,087 bytes with SHA-256
-`badba5e6bf3360d0bef181402dd33c6baf9c8c8f094220d0f52e4bce49a2c547`.
+`0d88f12e07291e52a3394e46e618f007d3094964ed95f2f77f2c1608fe879d78` and the test
+APK is 1,514,192 bytes with SHA-256
+`1c57c5bc6bfefd10006619ccbe3b68469a505f980bd7f3ee6d484e1a6aa09904`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -630,8 +639,14 @@ long-press reveal, the rich tooltip's title and content, the no-inputs
 copy explanation, and the Material 2 missing-source cell. They also
 await a clean unlocked-device run.
 
-The catalog now declares 136 entries and 339 supported combinations. The smoke
-sweep spans 674 ordinary cells: 342 supported and 332 unsupported; the six
+Two [swipe-to-dismiss scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/SwipeDismissTest.kt)
+compile in the same state. They verify the real swipe gesture dismissing
+through each library's threshold logic, cross-library copy of the
+dismissed flag, recreation restore, and the disabled settle-back. They
+also await a clean unlocked-device run.
+
+The catalog now declares 137 entries and 341 supported combinations. The smoke
+sweep spans 679 ordinary cells: 344 supported and 335 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
