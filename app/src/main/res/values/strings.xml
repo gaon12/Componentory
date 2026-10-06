@@ -448,4 +448,11 @@
     <string name="drawer_opened">Drawer open</string>
     <string name="drawer_closed">Drawer closed</string>
     <string name="legacy_container_note">The widget is deprecated but still renders. Copying carries only the visible selection.</string>
+    <string name="component_popup_window">Popup window</string>
+    <string name="component_popup_window_description">The framework PopupWindow floating a themed content view anchored to the panel button.</string>
+    <string name="component_list_popup_window">List popup window</string>
+    <string name="component_list_popup_window_description">The framework ListPopupWindow anchoring a real adapter-backed selectable list to the panel button.</string>
+    <string name="open_popup">Open popup</string>
+    <string name="popup_content">Floating popup content</string>
+    <string name="popup_window_note">The button opens the real popup window anchored to it. Copying carries the popup\'s reported state.</string>
 </resources>

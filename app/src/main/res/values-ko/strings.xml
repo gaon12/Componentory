@@ -445,4 +445,11 @@
     <string name="drawer_opened">드로어 열림</string>
     <string name="drawer_closed">드로어 닫힘</string>
     <string name="legacy_container_note">위젯은 지원 중단됐지만 여전히 렌더링됩니다. 복사는 보이는 선택만 옮깁니다.</string>
+    <string name="component_popup_window">팝업 창</string>
+    <string name="component_popup_window_description">패널 버튼에 고정된 테마의 플로팅 콘텐츠 뷰를 띄우는 프레임워크 PopupWindow입니다.</string>
+    <string name="component_list_popup_window">목록 팝업 창</string>
+    <string name="component_list_popup_window_description">패널 버튼에 실제 어댑터 기반 선택 목록을 고정하는 프레임워크 ListPopupWindow입니다.</string>
+    <string name="open_popup">팝업 열기</string>
+    <string name="popup_content">플로팅 팝업 콘텐츠</string>
+    <string name="popup_window_note">버튼을 누르면 버튼에 고정된 실제 팝업 창이 열립니다. 복사는 팝업이 보고한 상태만 옮깁니다.</string>
 </resources>

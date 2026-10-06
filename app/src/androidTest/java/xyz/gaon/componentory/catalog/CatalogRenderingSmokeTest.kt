@@ -38,10 +38,12 @@ import android.widget.ImageButton
 import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListPopupWindow
 import android.widget.ListView
 import android.widget.MultiAutoCompleteTextView
 import android.widget.NumberPicker
 import android.widget.PopupMenu
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -162,22 +164,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 59, 43)
+        verifyFamily(DesignFamily.CLASSIC, 61, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 59, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 61, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 59, 43)
+        verifyFamily(DesignFamily.MATERIAL, 61, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 71)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 73)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 43)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 45)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -186,7 +188,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            104,
+            106,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -568,6 +570,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.POPUP_MENU -> verifyNativeMenu()
             LabComponent.PLAIN_DIALOG -> verifyTransientWindow(Dialog::class.java)
             LabComponent.PROGRESS_DIALOG -> verifyTransientWindow(ProgressDialog::class.java)
+            LabComponent.POPUP_WINDOW -> verifyPopupWindow()
+            LabComponent.LIST_POPUP_WINDOW -> verifyListPopupWindow()
             else -> Unit
         }
     }
@@ -581,7 +585,9 @@ class CatalogRenderingSmokeTest {
             LabComponent.POPUP_MENU,
             LabComponent.PLAIN_DIALOG,
             LabComponent.PROGRESS_DIALOG,
-            LabComponent.TOAST -> Button::class.java
+            LabComponent.TOAST,
+            LabComponent.POPUP_WINDOW,
+            LabComponent.LIST_POPUP_WINDOW -> Button::class.java
             LabComponent.CHECKBOX -> CheckBox::class.java
             LabComponent.RADIO -> RadioGroup::class.java
             LabComponent.SWITCH -> Switch::class.java
@@ -735,6 +741,31 @@ class CatalogRenderingSmokeTest {
             assertEquals(type, opened.javaClass)
             assertTrue(opened.isShowing)
             assertNotNull(opened.window)
+            opened.dismiss()
+            assertFalse(opened.isShowing)
+        }
+    }
+
+    // The raw popup objects live on the trigger button's tag, like the dialogs.
+    private fun verifyPopupWindow() {
+        onView(withId(R.id.sample_left)).perform(nativeClick())
+        compose.runOnIdle {
+            val opened = compose.activity.findViewById<Button>(R.id.sample_left).tag as PopupWindow
+            assertEquals(PopupWindow::class.java, opened.javaClass)
+            assertTrue(opened.isShowing)
+            opened.dismiss()
+            assertFalse(opened.isShowing)
+        }
+    }
+
+    private fun verifyListPopupWindow() {
+        onView(withId(R.id.sample_left)).perform(nativeClick())
+        compose.runOnIdle {
+            val opened =
+                compose.activity.findViewById<Button>(R.id.sample_left).tag as ListPopupWindow
+            assertEquals(ListPopupWindow::class.java, opened.javaClass)
+            assertTrue(opened.isShowing)
+            assertEquals(4, opened.listView?.adapter?.count)
             opened.dismiss()
             assertFalse(opened.isShowing)
         }

@@ -367,6 +367,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isPopupWindow && unsupported == null) {
+                Text(
+                    stringResource(R.string.popup_window_note),
+                    modifier = Modifier.testTag("popup_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isTransientWindow && unsupported == null) {
                 Text(
                     stringResource(R.string.transient_note),

@@ -252,6 +252,8 @@ class ComponentInventoryResourceTest {
                 "android.widget.Gallery" to ("GALLERY" to 1),
                 "android.widget.SlidingDrawer" to ("SLIDING_DRAWER" to 3),
                 "android.widget.TwoLineListItem" to ("TWO_LINE_LIST_ITEM" to 1),
+                "android.widget.PopupWindow" to ("POPUP_WINDOW" to 1),
+                "android.widget.ListPopupWindow" to ("LIST_POPUP_WINDOW" to 11),
             )
             .forEach { (source, metadata) ->
                 val row = entries.single { it.source == source }
@@ -279,10 +281,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(88, pending.size)
+        assertEquals(86, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 13,
+                InventoryFamily.PLATFORM to 11,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -292,11 +294,8 @@ class ComponentInventoryResourceTest {
             assertEquals(InventoryStatus.PENDING, it.status)
             assertTrue("Pending sources have no runnable sample IDs", it.catalogIds.isEmpty())
         }
-        assertEquals(
-            setOf("android.widget.ListPopupWindow", "android.widget.PopupWindow"),
-            ComponentInventory.pending(entries, "  POPUP  ", InventoryFamily.PLATFORM)
-                .map { it.source }
-                .toSet(),
+        assertTrue(
+            ComponentInventory.pending(entries, "  POPUP  ", InventoryFamily.PLATFORM).isEmpty()
         )
         val libraryMenus =
             ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL3)
@@ -319,11 +318,9 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "surface").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "no-matching-source-api").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "checkbox").isEmpty())
-        assertEquals(
-            listOf("android.widget.ListPopupWindow"),
-            ComponentInventory.pending(entries, "listpopupwindow", InventoryFamily.PLATFORM).map {
-                it.source
-            },
+        assertTrue(
+            ComponentInventory.pending(entries, "listpopupwindow", InventoryFamily.PLATFORM)
+                .isEmpty()
         )
         assertTrue(ComponentInventory.pending(entries, "datepicker").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "calendarview").isEmpty())
@@ -370,6 +367,10 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "zoomcontrols").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "zoombutton").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "zoombuttonscontroller").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "popupwindow").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "gallery").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "slidingdrawer").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "twolinelistitem").isEmpty())
         listOf(
                 "android.widget.TextView",
                 "androidx.compose.material.Text",

@@ -521,6 +521,21 @@ enum class LabComponent(
         minimumApi = 11,
         category = ComponentCategory.NAVIGATION,
     ),
+    POPUP_WINDOW(
+        "Popup window",
+        R.string.component_popup_window,
+        R.string.component_popup_window_description,
+        platformSource = "android.widget.PopupWindow",
+        category = ComponentCategory.NAVIGATION,
+    ),
+    LIST_POPUP_WINDOW(
+        "List popup window",
+        R.string.component_list_popup_window,
+        R.string.component_list_popup_window_description,
+        platformSource = "android.widget.ListPopupWindow",
+        minimumApi = 11,
+        category = ComponentCategory.NAVIGATION,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -968,6 +983,10 @@ enum class LabComponent(
     val isLegacyContainer: Boolean
         get() = this == GALLERY || this == SLIDING_DRAWER || this == TWO_LINE_LIST_ITEM
 
+    // Anchored popup objects that are not View children of the panel.
+    val isPopupWindow: Boolean
+        get() = this == POPUP_WINDOW || this == LIST_POPUP_WINDOW
+
     val galleryItemCount: Int
         get() = if (this == GALLERY) 6 else 0
 
@@ -1093,6 +1112,14 @@ enum class LabComponent(
             isAdapterAnimator ->
                 context.getString(R.string.status_switcher_child, value + 1, adapterPageCount)
             isTransientWindow -> context.getString(R.string.status_shown_times, value)
+            this == POPUP_WINDOW -> context.getString(R.string.status_shown_times, value)
+            this == LIST_POPUP_WINDOW ->
+                if (value == 0) context.getString(R.string.sample_state_no_selection)
+                else
+                    context.getString(
+                        R.string.status_selected,
+                        context.getString(R.string.list_item, value),
+                    )
             this == TAB_HOST -> context.getString(R.string.status_tab, value + 1, tabCount)
             this == GALLERY ->
                 context.getString(R.string.status_gallery, value + 1, galleryItemCount)

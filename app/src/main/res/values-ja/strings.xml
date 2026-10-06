@@ -445,4 +445,11 @@
     <string name="drawer_opened">ドロワーが開いています</string>
     <string name="drawer_closed">ドロワーが閉じています</string>
     <string name="legacy_container_note">ウィジェットは非推奨ですが引き続きレンダリングされます。コピーは表示中の選択のみを移します。</string>
+    <string name="component_popup_window">ポップアップウィンドウ</string>
+    <string name="component_popup_window_description">パネルのボタンにアンカーされたテーマ付きフローティングコンテンツビューを表示するフレームワークPopupWindowです。</string>
+    <string name="component_list_popup_window">リストポップアップウィンドウ</string>
+    <string name="component_list_popup_window_description">パネルのボタンに実際のアダプター駆動の選択リストをアンカーするフレームワークListPopupWindowです。</string>
+    <string name="open_popup">ポップアップを開く</string>
+    <string name="popup_content">フローティングポップアップコンテンツ</string>
+    <string name="popup_window_note">ボタンで実際のポップアップウィンドウをそのボタンにアンカーして開きます。コピーはポップアップが報告した状態のみを移します。</string>
 </resources>

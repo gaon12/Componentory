@@ -346,6 +346,35 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun popupWindowsKeepPlatformOnlySourcesAndAnchoredState() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        val componentToSource =
+            mapOf(
+                LabComponent.POPUP_WINDOW to "android.widget.PopupWindow",
+                LabComponent.LIST_POPUP_WINDOW to "android.widget.ListPopupWindow",
+            )
+        componentToSource.forEach { (component, source) ->
+            platform.forEach { family ->
+                assertNull(family.unsupportedReason(component, component.minimumApi))
+                assertNull(family.unsupportedReason(component, 36))
+                assertEquals(source, family.source(component))
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertTrue(component.isPopupWindow)
+            assertTrue(component.matchesSearch(source))
+            assertFalse(component.matchesSearch("androidx.compose.material3.PopupWindow"))
+        }
+        assertEquals(1, LabComponent.POPUP_WINDOW.minimumApi)
+        assertEquals(11, LabComponent.LIST_POPUP_WINDOW.minimumApi)
+        // The two popup entries are distinct from the PopupMenu component.
+        assertFalse(LabComponent.POPUP_WINDOW.isTransientWindow)
+        assertFalse(LabComponent.POPUP_MENU.matchesSearch("android.widget.ListPopupWindow"))
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

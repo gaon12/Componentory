@@ -445,4 +445,11 @@
     <string name="drawer_opened">抽屜已開啟</string>
     <string name="drawer_closed">抽屜已關閉</string>
     <string name="legacy_container_note">小工具已棄用但仍可渲染。複製僅轉移目前可見的選擇。</string>
+    <string name="component_popup_window">彈出視窗</string>
+    <string name="component_popup_window_description">架構 PopupWindow，將帶主題的浮動內容檢視錨定到面板按鈕上。</string>
+    <string name="component_list_popup_window">清單彈出視窗</string>
+    <string name="component_list_popup_window_description">架構 ListPopupWindow，將真實的配接器驅動選擇清單錨定到面板按鈕上。</string>
+    <string name="open_popup">開啟彈出視窗</string>
+    <string name="popup_content">浮動彈出內容</string>
+    <string name="popup_window_note">按鈕會開啟錨定到它的真實彈出視窗。複製僅轉移彈出視窗所回報的狀態。</string>
 </resources>

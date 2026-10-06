@@ -445,4 +445,11 @@
     <string name="drawer_opened">抽屉已打开</string>
     <string name="drawer_closed">抽屉已关闭</string>
     <string name="legacy_container_note">该小部件已弃用但仍可渲染。复制仅转移当前可见的选择。</string>
+    <string name="component_popup_window">弹出窗口</string>
+    <string name="component_popup_window_description">框架 PopupWindow，将带主题的浮动内容视图锚定到面板按钮上。</string>
+    <string name="component_list_popup_window">列表弹出窗口</string>
+    <string name="component_list_popup_window_description">框架 ListPopupWindow，将真实的适配器驱动选择列表锚定到面板按钮上。</string>
+    <string name="open_popup">打开弹出窗口</string>
+    <string name="popup_content">浮动弹出内容</string>
+    <string name="popup_window_note">按钮会打开锚定到它的真实弹出窗口。复制仅转移弹窗所报告的状态。</string>
 </resources>
