@@ -879,6 +879,13 @@ enum class LabComponent(
         material3Function = "TopSearchBar",
         category = ComponentCategory.INPUT,
     ),
+    EXPANDED_DOCKED_SEARCH_BAR(
+        "Expanded docked search bar",
+        R.string.component_expanded_docked_search_bar,
+        R.string.component_expanded_docked_search_bar_description,
+        material3Function = "ExpandedDockedSearchBar",
+        category = ComponentCategory.INPUT,
+    ),
     MULTI_BROWSE_CAROUSEL(
         "Multi-browse carousel",
         R.string.component_multi_browse_carousel,
@@ -1703,6 +1710,7 @@ enum class LabComponent(
                     SEARCH_BAR,
                     DOCKED_SEARCH_BAR,
                     TOP_SEARCH_BAR,
+                    EXPANDED_DOCKED_SEARCH_BAR,
                 ) -> context.getString(R.string.status_text, text.ifEmpty { empty })
             this == TRI_STATE_CHECKBOX ->
                 context.getString(

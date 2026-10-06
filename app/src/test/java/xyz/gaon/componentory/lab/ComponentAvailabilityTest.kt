@@ -663,6 +663,7 @@ class ComponentAvailabilityTest {
                 LabComponent.SEARCH_BAR to "SearchBar",
                 LabComponent.DOCKED_SEARCH_BAR to "DockedSearchBar",
                 LabComponent.TOP_SEARCH_BAR to "TopSearchBar",
+                LabComponent.EXPANDED_DOCKED_SEARCH_BAR to "ExpandedDockedSearchBar",
             )
             .forEach { (component, function) ->
                 listOf(

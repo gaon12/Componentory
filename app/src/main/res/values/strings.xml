@@ -592,6 +592,8 @@
     <string name="component_docked_search_bar_description">The Material 3 DockedSearchBar that expands within its bounds.</string>
     <string name="component_top_search_bar">Top search bar</string>
     <string name="component_top_search_bar_description">The Material 3 TopSearchBar pinned at the top of its content.</string>
+    <string name="component_expanded_docked_search_bar">Expanded docked search bar</string>
+    <string name="component_expanded_docked_search_bar_description">The Material 3 ExpandedDockedSearchBar showing docked results for its paired collapsed bar.</string>
     <string name="search_placeholder">Search</string>
     <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
     <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>

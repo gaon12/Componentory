@@ -255,6 +255,7 @@ private val LabComponent.hasCopiedText: Boolean
                 LabComponent.SEARCH_BAR,
                 LabComponent.DOCKED_SEARCH_BAR,
                 LabComponent.TOP_SEARCH_BAR,
+                LabComponent.EXPANDED_DOCKED_SEARCH_BAR,
             )
 
 private val LabComponent.hasCopiedValue: Boolean

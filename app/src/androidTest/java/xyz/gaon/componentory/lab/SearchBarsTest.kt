@@ -93,6 +93,18 @@ class SearchBarsTest {
         compose.onNodeWithTag("library_LEFT_field").performScrollTo().performTouchInput { click() }
         compose.waitForIdle()
         compose.onNodeWithTag("library_LEFT_result_1").assertIsDisplayed()
+
+        configure(LabComponent.EXPANDED_DOCKED_SEARCH_BAR)
+        compose
+            .onNodeWithTag("source_LEFT")
+            .assertTextEquals("androidx.compose.material3.ExpandedDockedSearchBar")
+        compose.onNodeWithTag("library_LEFT_field").performScrollTo().performTouchInput { click() }
+        compose.waitForIdle()
+        compose.onNodeWithTag("library_LEFT_result_1").assertIsDisplayed().performTouchInput {
+            click()
+        }
+        compose.waitForIdle()
+        status("LEFT", "Text: Item 1")
     }
 
     @Test

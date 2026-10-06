@@ -3,6 +3,7 @@ package xyz.gaon.componentory.lab
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.ExpandedDockedSearchBar
 import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBar
@@ -94,6 +95,23 @@ internal fun Material3SearchBarSample(
             Column(modifier) {
                 TopSearchBar(state = barState, inputField = { topField() })
                 ExpandedFullScreenSearchBar(state = barState, inputField = { topField() }) {
+                    results()
+                }
+            }
+        }
+        LabComponent.EXPANDED_DOCKED_SEARCH_BAR -> {
+            val barState = rememberSearchBarState()
+            val dockedField: @Composable () -> Unit = {
+                inputField(barState.targetValue == SearchBarValue.Expanded) { expanded ->
+                    scope.launch {
+                        if (expanded) barState.animateToExpanded()
+                        else barState.animateToCollapsed()
+                    }
+                }
+            }
+            Column(modifier) {
+                TopSearchBar(state = barState, inputField = { dockedField() })
+                ExpandedDockedSearchBar(state = barState, inputField = { dockedField() }) {
                     results()
                 }
             }

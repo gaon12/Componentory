@@ -153,7 +153,7 @@ family,source,apiIntroduced,status,catalogId,notes
 "MATERIAL3","androidx.compose.material3.ElevatedCard","","Implemented","ELEVATED_CARD","Clickable and non-clickable overloads use library defaults."
 "MATERIAL3","androidx.compose.material3.ElevatedFilterChip","","Implemented","ELEVATED_FILTER_CHIP",""
 "MATERIAL3","androidx.compose.material3.ElevatedSuggestionChip","","Implemented","ELEVATED_SUGGESTION_CHIP",""
-"MATERIAL3","androidx.compose.material3.ExpandedDockedSearchBar","","Pending","",""
+"MATERIAL3","androidx.compose.material3.ExpandedDockedSearchBar","","Implemented","EXPANDED_DOCKED_SEARCH_BAR","The Material 3 expanded docked search bar sample."
 "MATERIAL3","androidx.compose.material3.ExpandedFullScreenSearchBar","","Implemented","TOP_SEARCH_BAR","Supporting source rendering the TopSearchBar expanded results."
 "MATERIAL3","androidx.compose.material3.ExposedDropdownMenuBox","","Implemented","EXPOSED_DROPDOWN","Material 3 box anchoring a real menu to its read-only field."
 "MATERIAL3","androidx.compose.material3.ExtendedFloatingActionButton","","Implemented","EXTENDED_FAB",""

@@ -375,6 +375,7 @@ class SampleSetupTest {
                 LabComponent.SEARCH_BAR,
                 LabComponent.DOCKED_SEARCH_BAR,
                 LabComponent.TOP_SEARCH_BAR,
+                LabComponent.EXPANDED_DOCKED_SEARCH_BAR,
             )
             .forEach { component ->
                 listOf("", "Input 日本語").forEach { input ->

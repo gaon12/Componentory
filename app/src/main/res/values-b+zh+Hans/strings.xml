@@ -589,6 +589,8 @@
     <string name="component_docked_search_bar_description">在自身边界内展开的 Material 3 DockedSearchBar。</string>
     <string name="component_top_search_bar">顶部搜索栏</string>
     <string name="component_top_search_bar_description">固定在内容顶部的 Material 3 TopSearchBar。</string>
+    <string name="component_expanded_docked_search_bar">展开的停靠搜索栏</string>
+    <string name="component_expanded_docked_search_bar_description">Material 3 ExpandedDockedSearchBar，为配对的收起栏显示停靠结果。</string>
     <string name="search_placeholder">搜索</string>
     <string name="component_exposed_dropdown">展开式下拉菜单框</string>
     <string name="component_exposed_dropdown_description">将真实菜单锚定到其文本字段的 Material ExposedDropdownMenuBox。</string>
