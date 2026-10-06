@@ -3,6 +3,7 @@ package xyz.gaon.componentory.lab
 import android.view.WindowManager
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
@@ -49,6 +50,7 @@ class ProgressIndicatorsTest {
                 .forEach { component ->
                     chooseComponent(component)
                     compose.onNodeWithTag("library_LEFT").performScrollTo()
+                    expandDetails("LEFT")
                     compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(component))
                     if (component.isIndeterminateProgress) {
                         assertEquals(ProgressBarRangeInfo.Indeterminate, range())
@@ -121,5 +123,14 @@ class ProgressIndicatorsTest {
     private fun chooseFamily(panel: String, family: DesignFamily) {
         compose.onNodeWithTag("family_$panel").performScrollTo().performClick()
         compose.onNodeWithTag("family_${panel}_${family.name}").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

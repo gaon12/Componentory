@@ -210,10 +210,12 @@ class MenuHostsTest {
     }
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals(component.platformSource!!)
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -356,4 +358,13 @@ class MenuHostsTest {
                 "操作與導覽點擊會更新最後操作狀態。複製僅轉移所回報的操作。",
             ),
         )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

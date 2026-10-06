@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.PopupMenu
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertHasClickAction
@@ -291,11 +292,13 @@ class PopupMenusTest {
         compose.onNodeWithTag("unsupported_$panel").assertDoesNotExist()
         if (family.platform != null) {
             val platform = requireNotNull(family.platform)
+            expandDetails(panel)
             compose.onNodeWithTag("source_$panel").assertTextEquals("android.widget.PopupMenu")
             compose
                 .onNodeWithTag("implementation_$panel")
                 .assertTextContains("android:${platform.themeName}", substring = true)
             compose.onNodeWithTag("library_$panel").assertDoesNotExist()
+            expandDetails(panel)
             compose.onNodeWithTag("menu_item_source_$panel").assertDoesNotExist()
             compose.onNodeWithTag("native_$panel").performScrollTo().assertIsDisplayed()
             compose.runOnIdle {
@@ -322,10 +325,12 @@ class PopupMenusTest {
                 } else {
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 }
+            expandDetails(panel)
             compose.onNodeWithTag("source_$panel").assertTextEquals("$packageName.DropdownMenu")
             compose
                 .onNodeWithTag("menu_item_source_$panel")
                 .assertTextEquals("$packageName.DropdownMenuItem")
+            expandDetails(panel)
             compose
                 .onNodeWithTag("implementation_$panel")
                 .assertTextContains(dependency, substring = true)
@@ -721,5 +726,14 @@ class PopupMenusTest {
                 MenuAction.SELECTED -> selected
                 MenuAction.DISMISSED -> dismissed
             }
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

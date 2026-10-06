@@ -57,9 +57,11 @@ class TabRowsTest {
             )
         expected.forEach { (component, spec) ->
             configure(component, DesignFamily.MATERIAL2, DesignFamily.MATERIAL3)
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("source_LEFT")
                 .assertTextEquals("androidx.compose.material.${spec.first}")
+            expandDetails("RIGHT")
             compose
                 .onNodeWithTag("source_RIGHT")
                 .assertTextEquals("androidx.compose.material3.${spec.first}")
@@ -99,9 +101,11 @@ class TabRowsTest {
             )
         expected.forEach { (component, spec) ->
             configure(component, DesignFamily.MATERIAL3, DesignFamily.MATERIAL2)
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("source_LEFT")
                 .assertTextEquals("androidx.compose.material3.${spec.first}")
+            expandDetails("RIGHT")
             compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
             compose.onNodeWithTag("unsupported_RIGHT").assertIsDisplayed()
             spec.second.take(3).forEach { tab ->
@@ -222,5 +226,14 @@ class TabRowsTest {
         compose.runOnUiThread {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

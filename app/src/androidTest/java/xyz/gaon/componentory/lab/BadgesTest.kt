@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
 import android.view.WindowManager
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
@@ -40,6 +42,7 @@ class BadgesTest {
             chooseComponent(LabComponent.DOT_BADGE)
             val dot =
                 compose.onNodeWithTag("library_LEFT").performScrollTo().fetchSemanticsNode().size
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("source_LEFT")
                 .assertTextEquals(family.source(LabComponent.DOT_BADGE))
@@ -48,6 +51,7 @@ class BadgesTest {
             val number =
                 compose.onNodeWithTag("library_LEFT").performScrollTo().fetchSemanticsNode().size
             assertTrue(number.width > dot.width && number.height > dot.height)
+            expandDetails("LEFT")
             compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(LabComponent.BADGE))
             count("LEFT", "7")
         }
@@ -105,6 +109,7 @@ class BadgesTest {
             compose
                 .onNodeWithTag("badge_icon_LEFT", useUnmergedTree = true)
                 .assertContentDescriptionEquals("Favorite")
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("source_LEFT")
                 .assertTextEquals(family.source(LabComponent.BADGED_BOX))
@@ -143,5 +148,14 @@ class BadgesTest {
     private fun chooseFamily(panel: String, family: DesignFamily) {
         compose.onNodeWithTag("family_$panel").performScrollTo().performClick()
         compose.onNodeWithTag("family_${panel}_${family.name}").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

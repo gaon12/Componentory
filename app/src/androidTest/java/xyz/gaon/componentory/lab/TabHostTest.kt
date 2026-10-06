@@ -199,10 +199,12 @@ class TabHostTest {
     }
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals(component.platformSource!!)
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -339,4 +341,13 @@ class TabHostTest {
                 "分頁點擊切換原始 TabHost 內容。複製會轉移所選分頁索引。",
             ),
         )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

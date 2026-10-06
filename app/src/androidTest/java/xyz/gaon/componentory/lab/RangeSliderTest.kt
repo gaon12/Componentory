@@ -2,6 +2,8 @@ package xyz.gaon.componentory.lab
 
 import android.view.WindowManager
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.hasTestTag
@@ -44,6 +46,7 @@ class RangeSliderTest {
         listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
             chooseFamily("LEFT", family)
             chooseFamily("RIGHT", family)
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("source_LEFT")
                 .assertTextEquals(family.source(LabComponent.RANGE_SLIDER))
@@ -103,5 +106,14 @@ class RangeSliderTest {
     private fun chooseFamily(panel: String, family: DesignFamily) {
         compose.onNodeWithTag("family_$panel").performScrollTo().performClick()
         compose.onNodeWithTag("family_${panel}_${family.name}").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

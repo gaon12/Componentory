@@ -223,10 +223,12 @@ class FrameworkLayoutsTest {
     private fun layout(panel: String): View = compose.activity.findViewById(nativeId(panel))
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals(component.platformSource!!)
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -355,4 +357,13 @@ class FrameworkLayoutsTest {
                 "展示真實容器及其主題子項的靜態預覽。版面配置沒有可複製的輸入。",
             ),
         )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

@@ -6,16 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.unit.dp
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -84,6 +89,7 @@ class CatalogNavigationTest {
         DesignFamily.entries.forEach { family ->
             compose.onNodeWithTag("family_LEFT").performClick()
             compose.onNodeWithTag("family_LEFT_${family.name}").performClick()
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("source_LEFT")
                 .assertTextEquals(family.source(LabComponent.BUTTON))
@@ -113,6 +119,7 @@ class CatalogNavigationTest {
         compose.onNodeWithTag("detail_compare").performClick()
         compose.onNodeWithTag("nav_compare").assertIsSelected()
         compose.onNodeWithTag("component_picker").assertTextEquals("Checkbox")
+        expandDetails("LEFT")
         compose.onNodeWithTag("source_LEFT").assertTextEquals("androidx.compose.material3.Checkbox")
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Checked")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Unchecked")
@@ -147,5 +154,14 @@ class CatalogNavigationTest {
     private fun search(text: String) {
         compose.onNodeWithTag("component_search").performTextReplacement(text)
         compose.onNodeWithTag("component_search").performImeAction()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

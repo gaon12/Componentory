@@ -142,10 +142,12 @@ class EdgeEffectsTest {
     private fun view(panel: String): View = compose.activity.findViewById(nativeId(panel))
 
     private fun assertNativeIdentity(panel: String, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals("android.widget.EdgeEffect")
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -241,4 +243,13 @@ class EdgeEffectsTest {
 
     private val nativeFamilies =
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

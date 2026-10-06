@@ -331,6 +331,7 @@ class AccessibilityNamesTest {
     }
 
     private fun assertSource(component: LabComponent, family: DesignFamily) {
+        expandDetails("LEFT")
         compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(component))
     }
 
@@ -389,4 +390,13 @@ class AccessibilityNamesTest {
         val optionB: String,
         val triState: String,
     )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

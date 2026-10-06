@@ -17,6 +17,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
@@ -252,6 +253,7 @@ class InputCopyNavigationTest {
         assertNeutralDate("LEFT", "Jan 22, 2024")
         assertNeutralDate("RIGHT", "Jan 15, 2024")
         assertLibraryIdentity("LEFT", "DatePickerDialog", DesignFamily.MATERIAL3)
+        expandDetails("RIGHT")
         compose.onNodeWithTag("source_RIGHT").assertTextEquals("android.app.DatePickerDialog")
         compose.onNodeWithTag("date_dialog_LEFT").assertDoesNotExist()
         openNative("RIGHT")
@@ -330,6 +332,7 @@ class InputCopyNavigationTest {
         compose.onNodeWithTag("time_24_hour_LEFT").assertIsOff()
         compose.onNodeWithTag("time_24_hour_RIGHT").assertIsOn()
         assertLibraryIdentity("LEFT", "TimePickerDialog", DesignFamily.MATERIAL3)
+        expandDetails("RIGHT")
         compose.onNodeWithTag("source_RIGHT").assertTextEquals("android.app.TimePickerDialog")
         copyInputs("LEFT_TO_RIGHT")
         compose.onNodeWithTag("time_24_hour_RIGHT").assertIsOff()
@@ -352,9 +355,11 @@ class InputCopyNavigationTest {
             assertEquals(false, picker.is24HourView())
         }
         nativeCancel()
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.TimePickerDialog")
+        expandDetails("RIGHT")
         compose.onNodeWithTag("source_RIGHT").assertTextEquals("android.app.TimePickerDialog")
     }
 
@@ -406,6 +411,7 @@ class InputCopyNavigationTest {
         compose.onNodeWithTag("unsupported_LEFT").assertExists()
         enterComparison()
         compose.onNodeWithTag("unsupported_LEFT").assertExists()
+        expandDetails("LEFT")
         compose.onNodeWithTag("source_LEFT").assertTextEquals("Not provided")
         compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
         assertEquals(20 to 80, range("RIGHT"))
@@ -708,6 +714,7 @@ class InputCopyNavigationTest {
             if (family == DesignFamily.MATERIAL2) BuildConfig.MATERIAL2_VERSION
             else BuildConfig.MATERIAL3_VERSION
         val artifact = if (family == DesignFamily.MATERIAL2) "material" else "material3"
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("$packageName.$api")
         compose
             .onNodeWithTag("implementation_$panel")
@@ -918,4 +925,13 @@ class InputCopyNavigationTest {
         val leftResult: String,
         val rightResult: String,
     )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

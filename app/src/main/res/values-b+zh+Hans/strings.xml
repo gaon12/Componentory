@@ -155,6 +155,7 @@
     <string name="icon_status">图标：%1$s</string>
     <string name="icon_unavailable">此系统不可用</string>
     <string name="icons_title">图标</string>
+    <string name="implementation_details">实现详情</string>
     <string name="landscape">横向</string>
     <string name="language_note">更改菜单、说明和示例文本。API 和图标名称仍可用英语搜索。</string>
     <string name="language_system">跟随系统语言</string>

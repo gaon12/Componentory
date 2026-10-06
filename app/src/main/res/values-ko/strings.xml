@@ -155,6 +155,7 @@
     <string name="icon_status">아이콘: %1$s</string>
     <string name="icon_unavailable">이 OS에서 사용할 수 없음</string>
     <string name="icons_title">아이콘</string>
+    <string name="implementation_details">구현 세부 정보</string>
     <string name="landscape">가로</string>
     <string name="language_note">메뉴, 설명, 샘플 문구를 바꿉니다. API와 아이콘 이름은 영어로도 검색할 수 있습니다.</string>
     <string name="language_system">시스템 언어</string>

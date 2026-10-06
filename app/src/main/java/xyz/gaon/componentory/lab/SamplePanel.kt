@@ -11,11 +11,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
@@ -26,7 +31,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,13 +42,17 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.icons.CatalogIcon
 import xyz.gaon.componentory.icons.IconCatalog
 import xyz.gaon.componentory.icons.IconPicker
 import xyz.gaon.componentory.icons.LocalSampleIcon
@@ -59,17 +70,28 @@ fun SamplePanel(
     title: String = stringResource(R.string.sample_title),
 ) {
     var menuOpen by remember { mutableStateOf(false) }
+    var detailsExpanded by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val locale = configuration.locales[0]
     val platform = family.platform
     val unsupported = family.unsupportedReason(component, Build.VERSION.SDK_INT, context)
+    // Material icon resolution parses a large index, so it loads off the main
+    // thread like the picker; platform drawables resolve cheaply in place. A
+    // null icon while loading keeps the picker, source, and status quiet.
     val icon =
-        if (component.usesIcon && unsupported == null)
-            remember(platform, state.icon) {
-                IconCatalog.selected(context, platform != null, state.icon)
-            }
-        else null
+        if (component.usesIcon && unsupported == null) {
+            if (platform != null)
+                remember(state.icon) { IconCatalog.selected(context, true, state.icon) }
+            else
+                produceState<CatalogIcon?>(null, state.icon) {
+                        value =
+                            withContext(Dispatchers.IO) {
+                                IconCatalog.selected(context, false, state.icon)
+                            }
+                    }
+                    .value
+        } else null
     val background =
         remember(family) {
             val color = TypedValue()
@@ -249,7 +271,8 @@ fun SamplePanel(
             if (unsupported == null)
                 Text(
                     if (component == LabComponent.ICON)
-                        stringResource(R.string.icon_status, requireNotNull(icon).name)
+                        if (icon != null) stringResource(R.string.icon_status, icon.name)
+                        else stringResource(R.string.icons_loading)
                     else if (
                         component in listOf(LabComponent.DATE_PICKER, LabComponent.CALENDAR_VIEW)
                     )
@@ -466,29 +489,57 @@ fun SamplePanel(
                 )
             }
             HorizontalDivider()
-            Text(
-                family.source(component, context),
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.testTag("source_$panel"),
-            )
-            if (component == LabComponent.POPUP_MENU && platform == null && unsupported == null) {
+            // API/source metadata sits behind a collapsed-by-default section so
+            // the left panel stays short and the two samples stay close. The
+            // state survives recreation, so a choice persists across runs.
+            Row(
+                Modifier.fillMaxWidth()
+                    .toggleable(
+                        value = detailsExpanded,
+                        role = Role.Button,
+                        onValueChange = { detailsExpanded = it },
+                    )
+                    .testTag("implementation_details_$panel"),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text(
-                    if (family == DesignFamily.MATERIAL2)
-                        "androidx.compose.material.DropdownMenuItem"
-                    else "androidx.compose.material3.DropdownMenuItem",
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.testTag("menu_item_source_$panel"),
+                    stringResource(R.string.implementation_details),
+                    Modifier.weight(1f),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                Icon(
+                    if (detailsExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            Text(
-                family.implementation(context) +
-                    if (platform != null && component.platformSource != null)
-                        " · " + stringResource(R.string.widget_api, component.minimumApi)
-                    else "",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.testTag("implementation_$panel"),
-            )
+            if (detailsExpanded) {
+                Text(
+                    family.source(component, context),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.testTag("source_$panel"),
+                )
+                if (
+                    component == LabComponent.POPUP_MENU && platform == null && unsupported == null
+                ) {
+                    Text(
+                        if (family == DesignFamily.MATERIAL2)
+                            "androidx.compose.material.DropdownMenuItem"
+                        else "androidx.compose.material3.DropdownMenuItem",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.testTag("menu_item_source_$panel"),
+                    )
+                }
+                Text(
+                    family.implementation(context) +
+                        if (platform != null && component.platformSource != null)
+                            " · " + stringResource(R.string.widget_api, component.minimumApi)
+                        else "",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.testTag("implementation_$panel"),
+                )
+            }
             if (
                 (component.isDeterminateProgress || component.isIndeterminateProgress) &&
                     platform == null &&

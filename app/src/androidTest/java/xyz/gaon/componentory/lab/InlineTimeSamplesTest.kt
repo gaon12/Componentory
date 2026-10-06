@@ -569,6 +569,7 @@ class InlineTimeSamplesTest {
     }
 
     private fun assertNativeIdentity(panel: String, family: DesignFamily) {
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("android.widget.TimePicker")
         compose
             .onNodeWithTag("implementation_$panel")
@@ -597,6 +598,7 @@ class InlineTimeSamplesTest {
     }
 
     private fun assertLibraryIdentity(panel: String, api: String) {
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("androidx.compose.material3.$api")
         compose
             .onNodeWithTag("implementation_$panel")
@@ -816,4 +818,13 @@ class InlineTimeSamplesTest {
         )
     private val english
         get() = names.first()
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

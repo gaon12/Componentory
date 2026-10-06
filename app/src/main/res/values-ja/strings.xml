@@ -155,6 +155,7 @@
     <string name="icon_status">アイコン: %1$s</string>
     <string name="icon_unavailable">この OS では利用できません</string>
     <string name="icons_title">アイコン</string>
+    <string name="implementation_details">実装の詳細</string>
     <string name="landscape">横向き</string>
     <string name="language_note">メニュー、説明、サンプルの文言を変更します。API 名とアイコン名は英語でも検索できます。</string>
     <string name="language_system">システムの言語</string>

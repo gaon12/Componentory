@@ -50,9 +50,11 @@ class SearchBarsTest {
     @Test
     fun searchBarExpandsAndPickedQueryCopies() {
         configure(LabComponent.SEARCH_BAR)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.SearchBar")
+        expandDetails("RIGHT")
         compose
             .onNodeWithTag("source_RIGHT")
             .assertTextEquals("androidx.compose.material3.SearchBar")
@@ -77,6 +79,7 @@ class SearchBarsTest {
     @Test
     fun dockedAndTopBarsRenderRealResults() {
         configure(LabComponent.DOCKED_SEARCH_BAR)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.DockedSearchBar")
@@ -87,6 +90,7 @@ class SearchBarsTest {
         compose.waitForIdle()
 
         configure(LabComponent.TOP_SEARCH_BAR)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.TopSearchBar")
@@ -95,6 +99,7 @@ class SearchBarsTest {
         compose.onNodeWithTag("library_LEFT_result_1").assertIsDisplayed()
 
         configure(LabComponent.EXPANDED_DOCKED_SEARCH_BAR)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.ExpandedDockedSearchBar")
@@ -214,5 +219,14 @@ class SearchBarsTest {
         compose.waitForIdle()
         keepScreenOn()
         compose.onNodeWithTag("nav_compare").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

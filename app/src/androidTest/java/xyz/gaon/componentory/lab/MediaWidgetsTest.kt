@@ -139,10 +139,12 @@ class MediaWidgetsTest {
     private fun view(panel: String): View = compose.activity.findViewById(nativeId(panel))
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals(component.platformSource!!)
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -238,4 +240,13 @@ class MediaWidgetsTest {
 
     private val nativeFamilies =
         listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

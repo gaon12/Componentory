@@ -3,6 +3,7 @@ package xyz.gaon.componentory.lab
 import android.view.WindowManager
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextEquals
@@ -60,6 +61,7 @@ class LibraryComparisonTest {
             val version =
                 if (family == DesignFamily.MATERIAL2) BuildConfig.MATERIAL2_VERSION
                 else BuildConfig.MATERIAL3_VERSION
+            expandDetails("LEFT")
             compose.onNodeWithTag("source_LEFT").assertTextEquals("$packageName.Button")
             compose
                 .onNodeWithTag("implementation_LEFT")
@@ -198,5 +200,14 @@ class LibraryComparisonTest {
 
     private fun status(panel: String, text: String) {
         compose.onNodeWithTag("status_$panel").assertTextEquals(text)
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

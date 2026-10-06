@@ -137,10 +137,12 @@ class ContentSurfacesTest {
     private fun view(panel: String): View = compose.activity.findViewById(nativeId(panel))
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals(component.platformSource!!)
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -266,4 +268,13 @@ class ContentSurfacesTest {
                 "小工具渲染真實 HTML。頁面捲動與導覽不會被複製，宿主 Enabled 不影響頁面內容。",
             ),
         )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

@@ -677,8 +677,10 @@ class InlineDatePickersTest {
         view: View,
     ) {
         val platform = requireNotNull(family.platform)
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("android.widget.$api")
         val minimumApi = if (api == "DatePicker") 1 else 11
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextEquals(
@@ -700,6 +702,7 @@ class InlineDatePickersTest {
     }
 
     private fun assertLibraryIdentity(panel: String, api: String) {
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("androidx.compose.material3.$api")
         compose
             .onNodeWithTag("implementation_$panel")
@@ -921,4 +924,13 @@ class InlineDatePickersTest {
         )
     private val englishNames
         get() = localizedNames.first()
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

@@ -11,6 +11,7 @@ import android.widget.DatePicker
 import android.widget.EditText
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
@@ -257,6 +258,7 @@ class DatePickerDialogsTest {
         compose
             .onNodeWithText("The Material 2 library does not provide Date picker dialog.")
             .assertExists()
+        expandDetails("LEFT")
         compose.onNodeWithTag("source_LEFT").assertTextEquals("Not provided")
         compose.onNodeWithTag("native_LEFT").assertDoesNotExist()
         compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
@@ -344,6 +346,7 @@ class DatePickerDialogsTest {
 
     private fun assertNativeIdentity(panel: String, family: DesignFamily) {
         val platform = requireNotNull(family.platform)
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("android.app.DatePickerDialog")
         compose
             .onNodeWithTag("implementation_$panel")
@@ -366,9 +369,11 @@ class DatePickerDialogsTest {
     }
 
     private fun assertMaterial3Identity(panel: String) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .assertTextEquals("androidx.compose.material3.DatePickerDialog")
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(
@@ -527,5 +532,14 @@ class DatePickerDialogsTest {
                 .apply { timeZone = utc }
                 .format(Date(calendar.timeInMillis))
         }
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
 import android.view.WindowManager
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.hasTestTag
@@ -53,6 +55,7 @@ class DividersTest {
                     if (component == LabComponent.VERTICAL_DIVIDER)
                         assertTrue(size.height > size.width * 10)
                     else assertTrue(size.width > size.height * 10)
+                    expandDetails("LEFT")
                     compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(component))
                     val feedback = "Preview: ${component.label}"
                     sample.performTouchInput { click() }
@@ -91,5 +94,14 @@ class DividersTest {
             .onNodeWithTag("component_picker_list")
             .performScrollToNode(hasTestTag("component_${component.name}"))
         compose.onNodeWithTag("component_${component.name}").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

@@ -53,9 +53,11 @@ class BottomSheetsTest {
             DesignFamily.MATERIAL2,
             DesignFamily.MATERIAL3,
         )
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material.BottomSheetScaffold")
+        expandDetails("RIGHT")
         compose
             .onNodeWithTag("source_RIGHT")
             .assertTextEquals("androidx.compose.material3.BottomSheetScaffold")
@@ -79,9 +81,11 @@ class BottomSheetsTest {
     @Test
     fun modalSheetShowsAndDismissesRealOverlay() {
         configure(LabComponent.MODAL_BOTTOM_SHEET, DesignFamily.MATERIAL2, DesignFamily.MATERIAL3)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material.ModalBottomSheetLayout")
+        expandDetails("RIGHT")
         compose
             .onNodeWithTag("source_RIGHT")
             .assertTextEquals("androidx.compose.material3.ModalBottomSheet")
@@ -98,9 +102,11 @@ class BottomSheetsTest {
     @Test
     fun backdropScaffoldIsHonestMaterial2Only() {
         configure(LabComponent.BACKDROP_SCAFFOLD, DesignFamily.MATERIAL2, DesignFamily.MATERIAL3)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material.BackdropScaffold")
+        expandDetails("RIGHT")
         compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
         compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
 
@@ -211,5 +217,14 @@ class BottomSheetsTest {
         compose.runOnUiThread {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

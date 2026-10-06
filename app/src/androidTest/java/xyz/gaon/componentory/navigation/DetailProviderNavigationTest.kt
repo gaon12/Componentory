@@ -2,7 +2,10 @@ package xyz.gaon.componentory.navigation
 
 import android.view.WindowManager
 import android.widget.RatingBar
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -11,6 +14,7 @@ import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
@@ -144,6 +148,7 @@ class DetailProviderNavigationTest {
 
     private fun assertProviderMetadata(component: LabComponent, family: DesignFamily) {
         compose.onNodeWithTag("family_LEFT").assertTextEquals("${family.selectionLabel}  ▾")
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals(family.source(component, compose.activity))
@@ -151,6 +156,7 @@ class DetailProviderNavigationTest {
             if (family.platform != null && component.platformSource != null)
                 " · " + compose.activity.getString(R.string.widget_api, component.minimumApi)
             else ""
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("implementation_LEFT")
             .assertTextEquals(family.implementation(compose.activity) + widgetApi)
@@ -179,5 +185,14 @@ class DetailProviderNavigationTest {
         compose
             .onNodeWithTag("status_LEFT")
             .assertTextEquals(component.feedback(compose.activity, value, "", rangeEnd))
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

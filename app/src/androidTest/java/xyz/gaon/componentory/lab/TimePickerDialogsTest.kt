@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.TimePicker
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
@@ -324,6 +325,7 @@ class TimePickerDialogsTest {
         compose
             .onNodeWithText("The Material 2 library does not provide Time picker dialog.")
             .assertExists()
+        expandDetails("LEFT")
         compose.onNodeWithTag("source_LEFT").assertTextEquals("Not provided")
         compose.onNodeWithTag("native_LEFT").assertDoesNotExist()
         compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
@@ -417,6 +419,7 @@ class TimePickerDialogsTest {
 
     private fun assertNativeIdentity(panel: String, family: DesignFamily) {
         val platform = requireNotNull(family.platform)
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("android.app.TimePickerDialog")
         compose
             .onNodeWithTag("implementation_$panel")
@@ -439,9 +442,11 @@ class TimePickerDialogsTest {
     }
 
     private fun assertMaterial3Identity(panel: String) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .assertTextEquals("androidx.compose.material3.TimePickerDialog")
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(
@@ -623,5 +628,14 @@ class TimePickerDialogsTest {
                 .apply { timeZone = TimeZone.getTimeZone("UTC") }
                 .format(Date((hour * 60L + minute) * 60_000L))
         }
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

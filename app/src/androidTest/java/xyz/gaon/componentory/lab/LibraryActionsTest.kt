@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
 import android.view.WindowManager
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
@@ -43,6 +45,7 @@ class LibraryActionsTest {
                 .filter { family.unsupportedReason(it, 36) == null }
                 .forEach { component ->
                     chooseComponent(component)
+                    expandDetails("LEFT")
                     compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(component))
                     val sample = compose.onNodeWithTag("library_LEFT")
                     sample.performScrollTo().performClick()
@@ -96,5 +99,14 @@ class LibraryActionsTest {
     private fun chooseFamily(family: DesignFamily) {
         compose.onNodeWithTag("family_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("family_LEFT_${family.name}").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

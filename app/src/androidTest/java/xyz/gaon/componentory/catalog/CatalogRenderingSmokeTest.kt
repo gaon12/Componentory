@@ -84,6 +84,7 @@ import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
@@ -261,6 +262,7 @@ class CatalogRenderingSmokeTest {
     }
 
     private fun verifyMetadata(component: LabComponent, family: DesignFamily) {
+        expandDetails("LEFT")
         compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(component))
         val implementation =
             when (family) {
@@ -270,10 +272,12 @@ class CatalogRenderingSmokeTest {
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("implementation_LEFT")
             .assertTextContains(implementation, substring = true)
         if (family.platform != null) {
+            expandDetails("LEFT")
             compose
                 .onNodeWithTag("implementation_LEFT")
                 .assertTextContains(
@@ -1228,6 +1232,7 @@ class CatalogRenderingSmokeTest {
                                 .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Role))
                         if (tag == "DISABLED") item.assertIsNotEnabled() else item.assertIsEnabled()
                     }
+                expandDetails("LEFT")
                 compose
                     .onNodeWithTag("menu_item_source_LEFT")
                     .assertTextEquals(
@@ -1369,5 +1374,14 @@ class CatalogRenderingSmokeTest {
                     )
                 },
             )
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

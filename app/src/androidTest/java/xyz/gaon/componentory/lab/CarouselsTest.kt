@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
 import android.view.WindowManager
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextContains
@@ -46,6 +48,7 @@ class CarouselsTest {
     @Test
     fun multiBrowseCarouselSelectsAndCopiesTheIndex() {
         configure(LabComponent.MULTI_BROWSE_CAROUSEL)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel")
@@ -68,12 +71,14 @@ class CarouselsTest {
     @Test
     fun uncontainedAndHeroCarouselsRenderRealItems() {
         configure(LabComponent.UNCONTAINED_CAROUSEL)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.carousel.HorizontalUncontainedCarousel")
         compose.onNodeWithTag("library_LEFT_item_1").assertIsDisplayed()
 
         configure(LabComponent.CENTERED_HERO_CAROUSEL)
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.carousel.HorizontalCenteredHeroCarousel")
@@ -87,6 +92,7 @@ class CarouselsTest {
     @Test
     fun material2CellExplainsTheMissingSource() {
         configure(LabComponent.MULTI_BROWSE_CAROUSEL, right = DesignFamily.MATERIAL2)
+        expandDetails("RIGHT")
         compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
         compose
             .onNodeWithTag("unsupported_RIGHT")
@@ -172,5 +178,14 @@ class CarouselsTest {
         compose.waitForIdle()
         keepScreenOn()
         compose.onNodeWithTag("nav_compare").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

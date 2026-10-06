@@ -301,6 +301,7 @@ class TextSamplesTest {
                 DesignFamily.MATERIAL3 -> "androidx.compose.material3"
                 else -> "android.widget"
             }
+        expandDetails(panel)
         compose.onNodeWithTag("source_$panel").assertTextEquals("$packageName.$api")
         val implementation =
             when (family) {
@@ -310,6 +311,7 @@ class TextSamplesTest {
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(implementation, substring = true)
@@ -594,4 +596,13 @@ class TextSamplesTest {
         )
     private val english
         get() = names.first()
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

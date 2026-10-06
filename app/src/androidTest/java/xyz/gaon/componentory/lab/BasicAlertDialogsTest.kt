@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
 import android.view.WindowManager
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextContains
@@ -46,6 +48,7 @@ class BasicAlertDialogsTest {
     @Test
     fun basicDialogOpensConfirmsAndReportsOutcome() {
         configure()
+        expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
             .assertTextEquals("androidx.compose.material3.BasicAlertDialog")
@@ -77,6 +80,7 @@ class BasicAlertDialogsTest {
     @Test
     fun material2CellExplainsTheMissingSource() {
         configure(right = DesignFamily.MATERIAL2)
+        expandDetails("RIGHT")
         compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
         compose
             .onNodeWithTag("unsupported_RIGHT")
@@ -152,5 +156,14 @@ class BasicAlertDialogsTest {
         compose.waitForIdle()
         keepScreenOn()
         compose.onNodeWithTag("nav_compare").performClick()
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

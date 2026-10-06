@@ -184,10 +184,12 @@ class ListSamplesTest {
     }
 
     private fun assertNativeIdentity(panel: String, component: LabComponent, family: DesignFamily) {
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .performScrollTo()
             .assertTextEquals(component.platformSource!!)
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .performScrollTo()
@@ -296,4 +298,13 @@ class ListSamplesTest {
             ListNames(AppLanguage.SIMPLIFIED_CHINESE, "未选择", "已选择：%s", "项目 %d"),
             ListNames(AppLanguage.TRADITIONAL_CHINESE, "未選取", "已選取：%s", "項目 %d"),
         )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }

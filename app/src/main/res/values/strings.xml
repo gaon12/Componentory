@@ -157,6 +157,7 @@
     <string name="icon_status">Icon: %1$s</string>
     <string name="icon_unavailable">Not available on this OS</string>
     <string name="icons_title">Icons</string>
+    <string name="implementation_details">Implementation details</string>
     <string name="landscape">landscape</string>
     <string name="language_note">Changes menus, descriptions, and sample text. API and icon names remain searchable in English.</string>
     <string name="language_system">System language</string>

@@ -56,6 +56,7 @@ class LibrarySelectionsTest {
                     compose.onNodeWithTag("unsupported_LEFT").assertExists()
                     compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
                 } else {
+                    expandDetails("LEFT")
                     compose.onNodeWithTag("source_LEFT").assertTextEquals(family.source(component))
                     val selectable =
                         component in
@@ -149,5 +150,14 @@ class LibrarySelectionsTest {
 
     private fun status(text: String) {
         compose.onNodeWithTag("status_LEFT").assertTextEquals(text)
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

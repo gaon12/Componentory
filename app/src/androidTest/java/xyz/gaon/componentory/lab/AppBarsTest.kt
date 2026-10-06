@@ -60,7 +60,9 @@ class AppBarsTest {
             )
         cases.forEach { (component, sources) ->
             configure(component, DesignFamily.MATERIAL2, DesignFamily.MATERIAL3)
+            expandDetails("LEFT")
             compose.onNodeWithTag("source_LEFT").assertTextEquals(sources.first)
+            expandDetails("RIGHT")
             compose.onNodeWithTag("source_RIGHT").assertTextEquals(sources.second)
             compose.onNodeWithTag("library_LEFT_action").assertIsDisplayed()
             compose.onNodeWithTag("library_RIGHT_action").assertIsDisplayed()
@@ -83,6 +85,7 @@ class AppBarsTest {
                 "The Material 2 library does not provide Center-aligned top app bar.",
                 substring = true,
             )
+        expandDetails("RIGHT")
         compose
             .onNodeWithTag("source_RIGHT")
             .assertTextEquals("androidx.compose.material3.CenterAlignedTopAppBar")
@@ -211,5 +214,14 @@ class AppBarsTest {
         compose.runOnUiThread {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+    }
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
     }
 }

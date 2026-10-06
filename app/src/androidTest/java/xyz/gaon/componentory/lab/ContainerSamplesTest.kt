@@ -3,6 +3,7 @@ package xyz.gaon.componentory.lab
 import android.view.WindowManager
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assert
@@ -228,6 +229,7 @@ class ContainerSamplesTest {
                     "The Android platform does not provide a dedicated ${selected.container.label} component."
                 }
             compose.onNodeWithText(reason).assertExists()
+            expandDetails("LEFT")
             compose.onNodeWithTag("source_LEFT").assertTextEquals("Not provided")
             compose.onNodeWithTag("library_LEFT").assertDoesNotExist()
             compose.onNodeWithTag("native_LEFT").assertDoesNotExist()
@@ -352,9 +354,11 @@ class ContainerSamplesTest {
             } else {
                 "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
             }
+        expandDetails(panel)
         compose
             .onNodeWithTag("source_$panel")
             .assertTextEquals("$packageName.${selected.container.function}")
+        expandDetails(panel)
         compose
             .onNodeWithTag("implementation_$panel")
             .assertTextContains(dependency, substring = true)
@@ -483,4 +487,13 @@ class ContainerSamplesTest {
         val content: String,
         val titles: List<String>,
     )
+
+    private fun expandDetails(panel: String) {
+        val toggle = compose.onNodeWithTag("implementation_details_$panel").performScrollTo()
+        if (
+            toggle.fetchSemanticsNode().config[SemanticsProperties.ToggleableState] !=
+                ToggleableState.On
+        )
+            toggle.performTouchInput { click() }
+    }
 }
