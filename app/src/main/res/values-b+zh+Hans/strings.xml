@@ -50,6 +50,8 @@
     </plurals>
     <string name="component_dialog">对话框</string>
     <string name="component_dialog_description">在对话框中确认或取消操作。</string>
+    <string name="component_basic_alert_dialog">基础提醒对话框</string>
+    <string name="component_basic_alert_dialog_description">仅提供窗口的无样式 Material 3 BasicAlertDialog。</string>
     <string name="component_elevated_assist_chip">凸起辅助条目块</string>
     <string name="component_elevated_assist_chip_description">体验带阴影的辅助条目块。</string>
     <string name="component_elevated_button">凸起按钮</string>

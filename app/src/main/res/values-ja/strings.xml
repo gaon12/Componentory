@@ -50,6 +50,8 @@
     </plurals>
     <string name="component_dialog">ダイアログ</string>
     <string name="component_dialog_description">ダイアログで操作を確認またはキャンセルします。</string>
+    <string name="component_basic_alert_dialog">基本アラートダイアログ</string>
+    <string name="component_basic_alert_dialog_description">ウィンドウのみを提供するスタイルなしの Material 3 BasicAlertDialog です。</string>
     <string name="component_elevated_assist_chip">浮き上がったアシストチップ</string>
     <string name="component_elevated_assist_chip_description">影付きのアシストチップを操作します。</string>
     <string name="component_elevated_button">浮き上がったボタン</string>

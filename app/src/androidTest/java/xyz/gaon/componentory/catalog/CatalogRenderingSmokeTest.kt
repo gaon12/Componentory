@@ -174,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 76)
+        verifyFamily(DesignFamily.CLASSIC, 70, 77)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 76)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 77)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 76)
+        verifyFamily(DesignFamily.MATERIAL, 70, 77)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 51, 97)
+        verifyFamily(DesignFamily.MATERIAL2, 51, 98)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 95, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 96, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -198,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            148,
+            149,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -1106,6 +1106,7 @@ class CatalogRenderingSmokeTest {
                 }
             }
             component == LabComponent.DIALOG ||
+                component == LabComponent.BASIC_ALERT_DIALOG ||
                 component == LabComponent.DATE_PICKER_DIALOG ||
                 component == LabComponent.TIME_PICKER_DIALOG ||
                 component == LabComponent.POPUP_MENU -> {
@@ -1123,6 +1124,13 @@ class CatalogRenderingSmokeTest {
 
     private fun verifyLibraryWindow(component: LabComponent, family: DesignFamily) {
         when (component) {
+            LabComponent.BASIC_ALERT_DIALOG -> {
+                displayed("library_LEFT_dialog", scroll = false)
+                compose.onNodeWithTag("dialog_cancel").assertIsDisplayed().performTouchInput {
+                    click()
+                }
+                compose.onNodeWithTag("library_LEFT_dialog").assertDoesNotExist()
+            }
             LabComponent.DIALOG -> {
                 compose
                     .onNodeWithText(

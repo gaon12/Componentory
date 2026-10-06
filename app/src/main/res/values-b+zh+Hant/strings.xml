@@ -50,6 +50,8 @@
     </plurals>
     <string name="component_dialog">對話框</string>
     <string name="component_dialog_description">在對話框中確認或取消操作。</string>
+    <string name="component_basic_alert_dialog">基本警示對話框</string>
+    <string name="component_basic_alert_dialog_description">僅提供視窗的無樣式 Material 3 BasicAlertDialog。</string>
     <string name="component_elevated_assist_chip">浮起輔助標籤塊</string>
     <string name="component_elevated_assist_chip_description">體驗附陰影的輔助標籤塊。</string>
     <string name="component_elevated_button">浮起按鈕</string>

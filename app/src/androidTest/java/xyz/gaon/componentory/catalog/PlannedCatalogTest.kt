@@ -63,9 +63,9 @@ class PlannedCatalogTest {
             count(size)
             compose.onNodeWithTag("planned_provider_$family").assertIsSelected()
         }
-        search("BasicAlertDialog")
+        search("ExpandedDockedSearchBar")
         count(1)
-        val identity = "MATERIAL3_androidx.compose.material3.BasicAlertDialog"
+        val identity = "MATERIAL3_androidx.compose.material3.ExpandedDockedSearchBar"
         showRow(identity)
         compose
             .onNodeWithTag("planned_$identity")
@@ -73,7 +73,7 @@ class PlannedCatalogTest {
             .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Disabled))
         compose
             .onNodeWithTag("source_$identity", useUnmergedTree = true)
-            .assertTextEquals("androidx.compose.material3.BasicAlertDialog")
+            .assertTextEquals("androidx.compose.material3.ExpandedDockedSearchBar")
         compose
             .onNodeWithTag("provider_$identity", useUnmergedTree = true)
             .assertTextEquals("Compose Material 3 · ${BuildConfig.MATERIAL3_VERSION}")
@@ -167,7 +167,7 @@ class PlannedCatalogTest {
         mode("PLANNED")
         count(12)
         provider("MATERIAL3")
-        val identity = "MATERIAL3_androidx.compose.material3.BasicAlertDialog"
+        val identity = "MATERIAL3_androidx.compose.material3.ExpandedDockedSearchBar"
         showRow(identity)
         mode("SAMPLES")
         compose.onNodeWithTag("list_DIALOG").assertIsDisplayed()

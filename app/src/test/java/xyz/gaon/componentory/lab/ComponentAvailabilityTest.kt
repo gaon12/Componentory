@@ -588,6 +588,28 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun basicAlertDialogIsHonestMaterial3Only() {
+        val component = LabComponent.BASIC_ALERT_DIALOG
+        listOf(
+                DesignFamily.CLASSIC,
+                DesignFamily.HOLO,
+                DesignFamily.MATERIAL,
+                DesignFamily.MATERIAL2,
+            )
+            .forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+        assertEquals(
+            "androidx.compose.material3.BasicAlertDialog",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.FEEDBACK, component.category)
+        assertEquals(0, component.initialValue)
+    }
+
+    @Test
     fun searchBarsAreHonestMaterial3Only() {
         listOf(
                 LabComponent.SEARCH_BAR to "SearchBar",

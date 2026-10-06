@@ -205,6 +205,14 @@ enum class LabComponent(
         minimumApi = 1,
         initialValue = 0,
     ),
+    BASIC_ALERT_DIALOG(
+        "Basic alert dialog",
+        R.string.component_basic_alert_dialog,
+        R.string.component_basic_alert_dialog_description,
+        material3Function = "BasicAlertDialog",
+        category = ComponentCategory.FEEDBACK,
+        initialValue = 0,
+    ),
     DATE_PICKER(
         "Date picker",
         R.string.component_date_picker,
@@ -1719,7 +1727,7 @@ enum class LabComponent(
                         context.getString(dialogAction(value)),
                     )
             }
-            this == DIALOG ->
+            this == DIALOG || this == BASIC_ALERT_DIALOG ->
                 context.getString(R.string.status_action, context.getString(dialogAction(value)))
             else -> context.getString(R.string.status_clicks, value)
         }

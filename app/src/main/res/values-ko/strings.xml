@@ -50,6 +50,8 @@
     </plurals>
     <string name="component_dialog">대화상자</string>
     <string name="component_dialog_description">확인과 취소를 선택하는 대화상자</string>
+    <string name="component_basic_alert_dialog">기본 알림 대화상자</string>
+    <string name="component_basic_alert_dialog_description">창만 제공하는 스타일 없는 Material 3 BasicAlertDialog입니다.</string>
     <string name="component_elevated_assist_chip">그림자 작업 칩</string>
     <string name="component_elevated_assist_chip_description">그림자가 있는 동작 칩</string>
     <string name="component_elevated_button">그림자 버튼</string>

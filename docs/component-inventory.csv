@@ -131,7 +131,7 @@ family,source,apiIntroduced,status,catalogId,notes
 "MATERIAL3","androidx.compose.material3.AssistChip","","Implemented","ASSIST_CHIP",""
 "MATERIAL3","androidx.compose.material3.Badge","","Implemented","BADGE;DOT_BADGE","Number and dot variants from the pinned library; read-only appearance."
 "MATERIAL3","androidx.compose.material3.BadgedBox","","Implemented","BADGED_BOX","Anchored number badge with any available icon from the pinned icon catalog."
-"MATERIAL3","androidx.compose.material3.BasicAlertDialog","","Pending","",""
+"MATERIAL3","androidx.compose.material3.BasicAlertDialog","","Implemented","BASIC_ALERT_DIALOG","The Material 3 unstyled alert dialog sample."
 "MATERIAL3","androidx.compose.material3.BottomAppBar","","Implemented","BOTTOM_APP_BAR","Material 3 bottom bar with a real action item."
 "MATERIAL3","androidx.compose.material3.BottomSheetScaffold","","Implemented","BOTTOM_SHEET_SCAFFOLD","Material 3 scaffold hosting a persistent standard sheet."
 "MATERIAL3","androidx.compose.material3.Button","","Implemented","BUTTON",""

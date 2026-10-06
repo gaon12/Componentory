@@ -52,6 +52,8 @@
     </plurals>
     <string name="component_dialog">Dialog</string>
     <string name="component_dialog_description">Confirm or cancel an action in a dialog.</string>
+    <string name="component_basic_alert_dialog">Basic alert dialog</string>
+    <string name="component_basic_alert_dialog_description">The unstyled Material 3 BasicAlertDialog that supplies only the window.</string>
     <string name="component_elevated_assist_chip">Elevated assist chip</string>
     <string name="component_elevated_assist_chip_description">Try an assist chip with elevation.</string>
     <string name="component_elevated_button">Elevated button</string>

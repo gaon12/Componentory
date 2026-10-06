@@ -394,6 +394,7 @@ class SampleSetupTest {
                 LabComponent.ASSIST_CHIP,
                 LabComponent.SUGGESTION_CHIP,
                 LabComponent.DIALOG,
+                LabComponent.BASIC_ALERT_DIALOG,
                 LabComponent.POPUP_MENU,
                 LabComponent.SECURE_TEXT_FIELD,
                 LabComponent.OUTLINED_SECURE_TEXT_FIELD,

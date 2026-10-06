@@ -154,6 +154,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                         enabled = enabled,
                         modifier = sample,
                     )
+                LabComponent.BASIC_ALERT_DIALOG ->
+                    Material3BasicDialogSample(panel, sample, enabled, state)
                 LabComponent.DIALOG ->
                     Button(
                         onClick = {
