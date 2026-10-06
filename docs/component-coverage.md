@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**153 component entries**, with **358 runnable component/family combinations**.
+**155 component entries**, with **360 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `1608967`. Executed resource
+Application and latest verification source revision: `e23d264`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 52 | 0 |
-| Compose Material 3 1.4.0 | 113 | 108 | 5 |
-| Total | 239 | 232 | 7 |
+| Compose Material 3 1.4.0 | 113 | 110 | 3 |
+| Total | 239 | 234 | 5 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -458,6 +458,12 @@ content. The refreshing flag is transient and finishes on its own; the
 refresh count is the copied input. The API exposes no enabled
 parameter, so a disabled panel never starts a refresh.
 
+Two navigation entries add two Material 3-only combinations:
+APP_BAR_ROW and APP_BAR_COLUMN host three scope clickableItems with
+maxItemCount 2, so the third item genuinely overflows behind the
+overflow indicator. Clicking any item increments the same click count
+the other app bars report and copy.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -542,14 +548,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `1608967`, preceded by the sweep baseline correction in
+Latest implementation: `e23d264`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
 with zero errors. All 126 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,273,362
+failures, errors or skips. Both debug APKs build: the app APK is 20,280,010
 bytes with SHA-256
-`07ced167f7a5bc86321a4a0c5b2544bb540f38dd0723ce108f9bb510d1d7e430` and the test
-APK is 1,526,896 bytes with SHA-256
-`8a1e2b0a8dc3bf4d28c108c6a1fcefff68546004a22ba9600f493f5992c66e3b`.
+`0761bfd17a0e359c2333867c873df1424662f4e376dedde3150f9bef8d55b636` and the test
+APK is 1,529,678 bytes with SHA-256
+`687739e27d246200f0cc9f12ceacd3e9388e3b8cb022f6cf0f1fdde97f5b643a`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -723,6 +729,13 @@ refreshes the count, the count copies across panels and survives
 recreation, and the platform cell explains its missing source. They
 also await a clean unlocked-device run.
 
+Three [app-bar-scope scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/AppBarScopesTest.kt)
+compile in the same state. They verify the real scope items and tagged
+overflow indicator render, a row item plus an overflowed menu item
+increment and copy the click count across panels and recreation, and a
+disabled scope ignores clicks while the platform cell explains its
+missing source. They also await a clean unlocked-device run.
+
 Three [basic-dialog scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/BasicAlertDialogsTest.kt)
 compile in the same state. They verify the unstyled window opens through
 the real button, confirm and cancel report the shared outcome codes,
@@ -730,8 +743,8 @@ the copy direction explains the missing inputs, and the Material 2
 cell explains its missing source. They also await a clean
 unlocked-device run.
 
-The catalog now declares 153 entries and 358 supported combinations. The smoke
-sweep spans 759 ordinary cells: 361 supported and 398 unsupported; the six
+The catalog now declares 155 entries and 360 supported combinations. The smoke
+sweep spans 769 ordinary cells: 363 supported and 406 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
