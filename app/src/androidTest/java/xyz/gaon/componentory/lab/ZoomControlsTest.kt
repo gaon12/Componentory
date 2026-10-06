@@ -26,11 +26,15 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click as nativeClick
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -59,6 +63,27 @@ class ZoomControlsTest {
         compose.runOnUiThread { LanguagePreferences.apply(compose.activity, AppLanguage.ENGLISH) }
         compose.waitForIdle()
         keepScreenOn()
+    }
+
+    @Test
+    fun standaloneZoomButtonUsesTheFrameworkIconAndAcceptsTouchInEveryPlatformTheme() {
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            configure(LabComponent.ZOOM_BUTTON, family, DesignFamily.MATERIAL3)
+            compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
+            compose.runOnIdle {
+                val button = widget("LEFT") as ZoomButton
+                val original = ZoomControls(button.context).getChildAt(1) as ZoomButton
+                assertTrue(button.isShown && button.width > 0 && button.height > 0)
+                assertNotNull(button.background)
+                assertEquals(original.background.javaClass, button.background.javaClass)
+                assertEquals(original.background.intrinsicWidth, button.background.intrinsicWidth)
+                assertEquals(original.background.intrinsicHeight, button.background.intrinsicHeight)
+                assertEquals(original.contentDescription, button.contentDescription)
+            }
+            onView(withId(R.id.sample_left)).perform(nativeClick())
+            compose.waitForIdle()
+            status("LEFT", "Zoom level 6 of 10")
+        }
     }
 
     @Test

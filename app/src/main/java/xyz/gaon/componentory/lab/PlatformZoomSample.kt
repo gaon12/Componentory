@@ -77,6 +77,10 @@ private fun createZoom(
         LabComponent.ZOOM_BUTTON ->
             ZoomButton(themed).apply {
                 tag = ZoomSync()
+                // The framework layout supplies the icon as a background, not an image.
+                val zoomIn = ZoomControls(themed).getChildAt(1) as ZoomButton
+                background = zoomIn.background
+                contentDescription = zoomIn.contentDescription
                 setOnClickListener { state.value = (state.value + 1).coerceAtMost(10) }
             }
         else ->
