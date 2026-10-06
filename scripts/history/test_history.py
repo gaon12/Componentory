@@ -4,9 +4,11 @@ import io
 import tarfile
 import tempfile
 import unittest
+import urllib.error
 from pathlib import Path
+from unittest.mock import patch
 
-from .aosp import extract_resources, sha256
+from .aosp import extract_resources, read_url, sha256
 from .resources import ResourceIndex, analysis_grade, java_references
 from .sdk import parse_signature, public_ui, source_path
 
@@ -163,6 +165,34 @@ class ResourceTests(unittest.TestCase):
 
 
 class ArchiveTests(unittest.TestCase):
+    def test_temporary_rate_limit_retries_without_changing_source(self):
+        error = urllib.error.HTTPError(
+            "https://example.invalid/pinned", 429, "rate limited", {"Retry-After": "1"}, None
+        )
+        with (
+            patch(
+                "urllib.request.urlopen", side_effect=[error, io.BytesIO(b"original")]
+            ) as request,
+            patch("time.sleep") as sleep,
+        ):
+            self.assertEqual(b"original", read_url("https://example.invalid/pinned"))
+            self.assertEqual(2, request.call_count)
+            sleep.assert_called_once_with(1)
+
+    def test_missing_sources_are_not_retried_and_rate_limit_retries_are_bounded(self):
+        for status, attempts in ((404, 1), (429, 5)):
+            error = urllib.error.HTTPError(
+                "https://example.invalid/pinned", status, "unavailable", {}, None
+            )
+            with (
+                self.subTest(status=status),
+                patch("urllib.request.urlopen", side_effect=error) as request,
+                patch("time.sleep"),
+            ):
+                with self.assertRaises(urllib.error.HTTPError):
+                    read_url("https://example.invalid/pinned")
+                self.assertEqual(attempts, request.call_count)
+
     def test_tar_rejects_traversal_and_links_before_writing_any_member(self):
         for name, link in (("../outside", False), ("link", True)):
             with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary:

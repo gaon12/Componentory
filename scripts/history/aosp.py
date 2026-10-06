@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import tarfile
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -17,8 +18,21 @@ def sha256(data: bytes) -> str:
 
 
 def read_url(url: str) -> bytes:
-    with urllib.request.urlopen(url, timeout=90) as response:
-        return response.read()
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(url, timeout=90) as response:
+                return response.read()
+        except urllib.error.HTTPError as error:
+            if error.code not in {429, 500, 502, 503, 504} or attempt == 4:
+                raise
+            retry_after = error.headers.get("Retry-After", "") if error.headers else ""
+            delay = (
+                min(30, max(1, int(retry_after)))
+                if retry_after.isdecimal()
+                else min(30, 5 * 2**attempt)
+            )
+            time.sleep(delay)
+    raise AssertionError("The bounded request loop must return or raise.")
 
 
 def resolve_commit(repository: str, ref: str) -> str:
