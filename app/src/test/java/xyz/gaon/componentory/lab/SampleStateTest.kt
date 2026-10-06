@@ -245,8 +245,26 @@ class SampleStateTest {
         // Bundles saved before the field existed restart the clock safely.
         val sixteenField =
             requireNotNull(
-                @Suppress("UNCHECKED_CAST")
-                SampleState.Saver.restore((bundle as List<Any>).dropLast(1))
+                SampleState.Saver.restore(
+                    listOf(
+                        1,
+                        "",
+                        "",
+                        80,
+                        SampleDates.INITIAL_UTC_MILLIS,
+                        Long.MIN_VALUE,
+                        SampleTimes.INITIAL_MINUTES,
+                        -1,
+                        true,
+                        false,
+                        true,
+                        SampleDates.INITIAL_UTC_MILLIS,
+                        Long.MIN_VALUE,
+                        Long.MIN_VALUE,
+                        false,
+                        SampleDates.INITIAL_MONTH_UTC_MILLIS,
+                    )
+                )
             )
         assertEquals(1, sixteenField.value)
         assertEquals(0, sixteenField.chronometerBaseMillis)
@@ -264,5 +282,103 @@ class SampleStateTest {
         val restored = requireNotNull(SampleState.Saver.restore(bundle))
         assertEquals(3, restored.value)
         assertEquals(false, restored.containerClickable)
+    }
+
+    @Test
+    fun namedFieldsRestoreInAnyOrderAndIgnoreUnknownFields() {
+        val state =
+            SampleState(
+                initialValue = 7,
+                initialText = "draft",
+                initialIcon = "Outlined.Home",
+                initialRangeEnd = 65,
+                initialInlineDateUtcMillis = null,
+                initialChronometerBaseMillis = 1234L,
+            )
+        val scope =
+            object : SaverScope {
+                override fun canBeSaved(value: Any) =
+                    value is Int || value is Long || value is String || value is Boolean
+            }
+        val saved = requireNotNull(with(SampleState.Saver) { scope.save(state) }) as List<*>
+        val reordered = saved.chunked(2).reversed().flatten() + listOf("futureField", 42)
+        val restored = requireNotNull(SampleState.Saver.restore(reordered))
+        assertEquals(7, restored.value)
+        assertEquals("draft", restored.text)
+        assertEquals("Outlined.Home", restored.icon)
+        assertEquals(65, restored.rangeEnd)
+        assertNull(restored.inlineDateUtcMillis)
+        assertEquals(1234L, restored.chronometerBaseMillis)
+    }
+
+    @Test
+    fun missingNamedFieldsUseDefaultsWithoutReplacingAnExplicitEmptyDate() {
+        val saved = listOf("value", 4, "text", "draft")
+        val restored = requireNotNull(SampleState.Saver.restore(saved))
+        assertEquals(4, restored.value)
+        assertEquals("draft", restored.text)
+        assertEquals(SampleDates.INITIAL_UTC_MILLIS, restored.inlineDateUtcMillis)
+        assertEquals(SampleTimes.INITIAL_MINUTES, restored.timeMinutes)
+        assertEquals(true, restored.containerClickable)
+        assertEquals(0L, restored.chronometerBaseMillis)
+        val emptyDate =
+            requireNotNull(SampleState.Saver.restore(saved + listOf("inlineDateUtcMillis", null)))
+        assertNull(emptyDate.inlineDateUtcMillis)
+    }
+
+    @Test
+    fun malformedSavesAreRejectedWithoutThrowing() {
+        listOf(
+                "invalid",
+                emptyList<Any>(),
+                listOf(1),
+                listOf(1, false),
+                listOf("value", 1, "text"),
+                listOf("value", 1, 2, "draft"),
+                listOf("value", "wrong type", "text", "draft"),
+            )
+            .forEach { saved -> assertNull(SampleState.Saver.restore(saved)) }
+    }
+
+    @Test
+    fun completeLegacySavesKeepAllSeventeenFields() {
+        val saved =
+            listOf(
+                7,
+                "draft",
+                "Filled.Home",
+                65,
+                100L,
+                200L,
+                1425,
+                5,
+                false,
+                true,
+                false,
+                Long.MIN_VALUE,
+                300L,
+                400L,
+                true,
+                500L,
+                600L,
+            )
+        val restored = requireNotNull(SampleState.Saver.restore(saved))
+        assertEquals(7, restored.value)
+        assertEquals("draft", restored.text)
+        assertEquals("Filled.Home", restored.icon)
+        assertEquals(65, restored.rangeEnd)
+        assertEquals(100L, restored.dateUtcMillis)
+        assertEquals(200L, restored.dateDraftUtcMillis)
+        assertEquals(1425, restored.timeMinutes)
+        assertEquals(5, restored.timeDraftMinutes)
+        assertEquals(false, restored.time24Hour)
+        assertEquals(true, restored.timeInputMode)
+        assertEquals(false, restored.containerClickable)
+        assertNull(restored.inlineDateUtcMillis)
+        assertEquals(300L, restored.dateRangeStartUtcMillis)
+        assertEquals(400L, restored.dateRangeEndUtcMillis)
+        assertEquals(true, restored.dateInputMode)
+        assertEquals(500L, restored.dateDisplayedMonthUtcMillis)
+        assertEquals(600L, restored.chronometerBaseMillis)
     }
 }

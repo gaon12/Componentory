@@ -8,7 +8,6 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.state.ToggleableState
@@ -82,53 +81,6 @@ class SampleState(
             }
 
     companion object {
-        val Saver =
-            listSaver<SampleState, Any>(
-                save = {
-                    listOf(
-                        it.value,
-                        it.text,
-                        it.icon,
-                        it.rangeEnd,
-                        it.dateUtcMillis,
-                        it.dateDraftUtcMillis ?: Long.MIN_VALUE,
-                        it.timeMinutes,
-                        it.timeDraftMinutes ?: -1,
-                        it.time24Hour,
-                        it.timeInputMode,
-                        it.containerClickable,
-                        it.inlineDateUtcMillis ?: Long.MIN_VALUE,
-                        it.dateRangeStartUtcMillis ?: Long.MIN_VALUE,
-                        it.dateRangeEndUtcMillis ?: Long.MIN_VALUE,
-                        it.dateInputMode,
-                        it.dateDisplayedMonthUtcMillis,
-                        it.chronometerBaseMillis,
-                    )
-                },
-                restore = {
-                    SampleState(
-                        it[0] as Int,
-                        it[1] as String,
-                        it.getOrNull(2) as? String ?: "",
-                        it.getOrNull(3) as? Int ?: 80,
-                        it.getOrNull(4) as? Long ?: SampleDates.INITIAL_UTC_MILLIS,
-                        (it.getOrNull(5) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
-                        it.getOrNull(6) as? Int ?: SampleTimes.INITIAL_MINUTES,
-                        (it.getOrNull(7) as? Int)?.takeUnless { time -> time == -1 },
-                        it.getOrNull(8) as? Boolean ?: true,
-                        it.getOrNull(9) as? Boolean ?: false,
-                        it.getOrNull(10) as? Boolean ?: true,
-                        (it.getOrNull(11) as? Long ?: SampleDates.INITIAL_UTC_MILLIS).takeUnless {
-                            date ->
-                            date == Long.MIN_VALUE
-                        },
-                        (it.getOrNull(12) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
-                        (it.getOrNull(13) as? Long)?.takeUnless { date -> date == Long.MIN_VALUE },
-                        it.getOrNull(14) as? Boolean ?: false,
-                        it.getOrNull(15) as? Long ?: SampleDates.INITIAL_MONTH_UTC_MILLIS,
-                        it.getOrNull(16) as? Long ?: 0,
-                    )
-                },
-            )
+        val Saver = sampleStateSaver
     }
 }
