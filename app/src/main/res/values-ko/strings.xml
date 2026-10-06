@@ -235,6 +235,9 @@
     <string name="component_indeterminate_circular_progress_description">원본 원형 표시기로 진행 중인 작업을 표시합니다.</string>
     <string name="status_indeterminate_progress">진행 상태: 불확정</string>
     <string name="unsupported_determinate_circle">플랫폼의 원형 ProgressBar 스타일은 불확정형 진행 상태만 지원합니다.</string>
+    <string name="component_scaffold">스캐폴드</string>
+    <string name="component_scaffold_description">라이브러리의 레이아웃 슬롯으로 콘텐츠를 배치하는 Material Scaffold입니다.</string>
+    <string name="scaffold_body">스캐폴드 본문</string>
     <string name="component_horizontal_divider">가로 구분선</string>
     <string name="component_horizontal_divider_description">각 라이브러리가 제공하는 가로 구분선을 살펴보세요.</string>
     <string name="component_vertical_divider">세로 구분선</string>

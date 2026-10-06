@@ -571,6 +571,23 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun scaffoldRendersInBothComposeLibraries() {
+        val component = LabComponent.SCAFFOLD
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+        assertEquals("androidx.compose.material.Scaffold", DesignFamily.MATERIAL2.source(component))
+        assertEquals(
+            "androidx.compose.material3.Scaffold",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.LAYOUT, component.category)
+    }
+
+    @Test
     fun wideRailsAndShortBarAreHonestMaterial3Only() {
         listOf(
                 LabComponent.SHORT_NAVIGATION_BAR to "ShortNavigationBar",

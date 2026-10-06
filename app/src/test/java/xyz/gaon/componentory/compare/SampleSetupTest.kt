@@ -403,6 +403,7 @@ class SampleSetupTest {
                 LabComponent.LIST_ITEM,
                 LabComponent.PLAIN_TOOLTIP,
                 LabComponent.RICH_TOOLTIP,
+                LabComponent.SCAFFOLD,
             )
             .forEach { component ->
                 val family = supportedFamily(component)

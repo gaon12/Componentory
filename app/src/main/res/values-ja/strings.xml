@@ -235,6 +235,9 @@
     <string name="component_indeterminate_circular_progress_description">元の円形インジケーターで進行中の処理を表示します。</string>
     <string name="status_indeterminate_progress">進捗: 不確定</string>
     <string name="unsupported_determinate_circle">プラットフォームの円形 ProgressBar スタイルは不確定型の進捗のみ対応しています。</string>
+    <string name="component_scaffold">スキャフォールド</string>
+    <string name="component_scaffold_description">ライブラリのレイアウトスロットでコンテンツを配置する Material Scaffold です。</string>
+    <string name="scaffold_body">スキャフォールド本体</string>
     <string name="component_horizontal_divider">水平区切り線</string>
     <string name="component_horizontal_divider_description">各ライブラリが提供する水平区切り線を確認します。</string>
     <string name="component_vertical_divider">垂直区切り線</string>

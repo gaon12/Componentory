@@ -237,6 +237,9 @@
     <string name="component_indeterminate_circular_progress_description">Show ongoing work with the original circular indicator.</string>
     <string name="status_indeterminate_progress">Progress: indeterminate</string>
     <string name="unsupported_determinate_circle">Platform circular ProgressBar styles support indeterminate progress only.</string>
+    <string name="component_scaffold">Scaffold</string>
+    <string name="component_scaffold_description">The Material Scaffold arranging content with the library’s layout slots.</string>
+    <string name="scaffold_body">Scaffold body</string>
     <string name="component_horizontal_divider">Horizontal divider</string>
     <string name="component_horizontal_divider_description">Inspect the horizontal separator supplied by each library.</string>
     <string name="component_vertical_divider">Vertical divider</string>

@@ -785,6 +785,14 @@ enum class LabComponent(
         material3Function = "ExposedDropdownMenuBox",
         category = ComponentCategory.INPUT,
     ),
+    SCAFFOLD(
+        "Scaffold",
+        R.string.component_scaffold,
+        R.string.component_scaffold_description,
+        material2Function = "Scaffold",
+        material3Function = "Scaffold",
+        category = ComponentCategory.LAYOUT,
+    ),
     BOTTOM_SHEET_SCAFFOLD(
         "Bottom sheet scaffold",
         R.string.component_bottom_sheet_scaffold,
@@ -1530,6 +1538,8 @@ enum class LabComponent(
             this == PERMANENT_NAVIGATION_DRAWER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isTooltip -> context.getString(R.string.status_preview, context.getString(labelRes))
+            this == SCAFFOLD ->
+                context.getString(R.string.status_preview, context.getString(labelRes))
             isToggleableDrawer ->
                 context.getString(
                     if (value == 1) R.string.drawer_opened else R.string.drawer_closed

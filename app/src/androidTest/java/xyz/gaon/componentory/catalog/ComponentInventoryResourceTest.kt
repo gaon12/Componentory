@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 221, InventoryStatus.PENDING to 18),
+            mapOf(InventoryStatus.IMPLEMENTED to 223, InventoryStatus.PENDING to 16),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
-                InventoryFamily.MATERIAL2 to 51,
-                InventoryFamily.MATERIAL3 to 98,
+                InventoryFamily.MATERIAL2 to 52,
+                InventoryFamily.MATERIAL3 to 99,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,13 +283,9 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(18, pending.size)
+        assertEquals(16, pending.size)
         assertEquals(
-            mapOf(
-                InventoryFamily.PLATFORM to 2,
-                InventoryFamily.MATERIAL2 to 1,
-                InventoryFamily.MATERIAL3 to 15,
-            ),
+            mapOf(InventoryFamily.PLATFORM to 2, InventoryFamily.MATERIAL3 to 14),
             pending.groupingBy { it.family }.eachCount(),
         )
         pending.forEach {
@@ -381,6 +377,7 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "scrollabletabrow").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "shortnavigationbar").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "widenavigationrail").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "scaffold").isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

@@ -235,6 +235,9 @@
     <string name="component_indeterminate_circular_progress_description">使用原始圓形指示器顯示進行中工作。</string>
     <string name="status_indeterminate_progress">進度：不確定</string>
     <string name="unsupported_determinate_circle">平台的圓形 ProgressBar 樣式僅支援不確定型進度。</string>
+    <string name="component_scaffold">鷹架</string>
+    <string name="component_scaffold_description">使用程式庫版面配置槽位排布內容的 Material Scaffold。</string>
+    <string name="scaffold_body">鷹架內文</string>
     <string name="component_horizontal_divider">水平分隔線</string>
     <string name="component_horizontal_divider_description">查看各程式庫提供的水平分隔線。</string>
     <string name="component_vertical_divider">垂直分隔線</string>

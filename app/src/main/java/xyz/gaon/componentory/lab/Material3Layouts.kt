@@ -1,9 +1,11 @@
 package xyz.gaon.componentory.lab
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider as LegacyDivider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -26,6 +28,10 @@ internal fun Material3Layouts(component: LabComponent, modifier: Modifier) {
                 supportingContent = { Text(stringResource(R.string.component_list_item)) },
                 modifier = modifier,
             )
+        LabComponent.SCAFFOLD ->
+            Scaffold(modifier = modifier) { padding ->
+                Text(stringResource(R.string.scaffold_body), modifier = Modifier.padding(padding))
+            }
         else -> error("Unsupported Material 3 layout: $component")
     }
 }
