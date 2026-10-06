@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RangeSlider
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
@@ -36,12 +37,18 @@ import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
 private val sampleTypography = Typography()
+private val sampleShapes = Shapes()
 
 @Composable
 fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, state: SampleState) {
     var dialogOpen by remember { mutableStateOf(false) }
     val sample = Modifier.testTag("library_$panel")
-    MaterialTheme(colorScheme = lightColorScheme(), typography = sampleTypography) {
+    // App card corners must not change the pinned library's sample shapes.
+    MaterialTheme(
+        colorScheme = lightColorScheme(),
+        typography = sampleTypography,
+        shapes = sampleShapes,
+    ) {
         Surface(Modifier.fillMaxWidth()) {
             when (component) {
                 LabComponent.TEXT ->

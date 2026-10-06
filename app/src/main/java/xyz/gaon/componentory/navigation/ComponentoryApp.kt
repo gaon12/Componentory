@@ -13,16 +13,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -35,6 +39,7 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
@@ -134,15 +139,21 @@ private fun ComponentoryNavigation(
     Scaffold(
         // Native automation can find live animated samples without waiting for an idle renderer.
         modifier = Modifier.semantics { testTagsAsResourceId = true },
+        containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
             TopAppBar(
                 title = {
                     Text(
                         if (inDetail) stringResource(requireNotNull(detail).labelRes)
-                        else "Componentory"
+                        else "Componentory",
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 },
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
                 navigationIcon = {
                     if (inDetail) {
                         IconButton(
@@ -190,9 +201,12 @@ private fun ComponentoryNavigation(
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = 0.dp,
+            ) {
                 Spacer(Modifier.weight(1f))
-                Row(Modifier.widthIn(max = 480.dp).fillMaxWidth()) {
+                Row(Modifier.widthIn(max = 580.dp).fillMaxWidth()) {
                     AppTab.entries.forEach { destination ->
                         NavigationBarItem(
                             selected = tab == destination,
@@ -201,9 +215,27 @@ private fun ComponentoryNavigation(
                                 tab = destination
                             },
                             icon = {
-                                Icon(painterResource(destination.icon), contentDescription = null)
+                                Icon(
+                                    painterResource(destination.icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(22.dp),
+                                )
                             },
-                            label = { Text(stringResource(destination.labelRes)) },
+                            label = {
+                                Text(
+                                    stringResource(destination.labelRes),
+                                    style = MaterialTheme.typography.labelMedium,
+                                )
+                            },
+                            colors =
+                                NavigationBarItemDefaults.colors(
+                                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                                    indicatorColor = Color.Transparent,
+                                    unselectedIconColor =
+                                        MaterialTheme.colorScheme.onSurfaceVariant,
+                                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                ),
                             modifier = Modifier.testTag(destination.tag),
                         )
                     }
