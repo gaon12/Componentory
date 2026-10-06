@@ -174,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 81)
+        verifyFamily(DesignFamily.CLASSIC, 70, 83)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 81)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 83)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 81)
+        verifyFamily(DesignFamily.MATERIAL, 70, 83)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 51, 102)
+        verifyFamily(DesignFamily.MATERIAL2, 51, 104)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 100, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 102, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -198,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            153,
+            155,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -1116,6 +1116,19 @@ class CatalogRenderingSmokeTest {
                 compose
                     .onNodeWithTag("library_LEFT_item_1", useUnmergedTree = true)
                     .assertIsDisplayed()
+                    .assertHasClickAction()
+                    .assertIsEnabled()
+            }
+            component == LabComponent.APP_BAR_ROW || component == LabComponent.APP_BAR_COLUMN -> {
+                // Scope items take no modifier; prove a real item and the
+                // tagged overflow indicator carry click actions instead.
+                compose
+                    .onNode(
+                        hasAnyAncestor(hasTestTag("library_LEFT")) and hasClickAction(),
+                        useUnmergedTree = true,
+                    )
+                    .assertIsDisplayed()
+                displayed("library_LEFT_overflow", scroll = false)
                     .assertHasClickAction()
                     .assertIsEnabled()
             }

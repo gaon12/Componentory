@@ -537,6 +537,10 @@
     <string name="component_large_top_app_bar_description">The Material 3 LargeTopAppBar with a three-row height.</string>
     <string name="component_bottom_app_bar">Bottom app bar</string>
     <string name="component_bottom_app_bar_description">The Material bottom app bar with a real action item.</string>
+    <string name="component_app_bar_row">App bar row</string>
+    <string name="component_app_bar_row_description">The Material 3 AppBarRow that overflows extra actions into an indicator menu.</string>
+    <string name="component_app_bar_column">App bar column</string>
+    <string name="component_app_bar_column_description">The Material 3 AppBarColumn that stacks app bar actions vertically.</string>
 
     <string name="component_modal_drawer">Modal navigation drawer</string>
     <string name="component_modal_drawer_description">The Material modal drawer that slides over content with real drawer items.</string>

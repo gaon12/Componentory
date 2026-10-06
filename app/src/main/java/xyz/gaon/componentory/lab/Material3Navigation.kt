@@ -1,5 +1,8 @@
 package xyz.gaon.componentory.lab
 
+import androidx.compose.material3.AppBarColumn
+import androidx.compose.material3.AppBarRow
+import androidx.compose.material3.AppBarScope
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -126,7 +129,9 @@ internal fun Material3Navigation(
         LabComponent.CENTER_ALIGNED_TOP_APP_BAR,
         LabComponent.MEDIUM_TOP_APP_BAR,
         LabComponent.LARGE_TOP_APP_BAR,
-        LabComponent.BOTTOM_APP_BAR -> Unit
+        LabComponent.BOTTOM_APP_BAR,
+        LabComponent.APP_BAR_ROW,
+        LabComponent.APP_BAR_COLUMN -> Unit
         else -> error("Unsupported components must be handled by SamplePanel.")
     }
     if (component.isAppBar) {
@@ -140,6 +145,17 @@ internal fun Material3Navigation(
             }
         }
         val title: @Composable () -> Unit = { Text(stringResource(component.labelRes)) }
+        val itemLabels = (1..3).map { stringResource(R.string.list_item, it) }
+        val appBarItems: AppBarScope.() -> Unit = {
+            itemLabels.forEach { label ->
+                clickableItem(
+                    onClick = { state.value++ },
+                    icon = { Icon(icon.vector(), contentDescription = null) },
+                    label = label,
+                    enabled = enabled,
+                )
+            }
+        }
         when (component) {
             LabComponent.TOP_APP_BAR ->
                 TopAppBar(title = title, actions = { action() }, modifier = modifier)
@@ -150,6 +166,38 @@ internal fun Material3Navigation(
             LabComponent.LARGE_TOP_APP_BAR ->
                 LargeTopAppBar(title = title, actions = { action() }, modifier = modifier)
             LabComponent.BOTTOM_APP_BAR -> BottomAppBar(actions = { action() }, modifier = modifier)
+            LabComponent.APP_BAR_ROW ->
+                AppBarRow(
+                    maxItemCount = 2,
+                    overflowIndicator = { menuState ->
+                        IconButton(
+                            onClick = { menuState.show() },
+                            enabled = enabled,
+                            modifier = Modifier.testTag("library_${panel}_overflow"),
+                        ) {
+                            Icon(icon.vector(), contentDescription = null)
+                        }
+                    },
+                    modifier = modifier,
+                ) {
+                    appBarItems()
+                }
+            LabComponent.APP_BAR_COLUMN ->
+                AppBarColumn(
+                    maxItemCount = 2,
+                    overflowIndicator = { menuState ->
+                        IconButton(
+                            onClick = { menuState.show() },
+                            enabled = enabled,
+                            modifier = Modifier.testTag("library_${panel}_overflow"),
+                        ) {
+                            Icon(icon.vector(), contentDescription = null)
+                        }
+                    },
+                    modifier = modifier,
+                ) {
+                    appBarItems()
+                }
             else -> Unit
         }
     }

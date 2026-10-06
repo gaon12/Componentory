@@ -534,6 +534,10 @@
     <string name="component_large_top_app_bar_description">세 줄 높이의 Material 3 LargeTopAppBar입니다.</string>
     <string name="component_bottom_app_bar">하단 앱 바</string>
     <string name="component_bottom_app_bar_description">실제 작업 항목이 있는 Material 하단 앱 바입니다.</string>
+    <string name="component_app_bar_row">앱 바 행</string>
+    <string name="component_app_bar_row_description">추가 작업을 오버플로 표시 메뉴로 넘기는 Material 3 AppBarRow입니다.</string>
+    <string name="component_app_bar_column">앱 바 열</string>
+    <string name="component_app_bar_column_description">앱 바 작업을 세로로 쌓는 Material 3 AppBarColumn입니다.</string>
 
     <string name="component_modal_drawer">모달 탐색 창</string>
     <string name="component_modal_drawer_description">실제 창 항목과 함께 콘텐츠 위로 밀려나는 Material 모달 창입니다.</string>

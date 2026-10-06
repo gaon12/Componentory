@@ -791,6 +791,8 @@ class ComponentAvailabilityTest {
                 LabComponent.BOTTOM_APP_BAR to
                     ("androidx.compose.material.BottomAppBar" to
                         "androidx.compose.material3.BottomAppBar"),
+                LabComponent.APP_BAR_ROW to (null to "androidx.compose.material3.AppBarRow"),
+                LabComponent.APP_BAR_COLUMN to (null to "androidx.compose.material3.AppBarColumn"),
             )
         expected.forEach { (component, sources) ->
             listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family

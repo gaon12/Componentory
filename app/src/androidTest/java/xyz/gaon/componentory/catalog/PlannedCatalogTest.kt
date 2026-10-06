@@ -57,8 +57,8 @@ class PlannedCatalogTest {
     @Test
     fun plannedCountsAndProviderVersionsDescribeSourcesWithoutRunnableRows() {
         mode("PLANNED")
-        count(8)
-        mapOf("PLATFORM" to 2, "MATERIAL2" to 0, "MATERIAL3" to 6).forEach { (family, size) ->
+        count(5)
+        mapOf("PLATFORM" to 2, "MATERIAL2" to 0, "MATERIAL3" to 3).forEach { (family, size) ->
             provider(family)
             count(size)
             compose.onNodeWithTag("planned_provider_$family").assertIsSelected()
@@ -138,22 +138,22 @@ class PlannedCatalogTest {
     @Test
     fun missingSampleLinkPreservesQueryAndResetsOnlyThePlannedProvider() {
         mode("PLANNED")
-        count(8)
+        count(5)
         provider("MATERIAL2")
         mode("SAMPLES")
         compose.onNodeWithTag("list_category_SELECTION").performClick()
-        search("AppBar")
+        search("Label")
         compose.onNodeWithTag("search_empty").assertIsDisplayed()
         compose
             .onNodeWithTag("show_planned_matches")
-            .assertTextEquals(compose.activity.getString(R.string.planned_view_matches, 2))
+            .assertTextEquals(compose.activity.getString(R.string.planned_view_matches, 1))
             .performClick()
-        query("AppBar")
+        query("Label")
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_ALL").assertIsSelected()
-        count(2)
+        count(1)
         mode("SAMPLES")
-        query("AppBar")
+        query("Label")
         compose.onNodeWithTag("list_category_SELECTION").assertIsSelected()
         compose.onNodeWithTag("clear_search").performClick()
         compose.onNodeWithTag("list_CHECKBOX").assertIsDisplayed()
@@ -165,7 +165,7 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("component_list").performScrollToNode(hasTestTag("list_DIALOG"))
         compose.onNodeWithTag("list_DIALOG").assertIsDisplayed()
         mode("PLANNED")
-        count(8)
+        count(5)
         provider("MATERIAL3")
         val identity = "MATERIAL3_androidx.compose.material3.ExpandedDockedSearchBar"
         showRow(identity)
@@ -175,10 +175,10 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.onNodeWithTag("nav_settings").performClick()
         compose.onNodeWithTag("nav_list").performClick()
-        count(6)
+        count(3)
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.activityRule.scenario.recreate()
-        count(6)
+        count(3)
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_MATERIAL3").assertIsSelected()
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
@@ -189,8 +189,8 @@ class PlannedCatalogTest {
     @Test
     fun everyLanguageLocalizesPendingStatusAndCountsWhileKeepingApiNames() {
         mode("PLANNED")
-        count(8)
-        search("AppBar")
+        count(5)
+        search("Label")
         AppLanguage.entries
             .filter { it != AppLanguage.SYSTEM }
             .forEach { language ->
@@ -199,13 +199,13 @@ class PlannedCatalogTest {
                 compose.waitUntil(5_000) { LanguagePreferences.read(compose.activity) == language }
                 compose.waitForIdle()
                 compose.onNodeWithTag("nav_list").performClick()
-                count(2)
-                query("AppBar")
-                val identity = "MATERIAL3_androidx.compose.material3.AppBarRow"
+                count(1)
+                query("Label")
+                val identity = "MATERIAL3_androidx.compose.material3.Label"
                 showRow(identity)
                 compose
                     .onNodeWithTag("source_$identity", useUnmergedTree = true)
-                    .assertTextEquals("androidx.compose.material3.AppBarRow")
+                    .assertTextEquals("androidx.compose.material3.Label")
                 compose
                     .onNodeWithTag("status_$identity", useUnmergedTree = true)
                     .assertTextEquals(compose.activity.getString(R.string.planned_status))
@@ -221,17 +221,17 @@ class PlannedCatalogTest {
             compose.activity.setContent { Box(Modifier.width(360.dp)) { ComponentoryApp() } }
         }
         mode("PLANNED")
-        count(8)
+        count(5)
         compose.onNodeWithTag("catalog_mode_SAMPLES").assertIsDisplayed()
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsDisplayed()
-        search("AppBar")
+        search("Label")
         provider("MATERIAL3")
-        count(2)
-        showRow("MATERIAL3_androidx.compose.material3.AppBarColumn")
+        count(1)
+        showRow("MATERIAL3_androidx.compose.material3.Label")
         compose.onNodeWithTag("nav_compare").performClick()
         compose.onNodeWithTag("nav_list").performClick()
-        count(2)
-        query("AppBar")
+        count(1)
+        query("Label")
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
     }
 

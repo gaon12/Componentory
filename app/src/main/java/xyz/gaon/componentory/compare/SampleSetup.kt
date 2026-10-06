@@ -313,6 +313,8 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.MEDIUM_TOP_APP_BAR,
                     LabComponent.LARGE_TOP_APP_BAR,
                     LabComponent.BOTTOM_APP_BAR,
+                    LabComponent.APP_BAR_ROW,
+                    LabComponent.APP_BAR_COLUMN,
                     LabComponent.MODAL_NAVIGATION_DRAWER,
                     LabComponent.DISMISSIBLE_NAVIGATION_DRAWER,
                     LabComponent.BOTTOM_DRAWER,

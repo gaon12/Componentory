@@ -534,6 +534,10 @@
     <string name="component_large_top_app_bar_description">三行高度的 Material 3 LargeTopAppBar。</string>
     <string name="component_bottom_app_bar">底部应用栏</string>
     <string name="component_bottom_app_bar_description">带有真实操作项的 Material 底部应用栏。</string>
+    <string name="component_app_bar_row">应用栏行</string>
+    <string name="component_app_bar_row_description">Material 3 AppBarRow，将多余操作收入溢出指示菜单。</string>
+    <string name="component_app_bar_column">应用栏列</string>
+    <string name="component_app_bar_column_description">垂直堆叠应用栏操作的 Material 3 AppBarColumn。</string>
 
     <string name="component_modal_drawer">模态导航抽屉</string>
     <string name="component_modal_drawer_description">带有真实抽屉项、滑到内容上方的 Material 模态抽屉。</string>

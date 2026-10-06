@@ -534,6 +534,10 @@
     <string name="component_large_top_app_bar_description">3行の高さを持つ Material 3 LargeTopAppBar です。</string>
     <string name="component_bottom_app_bar">ボトムアプリバー</string>
     <string name="component_bottom_app_bar_description">実際のアクション項目を持つ Material ボトムアプリバーです。</string>
+    <string name="component_app_bar_row">アプリバー行</string>
+    <string name="component_app_bar_row_description">余分なアクションをオーバーフロー メニューに送る Material 3 AppBarRow。</string>
+    <string name="component_app_bar_column">アプリバー列</string>
+    <string name="component_app_bar_column_description">アプリバーのアクションを縦に積む Material 3 AppBarColumn。</string>
 
     <string name="component_modal_drawer">モーダルナビゲーションドロワー</string>
     <string name="component_modal_drawer_description">実際のドロワー項目を備え、コンテンツの上にスライドする Material モーダルドロワーです。</string>

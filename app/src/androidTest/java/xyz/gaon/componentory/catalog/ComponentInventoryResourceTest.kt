@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 232, InventoryStatus.PENDING to 7),
+            mapOf(InventoryStatus.IMPLEMENTED to 234, InventoryStatus.PENDING to 5),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
                 InventoryFamily.MATERIAL2 to 52,
-                InventoryFamily.MATERIAL3 to 108,
+                InventoryFamily.MATERIAL3 to 110,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,9 +283,9 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(7, pending.size)
+        assertEquals(5, pending.size)
         assertEquals(
-            mapOf(InventoryFamily.PLATFORM to 2, InventoryFamily.MATERIAL3 to 5),
+            mapOf(InventoryFamily.PLATFORM to 2, InventoryFamily.MATERIAL3 to 3),
             pending.groupingBy { it.family }.eachCount(),
         )
         pending.forEach {

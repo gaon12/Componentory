@@ -752,6 +752,22 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 0,
     ),
+    APP_BAR_ROW(
+        "App bar row",
+        R.string.component_app_bar_row,
+        R.string.component_app_bar_row_description,
+        material3Function = "AppBarRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    APP_BAR_COLUMN(
+        "App bar column",
+        R.string.component_app_bar_column,
+        R.string.component_app_bar_column_description,
+        material3Function = "AppBarColumn",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
     MODAL_NAVIGATION_DRAWER(
         "Modal navigation drawer",
         R.string.component_modal_drawer,
@@ -1421,7 +1437,9 @@ enum class LabComponent(
                 this == CENTER_ALIGNED_TOP_APP_BAR ||
                 this == MEDIUM_TOP_APP_BAR ||
                 this == LARGE_TOP_APP_BAR ||
-                this == BOTTOM_APP_BAR
+                this == BOTTOM_APP_BAR ||
+                this == APP_BAR_ROW ||
+                this == APP_BAR_COLUMN
 
     // Drawers whose sheet state is real and copyable; the permanent drawer
     // always shows its sheet, so it carries no open state.

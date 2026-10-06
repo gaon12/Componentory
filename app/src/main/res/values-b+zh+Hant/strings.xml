@@ -534,6 +534,10 @@
     <string name="component_large_top_app_bar_description">三行高度的 Material 3 LargeTopAppBar。</string>
     <string name="component_bottom_app_bar">底部應用列</string>
     <string name="component_bottom_app_bar_description">帶有真實操作項目的 Material 底部應用列。</string>
+    <string name="component_app_bar_row">應用程式列行</string>
+    <string name="component_app_bar_row_description">Material 3 AppBarRow，將多餘動作收入溢位指示選單。</string>
+    <string name="component_app_bar_column">應用程式列欄</string>
+    <string name="component_app_bar_column_description">垂直堆疊應用程式列動作的 Material 3 AppBarColumn。</string>
 
     <string name="component_modal_drawer">強制回應導覽匣</string>
     <string name="component_modal_drawer_description">帶有真實抽屜項目、滑到內容上方的 Material 強制回應抽屜。</string>
