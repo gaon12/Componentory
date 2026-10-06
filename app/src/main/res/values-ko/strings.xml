@@ -591,6 +591,10 @@
     <string name="component_top_search_bar_description">콘텐츠 상단에 고정되는 Material 3 TopSearchBar입니다.</string>
     <string name="component_expanded_docked_search_bar">확장된 도킹 검색 바</string>
     <string name="component_expanded_docked_search_bar_description">짝을 이루는 접힌 바의 도킹 결과를 보여 주는 Material 3 ExpandedDockedSearchBar입니다.</string>
+    <string name="component_label">레이블</string>
+    <string name="component_label_description">콘텐츠가 눌리거나 호버되는 동안 도구 설명을 콘텐츠에 고정하는 Material 3 Label입니다.</string>
+    <string name="component_vertical_drag_handle">세로 드래그 핸들</string>
+    <string name="component_vertical_drag_handle_description">실제 가로 드래그로 창 너비를 조절하는 Material 3 VerticalDragHandle입니다.</string>
     <string name="search_placeholder">검색</string>
     <string name="component_exposed_dropdown">노출된 드롭다운 메뉴 상자</string>
     <string name="component_exposed_dropdown_description">실제 메뉴를 텍스트 필드에 고정하는 Material ExposedDropdownMenuBox입니다.</string>

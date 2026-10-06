@@ -174,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 84)
+        verifyFamily(DesignFamily.CLASSIC, 70, 85)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 84)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 85)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 84)
+        verifyFamily(DesignFamily.MATERIAL, 70, 85)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 51, 105)
+        verifyFamily(DesignFamily.MATERIAL2, 51, 107)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 103, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 105, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -198,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            156,
+            158,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -1131,6 +1131,10 @@ class CatalogRenderingSmokeTest {
                 displayed("library_LEFT_overflow", scroll = false)
                     .assertHasClickAction()
                     .assertIsEnabled()
+            }
+            component == LabComponent.VERTICAL_DRAG_HANDLE -> {
+                // The pane container is not a click target; the real handle is.
+                displayed("library_LEFT_handle", scroll = false).assertIsDisplayed()
             }
             component == LabComponent.DIALOG ||
                 component == LabComponent.BASIC_ALERT_DIALOG ||

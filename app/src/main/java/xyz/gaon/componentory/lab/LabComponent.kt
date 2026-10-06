@@ -886,6 +886,21 @@ enum class LabComponent(
         material3Function = "ExpandedDockedSearchBar",
         category = ComponentCategory.INPUT,
     ),
+    LABEL(
+        "Label",
+        R.string.component_label,
+        R.string.component_label_description,
+        material3Function = "Label",
+        category = ComponentCategory.FEEDBACK,
+    ),
+    VERTICAL_DRAG_HANDLE(
+        "Vertical drag handle",
+        R.string.component_vertical_drag_handle,
+        R.string.component_vertical_drag_handle_description,
+        material3Function = "VerticalDragHandle",
+        category = ComponentCategory.INPUT,
+        initialValue = 50,
+    ),
     MULTI_BROWSE_CAROUSEL(
         "Multi-browse carousel",
         R.string.component_multi_browse_carousel,
@@ -1468,7 +1483,7 @@ enum class LabComponent(
     // Tooltips are transient overlays; the samples show a real TooltipBox but
     // carry no copyable inputs.
     val isTooltip: Boolean
-        get() = this == PLAIN_TOOLTIP || this == RICH_TOOLTIP
+        get() = this == PLAIN_TOOLTIP || this == RICH_TOOLTIP || this == LABEL
 
     // The Material 3 carousel variants share one item model; the selected item
     // index is the copyable input.
@@ -1773,7 +1788,7 @@ enum class LabComponent(
                 )
             this == RATING -> context.getString(R.string.status_rating, value)
             this == NUMBER_PICKER -> context.getString(R.string.status_number, value)
-            this == SLIDER || isDeterminateProgress ->
+            this == SLIDER || this == VERTICAL_DRAG_HANDLE || isDeterminateProgress ->
                 context.getString(R.string.status_value, value)
             this == DATE_PICKER_DIALOG ->
                 context.getString(

@@ -594,6 +594,10 @@
     <string name="component_top_search_bar_description">The Material 3 TopSearchBar pinned at the top of its content.</string>
     <string name="component_expanded_docked_search_bar">Expanded docked search bar</string>
     <string name="component_expanded_docked_search_bar_description">The Material 3 ExpandedDockedSearchBar showing docked results for its paired collapsed bar.</string>
+    <string name="component_label">Label</string>
+    <string name="component_label_description">The Material 3 Label that anchors a tooltip to its content while the content is pressed or hovered.</string>
+    <string name="component_vertical_drag_handle">Vertical drag handle</string>
+    <string name="component_vertical_drag_handle_description">The Material 3 VerticalDragHandle that resizes its pane through a real horizontal drag.</string>
     <string name="search_placeholder">Search</string>
     <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
     <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>

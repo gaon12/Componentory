@@ -70,8 +70,10 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.MODAL_BOTTOM_SHEET ->
                     Material3SheetSample(component, panel, sample, enabled, state)
                 LabComponent.PLAIN_TOOLTIP,
-                LabComponent.RICH_TOOLTIP ->
-                    Material3TooltipSample(component, panel, sample, enabled)
+                LabComponent.RICH_TOOLTIP,
+                LabComponent.LABEL -> Material3TooltipSample(component, panel, sample, enabled)
+                LabComponent.VERTICAL_DRAG_HANDLE ->
+                    Material3DragHandleSample(panel, sample, enabled, state)
                 LabComponent.SWIPE_TO_DISMISS ->
                     Material3DismissSample(component, panel, sample, enabled, state)
                 LabComponent.CARD,

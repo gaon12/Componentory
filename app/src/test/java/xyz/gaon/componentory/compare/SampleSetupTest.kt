@@ -347,6 +347,7 @@ class SampleSetupTest {
                 LabComponent.MODAL_BOTTOM_SHEET to 1,
                 LabComponent.BACKDROP_SCAFFOLD to 1,
                 LabComponent.SWIPE_TO_DISMISS to 1,
+                LabComponent.VERTICAL_DRAG_HANDLE to 75,
             )
         inputs.forEach { (component, value) ->
             val family = supportedFamily(component)
@@ -410,6 +411,7 @@ class SampleSetupTest {
                 LabComponent.LIST_ITEM,
                 LabComponent.PLAIN_TOOLTIP,
                 LabComponent.RICH_TOOLTIP,
+                LabComponent.LABEL,
                 LabComponent.SCAFFOLD,
             )
             .forEach { component ->

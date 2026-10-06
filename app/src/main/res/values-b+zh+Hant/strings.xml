@@ -591,6 +591,10 @@
     <string name="component_top_search_bar_description">固定在內容頂部的 Material 3 TopSearchBar。</string>
     <string name="component_expanded_docked_search_bar">展開的停駐搜尋列</string>
     <string name="component_expanded_docked_search_bar_description">Material 3 ExpandedDockedSearchBar，為配對的收合列顯示停駐結果。</string>
+    <string name="component_label">標籤</string>
+    <string name="component_label_description">Material 3 Label，在內容被按下或懸停時為其錨定工具提示。</string>
+    <string name="component_vertical_drag_handle">垂直拖曳手柄</string>
+    <string name="component_vertical_drag_handle_description">Material 3 VerticalDragHandle，透過真實的水平拖曳調整窗格寬度。</string>
     <string name="search_placeholder">搜尋</string>
     <string name="component_exposed_dropdown">展開式下拉功能表方塊</string>
     <string name="component_exposed_dropdown_description">將真實功能表錨定到其文字欄位的 Material ExposedDropdownMenuBox。</string>

@@ -920,6 +920,7 @@ class ComponentAvailabilityTest {
         listOf(
                 LabComponent.PLAIN_TOOLTIP to "androidx.compose.material3.PlainTooltip",
                 LabComponent.RICH_TOOLTIP to "androidx.compose.material3.RichTooltip",
+                LabComponent.LABEL to "androidx.compose.material3.Label",
             )
             .forEach { (component, material3) ->
                 listOf(
@@ -957,6 +958,28 @@ class ComponentAvailabilityTest {
             DesignFamily.MATERIAL3.source(component),
         )
         assertEquals(ComponentCategory.ACTION, component.category)
+    }
+
+    @Test
+    fun verticalDragHandleIsHonestMaterial3Only() {
+        val component = LabComponent.VERTICAL_DRAG_HANDLE
+        listOf(
+                DesignFamily.CLASSIC,
+                DesignFamily.HOLO,
+                DesignFamily.MATERIAL,
+                DesignFamily.MATERIAL2,
+            )
+            .forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+        assertEquals(
+            "androidx.compose.material3.VerticalDragHandle",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.INPUT, component.category)
+        assertEquals(50, component.initialValue)
     }
 
     @Test
