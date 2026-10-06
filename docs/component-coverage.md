@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**110 component entries**, with **291 runnable component/family combinations**.
+**111 component entries**, with **294 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `a8f33a7`. Executed resource
+Application and latest verification source revision: `6aaa98f`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 67 | 7 |
+| Android framework | 74 | 68 | 6 |
 | Compose Material 2 1.10.4 | 52 | 31 | 21 |
 | Compose Material 3 1.4.0 | 113 | 59 | 54 |
-| Total | 239 | 157 | 82 |
+| Total | 239 | 158 | 81 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -297,6 +297,13 @@ InlineContentView remains pending by design — its constructor is
 package-private, so no public API can host it outside an inline content
 session; the row now states that reason.
 
+One deprecated-input entry adds three combinations. DIALER_FILTER
+(android.widget.DialerFilter, API 1, deprecated in API 26) hosts the real
+compound widget in digits-and-letters mode; its genuine setFilterWatcher
+callback reports the composed filter text as the copied input, and
+clearText/append restores it. The Enabled toggle disables the widget's
+inner fields.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -381,14 +388,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `a8f33a7`, preceded by the sweep baseline correction in
+Latest implementation: `6aaa98f`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 104 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,785,689
+with zero errors. All 105 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,788,233
 bytes with SHA-256
-`838af0b4692982e5fc91801e05d206aeecbd34fd625959620ad7aac0dbdab177` and the test
-APK is 1,478,403 bytes with SHA-256
-`e537c742c8032a2117edabde7cf55055de7b041ed32f393c1dc1e2d8c6c7d249`.
+`cac6a06644cb11d388fa3ad7c6ae79d09171905f3a63038880f353706ec09251` and the test
+APK is 1,482,993 bytes with SHA-256
+`103aac869e3c0b6783ddf66589d9497ffcfe8ac19317001d2787387fb8748ecf`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -494,8 +501,14 @@ via the widget's measured content height, the assigned contact drawable, the
 no-inputs copy explanation, recreation restore, the disabled flag, unsupported
 Compose targets and five locales. They also await a clean unlocked-device run.
 
-The catalog now declares 110 entries and 291 supported combinations. The smoke
-sweep spans 544 ordinary cells: 289 supported and 255 unsupported; the six
+Three [dialer-filter scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/DialerFilterTest.kt)
+compile in the same state. They verify the real `DialerFilter` class, digit
+input through the widget's own dispatchKeyEvent path, filter-text copying and
+recreation restore, disabled inner fields, and unsupported Compose targets.
+They also await a clean unlocked-device run.
+
+The catalog now declares 111 entries and 294 supported combinations. The smoke
+sweep spans 549 ordinary cells: 292 supported and 257 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
