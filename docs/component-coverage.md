@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `c7a0635`. Executed resource
+Application and latest verification source revision: `538f1d4`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -475,8 +475,10 @@ LABEL joins the tooltip family, anchoring its tooltip to a TextButton
 through a shared interaction source, and carries no copyable inputs;
 VERTICAL_DRAG_HANDLE puts the real resize grip inside a pane whose
 width percent is the copied input. With these, every audited library
-row is implemented; only the platform ActionBar and the uninstantiable
-InlineContentView remain pending.
+row is implemented. The only remaining pending rows are the platform
+ActionBar, which the Activity only supplies when the theme requests
+one (the host theme is NoActionBar), and the uninstantiable
+InlineContentView; both rows carry that explanation in their notes.
 
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
@@ -562,7 +564,7 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `c7a0635`, preceded by the sweep baseline correction in
+Latest implementation: `538f1d4`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
 with zero errors. All 127 JVM tests actually executed and passed without
 failures, errors or skips. Both debug APKs build: the app APK is 20,294,950

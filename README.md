@@ -100,7 +100,7 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `c7a0635` pass formatting, lint, all 127 executed JVM
+The latest checks for `538f1d4` pass formatting, lint, all 127 executed JVM
 tests, and both APK builds. The authored catalog smoke tests cover 366 supported
 and 418 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
