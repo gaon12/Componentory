@@ -174,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 77)
+        verifyFamily(DesignFamily.CLASSIC, 70, 80)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 77)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 80)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 77)
+        verifyFamily(DesignFamily.MATERIAL, 70, 80)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 51, 98)
+        verifyFamily(DesignFamily.MATERIAL2, 51, 101)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 96, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 99, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -198,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            149,
+            152,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -1104,6 +1104,15 @@ class CatalogRenderingSmokeTest {
                         choice.assertIsNotSelected().assert(role(Role.RadioButton))
                     else choice.assertIsOff()
                 }
+            }
+            component.isCarousel -> {
+                // The carousel container scrolls rather than clicks; verify a
+                // real first item carries the click action instead.
+                compose
+                    .onNodeWithTag("library_LEFT_item_1", useUnmergedTree = true)
+                    .assertIsDisplayed()
+                    .assertHasClickAction()
+                    .assertIsEnabled()
             }
             component == LabComponent.DIALOG ||
                 component == LabComponent.BASIC_ALERT_DIALOG ||

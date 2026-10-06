@@ -570,6 +570,12 @@
     <string name="dismissed">닫힘</string>
     <string name="settled">유지됨</string>
 
+    <string name="component_multi_browse_carousel">다중 탐색 캐러셀</string>
+    <string name="component_multi_browse_carousel_description">여러 항목을 한 번에 보여 주는 Material 3 HorizontalMultiBrowseCarousel입니다.</string>
+    <string name="component_uncontained_carousel">언컨테인드 캐러셀</string>
+    <string name="component_uncontained_carousel_description">항목을 전체 크기로 유지하는 Material 3 HorizontalUncontainedCarousel입니다.</string>
+    <string name="component_centered_hero_carousel">중앙 히어로 캐러셀</string>
+    <string name="component_centered_hero_carousel_description">중앙 항목을 강조하는 Material 3 HorizontalCenteredHeroCarousel입니다.</string>
     <string name="component_search_bar">검색창</string>
     <string name="component_search_bar_description">결과 위로 전체 화면으로 펼쳐지는 Material 3 SearchBar입니다.</string>
     <string name="component_docked_search_bar">고정 검색창</string>

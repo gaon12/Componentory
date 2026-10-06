@@ -573,6 +573,12 @@
     <string name="dismissed">Dismissed</string>
     <string name="settled">Settled</string>
 
+    <string name="component_multi_browse_carousel">Multi-browse carousel</string>
+    <string name="component_multi_browse_carousel_description">The Material 3 HorizontalMultiBrowseCarousel showing many items at once.</string>
+    <string name="component_uncontained_carousel">Uncontained carousel</string>
+    <string name="component_uncontained_carousel_description">The Material 3 HorizontalUncontainedCarousel keeping items at full size.</string>
+    <string name="component_centered_hero_carousel">Centered hero carousel</string>
+    <string name="component_centered_hero_carousel_description">The Material 3 HorizontalCenteredHeroCarousel featuring one centered item.</string>
     <string name="component_search_bar">Search bar</string>
     <string name="component_search_bar_description">The Material 3 SearchBar that expands full screen over its results.</string>
     <string name="component_docked_search_bar">Docked search bar</string>

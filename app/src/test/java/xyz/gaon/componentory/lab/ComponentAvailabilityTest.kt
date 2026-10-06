@@ -610,6 +610,33 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun carouselsAreHonestMaterial3Only() {
+        listOf(
+                LabComponent.MULTI_BROWSE_CAROUSEL to "HorizontalMultiBrowseCarousel",
+                LabComponent.UNCONTAINED_CAROUSEL to "HorizontalUncontainedCarousel",
+                LabComponent.CENTERED_HERO_CAROUSEL to "HorizontalCenteredHeroCarousel",
+            )
+            .forEach { (component, function) ->
+                listOf(
+                        DesignFamily.CLASSIC,
+                        DesignFamily.HOLO,
+                        DesignFamily.MATERIAL,
+                        DesignFamily.MATERIAL2,
+                    )
+                    .forEach { family ->
+                        assertNotNull(family.unsupportedReason(component, 36))
+                        assertEquals("Not provided", family.source(component))
+                    }
+                assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                assertEquals(
+                    "androidx.compose.material3.carousel.$function",
+                    DesignFamily.MATERIAL3.source(component),
+                )
+                assertEquals(ComponentCategory.LAYOUT, component.category)
+            }
+    }
+
+    @Test
     fun searchBarsAreHonestMaterial3Only() {
         listOf(
                 LabComponent.SEARCH_BAR to "SearchBar",

@@ -725,6 +725,30 @@ class SampleSetupTest {
     }
 
     @Test
+    fun carouselCopiesCarryOnlyTheSelectedItemIndex() {
+        listOf(
+                LabComponent.MULTI_BROWSE_CAROUSEL,
+                LabComponent.UNCONTAINED_CAROUSEL,
+                LabComponent.CENTERED_HERO_CAROUSEL,
+            )
+            .forEach { component ->
+                val source = SampleState(initialValue = 4, initialText = "ignored")
+                val setup = SampleSetup.capture(component, DesignFamily.MATERIAL3, source, API)
+                assertEquals(setOf("component", "family", "value"), setup.savedValues().keys)
+                val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
+                val target = requireNotNull(restored.copyTo(DesignFamily.MATERIAL3, API).state)
+                assertNotSame(source, target)
+                assertEquals(4, target.value)
+                assertEquals("", target.text)
+                listOf(DesignFamily.CLASSIC, DesignFamily.MATERIAL2).forEach { family ->
+                    val result = restored.copyTo(family, API)
+                    assertNull(result.state)
+                    assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                }
+            }
+    }
+
+    @Test
     fun listCopiesCarryOnlyTheCheckedOrExpandedValue() {
         val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
         listOf(

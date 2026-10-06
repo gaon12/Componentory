@@ -272,6 +272,7 @@ private val LabComponent.hasCopiedValue: Boolean
             this == LabComponent.SLIDING_DRAWER ||
             isPopupWindow ||
             isMenuHost ||
+            isCarousel ||
             this in
                 listOf(
                     LabComponent.CHECKBOX,

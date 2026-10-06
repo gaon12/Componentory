@@ -570,6 +570,12 @@
     <string name="dismissed">消去済み</string>
     <string name="settled">保持</string>
 
+    <string name="component_multi_browse_carousel">マルチブラウズカルーセル</string>
+    <string name="component_multi_browse_carousel_description">複数項目を一度に表示する Material 3 HorizontalMultiBrowseCarousel です。</string>
+    <string name="component_uncontained_carousel">アンコンテインドカルーセル</string>
+    <string name="component_uncontained_carousel_description">項目をフルサイズで維持する Material 3 HorizontalUncontainedCarousel です。</string>
+    <string name="component_centered_hero_carousel">中央ヒーローカルーセル</string>
+    <string name="component_centered_hero_carousel_description">中央の項目を強調する Material 3 HorizontalCenteredHeroCarousel です。</string>
     <string name="component_search_bar">検索バー</string>
     <string name="component_search_bar_description">結果の上に全画面で展開する Material 3 SearchBar です。</string>
     <string name="component_docked_search_bar">ドック検索バー</string>

@@ -863,6 +863,27 @@ enum class LabComponent(
         material3Function = "TopSearchBar",
         category = ComponentCategory.INPUT,
     ),
+    MULTI_BROWSE_CAROUSEL(
+        "Multi-browse carousel",
+        R.string.component_multi_browse_carousel,
+        R.string.component_multi_browse_carousel_description,
+        material3Function = "carousel.HorizontalMultiBrowseCarousel",
+        category = ComponentCategory.LAYOUT,
+    ),
+    UNCONTAINED_CAROUSEL(
+        "Uncontained carousel",
+        R.string.component_uncontained_carousel,
+        R.string.component_uncontained_carousel_description,
+        material3Function = "carousel.HorizontalUncontainedCarousel",
+        category = ComponentCategory.LAYOUT,
+    ),
+    CENTERED_HERO_CAROUSEL(
+        "Centered hero carousel",
+        R.string.component_centered_hero_carousel,
+        R.string.component_centered_hero_carousel_description,
+        material3Function = "carousel.HorizontalCenteredHeroCarousel",
+        category = ComponentCategory.LAYOUT,
+    ),
     SWIPE_TO_DISMISS(
         "Swipe to dismiss",
         R.string.component_swipe_to_dismiss,
@@ -1417,6 +1438,14 @@ enum class LabComponent(
     val isTooltip: Boolean
         get() = this == PLAIN_TOOLTIP || this == RICH_TOOLTIP
 
+    // The Material 3 carousel variants share one item model; the selected item
+    // index is the copyable input.
+    val isCarousel: Boolean
+        get() =
+            this == MULTI_BROWSE_CAROUSEL ||
+                this == UNCONTAINED_CAROUSEL ||
+                this == CENTERED_HERO_CAROUSEL
+
     // The samples draw three destination items; the selected index copies.
     val navigationItemCount: Int
         get() = if (isNavigationSuite) 3 else 0
@@ -1582,6 +1611,13 @@ enum class LabComponent(
                     R.string.status_selected,
                     context.getString(R.string.list_item, value),
                 )
+            isCarousel ->
+                if (value == 0) context.getString(R.string.sample_state_no_selection)
+                else
+                    context.getString(
+                        R.string.status_selected,
+                        context.getString(R.string.list_item, value),
+                    )
             this == MEDIA_CONTROLLER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isMenuHost ->

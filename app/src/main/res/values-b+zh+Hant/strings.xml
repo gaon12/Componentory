@@ -570,6 +570,12 @@
     <string name="dismissed">已關閉</string>
     <string name="settled">已保留</string>
 
+    <string name="component_multi_browse_carousel">多瀏覽輪播</string>
+    <string name="component_multi_browse_carousel_description">一次顯示多個項目的 Material 3 HorizontalMultiBrowseCarousel。</string>
+    <string name="component_uncontained_carousel">無邊界輪播</string>
+    <string name="component_uncontained_carousel_description">保持項目完整尺寸的 Material 3 HorizontalUncontainedCarousel。</string>
+    <string name="component_centered_hero_carousel">置中主視覺輪播</string>
+    <string name="component_centered_hero_carousel_description">突顯置中項目的 Material 3 HorizontalCenteredHeroCarousel。</string>
     <string name="component_search_bar">搜尋列</string>
     <string name="component_search_bar_description">在結果上方展開為全螢幕的 Material 3 SearchBar。</string>
     <string name="component_docked_search_bar">固定搜尋列</string>
