@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 111 implemented components by translated name or description,
+- **List:** Search 113 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 81 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 79 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -100,9 +100,9 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `6aaa98f` pass formatting, lint, all 105 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 292 supported
-and 257 unsupported ordinary cells after the baselines were recomputed from the
+The latest checks for `a1df033` pass formatting, lint, all 106 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 298 supported
+and 256 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
 use a separate existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process
@@ -115,7 +115,7 @@ accessibility, text, inline dates, inline time, the clock, scroll and view
 switcher samples, framework layouts, adapter lists, zoom widgets, adapter
 animators, transient windows, the deprecated tab host, the deprecated
 containers, the popup windows, the menu hosts, the content surfaces, the dialer
-filter, date/time dialogs, cards,
+filter, the media widgets, date/time dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
