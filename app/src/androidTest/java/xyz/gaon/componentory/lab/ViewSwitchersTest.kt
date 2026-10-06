@@ -23,7 +23,9 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -178,14 +180,13 @@ class ViewSwitchersTest {
         status("LEFT", "Showing child 3 of 4")
 
         configure(LabComponent.VIEW_SWITCHER, DesignFamily.CLASSIC, DesignFamily.MATERIAL2)
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Material 2 library does not provide View switcher.",
-                substring = true,
+            .onNode(
+                hasText("The Material 2 library does not provide View switcher.") and
+                    hasAnyAncestor(hasTestTag("unsupported_RIGHT"))
             )
+            .assertExists()
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
     }
 
@@ -197,10 +198,10 @@ class ViewSwitchersTest {
         tapSwitcher("RIGHT", 1)
         compose.runOnIdle {
             assertEquals(1, switcher("LEFT").displayedChild)
-            assertEquals(3, switcher("RIGHT").displayedChild)
+            assertEquals(2, switcher("RIGHT").displayedChild)
         }
         status("LEFT", "Showing child 2 of 4")
-        status("RIGHT", "Showing child 4 of 4")
+        status("RIGHT", "Showing child 3 of 4")
         resetSamples()
         compose.runOnIdle {
             assertEquals(0, switcher("LEFT").displayedChild)

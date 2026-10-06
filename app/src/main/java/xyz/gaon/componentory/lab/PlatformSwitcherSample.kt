@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.Gravity
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -165,9 +165,9 @@ private fun switcherPage(themed: ContextThemeWrapper) =
     TextView(themed).apply {
         gravity = Gravity.CENTER
         layoutParams =
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT,
             )
     }
 
