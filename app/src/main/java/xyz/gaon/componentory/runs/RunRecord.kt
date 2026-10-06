@@ -9,6 +9,7 @@ data class RunRecord(
     val component: String,
     val leftFamily: String,
     val rightFamily: String,
+    val enabled: Boolean,
     val leftInputs: Map<String, String>,
     val rightInputs: Map<String, String>,
     val environment: Map<String, String>,
@@ -20,6 +21,7 @@ data class RunRecord(
         field("component", component)
         field("leftFamily", leftFamily)
         field("rightFamily", rightFamily)
+        field("enabled", enabled.toString())
         append("\"leftInputs\":")
         map(leftInputs)
         append(",\"rightInputs\":")
@@ -51,6 +53,7 @@ data class RunRecord(
             val component = fields["component"] ?: return null
             val leftFamily = fields["leftFamily"] ?: return null
             val rightFamily = fields["rightFamily"] ?: return null
+            val enabled = fields["enabled"]?.toBooleanStrictOrNull() ?: return null
             val leftInputs = parseObject(fields["leftInputs"] ?: return null) ?: return null
             val rightInputs = parseObject(fields["rightInputs"] ?: return null) ?: return null
             val environment = parseObject(fields["environment"] ?: return null) ?: return null
@@ -60,6 +63,7 @@ data class RunRecord(
                 component,
                 leftFamily,
                 rightFamily,
+                enabled,
                 leftInputs,
                 rightInputs,
                 environment,

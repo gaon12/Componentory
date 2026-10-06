@@ -15,6 +15,7 @@ class RunStoreTest {
         id: String,
         created: Long,
         inputs: Map<String, String> = mapOf("value" to "3"),
+        enabled: Boolean = true,
     ) =
         RunRecord(
             id = id,
@@ -22,6 +23,7 @@ class RunStoreTest {
             component = "BUTTON",
             leftFamily = "MATERIAL2",
             rightFamily = "MATERIAL3",
+            enabled = enabled,
             leftInputs = inputs,
             rightInputs = mapOf("text" to "done \"ok\""),
             environment = mapOf("sdk" to "36", "model" to "SM-X800"),
