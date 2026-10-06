@@ -58,6 +58,9 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.BOTTOM_SHEET_SCAFFOLD,
                 LabComponent.MODAL_BOTTOM_SHEET ->
                     Material3SheetSample(component, panel, sample, enabled, state)
+                LabComponent.PLAIN_TOOLTIP,
+                LabComponent.RICH_TOOLTIP ->
+                    Material3TooltipSample(component, panel, sample, enabled)
                 LabComponent.CARD,
                 LabComponent.ELEVATED_CARD,
                 LabComponent.OUTLINED_CARD,

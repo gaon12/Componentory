@@ -536,6 +536,14 @@
     <string name="sheet_open">工作表已打开</string>
     <string name="sheet_closed">工作表已关闭</string>
     <string name="sheet_back_layer">后层</string>
+    <string name="component_plain_tooltip">普通工具提示</string>
+    <string name="component_plain_tooltip_description">托管在 TooltipBox 中、长按或悬停时显示的 Material 3 PlainTooltip。</string>
+    <string name="component_rich_tooltip">富文本工具提示</string>
+    <string name="component_rich_tooltip_description">在 TooltipBox 内带标题和操作的 Material 3 RichTooltip。</string>
+    <string name="tooltip_hint">长按或悬停以显示工具提示</string>
+    <string name="tooltip_text">有用的提示</string>
+    <string name="tooltip_title">工具提示标题</string>
+    <string name="tooltip_action">知道了</string>
 
     <string name="component_exposed_dropdown">展开式下拉菜单框</string>
     <string name="component_exposed_dropdown_description">将真实菜单锚定到其文本字段的 Material ExposedDropdownMenuBox。</string>

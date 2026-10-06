@@ -539,6 +539,14 @@
     <string name="sheet_open">Sheet open</string>
     <string name="sheet_closed">Sheet closed</string>
     <string name="sheet_back_layer">Back layer</string>
+    <string name="component_plain_tooltip">Plain tooltip</string>
+    <string name="component_plain_tooltip_description">The Material 3 PlainTooltip hosted in a TooltipBox that shows on long press or hover.</string>
+    <string name="component_rich_tooltip">Rich tooltip</string>
+    <string name="component_rich_tooltip_description">The Material 3 RichTooltip with a title and action inside a TooltipBox.</string>
+    <string name="tooltip_hint">Long-press or hover to show the tooltip</string>
+    <string name="tooltip_text">Helpful tip</string>
+    <string name="tooltip_title">Tooltip title</string>
+    <string name="tooltip_action">Got it</string>
 
     <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
     <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>

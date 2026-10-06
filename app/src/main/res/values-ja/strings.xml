@@ -536,6 +536,14 @@
     <string name="sheet_open">シートが開いています</string>
     <string name="sheet_closed">シートが閉じています</string>
     <string name="sheet_back_layer">背面レイヤー</string>
+    <string name="component_plain_tooltip">プレーンツールチップ</string>
+    <string name="component_plain_tooltip_description">長押しまたはホバーで表示する TooltipBox にホストされた Material 3 PlainTooltip です。</string>
+    <string name="component_rich_tooltip">リッチツールチップ</string>
+    <string name="component_rich_tooltip_description">TooltipBox 内にタイトルとアクションを持つ Material 3 RichTooltip です。</string>
+    <string name="tooltip_hint">長押しまたはホバーでツールチップを表示</string>
+    <string name="tooltip_text">役立つヒント</string>
+    <string name="tooltip_title">ツールチップのタイトル</string>
+    <string name="tooltip_action">OK</string>
 
     <string name="component_exposed_dropdown">公開ドロップダウンメニューボックス</string>
     <string name="component_exposed_dropdown_description">実際のメニューをテキストフィールドに固定する Material ExposedDropdownMenuBox です。</string>

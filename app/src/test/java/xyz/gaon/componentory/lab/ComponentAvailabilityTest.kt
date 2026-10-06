@@ -740,6 +740,30 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun tooltipsAreHonestMaterial3OnlyPreviews() {
+        listOf(
+                LabComponent.PLAIN_TOOLTIP to "androidx.compose.material3.PlainTooltip",
+                LabComponent.RICH_TOOLTIP to "androidx.compose.material3.RichTooltip",
+            )
+            .forEach { (component, material3) ->
+                listOf(
+                        DesignFamily.CLASSIC,
+                        DesignFamily.HOLO,
+                        DesignFamily.MATERIAL,
+                        DesignFamily.MATERIAL2,
+                    )
+                    .forEach { family ->
+                        assertNotNull(family.unsupportedReason(component, 36))
+                        assertEquals("Not provided", family.source(component))
+                    }
+                assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                assertEquals(material3, DesignFamily.MATERIAL3.source(component))
+                assertTrue(component.isTooltip)
+                assertEquals(ComponentCategory.FEEDBACK, component.category)
+            }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

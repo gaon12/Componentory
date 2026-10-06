@@ -393,6 +393,8 @@ class SampleSetupTest {
                 LabComponent.QUICK_CONTACT_BADGE,
                 LabComponent.PERMANENT_NAVIGATION_DRAWER,
                 LabComponent.LIST_ITEM,
+                LabComponent.PLAIN_TOOLTIP,
+                LabComponent.RICH_TOOLTIP,
             )
             .forEach { component ->
                 val family = supportedFamily(component)

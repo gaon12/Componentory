@@ -756,6 +756,20 @@ enum class LabComponent(
         category = ComponentCategory.LAYOUT,
         initialValue = 0,
     ),
+    PLAIN_TOOLTIP(
+        "Plain tooltip",
+        R.string.component_plain_tooltip,
+        R.string.component_plain_tooltip_description,
+        material3Function = "PlainTooltip",
+        category = ComponentCategory.FEEDBACK,
+    ),
+    RICH_TOOLTIP(
+        "Rich tooltip",
+        R.string.component_rich_tooltip,
+        R.string.component_rich_tooltip_description,
+        material3Function = "RichTooltip",
+        category = ComponentCategory.FEEDBACK,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1281,6 +1295,11 @@ enum class LabComponent(
         get() =
             this == BOTTOM_SHEET_SCAFFOLD || this == MODAL_BOTTOM_SHEET || this == BACKDROP_SCAFFOLD
 
+    // Tooltips are transient overlays; the samples show a real TooltipBox but
+    // carry no copyable inputs.
+    val isTooltip: Boolean
+        get() = this == PLAIN_TOOLTIP || this == RICH_TOOLTIP
+
     // The samples draw three destination items; the selected index copies.
     val navigationItemCount: Int
         get() = if (isNavigationSuite) 3 else 0
@@ -1430,6 +1449,7 @@ enum class LabComponent(
             isAppBar -> context.getString(R.string.status_clicks, value)
             this == PERMANENT_NAVIGATION_DRAWER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
+            isTooltip -> context.getString(R.string.status_preview, context.getString(labelRes))
             isToggleableDrawer ->
                 context.getString(
                     if (value == 1) R.string.drawer_opened else R.string.drawer_closed
