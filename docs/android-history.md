@@ -57,6 +57,8 @@ versions/<release>/
   manifest.json
   components/<qualified-class>.json
   resources/<original-qualified-directory>/<original-file>
+  third-party/Apache-2.0.txt
+  third-party/<repository>/<original-notice-path>
 ```
 
 The manifest includes source hashes, requested themes, exported file hashes,
@@ -97,5 +99,24 @@ archives, exported graphs, and generated application assets outside Git.
 
 Sources: [public SDK repository](https://android.googlesource.com/platform/prebuilts/sdk/),
 [KitKat framework release](https://android.googlesource.com/platform/frameworks/base/+/android-4.4.4_r2/).
-Original AOSP files retain their upstream licenses; source metadata does not remove
-those obligations when resource files are redistributed.
+Original AOSP files retain their upstream licenses. The exporter copies LICENSE,
+NOTICE, COPYING, COPYRIGHT, and module-license files from the root and ancestors
+of the analyzed sources and copied resources. It keeps their exact bytes, paths,
+immutable source URLs, and hashes in `upstreamTerms`. Original resource headers
+remain intact. Root notice absence is explicit. A listed notice that cannot be
+read stops the export rather than silently producing incomplete attribution.
+
+An upstream `MODULE_LICENSE_APACHE2` marker causes the export to include the full
+Apache 2.0 license. This declaration does not override third-party terms within
+the repository or assign Apache 2.0 to all AOSP files. Whole ancestor notices can
+contain additional attributions; they are preserved rather than edited without
+a file-level review. Modified source files must identify their changes when they
+are redistributed. The exporter copies resource bytes unchanged and records
+materialized folder aliases separately.
+
+Inventory exports also retain the original SDK repository notices. The pinned
+SDK root NOTICE contains SDK terms and is not relabelled as an Apache notice.
+The app uses reviewed class metadata, not a redistributed SDK binary or the
+complete signature files. Componentory's own code remains under its MIT license.
+See the [AOSP license policy](https://source.android.com/docs/setup/contribute/licenses)
+and [Apache 2.0 redistribution terms](https://www.apache.org/licenses/LICENSE-2.0).

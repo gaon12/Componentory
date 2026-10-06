@@ -8,6 +8,7 @@ import shutil
 from pathlib import Path
 
 from .aosp import SourceCache, resolve_commit, sha256
+from .notices import preserve_notices
 from .resources import ResourceIndex, analysis_grade, java_references
 from .sdk import parse_signature, public_ui, source_path
 
@@ -74,6 +75,11 @@ def inventory(args) -> None:
             "originalCaptures": "MISSING",
             "scope": "Android framework; no library APIs.",
             "tableSha256": sha256((args.output / "public-ui.csv").read_bytes()),
+            "upstreamTerms": preserve_notices(
+                cache,
+                args.output,
+                [f"{api}/public/api/android.txt" for api in range(1, args.max_api + 1)],
+            ),
         },
     )
     print(f"Exported {len(rows)} public UI records across {len(versions)} API levels.")
@@ -125,6 +131,9 @@ def export(args) -> None:
     if destination.exists():
         raise ValueError("The export destination already exists. Choose a fresh output directory.")
     files = set()
+    source_paths = (
+        {"api/current.txt"} if signature_source["repository"] == FRAMEWORK_REPOSITORY else set()
+    )
     reports = []
     for name in requested:
         item, category = candidates[name]
@@ -141,6 +150,7 @@ def export(args) -> None:
             if data is None:
                 missing_sources.append(path)
             else:
+                source_paths.add(path)
                 styles, refs = java_references(data.decode("utf-8"))
                 attributes[ancestor] = styles
                 roots.update(refs)
@@ -194,6 +204,18 @@ def export(args) -> None:
         target = destination / "resources" / path
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(index.root / path, target)
+    upstream_terms = [
+        preserve_notices(
+            cache,
+            destination,
+            sorted(source_paths | {f"core/res/res/{path}" for path in files}),
+            index.root,
+        )
+    ]
+    if signature_source["repository"] == SDK_REPOSITORY:
+        upstream_terms.append(
+            preserve_notices(sdk, destination, [f"{args.api}/public/api/android.txt"])
+        )
     write_json(
         destination / "manifest.json",
         {
@@ -202,6 +224,7 @@ def export(args) -> None:
             "apiLevel": args.api,
             "frameworkCommit": commit,
             "apiSignature": signature_source,
+            "upstreamTerms": upstream_terms,
             "resourceAliases": json.loads(
                 (index.root / ".aliases.json").read_text(encoding="utf-8")
             )

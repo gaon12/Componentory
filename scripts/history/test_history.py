@@ -9,7 +9,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 from .__main__ import api_signature
-from .aosp import extract_resources, read_url, sha256
+from .aosp import SourceCache, extract_resources, read_url, sha256
+from .notices import APACHE_LICENSE, preserve_notices
 from .resources import ResourceIndex, analysis_grade, java_references
 from .sdk import parse_signature, public_ui, source_path
 
@@ -180,6 +181,86 @@ class ResourceTests(unittest.TestCase):
         self.assertIn("style/Widget.Child", graph["nodes"])
         self.assertIn("style/Widget", graph["nodes"])
         self.assertIn("id/content", graph["nodes"])
+
+
+class NoticeTests(unittest.TestCase):
+    def test_original_root_and_resource_notices_keep_bytes_hashes_and_sources(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            cache = SourceCache(root / "cache", "platform/frameworks/base", "a" * 40)
+            resources = root / "resources"
+            (resources / "drawable-hdpi").mkdir(parents=True)
+            original = b"Unchanged notice\r\nCopyright upstream\r\n"
+            (resources / "drawable-hdpi/NOTICE.txt").write_bytes(original)
+
+            def listing(directory):
+                return (
+                    [
+                        {"name": "NOTICE", "type": "blob"},
+                        {"name": "MODULE_LICENSE_APACHE2", "type": "blob"},
+                    ]
+                    if not directory
+                    else []
+                )
+
+            with (
+                patch.object(cache, "directory", side_effect=listing),
+                patch.object(
+                    cache,
+                    "file",
+                    side_effect=lambda path: b"" if path == "MODULE_LICENSE_APACHE2" else original,
+                ),
+            ):
+                result = preserve_notices(
+                    cache, root / "export", ["core/res/res/drawable-hdpi/button.9.png"], resources
+                )
+            self.assertEqual("Apache-2.0", result["declaredModuleLicense"])
+            self.assertEqual("PRESENT", result["rootNotice"])
+            self.assertEqual(3, len(result["files"]))
+            for item in result["files"]:
+                data = (root / "export" / item["path"]).read_bytes()
+                self.assertEqual(sha256(data), item["sha256"])
+                self.assertIn("/" + "a" * 40 + "/", item["url"])
+                if "NOTICE" in item["sourcePath"]:
+                    self.assertEqual(original, data)
+            self.assertEqual(
+                APACHE_LICENSE.read_bytes(),
+                (root / "export/third-party/Apache-2.0.txt").read_bytes(),
+            )
+
+    def test_missing_notices_are_explicit_and_sdk_terms_are_not_relabelled_apache(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            cache = SourceCache(Path(temporary), "platform/prebuilts/sdk", "b" * 40)
+            for has_notice in (False, True):
+                with (
+                    self.subTest(has_notice=has_notice),
+                    patch.object(
+                        cache,
+                        "directory",
+                        side_effect=lambda directory: (
+                            [{"name": "NOTICE", "type": "blob"}]
+                            if not directory and has_notice
+                            else []
+                        ),
+                    ),
+                    patch.object(cache, "file", return_value=b"SDK terms"),
+                ):
+                    result = preserve_notices(
+                        cache, Path(temporary) / "export", ["19/public/api/android.txt"]
+                    )
+                self.assertEqual("PRESENT" if has_notice else "ABSENT", result["rootNotice"])
+                self.assertEqual("NOT_INFERRED", result["declaredModuleLicense"])
+                self.assertIsNone(result["apacheLicenseCopy"])
+
+    def test_listed_notice_that_cannot_be_read_fails_the_export(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            cache = SourceCache(Path(temporary), "platform/frameworks/base", "a" * 40)
+            with (
+                patch.object(cache, "directory", return_value=[{"name": "NOTICE", "type": "blob"}]),
+                patch.object(cache, "file", return_value=None),
+            ):
+                with self.assertRaisesRegex(ValueError, "listed upstream notice"):
+                    preserve_notices(cache, Path(temporary) / "export", [])
 
 
 class ArchiveTests(unittest.TestCase):

@@ -71,6 +71,16 @@ class SourceCache:
         destination.write_bytes(data)
         return data
 
+    def directory(self, path: str) -> list[dict]:
+        destination = self.root / ".directories" / (path or "root") / "entries.json"
+        if destination.is_file():
+            return json.loads(destination.read_text(encoding="utf-8"))
+        response = read_url(self.url(path) + "?format=JSON")
+        entries = json.loads(response.split(b"\n", 1)[1])["entries"]
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(entries) + "\n", encoding="utf-8")
+        return entries
+
     def resources(self) -> Path:
         archive = self.root / "resources.tar.gz"
         destination = self.root / "resources"
