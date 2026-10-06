@@ -5,7 +5,7 @@ comparing Android design families on a physical device. Platform Classic, Holo,
 and Material themes provide live framework controls. Library components are
 separate entries with their own version identity.
 
-The working prototype has three bottom navigation destinations:
+The working prototype has four bottom navigation destinations:
 
 - **List:** Search 145 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
@@ -16,6 +16,12 @@ The working prototype has three bottom navigation destinations:
   its own state. Detail starts Left with its current eligible inputs and Right
   with provider defaults. Copy inputs in either direction to start a fresh target
   sample. Wide screens show two columns; narrow screens stack the samples.
+  **Save run** stores both panels' eligible inputs, the enabled switch, and the
+  device environment as one JSON-lines record.
+- **Runs:** List saved runs newest-first with their component, both provider
+  families, and saved time. **Open** restores both panels and the enabled
+  switch on the Compare tab, **Delete** removes a record, and **Export**
+  shares every run as a chronological JSON array.
 - **Settings:** Choose system, light, or dark app appearance and an app language.
   Inspect the device, OS build, display configuration, target SDK, and libraries.
 
@@ -100,7 +106,7 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `538f1d4` pass formatting, lint, all 127 executed JVM
+The latest checks for `7e95b51` pass formatting, lint, all 139 executed JVM
 tests, and both APK builds. The authored catalog smoke tests cover 366 supported
 and 418 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
@@ -117,12 +123,14 @@ animators, transient windows, the deprecated tab host, the deprecated
 containers, the popup windows, the menu hosts, the content surfaces, the dialer
 filter, the media widgets, the share action provider, the edge effect host, the Material navigation
 bars and rails, the Material tab rows and styled variants, the Material snackbars, the Material list items, the Material app bars, the Material navigation drawers, the Material scaffolds, the Material exposed dropdowns, the Material bottom sheets and backdrop, the Material 3 tooltips, the Material swipe-to-dismiss rows, the Material 3 search bars, basic dialog, carousels, pull to refresh, app bar scopes, labels, and drag handles, date/time dialogs, cards,
-surfaces, popup menus, input copying, and the preview reorder still require a
-clean run on the unlocked device. The
+surfaces, popup menus, input copying, the preview reorder, and the saved-runs
+save/reopen/delete flow still require a clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
 repair commits, and remaining UX priorities.
-The prototype does not yet store or export experiment history, and no original
-historical OS captures have been collected. These are later milestones.
+Saved runs persist to `runs.jsonl` under the app's files directory and reopen
+real panel states; their instrumentation coverage could not run while the
+device stayed locked. No original historical OS captures have been collected
+yet — that remains a later milestone.
 
 ## Project decisions
 
