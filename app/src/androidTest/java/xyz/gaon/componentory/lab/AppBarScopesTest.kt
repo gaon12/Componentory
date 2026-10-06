@@ -8,12 +8,12 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
-import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -25,6 +25,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -67,7 +68,7 @@ class AppBarScopesTest {
                     useUnmergedTree = true,
                 )
                 .fetchSemanticsNodes()
-                .also { assert(it.isNotEmpty()) }
+                .also { assertTrue(it.isNotEmpty()) }
             compose
                 .onNodeWithTag("library_LEFT_overflow", useUnmergedTree = true)
                 .assertIsDisplayed()
@@ -79,10 +80,13 @@ class AppBarScopesTest {
     fun itemAndOverflowClicksCountAndCopyAcrossPanels() {
         configure(LabComponent.APP_BAR_ROW, DesignFamily.MATERIAL3, DesignFamily.MATERIAL3)
         compose
-            .onNode(
-                hasAnyAncestor(hasTestTag("library_LEFT")) and hasClickAction(),
+            .onAllNodes(
+                hasAnyAncestor(hasTestTag("library_LEFT")) and
+                    hasClickAction() and
+                    !hasTestTag("library_LEFT_overflow"),
                 useUnmergedTree = true,
-            )
+            )[0]
+            .assertIsDisplayed()
             .performClick()
         status("LEFT", "Clicks: 1")
         // Three items with maxItemCount 2 push the last one into the
@@ -103,14 +107,14 @@ class AppBarScopesTest {
         setEnabled(false)
         compose.onNodeWithTag("library_LEFT_overflow", useUnmergedTree = true).assertIsNotEnabled()
         status("LEFT", "Clicks: 0")
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Android platform does not provide a dedicated App bar column component.",
-                substring = true,
+            .onNode(
+                hasText(
+                    "The Android platform does not provide a dedicated App bar column component."
+                ) and hasAnyAncestor(hasTestTag("unsupported_RIGHT"))
             )
+            .assertExists()
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
     }
 

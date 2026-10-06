@@ -177,7 +177,8 @@ fun SamplePanel(
                             component.isDrawerSuite ||
                             component == LabComponent.NAVIGATION_RAIL ||
                             component == LabComponent.WIDE_NAVIGATION_RAIL ||
-                            component == LabComponent.MODAL_WIDE_NAVIGATION_RAIL)
+                            component == LabComponent.MODAL_WIDE_NAVIGATION_RAIL ||
+                            component == LabComponent.APP_BAR_COLUMN)
                 ) {
                     Modifier.height(320.dp * LocalDensity.current.fontScale.coerceAtLeast(1f))
                         .clipToBounds()
