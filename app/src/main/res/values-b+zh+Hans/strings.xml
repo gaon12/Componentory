@@ -472,4 +472,11 @@
     <string name="component_dialer_filter">拨号过滤器</string>
     <string name="component_dialer_filter_description">已弃用的框架 DialerFilter，将数字和字母组合为过滤器。</string>
     <string name="dialer_filter_note">在真实的数字输入框中键入。组合出的过滤文本即为被复制的输入。</string>
+    <string name="component_video_view">视频视图</string>
+    <string name="component_video_view_description">框架 VideoView，在主题面板中播放捆绑的视频片段。</string>
+    <string name="component_media_controller">媒体控制器</string>
+    <string name="component_media_controller_description">框架 MediaController，悬浮在锚定的 VideoView 之上。</string>
+    <string name="status_playing">播放：正在播放</string>
+    <string name="status_paused">播放：已暂停</string>
+    <string name="media_controller_note">点击锚定的视频即可显示真实的 MediaController。其传输按钮直接控制播放器。</string>
 </resources>

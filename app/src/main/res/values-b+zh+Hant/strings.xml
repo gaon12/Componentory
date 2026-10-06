@@ -472,4 +472,11 @@
     <string name="component_dialer_filter">撥號篩選器</string>
     <string name="component_dialer_filter_description">已棄用的架構 DialerFilter，將數字與字母組合為篩選條件。</string>
     <string name="dialer_filter_note">在真實的數字欄位中輸入。組合出的篩選文字即為被複製的輸入。</string>
+    <string name="component_video_view">影片檢視</string>
+    <string name="component_video_view_description">架構 VideoView，在主題面板中播放隨附的影片片段。</string>
+    <string name="component_media_controller">媒體控制器</string>
+    <string name="component_media_controller_description">架構 MediaController，懸浮於錨定的 VideoView 上方。</string>
+    <string name="status_playing">播放：正在播放</string>
+    <string name="status_paused">播放：已暫停</string>
+    <string name="media_controller_note">點擊錨定的影片即可顯示真實的 MediaController。其傳輸按鈕直接控制播放器。</string>
 </resources>

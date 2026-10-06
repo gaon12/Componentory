@@ -120,6 +120,10 @@ fun PlatformSample(
         PlatformDialerSample(family, component, viewId, enabled, state, modifier)
         return
     }
+    if (component.isMediaWidget) {
+        PlatformMediaSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

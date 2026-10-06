@@ -475,4 +475,11 @@
     <string name="component_dialer_filter">Dialer filter</string>
     <string name="component_dialer_filter_description">The deprecated framework DialerFilter composing digits and letters into a filter.</string>
     <string name="dialer_filter_note">Type into the real digits field. The composed filter text is the copied input.</string>
+    <string name="component_video_view">Video view</string>
+    <string name="component_video_view_description">The framework VideoView playing a bundled clip inside the themed panel.</string>
+    <string name="component_media_controller">Media controller</string>
+    <string name="component_media_controller_description">The framework MediaController floating over an anchored VideoView.</string>
+    <string name="status_playing">Playback: playing</string>
+    <string name="status_paused">Playback: paused</string>
+    <string name="media_controller_note">Tap the anchored video to reveal the real MediaController. Its transport buttons drive the player directly.</string>
 </resources>

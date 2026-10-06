@@ -96,6 +96,8 @@ class ComponentInventoryTest {
                 "android.webkit.WebView" to ("WEB_VIEW" to "1"),
                 "android.widget.QuickContactBadge" to ("QUICK_CONTACT_BADGE" to "5"),
                 "android.widget.DialerFilter" to ("DIALER_FILTER" to "1"),
+                "android.widget.VideoView" to ("VIDEO_VIEW" to "1"),
+                "android.widget.MediaController" to ("MEDIA_CONTROLLER" to "1"),
             )
             .forEach { (source, metadata) ->
                 val row = rows.single { it.source == source }
@@ -141,9 +143,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(111, LabComponent.entries.size)
+        assertEquals(113, LabComponent.entries.size)
         assertEquals(
-            294,
+            300,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -151,15 +153,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 158, "Pending" to 81),
+            mapOf("Implemented" to 160, "Pending" to 79),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 68, "MATERIAL2" to 31, "MATERIAL3" to 59),
+            mapOf("PLATFORM" to 70, "MATERIAL2" to 31, "MATERIAL3" to 59),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 6, "MATERIAL2" to 21, "MATERIAL3" to 54),
+            mapOf("PLATFORM" to 4, "MATERIAL2" to 21, "MATERIAL3" to 54),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(

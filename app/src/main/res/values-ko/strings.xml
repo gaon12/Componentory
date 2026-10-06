@@ -472,4 +472,11 @@
     <string name="component_dialer_filter">전화 걸기 필터</string>
     <string name="component_dialer_filter_description">숫자와 문자를 필터로 조합하는 지원 중단된 프레임워크 DialerFilter입니다.</string>
     <string name="dialer_filter_note">실제 숫자 입력란에 입력하세요. 조합된 필터 텍스트가 복사되는 입력입니다.</string>
+    <string name="component_video_view">비디오 뷰</string>
+    <string name="component_video_view_description">테마 패널 안에서 번들된 클립을 재생하는 프레임워크 VideoView입니다.</string>
+    <string name="component_media_controller">미디어 컨트롤러</string>
+    <string name="component_media_controller_description">앵커된 VideoView 위에 떠 있는 프레임워크 MediaController입니다.</string>
+    <string name="status_playing">재생: 재생 중</string>
+    <string name="status_paused">재생: 일시 정지</string>
+    <string name="media_controller_note">앵커된 비디오를 눌러 실제 MediaController를 표시하세요. 전송 버튼이 플레이어를 직접 제어합니다.</string>
 </resources>

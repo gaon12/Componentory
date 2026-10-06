@@ -43,6 +43,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListPopupWindow
 import android.widget.ListView
+import android.widget.MediaController
 import android.widget.MultiAutoCompleteTextView
 import android.widget.NumberPicker
 import android.widget.PopupMenu
@@ -71,6 +72,7 @@ import android.widget.TimePicker
 import android.widget.ToggleButton
 import android.widget.Toolbar
 import android.widget.TwoLineListItem
+import android.widget.VideoView
 import android.widget.ViewAnimator
 import android.widget.ViewFlipper
 import android.widget.ViewSwitcher
@@ -169,22 +171,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 66, 43)
+        verifyFamily(DesignFamily.CLASSIC, 68, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 66, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 68, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 66, 43)
+        verifyFamily(DesignFamily.MATERIAL, 68, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 78)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 80)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 50)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 52)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -193,7 +195,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            111,
+            113,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -559,6 +561,8 @@ class CatalogRenderingSmokeTest {
                 LabComponent.QUICK_CONTACT_BADGE ->
                     assertNotNull((view as QuickContactBadge).drawable)
                 LabComponent.DIALER_FILTER -> assertTrue((view as DialerFilter).childCount > 0)
+                LabComponent.VIDEO_VIEW -> assertTrue(view.tag !is MediaController)
+                LabComponent.MEDIA_CONTROLLER -> assertTrue(view.tag is MediaController)
                 LabComponent.WEB_VIEW -> Unit
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
@@ -662,6 +666,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.WEB_VIEW -> WebView::class.java
             LabComponent.QUICK_CONTACT_BADGE -> QuickContactBadge::class.java
             LabComponent.DIALER_FILTER -> DialerFilter::class.java
+            LabComponent.VIDEO_VIEW,
+            LabComponent.MEDIA_CONTROLLER -> VideoView::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

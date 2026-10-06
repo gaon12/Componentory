@@ -381,6 +381,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component == LabComponent.MEDIA_CONTROLLER && unsupported == null) {
+                Text(
+                    stringResource(R.string.media_controller_note),
+                    modifier = Modifier.testTag("media_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component == LabComponent.DIALER_FILTER && unsupported == null) {
                 Text(
                     stringResource(R.string.dialer_filter_note),

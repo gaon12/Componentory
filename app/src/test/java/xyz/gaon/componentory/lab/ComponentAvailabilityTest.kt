@@ -449,6 +449,32 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun mediaWidgetsKeepApi1PlatformSources() {
+        val componentToSource =
+            mapOf(
+                LabComponent.VIDEO_VIEW to "android.widget.VideoView",
+                LabComponent.MEDIA_CONTROLLER to "android.widget.MediaController",
+            )
+        componentToSource.forEach { (component, source) ->
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family
+                ->
+                assertNull(family.unsupportedReason(component, 1))
+                assertNull(family.unsupportedReason(component, 36))
+                assertEquals(source, family.source(component))
+            }
+            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertTrue(component.isMediaWidget)
+            assertEquals(1, component.minimumApi)
+            assertEquals(ComponentCategory.CONTENT, component.category)
+            assertNull(component.deprecatedApi)
+            assertTrue(component.matchesSearch(source))
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

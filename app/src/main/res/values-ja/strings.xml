@@ -472,4 +472,11 @@
     <string name="component_dialer_filter">ダイヤラーフィルター</string>
     <string name="component_dialer_filter_description">数字と文字をフィルターに組み立てる、非推奨のフレームワークDialerFilterです。</string>
     <string name="dialer_filter_note">実際の数字フィールドに入力してください。組み立てられたフィルターテキストがコピーされる入力です。</string>
+    <string name="component_video_view">ビデオビュー</string>
+    <string name="component_video_view_description">テーマのパネル内でバンドルされたクリップを再生するフレームワークVideoViewです。</string>
+    <string name="component_media_controller">メディアコントローラー</string>
+    <string name="component_media_controller_description">アンカーされたVideoViewの上に浮かぶフレームワークMediaControllerです。</string>
+    <string name="status_playing">再生: 再生中</string>
+    <string name="status_paused">再生: 一時停止</string>
+    <string name="media_controller_note">アンカーされたビデオをタップすると実際のMediaControllerが表示されます。トランスポートボタンがプレーヤーを直接操作します。</string>
 </resources>

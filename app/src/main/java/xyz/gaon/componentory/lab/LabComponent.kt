@@ -576,6 +576,23 @@ enum class LabComponent(
         minimumApi = 1,
         category = ComponentCategory.LEGACY,
     ),
+    VIDEO_VIEW(
+        "Video view",
+        R.string.component_video_view,
+        R.string.component_video_view_description,
+        platformSource = "android.widget.VideoView",
+        minimumApi = 1,
+        category = ComponentCategory.CONTENT,
+        initialValue = 0,
+    ),
+    MEDIA_CONTROLLER(
+        "Media controller",
+        R.string.component_media_controller,
+        R.string.component_media_controller_description,
+        platformSource = "android.widget.MediaController",
+        minimumApi = 1,
+        category = ComponentCategory.CONTENT,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -1035,6 +1052,10 @@ enum class LabComponent(
     val isContentSurface: Boolean
         get() = this == WEB_VIEW || this == QUICK_CONTACT_BADGE
 
+    // Media widgets backed by the bundled clip in res/raw.
+    val isMediaWidget: Boolean
+        get() = this == VIDEO_VIEW || this == MEDIA_CONTROLLER
+
     val galleryItemCount: Int
         get() = if (this == GALLERY) 6 else 0
 
@@ -1170,6 +1191,12 @@ enum class LabComponent(
                         R.string.status_selected,
                         context.getString(R.string.list_item, value),
                     )
+            this == VIDEO_VIEW ->
+                context.getString(
+                    if (value == 1) R.string.status_playing else R.string.status_paused
+                )
+            this == MEDIA_CONTROLLER ->
+                context.getString(R.string.status_preview, context.getString(labelRes))
             isMenuHost ->
                 if (value == 0) context.getString(R.string.sample_state_no_selection)
                 else
