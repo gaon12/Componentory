@@ -41,7 +41,10 @@ class Definition:
 def style_parent(element: ET.Element) -> str | None:
     parent = element.get("parent")
     if parent is not None:
-        return parent.removeprefix("@android:style/").removeprefix("@style/") or None
+        return (
+            parent.removeprefix("@android:style/").removeprefix("@style/").removeprefix("android:")
+            or None
+        )
     name = element.get("name", "")
     return name.rsplit(".", 1)[0] if "." in name else None
 
@@ -51,6 +54,7 @@ class ResourceIndex:
         self.root = root
         self.definitions: dict[str, list[Definition]] = defaultdict(list)
         self.hashes = {}
+        self.java_styles = {}
         for path in sorted(root.glob("*/*")):
             if not path.is_file():
                 continue
@@ -77,6 +81,8 @@ class ResourceIndex:
                     self.definitions[f"{resource_type}/{name}"].append(
                         Definition(relative, element)
                     )
+                    if resource_type == "style":
+                        self.java_styles[f"style/{name.replace('.', '_')}"] = f"style/{name}"
             elif kind != "values":
                 name = (
                     path.name.removesuffix(".9.png") if path.name.endswith(".9.png") else path.stem
@@ -85,7 +91,7 @@ class ResourceIndex:
                 if path.suffix == ".xml":
                     # IDs declared inside layouts have no separate file.
                     text = path.read_text(encoding="utf-8")
-                    for name in re.findall(r"@\+id/([\w.]+)", text):
+                    for name in re.findall(r"@\+(?:android:)?id/([\w.]+)", text):
                         self.definitions[f"id/{name}"].append(Definition(relative))
 
     def attribute_bindings(self, theme: str, attribute: str, visited=None) -> list[dict]:
@@ -146,6 +152,7 @@ class ResourceIndex:
         return result
 
     def graph(self, roots: list[str], themes: list[str]) -> dict:
+        roots = [self.java_styles.get(ref, ref) for ref in roots]
         pending = list(roots)
         nodes = {}
         missing = set()
@@ -172,6 +179,7 @@ class ResourceIndex:
                 continue
             for definition in definitions:
                 dependencies.update(self.dependencies(definition))
+            dependencies = {self.java_styles.get(ref, ref) for ref in dependencies}
             nodes[ref] = {
                 "variants": [self.describe(item) for item in definitions],
                 "dependencies": sorted(dependencies),

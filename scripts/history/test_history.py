@@ -163,6 +163,23 @@ class ResourceTests(unittest.TestCase):
         )
         self.assertEqual("MISSING", analysis_grade("android.widget.Button")["originalCapture"])
 
+    def test_java_style_symbols_android_parents_and_platform_id_declarations(self):
+        self.add(
+            "values/platform.xml",
+            '<resources><style name="Widget.Child" parent="android:Widget"/></resources>',
+        )
+        self.add(
+            "layout/platform.xml",
+            '<View xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+android:id/content"/>',
+        )
+        graph = ResourceIndex(self.root).graph(
+            ["style/Widget_Child", "layout/platform"], ["Theme.Light"]
+        )
+        self.assertEqual([], graph["missingResources"])
+        self.assertIn("style/Widget.Child", graph["nodes"])
+        self.assertIn("style/Widget", graph["nodes"])
+        self.assertIn("id/content", graph["nodes"])
+
 
 class ArchiveTests(unittest.TestCase):
     def test_temporary_rate_limit_retries_without_changing_source(self):
