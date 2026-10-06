@@ -532,9 +532,11 @@ rows become implemented: TextView, CheckedTextView, Material 2 Text and Material
 3 Text. The baseline remains 239 sources.
 
 The shared panel shows the real sample before host adjustments and icon selection.
-Feedback precedes icon source metadata, while provider identity and behavioral
-guidance remain visible. Compare shows the component name in its picker once,
-with Enabled, Copy inputs and Reset in wrapping host controls. Detail can seed
+Feedback precedes icon source metadata, while provider identity sits behind a
+collapsed-by-default implementation details section and behavioral guidance
+remains visible. Compare merges its heading and component picker into one row
+and lists each catalog row's supporting providers, with Enabled, Copy inputs
+and Reset in wrapping host controls. Detail can seed
 Left with eligible inputs while Right starts at its defaults. Directional copying
 starts a fresh target with independent inputs and neutral interaction history.
 Exact icon compatibility is required, and unsupported copies keep the target
@@ -794,6 +796,16 @@ still requires a clean run on the unlocked device. The resource-only
 `packagedInventoryRetainsAuditedSourcesAndStatuses` test did pass in that run,
 verifying the new `TIME_PICKER` and `TIME_INPUT` catalog identifiers in the
 packaged inventory.
+
+Review follow-ups then landed: catalog rows name their supporting providers and
+use tighter padding, the compare heading and picker share one row, icon catalog
+loading moved off the composition thread, and each panel's API/source metadata
+sits behind a collapsed-by-default implementation details toggle whose state
+survives recreation. All 54 instrumentation files that assert `source_`,
+`implementation_`, or `menu_item_source_` now expand the section through an
+idempotent `expandDetails` helper before asserting; the planned-inventory rows'
+similarly named tags are untouched. The whole suite, including the expandable
+behavior itself, awaits a clean unlocked-device run.
 
 ### Earlier verification milestones
 
