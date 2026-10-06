@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**117 component entries**, with **310 runnable component/family combinations**.
+**119 component entries**, with **314 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -56,9 +56,9 @@ result is recorded under its separate milestone below.
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
-| Compose Material 2 1.10.4 | 52 | 35 | 17 |
-| Compose Material 3 1.4.0 | 113 | 63 | 50 |
-| Total | 239 | 170 | 69 |
+| Compose Material 2 1.10.4 | 52 | 39 | 13 |
+| Compose Material 3 1.4.0 | 113 | 67 | 46 |
+| Total | 239 | 178 | 61 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -333,6 +333,13 @@ hosts three real destination items; the selected destination index is the
 copied state, and the item composables count as supporting sources of their
 containers. The platform families report no dedicated navigation widget.
 
+Two tab entries add four library combinations. TAB_ROW pairs both libraries'
+TabRow, and SCROLLABLE_TAB_ROW pairs both ScrollableTabRow containers with
+eight tabs so the strip honestly overflows. Real Tab items fill every row and
+the fixed row also hosts a LeadingIconTab; the selected tab index is the
+copied state. The framework's deprecated TabHost stays a separate platform
+sample, so platform cells still report no dedicated tab row.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -417,14 +424,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `5ed500d`, preceded by the sweep baseline correction in
+Latest implementation: `e46feca`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 109 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,804,238
+with zero errors. All 110 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,107,362
 bytes with SHA-256
-`2bd22598d1baf837d4fffccb21760bc66847c0b999b43537e8b1de2f9b1afe6b` and the test
-APK is 1,495,317 bytes with SHA-256
-`5842c698bd9ca54b246d0e34893fed7f2f72ed1738efbfe131cc4bb32a7a866a`.
+`e334cdfc4d94989f958ad3acfd342b6a4cbf84823df4c04410d80be308eb82c0` and the test
+APK is 1,498,494 bytes with SHA-256
+`3d502b6fc3087e0b6460ea071db9c1002bc5966970abd10a8940b562171b6e32`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
