@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**131 component entries**, with **332 runnable component/family combinations**.
+**134 component entries**, with **337 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `1250e6f`. Executed resource
+Application and latest verification source revision: `9a99c33`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
-| Compose Material 2 1.10.4 | 52 | 47 | 5 |
-| Compose Material 3 1.4.0 | 113 | 83 | 30 |
-| Total | 239 | 202 | 37 |
+| Compose Material 2 1.10.4 | 52 | 50 | 2 |
+| Compose Material 3 1.4.0 | 113 | 85 | 28 |
+| Total | 239 | 207 | 32 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -377,6 +377,16 @@ state, while the menu's expanded flag stays local and is never
 transferred. Both variants run behind their libraries' experimental
 opt-ins, and the disabled switch keeps the menu closed.
 
+Three sheet entries add five library combinations. BOTTOM_SHEET_SCAFFOLD
+pairs the BottomSheetScaffold both libraries publish; MODAL_BOTTOM_SHEET
+pairs Material 2's ModalBottomSheetLayout with Material 3's
+ModalBottomSheet overlay; BACKDROP_SCAFFOLD is honest Material 2-only
+because Material 3 removed the backdrop. Every sample drives a real
+BottomSheetState, ModalBottomSheetState, or BackdropScaffoldState both
+ways, so the open-or-closed flag is the copied state and drags write it
+back. Material 3's pinned BottomSheetScaffold has no gestures switch, so
+disabled panels gate the open button while the sheet stays draggable.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -451,7 +461,7 @@ resources are kept in the app bundle for offline switching.
 1. Remaining pickers and date/time variants.
 2. Lists, images, remaining text variants, and legacy content controls.
 3. Remaining menu variants and search bars.
-4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
+4. Snackbar variants, tooltips, swipe dismissal, refresh, carousels, and remaining scaffolds.
 5. Framework layouts, zoom, media, and system-hosted UI.
 
 Keep available but unimplemented combinations pending. Review each group,
@@ -461,14 +471,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `1250e6f`, preceded by the sweep baseline correction in
+Latest implementation: `9a99c33`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 115 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,166,986
+with zero errors. All 116 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,192,418
 bytes with SHA-256
-`835fbf8180822155967f5950aa742c4cde6e7751d23731514c6409d5634aa465` and the test
-APK is 1,507,507 bytes with SHA-256
-`cc8ea3bfffd828b1419bd0f0fce224182e084779cb875f348bc28c19cb0c32ef`.
+`29186116b54c2f002736ed9faa5f43da866d3ba29e4281cf6e1690e788765f40` and the test
+APK is 1,510,007 bytes with SHA-256
+`38d0934ea36e86e956ee6bc363bc3db25d2c9924d85b737de14d840dc13aaa17`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -599,8 +609,15 @@ status text, copying picked text between panels, recreation restore,
 disabled fields keeping the menu closed, and the platform unsupported
 explanation. They also await a clean unlocked-device run.
 
-The catalog now declares 131 entries and 332 supported combinations. The smoke
-sweep spans 649 ordinary cells: 335 supported and 314 unsupported; the six
+Four [bottom-sheet scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/BottomSheetsTest.kt)
+compile in the same state. They verify the real Material 2 and Material 3
+sheet states, cross-library open-state copying, modal show and dismiss,
+the backdrop scaffold's honest Material 3 unsupported cell, disabled
+buttons keeping the sheet closed, and recreation restore. They also
+await a clean unlocked-device run.
+
+The catalog now declares 134 entries and 337 supported combinations. The smoke
+sweep spans 664 ordinary cells: 340 supported and 324 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
