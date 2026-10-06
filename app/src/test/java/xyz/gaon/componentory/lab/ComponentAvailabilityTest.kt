@@ -514,6 +514,34 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun navigationSuiteUsesBothComposeLibraries() {
+        val expected =
+            mapOf(
+                LabComponent.NAVIGATION_BAR to
+                    ("androidx.compose.material.BottomNavigation" to
+                        "androidx.compose.material3.NavigationBar"),
+                LabComponent.NAVIGATION_RAIL to
+                    ("androidx.compose.material.NavigationRail" to
+                        "androidx.compose.material3.NavigationRail"),
+            )
+        expected.forEach { (component, sources) ->
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family
+                ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+            assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+            assertEquals(sources.first, DesignFamily.MATERIAL2.source(component))
+            assertEquals(sources.second, DesignFamily.MATERIAL3.source(component))
+            assertTrue(component.isNavigationSuite)
+            assertEquals(3, component.navigationItemCount)
+            assertEquals(ComponentCategory.NAVIGATION, component.category)
+            assertTrue(component.matchesSearch(component.label))
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

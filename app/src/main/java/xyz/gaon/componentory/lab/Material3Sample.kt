@@ -161,6 +161,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                                 Material3Selections(component, panel, sample, enabled, state)
                             ComponentCategory.INPUT ->
                                 Material3Inputs(component, sample, enabled, state)
+                            ComponentCategory.NAVIGATION ->
+                                Material3Navigation(component, panel, sample, enabled, state)
                             else -> Material3Actions(component, sample, enabled, state)
                         }
                     }

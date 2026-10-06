@@ -324,6 +324,8 @@ class SampleSetupTest {
                 LabComponent.VIDEO_VIEW to 1,
                 LabComponent.SHARE_ACTION_PROVIDER to 2,
                 LabComponent.EDGE_EFFECT to 3,
+                LabComponent.NAVIGATION_BAR to 2,
+                LabComponent.NAVIGATION_RAIL to 3,
             )
         inputs.forEach { (component, value) ->
             val family = supportedFamily(component)

@@ -602,6 +602,24 @@ enum class LabComponent(
         category = ComponentCategory.CONTENT,
         initialValue = 0,
     ),
+    NAVIGATION_BAR(
+        "Navigation bar",
+        R.string.component_navigation_bar,
+        R.string.component_navigation_bar_description,
+        material2Function = "BottomNavigation",
+        material3Function = "NavigationBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    NAVIGATION_RAIL(
+        "Navigation rail",
+        R.string.component_navigation_rail,
+        R.string.component_navigation_rail_description,
+        material2Function = "NavigationRail",
+        material3Function = "NavigationRail",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
     SHARE_ACTION_PROVIDER(
         "Share action provider",
         R.string.component_share_action_provider,
@@ -1078,6 +1096,13 @@ enum class LabComponent(
     val isEdgeEffect: Boolean
         get() = this == EDGE_EFFECT
 
+    val isNavigationSuite: Boolean
+        get() = this == NAVIGATION_BAR || this == NAVIGATION_RAIL
+
+    // The samples draw three destination items; the selected index copies.
+    val navigationItemCount: Int
+        get() = if (isNavigationSuite) 3 else 0
+
     val galleryItemCount: Int
         get() = if (this == GALLERY) 6 else 0
 
@@ -1219,6 +1244,11 @@ enum class LabComponent(
                 )
             this == SHARE_ACTION_PROVIDER -> context.getString(R.string.status_shares, value)
             this == EDGE_EFFECT -> context.getString(R.string.status_pulls, value)
+            isNavigationSuite ->
+                context.getString(
+                    R.string.status_selected,
+                    context.getString(R.string.list_item, value),
+                )
             this == MEDIA_CONTROLLER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isMenuHost ->

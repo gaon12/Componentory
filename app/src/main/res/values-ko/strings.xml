@@ -486,6 +486,11 @@
     <string name="share_provider_note">공유 작업을 눌러 실제 대상 하위 메뉴를 여세요. 대상을 고르면 공유 한 번으로 보고됩니다.</string>
     <string name="status_shares">공유: %1$d</string>
     <string name="component_edge_effect">가장자리 효과</string>
+
+    <string name="component_navigation_bar">탐색 바</string>
+    <string name="component_navigation_bar_description">실제 탐색 항목이 있는 Material 2 BottomNavigation 또는 Material 3 NavigationBar입니다.</string>
+    <string name="component_navigation_rail">탐색 레일</string>
+    <string name="component_navigation_rail_description">실제 탐색 항목이 있는 Material NavigationRail입니다.</string>
     <string name="component_edge_effect_description">평범한 View가 가장자리를 드래그하는 동안 그리는 프레임워크 EdgeEffect 글로입니다.</string>
     <string name="edge_effect_note">뷰 위를 드래그하여 실제 EdgeEffect 글로를 당기세요. 당긴 횟수가 복사되는 상태입니다.</string>
     <string name="status_pulls">당김: %1$d</string>
