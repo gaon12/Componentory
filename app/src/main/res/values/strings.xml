@@ -547,6 +547,12 @@
     <string name="tooltip_text">Helpful tip</string>
     <string name="tooltip_title">Tooltip title</string>
     <string name="tooltip_action">Got it</string>
+    <string name="component_swipe_to_dismiss">Swipe to dismiss</string>
+    <string name="component_swipe_to_dismiss_description">A list row that reveals a background while swiping and dismisses past the threshold.</string>
+    <string name="dismiss_hint">Swipe me away</string>
+    <string name="dismiss_background">Dismissing</string>
+    <string name="dismissed">Dismissed</string>
+    <string name="settled">Settled</string>
 
     <string name="component_exposed_dropdown">Exposed dropdown menu box</string>
     <string name="component_exposed_dropdown_description">The Material ExposedDropdownMenuBox anchoring a real menu to its text field.</string>

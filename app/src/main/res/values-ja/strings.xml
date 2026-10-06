@@ -544,6 +544,12 @@
     <string name="tooltip_text">役立つヒント</string>
     <string name="tooltip_title">ツールチップのタイトル</string>
     <string name="tooltip_action">OK</string>
+    <string name="component_swipe_to_dismiss">スワイプで閉じる</string>
+    <string name="component_swipe_to_dismiss_description">スワイプ中に背景を表示し、しきい値を超えると消えるリスト行です。</string>
+    <string name="dismiss_hint">スワイプして消してください</string>
+    <string name="dismiss_background">消去中</string>
+    <string name="dismissed">消去済み</string>
+    <string name="settled">保持</string>
 
     <string name="component_exposed_dropdown">公開ドロップダウンメニューボックス</string>
     <string name="component_exposed_dropdown_description">実際のメニューをテキストフィールドに固定する Material ExposedDropdownMenuBox です。</string>

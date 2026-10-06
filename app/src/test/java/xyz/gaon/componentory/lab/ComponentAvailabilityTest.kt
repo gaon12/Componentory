@@ -764,6 +764,26 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun swipeToDismissPairsBothLibraryApis() {
+        val component = LabComponent.SWIPE_TO_DISMISS
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+        assertEquals(
+            "androidx.compose.material.SwipeToDismiss",
+            DesignFamily.MATERIAL2.source(component),
+        )
+        assertEquals(
+            "androidx.compose.material3.SwipeToDismissBox",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.ACTION, component.category)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

@@ -55,6 +55,8 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.MODAL_BOTTOM_SHEET,
                 LabComponent.BACKDROP_SCAFFOLD ->
                     Material2SheetSample(component, panel, sample, enabled, state)
+                LabComponent.SWIPE_TO_DISMISS ->
+                    Material2DismissSample(component, panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.SURFACE -> Material2Containers(component, sample, enabled, state)
                 LabComponent.ICON -> {

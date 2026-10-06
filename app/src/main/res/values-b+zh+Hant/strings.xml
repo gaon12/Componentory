@@ -544,6 +544,12 @@
     <string name="tooltip_text">實用的提示</string>
     <string name="tooltip_title">工具提示標題</string>
     <string name="tooltip_action">知道了</string>
+    <string name="component_swipe_to_dismiss">滑動關閉</string>
+    <string name="component_swipe_to_dismiss_description">滑動時顯示背景、超過閾值後關閉的清單列。</string>
+    <string name="dismiss_hint">滑動我試試</string>
+    <string name="dismiss_background">正在關閉</string>
+    <string name="dismissed">已關閉</string>
+    <string name="settled">已保留</string>
 
     <string name="component_exposed_dropdown">展開式下拉功能表方塊</string>
     <string name="component_exposed_dropdown_description">將真實功能表錨定到其文字欄位的 Material ExposedDropdownMenuBox。</string>

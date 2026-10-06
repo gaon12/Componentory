@@ -307,4 +307,5 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.BOTTOM_SHEET_SCAFFOLD,
                     LabComponent.MODAL_BOTTOM_SHEET,
                     LabComponent.BACKDROP_SCAFFOLD,
+                    LabComponent.SWIPE_TO_DISMISS,
                 )

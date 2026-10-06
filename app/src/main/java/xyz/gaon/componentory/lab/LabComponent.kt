@@ -770,6 +770,15 @@ enum class LabComponent(
         material3Function = "RichTooltip",
         category = ComponentCategory.FEEDBACK,
     ),
+    SWIPE_TO_DISMISS(
+        "Swipe to dismiss",
+        R.string.component_swipe_to_dismiss,
+        R.string.component_swipe_to_dismiss_description,
+        material2Function = "SwipeToDismiss",
+        material3Function = "SwipeToDismissBox",
+        category = ComponentCategory.ACTION,
+        initialValue = 0,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1456,6 +1465,8 @@ enum class LabComponent(
                 )
             isSheetSuite ->
                 context.getString(if (value == 1) R.string.sheet_open else R.string.sheet_closed)
+            this == SWIPE_TO_DISMISS ->
+                context.getString(if (value == 1) R.string.dismissed else R.string.settled)
             isNavigationSuite || isTabRow ->
                 context.getString(
                     R.string.status_selected,

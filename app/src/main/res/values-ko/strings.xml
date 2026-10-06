@@ -544,6 +544,12 @@
     <string name="tooltip_text">유용한 도움말</string>
     <string name="tooltip_title">도움말 제목</string>
     <string name="tooltip_action">확인</string>
+    <string name="component_swipe_to_dismiss">밀어서 닫기</string>
+    <string name="component_swipe_to_dismiss_description">밀면서 배경을 드러내고 임계값을 넘으면 닫히는 목록 행입니다.</string>
+    <string name="dismiss_hint">밀어서 없애 보세요</string>
+    <string name="dismiss_background">닫는 중</string>
+    <string name="dismissed">닫힘</string>
+    <string name="settled">유지됨</string>
 
     <string name="component_exposed_dropdown">노출된 드롭다운 메뉴 상자</string>
     <string name="component_exposed_dropdown_description">실제 메뉴를 텍스트 필드에 고정하는 Material ExposedDropdownMenuBox입니다.</string>

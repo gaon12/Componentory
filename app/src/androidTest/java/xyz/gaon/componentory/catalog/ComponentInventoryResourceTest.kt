@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 210, InventoryStatus.PENDING to 29),
+            mapOf(InventoryStatus.IMPLEMENTED to 212, InventoryStatus.PENDING to 27),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
-                InventoryFamily.MATERIAL2 to 50,
-                InventoryFamily.MATERIAL3 to 88,
+                InventoryFamily.MATERIAL2 to 51,
+                InventoryFamily.MATERIAL3 to 89,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,12 +283,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(29, pending.size)
+        assertEquals(27, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 2,
-                InventoryFamily.MATERIAL2 to 2,
-                InventoryFamily.MATERIAL3 to 25,
+                InventoryFamily.MATERIAL2 to 1,
+                InventoryFamily.MATERIAL3 to 24,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -376,6 +376,7 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "bottomsheet").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "modalbottomsheet").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "tooltip").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "swipetodismiss").isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

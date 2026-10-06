@@ -61,6 +61,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.PLAIN_TOOLTIP,
                 LabComponent.RICH_TOOLTIP ->
                     Material3TooltipSample(component, panel, sample, enabled)
+                LabComponent.SWIPE_TO_DISMISS ->
+                    Material3DismissSample(component, panel, sample, enabled, state)
                 LabComponent.CARD,
                 LabComponent.ELEVATED_CARD,
                 LabComponent.OUTLINED_CARD,
