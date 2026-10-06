@@ -496,6 +496,11 @@
     <string name="component_tab_row_description">실제 Tab 및 LeadingIconTab 항목을 호스팅하는 Material TabRow입니다.</string>
     <string name="component_scrollable_tab_row">스크롤 가능한 탭 행</string>
     <string name="component_scrollable_tab_row_description">실제 스크롤 Tab 항목을 호스팅하는 Material ScrollableTabRow입니다.</string>
+
+    <string name="component_snackbar">스낵바</string>
+    <string name="component_snackbar_description">실제 SnackbarHost를 통해 표시되는 Material Snackbar입니다.</string>
+    <string name="show_snackbar">스낵바 표시</string>
+    <string name="snackbar_message">실제 SnackbarHost가 호스팅하는 스낵바입니다.</string>
     <string name="component_edge_effect_description">평범한 View가 가장자리를 드래그하는 동안 그리는 프레임워크 EdgeEffect 글로입니다.</string>
     <string name="edge_effect_note">뷰 위를 드래그하여 실제 EdgeEffect 글로를 당기세요. 당긴 횟수가 복사되는 상태입니다.</string>
     <string name="status_pulls">당김: %1$d</string>

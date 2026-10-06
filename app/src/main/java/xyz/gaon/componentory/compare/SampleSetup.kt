@@ -294,4 +294,5 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.NAVIGATION_RAIL,
                     LabComponent.TAB_ROW,
                     LabComponent.SCROLLABLE_TAB_ROW,
+                    LabComponent.SNACKBAR,
                 )

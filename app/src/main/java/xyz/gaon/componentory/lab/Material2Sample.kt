@@ -153,6 +153,8 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                                 Material2Inputs(component, sample, enabled, state)
                             ComponentCategory.NAVIGATION ->
                                 Material2Navigation(component, panel, sample, enabled, state)
+                            ComponentCategory.FEEDBACK ->
+                                Material2SnackbarSample(component, panel, sample, enabled, state)
                             else -> Material2Actions(component, sample, enabled, state)
                         }
                     }

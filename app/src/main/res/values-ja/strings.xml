@@ -496,6 +496,11 @@
     <string name="component_tab_row_description">実際の Tab および LeadingIconTab 項目をホストする Material TabRow です。</string>
     <string name="component_scrollable_tab_row">スクロール可能なタブ行</string>
     <string name="component_scrollable_tab_row_description">実際のスクロール Tab 項目をホストする Material ScrollableTabRow です。</string>
+
+    <string name="component_snackbar">スナックバー</string>
+    <string name="component_snackbar_description">実際の SnackbarHost を通じて表示する Material Snackbar です。</string>
+    <string name="show_snackbar">スナックバーを表示</string>
+    <string name="snackbar_message">実際の SnackbarHost がホストするスナックバーです。</string>
     <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>
     <string name="edge_effect_note">ビュー上をドラッグすると実際のEdgeEffectグローを引きます。引いた回数がコピーされる状態です。</string>
     <string name="status_pulls">引き: %1$d</string>

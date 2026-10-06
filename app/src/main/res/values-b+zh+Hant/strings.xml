@@ -496,6 +496,11 @@
     <string name="component_tab_row_description">承載真實 Tab 和 LeadingIconTab 項目的 Material TabRow。</string>
     <string name="component_scrollable_tab_row">可捲動分頁列</string>
     <string name="component_scrollable_tab_row_description">承載真實捲動 Tab 項目的 Material ScrollableTabRow。</string>
+
+    <string name="component_snackbar">資訊列</string>
+    <string name="component_snackbar_description">透過真實 SnackbarHost 顯示的 Material Snackbar。</string>
+    <string name="show_snackbar">顯示資訊列</string>
+    <string name="snackbar_message">由真實 SnackbarHost 承載的資訊列。</string>
     <string name="component_edge_effect_description">架構 EdgeEffect 光暈，由一般 View 在拖曳其邊緣時繪製。</string>
     <string name="edge_effect_note">在檢視上拖曳即可拉動真實的 EdgeEffect 光暈。拉動次數即為被複製的狀態。</string>
     <string name="status_pulls">拉動：%1$d</string>

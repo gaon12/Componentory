@@ -499,6 +499,11 @@
     <string name="component_tab_row_description">The Material TabRow hosting real Tab and LeadingIconTab items.</string>
     <string name="component_scrollable_tab_row">Scrollable tab row</string>
     <string name="component_scrollable_tab_row_description">The Material ScrollableTabRow hosting real scrolling Tab items.</string>
+
+    <string name="component_snackbar">Snackbar</string>
+    <string name="component_snackbar_description">The Material Snackbar shown through a real SnackbarHost.</string>
+    <string name="show_snackbar">Show snackbar</string>
+    <string name="snackbar_message">A snackbar hosted by the real SnackbarHost.</string>
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
     <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
     <string name="status_pulls">Pulls: %1$d</string>

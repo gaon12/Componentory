@@ -638,6 +638,15 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 1,
     ),
+    SNACKBAR(
+        "Snackbar",
+        R.string.component_snackbar,
+        R.string.component_snackbar_description,
+        material2Function = "Snackbar",
+        material3Function = "Snackbar",
+        category = ComponentCategory.FEEDBACK,
+        initialValue = 0,
+    ),
     SHARE_ACTION_PROVIDER(
         "Share action provider",
         R.string.component_share_action_provider,
@@ -1273,6 +1282,7 @@ enum class LabComponent(
                 )
             this == SHARE_ACTION_PROVIDER -> context.getString(R.string.status_shares, value)
             this == EDGE_EFFECT -> context.getString(R.string.status_pulls, value)
+            this == SNACKBAR -> context.getString(R.string.status_shown_times, value)
             isNavigationSuite || isTabRow ->
                 context.getString(
                     R.string.status_selected,

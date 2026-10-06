@@ -571,6 +571,23 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun snackbarUsesTheRealHostInBothComposeLibraries() {
+        val component = LabComponent.SNACKBAR
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+        assertEquals("androidx.compose.material.Snackbar", DesignFamily.MATERIAL2.source(component))
+        assertEquals(
+            "androidx.compose.material3.Snackbar",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.FEEDBACK, component.category)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,
