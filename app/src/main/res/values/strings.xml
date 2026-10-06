@@ -632,4 +632,12 @@
     <string name="history_deprecated_state">Deprecated, still public</string>
     <string name="history_removed_at">Absent in the API %1$d snapshot</string>
     <string name="history_identical_snapshot">This signature is identical to API %1$d in the audited source.</string>
+    <string name="run_saving">Saving…</string>
+    <string name="runs_loading">Loading saved runs…</string>
+    <string name="run_load_failed">Could not load saved runs. Try again.</string>
+    <string name="run_save_failed">Could not save this run. Your existing runs are safe. Try again.</string>
+    <string name="run_delete_failed">Could not delete this run. Try again.</string>
+    <string name="run_export_failed">Could not export saved runs. Try again.</string>
+    <string name="runs_retry">Try again</string>
+    <string name="runs_create">Start a comparison</string>
 </resources>

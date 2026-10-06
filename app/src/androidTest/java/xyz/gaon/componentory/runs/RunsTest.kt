@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -19,6 +20,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import java.io.File
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,27 +31,46 @@ import xyz.gaon.componentory.R
 @RunWith(AndroidJUnit4::class)
 class RunsTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
+    private var originalHistory: ByteArray? = null
+    private var historyCaptured = false
 
     @Before
     fun clearSavedRuns() {
         compose.runOnUiThread {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
-        File(compose.activity.filesDir, RunStore.FILE_NAME).delete()
+        val file = File(compose.activity.filesDir, RunStore.FILE_NAME)
+        originalHistory = if (file.exists()) file.readBytes() else null
+        historyCaptured = true
+        if (file.exists()) assertTrue(file.delete())
+        compose.activityRule.scenario.recreate()
         compose.waitForIdle()
+        compose.runOnUiThread {
+            compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
         compose.onNodeWithTag("list_screen").assertExists()
     }
 
-    @After fun removeSavedRuns() = File(compose.activity.filesDir, RunStore.FILE_NAME).delete()
+    @After
+    fun restoreSavedRuns() {
+        if (!historyCaptured) return
+        val file = File(compose.activity.filesDir, RunStore.FILE_NAME)
+        originalHistory?.let { file.writeBytes(it) } ?: file.delete()
+    }
 
     @Test
     fun aSavedRunReopensBothPanelsWithTheirInputs() {
         pickComponent("CheckBox", "component_CHECKBOX")
         onView(withId(R.id.sample_left)).perform(click())
-        compose.onNodeWithTag("status_LEFT").assertTextEquals("On")
-        compose.onNodeWithTag("status_RIGHT").assertTextEquals("Off")
+        compose
+            .onNodeWithTag("status_LEFT")
+            .assertTextEquals(compose.activity.getString(R.string.sample_state_checked))
+        compose
+            .onNodeWithTag("status_RIGHT")
+            .assertTextEquals(compose.activity.getString(R.string.sample_state_unchecked))
         compose.onNodeWithTag("enabled").performScrollTo().performClick()
         compose.onNodeWithTag("save_run").performScrollTo().performClick()
+        awaitTag("run_saved")
         compose.onNodeWithTag("run_saved").assertIsDisplayed()
 
         compose.onNodeWithTag("nav_runs").performClick()
@@ -59,8 +80,12 @@ class RunsTest {
         opens[0].performClick()
 
         compose.onNodeWithTag("compare_screen").assertExists()
-        compose.onNodeWithTag("status_LEFT").assertTextEquals("On")
-        compose.onNodeWithTag("status_RIGHT").assertTextEquals("Off")
+        compose
+            .onNodeWithTag("status_LEFT")
+            .assertTextEquals(compose.activity.getString(R.string.sample_state_checked))
+        compose
+            .onNodeWithTag("status_RIGHT")
+            .assertTextEquals(compose.activity.getString(R.string.sample_state_unchecked))
         compose.onNodeWithTag("enabled").performScrollTo().assertIsOff()
     }
 
@@ -68,6 +93,7 @@ class RunsTest {
     fun aRunRowExpandsItsFullEnvironmentRecord() {
         pickComponent("Button", "component_BUTTON")
         compose.onNodeWithTag("save_run").performScrollTo().performClick()
+        awaitTag("run_saved")
         compose.onNodeWithTag("nav_runs").performClick()
         val toggles = compose.onAllNodesWithText(environmentLabel())
         toggles.fetchSemanticsNodes().single()
@@ -81,16 +107,30 @@ class RunsTest {
     @Test
     fun deletingARunRemovesItsRowAndExportWaitsForRecords() {
         compose.onNodeWithTag("nav_runs").performClick()
+        awaitTag("runs_empty")
         compose.onNodeWithTag("runs_empty").assertIsDisplayed()
         compose.onNodeWithTag("runs_export").assertIsNotEnabled()
 
         pickComponent("Button", "component_BUTTON")
         compose.onNodeWithTag("save_run").performScrollTo().performClick()
+        awaitTag("run_saved")
         compose.onNodeWithTag("nav_runs").performClick()
         compose.onNodeWithTag("runs_export").assertIsEnabled()
         compose.onAllNodesWithText(deleteLabel())[0].performClick()
+        awaitTag("runs_empty")
         compose.onNodeWithTag("runs_empty").assertIsDisplayed()
         compose.onNodeWithTag("runs_export").assertIsNotEnabled()
+    }
+
+    @Test
+    fun savingContinuesWhenTheUserOpensTheRunsTabImmediately() {
+        pickComponent("Button", "component_BUTTON")
+        compose.onNodeWithTag("save_run").performScrollTo().performClick()
+        compose.onNodeWithTag("nav_runs").performClick()
+        compose.waitUntil(10_000) {
+            compose.onAllNodesWithText(openLabel()).fetchSemanticsNodes().size == 1
+        }
+        compose.onNodeWithTag("runs_export").assertIsEnabled()
     }
 
     private fun pickComponent(query: String, tag: String) {
@@ -106,4 +146,10 @@ class RunsTest {
     private fun deleteLabel() = compose.activity.getString(R.string.run_delete)
 
     private fun environmentLabel() = compose.activity.getString(R.string.run_environment)
+
+    private fun awaitTag(tag: String) {
+        compose.waitUntil(10_000) {
+            compose.onAllNodesWithTag(tag).fetchSemanticsNodes().isNotEmpty()
+        }
+    }
 }

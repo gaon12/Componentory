@@ -23,17 +23,21 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
@@ -49,6 +53,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import kotlinx.coroutines.launch
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.ComponentDetailScreen
 import xyz.gaon.componentory.catalog.ComponentListScreen
@@ -56,6 +61,8 @@ import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.compare.ComparisonEntry
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.runs.RunHistory
+import xyz.gaon.componentory.runs.RunOperation
 import xyz.gaon.componentory.runs.RunStore
 import xyz.gaon.componentory.runs.RunsScreen
 import xyz.gaon.componentory.runs.toComparisonEntry
@@ -127,8 +134,23 @@ private fun ComponentoryNavigation(
         }
     var comparisonGeneration by rememberSaveable { mutableIntStateOf(0) }
     var detailExporter by remember { mutableStateOf<(() -> ComparisonEntry)?>(null) }
-    val runStore = remember { RunStore(context.filesDir) }
-    var runRecords by remember { mutableStateOf(runStore.list()) }
+    val history = remember { RunHistory(RunStore(context.filesDir)) }
+    // The root owns storage work so switching tabs does not cancel a pending save.
+    val scope = rememberCoroutineScope()
+    val snackbar = remember { SnackbarHostState() }
+    LaunchedEffect(history) { history.load() }
+    val failureMessage =
+        history.failure?.let {
+            stringResource(
+                when (it) {
+                    RunOperation.LOAD -> R.string.run_load_failed
+                    RunOperation.SAVE -> R.string.run_save_failed
+                    RunOperation.DELETE -> R.string.run_delete_failed
+                    RunOperation.EXPORT -> R.string.run_export_failed
+                }
+            )
+        }
+    LaunchedEffect(failureMessage) { failureMessage?.let { snackbar.showSnackbar(it) } }
     val savedScreens = rememberSaveableStateHolder()
     val inDetail = tab == AppTab.LIST && detail != null
 
@@ -141,6 +163,7 @@ private fun ComponentoryNavigation(
         modifier = Modifier.semantics { testTagsAsResourceId = true },
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets.safeDrawing,
+        snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
             TopAppBar(
                 title = {
@@ -296,14 +319,18 @@ private fun ComponentoryNavigation(
                                 right,
                                 { right = it },
                                 initialEntry = comparisonEntry,
-                            ) { record ->
-                                runStore.append(record)
-                                runRecords = runStore.list()
+                            ) { record, completed ->
+                                scope.launch { completed(history.save(record)) }
                             }
                         }
                     AppTab.RUNS ->
                         RunsScreen(
-                            runRecords,
+                            history.records,
+                            loading = history.loading,
+                            busy = history.busy,
+                            loadFailed = history.failure == RunOperation.LOAD,
+                            onRetry = { scope.launch { history.load() } },
+                            onCreate = { tab = AppTab.COMPARE },
                             onOpen = { record ->
                                 record.toComparisonEntry()?.let { entry ->
                                     comparisonEntry = entry
@@ -315,16 +342,17 @@ private fun ComponentoryNavigation(
                                     tab = AppTab.COMPARE
                                 }
                             },
-                            onDelete = { record ->
-                                runStore.delete(record.id)
-                                runRecords = runStore.list()
-                            },
+                            onDelete = { record -> scope.launch { history.delete(record.id) } },
                             onExport = {
-                                val send =
-                                    Intent(Intent.ACTION_SEND)
-                                        .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, runStore.exportText())
-                                context.startActivity(Intent.createChooser(send, null))
+                                scope.launch {
+                                    history.export()?.let { text ->
+                                        val send =
+                                            Intent(Intent.ACTION_SEND)
+                                                .setType("text/plain")
+                                                .putExtra(Intent.EXTRA_TEXT, text)
+                                        context.startActivity(Intent.createChooser(send, null))
+                                    }
+                                }
                             },
                         )
                     AppTab.SETTINGS ->

@@ -629,4 +629,12 @@
     <string name="history_deprecated_state">非推奨、公開 API は維持</string>
     <string name="history_removed_at">API %1$d の一覧に存在しません</string>
     <string name="history_identical_snapshot">監査したソースでは API %1$d と同じシグネチャです。</string>
+    <string name="run_saving">保存中…</string>
+    <string name="runs_loading">保存した実行を読み込み中…</string>
+    <string name="run_load_failed">実行を読み込めませんでした。もう一度お試しください。</string>
+    <string name="run_save_failed">実行を保存できませんでした。既存の記録は保持されています。もう一度お試しください。</string>
+    <string name="run_delete_failed">実行を削除できませんでした。もう一度お試しください。</string>
+    <string name="run_export_failed">実行をエクスポートできませんでした。もう一度お試しください。</string>
+    <string name="runs_retry">再試行</string>
+    <string name="runs_create">比較を始める</string>
 </resources>

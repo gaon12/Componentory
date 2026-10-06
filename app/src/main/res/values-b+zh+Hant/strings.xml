@@ -629,4 +629,12 @@
     <string name="history_deprecated_state">已棄用，仍為公開 API</string>
     <string name="history_removed_at">API %1$d 的快照中不存在</string>
     <string name="history_identical_snapshot">審核的原始碼中，此簽章與 API %1$d 相同。</string>
+    <string name="run_saving">正在儲存…</string>
+    <string name="runs_loading">正在載入已儲存的執行…</string>
+    <string name="run_load_failed">無法載入執行。請重試。</string>
+    <string name="run_save_failed">無法儲存此次執行。現有記錄已保留。請重試。</string>
+    <string name="run_delete_failed">無法刪除此執行。請重試。</string>
+    <string name="run_export_failed">無法匯出執行。請重試。</string>
+    <string name="runs_retry">重試</string>
+    <string name="runs_create">開始比較</string>
 </resources>

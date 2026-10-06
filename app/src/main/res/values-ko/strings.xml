@@ -629,4 +629,12 @@
     <string name="history_deprecated_state">사용 중단 권고, 공개 API 유지</string>
     <string name="history_removed_at">API %1$d 목록에 없음</string>
     <string name="history_identical_snapshot">검토한 소스에서 API %1$d와 동일한 시그니처입니다.</string>
+    <string name="run_saving">저장 중…</string>
+    <string name="runs_loading">저장된 실험을 불러오는 중…</string>
+    <string name="run_load_failed">실험을 불러오지 못했습니다. 다시 시도해 주세요.</string>
+    <string name="run_save_failed">실험을 저장하지 못했습니다. 기존 기록은 유지됩니다. 다시 시도해 주세요.</string>
+    <string name="run_delete_failed">실험을 삭제하지 못했습니다. 다시 시도해 주세요.</string>
+    <string name="run_export_failed">실험을 보내지 못했습니다. 다시 시도해 주세요.</string>
+    <string name="runs_retry">다시 시도</string>
+    <string name="runs_create">비교 시작하기</string>
 </resources>

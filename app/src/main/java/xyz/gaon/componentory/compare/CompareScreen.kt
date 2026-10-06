@@ -24,6 +24,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -55,7 +56,7 @@ fun CompareScreen(
     right: DesignFamily,
     onRightChange: (DesignFamily) -> Unit,
     initialEntry: ComparisonEntry? = null,
-    onSaveRun: (RunRecord) -> Unit = {},
+    onSaveRun: (RunRecord, (Boolean) -> Unit) -> Unit = { _, completed -> completed(false) },
 ) {
     val context = LocalContext.current
     var enabled by rememberSaveable { mutableStateOf(initialEntry?.enabled ?: true) }
@@ -64,6 +65,8 @@ fun CompareScreen(
     var copiedDirection by rememberSaveable { mutableStateOf<CopySetupDirection?>(null) }
     var iconSkipped by rememberSaveable { mutableStateOf(false) }
     var runSaved by rememberSaveable { mutableStateOf(false) }
+    var savePending by remember { mutableStateOf(false) }
+    var saveGeneration by remember { mutableIntStateOf(0) }
     // Layout changes must move the same experiment, not create new panel values.
     val seedState: (SampleSetup?, DesignFamily) -> SampleState = { setup, family ->
         if (useInitialSetup && setup?.component == component && setup.sourceFamily == family) {
@@ -86,8 +89,12 @@ fun CompareScreen(
         copiedDirection = null
         iconSkipped = false
         runSaved = false
+        saveGeneration++
     }
     val saveRun = {
+        clearEntryAndResult()
+        val generation = saveGeneration
+        savePending = true
         onSaveRun(
             comparisonRecord(
                 UUID.randomUUID().toString(),
@@ -97,9 +104,10 @@ fun CompareScreen(
                 enabled,
                 environmentSnapshot(context),
             )
-        )
-        clearEntryAndResult()
-        runSaved = true
+        ) { success ->
+            savePending = false
+            if (generation == saveGeneration) runSaved = success
+        }
     }
     val changeLeft: (DesignFamily) -> Unit = {
         clearEntryAndResult()
@@ -197,8 +205,12 @@ fun CompareScreen(
             ) {
                 Text(stringResource(R.string.reset))
             }
-            Button(onClick = saveRun, modifier = Modifier.testTag("save_run")) {
-                Text(stringResource(R.string.save_run))
+            Button(
+                onClick = saveRun,
+                enabled = !savePending,
+                modifier = Modifier.testTag("save_run"),
+            ) {
+                Text(stringResource(if (savePending) R.string.run_saving else R.string.save_run))
             }
         }
         if (runSaved) {
