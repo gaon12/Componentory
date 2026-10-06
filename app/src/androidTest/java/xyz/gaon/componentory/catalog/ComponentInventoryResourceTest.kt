@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 170, InventoryStatus.PENDING to 69),
+            mapOf(InventoryStatus.IMPLEMENTED to 178, InventoryStatus.PENDING to 61),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
-                InventoryFamily.MATERIAL2 to 35,
-                InventoryFamily.MATERIAL3 to 63,
+                InventoryFamily.MATERIAL2 to 39,
+                InventoryFamily.MATERIAL3 to 67,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,12 +283,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(69, pending.size)
+        assertEquals(61, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 2,
-                InventoryFamily.MATERIAL2 to 17,
-                InventoryFamily.MATERIAL3 to 50,
+                InventoryFamily.MATERIAL2 to 13,
+                InventoryFamily.MATERIAL3 to 46,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -359,6 +359,11 @@ class ComponentInventoryResourceTest {
         assertTrue(ComponentInventory.pending(entries, "mediacontroller").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "shareactionprovider").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "edgeeffect").isEmpty())
+        assertTrue(
+            ComponentInventory.pending(entries, "tabrow", InventoryFamily.MATERIAL2).isEmpty()
+        )
+        // Material 3 keeps pending primary/secondary tab-row variants.
+        assertTrue(ComponentInventory.pending(entries, "tab", InventoryFamily.MATERIAL2).isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

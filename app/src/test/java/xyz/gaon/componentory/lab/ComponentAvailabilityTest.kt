@@ -542,6 +542,35 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun tabRowsUseTheRealRowsInBothComposeLibraries() {
+        val expected =
+            mapOf(
+                LabComponent.TAB_ROW to ("TabRow" to 3),
+                LabComponent.SCROLLABLE_TAB_ROW to ("ScrollableTabRow" to 8),
+            )
+        expected.forEach { (component, spec) ->
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family
+                ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+            assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+            assertEquals(
+                "androidx.compose.material.${spec.first}",
+                DesignFamily.MATERIAL2.source(component),
+            )
+            assertEquals(
+                "androidx.compose.material3.${spec.first}",
+                DesignFamily.MATERIAL3.source(component),
+            )
+            assertTrue(component.isTabRow)
+            assertEquals(spec.second, component.tabCount)
+            assertEquals(ComponentCategory.NAVIGATION, component.category)
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

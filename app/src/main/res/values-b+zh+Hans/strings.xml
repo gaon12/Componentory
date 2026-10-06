@@ -491,6 +491,11 @@
     <string name="component_navigation_bar_description">带有真实导航项的 Material 2 BottomNavigation 或 Material 3 NavigationBar。</string>
     <string name="component_navigation_rail">导航栏（竖向）</string>
     <string name="component_navigation_rail_description">带有真实导航项的 Material NavigationRail。</string>
+
+    <string name="component_tab_row">标签行</string>
+    <string name="component_tab_row_description">承载真实 Tab 和 LeadingIconTab 项的 Material TabRow。</string>
+    <string name="component_scrollable_tab_row">可滚动标签行</string>
+    <string name="component_scrollable_tab_row_description">承载真实滚动 Tab 项的 Material ScrollableTabRow。</string>
     <string name="component_edge_effect_description">框架 EdgeEffect 光晕，由普通 View 在拖动其边缘时绘制。</string>
     <string name="edge_effect_note">在视图上拖动即可拉动真实的 EdgeEffect 光晕。拉动次数即为被复制的状态。</string>
     <string name="status_pulls">拉动：%1$d</string>

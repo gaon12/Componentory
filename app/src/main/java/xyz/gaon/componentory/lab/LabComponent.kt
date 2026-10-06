@@ -620,6 +620,24 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 1,
     ),
+    TAB_ROW(
+        "Tab row",
+        R.string.component_tab_row,
+        R.string.component_tab_row_description,
+        material2Function = "TabRow",
+        material3Function = "TabRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    SCROLLABLE_TAB_ROW(
+        "Scrollable tab row",
+        R.string.component_scrollable_tab_row,
+        R.string.component_scrollable_tab_row_description,
+        material2Function = "ScrollableTabRow",
+        material3Function = "ScrollableTabRow",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
     SHARE_ACTION_PROVIDER(
         "Share action provider",
         R.string.component_share_action_provider,
@@ -1069,8 +1087,16 @@ enum class LabComponent(
     val isTransientWindow: Boolean
         get() = this == PLAIN_DIALOG || this == PROGRESS_DIALOG || this == TOAST
 
+    // TabHost draws three tabs; scrollable rows need enough tabs to overflow
+    // the fixed sample width.
     val tabCount: Int
-        get() = if (this == TAB_HOST) 3 else 0
+        get() =
+            when (this) {
+                TAB_HOST,
+                TAB_ROW -> 3
+                SCROLLABLE_TAB_ROW -> 8
+                else -> 0
+            }
 
     // Deprecated containers that keep real interaction but no library twin.
     val isLegacyContainer: Boolean
@@ -1098,6 +1124,9 @@ enum class LabComponent(
 
     val isNavigationSuite: Boolean
         get() = this == NAVIGATION_BAR || this == NAVIGATION_RAIL
+
+    val isTabRow: Boolean
+        get() = this == TAB_ROW || this == SCROLLABLE_TAB_ROW
 
     // The samples draw three destination items; the selected index copies.
     val navigationItemCount: Int
@@ -1244,7 +1273,7 @@ enum class LabComponent(
                 )
             this == SHARE_ACTION_PROVIDER -> context.getString(R.string.status_shares, value)
             this == EDGE_EFFECT -> context.getString(R.string.status_pulls, value)
-            isNavigationSuite ->
+            isNavigationSuite || isTabRow ->
                 context.getString(
                     R.string.status_selected,
                     context.getString(R.string.list_item, value),

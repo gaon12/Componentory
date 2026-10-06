@@ -145,9 +145,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(117, LabComponent.entries.size)
+        assertEquals(119, LabComponent.entries.size)
         assertEquals(
-            310,
+            314,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -155,15 +155,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 170, "Pending" to 69),
+            mapOf("Implemented" to 178, "Pending" to 61),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 72, "MATERIAL2" to 35, "MATERIAL3" to 63),
+            mapOf("PLATFORM" to 72, "MATERIAL2" to 39, "MATERIAL3" to 67),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 2, "MATERIAL2" to 17, "MATERIAL3" to 50),
+            mapOf("PLATFORM" to 2, "MATERIAL2" to 13, "MATERIAL3" to 46),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -259,6 +259,17 @@ class ComponentInventoryTest {
                             row.provider == "MATERIAL2" &&
                                 component == LabComponent.NAVIGATION_RAIL ->
                                 setOf("androidx.compose.material.NavigationRailItem")
+                            row.provider == "MATERIAL2" && component == LabComponent.TAB_ROW ->
+                                setOf(
+                                    "androidx.compose.material.Tab",
+                                    "androidx.compose.material.LeadingIconTab",
+                                )
+                            row.provider == "MATERIAL2" &&
+                                component == LabComponent.SCROLLABLE_TAB_ROW ->
+                                setOf(
+                                    "androidx.compose.material.Tab",
+                                    "androidx.compose.material.LeadingIconTab",
+                                )
                             row.provider == "MATERIAL3" && component == LabComponent.POPUP_MENU ->
                                 setOf("androidx.compose.material3.DropdownMenuItem")
                             row.provider == "MATERIAL3" &&
@@ -267,6 +278,17 @@ class ComponentInventoryTest {
                             row.provider == "MATERIAL3" &&
                                 component == LabComponent.NAVIGATION_RAIL ->
                                 setOf("androidx.compose.material3.NavigationRailItem")
+                            row.provider == "MATERIAL3" && component == LabComponent.TAB_ROW ->
+                                setOf(
+                                    "androidx.compose.material3.Tab",
+                                    "androidx.compose.material3.LeadingIconTab",
+                                )
+                            row.provider == "MATERIAL3" &&
+                                component == LabComponent.SCROLLABLE_TAB_ROW ->
+                                setOf(
+                                    "androidx.compose.material3.Tab",
+                                    "androidx.compose.material3.LeadingIconTab",
+                                )
                             row.provider == "MATERIAL3" &&
                                 component == LabComponent.DATE_PICKER_DIALOG ->
                                 setOf("androidx.compose.material3.DatePicker")

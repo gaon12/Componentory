@@ -6,8 +6,12 @@ package xyz.gaon.componentory.lab
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.NavigationRail
 import androidx.compose.material.NavigationRailItem
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -53,6 +57,40 @@ internal fun Material2Navigation(
                     )
                 }
             }
+        LabComponent.TAB_ROW,
+        LabComponent.SCROLLABLE_TAB_ROW -> Unit
         else -> error("Unsupported components must be handled by SamplePanel.")
+    }
+    if (component.isTabRow) {
+        val tabs = 1..component.tabCount
+        val content: @Composable (Int) -> Unit = { tab ->
+            if (component == LabComponent.TAB_ROW && tab == 1) {
+                LeadingIconTab(
+                    selected = state.value == tab,
+                    onClick = { state.value = tab },
+                    enabled = enabled,
+                    icon = { Icon(icon.vector(), contentDescription = null) },
+                    text = { Text(stringResource(R.string.list_item, tab)) },
+                    modifier = Modifier.testTag("library_${panel}_tab_$tab"),
+                )
+            } else {
+                Tab(
+                    selected = state.value == tab,
+                    onClick = { state.value = tab },
+                    enabled = enabled,
+                    text = { Text(stringResource(R.string.list_item, tab)) },
+                    modifier = Modifier.testTag("library_${panel}_tab_$tab"),
+                )
+            }
+        }
+        if (component == LabComponent.TAB_ROW) {
+            TabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                for (tab in tabs) content(tab)
+            }
+        } else {
+            ScrollableTabRow(selectedTabIndex = state.value - 1, modifier = modifier) {
+                for (tab in tabs) content(tab)
+            }
+        }
     }
 }

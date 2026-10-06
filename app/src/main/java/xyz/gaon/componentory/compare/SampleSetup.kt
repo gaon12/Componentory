@@ -292,4 +292,6 @@ private val LabComponent.hasCopiedValue: Boolean
                     LabComponent.EDGE_EFFECT,
                     LabComponent.NAVIGATION_BAR,
                     LabComponent.NAVIGATION_RAIL,
+                    LabComponent.TAB_ROW,
+                    LabComponent.SCROLLABLE_TAB_ROW,
                 )
