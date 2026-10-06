@@ -342,6 +342,20 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isFrameworkLayout && unsupported == null) {
+                Text(
+                    stringResource(R.string.layout_note),
+                    modifier = Modifier.testTag("layout_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+            if (component == LabComponent.ABSOLUTE_LAYOUT && unsupported == null) {
+                Text(
+                    stringResource(R.string.clock_deprecated_note, 3),
+                    modifier = Modifier.testTag("clock_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isInlineTime && unsupported == null) {
                 Text(
                     stringResource(R.string.inline_time_note),

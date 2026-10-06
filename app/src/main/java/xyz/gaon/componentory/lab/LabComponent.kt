@@ -348,6 +348,57 @@ enum class LabComponent(
         platformSource = "android.widget.ImageSwitcher",
         category = ComponentCategory.LAYOUT,
     ),
+    FRAME_LAYOUT(
+        "Frame layout",
+        R.string.component_frame_layout,
+        R.string.component_frame_layout_description,
+        platformSource = "android.widget.FrameLayout",
+        category = ComponentCategory.LAYOUT,
+    ),
+    LINEAR_LAYOUT(
+        "Linear layout",
+        R.string.component_linear_layout,
+        R.string.component_linear_layout_description,
+        platformSource = "android.widget.LinearLayout",
+        category = ComponentCategory.LAYOUT,
+    ),
+    TABLE_LAYOUT(
+        "Table layout",
+        R.string.component_table_layout,
+        R.string.component_table_layout_description,
+        platformSource = "android.widget.TableLayout",
+        category = ComponentCategory.LAYOUT,
+    ),
+    GRID_LAYOUT(
+        "Grid layout",
+        R.string.component_grid_layout,
+        R.string.component_grid_layout_description,
+        platformSource = "android.widget.GridLayout",
+        minimumApi = 14,
+        category = ComponentCategory.LAYOUT,
+    ),
+    RELATIVE_LAYOUT(
+        "Relative layout",
+        R.string.component_relative_layout,
+        R.string.component_relative_layout_description,
+        platformSource = "android.widget.RelativeLayout",
+        category = ComponentCategory.LAYOUT,
+    ),
+    SPACE(
+        "Space",
+        R.string.component_space,
+        R.string.component_space_description,
+        platformSource = "android.widget.Space",
+        minimumApi = 14,
+        category = ComponentCategory.LAYOUT,
+    ),
+    ABSOLUTE_LAYOUT(
+        "Absolute layout",
+        R.string.component_absolute_layout,
+        R.string.component_absolute_layout_description,
+        platformSource = "android.widget.AbsoluteLayout",
+        category = ComponentCategory.LEGACY,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -771,6 +822,19 @@ enum class LabComponent(
                 else -> 4
             }
 
+    val isFrameworkLayout: Boolean
+        get() =
+            this in
+                listOf(
+                    FRAME_LAYOUT,
+                    LINEAR_LAYOUT,
+                    TABLE_LAYOUT,
+                    GRID_LAYOUT,
+                    RELATIVE_LAYOUT,
+                    SPACE,
+                    ABSOLUTE_LAYOUT,
+                )
+
     val isIndeterminateProgress: Boolean
         get() = this == INDETERMINATE_LINEAR_PROGRESS || this == INDETERMINATE_CIRCULAR_PROGRESS
 
@@ -831,7 +895,8 @@ enum class LabComponent(
                 this == TEXT ||
                 this == ANALOG_CLOCK ||
                 this == DIGITAL_CLOCK ||
-                isScrollContainer ->
+                isScrollContainer ||
+                isFrameworkLayout ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             this == TEXT_CLOCK ->
                 context.getString(

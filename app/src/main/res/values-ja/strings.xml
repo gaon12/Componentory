@@ -376,4 +376,21 @@
     <string name="switcher_line">スイッチャー行 %1$d</string>
     <string name="status_switcher_child">%2$d個中%1$d番目の子を表示中</string>
     <string name="switcher_note">前へ/次へボタンが元のコンテナーの独自の遷移で移動します。コピーは表示中の子インデックスを移します。</string>
+    <string name="component_frame_layout">フレームレイアウト</string>
+    <string name="component_frame_layout_description">テーマのコンテナー1つに中央ラベルと隅のマーカーを重ねる元のフレームワークFrameLayoutです。</string>
+    <string name="component_linear_layout">リニアレイアウト</string>
+    <string name="component_linear_layout_description">テーマの3つの子を等しい重みで分配する元のフレームワークLinearLayoutです。</string>
+    <string name="component_table_layout">テーブルレイアウト</string>
+    <string name="component_table_layout_description">実際のTableRowの子でセルを配置する元のフレームワークTableLayoutです。</string>
+    <string name="component_grid_layout">グリッドレイアウト</string>
+    <string name="component_grid_layout_description">テーマの4つの子を2列グリッドに配置する元のフレームワークGridLayoutです。</string>
+    <string name="component_relative_layout">相対レイアウト</string>
+    <string name="component_relative_layout_description">配置ルールでテーマの子を固定する元のフレームワークRelativeLayoutです。</string>
+    <string name="component_space">スペース</string>
+    <string name="component_space_description">テーマの2つのラベル間に空の隙間を維持する元のフレームワークSpaceウィジェットです。</string>
+    <string name="component_absolute_layout">アブソリュートレイアウト</string>
+    <string name="component_absolute_layout_description">テーマの子を固定座標に配置する元のフレームワークAbsoluteLayoutです。</string>
+    <string name="layout_child">子 %1$d</string>
+    <string name="layout_cell">R%1$d C%2$d</string>
+    <string name="layout_note">実際のコンテナーとテーマの子を示す静的プレビューです。レイアウトにコピーする入力はありません。</string>
 </resources>

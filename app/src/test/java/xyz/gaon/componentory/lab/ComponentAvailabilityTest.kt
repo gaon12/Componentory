@@ -129,6 +129,46 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun frameworkLayoutsUseOnlyFrameworkSuppliersWithTheirRealApiLevels() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.FRAME_LAYOUT to ("android.widget.FrameLayout" to 1),
+                LabComponent.LINEAR_LAYOUT to ("android.widget.LinearLayout" to 1),
+                LabComponent.TABLE_LAYOUT to ("android.widget.TableLayout" to 1),
+                LabComponent.GRID_LAYOUT to ("android.widget.GridLayout" to 14),
+                LabComponent.RELATIVE_LAYOUT to ("android.widget.RelativeLayout" to 1),
+                LabComponent.SPACE to ("android.widget.Space" to 14),
+                LabComponent.ABSOLUTE_LAYOUT to ("android.widget.AbsoluteLayout" to 1),
+            )
+            .forEach { (component, metadata) ->
+                val (source, minimumApi) = metadata
+                platform.forEach { family ->
+                    if (minimumApi > 1)
+                        assertNotNull(family.unsupportedReason(component, minimumApi - 1))
+                    assertNull(family.unsupportedReason(component, minimumApi))
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(minimumApi, component.minimumApi)
+                assertTrue(component.matchesSearch(source))
+            }
+        assertEquals(ComponentCategory.LEGACY, LabComponent.ABSOLUTE_LAYOUT.category)
+        listOf(
+                LabComponent.FRAME_LAYOUT,
+                LabComponent.LINEAR_LAYOUT,
+                LabComponent.TABLE_LAYOUT,
+                LabComponent.GRID_LAYOUT,
+                LabComponent.RELATIVE_LAYOUT,
+                LabComponent.SPACE,
+            )
+            .forEach { assertEquals(ComponentCategory.LAYOUT, it.category) }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

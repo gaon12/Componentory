@@ -376,4 +376,21 @@
     <string name="switcher_line">스위처 줄 %1$d</string>
     <string name="status_switcher_child">%2$d개 중 %1$d번째 자식 표시 중</string>
     <string name="switcher_note">이전과 다음 버튼이 원본 컨테이너의 전환으로 이동합니다. 복사는 표시된 자식 인덱스를 옮깁니다.</string>
+    <string name="component_frame_layout">프레임 레이아웃</string>
+    <string name="component_frame_layout_description">테마가 적용된 컨테이너 하나에 중앙 라벨과 모서리 마커를 겹쳐 놓는 원본 프레임워크 FrameLayout입니다.</string>
+    <string name="component_linear_layout">선형 레이아웃</string>
+    <string name="component_linear_layout_description">테마의 자식 세 개를 동일한 가중치로 배분하는 원본 프레임워크 LinearLayout입니다.</string>
+    <string name="component_table_layout">테이블 레이아웃</string>
+    <string name="component_table_layout_description">실제 TableRow 자식으로 셀을 배열하는 원본 프레임워크 TableLayout입니다.</string>
+    <string name="component_grid_layout">그리드 레이아웃</string>
+    <string name="component_grid_layout_description">테마의 자식 네 개를 두 열 그리드에 배치하는 원본 프레임워크 GridLayout입니다.</string>
+    <string name="component_relative_layout">상대 레이아웃</string>
+    <string name="component_relative_layout_description">정렬 규칙으로 테마의 자식을 고정하는 원본 프레임워크 RelativeLayout입니다.</string>
+    <string name="component_space">스페이스</string>
+    <string name="component_space_description">테마의 두 라벨 사이에 빈 간격을 유지하는 원본 프레임워크 Space 위젯입니다.</string>
+    <string name="component_absolute_layout">절대 레이아웃</string>
+    <string name="component_absolute_layout_description">테마의 자식을 고정 좌표에 배치하는 원본 프레임워크 AbsoluteLayout입니다.</string>
+    <string name="layout_child">자식 %1$d</string>
+    <string name="layout_cell">R%1$d C%2$d</string>
+    <string name="layout_note">실제 컨테이너와 테마의 자식들을 보여주는 정적 미리보기입니다. 레이아웃에는 복사할 입력이 없습니다.</string>
 </resources>

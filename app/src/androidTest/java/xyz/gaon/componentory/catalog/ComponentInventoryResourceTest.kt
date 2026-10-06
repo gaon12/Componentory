@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 127, InventoryStatus.PENDING to 112),
+            mapOf(InventoryStatus.IMPLEMENTED to 135, InventoryStatus.PENDING to 104),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 37,
+                InventoryFamily.PLATFORM to 45,
                 InventoryFamily.MATERIAL2 to 31,
                 InventoryFamily.MATERIAL3 to 59,
             ),
@@ -172,6 +172,26 @@ class ComponentInventoryResourceTest {
                 assertEquals(listOf(catalogId), row.catalogIds)
                 assertEquals(1, row.apiIntroduced)
             }
+        mapOf(
+                "android.widget.FrameLayout" to ("FRAME_LAYOUT" to 1),
+                "android.widget.LinearLayout" to ("LINEAR_LAYOUT" to 1),
+                "android.widget.TableLayout" to ("TABLE_LAYOUT" to 1),
+                "android.widget.GridLayout" to ("GRID_LAYOUT" to 14),
+                "android.widget.RelativeLayout" to ("RELATIVE_LAYOUT" to 1),
+                "android.widget.Space" to ("SPACE" to 14),
+                "android.widget.AbsoluteLayout" to ("ABSOLUTE_LAYOUT" to 1),
+            )
+            .forEach { (source, metadata) ->
+                val row = entries.single { it.source == source }
+                assertEquals(InventoryFamily.PLATFORM, row.family)
+                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(listOf(metadata.first), row.catalogIds)
+                assertEquals(metadata.second, row.apiIntroduced)
+            }
+        // TableRow rows live inside the TableLayout sample like RadioGroup inside RADIO.
+        val tableRow = entries.single { it.source == "android.widget.TableRow" }
+        assertEquals(InventoryStatus.IMPLEMENTED, tableRow.status)
+        assertEquals(listOf("TABLE_LAYOUT"), tableRow.catalogIds)
 
         // The host can compare these exact asset bytes with the audited source file.
         val hash =
@@ -191,10 +211,10 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(112, pending.size)
+        assertEquals(104, pending.size)
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 37,
+                InventoryFamily.PLATFORM to 29,
                 InventoryFamily.MATERIAL2 to 21,
                 InventoryFamily.MATERIAL3 to 54,
             ),
@@ -253,6 +273,14 @@ class ComponentInventoryResourceTest {
         )
         assertTrue(ComponentInventory.pending(entries, "textswitcher").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "imageswitcher").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "framelayout").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "linearlayout").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "tablelayout").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "tablerow").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "gridlayout").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "relativelayout").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "space").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "absolutelayout").isEmpty())
         listOf(
                 "android.widget.TextView",
                 "androidx.compose.material.Text",

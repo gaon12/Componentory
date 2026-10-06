@@ -376,4 +376,21 @@
     <string name="switcher_line">切换器行 %1$d</string>
     <string name="status_switcher_child">正在显示第 %1$d 个子项，共 %2$d 个</string>
     <string name="switcher_note">“上一页”和“下一页”以原始容器自带的过渡效果切换。复制会转移当前显示的子项索引。</string>
+    <string name="component_frame_layout">帧布局</string>
+    <string name="component_frame_layout_description">原始框架 FrameLayout，在一个主题容器内叠放居中标签和角标。</string>
+    <string name="component_linear_layout">线性布局</string>
+    <string name="component_linear_layout_description">原始框架 LinearLayout，按相等权重分配三个主题子视图。</string>
+    <string name="component_table_layout">表格布局</string>
+    <string name="component_table_layout_description">原始框架 TableLayout，通过真实的 TableRow 子项排列单元格。</string>
+    <string name="component_grid_layout">网格布局</string>
+    <string name="component_grid_layout_description">原始框架 GridLayout，将四个主题子视图放入两列网格。</string>
+    <string name="component_relative_layout">相对布局</string>
+    <string name="component_relative_layout_description">原始框架 RelativeLayout，用对齐规则锚定主题子视图。</string>
+    <string name="component_space">间隔</string>
+    <string name="component_space_description">原始框架 Space 小部件，在两个主题标签之间保留空隙。</string>
+    <string name="component_absolute_layout">绝对布局</string>
+    <string name="component_absolute_layout_description">原始框架 AbsoluteLayout，将主题子视图放置在固定坐标。</string>
+    <string name="layout_child">子项 %1$d</string>
+    <string name="layout_cell">R%1$d C%2$d</string>
+    <string name="layout_note">展示真实容器及其主题子项的静态预览。布局没有可复制的输入。</string>
 </resources>

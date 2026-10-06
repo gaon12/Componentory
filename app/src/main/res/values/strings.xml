@@ -379,4 +379,21 @@
     <string name="switcher_line">Switcher line %1$d</string>
     <string name="status_switcher_child">Showing child %1$d of %2$d</string>
     <string name="switcher_note">Previous and Next step the original container with its own transition. Copying carries the displayed child index.</string>
+    <string name="component_frame_layout">Frame layout</string>
+    <string name="component_frame_layout_description">The original framework FrameLayout stacking a centered label and a corner marker in one themed container.</string>
+    <string name="component_linear_layout">Linear layout</string>
+    <string name="component_linear_layout_description">The original framework LinearLayout distributing three themed children by equal weight.</string>
+    <string name="component_table_layout">Table layout</string>
+    <string name="component_table_layout_description">The original framework TableLayout arranging cells through real TableRow children.</string>
+    <string name="component_grid_layout">Grid layout</string>
+    <string name="component_grid_layout_description">The original framework GridLayout placing four themed children in a two-column grid.</string>
+    <string name="component_relative_layout">Relative layout</string>
+    <string name="component_relative_layout_description">The original framework RelativeLayout anchoring themed children with alignment rules.</string>
+    <string name="component_space">Space</string>
+    <string name="component_space_description">The original framework Space widget keeping an empty gap between two themed labels.</string>
+    <string name="component_absolute_layout">Absolute layout</string>
+    <string name="component_absolute_layout_description">The original framework AbsoluteLayout positioning themed children at fixed coordinates.</string>
+    <string name="layout_child">Child %1$d</string>
+    <string name="layout_cell">R%1$d C%2$d</string>
+    <string name="layout_note">A static preview of the real container and its themed children. The layout has no inputs to copy.</string>
 </resources>

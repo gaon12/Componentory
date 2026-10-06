@@ -662,12 +662,19 @@ class SampleSetupTest {
                     }
                 }
             }
-        // Purely visual clocks and scroll containers own no copyable inputs.
+        // Purely visual clocks, scroll containers and layouts own no copyable inputs.
         listOf(
                 LabComponent.ANALOG_CLOCK,
                 LabComponent.DIGITAL_CLOCK,
                 LabComponent.SCROLL_VIEW,
                 LabComponent.HORIZONTAL_SCROLL_VIEW,
+                LabComponent.FRAME_LAYOUT,
+                LabComponent.LINEAR_LAYOUT,
+                LabComponent.TABLE_LAYOUT,
+                LabComponent.GRID_LAYOUT,
+                LabComponent.RELATIVE_LAYOUT,
+                LabComponent.SPACE,
+                LabComponent.ABSOLUTE_LAYOUT,
             )
             .forEach { component ->
                 val captured =

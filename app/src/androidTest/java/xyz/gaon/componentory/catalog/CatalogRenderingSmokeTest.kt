@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AbsoluteLayout
 import android.widget.AnalogClock
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -23,10 +24,13 @@ import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.DigitalClock
 import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.GridLayout
 import android.widget.HorizontalScrollView
 import android.widget.ImageButton
 import android.widget.ImageSwitcher
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.MultiAutoCompleteTextView
 import android.widget.NumberPicker
 import android.widget.PopupMenu
@@ -34,11 +38,15 @@ import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RatingBar
+import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.SearchView
 import android.widget.SeekBar
+import android.widget.Space
 import android.widget.Spinner
 import android.widget.Switch
+import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextClock
 import android.widget.TextSwitcher
 import android.widget.TextView
@@ -140,22 +148,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 36, 44)
+        verifyFamily(DesignFamily.CLASSIC, 43, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 36, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 43, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 36, 44)
+        verifyFamily(DesignFamily.MATERIAL, 43, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 49)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 56)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 21)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 28)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -164,7 +172,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            82,
+            89,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -439,6 +447,28 @@ class CatalogRenderingSmokeTest {
                     assertEquals(2, switcher.childCount)
                     assertNotNull((switcher.currentView as ImageView).drawable)
                 }
+                LabComponent.FRAME_LAYOUT,
+                LabComponent.ABSOLUTE_LAYOUT -> assertEquals(2, (view as ViewGroup).childCount)
+                LabComponent.LINEAR_LAYOUT -> {
+                    val layout = view as LinearLayout
+                    assertEquals(LinearLayout.HORIZONTAL, layout.orientation)
+                    assertEquals(3, layout.childCount)
+                }
+                LabComponent.TABLE_LAYOUT -> {
+                    val table = view as TableLayout
+                    assertEquals(2, table.childCount)
+                    repeat(2) { row ->
+                        val tableRow = table.getChildAt(row) as TableRow
+                        assertEquals(2, tableRow.childCount)
+                    }
+                }
+                LabComponent.GRID_LAYOUT -> {
+                    val grid = view as GridLayout
+                    assertEquals(2, grid.columnCount)
+                    assertEquals(4, grid.childCount)
+                }
+                LabComponent.RELATIVE_LAYOUT -> assertEquals(2, (view as RelativeLayout).childCount)
+                LabComponent.SPACE -> assertEquals(View.VISIBLE, view.visibility)
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
                     assertNotNull((view as ImageView).drawable)
@@ -507,6 +537,13 @@ class CatalogRenderingSmokeTest {
             LabComponent.VIEW_FLIPPER -> ViewFlipper::class.java
             LabComponent.TEXT_SWITCHER -> TextSwitcher::class.java
             LabComponent.IMAGE_SWITCHER -> ImageSwitcher::class.java
+            LabComponent.FRAME_LAYOUT -> FrameLayout::class.java
+            LabComponent.LINEAR_LAYOUT -> LinearLayout::class.java
+            LabComponent.TABLE_LAYOUT -> TableLayout::class.java
+            LabComponent.GRID_LAYOUT -> GridLayout::class.java
+            LabComponent.RELATIVE_LAYOUT -> RelativeLayout::class.java
+            LabComponent.SPACE -> Space::class.java
+            LabComponent.ABSOLUTE_LAYOUT -> AbsoluteLayout::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")

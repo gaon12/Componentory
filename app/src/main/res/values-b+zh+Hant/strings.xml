@@ -376,4 +376,21 @@
     <string name="switcher_line">切換器列 %1$d</string>
     <string name="status_switcher_child">正在顯示第 %1$d 個子項，共 %2$d 個</string>
     <string name="switcher_note">「上一頁」和「下一頁」以原始容器自帶的切換效果移動。複製會轉移目前顯示的子項索引。</string>
+    <string name="component_frame_layout">框架版面配置</string>
+    <string name="component_frame_layout_description">原始架構 FrameLayout，在一個主題容器內疊放置中標籤和角落標記。</string>
+    <string name="component_linear_layout">線性版面配置</string>
+    <string name="component_linear_layout_description">原始架構 LinearLayout，以相等權重分配三個主題子檢視。</string>
+    <string name="component_table_layout">表格版面配置</string>
+    <string name="component_table_layout_description">原始架構 TableLayout，透過真實的 TableRow 子項排列儲存格。</string>
+    <string name="component_grid_layout">格線版面配置</string>
+    <string name="component_grid_layout_description">原始架構 GridLayout，將四個主題子檢視放入兩欄格線。</string>
+    <string name="component_relative_layout">相對版面配置</string>
+    <string name="component_relative_layout_description">原始架構 RelativeLayout，以對齊規則錨定主題子檢視。</string>
+    <string name="component_space">間隔</string>
+    <string name="component_space_description">原始架構 Space 小工具，在兩個主題標籤之間保留空隙。</string>
+    <string name="component_absolute_layout">絕對版面配置</string>
+    <string name="component_absolute_layout_description">原始架構 AbsoluteLayout，將主題子檢視放置在固定座標。</string>
+    <string name="layout_child">子項 %1$d</string>
+    <string name="layout_cell">R%1$d C%2$d</string>
+    <string name="layout_note">展示真實容器及其主題子項的靜態預覽。版面配置沒有可複製的輸入。</string>
 </resources>

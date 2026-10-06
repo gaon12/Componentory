@@ -29,6 +29,25 @@ class ComponentInventoryTest {
                 assertEquals(metadata.second, row.apiIntroduced)
             }
         mapOf(
+                "android.widget.FrameLayout" to ("FRAME_LAYOUT" to "1"),
+                "android.widget.LinearLayout" to ("LINEAR_LAYOUT" to "1"),
+                "android.widget.TableLayout" to ("TABLE_LAYOUT" to "1"),
+                "android.widget.GridLayout" to ("GRID_LAYOUT" to "14"),
+                "android.widget.RelativeLayout" to ("RELATIVE_LAYOUT" to "1"),
+                "android.widget.Space" to ("SPACE" to "14"),
+                "android.widget.AbsoluteLayout" to ("ABSOLUTE_LAYOUT" to "1"),
+            )
+            .forEach { (source, metadata) ->
+                val row = rows.single { it.source == source }
+                assertEquals("PLATFORM", row.provider)
+                assertEquals("Implemented", row.status)
+                assertEquals(listOf(metadata.first), row.catalogIds)
+                assertEquals(metadata.second, row.apiIntroduced)
+            }
+        val tableRow = rows.single { it.source == "android.widget.TableRow" }
+        assertEquals("Implemented", tableRow.status)
+        assertEquals(listOf("TABLE_LAYOUT"), tableRow.catalogIds)
+        mapOf(
                 "android.widget.ViewAnimator" to "VIEW_ANIMATOR",
                 "android.widget.ViewSwitcher" to "VIEW_SWITCHER",
                 "android.widget.ViewFlipper" to "VIEW_FLIPPER",
@@ -65,9 +84,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(82, LabComponent.entries.size)
+        assertEquals(89, LabComponent.entries.size)
         assertEquals(
-            207,
+            228,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -75,15 +94,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 127, "Pending" to 112),
+            mapOf("Implemented" to 135, "Pending" to 104),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 37, "MATERIAL2" to 31, "MATERIAL3" to 59),
+            mapOf("PLATFORM" to 45, "MATERIAL2" to 31, "MATERIAL3" to 59),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 37, "MATERIAL2" to 21, "MATERIAL3" to 54),
+            mapOf("PLATFORM" to 29, "MATERIAL2" to 21, "MATERIAL3" to 54),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -164,6 +183,8 @@ class ComponentInventoryTest {
                         when {
                             row.provider == "PLATFORM" && component == LabComponent.RADIO ->
                                 setOf("android.widget.RadioGroup")
+                            row.provider == "PLATFORM" && component == LabComponent.TABLE_LAYOUT ->
+                                setOf("android.widget.TableRow")
                             row.provider == "PLATFORM" &&
                                 component == LabComponent.TIME_PICKER_DIALOG ->
                                 setOf("android.widget.TimePicker")
