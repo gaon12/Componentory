@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**141 component entries**, with **345 runnable component/family combinations**.
+**144 component entries**, with **348 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `3ed5de8`. Executed resource
+Application and latest verification source revision: `70f615a`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 51 | 1 |
-| Compose Material 3 1.4.0 | 113 | 93 | 20 |
-| Total | 239 | 216 | 23 |
+| Compose Material 3 1.4.0 | 113 | 98 | 15 |
+| Total | 239 | 221 | 18 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -411,6 +411,14 @@ SECONDARY_SCROLLABLE_TAB_ROW scroll eight. All drive the same selected
 index state as the base rows, and the Material 2 cells explain the
 missing sources.
 
+Three navigation entries add three Material 3-only combinations covering
+the adaptive variants: SHORT_NAVIGATION_BAR hosts real
+ShortNavigationBarItem destinations, and both wide rails host real
+WideNavigationRailItem destinations marked expanded. The modal rail
+overlays content for real. The item composables count as supporting
+sources of their containers; selected destination index copies as with
+the base suite.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -495,14 +503,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `3ed5de8`, preceded by the sweep baseline correction in
+Latest implementation: `70f615a`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 119 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,222,946
+with zero errors. All 120 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,231,410
 bytes with SHA-256
-`275ccebeb77fec1611ed46eff57ddca643885adce12e75e1b3f53c2f7b63c75f` and the test
-APK is 1,515,212 bytes with SHA-256
-`e1c5a8efcf1499b705311064f37bbc61c0b09932afbb55f7c20523d82ced55c0`.
+`dfed932126e7dea10bd036edcd5a4a78a2e942caa76bc8ab29e4d81bfda0a60f` and the test
+APK is 1,515,922 bytes with SHA-256
+`3bf2ce4249829268595a7f7af082afaa9468fbe2f8a98794cd527623d958ebb7`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -652,8 +660,8 @@ through each library's threshold logic, cross-library copy of the
 dismissed flag, recreation restore, and the disabled settle-back. They
 also await a clean unlocked-device run.
 
-The catalog now declares 141 entries and 345 supported combinations. The smoke
-sweep spans 699 ordinary cells: 348 supported and 351 unsupported; the six
+The catalog now declares 144 entries and 348 supported combinations. The smoke
+sweep spans 714 ordinary cells: 351 supported and 363 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
