@@ -85,6 +85,20 @@ private fun RunRow(record: RunRecord, onOpen: (RunRecord) -> Unit, onDelete: (Ru
             style = MaterialTheme.typography.bodySmall,
         )
         Text(timestamp, style = MaterialTheme.typography.bodySmall)
+        // A run is evidence; show the device and OS it actually ran on.
+        listOfNotNull(
+                record.environment["model"],
+                record.environment["androidRelease"]?.let { "Android $it" },
+                record.environment["api"]?.let { "API $it" },
+            )
+            .takeIf { it.isNotEmpty() }
+            ?.let {
+                Text(
+                    it.joinToString(" · "),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             TextButton(
                 onClick = { onOpen(record) },
