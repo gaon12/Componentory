@@ -76,6 +76,9 @@ class BottomSheetsTest {
         recreateActivity()
         status("LEFT", "Sheet open")
         status("RIGHT", "Sheet open")
+        listOf("LEFT", "RIGHT").forEach { panel ->
+            compose.onNodeWithTag("library_${panel}_item_2").performScrollTo().assertIsDisplayed()
+        }
     }
 
     @Test

@@ -14,10 +14,16 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.flow.filterNotNull
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
@@ -62,17 +68,26 @@ internal fun Material3SheetSample(
                     skipHiddenState = true,
                 )
             val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
-            LaunchedEffect(state.value) {
+            var sheetReady by remember(state) { mutableStateOf(false) }
+            var sheetLaidOut by remember(state) { mutableStateOf(false) }
+            LaunchedEffect(state.value, sheetLaidOut) {
+                if (!sheetLaidOut) return@LaunchedEffect
+                sheetReady = false
                 if (state.value == 1) sheetState.expand() else sheetState.partialExpand()
+                sheetReady = true
             }
             LaunchedEffect(sheetState) {
-                snapshotFlow { sheetState.currentValue }
+                snapshotFlow { if (sheetReady) sheetState.currentValue else null }
+                    .filterNotNull()
                     .collect { state.value = if (it == SheetValue.Expanded) 1 else 0 }
             }
             BottomSheetScaffold(
                 scaffoldState = scaffoldState,
                 sheetContent = { Column { sheet() } },
-                modifier = modifier,
+                modifier =
+                    modifier.onGloballyPositioned {
+                        sheetLaidOut = it.size.width > 0 && it.size.height > 0
+                    },
             ) {
                 content()
             }

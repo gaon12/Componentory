@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -19,10 +20,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -37,9 +38,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -114,7 +117,7 @@ fun SamplePanel(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Column {
-                OutlinedButton(
+                FilledTonalButton(
                     onClick = { menuOpen = true },
                     modifier = Modifier.fillMaxWidth().testTag("family_$panel"),
                 ) {
@@ -158,9 +161,30 @@ fun SamplePanel(
                     }
                 }
             }
-            Text(family.origin(context), style = MaterialTheme.typography.bodySmall)
+            Text(
+                family.origin(context),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            // Full-screen library containers need a finite host viewport inside a scrolling page.
+            // Window overlays still use their own library window and original sample theme.
+            val viewport =
+                if (
+                    platform == null &&
+                        unsupported == null &&
+                        (component == LabComponent.SCAFFOLD ||
+                            component.isSheetSuite ||
+                            component.isDrawerSuite)
+                ) {
+                    Modifier.height(320.dp * LocalDensity.current.fontScale.coerceAtLeast(1f))
+                        .clipToBounds()
+                } else Modifier
             Column(
-                Modifier.fillMaxWidth().background(background).padding(16.dp).heightIn(min = 96.dp),
+                Modifier.fillMaxWidth()
+                    .background(background)
+                    .padding(16.dp)
+                    .heightIn(min = 96.dp)
+                    .then(viewport),
                 verticalArrangement = Arrangement.Center,
             ) {
                 if (unsupported != null) {
@@ -309,8 +333,15 @@ fun SamplePanel(
                             state.time24Hour,
                             state.chronometerBaseMillis,
                         ),
-                    modifier = Modifier.testTag("status_$panel"),
-                    style = MaterialTheme.typography.titleMedium,
+                    modifier =
+                        Modifier.testTag("status_$panel")
+                            .background(
+                                MaterialTheme.colorScheme.primaryContainer,
+                                MaterialTheme.shapes.small,
+                            )
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
                 )
             if (
                 unsupported == null &&

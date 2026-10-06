@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -150,6 +152,7 @@ fun CompareScreen(
         Text(
             stringResource(R.string.compare_intro, Build.VERSION.RELEASE),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyMedium,
         )
         FlowRow(
             Modifier.fillMaxWidth(),
@@ -187,10 +190,14 @@ fun CompareScreen(
                     reset++
                 },
                 modifier = Modifier.testTag("reset"),
+                colors =
+                    ButtonDefaults.textButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
             ) {
                 Text(stringResource(R.string.reset))
             }
-            TextButton(onClick = saveRun, modifier = Modifier.testTag("save_run")) {
+            Button(onClick = saveRun, modifier = Modifier.testTag("save_run")) {
                 Text(stringResource(R.string.save_run))
             }
         }

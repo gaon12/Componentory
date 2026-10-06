@@ -78,7 +78,11 @@ fun ComponentDetailScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text(stringResource(component.descriptionRes), style = MaterialTheme.typography.titleLarge)
+        Text(
+            stringResource(component.descriptionRes),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Switch(
                 checked = enabled,

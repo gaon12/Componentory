@@ -10,7 +10,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -24,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
@@ -39,11 +43,17 @@ import xyz.gaon.componentory.lab.LabComponent
 @Composable
 fun ComponentPicker(component: LabComponent, onSelect: (LabComponent) -> Unit) {
     var open by rememberSaveable { mutableStateOf(false) }
-    OutlinedButton(
+    FilledTonalButton(
         onClick = { open = true },
         modifier = Modifier.fillMaxWidth().testTag("component_picker"),
+        colors =
+            ButtonDefaults.filledTonalButtonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+            ),
     ) {
-        Text(stringResource(component.labelRes))
+        Text(stringResource(component.labelRes), Modifier.weight(1f))
+        Icon(painterResource(R.drawable.ic_forward), contentDescription = null)
     }
     if (open) {
         var query by rememberSaveable { mutableStateOf("") }

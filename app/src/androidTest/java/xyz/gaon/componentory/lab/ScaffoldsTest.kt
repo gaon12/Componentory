@@ -7,7 +7,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -62,8 +64,13 @@ class ScaffoldsTest {
         compose
             .onNodeWithTag("source_RIGHT")
             .assertTextEquals("androidx.compose.material3.Scaffold")
-        compose.onNodeWithTag("library_LEFT").assertIsDisplayed().assertTextEquals("Scaffold body")
-        compose.onNodeWithTag("library_RIGHT").assertIsDisplayed().assertTextEquals("Scaffold body")
+        listOf("LEFT", "RIGHT").forEach { panel ->
+            compose
+                .onNode(hasText("Scaffold body") and hasAnyAncestor(hasTestTag("library_$panel")))
+                .performScrollTo()
+                .assertIsDisplayed()
+                .assertTextEquals("Scaffold body")
+        }
         compose.onNodeWithTag("status_LEFT").performScrollTo().assertTextEquals("Preview: Scaffold")
 
         blockedCopy("LEFT_TO_RIGHT", "This sample has no inputs to copy.")

@@ -7,10 +7,11 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
-import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -104,14 +105,14 @@ class NavigationDrawersTest {
         // The sheet is always visible without any open action.
         compose.onNodeWithTag("library_LEFT_item_1").assertIsDisplayed()
         status("LEFT", "Preview: Permanent navigation drawer")
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Material 2 library does not provide Permanent navigation drawer.",
-                substring = true,
+            .onNode(
+                hasText("The Material 2 library does not provide Permanent navigation drawer.") and
+                    hasAnyAncestor(hasTestTag("unsupported_RIGHT"))
             )
+            .assertExists()
+        chooseFamily("RIGHT", DesignFamily.MATERIAL3)
         blockedCopy("LEFT_TO_RIGHT", "This sample has no inputs to copy.")
     }
 
