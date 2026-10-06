@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**130 component entries**, with **330 runnable component/family combinations**.
+**131 component entries**, with **332 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,16 +49,16 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `4d4c850`. Executed resource
+Application and latest verification source revision: `1250e6f`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
 | Source family | Inventory rows | Implemented sources | Pending sources |
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
-| Compose Material 2 1.10.4 | 52 | 46 | 6 |
-| Compose Material 3 1.4.0 | 113 | 82 | 31 |
-| Total | 239 | 200 | 39 |
+| Compose Material 2 1.10.4 | 52 | 47 | 5 |
+| Compose Material 3 1.4.0 | 113 | 83 | 30 |
+| Total | 239 | 202 | 37 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -369,6 +369,14 @@ write it back — so the open-or-closed value is the copied state. The
 permanent drawer is always open and stays a preview with no inputs. The
 sheet and item composables count as supporting sources of their drawers.
 
+One input entry adds two library combinations: EXPOSED_DROPDOWN pairs
+Material 2's ExposedDropdownMenuBox with Material 3's
+ExposedDropdownMenuBox. Each renders a read-only text field anchor whose
+real exposed menu offers four choices; the picked text is the copied
+state, while the menu's expanded flag stays local and is never
+transferred. Both variants run behind their libraries' experimental
+opt-ins, and the disabled switch keeps the menu closed.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -442,7 +450,7 @@ resources are kept in the app bundle for offline switching.
 
 1. Remaining pickers and date/time variants.
 2. Lists, images, remaining text variants, and legacy content controls.
-3. Remaining menu variants, toolbars, app bars, navigation bars/rails, tabs, and drawers.
+3. Remaining menu variants and search bars.
 4. Sheets, snackbar, tooltip, swipe dismissal, refresh, and carousel.
 5. Framework layouts, zoom, media, and system-hosted UI.
 
@@ -453,14 +461,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `29f7be0`, preceded by the sweep baseline correction in
+Latest implementation: `1250e6f`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 114 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,157,574
+with zero errors. All 115 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,166,986
 bytes with SHA-256
-`6052cd2e7322e7839029599e3b4dd5862cd1d88003f3feeae45b2f5b4ee3b52a` and the test
-APK is 1,505,616 bytes with SHA-256
-`9cfd8994ba491b6eb8e45c6ef833ff54eee92cd7ce789f5ded886613c6ad2598`.
+`835fbf8180822155967f5950aa742c4cde6e7751d23731514c6409d5634aa465` and the test
+APK is 1,507,507 bytes with SHA-256
+`cc8ea3bfffd828b1419bd0f0fce224182e084779cb875f348bc28c19cb0c32ef`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -584,8 +592,15 @@ provider-bearing MenuItem with its submenu flag, share-count copying,
 recreation restore, the disabled item and unsupported Compose targets. They
 also await a clean unlocked-device run.
 
-The catalog now declares 114 entries and 303 supported combinations. The smoke
-sweep spans 559 ordinary cells: 301 supported and 258 unsupported; the six
+Two [exposed-dropdown scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ExposedDropdownsTest.kt)
+compile in the same state. They verify the real Material 2 and Material 3
+ExposedDropdownMenuBox anchors, item selection writing the picked text,
+status text, copying picked text between panels, recreation restore,
+disabled fields keeping the menu closed, and the platform unsupported
+explanation. They also await a clean unlocked-device run.
+
+The catalog now declares 131 entries and 332 supported combinations. The smoke
+sweep spans 649 ordinary cells: 335 supported and 314 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;

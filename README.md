@@ -7,9 +7,9 @@ separate entries with their own version identity.
 
 The working prototype has three bottom navigation destinations:
 
-- **List:** Search 130 implemented components by translated name or description,
+- **List:** Search 131 implemented components by translated name or description,
   or by their English class/function names. Combine search with category filters.
-  Switch to Planned APIs to inspect 39 source APIs awaiting interactive samples,
+  Switch to Planned APIs to inspect 37 source APIs awaiting interactive samples,
   with source-name search and provider filters. Open a sample detail page, select
   a theme or library, and interact with the real component.
 - **Compare:** Choose two UI families for the same component. Each sample keeps
@@ -100,9 +100,9 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `29f7be0` pass formatting, lint, all 114 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 333 supported
-and 311 unsupported ordinary cells after the baselines were recomputed from the
+The latest checks for `1250e6f` pass formatting, lint, all 115 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 335 supported
+and 314 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
 use a separate existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process
@@ -116,7 +116,7 @@ switcher samples, framework layouts, adapter lists, zoom widgets, adapter
 animators, transient windows, the deprecated tab host, the deprecated
 containers, the popup windows, the menu hosts, the content surfaces, the dialer
 filter, the media widgets, the share action provider, the edge effect host, the Material navigation
-bar and rail, the Material tab rows, the Material snackbars, the Material list items, the Material app bars, the Material navigation drawers, date/time dialogs, cards,
+bar and rail, the Material tab rows, the Material snackbars, the Material list items, the Material app bars, the Material navigation drawers, the Material exposed dropdowns, date/time dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
