@@ -620,6 +620,30 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 1,
     ),
+    SHORT_NAVIGATION_BAR(
+        "Short navigation bar",
+        R.string.component_short_navigation_bar,
+        R.string.component_short_navigation_bar_description,
+        material3Function = "ShortNavigationBar",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    WIDE_NAVIGATION_RAIL(
+        "Wide navigation rail",
+        R.string.component_wide_navigation_rail,
+        R.string.component_wide_navigation_rail_description,
+        material3Function = "WideNavigationRail",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
+    MODAL_WIDE_NAVIGATION_RAIL(
+        "Modal wide navigation rail",
+        R.string.component_modal_wide_navigation_rail,
+        R.string.component_modal_wide_navigation_rail_description,
+        material3Function = "ModalWideNavigationRail",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 1,
+    ),
     TAB_ROW(
         "Tab row",
         R.string.component_tab_row,
@@ -1309,7 +1333,12 @@ enum class LabComponent(
         get() = this == EDGE_EFFECT
 
     val isNavigationSuite: Boolean
-        get() = this == NAVIGATION_BAR || this == NAVIGATION_RAIL
+        get() =
+            this == NAVIGATION_BAR ||
+                this == NAVIGATION_RAIL ||
+                this == SHORT_NAVIGATION_BAR ||
+                this == WIDE_NAVIGATION_RAIL ||
+                this == MODAL_WIDE_NAVIGATION_RAIL
 
     val isTabRow: Boolean
         get() =

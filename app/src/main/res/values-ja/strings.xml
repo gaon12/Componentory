@@ -489,6 +489,12 @@
 
     <string name="component_navigation_bar">ナビゲーションバー</string>
     <string name="component_navigation_bar_description">実際のナビゲーション項目を持つ Material 2 BottomNavigation または Material 3 NavigationBar です。</string>
+    <string name="component_short_navigation_bar">ショートナビゲーションバー</string>
+    <string name="component_short_navigation_bar_description">コンパクトな水平移動先向けの Material 3 ShortNavigationBar です。</string>
+    <string name="component_wide_navigation_rail">ワイドナビゲーションレール</string>
+    <string name="component_wide_navigation_rail_description">展開と折りたたみが可能な Material 3 WideNavigationRail です。</string>
+    <string name="component_modal_wide_navigation_rail">モーダルワイドナビゲーションレール</string>
+    <string name="component_modal_wide_navigation_rail_description">コンテンツの上にモーダルレールとして表示する Material 3 ModalWideNavigationRail です。</string>
     <string name="component_navigation_rail">ナビゲーションレール</string>
     <string name="component_navigation_rail_description">実際のナビゲーション項目を持つ Material NavigationRail です。</string>
 

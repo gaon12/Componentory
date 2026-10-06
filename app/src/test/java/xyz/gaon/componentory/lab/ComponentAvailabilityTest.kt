@@ -571,6 +571,35 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun wideRailsAndShortBarAreHonestMaterial3Only() {
+        listOf(
+                LabComponent.SHORT_NAVIGATION_BAR to "ShortNavigationBar",
+                LabComponent.WIDE_NAVIGATION_RAIL to "WideNavigationRail",
+                LabComponent.MODAL_WIDE_NAVIGATION_RAIL to "ModalWideNavigationRail",
+            )
+            .forEach { (component, function) ->
+                listOf(
+                        DesignFamily.CLASSIC,
+                        DesignFamily.HOLO,
+                        DesignFamily.MATERIAL,
+                        DesignFamily.MATERIAL2,
+                    )
+                    .forEach { family ->
+                        assertNotNull(family.unsupportedReason(component, 36))
+                        assertEquals("Not provided", family.source(component))
+                    }
+                assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                assertEquals(
+                    "androidx.compose.material3.$function",
+                    DesignFamily.MATERIAL3.source(component),
+                )
+                assertTrue(component.isNavigationSuite)
+                assertEquals(3, component.navigationItemCount)
+                assertEquals(ComponentCategory.NAVIGATION, component.category)
+            }
+    }
+
+    @Test
     fun secondaryTabRowsAreHonestMaterial3Only() {
         listOf(
                 LabComponent.PRIMARY_TAB_ROW to ("PrimaryTabRow" to 3),

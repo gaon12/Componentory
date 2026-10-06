@@ -489,6 +489,12 @@
 
     <string name="component_navigation_bar">導覽列</string>
     <string name="component_navigation_bar_description">具有真實導覽項目的 Material 2 BottomNavigation 或 Material 3 NavigationBar。</string>
+    <string name="component_short_navigation_bar">短導覽列</string>
+    <string name="component_short_navigation_bar_description">用於精簡水平目的地的 Material 3 ShortNavigationBar。</string>
+    <string name="component_wide_navigation_rail">寬導覽軌</string>
+    <string name="component_wide_navigation_rail_description">可展開和收合的 Material 3 WideNavigationRail。</string>
+    <string name="component_modal_wide_navigation_rail">模態寬導覽軌</string>
+    <string name="component_modal_wide_navigation_rail_description">以模態軌覆蓋在內容上方的 Material 3 ModalWideNavigationRail。</string>
     <string name="component_navigation_rail">導覽邊欄</string>
     <string name="component_navigation_rail_description">具有真實導覽項目的 Material NavigationRail。</string>
 

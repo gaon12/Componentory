@@ -492,6 +492,12 @@
 
     <string name="component_navigation_bar">Navigation bar</string>
     <string name="component_navigation_bar_description">Material 2 BottomNavigation or Material 3 NavigationBar with real navigation items.</string>
+    <string name="component_short_navigation_bar">Short navigation bar</string>
+    <string name="component_short_navigation_bar_description">The Material 3 ShortNavigationBar for compact horizontal destinations.</string>
+    <string name="component_wide_navigation_rail">Wide navigation rail</string>
+    <string name="component_wide_navigation_rail_description">The Material 3 WideNavigationRail that can expand and collapse.</string>
+    <string name="component_modal_wide_navigation_rail">Modal wide navigation rail</string>
+    <string name="component_modal_wide_navigation_rail_description">The Material 3 ModalWideNavigationRail overlaying content as a modal rail.</string>
     <string name="component_navigation_rail">Navigation rail</string>
     <string name="component_navigation_rail_description">The Material NavigationRail with real navigation items.</string>
 

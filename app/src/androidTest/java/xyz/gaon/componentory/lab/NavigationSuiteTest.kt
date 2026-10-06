@@ -73,6 +73,33 @@ class NavigationSuiteTest {
     }
 
     @Test
+    fun material3VariantsRenderRealItemsAndCopySelection() {
+        listOf(
+                LabComponent.SHORT_NAVIGATION_BAR to
+                    "androidx.compose.material3.ShortNavigationBar",
+                LabComponent.WIDE_NAVIGATION_RAIL to
+                    "androidx.compose.material3.WideNavigationRail",
+                LabComponent.MODAL_WIDE_NAVIGATION_RAIL to
+                    "androidx.compose.material3.ModalWideNavigationRail",
+            )
+            .forEach { (component, source) ->
+                configure(component, DesignFamily.MATERIAL3, DesignFamily.MATERIAL2)
+                compose.onNodeWithTag("source_LEFT").assertTextEquals(source)
+                compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
+                compose.onNodeWithTag("unsupported_RIGHT").assertIsDisplayed()
+                for (item in 1..3) {
+                    compose.onNodeWithTag("library_LEFT_item_$item").assertIsDisplayed()
+                }
+                status("LEFT", "Selected: Item 1")
+                compose.onNodeWithTag("library_LEFT_item_3").performTouchInput { click() }
+                compose.waitForIdle()
+                status("LEFT", "Selected: Item 3")
+                compose.onNodeWithTag("library_LEFT_item_3").assertIsSelected()
+                blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
+            }
+    }
+
+    @Test
     fun itemSelectionCopiesAcrossLibrariesAndSurvivesRecreation() {
         configure(LabComponent.NAVIGATION_BAR, DesignFamily.MATERIAL2, DesignFamily.MATERIAL3)
         selectItem("LEFT", 3)

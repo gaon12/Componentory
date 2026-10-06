@@ -489,6 +489,12 @@
 
     <string name="component_navigation_bar">导航栏</string>
     <string name="component_navigation_bar_description">带有真实导航项的 Material 2 BottomNavigation 或 Material 3 NavigationBar。</string>
+    <string name="component_short_navigation_bar">短导航栏</string>
+    <string name="component_short_navigation_bar_description">用于紧凑水平目的地的 Material 3 ShortNavigationBar。</string>
+    <string name="component_wide_navigation_rail">宽导航轨道</string>
+    <string name="component_wide_navigation_rail_description">可展开和折叠的 Material 3 WideNavigationRail。</string>
+    <string name="component_modal_wide_navigation_rail">模态宽导航轨道</string>
+    <string name="component_modal_wide_navigation_rail_description">以模态轨道覆盖在内容上方的 Material 3 ModalWideNavigationRail。</string>
     <string name="component_navigation_rail">导航栏（竖向）</string>
     <string name="component_navigation_rail_description">带有真实导航项的 Material NavigationRail。</string>
 

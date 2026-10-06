@@ -8,6 +8,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.MediumTopAppBar
+import androidx.compose.material3.ModalWideNavigationRail
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationRail
@@ -17,10 +18,14 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.SecondaryTabRow
+import androidx.compose.material3.ShortNavigationBar
+import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.WideNavigationRail
+import androidx.compose.material3.WideNavigationRailItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -66,8 +71,53 @@ internal fun Material3Navigation(
                     )
                 }
             }
+        LabComponent.SHORT_NAVIGATION_BAR ->
+            ShortNavigationBar(modifier = modifier) {
+                for (item in items) {
+                    ShortNavigationBarItem(
+                        selected = state.value == item,
+                        onClick = { state.value = item },
+                        enabled = enabled,
+                        icon = { Icon(icon.vector(), contentDescription = null) },
+                        label = { Text(stringResource(R.string.list_item, item)) },
+                        modifier = Modifier.testTag("library_${panel}_item_$item"),
+                    )
+                }
+            }
+        LabComponent.WIDE_NAVIGATION_RAIL ->
+            WideNavigationRail(modifier = modifier) {
+                for (item in items) {
+                    WideNavigationRailItem(
+                        railExpanded = true,
+                        selected = state.value == item,
+                        onClick = { state.value = item },
+                        enabled = enabled,
+                        icon = { Icon(icon.vector(), contentDescription = null) },
+                        label = { Text(stringResource(R.string.list_item, item)) },
+                        modifier = Modifier.testTag("library_${panel}_item_$item"),
+                    )
+                }
+            }
+        LabComponent.MODAL_WIDE_NAVIGATION_RAIL ->
+            ModalWideNavigationRail(modifier = modifier) {
+                for (item in items) {
+                    WideNavigationRailItem(
+                        railExpanded = true,
+                        selected = state.value == item,
+                        onClick = { state.value = item },
+                        enabled = enabled,
+                        icon = { Icon(icon.vector(), contentDescription = null) },
+                        label = { Text(stringResource(R.string.list_item, item)) },
+                        modifier = Modifier.testTag("library_${panel}_item_$item"),
+                    )
+                }
+            }
         LabComponent.TAB_ROW,
-        LabComponent.SCROLLABLE_TAB_ROW -> Unit
+        LabComponent.SCROLLABLE_TAB_ROW,
+        LabComponent.PRIMARY_TAB_ROW,
+        LabComponent.SECONDARY_TAB_ROW,
+        LabComponent.PRIMARY_SCROLLABLE_TAB_ROW,
+        LabComponent.SECONDARY_SCROLLABLE_TAB_ROW -> Unit
         LabComponent.MODAL_NAVIGATION_DRAWER,
         LabComponent.DISMISSIBLE_NAVIGATION_DRAWER,
         LabComponent.PERMANENT_NAVIGATION_DRAWER ->
