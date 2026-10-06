@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**89 component entries**, with **228 runnable component/family combinations**.
+**92 component entries**, with **237 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -207,6 +207,17 @@ carries the LEGACY category, and reports its API 3 deprecation note. The
 samples are static previews: no layout field is whitelisted for copying, so
 the panels report the no-inputs reason and show a localized preview note.
 
+Three adapter-list entries add nine combinations through the platform themes
+only. ListView (`android.widget.ListView`, API 1) shows six localized rows and
+GridView (`android.widget.GridView`, API 1) nine cells in three columns, each
+backed by a real ArrayAdapter in CHOICE_MODE_SINGLE, so taps toggle a genuine
+checked item. ExpandableListView (`android.widget.ExpandableListView`, API 1)
+uses a real BaseExpandableListAdapter with three groups of two children and
+starts with the first group expanded. The checked position copies as a
+one-based value (zero when nothing is checked, matching the radio convention)
+and the expandable list copies its expanded groups as a bitmask; scroll
+positions remain ephemeral and are not copied.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -291,14 +302,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `f7b5855`, preceded by the sweep baseline correction in
+Latest implementation: `12a2714`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 92 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,728,295
+with zero errors. All 94 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,734,827
 bytes with SHA-256
-`652fd7c17fc9aa2bb2380cb8db06a47700e6744db2e29091f8a2fbd993eace6d` and the test
-APK is 1,423,808 bytes with SHA-256
-`a62cbc85cc3aef6b57195c2bee2403140ad6d04e1afc0af25bfbe63f96863a8e`.
+`d326073a9e55ae47b876e3d8fb3e7bacce4e4d6d1baecaff21bda52453aede4b` and the test
+APK is 1,430,260 bytes with SHA-256
+`097894aff7a349e575dd67ab357aac37b3c1c29175fe41042c1db833708108c1`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -339,8 +350,16 @@ targets, the no-inputs copy result, the disabled flag, and localized labels,
 cell text and notes in five locales. They also await a clean unlocked-device
 run.
 
-The catalog now declares 89 entries and 228 supported combinations. The smoke
-sweep spans 439 ordinary cells: 217 supported and 216 unsupported; the six
+Four [adapter-list scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ListSamplesTest.kt)
+compile in the same state. They verify the real `ListView`, `GridView` and
+`ExpandableListView` classes inside platform themes, adapter counts, the
+single-choice checked item, group expansion and collapse, selection and bitmask
+copies between panels, unsupported library targets, the disabled flag, and
+localized labels, rows and statuses in five locales. They also await a clean
+unlocked-device run.
+
+The catalog now declares 92 entries and 237 supported combinations. The smoke
+sweep spans 454 ordinary cells: 232 supported and 222 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
