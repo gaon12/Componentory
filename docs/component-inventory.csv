@@ -237,4 +237,4 @@ family,source,apiIntroduced,status,catalogId,notes
 "MATERIAL3","androidx.compose.material3.carousel.HorizontalCenteredHeroCarousel","","Implemented","CENTERED_HERO_CAROUSEL","The Material 3 centered hero carousel sample."
 "MATERIAL3","androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel","","Implemented","MULTI_BROWSE_CAROUSEL","The Material 3 multi-browse carousel sample."
 "MATERIAL3","androidx.compose.material3.carousel.HorizontalUncontainedCarousel","","Implemented","UNCONTAINED_CAROUSEL","The Material 3 uncontained carousel sample."
-"MATERIAL3","androidx.compose.material3.pulltorefresh.PullToRefreshBox","","Pending","",""
+"MATERIAL3","androidx.compose.material3.pulltorefresh.PullToRefreshBox","","Implemented","PULL_TO_REFRESH","The Material 3 pull-to-refresh sample."

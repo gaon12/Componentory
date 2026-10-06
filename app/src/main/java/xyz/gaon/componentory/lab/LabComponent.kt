@@ -877,6 +877,13 @@ enum class LabComponent(
         material3Function = "carousel.HorizontalUncontainedCarousel",
         category = ComponentCategory.LAYOUT,
     ),
+    PULL_TO_REFRESH(
+        "Pull to refresh",
+        R.string.component_pull_to_refresh,
+        R.string.component_pull_to_refresh_description,
+        material3Function = "pulltorefresh.PullToRefreshBox",
+        category = ComponentCategory.LAYOUT,
+    ),
     CENTERED_HERO_CAROUSEL(
         "Centered hero carousel",
         R.string.component_centered_hero_carousel,
@@ -1618,6 +1625,7 @@ enum class LabComponent(
                         R.string.status_selected,
                         context.getString(R.string.list_item, value),
                     )
+            this == PULL_TO_REFRESH -> context.getString(R.string.status_refreshes, value)
             this == MEDIA_CONTROLLER ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             isMenuHost ->

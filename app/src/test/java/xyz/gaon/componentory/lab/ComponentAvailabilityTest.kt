@@ -610,6 +610,27 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun pullToRefreshIsHonestMaterial3Only() {
+        val component = LabComponent.PULL_TO_REFRESH
+        listOf(
+                DesignFamily.CLASSIC,
+                DesignFamily.HOLO,
+                DesignFamily.MATERIAL,
+                DesignFamily.MATERIAL2,
+            )
+            .forEach { family ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+        assertEquals(
+            "androidx.compose.material3.pulltorefresh.PullToRefreshBox",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.LAYOUT, component.category)
+    }
+
+    @Test
     fun carouselsAreHonestMaterial3Only() {
         listOf(
                 LabComponent.MULTI_BROWSE_CAROUSEL to "HorizontalMultiBrowseCarousel",

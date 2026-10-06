@@ -730,6 +730,7 @@ class SampleSetupTest {
                 LabComponent.MULTI_BROWSE_CAROUSEL,
                 LabComponent.UNCONTAINED_CAROUSEL,
                 LabComponent.CENTERED_HERO_CAROUSEL,
+                LabComponent.PULL_TO_REFRESH,
             )
             .forEach { component ->
                 val source = SampleState(initialValue = 4, initialText = "ignored")

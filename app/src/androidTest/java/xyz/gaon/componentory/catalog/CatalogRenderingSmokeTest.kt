@@ -174,22 +174,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 80)
+        verifyFamily(DesignFamily.CLASSIC, 70, 81)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 80)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 81)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 80)
+        verifyFamily(DesignFamily.MATERIAL, 70, 81)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 51, 101)
+        verifyFamily(DesignFamily.MATERIAL2, 51, 102)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 99, 53)
+        verifyFamily(DesignFamily.MATERIAL3, 100, 53)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -198,7 +198,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            152,
+            153,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -1104,6 +1104,11 @@ class CatalogRenderingSmokeTest {
                         choice.assertIsNotSelected().assert(role(Role.RadioButton))
                     else choice.assertIsOff()
                 }
+            }
+            component == LabComponent.PULL_TO_REFRESH -> {
+                // The box is a pull-gesture container, not a click target;
+                // verify its scrollable content renders real items.
+                displayed("library_LEFT_list", scroll = false)
             }
             component.isCarousel -> {
                 // The carousel container scrolls rather than clicks; verify a

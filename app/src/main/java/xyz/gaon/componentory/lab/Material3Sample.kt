@@ -59,6 +59,8 @@ fun Material3Sample(component: LabComponent, panel: String, enabled: Boolean, st
                 LabComponent.DOCKED_SEARCH_BAR,
                 LabComponent.TOP_SEARCH_BAR ->
                     Material3SearchBarSample(component, panel, sample, enabled, state)
+                LabComponent.PULL_TO_REFRESH ->
+                    Material3PullRefreshSample(panel, sample, enabled, state)
                 LabComponent.MULTI_BROWSE_CAROUSEL,
                 LabComponent.UNCONTAINED_CAROUSEL,
                 LabComponent.CENTERED_HERO_CAROUSEL ->

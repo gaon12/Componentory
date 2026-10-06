@@ -570,6 +570,9 @@
     <string name="dismissed">닫힘</string>
     <string name="settled">유지됨</string>
 
+    <string name="component_pull_to_refresh">당겨서 새로고침</string>
+    <string name="component_pull_to_refresh_description">아래로 당길 때 콘텐츠를 새로고침하는 Material 3 PullToRefreshBox입니다.</string>
+    <string name="status_refreshes">새로고침 %1$d회</string>
     <string name="component_multi_browse_carousel">다중 탐색 캐러셀</string>
     <string name="component_multi_browse_carousel_description">여러 항목을 한 번에 보여 주는 Material 3 HorizontalMultiBrowseCarousel입니다.</string>
     <string name="component_uncontained_carousel">언컨테인드 캐러셀</string>

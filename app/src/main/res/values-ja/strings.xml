@@ -570,6 +570,9 @@
     <string name="dismissed">消去済み</string>
     <string name="settled">保持</string>
 
+    <string name="component_pull_to_refresh">引っ張って更新</string>
+    <string name="component_pull_to_refresh_description">下に引くジェスチャーで内容を更新する Material 3 PullToRefreshBox です。</string>
+    <string name="status_refreshes">更新 %1$d 回</string>
     <string name="component_multi_browse_carousel">マルチブラウズカルーセル</string>
     <string name="component_multi_browse_carousel_description">複数項目を一度に表示する Material 3 HorizontalMultiBrowseCarousel です。</string>
     <string name="component_uncontained_carousel">アンコンテインドカルーセル</string>

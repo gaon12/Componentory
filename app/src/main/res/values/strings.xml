@@ -573,6 +573,9 @@
     <string name="dismissed">Dismissed</string>
     <string name="settled">Settled</string>
 
+    <string name="component_pull_to_refresh">Pull to refresh</string>
+    <string name="component_pull_to_refresh_description">The Material 3 PullToRefreshBox refreshing its content on a downward pull.</string>
+    <string name="status_refreshes">Refreshes: %1$d</string>
     <string name="component_multi_browse_carousel">Multi-browse carousel</string>
     <string name="component_multi_browse_carousel_description">The Material 3 HorizontalMultiBrowseCarousel showing many items at once.</string>
     <string name="component_uncontained_carousel">Uncontained carousel</string>

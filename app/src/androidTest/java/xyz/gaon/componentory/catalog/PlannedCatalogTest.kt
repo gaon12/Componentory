@@ -96,9 +96,9 @@ class PlannedCatalogTest {
                     compose.activity.getString(R.string.planned_api_introduced, 30)
             )
         provider("MATERIAL3")
-        search("PullToRefreshBox")
+        search("VerticalDragHandle")
         count(1)
-        val library = "MATERIAL3_androidx.compose.material3.pulltorefresh.PullToRefreshBox"
+        val library = "MATERIAL3_androidx.compose.material3.VerticalDragHandle"
         showRow(library)
         compose
             .onNodeWithTag("provider_$library", useUnmergedTree = true)

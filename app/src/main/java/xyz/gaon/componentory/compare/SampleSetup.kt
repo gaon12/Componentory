@@ -273,6 +273,7 @@ private val LabComponent.hasCopiedValue: Boolean
             isPopupWindow ||
             isMenuHost ||
             isCarousel ||
+            this == LabComponent.PULL_TO_REFRESH ||
             this in
                 listOf(
                     LabComponent.CHECKBOX,

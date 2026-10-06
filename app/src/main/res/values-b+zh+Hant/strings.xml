@@ -570,6 +570,9 @@
     <string name="dismissed">已關閉</string>
     <string name="settled">已保留</string>
 
+    <string name="component_pull_to_refresh">下拉重新整理</string>
+    <string name="component_pull_to_refresh_description">向下拉動時重新整理內容的 Material 3 PullToRefreshBox。</string>
+    <string name="status_refreshes">重新整理 %1$d 次</string>
     <string name="component_multi_browse_carousel">多瀏覽輪播</string>
     <string name="component_multi_browse_carousel_description">一次顯示多個項目的 Material 3 HorizontalMultiBrowseCarousel。</string>
     <string name="component_uncontained_carousel">無邊界輪播</string>
