@@ -25,6 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.catalog.matchesSearch
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 

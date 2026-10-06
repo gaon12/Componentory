@@ -28,6 +28,7 @@ import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.lab.feedback
 
 @RunWith(AndroidJUnit4::class)
 class DetailProviderNavigationTest {

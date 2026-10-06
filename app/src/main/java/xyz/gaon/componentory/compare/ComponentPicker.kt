@@ -33,6 +33,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.CategoryFilter
+import xyz.gaon.componentory.catalog.matchesSearch
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
 
