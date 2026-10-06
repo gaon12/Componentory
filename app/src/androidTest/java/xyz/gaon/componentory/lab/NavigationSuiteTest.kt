@@ -67,8 +67,14 @@ class NavigationSuiteTest {
             expandDetails("RIGHT")
             compose.onNodeWithTag("source_RIGHT").assertTextEquals(sources.second)
             for (item in 1..3) {
-                compose.onNodeWithTag("library_LEFT_item_$item").assertIsDisplayed()
-                compose.onNodeWithTag("library_RIGHT_item_$item").assertIsDisplayed()
+                compose
+                    .onNodeWithTag("library_LEFT_item_$item")
+                    .performScrollTo()
+                    .assertIsDisplayed()
+                compose
+                    .onNodeWithTag("library_RIGHT_item_$item")
+                    .performScrollTo()
+                    .assertIsDisplayed()
             }
             status("LEFT", "Selected: Item 1")
             status("RIGHT", "Selected: Item 1")
@@ -91,9 +97,12 @@ class NavigationSuiteTest {
                 compose.onNodeWithTag("source_LEFT").assertTextEquals(source)
                 expandDetails("RIGHT")
                 compose.onNodeWithTag("source_RIGHT").assertTextEquals("Not provided")
-                compose.onNodeWithTag("unsupported_RIGHT").assertIsDisplayed()
+                compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
                 for (item in 1..3) {
-                    compose.onNodeWithTag("library_LEFT_item_$item").assertIsDisplayed()
+                    compose
+                        .onNodeWithTag("library_LEFT_item_$item")
+                        .performScrollTo()
+                        .assertIsDisplayed()
                 }
                 status("LEFT", "Selected: Item 1")
                 compose.onNodeWithTag("library_LEFT_item_3").performTouchInput { click() }
