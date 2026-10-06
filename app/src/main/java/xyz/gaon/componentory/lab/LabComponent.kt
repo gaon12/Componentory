@@ -638,6 +638,14 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 1,
     ),
+    LIST_ITEM(
+        "List item",
+        R.string.component_list_item,
+        R.string.component_list_item_description,
+        material2Function = "ListItem",
+        material3Function = "ListItem",
+        category = ComponentCategory.LAYOUT,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1310,7 +1318,7 @@ enum class LabComponent(
                 context.getString(
                     if (value == 1) R.string.drawer_opened else R.string.drawer_closed
                 )
-            this == TWO_LINE_LIST_ITEM ->
+            this == TWO_LINE_LIST_ITEM || this == LIST_ITEM ->
                 context.getString(R.string.status_preview, context.getString(labelRes))
             this == LIST_VIEW || this == GRID_VIEW ->
                 if (value == 0) context.getString(R.string.sample_state_no_selection)

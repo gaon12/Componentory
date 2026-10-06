@@ -504,6 +504,9 @@
     <string name="component_snackbar_description">The Material Snackbar shown through a real SnackbarHost.</string>
     <string name="show_snackbar">Show snackbar</string>
     <string name="snackbar_message">A snackbar hosted by the real SnackbarHost.</string>
+
+    <string name="component_list_item">List item</string>
+    <string name="component_list_item_description">The Material ListItem row with real headline and supporting text.</string>
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
     <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
     <string name="status_pulls">Pulls: %1$d</string>

@@ -501,6 +501,9 @@
     <string name="component_snackbar_description">通过真实 SnackbarHost 显示的 Material Snackbar。</string>
     <string name="show_snackbar">显示信息条</string>
     <string name="snackbar_message">由真实 SnackbarHost 承载的信息条。</string>
+
+    <string name="component_list_item">列表项</string>
+    <string name="component_list_item_description">带有真实标题和辅助文本的 Material ListItem 行。</string>
     <string name="component_edge_effect_description">框架 EdgeEffect 光晕，由普通 View 在拖动其边缘时绘制。</string>
     <string name="edge_effect_note">在视图上拖动即可拉动真实的 EdgeEffect 光晕。拉动次数即为被复制的状态。</string>
     <string name="status_pulls">拉动：%1$d</string>

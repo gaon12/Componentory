@@ -501,6 +501,9 @@
     <string name="component_snackbar_description">実際の SnackbarHost を通じて表示する Material Snackbar です。</string>
     <string name="show_snackbar">スナックバーを表示</string>
     <string name="snackbar_message">実際の SnackbarHost がホストするスナックバーです。</string>
+
+    <string name="component_list_item">リスト項目</string>
+    <string name="component_list_item_description">実際のヘッドラインと補助テキストを持つ Material ListItem 行です。</string>
     <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>
     <string name="edge_effect_note">ビュー上をドラッグすると実際のEdgeEffectグローを引きます。引いた回数がコピーされる状態です。</string>
     <string name="status_pulls">引き: %1$d</string>

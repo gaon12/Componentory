@@ -588,6 +588,21 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun listItemExistsInBothComposeLibrariesOnly() {
+        val component = LabComponent.LIST_ITEM
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertEquals("androidx.compose.material.ListItem", DesignFamily.MATERIAL2.source(component))
+        assertEquals(
+            "androidx.compose.material3.ListItem",
+            DesignFamily.MATERIAL3.source(component),
+        )
+        assertEquals(ComponentCategory.LAYOUT, component.category)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

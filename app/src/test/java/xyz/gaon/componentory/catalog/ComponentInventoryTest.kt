@@ -145,9 +145,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(120, LabComponent.entries.size)
+        assertEquals(121, LabComponent.entries.size)
         assertEquals(
-            316,
+            318,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -155,15 +155,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 182, "Pending" to 57),
+            mapOf("Implemented" to 184, "Pending" to 55),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 72, "MATERIAL2" to 41, "MATERIAL3" to 69),
+            mapOf("PLATFORM" to 72, "MATERIAL2" to 42, "MATERIAL3" to 70),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 2, "MATERIAL2" to 11, "MATERIAL3" to 44),
+            mapOf("PLATFORM" to 2, "MATERIAL2" to 10, "MATERIAL3" to 43),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
