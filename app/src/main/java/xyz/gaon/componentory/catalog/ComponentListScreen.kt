@@ -1,5 +1,6 @@
 package xyz.gaon.componentory.catalog
 
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,6 +49,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.ComponentCategory
+import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 
 private enum class CatalogMode(val labelRes: Int) {
@@ -61,6 +63,19 @@ private sealed interface InventoryLoadState {
     data object Unavailable : InventoryLoadState
 
     data class Ready(val entries: List<InventoryEntry>) : InventoryLoadState
+}
+
+// Rows answer "where can I use this?" without opening the detail screen, so
+// the summary lists every provider that actually supports the component on
+// this device's API level.
+internal fun supportedFamilies(component: LabComponent, api: Int): List<DesignFamily> =
+    DesignFamily.entries.filter { it.unsupportedReason(component, api) == null }
+
+@Composable
+private fun providerSummary(component: LabComponent): String {
+    val supported = supportedFamilies(component, Build.VERSION.SDK_INT)
+    return if (supported.size == DesignFamily.entries.size) stringResource(R.string.providers_all)
+    else supported.joinToString(" · ") { it.label }
 }
 
 @Composable
@@ -201,7 +216,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             LazyColumn(
                 state = sampleListState,
                 contentPadding = PaddingValues(bottom = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxWidth().weight(1f).testTag("component_list"),
             ) {
                 if (components.isEmpty()) {
@@ -254,7 +269,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                         modifier = Modifier.fillMaxWidth().testTag("list_${component.name}"),
                     ) {
                         Row(
-                            Modifier.padding(20.dp),
+                            Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Column(
@@ -269,6 +284,12 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                                     stringResource(component.descriptionRes),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                                Text(
+                                    providerSummary(component),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.testTag("providers_${component.name}"),
                                 )
                             }
                             Icon(

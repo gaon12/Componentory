@@ -278,6 +278,7 @@
     <string name="planned_unavailable">無法載入待新增範例的 API。</string>
     <string name="planned_api_introduced">於 API %1$d 引入</string>
     <string name="planned_view_matches">查看符合的待新增範例 API（%1$d 項）</string>
+    <string name="providers_all">所有提供者</string>
     <string name="component_date_picker_dialog">日期選擇對話框</string>
     <string name="component_date_picker_dialog_description">開啟所選主題或函式庫提供的日期選擇對話框。</string>
     <string name="open_date_picker">選擇日期</string>

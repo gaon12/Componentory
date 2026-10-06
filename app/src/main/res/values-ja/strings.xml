@@ -278,6 +278,7 @@
     <string name="planned_unavailable">予定 API を読み込めませんでした。</string>
     <string name="planned_api_introduced">API %1$d で導入</string>
     <string name="planned_view_matches">予定 API の検索結果を表示（%1$d 件）</string>
+    <string name="providers_all">すべての提供元</string>
     <string name="component_date_picker_dialog">日付選択ダイアログ</string>
     <string name="component_date_picker_dialog_description">選択したテーマやライブラリが提供する日付選択ダイアログを開きます。</string>
     <string name="open_date_picker">日付を選択</string>
