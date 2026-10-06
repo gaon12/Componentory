@@ -115,7 +115,7 @@ class BottomSheetsTest {
 
         compose.onNodeWithTag("library_LEFT_open").performScrollTo().performTouchInput { click() }
         compose.waitForIdle()
-        compose.onNodeWithTag("library_LEFT_back").assertIsDisplayed()
+        compose.onNodeWithTag("library_LEFT_back").performScrollTo().assertIsDisplayed()
         status("LEFT", "Sheet open")
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
     }
