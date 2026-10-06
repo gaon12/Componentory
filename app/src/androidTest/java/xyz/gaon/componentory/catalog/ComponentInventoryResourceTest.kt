@@ -29,14 +29,14 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 191, InventoryStatus.PENDING to 48),
+            mapOf(InventoryStatus.IMPLEMENTED to 200, InventoryStatus.PENDING to 39),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 72,
-                InventoryFamily.MATERIAL2 to 44,
-                InventoryFamily.MATERIAL3 to 75,
+                InventoryFamily.MATERIAL2 to 46,
+                InventoryFamily.MATERIAL3 to 82,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }
@@ -283,12 +283,12 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(48, pending.size)
+        assertEquals(39, pending.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 2,
-                InventoryFamily.MATERIAL2 to 8,
-                InventoryFamily.MATERIAL3 to 38,
+                InventoryFamily.MATERIAL2 to 6,
+                InventoryFamily.MATERIAL3 to 31,
             ),
             pending.groupingBy { it.family }.eachCount(),
         )
@@ -370,6 +370,7 @@ class ComponentInventoryResourceTest {
             ComponentInventory.pending(entries, "topappbar", InventoryFamily.MATERIAL2).isEmpty()
         )
         assertTrue(ComponentInventory.pending(entries, "bottomappbar").isEmpty())
+        assertTrue(ComponentInventory.pending(entries, "drawer").isEmpty())
         // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)

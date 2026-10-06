@@ -688,6 +688,39 @@ enum class LabComponent(
         category = ComponentCategory.NAVIGATION,
         initialValue = 0,
     ),
+    MODAL_NAVIGATION_DRAWER(
+        "Modal navigation drawer",
+        R.string.component_modal_drawer,
+        R.string.component_modal_drawer_description,
+        material2Function = "ModalDrawer",
+        material3Function = "ModalNavigationDrawer",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    DISMISSIBLE_NAVIGATION_DRAWER(
+        "Dismissible navigation drawer",
+        R.string.component_dismissible_drawer,
+        R.string.component_dismissible_drawer_description,
+        material3Function = "DismissibleNavigationDrawer",
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
+    PERMANENT_NAVIGATION_DRAWER(
+        "Permanent navigation drawer",
+        R.string.component_permanent_drawer,
+        R.string.component_permanent_drawer_description,
+        material3Function = "PermanentNavigationDrawer",
+        category = ComponentCategory.NAVIGATION,
+    ),
+    BOTTOM_DRAWER(
+        "Bottom drawer",
+        R.string.component_bottom_drawer,
+        R.string.component_bottom_drawer_description,
+        material2Function = "BottomDrawer",
+        material3Function = null,
+        category = ComponentCategory.NAVIGATION,
+        initialValue = 0,
+    ),
     SNACKBAR(
         "Snackbar",
         R.string.component_snackbar,
@@ -1196,6 +1229,17 @@ enum class LabComponent(
                 this == LARGE_TOP_APP_BAR ||
                 this == BOTTOM_APP_BAR
 
+    // Drawers whose sheet state is real and copyable; the permanent drawer
+    // always shows its sheet, so it carries no open state.
+    val isToggleableDrawer: Boolean
+        get() =
+            this == MODAL_NAVIGATION_DRAWER ||
+                this == DISMISSIBLE_NAVIGATION_DRAWER ||
+                this == BOTTOM_DRAWER
+
+    val isDrawerSuite: Boolean
+        get() = isToggleableDrawer || this == PERMANENT_NAVIGATION_DRAWER
+
     // The samples draw three destination items; the selected index copies.
     val navigationItemCount: Int
         get() = if (isNavigationSuite) 3 else 0
@@ -1343,6 +1387,12 @@ enum class LabComponent(
             this == EDGE_EFFECT -> context.getString(R.string.status_pulls, value)
             this == SNACKBAR -> context.getString(R.string.status_shown_times, value)
             isAppBar -> context.getString(R.string.status_clicks, value)
+            this == PERMANENT_NAVIGATION_DRAWER ->
+                context.getString(R.string.status_preview, context.getString(labelRes))
+            isToggleableDrawer ->
+                context.getString(
+                    if (value == 1) R.string.drawer_opened else R.string.drawer_closed
+                )
             isNavigationSuite || isTabRow ->
                 context.getString(
                     R.string.status_selected,

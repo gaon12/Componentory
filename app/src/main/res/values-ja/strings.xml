@@ -515,6 +515,17 @@
     <string name="component_large_top_app_bar_description">3行の高さを持つ Material 3 LargeTopAppBar です。</string>
     <string name="component_bottom_app_bar">ボトムアプリバー</string>
     <string name="component_bottom_app_bar_description">実際のアクション項目を持つ Material ボトムアプリバーです。</string>
+
+    <string name="component_modal_drawer">モーダルナビゲーションドロワー</string>
+    <string name="component_modal_drawer_description">実際のドロワー項目を備え、コンテンツの上にスライドする Material モーダルドロワーです。</string>
+    <string name="component_dismissible_drawer">閉じられるナビゲーションドロワー</string>
+    <string name="component_dismissible_drawer_description">シートを隠せる Material 3 DismissibleNavigationDrawer です。</string>
+    <string name="component_permanent_drawer">常設ナビゲーションドロワー</string>
+    <string name="component_permanent_drawer_description">常にシートを表示する Material 3 PermanentNavigationDrawer です。</string>
+    <string name="component_bottom_drawer">ボトムドロワー</string>
+    <string name="component_bottom_drawer_description">コンテンツの上にスライドして上がる Material 2 BottomDrawer です。</string>
+    <string name="open_drawer">ドロワーを開く</string>
+    <string name="drawer_item">移動先 %1$d</string>
     <string name="component_edge_effect_description">通常のViewがエッジをドラッグしている間に描画するフレームワークEdgeEffectのグローです。</string>
     <string name="edge_effect_note">ビュー上をドラッグすると実際のEdgeEffectグローを引きます。引いた回数がコピーされる状態です。</string>
     <string name="status_pulls">引き: %1$d</string>

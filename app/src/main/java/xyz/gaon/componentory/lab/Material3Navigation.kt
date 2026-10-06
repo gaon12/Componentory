@@ -64,6 +64,10 @@ internal fun Material3Navigation(
             }
         LabComponent.TAB_ROW,
         LabComponent.SCROLLABLE_TAB_ROW -> Unit
+        LabComponent.MODAL_NAVIGATION_DRAWER,
+        LabComponent.DISMISSIBLE_NAVIGATION_DRAWER,
+        LabComponent.PERMANENT_NAVIGATION_DRAWER ->
+            Material3DrawerSample(component, panel, modifier, enabled, state)
         LabComponent.TOP_APP_BAR,
         LabComponent.CENTER_ALIGNED_TOP_APP_BAR,
         LabComponent.MEDIUM_TOP_APP_BAR,

@@ -518,6 +518,17 @@
     <string name="component_large_top_app_bar_description">The Material 3 LargeTopAppBar with a three-row height.</string>
     <string name="component_bottom_app_bar">Bottom app bar</string>
     <string name="component_bottom_app_bar_description">The Material bottom app bar with a real action item.</string>
+
+    <string name="component_modal_drawer">Modal navigation drawer</string>
+    <string name="component_modal_drawer_description">The Material modal drawer that slides over content with real drawer items.</string>
+    <string name="component_dismissible_drawer">Dismissible navigation drawer</string>
+    <string name="component_dismissible_drawer_description">The Material 3 DismissibleNavigationDrawer that can hide its sheet.</string>
+    <string name="component_permanent_drawer">Permanent navigation drawer</string>
+    <string name="component_permanent_drawer_description">The Material 3 PermanentNavigationDrawer that always shows its sheet.</string>
+    <string name="component_bottom_drawer">Bottom drawer</string>
+    <string name="component_bottom_drawer_description">The Material 2 BottomDrawer that slides up over content.</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="drawer_item">Destination %1$d</string>
     <string name="component_edge_effect_description">The framework EdgeEffect glow drawn by a plain View while dragging its edge.</string>
     <string name="edge_effect_note">Drag across the view to pull the real EdgeEffect glow. The pull count is the copied state.</string>
     <string name="status_pulls">Pulls: %1$d</string>

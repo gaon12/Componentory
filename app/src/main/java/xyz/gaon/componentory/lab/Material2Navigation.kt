@@ -85,6 +85,9 @@ internal fun Material2Navigation(
                 }
                 Text(stringResource(R.string.component_bottom_app_bar))
             }
+        LabComponent.MODAL_NAVIGATION_DRAWER,
+        LabComponent.BOTTOM_DRAWER ->
+            Material2DrawerSample(component, panel, modifier, enabled, state)
         LabComponent.TAB_ROW,
         LabComponent.SCROLLABLE_TAB_ROW -> Unit
         else -> error("Unsupported components must be handled by SamplePanel.")

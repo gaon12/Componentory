@@ -515,6 +515,17 @@
     <string name="component_large_top_app_bar_description">三行高度的 Material 3 LargeTopAppBar。</string>
     <string name="component_bottom_app_bar">底部应用栏</string>
     <string name="component_bottom_app_bar_description">带有真实操作项的 Material 底部应用栏。</string>
+
+    <string name="component_modal_drawer">模态导航抽屉</string>
+    <string name="component_modal_drawer_description">带有真实抽屉项、滑到内容上方的 Material 模态抽屉。</string>
+    <string name="component_dismissible_drawer">可关闭导航抽屉</string>
+    <string name="component_dismissible_drawer_description">可以隐藏其面板的 Material 3 DismissibleNavigationDrawer。</string>
+    <string name="component_permanent_drawer">常驻导航抽屉</string>
+    <string name="component_permanent_drawer_description">始终显示面板的 Material 3 PermanentNavigationDrawer。</string>
+    <string name="component_bottom_drawer">底部抽屉</string>
+    <string name="component_bottom_drawer_description">从内容下方滑入的 Material 2 BottomDrawer。</string>
+    <string name="open_drawer">打开抽屉</string>
+    <string name="drawer_item">目的地 %1$d</string>
     <string name="component_edge_effect_description">框架 EdgeEffect 光晕，由普通 View 在拖动其边缘时绘制。</string>
     <string name="edge_effect_note">在视图上拖动即可拉动真实的 EdgeEffect 光晕。拉动次数即为被复制的状态。</string>
     <string name="status_pulls">拉动：%1$d</string>

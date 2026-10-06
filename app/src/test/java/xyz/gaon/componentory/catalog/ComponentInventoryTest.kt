@@ -145,9 +145,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(126, LabComponent.entries.size)
+        assertEquals(130, LabComponent.entries.size)
         assertEquals(
-            325,
+            330,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -155,15 +155,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 191, "Pending" to 48),
+            mapOf("Implemented" to 200, "Pending" to 39),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 72, "MATERIAL2" to 44, "MATERIAL3" to 75),
+            mapOf("PLATFORM" to 72, "MATERIAL2" to 46, "MATERIAL3" to 82),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 2, "MATERIAL2" to 8, "MATERIAL3" to 38),
+            mapOf("PLATFORM" to 2, "MATERIAL2" to 6, "MATERIAL3" to 31),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -280,6 +280,18 @@ class ComponentInventoryTest {
                             row.provider == "MATERIAL3" &&
                                 component == LabComponent.NAVIGATION_RAIL ->
                                 setOf("androidx.compose.material3.NavigationRailItem")
+                            row.provider == "MATERIAL3" &&
+                                component == LabComponent.MODAL_NAVIGATION_DRAWER ->
+                                setOf(
+                                    "androidx.compose.material3.ModalDrawerSheet",
+                                    "androidx.compose.material3.NavigationDrawerItem",
+                                )
+                            row.provider == "MATERIAL3" &&
+                                component == LabComponent.DISMISSIBLE_NAVIGATION_DRAWER ->
+                                setOf("androidx.compose.material3.DismissibleDrawerSheet")
+                            row.provider == "MATERIAL3" &&
+                                component == LabComponent.PERMANENT_NAVIGATION_DRAWER ->
+                                setOf("androidx.compose.material3.PermanentDrawerSheet")
                             row.provider == "MATERIAL3" && component == LabComponent.TAB_ROW ->
                                 setOf(
                                     "androidx.compose.material3.Tab",

@@ -640,6 +640,47 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun drawersKeepTheirPerLibrarySourcesAndStates() {
+        val expected =
+            mapOf(
+                LabComponent.MODAL_NAVIGATION_DRAWER to
+                    Triple(
+                        "androidx.compose.material.ModalDrawer",
+                        "androidx.compose.material3.ModalNavigationDrawer",
+                        true,
+                    ),
+                LabComponent.DISMISSIBLE_NAVIGATION_DRAWER to
+                    Triple(null, "androidx.compose.material3.DismissibleNavigationDrawer", true),
+                LabComponent.PERMANENT_NAVIGATION_DRAWER to
+                    Triple(null, "androidx.compose.material3.PermanentNavigationDrawer", false),
+                LabComponent.BOTTOM_DRAWER to
+                    Triple("androidx.compose.material.BottomDrawer", null, true),
+            )
+        expected.forEach { (component, spec) ->
+            listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family
+                ->
+                assertNotNull(family.unsupportedReason(component, 36))
+                assertEquals("Not provided", family.source(component))
+            }
+            if (spec.first == null) {
+                assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+            } else {
+                assertNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
+                assertEquals(spec.first, DesignFamily.MATERIAL2.source(component))
+            }
+            if (spec.second == null) {
+                assertNotNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+            } else {
+                assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                assertEquals(spec.second, DesignFamily.MATERIAL3.source(component))
+            }
+            assertTrue(component.isDrawerSuite)
+            assertEquals(spec.third, component.isToggleableDrawer)
+            assertEquals(ComponentCategory.NAVIGATION, component.category)
+        }
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,
