@@ -16,7 +16,9 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -24,8 +26,14 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click as nativeClick
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -65,8 +73,10 @@ class TabHostTest {
                 val host = host("LEFT")
                 assertEquals(3, host.tabWidget.childCount)
                 assertEquals(0, host.currentTab)
-                // The setup() call built the real framework TabWidget strip.
+                // The host contains real framework children under the required IDs.
                 assertEquals(TabWidget::class.java, host.tabWidget.javaClass)
+                assertEquals(android.R.id.tabs, host.tabWidget.id)
+                assertEquals(android.R.id.tabcontent, host.tabContentView.id)
                 assertEquals(
                     compose.activity.getString(R.string.tab_indicator, 1),
                     host.tabWidget
@@ -116,14 +126,13 @@ class TabHostTest {
             .assertTextContains("Deprecated since API 30", substring = true)
 
         configure(LabComponent.TAB_HOST, DesignFamily.CLASSIC, DesignFamily.MATERIAL2)
+        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains(
-                "The Material 2 library does not provide Tab host.",
-                substring = true,
+            .onNode(
+                hasText("The Material 2 library does not provide Tab host.") and
+                    hasAnyAncestor(hasTestTag("unsupported_RIGHT"))
             )
+            .assertIsDisplayed()
         blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
     }
 
@@ -194,7 +203,18 @@ class TabHostTest {
 
     @Suppress("DEPRECATION")
     private fun selectTab(panel: String, index: Int) {
-        compose.runOnIdle { host(panel).tabWidget.getChildTabViewAt(index).performClick() }
+        // Touch follows the disabled widget's event path; performClick() bypasses it.
+        compose.onNodeWithTag("native_$panel").performScrollTo().assertIsDisplayed()
+        onView(
+                allOf(
+                    withId(android.R.id.title),
+                    withText(compose.activity.getString(R.string.tab_indicator, index + 1)),
+                    isDescendantOfA(
+                        withId(if (panel == "LEFT") R.id.sample_left else R.id.sample_right)
+                    ),
+                )
+            )
+            .perform(nativeClick())
         compose.waitForIdle()
     }
 

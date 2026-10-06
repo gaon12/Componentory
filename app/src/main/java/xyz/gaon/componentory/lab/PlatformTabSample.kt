@@ -2,12 +2,17 @@ package xyz.gaon.componentory.lab
 
 import android.view.ContextThemeWrapper
 import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TabHost
+import android.widget.TabWidget
 import android.widget.TextView
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlin.math.roundToInt
 import xyz.gaon.componentory.R
 
 // TabHost.setCurrentTab already fires its change listener, so updates only need
@@ -26,9 +31,35 @@ internal fun PlatformTabSample(
         factory = { context ->
             val themed = ContextThemeWrapper(context, family.themeId)
             @Suppress("DEPRECATION")
-            TabHost(themed).apply {
+            // The AttributeSet constructor also initializes the framework tab indicator layout.
+            TabHost(themed, null).apply {
                 id = viewId
-                // setup() builds the real TabWidget strip and content frame.
+                // setup() requires these framework IDs; it does not create the children.
+                val column =
+                    LinearLayout(themed).apply {
+                        orientation = LinearLayout.VERTICAL
+                        addView(
+                            TabWidget(themed).apply { id = android.R.id.tabs },
+                            LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ),
+                        )
+                        addView(
+                            FrameLayout(themed).apply { id = android.R.id.tabcontent },
+                            LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                (120 * resources.displayMetrics.density).roundToInt(),
+                            ),
+                        )
+                    }
+                addView(
+                    column,
+                    FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ),
+                )
                 setup()
                 repeat(component.tabCount) { index ->
                     addTab(
