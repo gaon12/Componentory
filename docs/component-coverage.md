@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**145 component entries**, with **350 runnable component/family combinations**.
+**148 component entries**, with **353 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -49,7 +49,7 @@ date does not change the running OS. Library versions remain pinned and visible.
 
 ## Current coverage
 
-Application and latest verification source revision: `df602ac`. Executed resource
+Application and latest verification source revision: `54f8c6f`. Executed resource
 runs keep their original revision and dirty paths; the earlier text inventory
 result is recorded under its separate milestone below.
 
@@ -57,8 +57,8 @@ result is recorded under its separate milestone below.
 | --- | ---: | ---: | ---: |
 | Android framework | 74 | 72 | 2 |
 | Compose Material 2 1.10.4 | 52 | 52 | 0 |
-| Compose Material 3 1.4.0 | 113 | 99 | 14 |
-| Total | 239 | 223 | 16 |
+| Compose Material 3 1.4.0 | 113 | 103 | 10 |
+| Total | 239 | 227 | 12 |
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
@@ -426,6 +426,15 @@ the panel reports a preview status and the copy direction explains
 there are no inputs. This completes the audited Material 2 surface
 list — all 52 audited sources now have real samples.
 
+Three input entries add three Material 3-only combinations covering the
+search bars: SEARCH_BAR renders the full-screen SearchBar,
+DOCKED_SEARCH_BAR renders DockedSearchBar inside its own bounds, and
+TOP_SEARCH_BAR renders TopSearchBar driven by a real SearchBarState with
+ExpandedFullScreenSearchBar displaying its results. The query text is
+the copyable input; expansion stays a transient panel-local state.
+ExpandedDockedSearchBar stays pending as an alternative construction
+API rather than claiming duplicate coverage.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -510,14 +519,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `df602ac`, preceded by the sweep baseline correction in
+Latest implementation: `54f8c6f`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 121 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 20,235,066
+with zero errors. All 122 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 20,248,514
 bytes with SHA-256
-`7a9e7cde20193e5ad4d8d0db070eceb7f4f947a23ba102925de4154960f62ddb` and the test
-APK is 1,517,405 bytes with SHA-256
-`706eb6839b2f7c8f8d6b32b1f6e7049f1cb94144a9fe168231343623f6133869`.
+`07d03b031120ff11958f60f7bb67055cdbde3d2b9132e27069e56e97f89dfc9f` and the test
+APK is 1,520,001 bytes with SHA-256
+`90b93c2d46ebbb9fa34f17c1d210958e6ee05d3bbfbe6e06d09fa5540b8bc067`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -672,8 +681,15 @@ compiles in the same state. It verifies both library sources, the real
 scaffold body, the preview status, and the no-inputs copy explanation.
 It also awaits a clean unlocked-device run.
 
-The catalog now declares 145 entries and 350 supported combinations. The smoke
-sweep spans 719 ordinary cells: 353 supported and 366 unsupported; the six
+Three [search-bar scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/SearchBarsTest.kt)
+compile in the same state. They verify the real SearchBar expansion and
+result pick, the docked and top variants including the
+ExpandedFullScreenSearchBar overlay, query copying between panels,
+recreation restore, the disabled closed state, and the missing-provider
+explanation. They also await a clean unlocked-device run.
+
+The catalog now declares 148 entries and 353 supported combinations. The smoke
+sweep spans 734 ordinary cells: 356 supported and 378 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;

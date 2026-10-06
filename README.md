@@ -100,9 +100,9 @@ selected date, so copying an empty date to it explains the limitation and keeps
 the target. Fresh copied calendars open at the selected input's month without
 copying the source's editor mode or browsed month.
 
-The latest checks for `df602ac` pass formatting, lint, all 121 executed JVM
-tests, and both APK builds. The authored catalog smoke tests cover 353 supported
-and 366 unsupported ordinary cells after the baselines were recomputed from the
+The latest checks for `54f8c6f` pass formatting, lint, all 122 executed JVM
+tests, and both APK builds. The authored catalog smoke tests cover 356 supported
+and 378 unsupported ordinary cells after the baselines were recomputed from the
 enum's resolved suppliers; the six native animated cells
 use a separate existing test. A 107-test instrumentation run on the Samsung SM-X800 executed 73
 passes and 34 failures before the secure keyguard returned and the test process
@@ -116,7 +116,7 @@ switcher samples, framework layouts, adapter lists, zoom widgets, adapter
 animators, transient windows, the deprecated tab host, the deprecated
 containers, the popup windows, the menu hosts, the content surfaces, the dialer
 filter, the media widgets, the share action provider, the edge effect host, the Material navigation
-bars and rails, the Material tab rows and styled variants, the Material snackbars, the Material list items, the Material app bars, the Material navigation drawers, the Material scaffolds, the Material exposed dropdowns, the Material bottom sheets and backdrop, the Material 3 tooltips, the Material swipe-to-dismiss rows, date/time dialogs, cards,
+bars and rails, the Material tab rows and styled variants, the Material snackbars, the Material list items, the Material app bars, the Material navigation drawers, the Material scaffolds, the Material exposed dropdowns, the Material bottom sheets and backdrop, the Material 3 tooltips, the Material swipe-to-dismiss rows, the Material 3 search bars, date/time dialogs, cards,
 surfaces, popup menus, input copying, and the preview reorder still require a
 clean run on the unlocked device. The
 [independent review](docs/review-2026-10-04.md) records the original defect,
