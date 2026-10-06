@@ -472,4 +472,7 @@
     <string name="webview_link">Android Developers</string>
     <string name="webview_note">The widget renders real HTML. Page scroll and navigation are never copied, and host Enabled does not reach page content.</string>
     <string name="contact_badge_note">Taps open the framework contact overlay for the assigned address. Copying has no state to carry.</string>
+    <string name="component_dialer_filter">Dialer filter</string>
+    <string name="component_dialer_filter_description">The deprecated framework DialerFilter composing digits and letters into a filter.</string>
+    <string name="dialer_filter_note">Type into the real digits field. The composed filter text is the copied input.</string>
 </resources>

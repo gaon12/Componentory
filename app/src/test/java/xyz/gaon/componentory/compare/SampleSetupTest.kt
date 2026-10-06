@@ -344,6 +344,7 @@ class SampleSetupTest {
                 LabComponent.AUTOCOMPLETE,
                 LabComponent.MULTI_AUTOCOMPLETE,
                 LabComponent.SEARCH_VIEW,
+                LabComponent.DIALER_FILTER,
             )
             .forEach { component ->
                 listOf("", "Input 日本語").forEach { input ->

@@ -568,6 +568,14 @@ enum class LabComponent(
         minimumApi = 5,
         category = ComponentCategory.CONTENT,
     ),
+    DIALER_FILTER(
+        "Dialer filter",
+        R.string.component_dialer_filter,
+        R.string.component_dialer_filter_description,
+        platformSource = "android.widget.DialerFilter",
+        minimumApi = 1,
+        category = ComponentCategory.LEGACY,
+    ),
     TOGGLE_BUTTON(
         "Toggle button",
         R.string.component_toggle_button,
@@ -1055,6 +1063,7 @@ enum class LabComponent(
                 ANALOG_CLOCK -> 23
                 ZOOM_BUTTON,
                 ZOOM_BUTTONS_CONTROLLER,
+                DIALER_FILTER,
                 PROGRESS_DIALOG -> 26
                 ZOOM_CONTROLS -> 29
                 TAB_HOST -> 30
@@ -1207,8 +1216,14 @@ enum class LabComponent(
                 context.getString(R.string.status_selected, listOf("Alpha", "Beta", "Gamma")[value])
             this == SEARCH_VIEW ->
                 context.getString(R.string.status_search, text.ifEmpty { empty }, value)
-            this in listOf(TEXT_FIELD, OUTLINED_TEXT_FIELD, AUTOCOMPLETE, MULTI_AUTOCOMPLETE) ->
-                context.getString(R.string.status_text, text.ifEmpty { empty })
+            this in
+                listOf(
+                    TEXT_FIELD,
+                    OUTLINED_TEXT_FIELD,
+                    AUTOCOMPLETE,
+                    MULTI_AUTOCOMPLETE,
+                    DIALER_FILTER,
+                ) -> context.getString(R.string.status_text, text.ifEmpty { empty })
             this == TRI_STATE_CHECKBOX ->
                 context.getString(
                     when (value) {

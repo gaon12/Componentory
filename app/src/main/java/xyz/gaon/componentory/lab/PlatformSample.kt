@@ -116,6 +116,10 @@ fun PlatformSample(
         PlatformContentSurfaceSample(family, component, viewId, enabled, modifier)
         return
     }
+    if (component == LabComponent.DIALER_FILTER) {
+        PlatformDialerSample(family, component, viewId, enabled, state, modifier)
+        return
+    }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(

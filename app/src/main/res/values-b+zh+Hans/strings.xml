@@ -469,4 +469,7 @@
     <string name="webview_link">Android 开发者</string>
     <string name="webview_note">该小部件渲染真实 HTML。页面滚动与导航不会被复制，宿主 Enabled 不影响页面内容。</string>
     <string name="contact_badge_note">点击会打开所分配地址的框架联系人浮层。没有可复制的状态。</string>
+    <string name="component_dialer_filter">拨号过滤器</string>
+    <string name="component_dialer_filter_description">已弃用的框架 DialerFilter，将数字和字母组合为过滤器。</string>
+    <string name="dialer_filter_note">在真实的数字输入框中键入。组合出的过滤文本即为被复制的输入。</string>
 </resources>

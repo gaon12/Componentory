@@ -469,4 +469,7 @@
     <string name="webview_link">Android 개발자</string>
     <string name="webview_note">위젯이 실제 HTML을 렌더링합니다. 페이지 스크롤과 내비게이션은 복사되지 않으며, 호스트의 Enabled는 페이지 콘텐츠에 적용되지 않습니다.</string>
     <string name="contact_badge_note">누르면 할당된 주소의 프레임워크 연락처 오버레이가 열립니다. 복사할 상태가 없습니다.</string>
+    <string name="component_dialer_filter">전화 걸기 필터</string>
+    <string name="component_dialer_filter_description">숫자와 문자를 필터로 조합하는 지원 중단된 프레임워크 DialerFilter입니다.</string>
+    <string name="dialer_filter_note">실제 숫자 입력란에 입력하세요. 조합된 필터 텍스트가 복사되는 입력입니다.</string>
 </resources>

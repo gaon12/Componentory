@@ -430,6 +430,25 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun dialerFilterKeepsItsDeprecatedApi1Identity() {
+        val component = LabComponent.DIALER_FILTER
+        listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL).forEach { family ->
+            assertNull(family.unsupportedReason(component, 1))
+            assertNull(family.unsupportedReason(component, 36))
+            assertEquals("android.widget.DialerFilter", family.source(component))
+        }
+        listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+            assertNotNull(family.unsupportedReason(component, 36))
+            assertEquals("Not provided", family.source(component))
+        }
+        assertEquals(1, component.minimumApi)
+        assertEquals(26, component.deprecatedApi)
+        assertEquals(ComponentCategory.LEGACY, component.category)
+        assertTrue(component.matchesSearch("android.widget.DialerFilter"))
+        assertFalse(component.matchesSearch("androidx.appcompat.widget.DialerFilter"))
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

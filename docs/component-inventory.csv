@@ -17,7 +17,7 @@ family,source,apiIntroduced,status,catalogId,notes
 "PLATFORM","android.widget.CheckedTextView","1","Implemented","CHECKED_TEXT_VIEW","Fixed localized text with a host-controlled checked value and the theme's multiple-choice mark; tapping does not auto-toggle."
 "PLATFORM","android.widget.Chronometer","1","Implemented","CHRONOMETER","Start/stop/reset buttons are framework widgets inside the sample."
 "PLATFORM","android.widget.DatePicker","1","Implemented","DATE_PICKER",""
-"PLATFORM","android.widget.DialerFilter","1","Pending","",""
+"PLATFORM","android.widget.DialerFilter","1","Implemented","DIALER_FILTER","Deprecated in API 26."
 "PLATFORM","android.widget.DigitalClock","1","Implemented","DIGITAL_CLOCK","Deprecated since API 17; still rendered as a ticking text display."
 "PLATFORM","android.widget.EdgeEffect","14","Pending","",""
 "PLATFORM","android.widget.EditText","1","Implemented","TEXT_FIELD",""

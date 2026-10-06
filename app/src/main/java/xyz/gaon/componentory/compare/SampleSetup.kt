@@ -250,6 +250,7 @@ private val LabComponent.hasCopiedText: Boolean
                 LabComponent.AUTOCOMPLETE,
                 LabComponent.MULTI_AUTOCOMPLETE,
                 LabComponent.SEARCH_VIEW,
+                LabComponent.DIALER_FILTER,
             )
 
 private val LabComponent.hasCopiedValue: Boolean

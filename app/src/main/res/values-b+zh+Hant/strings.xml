@@ -469,4 +469,7 @@
     <string name="webview_link">Android 開發者</string>
     <string name="webview_note">小工具渲染真實 HTML。頁面捲動與導覽不會被複製，宿主 Enabled 不影響頁面內容。</string>
     <string name="contact_badge_note">點擊會開啟所指派地址的架構聯絡人浮層。沒有可複製的狀態。</string>
+    <string name="component_dialer_filter">撥號篩選器</string>
+    <string name="component_dialer_filter_description">已棄用的架構 DialerFilter，將數字與字母組合為篩選條件。</string>
+    <string name="dialer_filter_note">在真實的數字欄位中輸入。組合出的篩選文字即為被複製的輸入。</string>
 </resources>

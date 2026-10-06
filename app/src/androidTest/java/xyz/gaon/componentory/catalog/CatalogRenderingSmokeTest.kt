@@ -28,6 +28,7 @@ import android.widget.CheckedTextView
 import android.widget.Chronometer
 import android.widget.CompoundButton
 import android.widget.DatePicker
+import android.widget.DialerFilter
 import android.widget.DigitalClock
 import android.widget.EditText
 import android.widget.ExpandableListView
@@ -168,22 +169,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 65, 43)
+        verifyFamily(DesignFamily.CLASSIC, 66, 43)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 65, 43)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 66, 43)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 65, 43)
+        verifyFamily(DesignFamily.MATERIAL, 66, 43)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 77)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 78)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 49)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 50)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -192,7 +193,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            110,
+            111,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -557,6 +558,7 @@ class CatalogRenderingSmokeTest {
                     assertEquals(2, (view as ActionMenuView).menu.size())
                 LabComponent.QUICK_CONTACT_BADGE ->
                     assertNotNull((view as QuickContactBadge).drawable)
+                LabComponent.DIALER_FILTER -> assertTrue((view as DialerFilter).childCount > 0)
                 LabComponent.WEB_VIEW -> Unit
                 LabComponent.ICON,
                 LabComponent.IMAGE_BUTTON -> {
@@ -659,6 +661,7 @@ class CatalogRenderingSmokeTest {
             LabComponent.ACTION_MENU_VIEW -> ActionMenuView::class.java
             LabComponent.WEB_VIEW -> WebView::class.java
             LabComponent.QUICK_CONTACT_BADGE -> QuickContactBadge::class.java
+            LabComponent.DIALER_FILTER -> DialerFilter::class.java
             LabComponent.TEXT -> TextView::class.java
             LabComponent.CHECKED_TEXT_VIEW -> CheckedTextView::class.java
             else -> error("No ordinary framework rendering assertion for ${component.name}")
