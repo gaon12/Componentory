@@ -1,7 +1,7 @@
 # Component coverage
 
 The broad catalog is still in progress. The committed catalog implements
-**92 component entries**, with **237 runnable component/family combinations**.
+**95 component entries**, with **246 runnable component/family combinations**.
 Implementation counts are separate from the verification outcomes below.
 A missing implementation is work to do, not proof that a family does not support it.
 
@@ -218,6 +218,17 @@ one-based value (zero when nothing is checked, matching the radio convention)
 and the expandable list copies its expanded groups as a bitmask; scroll
 positions remain ephemeral and are not copied.
 
+Three deprecated zoom entries add nine combinations through the platform
+themes only. ZoomControls (`android.widget.ZoomControls`, API 1, deprecated
+29) pairs real zoom-in and zoom-out buttons whose enabled flags track the
+level bounds; ZoomButton (`android.widget.ZoomButton`, API 1, deprecated 26)
+steps the level once per tap; ZoomButtonsController
+(`android.widget.ZoomButtonsController`, API 4, deprecated 26) binds to a
+themed owner view inside a host frame and overlays its real ZoomControls
+container. The 0..10 level counter is the copyable input, and a shared
+`deprecatedApi` property now drives the deprecation notes that previously
+hardcoded API levels for the clocks and AbsoluteLayout.
+
 Four container entries add six library combinations: Card and Surface in both
 Material libraries, plus Material 3 ElevatedCard and OutlinedCard. Each uses the
 real clickable or plain overload with default shape, color, border and elevation.
@@ -302,14 +313,14 @@ must not be described as interaction passes.
 
 ## Verification
 
-Latest implementation: `12a2714`, preceded by the sweep baseline correction in
+Latest implementation: `0f85204`, preceded by the sweep baseline correction in
 `96d861b` and the instrumentation repair in `34ceff1`. Spotless and lint pass
-with zero errors. All 94 JVM tests actually executed and passed without
-failures, errors or skips. Both debug APKs build: the app APK is 19,734,827
+with zero errors. All 96 JVM tests actually executed and passed without
+failures, errors or skips. Both debug APKs build: the app APK is 19,741,679
 bytes with SHA-256
-`d326073a9e55ae47b876e3d8fb3e7bacce4e4d6d1baecaff21bda52453aede4b` and the test
-APK is 1,430,260 bytes with SHA-256
-`097894aff7a349e575dd67ab357aac37b3c1c29175fe41042c1db833708108c1`.
+`c7b4fe1a0fa9681dd7dff20984a010be34972c07101e1ef57f42e00bad921a9b` and the test
+APK is 1,436,408 bytes with SHA-256
+`8c218de3589a97ed7b486673f44eb479fe8d13df02cc8f3e407ff95319a578ef`.
 
 Six [inline-time UI scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/InlineTimeSamplesTest.kt)
 compile. They cover the real framework `TimePicker` and Material 3
@@ -358,8 +369,16 @@ copies between panels, unsupported library targets, the disabled flag, and
 localized labels, rows and statuses in five locales. They also await a clean
 unlocked-device run.
 
-The catalog now declares 92 entries and 237 supported combinations. The smoke
-sweep spans 454 ordinary cells: 232 supported and 222 unsupported; the six
+Four [zoom widget scenarios](../app/src/androidTest/java/xyz/gaon/componentory/lab/ZoomControlsTest.kt)
+compile in the same state. They verify the real `ZoomControls`, `ZoomButton`
+and `ZoomButtonsController` classes inside platform themes, level stepping in
+both directions, the controller overlay attachment, clamping at the maximum,
+the deprecation notes, level copying, unsupported library targets, the
+disabled flag, and localized labels and statuses in five locales. They also
+await a clean unlocked-device run.
+
+The catalog now declares 95 entries and 246 supported combinations. The smoke
+sweep spans 469 ordinary cells: 241 supported and 228 unsupported; the six
 native animated cells use the separate UiAutomation scope. The sweep
 baselines were recomputed from the enum in `96d861b` after a hand count
 under-counted platform cells by two and Material 3 cells by one at `cd82cc6`;
