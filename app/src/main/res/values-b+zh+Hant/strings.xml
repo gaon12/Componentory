@@ -415,4 +415,14 @@
     <string name="component_adapter_view_flipper_description">原始架構 AdapterViewFlipper，以真實架構轉場動畫切換配接器頁面。</string>
     <string name="component_stack_view">堆疊檢視</string>
     <string name="component_stack_view_description">原始架構 StackView，以滑動轉場堆疊主題配接器卡片。</string>
+    <string name="component_plain_dialog">一般對話方塊</string>
+    <string name="component_plain_dialog_description">原始架構 android.app.Dialog 基底類別，帶主題標題與訊息，並非 AlertDialog。</string>
+    <string name="component_progress_dialog">進度對話方塊</string>
+    <string name="component_progress_dialog_description">已棄用的架構 ProgressDialog，以真實不確定進度對話方塊顯示。</string>
+    <string name="component_toast">Toast 提示</string>
+    <string name="component_toast_description">原始架構 Toast，在版面外短暫顯示的訊息。</string>
+    <string name="show_toast">顯示 Toast</string>
+    <string name="toast_message">此 Toast 在所選平台佈景內容中建立。</string>
+    <string name="status_shown_times">已顯示 %1$d 次</string>
+    <string name="transient_note">按鈕開啟真實的暫時性視窗。複製僅轉移開啟次數。</string>
 </resources>

@@ -415,4 +415,14 @@
     <string name="component_adapter_view_flipper_description">실제 프레임워크 전환으로 어댑터 페이지를 애니메이션하는 원본 프레임워크 AdapterViewFlipper입니다.</string>
     <string name="component_stack_view">스택 뷰</string>
     <string name="component_stack_view_description">슬라이딩 전환으로 테마의 어댑터 카드를 쌓는 원본 프레임워크 StackView입니다.</string>
+    <string name="component_plain_dialog">기본 대화상자</string>
+    <string name="component_plain_dialog_description">AlertDialog가 아닌, 테마의 제목과 메시지를 가진 원본 프레임워크 android.app.Dialog 기본 클래스입니다.</string>
+    <string name="component_progress_dialog">진행 대화상자</string>
+    <string name="component_progress_dialog_description">실제 불확정 대화상자로 표시되는 지원 중단된 프레임워크 ProgressDialog입니다.</string>
+    <string name="component_toast">토스트</string>
+    <string name="component_toast_description">레이아웃 밖에 잠시 표시되는 원본 프레임워크 Toast입니다.</string>
+    <string name="show_toast">토스트 표시</string>
+    <string name="toast_message">선택한 플랫폼 테마 컨텍스트에서 만든 토스트입니다.</string>
+    <string name="status_shown_times">%1$d번 표시됨</string>
+    <string name="transient_note">버튼이 실제 일시적 창을 엽니다. 복사는 열린 횟수만 옮깁니다.</string>
 </resources>

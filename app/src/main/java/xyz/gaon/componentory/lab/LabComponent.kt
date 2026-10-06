@@ -462,6 +462,27 @@ enum class LabComponent(
         platformSource = "android.widget.StackView",
         category = ComponentCategory.LAYOUT,
     ),
+    PLAIN_DIALOG(
+        "Plain dialog",
+        R.string.component_plain_dialog,
+        R.string.component_plain_dialog_description,
+        platformSource = "android.app.Dialog",
+        category = ComponentCategory.FEEDBACK,
+    ),
+    PROGRESS_DIALOG(
+        "Progress dialog",
+        R.string.component_progress_dialog,
+        R.string.component_progress_dialog_description,
+        platformSource = "android.app.ProgressDialog",
+        category = ComponentCategory.LEGACY,
+    ),
+    TOAST(
+        "Toast",
+        R.string.component_toast,
+        R.string.component_toast_description,
+        platformSource = "android.widget.Toast",
+        category = ComponentCategory.FEEDBACK,
+    ),
     POPUP_MENU(
         "Popup menu",
         R.string.component_popup_menu,
@@ -907,6 +928,10 @@ enum class LabComponent(
     val isAdapterAnimator: Boolean
         get() = this == ADAPTER_VIEW_FLIPPER || this == STACK_VIEW
 
+    // Samples whose widget lives in a transient window instead of the panel.
+    val isTransientWindow: Boolean
+        get() = this == PLAIN_DIALOG || this == PROGRESS_DIALOG || this == TOAST
+
     // Logical page count an adapter animator steps through.
     val adapterPageCount: Int
         get() =
@@ -928,7 +953,8 @@ enum class LabComponent(
                 DIGITAL_CLOCK -> 17
                 ANALOG_CLOCK -> 23
                 ZOOM_BUTTON,
-                ZOOM_BUTTONS_CONTROLLER -> 26
+                ZOOM_BUTTONS_CONTROLLER,
+                PROGRESS_DIALOG -> 26
                 ZOOM_CONTROLS -> 29
                 else -> null
             }
@@ -1023,6 +1049,7 @@ enum class LabComponent(
                 context.getString(R.string.status_switcher_child, value + 1, switcherPageCount)
             isAdapterAnimator ->
                 context.getString(R.string.status_switcher_child, value + 1, adapterPageCount)
+            isTransientWindow -> context.getString(R.string.status_shown_times, value)
             this == LIST_VIEW || this == GRID_VIEW ->
                 if (value == 0) context.getString(R.string.sample_state_no_selection)
                 else

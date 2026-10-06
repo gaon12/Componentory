@@ -415,4 +415,14 @@
     <string name="component_adapter_view_flipper_description">原始框架 AdapterViewFlipper，以真实框架过渡动画切换适配器页面。</string>
     <string name="component_stack_view">堆叠视图</string>
     <string name="component_stack_view_description">原始框架 StackView，以滑动过渡堆叠主题适配器卡片。</string>
+    <string name="component_plain_dialog">普通对话框</string>
+    <string name="component_plain_dialog_description">原始框架 android.app.Dialog 基类，带主题标题和消息，不是 AlertDialog。</string>
+    <string name="component_progress_dialog">进度对话框</string>
+    <string name="component_progress_dialog_description">已弃用的框架 ProgressDialog，以真实不确定进度对话框显示。</string>
+    <string name="component_toast">Toast 提示</string>
+    <string name="component_toast_description">原始框架 Toast，在布局外短暂显示的消息。</string>
+    <string name="show_toast">显示 Toast</string>
+    <string name="toast_message">此 Toast 在所选平台主题上下文中创建。</string>
+    <string name="status_shown_times">已显示 %1$d 次</string>
+    <string name="transient_note">按钮打开真实的瞬时窗口。复制仅转移打开次数。</string>
 </resources>

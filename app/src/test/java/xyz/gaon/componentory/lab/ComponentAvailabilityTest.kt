@@ -259,6 +259,39 @@ class ComponentAvailabilityTest {
     }
 
     @Test
+    fun transientWindowsUseOnlyFrameworkSuppliersAndCopyOnlyTheOpenCount() {
+        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        mapOf(
+                LabComponent.PLAIN_DIALOG to ("android.app.Dialog" to ComponentCategory.FEEDBACK),
+                LabComponent.PROGRESS_DIALOG to
+                    ("android.app.ProgressDialog" to ComponentCategory.LEGACY),
+                LabComponent.TOAST to ("android.widget.Toast" to ComponentCategory.FEEDBACK),
+            )
+            .forEach { (component, metadata) ->
+                val (source, category) = metadata
+                platform.forEach { family ->
+                    assertNull(family.unsupportedReason(component, 1))
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(source, family.source(component))
+                }
+                listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
+                    assertNotNull(family.unsupportedReason(component, 36))
+                    assertEquals("Not provided", family.source(component))
+                }
+                assertEquals(1, component.minimumApi)
+                assertEquals(category, component.category)
+                assertTrue(component.isTransientWindow)
+                assertTrue(component.matchesSearch(source))
+            }
+        assertEquals(26, LabComponent.PROGRESS_DIALOG.deprecatedApi)
+        assertNull(LabComponent.PLAIN_DIALOG.deprecatedApi)
+        assertNull(LabComponent.TOAST.deprecatedApi)
+        // The plain Dialog stays separate from the AlertDialog-based DIALOG entry.
+        assertEquals("android.app.Dialog", LabComponent.PLAIN_DIALOG.platformSource)
+        assertEquals("android.app.AlertDialog", LabComponent.DIALOG.platformSource)
+    }
+
+    @Test
     fun clockSearchDoesNotInventLibrarySources() {
         listOf(
                 LabComponent.TEXT_CLOCK,

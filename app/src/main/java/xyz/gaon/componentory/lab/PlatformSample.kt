@@ -1,6 +1,8 @@
 package xyz.gaon.componentory.lab
 
 import android.app.AlertDialog
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.text.InputType
 import android.view.ContextThemeWrapper
@@ -19,6 +21,8 @@ import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.SeekBar
 import android.widget.Switch
+import android.widget.TextView
+import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -109,10 +113,12 @@ fun PlatformSample(
         },
         onReset = null,
         onRelease = { view ->
-            (view.tag as? AlertDialog)?.apply {
+            // Transient windows must not outlive a disposed or rewired panel.
+            (view.tag as? Dialog)?.apply {
                 setOnCancelListener(null)
                 dismiss()
             }
+            (view.tag as? Toast)?.cancel()
         },
         modifier =
             modifier.testTag(if (viewId == R.id.sample_left) "native_LEFT" else "native_RIGHT"),
@@ -156,7 +162,10 @@ private fun createWidget(context: Context, component: LabComponent): View =
                 isIndeterminate = true
             }
         LabComponent.INDETERMINATE_CIRCULAR_PROGRESS -> ProgressBar(context)
-        LabComponent.DIALOG -> Button(context).apply { setText(R.string.open_dialog) }
+        LabComponent.DIALOG,
+        LabComponent.PLAIN_DIALOG,
+        LabComponent.PROGRESS_DIALOG -> Button(context).apply { setText(R.string.open_dialog) }
+        LabComponent.TOAST -> Button(context).apply { setText(R.string.show_toast) }
         LabComponent.TOGGLE_BUTTON ->
             ToggleButton(context).apply {
                 textOn = context.getString(R.string.sample_state_on)
@@ -278,6 +287,45 @@ private fun updateWidget(
                 view.tag = dialog
                 dialog.show()
                 state.value = 1
+            }
+        LabComponent.PLAIN_DIALOG ->
+            view.setOnClickListener {
+                if ((view.tag as? Dialog)?.isShowing == true) return@setOnClickListener
+                val dialog =
+                    Dialog(view.context).apply {
+                        setTitle(view.context.getString(R.string.dialog_title))
+                        setContentView(
+                            TextView(view.context).apply {
+                                text = view.context.getString(R.string.dialog_message)
+                                val pad = (24 * resources.displayMetrics.density).toInt()
+                                setPadding(pad, pad, pad, pad)
+                            }
+                        )
+                    }
+                view.tag = dialog
+                dialog.show()
+                state.value += 1
+            }
+        LabComponent.PROGRESS_DIALOG ->
+            view.setOnClickListener {
+                if ((view.tag as? ProgressDialog)?.isShowing == true) return@setOnClickListener
+                val dialog =
+                    ProgressDialog.show(
+                        view.context,
+                        view.context.getString(R.string.dialog_title),
+                        view.context.getString(R.string.dialog_message),
+                        true,
+                        true,
+                    )
+                view.tag = dialog
+                state.value += 1
+            }
+        LabComponent.TOAST ->
+            view.setOnClickListener {
+                val toast = Toast.makeText(view.context, R.string.toast_message, Toast.LENGTH_SHORT)
+                view.tag = toast
+                toast.show()
+                state.value += 1
             }
         else -> updatePlatformInput(view, component, enabled, state)
     }

@@ -418,4 +418,14 @@
     <string name="component_adapter_view_flipper_description">The original framework AdapterViewFlipper animating adapter pages through real framework transitions.</string>
     <string name="component_stack_view">Stack view</string>
     <string name="component_stack_view_description">The original framework StackView stacking themed adapter cards with sliding transitions.</string>
+    <string name="component_plain_dialog">Plain dialog</string>
+    <string name="component_plain_dialog_description">The original framework android.app.Dialog base class with a themed title and message, not an AlertDialog.</string>
+    <string name="component_progress_dialog">Progress dialog</string>
+    <string name="component_progress_dialog_description">The deprecated framework ProgressDialog shown as a real indeterminate dialog.</string>
+    <string name="component_toast">Toast</string>
+    <string name="component_toast_description">The original framework Toast shown as a short-lived message outside the layout.</string>
+    <string name="show_toast">Show toast</string>
+    <string name="toast_message">This toast was created in the selected platform theme context.</string>
+    <string name="status_shown_times">Shown %1$d times</string>
+    <string name="transient_note">The button opens the real transient window. Copying carries only the count of opens.</string>
 </resources>

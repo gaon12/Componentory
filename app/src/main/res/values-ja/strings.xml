@@ -415,4 +415,14 @@
     <string name="component_adapter_view_flipper_description">実際のフレームワーク遷移でアダプターページをアニメーションする元のフレームワークAdapterViewFlipperです。</string>
     <string name="component_stack_view">スタックビュー</string>
     <string name="component_stack_view_description">スライド遷移でテーマのアダプターカードを積み重ねる元のフレームワークStackViewです。</string>
+    <string name="component_plain_dialog">プレーンダイアログ</string>
+    <string name="component_plain_dialog_description">AlertDialogではなく、テーマのタイトルとメッセージを持つ元のフレームワークandroid.app.Dialog基底クラスです。</string>
+    <string name="component_progress_dialog">プログレスダイアログ</string>
+    <string name="component_progress_dialog_description">実際の不定ダイアログとして表示される非推奨のフレームワークProgressDialogです。</string>
+    <string name="component_toast">トースト</string>
+    <string name="component_toast_description">レイアウトの外に短時間表示される元のフレームワークToastです。</string>
+    <string name="show_toast">トーストを表示</string>
+    <string name="toast_message">選択したプラットフォームテーマコンテキストで作成されたトーストです。</string>
+    <string name="status_shown_times">%1$d回表示</string>
+    <string name="transient_note">ボタンが実際の一時的なウィンドウを開きます。コピーは開いた回数のみを移します。</string>
 </resources>

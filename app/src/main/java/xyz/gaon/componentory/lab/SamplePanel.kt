@@ -353,6 +353,13 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
+            if (component.isTransientWindow && unsupported == null) {
+                Text(
+                    stringResource(R.string.transient_note),
+                    modifier = Modifier.testTag("transient_note_$panel"),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component.isInlineTime && unsupported == null) {
                 Text(
                     stringResource(R.string.inline_time_note),

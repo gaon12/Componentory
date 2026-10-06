@@ -2,6 +2,8 @@ package xyz.gaon.componentory.catalog
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
@@ -156,22 +158,22 @@ class CatalogRenderingSmokeTest {
 
     @Test
     fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 51, 44)
+        verifyFamily(DesignFamily.CLASSIC, 54, 44)
 
     @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 51, 44)
+    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 54, 44)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 51, 44)
+        verifyFamily(DesignFamily.MATERIAL, 54, 44)
 
     @Test
     fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 33, 64)
+        verifyFamily(DesignFamily.MATERIAL2, 33, 67)
 
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 61, 36)
+        verifyFamily(DesignFamily.MATERIAL3, 61, 39)
 
     private fun verifyFamily(
         family: DesignFamily,
@@ -180,7 +182,7 @@ class CatalogRenderingSmokeTest {
     ) {
         assertEquals(
             "Update the sweep baseline when the runnable catalog changes.",
-            97,
+            100,
             LabComponent.entries.size,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -534,6 +536,8 @@ class CatalogRenderingSmokeTest {
             LabComponent.DATE_PICKER_DIALOG,
             LabComponent.TIME_PICKER_DIALOG -> verifyNativeDialog(component)
             LabComponent.POPUP_MENU -> verifyNativeMenu()
+            LabComponent.PLAIN_DIALOG -> verifyTransientWindow(Dialog::class.java)
+            LabComponent.PROGRESS_DIALOG -> verifyTransientWindow(ProgressDialog::class.java)
             else -> Unit
         }
     }
@@ -544,7 +548,10 @@ class CatalogRenderingSmokeTest {
             LabComponent.DIALOG,
             LabComponent.DATE_PICKER_DIALOG,
             LabComponent.TIME_PICKER_DIALOG,
-            LabComponent.POPUP_MENU -> Button::class.java
+            LabComponent.POPUP_MENU,
+            LabComponent.PLAIN_DIALOG,
+            LabComponent.PROGRESS_DIALOG,
+            LabComponent.TOAST -> Button::class.java
             LabComponent.CHECKBOX -> CheckBox::class.java
             LabComponent.RADIO -> RadioGroup::class.java
             LabComponent.SWITCH -> Switch::class.java
@@ -683,6 +690,20 @@ class CatalogRenderingSmokeTest {
             .check(matches(isDisplayed()))
             .perform(nativeClick())
         compose.runOnIdle { assertFalse(opened.isShowing) }
+    }
+
+    // The plain Dialog and ProgressDialog expose no Espresso-friendly buttons;
+    // the sample keeps the created window on the trigger button's tag.
+    private fun verifyTransientWindow(type: Class<out Dialog>) {
+        onView(withId(R.id.sample_left)).perform(nativeClick())
+        compose.runOnIdle {
+            val opened = compose.activity.findViewById<Button>(R.id.sample_left).tag as Dialog
+            assertEquals(type, opened.javaClass)
+            assertTrue(opened.isShowing)
+            assertNotNull(opened.window)
+            opened.dismiss()
+            assertFalse(opened.isShowing)
+        }
     }
 
     private fun findTimePicker(view: View): TimePicker? {

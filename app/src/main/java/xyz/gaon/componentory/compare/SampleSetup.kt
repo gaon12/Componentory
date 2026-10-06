@@ -261,6 +261,7 @@ private val LabComponent.hasCopiedValue: Boolean
             isAdapterList ||
             isZoomControl ||
             isAdapterAnimator ||
+            isTransientWindow ||
             this in
                 listOf(
                     LabComponent.CHECKBOX,
