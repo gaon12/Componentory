@@ -723,4 +723,7 @@
     <string name="toast_rendering_note">重現此Android版本的AOSP外觀。尚未取得原始OS截圖。</string>
     <string name="toast_popup_note">點選按鈕後短暫顯示。複製時僅保留顯示次數。</string>
     <string name="toast_implementation">Componentory彈出視窗 · AOSP配置 · 易讀的16sp</string>
+    <string name="project_repository">GitHub 儲存庫</string>
+    <string name="project_feedback">回報錯誤或提出改善建議</string>
+    <string name="project_link_failed">無法開啟此連結。請檢查瀏覽器設定。</string>
 </resources>

@@ -726,4 +726,7 @@
     <string name="toast_rendering_note">Recreated with this Android release’s AOSP artwork. Original OS captures are missing.</string>
     <string name="toast_popup_note">A custom popup appears briefly. Copying carries only the shown count.</string>
     <string name="toast_implementation">Componentory popup · AOSP layout · readable 16sp</string>
+    <string name="project_repository">GitHub repository</string>
+    <string name="project_feedback">Report a bug or suggest an improvement</string>
+    <string name="project_link_failed">Cannot open this link. Check your browser settings.</string>
 </resources>

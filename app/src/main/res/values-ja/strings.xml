@@ -723,4 +723,7 @@
     <string name="toast_rendering_note">このAndroidバージョンのAOSP外観を再現しています。元のOSのキャプチャは未取得です。</string>
     <string name="toast_popup_note">ボタンで短時間表示します。コピーでは表示回数だけを移します。</string>
     <string name="toast_implementation">Componentoryポップアップ · AOSPレイアウト · 読みやすい16sp</string>
+    <string name="project_repository">GitHub リポジトリ</string>
+    <string name="project_feedback">不具合の報告・改善の提案</string>
+    <string name="project_link_failed">リンクを開けません。ブラウザーの設定を確認してください。</string>
 </resources>

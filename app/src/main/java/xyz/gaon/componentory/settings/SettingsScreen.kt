@@ -359,6 +359,7 @@ private fun SettingsDetail(
                             Text(stringResource(R.string.introduction_replay))
                         }
                         SettingsNote("Componentory ${BuildConfig.VERSION_NAME}")
+                        ProjectLinks()
                         SettingsNote(stringResource(R.string.accuracy_note))
                         Text(
                             stringResource(R.string.android_trademark),

@@ -20,6 +20,10 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
   library, license, or About pages. Read upstream notices offline and replay the
   first-launch introduction from About.
 
+About also links to the [GitHub repository](https://github.com/gaon12/Componentory)
+and [new issue page](https://github.com/gaon12/Componentory/issues/new) for bug
+reports and improvement requests.
+
 Phones use bottom navigation. Wide windows use a navigation rail with the catalog
 beside the selected component. Settings keeps its category list beside the
 selected page when space permits.
