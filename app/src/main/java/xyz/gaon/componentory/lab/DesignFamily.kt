@@ -7,15 +7,31 @@ import xyz.gaon.componentory.R
 enum class DesignFamily(val label: String, val platform: PlatformFamily? = null) {
     CLASSIC("Classic", PlatformFamily.CLASSIC),
     HOLO("Holo", PlatformFamily.HOLO),
-    MATERIAL("Material", PlatformFamily.MATERIAL),
-    MATERIAL2("Material 2"),
-    MATERIAL3("Material 3");
+    MATERIAL("Material Design 1", PlatformFamily.MATERIAL),
+    MATERIAL2("Material Design 2"),
+    MATERIAL3("Material Design 3"),
+    MATERIAL_YOU("Material You"),
+    EXPRESSIVE("Material 3 Expressive");
+
+    val isMaterial3: Boolean
+        get() = this == MATERIAL3 || this == MATERIAL_YOU || this == EXPRESSIVE
+
+    internal fun libraryFunction(component: LabComponent): String? =
+        when {
+            platform != null -> null
+            component.expressiveOnly && this != EXPRESSIVE -> null
+            this == MATERIAL2 -> component.material2Function
+            this == EXPRESSIVE -> component.expressiveFunction ?: component.material3Function
+            else -> component.material3Function
+        }
 
     val selectionLabel: String
         get() =
             when (this) {
                 MATERIAL2 -> "Compose Material 2 · ${BuildConfig.MATERIAL2_VERSION}"
                 MATERIAL3 -> "Compose Material 3 · ${BuildConfig.MATERIAL3_VERSION}"
+                MATERIAL_YOU -> "Material You · Android 12+ · ${BuildConfig.MATERIAL3_VERSION}"
+                EXPRESSIVE -> "Material 3 Expressive · ${BuildConfig.MATERIAL3_VERSION}"
                 else -> "${requireNotNull(platform).origin.substringBefore(" ·")} · $label"
             }
 
@@ -27,8 +43,16 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
         when (this) {
             MATERIAL2 ->
                 "androidx.compose.material:material:${BuildConfig.MATERIAL2_VERSION} · ${context.getString(R.string.light_theme)}"
-            MATERIAL3 ->
-                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION} · ${context.getString(R.string.light_theme)}"
+            MATERIAL3,
+            MATERIAL_YOU,
+            EXPRESSIVE -> {
+                "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION} · ${context.getString(R.string.light_theme)}" +
+                    (when (this) {
+                        MATERIAL_YOU -> " · dynamicLightColorScheme"
+                        EXPRESSIVE -> " · MaterialExpressiveTheme (experimental)"
+                        else -> " · MaterialTheme"
+                    })
+            }
             else -> "android:${requireNotNull(platform).themeName}"
         }
 
@@ -37,9 +61,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
         if (platform != null) return component.platformSource ?: absent
         val packageName =
             if (this == MATERIAL2) "androidx.compose.material" else "androidx.compose.material3"
-        val function =
-            (if (this == MATERIAL2) component.material2Function else component.material3Function)
-                ?: return absent
+        val function = libraryFunction(component) ?: return absent
         return "$packageName.$function"
     }
 
@@ -49,6 +71,12 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
         context: Context? = null,
     ): String? {
         val name = context?.getString(component.labelRes) ?: component.label
+        if (this == MATERIAL_YOU && runtimeApi < 31)
+            return context?.getString(R.string.dynamic_color_requires_api)
+                ?: "Material You dynamic color requires Android 12 (API 31) or later."
+        if (component.expressiveOnly && platform == null && this != EXPRESSIVE)
+            return context?.getString(R.string.requires_expressive)
+                ?: "Select Material 3 Expressive for this experimental component."
         if (platform != null) {
             if (component == LabComponent.ACTION_BAR && platform == PlatformFamily.CLASSIC)
                 return context?.getString(R.string.action_bar_requires_theme)
@@ -64,8 +92,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
                     ?: "Requires Android API ${component.minimumApi} or later. This device runs API $runtimeApi."
             else null
         }
-        val function =
-            if (this == MATERIAL2) component.material2Function else component.material3Function
+        val function = libraryFunction(component)
         return if (function == null)
             context?.getString(R.string.unsupported_library, label, name)
                 ?: "The $label library does not provide $name."

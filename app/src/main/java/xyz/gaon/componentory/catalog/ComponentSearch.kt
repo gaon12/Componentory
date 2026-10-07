@@ -13,6 +13,7 @@ fun LabComponent.matchesSearch(query: String, context: Context? = null): Boolean
             platformSource,
             material2Function?.let { "androidx.compose.material.$it" },
             material3Function?.let { "androidx.compose.material3.$it" },
+            expressiveFunction?.let { "androidx.compose.material3.$it" },
         ) +
             when (this) {
                 LabComponent.TIME_PICKER_DIALOG ->

@@ -133,6 +133,8 @@ try {
             MATERIAL = 'android:Theme.Material.Light'
             MATERIAL2 = 'lightColors'
             MATERIAL3 = 'lightColorScheme'
+            MATERIAL_YOU = 'MaterialTheme · dynamicLightColorScheme · API 31+'
+            EXPRESSIVE = 'MaterialExpressiveTheme · expressiveLightColorScheme · expressive motion'
         }
         testScope = if ($TestClass) { $TestClass } else { 'All instrumentation tests' }
         skippedBuild = [bool]$SkipBuild

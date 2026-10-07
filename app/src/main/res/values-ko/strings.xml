@@ -699,4 +699,25 @@
     <string name="rendering_current_os_note">선택한 플랫폼 테마를 현재 기기에서 실행해요. 이 컴포넌트의 과거 리소스 재현은 아직 제공되지 않아요.</string>
     <string name="rendering_library">고정 버전 라이브러리 샘플</string>
     <string name="rendering_library_note">기록된 Compose 라이브러리 버전으로 그려요. 디자인 언어를 바꿔도 기기의 OS는 바뀌지 않아요.</string>
+    <string name="component_button_group">버튼 그룹</string>
+    <string name="component_button_group_description">누를 때 늘어나며 공간이 부족한 작업은 더보기 메뉴로 이동하는 버튼 그룹입니다.</string>
+    <string name="component_split_button">분할 버튼</string>
+    <string name="component_split_button_description">기본 작업과 선택 가능한 보조 작업을 분리한 버튼입니다.</string>
+    <string name="component_loading_indicator">로딩 표시기</string>
+    <string name="component_loading_indicator_description">진행률에 따라 도형이 변하는 표시기입니다.</string>
+    <string name="component_linear_wavy_progress">물결형 선형 진행 표시기</string>
+    <string name="component_linear_wavy_progress_description">움직이는 물결로 진행률을 보여 주는 가로 표시기입니다.</string>
+    <string name="component_circular_wavy_progress">물결형 원형 진행 표시기</string>
+    <string name="component_circular_wavy_progress_description">움직이는 물결로 진행률을 보여 주는 원형 표시기입니다.</string>
+    <string name="component_horizontal_floating_toolbar">가로 플로팅 툴바</string>
+    <string name="component_horizontal_floating_toolbar_description">아이콘 작업을 제공하는 펼칠 수 있는 가로 툴바입니다.</string>
+    <string name="component_vertical_floating_toolbar">세로 플로팅 툴바</string>
+    <string name="component_vertical_floating_toolbar_description">아이콘 작업을 제공하는 펼칠 수 있는 세로 툴바입니다.</string>
+    <string name="component_fab_menu">플로팅 액션 버튼 메뉴</string>
+    <string name="component_fab_menu_description">관련 작업 메뉴를 펼치는 플로팅 액션 버튼입니다.</string>
+    <string name="dynamic_color_requires_api">Material You 동적 색상은 Android 12(API 31) 이상이 필요합니다.</string>
+    <string name="requires_expressive">이 실험용 컴포넌트는 Material 3 Expressive를 선택하세요.</string>
+    <string name="expressive_expand">펼치기</string>
+    <string name="expressive_collapse">접기</string>
+    <string name="material3_experimental_note">초기 Expressive API를 제공하는 Material 3 1.5.0-alpha01 버전을 고정해 사용합니다. 해당 API는 실험 단계입니다.</string>
 </resources>

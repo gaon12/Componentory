@@ -189,6 +189,13 @@ class CatalogRenderingSmokeTest {
     @Test
     fun material3CatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.MATERIAL3)
 
+    @Test
+    fun materialYouCatalogCellsRenderOrExplainTheirAbsence() =
+        verifyFamily(DesignFamily.MATERIAL_YOU)
+
+    @Test
+    fun expressiveCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.EXPRESSIVE)
+
     private fun verifyFamily(family: DesignFamily) {
         chooseComponent(LabComponent.BUTTON)
         chooseFamily("LEFT", family)
@@ -267,7 +274,9 @@ class CatalogRenderingSmokeTest {
             when (family) {
                 DesignFamily.MATERIAL2 ->
                     "androidx.compose.material:material:${BuildConfig.MATERIAL2_VERSION}"
-                DesignFamily.MATERIAL3 ->
+                DesignFamily.MATERIAL3,
+                DesignFamily.MATERIAL_YOU,
+                DesignFamily.EXPRESSIVE ->
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }
@@ -913,6 +922,16 @@ class CatalogRenderingSmokeTest {
         // Runtime semantics complement the source/version labels; labels alone cannot prove a
         // renderer.
         when {
+            component.expressiveOnly -> {
+                val size = sample.fetchSemanticsNode().size
+                assertTrue(
+                    "Expressive provider must have positive bounds",
+                    size.width > 0 && size.height > 0,
+                )
+            }
+            component == LabComponent.TOGGLE_BUTTON && family == DesignFamily.EXPRESSIVE -> {
+                sample.assertHasClickAction().assertIsEnabled().assertIsOff()
+            }
             component == LabComponent.TIME_PICKER -> {
                 listOf(true to "10", false to "30").forEach { (hour, value) ->
                     val selector =
@@ -1205,7 +1224,7 @@ class CatalogRenderingSmokeTest {
                 field
                     .assertIsEnabled()
                     .assert(SemanticsMatcher.keyIsDefined(SemanticsProperties.EditableText))
-                if (family == DesignFamily.MATERIAL3) field.assertHasClickAction()
+                if (family.isMaterial3) field.assertHasClickAction()
             }
             component in
                 listOf(

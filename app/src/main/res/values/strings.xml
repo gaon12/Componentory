@@ -702,4 +702,25 @@
     <string name="rendering_current_os_note">The selected platform theme runs on this device. Historical resource recreation is not yet available for this component.</string>
     <string name="rendering_library">Pinned library sample</string>
     <string name="rendering_library_note">Rendered by the recorded Compose library version. The design language does not replace the device OS.</string>
+    <string name="component_button_group">Button group</string>
+    <string name="component_button_group_description">Buttons that expand on press and move excess actions to an overflow menu.</string>
+    <string name="component_split_button">Split button</string>
+    <string name="component_split_button_description">A primary action and a separate selectable trailing action.</string>
+    <string name="component_loading_indicator">Loading indicator</string>
+    <string name="component_loading_indicator_description">A shape that morphs as progress changes.</string>
+    <string name="component_linear_wavy_progress">Linear wavy progress</string>
+    <string name="component_linear_wavy_progress_description">A horizontal progress indicator with an animated wave.</string>
+    <string name="component_circular_wavy_progress">Circular wavy progress</string>
+    <string name="component_circular_wavy_progress_description">A circular progress indicator with an animated wave.</string>
+    <string name="component_horizontal_floating_toolbar">Horizontal floating toolbar</string>
+    <string name="component_horizontal_floating_toolbar_description">An expandable horizontal toolbar with action icons.</string>
+    <string name="component_vertical_floating_toolbar">Vertical floating toolbar</string>
+    <string name="component_vertical_floating_toolbar_description">An expandable vertical toolbar with action icons.</string>
+    <string name="component_fab_menu">Floating action button menu</string>
+    <string name="component_fab_menu_description">A floating action button that opens a menu of related actions.</string>
+    <string name="dynamic_color_requires_api">Material You dynamic color requires Android 12 (API 31) or later.</string>
+    <string name="requires_expressive">Select Material 3 Expressive for this experimental component.</string>
+    <string name="expressive_expand">Expand</string>
+    <string name="expressive_collapse">Collapse</string>
+    <string name="material3_experimental_note">Material 3 uses the pinned 1.5.0-alpha01 release so the original Expressive APIs remain available. These APIs are experimental.</string>
 </resources>

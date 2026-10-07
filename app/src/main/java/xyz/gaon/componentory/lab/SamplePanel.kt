@@ -254,7 +254,7 @@ fun SamplePanel(
                             } else if (family == DesignFamily.MATERIAL2) {
                                 Material2Sample(component, panel, enabled, state)
                             } else {
-                                Material3Sample(component, panel, enabled, state)
+                                Material3Sample(component, panel, enabled, state, family)
                             }
                         }
                     }
@@ -380,7 +380,7 @@ fun SamplePanel(
                     stringResource(R.string.inline_date_note),
                     style = MaterialTheme.typography.bodySmall,
                 )
-                if (component == LabComponent.CALENDAR_VIEW || family == DesignFamily.MATERIAL3) {
+                if (component == LabComponent.CALENDAR_VIEW || family.isMaterial3) {
                     Text(
                         stringResource(R.string.inline_date_enabled_note),
                         modifier = Modifier.testTag("date_enabled_note_$panel"),
@@ -668,7 +668,7 @@ fun SamplePanel(
                     stringResource(R.string.time_picker_configuration),
                     style = MaterialTheme.typography.bodySmall,
                 )
-                if (family == DesignFamily.MATERIAL3 && !timePickerClockFitsWindow()) {
+                if (family.isMaterial3 && !timePickerClockFitsWindow()) {
                     Text(
                         stringResource(R.string.time_small_window_note),
                         style = MaterialTheme.typography.bodySmall,

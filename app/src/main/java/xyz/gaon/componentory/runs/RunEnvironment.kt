@@ -19,6 +19,7 @@ fun environmentSnapshot(context: Context): Map<String, String> {
         "androidRelease" to Build.VERSION.RELEASE,
         "api" to Build.VERSION.SDK_INT.toString(),
         "build" to Build.DISPLAY,
+        "fingerprint" to Build.FINGERPRINT,
         "manufacturer" to Build.MANUFACTURER,
         "model" to Build.MODEL,
         "display" to "${metrics.widthPixels}x${metrics.heightPixels}",

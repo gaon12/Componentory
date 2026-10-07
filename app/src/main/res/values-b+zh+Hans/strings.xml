@@ -699,4 +699,25 @@
     <string name="rendering_current_os_note">所选平台主题在当前设备上运行。此组件尚无历史资源重现。</string>
     <string name="rendering_library">固定版本库示例</string>
     <string name="rendering_library_note">由记录的 Compose 库版本绘制。切换设计语言不会替换设备系统。</string>
+    <string name="component_button_group">按钮组</string>
+    <string name="component_button_group_description">按下时扩展，并将多余操作移到溢出菜单的按钮组。</string>
+    <string name="component_split_button">分体按钮</string>
+    <string name="component_split_button_description">将主要操作与可选的辅助操作分开的按钮。</string>
+    <string name="component_loading_indicator">加载指示器</string>
+    <string name="component_loading_indicator_description">随进度变化形状的指示器。</string>
+    <string name="component_linear_wavy_progress">波浪线性进度指示器</string>
+    <string name="component_linear_wavy_progress_description">通过动态波浪显示进度的水平指示器。</string>
+    <string name="component_circular_wavy_progress">波浪圆形进度指示器</string>
+    <string name="component_circular_wavy_progress_description">通过动态波浪显示进度的圆形指示器。</string>
+    <string name="component_horizontal_floating_toolbar">水平悬浮工具栏</string>
+    <string name="component_horizontal_floating_toolbar_description">提供图标操作的可展开水平工具栏。</string>
+    <string name="component_vertical_floating_toolbar">垂直悬浮工具栏</string>
+    <string name="component_vertical_floating_toolbar_description">提供图标操作的可展开垂直工具栏。</string>
+    <string name="component_fab_menu">悬浮操作按钮菜单</string>
+    <string name="component_fab_menu_description">打开相关操作菜单的悬浮操作按钮。</string>
+    <string name="dynamic_color_requires_api">Material You 动态配色需要 Android 12（API 31）或更新版本。</string>
+    <string name="requires_expressive">请选择 Material 3 Expressive 来使用此实验性组件。</string>
+    <string name="expressive_expand">展开</string>
+    <string name="expressive_collapse">收起</string>
+    <string name="material3_experimental_note">固定使用提供初期 Expressive API 的 Material 3 1.5.0-alpha01。这些 API 处于实验阶段。</string>
 </resources>

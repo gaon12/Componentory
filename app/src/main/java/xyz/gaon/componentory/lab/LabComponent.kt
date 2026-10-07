@@ -12,6 +12,8 @@ enum class LabComponent(
     val minimumApi: Int = 1,
     val initialValue: Int = 0,
     val category: ComponentCategory = ComponentCategory.ACTION,
+    val expressiveFunction: String? = null,
+    val expressiveOnly: Boolean = false,
 ) {
     BUTTON(
         "Button",
@@ -980,6 +982,7 @@ enum class LabComponent(
         category = ComponentCategory.SELECTION,
         material2Function = null,
         material3Function = null,
+        expressiveFunction = "ToggleButton",
         minimumApi = 1,
         initialValue = 0,
     ),
@@ -1335,6 +1338,71 @@ enum class LabComponent(
         platformSource = "android.widget.SearchView",
         minimumApi = 11,
         category = ComponentCategory.INPUT,
+    ),
+    BUTTON_GROUP(
+        "Button group",
+        R.string.component_button_group,
+        R.string.component_button_group_description,
+        material3Function = "ButtonGroup",
+        expressiveOnly = true,
+    ),
+    SPLIT_BUTTON(
+        "Split button",
+        R.string.component_split_button,
+        R.string.component_split_button_description,
+        material3Function = "SplitButtonLayout",
+        expressiveOnly = true,
+    ),
+    LOADING_INDICATOR(
+        "Loading indicator",
+        R.string.component_loading_indicator,
+        R.string.component_loading_indicator_description,
+        material3Function = "LoadingIndicator",
+        expressiveOnly = true,
+        category = ComponentCategory.INDICATOR,
+        initialValue = 45,
+    ),
+    LINEAR_WAVY_PROGRESS(
+        "Linear wavy progress",
+        R.string.component_linear_wavy_progress,
+        R.string.component_linear_wavy_progress_description,
+        material3Function = "LinearWavyProgressIndicator",
+        expressiveOnly = true,
+        category = ComponentCategory.INDICATOR,
+        initialValue = 45,
+    ),
+    CIRCULAR_WAVY_PROGRESS(
+        "Circular wavy progress",
+        R.string.component_circular_wavy_progress,
+        R.string.component_circular_wavy_progress_description,
+        material3Function = "CircularWavyProgressIndicator",
+        expressiveOnly = true,
+        category = ComponentCategory.INDICATOR,
+        initialValue = 45,
+    ),
+    HORIZONTAL_FLOATING_TOOLBAR(
+        "Horizontal floating toolbar",
+        R.string.component_horizontal_floating_toolbar,
+        R.string.component_horizontal_floating_toolbar_description,
+        material3Function = "HorizontalFloatingToolbar",
+        expressiveOnly = true,
+        category = ComponentCategory.NAVIGATION,
+    ),
+    VERTICAL_FLOATING_TOOLBAR(
+        "Vertical floating toolbar",
+        R.string.component_vertical_floating_toolbar,
+        R.string.component_vertical_floating_toolbar_description,
+        material3Function = "VerticalFloatingToolbar",
+        expressiveOnly = true,
+        category = ComponentCategory.NAVIGATION,
+    ),
+    FAB_MENU(
+        "Floating action button menu",
+        R.string.component_fab_menu,
+        R.string.component_fab_menu_description,
+        material3Function = "FloatingActionButtonMenu",
+        expressiveOnly = true,
+        category = ComponentCategory.NAVIGATION,
     );
 
     val source: String
@@ -1354,7 +1422,15 @@ enum class LabComponent(
         get() = this == SECURE_TEXT_FIELD || this == OUTLINED_SECURE_TEXT_FIELD
 
     val isDeterminateProgress: Boolean
-        get() = this == PROGRESS || this == CIRCULAR_PROGRESS
+        get() =
+            this in
+                listOf(
+                    PROGRESS,
+                    CIRCULAR_PROGRESS,
+                    LOADING_INDICATOR,
+                    LINEAR_WAVY_PROGRESS,
+                    CIRCULAR_WAVY_PROGRESS,
+                )
 
     val isDivider: Boolean
         get() = this in listOf(HORIZONTAL_DIVIDER, VERTICAL_DIVIDER, LEGACY_DIVIDER)
@@ -1569,6 +1645,13 @@ enum class LabComponent(
     val usesIcon: Boolean
         get() =
             this == ICON ||
+                this in
+                    listOf(
+                        SPLIT_BUTTON,
+                        HORIZONTAL_FLOATING_TOOLBAR,
+                        VERTICAL_FLOATING_TOOLBAR,
+                        FAB_MENU,
+                    ) ||
                 this == BADGED_BOX ||
                 this == IMAGE_BUTTON ||
                 isIconToggle ||

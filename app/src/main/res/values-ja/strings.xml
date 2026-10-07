@@ -699,4 +699,25 @@
     <string name="rendering_current_os_note">選択したプラットフォームのテーマを現在の端末で実行します。このコンポーネントの過去のリソースによる再現はまだありません。</string>
     <string name="rendering_library">固定バージョンのライブラリサンプル</string>
     <string name="rendering_library_note">記録された Compose ライブラリのバージョンで描画します。デザインを変えても端末の OS は変わりません。</string>
+    <string name="component_button_group">ボタングループ</string>
+    <string name="component_button_group_description">押すと広がり、収まらない操作をメニューに移すボタングループです。</string>
+    <string name="component_split_button">分割ボタン</string>
+    <string name="component_split_button_description">主操作と選択可能な補助操作を分けたボタンです。</string>
+    <string name="component_loading_indicator">ローディング表示</string>
+    <string name="component_loading_indicator_description">進行状況に応じて形が変わる表示です。</string>
+    <string name="component_linear_wavy_progress">波形の線形進行表示</string>
+    <string name="component_linear_wavy_progress_description">動く波で進行状況を示す横向きの表示です。</string>
+    <string name="component_circular_wavy_progress">波形の円形進行表示</string>
+    <string name="component_circular_wavy_progress_description">動く波で進行状況を示す円形の表示です。</string>
+    <string name="component_horizontal_floating_toolbar">横向きフローティングツールバー</string>
+    <string name="component_horizontal_floating_toolbar_description">アイコン操作を提供する展開可能な横向きツールバーです。</string>
+    <string name="component_vertical_floating_toolbar">縦向きフローティングツールバー</string>
+    <string name="component_vertical_floating_toolbar_description">アイコン操作を提供する展開可能な縦向きツールバーです。</string>
+    <string name="component_fab_menu">フローティングアクションボタンメニュー</string>
+    <string name="component_fab_menu_description">関連操作のメニューを開くフローティングアクションボタンです。</string>
+    <string name="dynamic_color_requires_api">Material You の動的な色には Android 12（API 31）以降が必要です。</string>
+    <string name="requires_expressive">この実験的コンポーネントには Material 3 Expressive を選択してください。</string>
+    <string name="expressive_expand">展開</string>
+    <string name="expressive_collapse">折りたたむ</string>
+    <string name="material3_experimental_note">初期の Expressive API を提供する Material 3 1.5.0-alpha01 を固定して使用します。これらの API は実験段階です。</string>
 </resources>

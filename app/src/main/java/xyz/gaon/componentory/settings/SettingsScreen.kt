@@ -339,6 +339,10 @@ private fun SettingsDetail(
                     SettingsGroup {
                         LibraryVersionRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
                         LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
+                        Text(
+                            stringResource(R.string.material3_experimental_note),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                         LibraryVersionRow(
                             "AndroidX Autofill · inline UI v1",
                             BuildConfig.AUTOFILL_VERSION,

@@ -196,7 +196,14 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                     state.value = 4
                 },
                 title = { Text(stringResource(R.string.dialog_title)) },
-                text = { Text(stringResource(R.string.dialog_library_message, "Material 2")) },
+                text = {
+                    Text(
+                        stringResource(
+                            R.string.dialog_library_message,
+                            DesignFamily.MATERIAL2.label,
+                        )
+                    )
+                },
                 confirmButton = {
                     TextButton(
                         onClick = {

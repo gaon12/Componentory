@@ -144,19 +144,19 @@ class ComponentInventoryTest {
     @Test
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
-        assertEquals(239, rows.size)
-        assertEquals(160, LabComponent.entries.size)
+        assertEquals(248, rows.size)
+        assertEquals(168, LabComponent.entries.size)
         assertEquals(
-            365,
+            475,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
                 }
             },
         )
-        assertEquals(mapOf("Implemented" to 239), rows.groupingBy { it.status }.eachCount())
+        assertEquals(mapOf("Implemented" to 248), rows.groupingBy { it.status }.eachCount())
         assertEquals(
-            mapOf("PLATFORM" to 74, "MATERIAL2" to 52, "MATERIAL3" to 113),
+            mapOf("PLATFORM" to 74, "MATERIAL2" to 52, "MATERIAL3" to 122),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
@@ -182,7 +182,7 @@ class ComponentInventoryTest {
     fun auditedBaselineKeepsProviderCountsAndUniqueSources() {
         val rows = inventory()
         assertEquals(
-            mapOf("PLATFORM" to 74, "MATERIAL2" to 52, "MATERIAL3" to 113),
+            mapOf("PLATFORM" to 74, "MATERIAL2" to 52, "MATERIAL3" to 122),
             rows.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(rows.size, rows.map { it.provider to it.source }.toSet().size)
@@ -234,6 +234,8 @@ class ComponentInventoryTest {
                             ) {
                                 "No native theme supplies $id at API $supportedApi."
                             }
+                        else if (component.expressiveOnly || row.source.endsWith(".ToggleButton"))
+                            DesignFamily.EXPRESSIVE
                         else family(row.provider)
                     assertNull(
                         "Unavailable $id for ${row.provider} at its declared API",
@@ -363,7 +365,9 @@ class ComponentInventoryTest {
                     family.unsupportedReason(component, component.minimumApi.coerceAtLeast(24)) ==
                         null
                 ) {
-                    val provider = if (family.platform != null) "PLATFORM" else family.name
+                    val provider =
+                        if (family.platform != null) "PLATFORM"
+                        else if (family.isMaterial3) "MATERIAL3" else family.name
                     assertTrue(
                         "Missing $provider inventory entry for ${component.name}",
                         implemented.any {
@@ -388,7 +392,7 @@ class ComponentInventoryTest {
             .forEach { (source, sample) ->
                 assertEquals(listOf(sample), rows.single { it.source == source }.catalogIds)
             }
-        assertEquals(368, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
+        assertEquals(478, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
     }
 
     private fun family(provider: String) =

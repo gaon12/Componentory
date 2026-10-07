@@ -18,11 +18,16 @@ class ProviderSummaryTest {
     @Test
     fun libraryOnlyComponentsNameOnlyTheirLibraries() {
         assertEquals(
-            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3),
+            listOf(
+                DesignFamily.MATERIAL2,
+                DesignFamily.MATERIAL3,
+                DesignFamily.MATERIAL_YOU,
+                DesignFamily.EXPRESSIVE,
+            ),
             supportedFamilies(LabComponent.SCAFFOLD, 35),
         )
         assertEquals(
-            listOf(DesignFamily.MATERIAL3),
+            listOf(DesignFamily.MATERIAL3, DesignFamily.MATERIAL_YOU, DesignFamily.EXPRESSIVE),
             supportedFamilies(LabComponent.EXPANDED_DOCKED_SEARCH_BAR, 35),
         )
     }

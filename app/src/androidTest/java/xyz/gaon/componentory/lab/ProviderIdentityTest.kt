@@ -212,19 +212,16 @@ class ProviderIdentityTest {
         compose.onNodeWithTag("family_LEFT").assertTextEquals("$label  ▾")
     }
 
-    private fun primaryLabel(family: DesignFamily): String =
-        when (family) {
-            DesignFamily.MATERIAL2 -> "Compose Material 2 · ${BuildConfig.MATERIAL2_VERSION}"
-            DesignFamily.MATERIAL3 -> "Compose Material 3 · ${BuildConfig.MATERIAL3_VERSION}"
-            else -> "${family.label} · ${requireNotNull(family.platform).themeName}"
-        }
+    private fun primaryLabel(family: DesignFamily): String = family.selectionLabel
 
     private fun assertSourceAndImplementation(component: LabComponent, family: DesignFamily) {
         val source =
             when (family) {
                 DesignFamily.MATERIAL2 ->
                     "androidx.compose.material.${requireNotNull(component.material2Function)}"
-                DesignFamily.MATERIAL3 ->
+                DesignFamily.MATERIAL3,
+                DesignFamily.MATERIAL_YOU,
+                DesignFamily.EXPRESSIVE ->
                     "androidx.compose.material3.${requireNotNull(component.material3Function)}"
                 else -> requireNotNull(component.platformSource)
             }
@@ -232,7 +229,9 @@ class ProviderIdentityTest {
             when (family) {
                 DesignFamily.MATERIAL2 ->
                     "androidx.compose.material:material:${BuildConfig.MATERIAL2_VERSION}"
-                DesignFamily.MATERIAL3 ->
+                DesignFamily.MATERIAL3,
+                DesignFamily.MATERIAL_YOU,
+                DesignFamily.EXPRESSIVE ->
                     "androidx.compose.material3:material3:${BuildConfig.MATERIAL3_VERSION}"
                 else -> "android:${requireNotNull(family.platform).themeName}"
             }

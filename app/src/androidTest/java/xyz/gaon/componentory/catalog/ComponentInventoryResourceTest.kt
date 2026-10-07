@@ -18,25 +18,25 @@ class ComponentInventoryResourceTest {
     fun packagedInventoryRetainsAuditedSourcesAndStatuses() {
         val bytes = context.assets.open("component-inventory.csv").use { it.readBytes() }
         val entries = bytes.inputStream().reader(Charsets.UTF_8).use(ComponentInventory::parse)
-        assertEquals(239, entries.size)
+        assertEquals(248, entries.size)
         assertEquals(entries.size, entries.map { it.family to it.source }.toSet().size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 74,
                 InventoryFamily.MATERIAL2 to 52,
-                InventoryFamily.MATERIAL3 to 113,
+                InventoryFamily.MATERIAL3 to 122,
             ),
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 239),
+            mapOf(InventoryStatus.IMPLEMENTED to 248),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 74,
                 InventoryFamily.MATERIAL2 to 52,
-                InventoryFamily.MATERIAL3 to 113,
+                InventoryFamily.MATERIAL3 to 122,
             ),
             entries
                 .filter { it.status == InventoryStatus.IMPLEMENTED }

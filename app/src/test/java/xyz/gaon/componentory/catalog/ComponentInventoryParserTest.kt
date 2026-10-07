@@ -12,12 +12,12 @@ class ComponentInventoryParserTest {
     fun readsTheAuditedFileWithAllProvidersAndSupportingCatalogIds() {
         val entries =
             File("../docs/component-inventory.csv").reader().use { ComponentInventory.parse(it) }
-        assertEquals(239, entries.size)
+        assertEquals(248, entries.size)
         assertEquals(
             mapOf(
                 InventoryFamily.PLATFORM to 74,
                 InventoryFamily.MATERIAL2 to 52,
-                InventoryFamily.MATERIAL3 to 113,
+                InventoryFamily.MATERIAL3 to 122,
             ),
             entries.groupingBy { it.family }.eachCount(),
         )

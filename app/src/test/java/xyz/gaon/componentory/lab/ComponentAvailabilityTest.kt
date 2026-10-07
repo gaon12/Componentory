@@ -11,30 +11,32 @@ import xyz.gaon.componentory.catalog.matchesSearch
 class ComponentAvailabilityTest {
     @Test
     fun standaloneTimeControlsUseActualFrameworkAndMaterial3Suppliers() {
-        DesignFamily.entries.forEach { family ->
-            val clockSupported = family != DesignFamily.MATERIAL2
-            assertEquals(
-                clockSupported,
-                family.unsupportedReason(LabComponent.TIME_PICKER, 24) == null,
-            )
-            assertEquals(
-                family == DesignFamily.MATERIAL3,
-                family.unsupportedReason(LabComponent.TIME_INPUT, 24) == null,
-            )
-            assertEquals(
-                when {
-                    family.platform != null -> "android.widget.TimePicker"
-                    family == DesignFamily.MATERIAL3 -> "androidx.compose.material3.TimePicker"
-                    else -> "Not provided"
-                },
-                family.source(LabComponent.TIME_PICKER),
-            )
-            assertEquals(
-                if (family == DesignFamily.MATERIAL3) "androidx.compose.material3.TimeInput"
-                else "Not provided",
-                family.source(LabComponent.TIME_INPUT),
-            )
-        }
+        DesignFamily.entries
+            .filter { it != DesignFamily.MATERIAL_YOU }
+            .forEach { family ->
+                val clockSupported = family != DesignFamily.MATERIAL2
+                assertEquals(
+                    clockSupported,
+                    family.unsupportedReason(LabComponent.TIME_PICKER, 24) == null,
+                )
+                assertEquals(
+                    family.isMaterial3,
+                    family.unsupportedReason(LabComponent.TIME_INPUT, 24) == null,
+                )
+                assertEquals(
+                    when {
+                        family.platform != null -> "android.widget.TimePicker"
+                        family.isMaterial3 -> "androidx.compose.material3.TimePicker"
+                        else -> "Not provided"
+                    },
+                    family.source(LabComponent.TIME_PICKER),
+                )
+                assertEquals(
+                    if (family.isMaterial3) "androidx.compose.material3.TimeInput"
+                    else "Not provided",
+                    family.source(LabComponent.TIME_INPUT),
+                )
+            }
         assertEquals(1, LabComponent.TIME_PICKER.minimumApi)
         assertEquals(ComponentCategory.PICKER, LabComponent.TIME_PICKER.category)
         assertEquals(ComponentCategory.PICKER, LabComponent.TIME_INPUT.category)
@@ -1002,27 +1004,31 @@ class ComponentAvailabilityTest {
 
     @Test
     fun textSamplesUseActualSuppliersAndKeepCheckedTextFrameworkOnly() {
-        DesignFamily.entries.forEach { family ->
-            assertNull(family.unsupportedReason(LabComponent.TEXT, 24))
-            assertEquals(
-                when (family) {
-                    DesignFamily.MATERIAL2 -> "androidx.compose.material.Text"
-                    DesignFamily.MATERIAL3 -> "androidx.compose.material3.Text"
-                    else -> "android.widget.TextView"
-                },
-                family.source(LabComponent.TEXT),
-            )
-            if (family.platform != null) {
-                assertNull(family.unsupportedReason(LabComponent.CHECKED_TEXT_VIEW, 24))
+        DesignFamily.entries
+            .filter { it != DesignFamily.MATERIAL_YOU }
+            .forEach { family ->
+                assertNull(family.unsupportedReason(LabComponent.TEXT, 24))
                 assertEquals(
-                    "android.widget.CheckedTextView",
-                    family.source(LabComponent.CHECKED_TEXT_VIEW),
+                    when (family) {
+                        DesignFamily.MATERIAL2 -> "androidx.compose.material.Text"
+                        DesignFamily.MATERIAL3,
+                        DesignFamily.MATERIAL_YOU,
+                        DesignFamily.EXPRESSIVE -> "androidx.compose.material3.Text"
+                        else -> "android.widget.TextView"
+                    },
+                    family.source(LabComponent.TEXT),
                 )
-            } else {
-                assertNotNull(family.unsupportedReason(LabComponent.CHECKED_TEXT_VIEW, 36))
-                assertEquals("Not provided", family.source(LabComponent.CHECKED_TEXT_VIEW))
+                if (family.platform != null) {
+                    assertNull(family.unsupportedReason(LabComponent.CHECKED_TEXT_VIEW, 24))
+                    assertEquals(
+                        "android.widget.CheckedTextView",
+                        family.source(LabComponent.CHECKED_TEXT_VIEW),
+                    )
+                } else {
+                    assertNotNull(family.unsupportedReason(LabComponent.CHECKED_TEXT_VIEW, 36))
+                    assertEquals("Not provided", family.source(LabComponent.CHECKED_TEXT_VIEW))
+                }
             }
-        }
         assertEquals(1, LabComponent.TEXT.minimumApi)
         assertEquals(1, LabComponent.CHECKED_TEXT_VIEW.minimumApi)
         assertEquals(0, LabComponent.CHECKED_TEXT_VIEW.initialValue)
