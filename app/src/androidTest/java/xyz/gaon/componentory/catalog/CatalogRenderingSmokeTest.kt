@@ -284,7 +284,7 @@ class CatalogRenderingSmokeTest {
         compose
             .onNodeWithTag("implementation_LEFT")
             .assertTextContains(implementation, substring = true)
-        if (family.platform != null) {
+        if (family.platform != null && component != LabComponent.TOAST) {
             expandDetails("LEFT")
             compose
                 .onNodeWithTag("implementation_LEFT")
@@ -895,6 +895,11 @@ class CatalogRenderingSmokeTest {
 
     private fun verifyLibrary(component: LabComponent, family: DesignFamily) {
         compose.onNodeWithTag("native_LEFT").assertDoesNotExist()
+        if (component == LabComponent.TOAST) {
+            displayed("toast_preview_LEFT")
+            displayed("library_LEFT").assertHasClickAction().assertIsEnabled()
+            return
+        }
         if (component == LabComponent.RADIO) {
             for (option in 1..2) {
                 val radio = displayed("library_LEFT_$option")

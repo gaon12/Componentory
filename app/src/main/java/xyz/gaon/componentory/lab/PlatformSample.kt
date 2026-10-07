@@ -21,7 +21,6 @@ import android.widget.RatingBar
 import android.widget.SeekBar
 import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,6 +28,7 @@ import androidx.compose.ui.platform.testTag
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 import xyz.gaon.componentory.lab.recreation.HistoricalControls
+import xyz.gaon.componentory.lab.recreation.ToastSample
 
 @Composable
 fun PlatformSample(
@@ -39,6 +39,16 @@ fun PlatformSample(
     state: SampleState,
     modifier: Modifier = Modifier,
 ) {
+    if (component == LabComponent.TOAST) {
+        ToastSample(
+            DesignFamily.entries.single { it.platform == family },
+            if (viewId == R.id.sample_left) "LEFT" else "RIGHT",
+            enabled,
+            state,
+            modifier,
+        )
+        return
+    }
     if (component == LabComponent.INLINE_CONTENT_VIEW) {
         if (android.os.Build.VERSION.SDK_INT >= 30)
             xyz.gaon.componentory.lab.inline.InlineDemoLauncher(
@@ -170,7 +180,6 @@ fun PlatformSample(
                 setOnCancelListener(null)
                 dismiss()
             }
-            (view.tag as? Toast)?.cancel()
         },
         modifier =
             modifier.testTag(if (viewId == R.id.sample_left) "native_LEFT" else "native_RIGHT"),
@@ -217,7 +226,6 @@ private fun createWidget(context: Context, component: LabComponent, family: Plat
         LabComponent.DIALOG,
         LabComponent.PLAIN_DIALOG,
         LabComponent.PROGRESS_DIALOG -> Button(context).apply { setText(R.string.open_dialog) }
-        LabComponent.TOAST -> Button(context).apply { setText(R.string.show_toast) }
         LabComponent.TOGGLE_BUTTON ->
             ToggleButton(context).apply {
                 textOn = context.getString(R.string.sample_state_on)
@@ -370,13 +378,6 @@ private fun updateWidget(
                         true,
                     )
                 view.tag = dialog
-                state.value += 1
-            }
-        LabComponent.TOAST ->
-            view.setOnClickListener {
-                val toast = Toast.makeText(view.context, R.string.toast_message, Toast.LENGTH_SHORT)
-                view.tag = toast
-                toast.show()
                 state.value += 1
             }
         else -> updatePlatformInput(view, component, enabled, state)

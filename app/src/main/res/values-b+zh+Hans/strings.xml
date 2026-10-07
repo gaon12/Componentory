@@ -422,9 +422,9 @@
     <string name="component_progress_dialog">进度对话框</string>
     <string name="component_progress_dialog_description">已弃用的框架 ProgressDialog，以真实不确定进度对话框显示。</string>
     <string name="component_toast">Toast 提示</string>
-    <string name="component_toast_description">原始框架 Toast，在布局外短暂显示的消息。</string>
+    <string name="component_toast_description">使用对应版本的AOSP资源重现、并自动消失的自定义提示。</string>
     <string name="show_toast">显示 Toast</string>
-    <string name="toast_message">此 Toast 在所选平台主题上下文中创建。</string>
+    <string name="toast_message">使用AOSP资源重现的提示。</string>
     <string name="status_shown_times">已显示 %1$d 次</string>
     <string name="transient_note">按钮打开真实的瞬时窗口。复制仅转移打开次数。</string>
     <string name="component_tab_host">标签页宿主</string>
@@ -720,4 +720,7 @@
     <string name="expressive_expand">展开</string>
     <string name="expressive_collapse">收起</string>
     <string name="material3_experimental_note">固定使用提供初期 Expressive API 的 Material 3 1.5.0-alpha01。这些 API 处于实验阶段。</string>
+    <string name="toast_rendering_note">重现此Android版本的AOSP外观。尚未取得原始OS截图。</string>
+    <string name="toast_popup_note">点击按钮后短暂显示。复制时仅保留显示次数。</string>
+    <string name="toast_implementation">Componentory弹窗 · AOSP布局 · 易读的16sp</string>
 </resources>

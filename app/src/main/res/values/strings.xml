@@ -424,9 +424,9 @@
     <string name="component_progress_dialog">Progress dialog</string>
     <string name="component_progress_dialog_description">The deprecated framework ProgressDialog shown as a real indeterminate dialog.</string>
     <string name="component_toast">Toast</string>
-    <string name="component_toast_description">The original framework Toast shown as a short-lived message outside the layout.</string>
+    <string name="component_toast_description">AOSP toast artwork in a custom popup that disappears automatically.</string>
     <string name="show_toast">Show toast</string>
-    <string name="toast_message">This toast was created in the selected platform theme context.</string>
+    <string name="toast_message">An AOSP toast recreation.</string>
     <string name="status_shown_times">Shown %1$d times</string>
     <string name="transient_note">The button opens the real transient window. Copying carries only the count of opens.</string>
     <string name="component_tab_host">Tab host</string>
@@ -723,4 +723,7 @@
     <string name="expressive_expand">Expand</string>
     <string name="expressive_collapse">Collapse</string>
     <string name="material3_experimental_note">Material 3 uses the pinned 1.5.0-alpha01 release so the original Expressive APIs remain available. These APIs are experimental.</string>
+    <string name="toast_rendering_note">Recreated with this Android release’s AOSP artwork. Original OS captures are missing.</string>
+    <string name="toast_popup_note">A custom popup appears briefly. Copying carries only the shown count.</string>
+    <string name="toast_implementation">Componentory popup · AOSP layout · readable 16sp</string>
 </resources>

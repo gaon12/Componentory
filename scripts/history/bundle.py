@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from .aosp import SourceCache, sha256
-from .notices import preserve_notices
+from .notices import collect_resource_notices, preserve_notices
 from .resources import ResourceIndex
 
 RESOURCE_REFERENCE = re.compile(
@@ -201,6 +201,7 @@ def main():
     destination = project / "app/src/main/assets/aosp-resources/controls.json"
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
+    collect_resource_notices(project)
     print(
         f"Bundled {sum(len(r['files']) for r in result)} resource variants from {len(result)} releases."
     )

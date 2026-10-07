@@ -422,9 +422,9 @@
     <string name="component_progress_dialog">プログレスダイアログ</string>
     <string name="component_progress_dialog_description">実際の不定ダイアログとして表示される非推奨のフレームワークProgressDialogです。</string>
     <string name="component_toast">トースト</string>
-    <string name="component_toast_description">レイアウトの外に短時間表示される元のフレームワークToastです。</string>
+    <string name="component_toast_description">該当バージョンのAOSPリソースで再現し、自動で消えるカスタムトーストです。</string>
     <string name="show_toast">トーストを表示</string>
-    <string name="toast_message">選択したプラットフォームテーマコンテキストで作成されたトーストです。</string>
+    <string name="toast_message">AOSPリソースで再現したトーストです。</string>
     <string name="status_shown_times">%1$d回表示</string>
     <string name="transient_note">ボタンが実際の一時的なウィンドウを開きます。コピーは開いた回数のみを移します。</string>
     <string name="component_tab_host">タブホスト</string>
@@ -720,4 +720,7 @@
     <string name="expressive_expand">展開</string>
     <string name="expressive_collapse">折りたたむ</string>
     <string name="material3_experimental_note">初期の Expressive API を提供する Material 3 1.5.0-alpha01 を固定して使用します。これらの API は実験段階です。</string>
+    <string name="toast_rendering_note">このAndroidバージョンのAOSP外観を再現しています。元のOSのキャプチャは未取得です。</string>
+    <string name="toast_popup_note">ボタンで短時間表示します。コピーでは表示回数だけを移します。</string>
+    <string name="toast_implementation">Componentoryポップアップ · AOSPレイアウト · 読みやすい16sp</string>
 </resources>

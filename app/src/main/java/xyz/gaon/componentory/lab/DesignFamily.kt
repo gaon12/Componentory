@@ -3,6 +3,7 @@ package xyz.gaon.componentory.lab
 import android.content.Context
 import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.lab.recreation.ResourceToasts
 
 enum class DesignFamily(val label: String, val platform: PlatformFamily? = null) {
     CLASSIC("Classic", PlatformFamily.CLASSIC),
@@ -57,6 +58,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
         }
 
     fun source(component: LabComponent, context: Context? = null): String {
+        if (component == LabComponent.TOAST) return ResourceToasts.forFamily(this).sourceLabel
         val absent = context?.getString(R.string.not_provided) ?: "Not provided"
         if (platform != null) return component.platformSource ?: absent
         val packageName =
@@ -74,6 +76,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
         if (this == MATERIAL_YOU && runtimeApi < 31)
             return context?.getString(R.string.dynamic_color_requires_api)
                 ?: "Material You dynamic color requires Android 12 (API 31) or later."
+        if (component == LabComponent.TOAST) return null
         if (component.expressiveOnly && platform == null && this != EXPRESSIVE)
             return context?.getString(R.string.requires_expressive)
                 ?: "Select Material 3 Expressive for this experimental component."

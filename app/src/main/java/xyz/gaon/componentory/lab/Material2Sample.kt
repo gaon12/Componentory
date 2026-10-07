@@ -37,10 +37,15 @@ import androidx.compose.ui.semantics.semantics
 import kotlin.math.roundToInt
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
+import xyz.gaon.componentory.lab.recreation.ToastSample
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, state: SampleState) {
+    if (component == LabComponent.TOAST) {
+        ToastSample(DesignFamily.MATERIAL2, panel, enabled, state)
+        return
+    }
     var dialogOpen by remember { mutableStateOf(false) }
     val sample = Modifier.testTag("library_$panel")
     MaterialTheme(colors = lightColors()) {

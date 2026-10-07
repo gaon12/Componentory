@@ -1,0 +1,623 @@
+[
+  {
+    "family": "classic",
+    "release": "android-2.3.7_r1",
+    "commit": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+    "evidence": "RESOURCE_RECREATION",
+    "originalCapture": "MISSING",
+    "interactionEngine": "Componentory in-app popup; no system Toast",
+    "hashScope": "Source and bundled resource bytes before Android resource compilation",
+    "adaptations": [
+      "App-owned resource IDs, dimensions, and text appearance",
+      "App-owned 16sp text size and explicit font bindings",
+      "Wrap-content panel preview and in-app popup instead of a system window",
+      "Modern surface and text colors follow the selected library palette",
+      "Source line height is applied by the host on Android 12 artwork",
+      "Private elevation and width become app-owned 4dp and 320dp constraints",
+      "Remove unused layout weights and mark the app icon as decorative"
+    ],
+    "files": [
+      {
+        "sourcePath": "core/res/res/drawable-hdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-hdpi/toast_frame.9.png",
+        "sourceSha256": "def721b85d48e29ba4bf7ebbe13cd53264edc86d40907123cac2a8bec2fee74b",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_toast_classic_frame.9.png",
+        "bundledSha256": "def721b85d48e29ba4bf7ebbe13cd53264edc86d40907123cac2a8bec2fee74b",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-ldpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-ldpi/toast_frame.9.png",
+        "sourceSha256": "92d8445056dc8a39ff856f83282cae288e4d52dba8cd43316cb0ca24b5d2aa99",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_toast_classic_frame.9.png",
+        "bundledSha256": "92d8445056dc8a39ff856f83282cae288e4d52dba8cd43316cb0ca24b5d2aa99",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-mdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-mdpi/toast_frame.9.png",
+        "sourceSha256": "a66c393389cb436e0e36224ce5f4d5c153dea29daec33ea3f8a3b9a5171f3c37",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_toast_classic_frame.9.png",
+        "bundledSha256": "a66c393389cb436e0e36224ce5f4d5c153dea29daec33ea3f8a3b9a5171f3c37",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/layout/transient_notification.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/layout/transient_notification.xml",
+        "sourceSha256": "b1fb06bc42c44dc9ad5370f72099d833db4de288b149f0cf11a1ad6a7f8d51ee",
+        "destination": "app/src/main/res/layout/aosp_toast_classic_layout.xml",
+        "bundledSha256": "596aced6aa1fad8747cc617a6fae05ed0f32e89e7d0435cfa91159c23304ce2c",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* //device/apps/common/res/layout/transient_notification.xml\n**\n** Copyright 2006, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"@drawable/toast_frame\">\n\n    <TextView\n        android:id=\"@android:id/message\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_weight=\"1\"\n        android:textAppearance=\"@style/TextAppearance.Small\"\n        android:textColor=\"@color/bright_foreground_dark\"\n        android:shadowColor=\"#BB000000\"\n        android:shadowRadius=\"2.75\"\n        />\n\n</LinearLayout>\n\n\n"
+      }
+    ],
+    "notices": {
+      "repository": "platform/frameworks/base",
+      "commit": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+      "checkedDirectories": [
+        "",
+        "core",
+        "core/res",
+        "core/res/res",
+        "core/res/res/drawable-hdpi",
+        "core/res/res/drawable-ldpi",
+        "core/res/res/drawable-mdpi",
+        "core/res/res/layout"
+      ],
+      "rootNotice": "PRESENT",
+      "declaredModuleLicense": "Apache-2.0",
+      "files": [
+        {
+          "sourcePath": "MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "NOTICE",
+          "path": "third-party/platform-frameworks-base/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/NOTICE",
+          "sha256": "0a5833b5d1fabbbe21e5df1b52c88c615a4e57ba9d7dde89520af9bf270e399c"
+        },
+        {
+          "sourcePath": "core/res/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/core/res/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "core/res/NOTICE",
+          "path": "third-party/platform-frameworks-base/core/res/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        }
+      ],
+      "apacheLicenseCopy": {
+        "path": "third-party/Apache-2.0.txt",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "scope": "Original ancestor notices are retained whole. File headers and third-party terms still apply; this is not a blanket license assignment."
+    }
+  },
+  {
+    "family": "holo",
+    "release": "android-4.4.4_r2",
+    "commit": "63ade05d76785975fc3292ca030abbaa1dda8891",
+    "evidence": "RESOURCE_RECREATION",
+    "originalCapture": "MISSING",
+    "interactionEngine": "Componentory in-app popup; no system Toast",
+    "hashScope": "Source and bundled resource bytes before Android resource compilation",
+    "adaptations": [
+      "App-owned resource IDs, dimensions, and text appearance",
+      "App-owned 16sp text size and explicit font bindings",
+      "Wrap-content panel preview and in-app popup instead of a system window",
+      "Modern surface and text colors follow the selected library palette",
+      "Source line height is applied by the host on Android 12 artwork",
+      "Private elevation and width become app-owned 4dp and 320dp constraints",
+      "Remove unused layout weights and mark the app icon as decorative"
+    ],
+    "files": [
+      {
+        "sourcePath": "core/res/res/drawable-hdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-hdpi/toast_frame.9.png",
+        "sourceSha256": "99c1e3a4be1bd577b6d50a24e2a6b1ada084b2e37e393e6cf8cb84d5a2686c6d",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_toast_holo_frame.9.png",
+        "bundledSha256": "99c1e3a4be1bd577b6d50a24e2a6b1ada084b2e37e393e6cf8cb84d5a2686c6d",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-ldpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-ldpi/toast_frame.9.png",
+        "sourceSha256": "379fd6de30471b9b75bf605b777687768edd7963d633dae4a8df2353f66ca763",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_toast_holo_frame.9.png",
+        "bundledSha256": "379fd6de30471b9b75bf605b777687768edd7963d633dae4a8df2353f66ca763",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-mdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-mdpi/toast_frame.9.png",
+        "sourceSha256": "31ba9866aa5beae5d5eddcca203c22946aae576f1f6dc1a762e48de3055f28b2",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_toast_holo_frame.9.png",
+        "bundledSha256": "31ba9866aa5beae5d5eddcca203c22946aae576f1f6dc1a762e48de3055f28b2",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-xhdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-xhdpi/toast_frame.9.png",
+        "sourceSha256": "1bb27f564a2b91c7ce84c6f4845c653ade926d62eabefe6b0c4ea85a3d8e6020",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_toast_holo_frame.9.png",
+        "bundledSha256": "1bb27f564a2b91c7ce84c6f4845c653ade926d62eabefe6b0c4ea85a3d8e6020",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-xxhdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-xxhdpi/toast_frame.9.png",
+        "sourceSha256": "c20707dfdc973f0e6a0e55bf7e0adc0370b5ba6daf4fa6f2a92cc81d656109d7",
+        "destination": "app/src/main/res/drawable-xxhdpi/aosp_toast_holo_frame.9.png",
+        "bundledSha256": "c20707dfdc973f0e6a0e55bf7e0adc0370b5ba6daf4fa6f2a92cc81d656109d7",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/layout/transient_notification.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/layout/transient_notification.xml",
+        "sourceSha256": "6c8ee5df38da6ee4e0f1c25ea2501b4caacbb4c71ff5660f314565678fb15e0d",
+        "destination": "app/src/main/res/layout/aosp_toast_holo_layout.xml",
+        "bundledSha256": "705561a2df7a313e10250833729f26c024771564fc3eb8d8767a1c8626bfa5bb",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* //device/apps/common/res/layout/transient_notification.xml\n**\n** Copyright 2006, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"?android:attr/toastFrameBackground\">\n\n    <TextView\n        android:id=\"@android:id/message\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_weight=\"1\"\n        android:layout_gravity=\"center_horizontal\"\n        android:textAppearance=\"@style/TextAppearance.Toast\"\n        android:textColor=\"@color/bright_foreground_dark\"\n        android:shadowColor=\"#BB000000\"\n        android:shadowRadius=\"2.75\"\n        />\n\n</LinearLayout>\n\n\n"
+      }
+    ],
+    "notices": {
+      "repository": "platform/frameworks/base",
+      "commit": "63ade05d76785975fc3292ca030abbaa1dda8891",
+      "checkedDirectories": [
+        "",
+        "core",
+        "core/res",
+        "core/res/res",
+        "core/res/res/drawable-hdpi",
+        "core/res/res/drawable-ldpi",
+        "core/res/res/drawable-mdpi",
+        "core/res/res/drawable-xhdpi",
+        "core/res/res/drawable-xxhdpi",
+        "core/res/res/layout"
+      ],
+      "rootNotice": "PRESENT",
+      "declaredModuleLicense": "Apache-2.0",
+      "files": [
+        {
+          "sourcePath": "MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "NOTICE",
+          "path": "third-party/platform-frameworks-base/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/NOTICE",
+          "sha256": "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530"
+        },
+        {
+          "sourcePath": "core/res/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/core/res/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "core/res/NOTICE",
+          "path": "third-party/platform-frameworks-base/core/res/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        }
+      ],
+      "apacheLicenseCopy": {
+        "path": "third-party/Apache-2.0.txt",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "scope": "Original ancestor notices are retained whole. File headers and third-party terms still apply; this is not a blanket license assignment."
+    }
+  },
+  {
+    "family": "material1",
+    "release": "android-5.0.2_r1",
+    "commit": "0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966",
+    "evidence": "RESOURCE_RECREATION",
+    "originalCapture": "MISSING",
+    "interactionEngine": "Componentory in-app popup; no system Toast",
+    "hashScope": "Source and bundled resource bytes before Android resource compilation",
+    "adaptations": [
+      "App-owned resource IDs, dimensions, and text appearance",
+      "App-owned 16sp text size and explicit font bindings",
+      "Wrap-content panel preview and in-app popup instead of a system window",
+      "Modern surface and text colors follow the selected library palette",
+      "Source line height is applied by the host on Android 12 artwork",
+      "Private elevation and width become app-owned 4dp and 320dp constraints",
+      "Remove unused layout weights and mark the app icon as decorative"
+    ],
+    "files": [
+      {
+        "sourcePath": "core/res/res/drawable-hdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-hdpi/toast_frame.9.png",
+        "sourceSha256": "99c1e3a4be1bd577b6d50a24e2a6b1ada084b2e37e393e6cf8cb84d5a2686c6d",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_toast_material1_frame.9.png",
+        "bundledSha256": "99c1e3a4be1bd577b6d50a24e2a6b1ada084b2e37e393e6cf8cb84d5a2686c6d",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-ldpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-ldpi/toast_frame.9.png",
+        "sourceSha256": "379fd6de30471b9b75bf605b777687768edd7963d633dae4a8df2353f66ca763",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_toast_material1_frame.9.png",
+        "bundledSha256": "379fd6de30471b9b75bf605b777687768edd7963d633dae4a8df2353f66ca763",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-mdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-mdpi/toast_frame.9.png",
+        "sourceSha256": "31ba9866aa5beae5d5eddcca203c22946aae576f1f6dc1a762e48de3055f28b2",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_toast_material1_frame.9.png",
+        "bundledSha256": "31ba9866aa5beae5d5eddcca203c22946aae576f1f6dc1a762e48de3055f28b2",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-xhdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-xhdpi/toast_frame.9.png",
+        "sourceSha256": "1bb27f564a2b91c7ce84c6f4845c653ade926d62eabefe6b0c4ea85a3d8e6020",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_toast_material1_frame.9.png",
+        "bundledSha256": "1bb27f564a2b91c7ce84c6f4845c653ade926d62eabefe6b0c4ea85a3d8e6020",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/drawable-xxhdpi/toast_frame.9.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-xxhdpi/toast_frame.9.png",
+        "sourceSha256": "c20707dfdc973f0e6a0e55bf7e0adc0370b5ba6daf4fa6f2a92cc81d656109d7",
+        "destination": "app/src/main/res/drawable-xxhdpi/aosp_toast_material1_frame.9.png",
+        "bundledSha256": "c20707dfdc973f0e6a0e55bf7e0adc0370b5ba6daf4fa6f2a92cc81d656109d7",
+        "adapted": false
+      },
+      {
+        "sourcePath": "core/res/res/layout/transient_notification.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/layout/transient_notification.xml",
+        "sourceSha256": "6c8ee5df38da6ee4e0f1c25ea2501b4caacbb4c71ff5660f314565678fb15e0d",
+        "destination": "app/src/main/res/layout/aosp_toast_material1_layout.xml",
+        "bundledSha256": "a6973a79e1cd1a2f15fd1f7d701fe913f87e61e603ef061cc6d0dc8c31f43b8b",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* //device/apps/common/res/layout/transient_notification.xml\n**\n** Copyright 2006, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"?android:attr/toastFrameBackground\">\n\n    <TextView\n        android:id=\"@android:id/message\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_weight=\"1\"\n        android:layout_gravity=\"center_horizontal\"\n        android:textAppearance=\"@style/TextAppearance.Toast\"\n        android:textColor=\"@color/bright_foreground_dark\"\n        android:shadowColor=\"#BB000000\"\n        android:shadowRadius=\"2.75\"\n        />\n\n</LinearLayout>\n\n\n"
+      }
+    ],
+    "notices": {
+      "repository": "platform/frameworks/base",
+      "commit": "0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966",
+      "checkedDirectories": [
+        "",
+        "core",
+        "core/res",
+        "core/res/res",
+        "core/res/res/drawable-hdpi",
+        "core/res/res/drawable-ldpi",
+        "core/res/res/drawable-mdpi",
+        "core/res/res/drawable-xhdpi",
+        "core/res/res/drawable-xxhdpi",
+        "core/res/res/layout"
+      ],
+      "rootNotice": "PRESENT",
+      "declaredModuleLicense": "Apache-2.0",
+      "files": [
+        {
+          "sourcePath": "MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "NOTICE",
+          "path": "third-party/platform-frameworks-base/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/NOTICE",
+          "sha256": "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530"
+        },
+        {
+          "sourcePath": "core/res/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/core/res/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "core/res/NOTICE",
+          "path": "third-party/platform-frameworks-base/core/res/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        }
+      ],
+      "apacheLicenseCopy": {
+        "path": "third-party/Apache-2.0.txt",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "scope": "Original ancestor notices are retained whole. File headers and third-party terms still apply; this is not a blanket license assignment."
+    }
+  },
+  {
+    "family": "material2",
+    "release": "android-9.0.0_r1",
+    "commit": "6549309f6c473b792ec62d1aebadec62bcf07827",
+    "evidence": "RESOURCE_RECREATION",
+    "originalCapture": "MISSING",
+    "interactionEngine": "Componentory in-app popup; no system Toast",
+    "hashScope": "Source and bundled resource bytes before Android resource compilation",
+    "adaptations": [
+      "App-owned resource IDs, dimensions, and text appearance",
+      "App-owned 16sp text size and explicit font bindings",
+      "Wrap-content panel preview and in-app popup instead of a system window",
+      "Modern surface and text colors follow the selected library palette",
+      "Source line height is applied by the host on Android 12 artwork",
+      "Private elevation and width become app-owned 4dp and 320dp constraints",
+      "Remove unused layout weights and mark the app icon as decorative"
+    ],
+    "files": [
+      {
+        "sourcePath": "core/res/res/drawable/toast_frame.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/6549309f6c473b792ec62d1aebadec62bcf07827/core/res/res/drawable/toast_frame.xml",
+        "sourceSha256": "39425c0dfe10918a0fcc6bf608d283644d7b64f94c808edcd44e3c25c087ec1e",
+        "destination": "app/src/main/res/drawable/aosp_toast_material2_frame.xml",
+        "bundledSha256": "b3c060fcaf80187cc36bd0def085be50647d5f760c623fa5e377cdf843235385",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* Copyright 2017, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n<shape xmlns:android=\"http://schemas.android.com/apk/res/android\"\n       android:shape=\"rectangle\">\n    <!-- background is material_grey_200 with .9 alpha -->\n    <solid android:color=\"#E6EEEEEE\" />\n    <corners android:radius=\"22dp\" />\n</shape>\n\n"
+      },
+      {
+        "sourcePath": "core/res/res/layout/transient_notification.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/6549309f6c473b792ec62d1aebadec62bcf07827/core/res/res/layout/transient_notification.xml",
+        "sourceSha256": "152566dee49155d1ac3127c57eea8828f9fcb108d4722fd462cae4115e0c1245",
+        "destination": "app/src/main/res/layout/aosp_toast_material2_layout.xml",
+        "bundledSha256": "ff4ec07a4a97ece1d4dbaef2876ad3e2e37cf8b1ec89ed38d47a2001fc7b6fab",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* //device/apps/common/res/layout/transient_notification.xml\n**\n** Copyright 2006, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"?android:attr/toastFrameBackground\">\n\n    <TextView\n        android:id=\"@android:id/message\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_weight=\"1\"\n        android:layout_marginHorizontal=\"24dp\"\n        android:layout_marginVertical=\"15dp\"\n        android:layout_gravity=\"center_horizontal\"\n        android:textAppearance=\"@style/TextAppearance.Toast\"\n        android:textColor=\"@color/primary_text_default_material_light\"\n        />\n\n</LinearLayout>\n\n\n"
+      }
+    ],
+    "notices": {
+      "repository": "platform/frameworks/base",
+      "commit": "6549309f6c473b792ec62d1aebadec62bcf07827",
+      "checkedDirectories": [
+        "",
+        "core",
+        "core/res",
+        "core/res/res",
+        "core/res/res/drawable",
+        "core/res/res/layout"
+      ],
+      "rootNotice": "PRESENT",
+      "declaredModuleLicense": "Apache-2.0",
+      "files": [
+        {
+          "sourcePath": "MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/6549309f6c473b792ec62d1aebadec62bcf07827/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "NOTICE",
+          "path": "third-party/platform-frameworks-base/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/6549309f6c473b792ec62d1aebadec62bcf07827/NOTICE",
+          "sha256": "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530"
+        },
+        {
+          "sourcePath": "core/res/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/core/res/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/6549309f6c473b792ec62d1aebadec62bcf07827/core/res/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "core/res/NOTICE",
+          "path": "third-party/platform-frameworks-base/core/res/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/6549309f6c473b792ec62d1aebadec62bcf07827/core/res/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        }
+      ],
+      "apacheLicenseCopy": {
+        "path": "third-party/Apache-2.0.txt",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "scope": "Original ancestor notices are retained whole. File headers and third-party terms still apply; this is not a blanket license assignment."
+    }
+  },
+  {
+    "family": "material3",
+    "release": "android-12.0.0_r1",
+    "commit": "cebf5c06997b64f4e47a1611edb5f97044509d76",
+    "evidence": "RESOURCE_RECREATION",
+    "originalCapture": "MISSING",
+    "interactionEngine": "Componentory in-app popup; no system Toast",
+    "hashScope": "Source and bundled resource bytes before Android resource compilation",
+    "adaptations": [
+      "App-owned resource IDs, dimensions, and text appearance",
+      "App-owned 16sp text size and explicit font bindings",
+      "Wrap-content panel preview and in-app popup instead of a system window",
+      "Modern surface and text colors follow the selected library palette",
+      "Source line height is applied by the host on Android 12 artwork",
+      "Private elevation and width become app-owned 4dp and 320dp constraints",
+      "Remove unused layout weights and mark the app icon as decorative"
+    ],
+    "files": [
+      {
+        "sourcePath": "core/res/res/drawable/toast_frame.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/core/res/res/drawable/toast_frame.xml",
+        "sourceSha256": "49bc49da6d99fb8bb5a08d401936ba20564c4803faaa8136b4aa91a9c4d3aa3c",
+        "destination": "app/src/main/res/drawable/aosp_toast_material3_frame.xml",
+        "bundledSha256": "4683cee97d0833de722e14cb0d8b51b49ca3a2bb754ad1a7437e2d35ccc6085b",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* Copyright 2017, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n<shape xmlns:android=\"http://schemas.android.com/apk/res/android\"\n       android:shape=\"rectangle\">\n    <solid android:color=\"?android:attr/colorBackground\" />\n    <corners android:radius=\"28dp\" />\n</shape>\n\n"
+      },
+      {
+        "sourcePath": "packages/SystemUI/res/layout/text_toast.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/packages/SystemUI/res/layout/text_toast.xml",
+        "sourceSha256": "3b1be034334ba725b81643d2ab60b5092ce010d20c777ebe4e1de92ad5e6885d",
+        "destination": "app/src/main/res/layout/aosp_toast_material3_layout.xml",
+        "bundledSha256": "db0e2986316dce6eaca7c91820ef99ff1d775983c1ab1caab76adf066568c477",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n<!--\n  ~ Copyright (C) 2021 The Android Open Source Project\n  ~\n  ~ Licensed under the Apache License, Version 2.0 (the \"License\");\n  ~ you may not use this file except in compliance with the License.\n  ~ You may obtain a copy of the License at\n  ~\n  ~      http://www.apache.org/licenses/LICENSE-2.0\n  ~\n  ~ Unless required by applicable law or agreed to in writing, software\n  ~ distributed under the License is distributed on an \"AS IS\" BASIS,\n  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n  ~ See the License for the specific language governing permissions and\n  ~ limitations under the License.\n  -->\n\n<LinearLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"wrap_content\"\n    android:layout_height=\"wrap_content\"\n    android:orientation=\"horizontal\"\n    android:gravity=\"center_vertical\"\n    android:maxWidth=\"@*android:dimen/toast_width\"\n    android:background=\"@android:drawable/toast_frame\"\n    android:elevation=\"@*android:dimen/toast_elevation\"\n    android:layout_marginEnd=\"16dp\"\n    android:layout_marginStart=\"16dp\"\n    android:paddingStart=\"16dp\"\n    android:paddingEnd=\"16dp\">\n\n    <ImageView\n        android:id=\"@+id/icon\"\n        android:layout_width=\"24dp\"\n        android:layout_height=\"24dp\"\n        android:layout_marginTop=\"10dp\"\n        android:layout_marginBottom=\"10dp\"\n        android:layout_marginEnd=\"10dp\"/>\n    <TextView\n        android:id=\"@+id/text\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:ellipsize=\"end\"\n        android:maxLines=\"2\"\n        android:paddingTop=\"12dp\"\n        android:paddingBottom=\"12dp\"\n        android:lineHeight=\"20sp\"\n        android:textAppearance=\"@*android:style/TextAppearance.Toast\"/>\n</LinearLayout>\n"
+      }
+    ],
+    "notices": {
+      "repository": "platform/frameworks/base",
+      "commit": "cebf5c06997b64f4e47a1611edb5f97044509d76",
+      "checkedDirectories": [
+        "",
+        "core",
+        "core/res",
+        "core/res/res",
+        "core/res/res/drawable",
+        "packages",
+        "packages/SystemUI",
+        "packages/SystemUI/res",
+        "packages/SystemUI/res/layout"
+      ],
+      "rootNotice": "PRESENT",
+      "declaredModuleLicense": "Apache-2.0",
+      "files": [
+        {
+          "sourcePath": "MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "NOTICE",
+          "path": "third-party/platform-frameworks-base/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/NOTICE",
+          "sha256": "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530"
+        },
+        {
+          "sourcePath": "core/res/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/core/res/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/core/res/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "core/res/NOTICE",
+          "path": "third-party/platform-frameworks-base/core/res/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/core/res/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        },
+        {
+          "sourcePath": "packages/SystemUI/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/packages/SystemUI/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/packages/SystemUI/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "packages/SystemUI/NOTICE",
+          "path": "third-party/platform-frameworks-base/packages/SystemUI/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/cebf5c06997b64f4e47a1611edb5f97044509d76/packages/SystemUI/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        }
+      ],
+      "apacheLicenseCopy": {
+        "path": "third-party/Apache-2.0.txt",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "scope": "Original ancestor notices are retained whole. File headers and third-party terms still apply; this is not a blanket license assignment."
+    }
+  },
+  {
+    "family": "expressive",
+    "release": "android-16.0.0_r1",
+    "commit": "99b01a65cc4c104933788b3143285ab6bae65827",
+    "evidence": "RESOURCE_RECREATION",
+    "originalCapture": "MISSING",
+    "interactionEngine": "Componentory in-app popup; no system Toast",
+    "hashScope": "Source and bundled resource bytes before Android resource compilation",
+    "adaptations": [
+      "App-owned resource IDs, dimensions, and text appearance",
+      "App-owned 16sp text size and explicit font bindings",
+      "Wrap-content panel preview and in-app popup instead of a system window",
+      "Modern surface and text colors follow the selected library palette",
+      "Source line height is applied by the host on Android 12 artwork",
+      "Private elevation and width become app-owned 4dp and 320dp constraints",
+      "Remove unused layout weights and mark the app icon as decorative"
+    ],
+    "files": [
+      {
+        "sourcePath": "core/res/res/drawable/toast_frame.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/core/res/res/drawable/toast_frame.xml",
+        "sourceSha256": "e9d6ec63f04d6e8b8ea64e9d8e1368ddc3fbc95c4691b4278837c940581f21eb",
+        "destination": "app/src/main/res/drawable/aosp_toast_expressive_frame.xml",
+        "bundledSha256": "4683cee97d0833de722e14cb0d8b51b49ca3a2bb754ad1a7437e2d35ccc6085b",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<!--\n/* Copyright 2017, The Android Open Source Project\n**\n** Licensed under the Apache License, Version 2.0 (the \"License\");\n** you may not use this file except in compliance with the License.\n** You may obtain a copy of the License at\n**\n**     http://www.apache.org/licenses/LICENSE-2.0\n**\n** Unless required by applicable law or agreed to in writing, software\n** distributed under the License is distributed on an \"AS IS\" BASIS,\n** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n** See the License for the specific language governing permissions and\n** limitations under the License.\n*/\n-->\n<shape xmlns:android=\"http://schemas.android.com/apk/res/android\"\n       android:shape=\"rectangle\">\n    <solid android:color=\"?android:attr/colorSurface\" />\n    <corners android:radius=\"28dp\" />\n</shape>\n\n"
+      },
+      {
+        "sourcePath": "packages/SystemUI/res/layout/text_toast.xml",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/packages/SystemUI/res/layout/text_toast.xml",
+        "sourceSha256": "15696a72dc8f68bdb9101c816688005cc2b358daad5c3382b8b4a867ad713b82",
+        "destination": "app/src/main/res/layout/aosp_toast_expressive_layout.xml",
+        "bundledSha256": "9e6803283f1249859bb024430f59055885a557b04d1621a85ef9bea0d8bde509",
+        "adapted": true,
+        "originalXml": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n<!--\n  ~ Copyright (C) 2021 The Android Open Source Project\n  ~\n  ~ Licensed under the Apache License, Version 2.0 (the \"License\");\n  ~ you may not use this file except in compliance with the License.\n  ~ You may obtain a copy of the License at\n  ~\n  ~      http://www.apache.org/licenses/LICENSE-2.0\n  ~\n  ~ Unless required by applicable law or agreed to in writing, software\n  ~ distributed under the License is distributed on an \"AS IS\" BASIS,\n  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n  ~ See the License for the specific language governing permissions and\n  ~ limitations under the License.\n  -->\n\n<LinearLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"wrap_content\"\n    android:layout_height=\"wrap_content\"\n    android:orientation=\"horizontal\"\n    android:gravity=\"center_vertical\"\n    android:maxWidth=\"@*android:dimen/toast_width\"\n    android:background=\"@android:drawable/toast_frame\"\n    android:elevation=\"@*android:dimen/toast_elevation\"\n    android:layout_marginEnd=\"16dp\"\n    android:layout_marginStart=\"16dp\"\n    android:paddingStart=\"16dp\"\n    android:paddingEnd=\"16dp\">\n\n    <ImageView\n        android:id=\"@+id/icon\"\n        android:layout_width=\"24dp\"\n        android:layout_height=\"24dp\"\n        android:layout_marginTop=\"10dp\"\n        android:layout_marginBottom=\"10dp\"\n        android:layout_marginEnd=\"10dp\"/>\n    <TextView\n        android:id=\"@+id/text\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:ellipsize=\"end\"\n        android:maxLines=\"2\"\n        android:paddingTop=\"12dp\"\n        android:paddingBottom=\"12dp\"\n        android:textAppearance=\"@*android:style/TextAppearance.Toast\"/>\n</LinearLayout>\n"
+      }
+    ],
+    "notices": {
+      "repository": "platform/frameworks/base",
+      "commit": "99b01a65cc4c104933788b3143285ab6bae65827",
+      "checkedDirectories": [
+        "",
+        "core",
+        "core/res",
+        "core/res/res",
+        "core/res/res/drawable",
+        "packages",
+        "packages/SystemUI",
+        "packages/SystemUI/res",
+        "packages/SystemUI/res/layout"
+      ],
+      "rootNotice": "PRESENT",
+      "declaredModuleLicense": "Apache-2.0",
+      "files": [
+        {
+          "sourcePath": "MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "NOTICE",
+          "path": "third-party/platform-frameworks-base/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/NOTICE",
+          "sha256": "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530"
+        },
+        {
+          "sourcePath": "core/res/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/core/res/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/core/res/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "core/res/NOTICE",
+          "path": "third-party/platform-frameworks-base/core/res/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/core/res/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        },
+        {
+          "sourcePath": "packages/SystemUI/MODULE_LICENSE_APACHE2",
+          "path": "third-party/platform-frameworks-base/packages/SystemUI/MODULE_LICENSE_APACHE2",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/packages/SystemUI/MODULE_LICENSE_APACHE2",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourcePath": "packages/SystemUI/NOTICE",
+          "path": "third-party/platform-frameworks-base/packages/SystemUI/NOTICE",
+          "url": "https://android.googlesource.com/platform/frameworks/base/+/99b01a65cc4c104933788b3143285ab6bae65827/packages/SystemUI/NOTICE",
+          "sha256": "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a"
+        }
+      ],
+      "apacheLicenseCopy": {
+        "path": "third-party/Apache-2.0.txt",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "scope": "Original ancestor notices are retained whole. File headers and third-party terms still apply; this is not a blanket license assignment."
+    }
+  }
+]

@@ -422,9 +422,9 @@
     <string name="component_progress_dialog">진행 대화상자</string>
     <string name="component_progress_dialog_description">실제 불확정 대화상자로 표시되는 지원 중단된 프레임워크 ProgressDialog입니다.</string>
     <string name="component_toast">토스트</string>
-    <string name="component_toast_description">레이아웃 밖에 잠시 표시되는 원본 프레임워크 Toast입니다.</string>
+    <string name="component_toast_description">해당 버전의 AOSP 리소스로 재현하고 자동으로 사라지는 커스텀 토스트입니다.</string>
     <string name="show_toast">토스트 표시</string>
-    <string name="toast_message">선택한 플랫폼 테마 컨텍스트에서 만든 토스트입니다.</string>
+    <string name="toast_message">AOSP 리소스로 재현한 토스트예요.</string>
     <string name="status_shown_times">%1$d번 표시됨</string>
     <string name="transient_note">버튼이 실제 일시적 창을 엽니다. 복사는 열린 횟수만 옮깁니다.</string>
     <string name="component_tab_host">탭 호스트</string>
@@ -720,4 +720,7 @@
     <string name="expressive_expand">펼치기</string>
     <string name="expressive_collapse">접기</string>
     <string name="material3_experimental_note">초기 Expressive API를 제공하는 Material 3 1.5.0-alpha01 버전을 고정해 사용합니다. 해당 API는 실험 단계입니다.</string>
+    <string name="toast_rendering_note">이 Android 버전의 AOSP 외형을 재현했습니다. 원본 OS 캡처는 아직 없습니다.</string>
+    <string name="toast_popup_note">버튼을 누르면 잠시 표시됩니다. 복사할 때는 표시 횟수만 옮겨집니다.</string>
+    <string name="toast_implementation">Componentory 팝업 · AOSP 레이아웃 · 읽기 편한 16sp</string>
 </resources>

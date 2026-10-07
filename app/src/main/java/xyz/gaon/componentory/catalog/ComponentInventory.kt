@@ -12,6 +12,7 @@ enum class InventoryFamily(val sourcePrefix: String) {
 
 enum class InventoryStatus(val csvName: String) {
     IMPLEMENTED("Implemented"),
+    RECREATED("Recreated"),
     PENDING("Pending"),
 }
 
@@ -103,8 +104,7 @@ object ComponentInventory {
             "Invalid inventory catalog IDs at line $lineNumber: ${values[4]}"
         }
         require(
-            if (status == InventoryStatus.IMPLEMENTED) catalogIds.isNotEmpty()
-            else catalogIds.isEmpty()
+            if (status == InventoryStatus.PENDING) catalogIds.isEmpty() else catalogIds.isNotEmpty()
         ) {
             "Inventory status and catalog IDs disagree at line $lineNumber"
         }

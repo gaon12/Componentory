@@ -26,6 +26,14 @@ ancestor notices are retained under licenses/aosp-resources and collected in
 licenses/aosp-resources-NOTICE.txt. XML resource names and private references
 are adapted for the app namespace; text has a 16sp readability floor.
 
+Toast recreations additionally use AOSP layouts and backgrounds from Android
+2.3.7, 4.4.4, 5.0.2, 9, 12, and 16. Their original layout text, immutable source
+URLs, source and bundled hashes, and explicit adaptations are retained in
+aosp-resources/toasts.json. Hashes describe resource bytes before Android
+resource compilation. The popup belongs to Componentory and does not invoke
+the installed OS Toast renderer. Modern colors follow the selected library
+palette; historical resource reuse does not imply a Compose Toast API.
+
 These resource recreations still use the installed OS interaction engine.
 Other platform samples use current-OS widgets with the chosen theme. Library
 samples use the explicitly recorded Compose Material library versions. No

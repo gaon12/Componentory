@@ -72,7 +72,10 @@ class ComponentInventoryTest {
             .forEach { (source, metadata) ->
                 val row = rows.single { it.source == source }
                 assertEquals("PLATFORM", row.provider)
-                assertEquals("Implemented", row.status)
+                assertEquals(
+                    if (metadata.first == "TOAST") "Recreated" else "Implemented",
+                    row.status,
+                )
                 assertEquals(listOf(metadata.first), row.catalogIds)
                 assertEquals(metadata.second, row.apiIntroduced)
             }
@@ -147,16 +150,19 @@ class ComponentInventoryTest {
         assertEquals(248, rows.size)
         assertEquals(168, LabComponent.entries.size)
         assertEquals(
-            475,
+            478,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
                 }
             },
         )
-        assertEquals(mapOf("Implemented" to 248), rows.groupingBy { it.status }.eachCount())
         assertEquals(
-            mapOf("PLATFORM" to 74, "MATERIAL2" to 52, "MATERIAL3" to 122),
+            mapOf("Implemented" to 247, "Recreated" to 1),
+            rows.groupingBy { it.status }.eachCount(),
+        )
+        assertEquals(
+            mapOf("PLATFORM" to 73, "MATERIAL2" to 52, "MATERIAL3" to 122),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
@@ -189,7 +195,7 @@ class ComponentInventoryTest {
         rows.forEach { row ->
             assertTrue(
                 "Unknown status for ${row.source}",
-                row.status in setOf("Implemented", "Pending"),
+                row.status in setOf("Implemented", "Recreated", "Pending"),
             )
             val prefix =
                 when (row.provider) {
@@ -359,26 +365,30 @@ class ComponentInventoryTest {
     @Test
     fun everyDeclaredSupportedCombinationHasAnImplementedInventoryEntry() {
         val implemented = inventory().filter { it.status == "Implemented" }
-        LabComponent.entries.forEach { component ->
-            DesignFamily.entries.forEach { family ->
-                if (
-                    family.unsupportedReason(component, component.minimumApi.coerceAtLeast(24)) ==
-                        null
-                ) {
-                    val provider =
-                        if (family.platform != null) "PLATFORM"
-                        else if (family.isMaterial3) "MATERIAL3" else family.name
-                    assertTrue(
-                        "Missing $provider inventory entry for ${component.name}",
-                        implemented.any {
-                            it.provider == provider &&
-                                it.source == family.source(component) &&
-                                component.name in it.catalogIds
-                        },
-                    )
+        LabComponent.entries
+            .filter { it != LabComponent.TOAST }
+            .forEach { component ->
+                DesignFamily.entries.forEach { family ->
+                    if (
+                        family.unsupportedReason(
+                            component,
+                            component.minimumApi.coerceAtLeast(24),
+                        ) == null
+                    ) {
+                        val provider =
+                            if (family.platform != null) "PLATFORM"
+                            else if (family.isMaterial3) "MATERIAL3" else family.name
+                        assertTrue(
+                            "Missing $provider inventory entry for ${component.name}",
+                            implemented.any {
+                                it.provider == provider &&
+                                    it.source == family.source(component) &&
+                                    component.name in it.catalogIds
+                            },
+                        )
+                    }
                 }
             }
-        }
     }
 
     @Test
@@ -392,7 +402,7 @@ class ComponentInventoryTest {
             .forEach { (source, sample) ->
                 assertEquals(listOf(sample), rows.single { it.source == source }.catalogIds)
             }
-        assertEquals(478, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
+        assertEquals(481, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
     }
 
     private fun family(provider: String) =

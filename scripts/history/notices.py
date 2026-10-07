@@ -1,11 +1,41 @@
 """Preserve upstream terms without assigning one license to every AOSP file."""
 
+import json
 from pathlib import Path, PurePosixPath
 
 from .aosp import SourceCache, sha256
 
 APACHE_LICENSE = Path(__file__).resolve().parents[2] / "licenses" / "Apache-2.0.txt"
 RESOURCE_PREFIX = "core/res/res"
+
+
+def collect_resource_notices(project: Path):
+    """Include each retained release notice once in the offline reader."""
+    records = {}
+    for name in ("controls", "toasts"):
+        asset = project / f"app/src/main/assets/aosp-resources/{name}.json"
+        if not asset.exists():
+            continue
+        for release in json.loads(asset.read_text(encoding="utf-8")):
+            for record in release["notices"]["files"]:
+                identity = (release["release"], record["path"])
+                if identity in records and records[identity] != record["sha256"]:
+                    raise ValueError(f"Conflicting notice bytes: {identity}")
+                records[identity] = record["sha256"]
+    text = [
+        "Componentory AOSP resource recreations",
+        "The release notices below are retained in full.",
+        "",
+    ]
+    for (release, path), digest in sorted(records.items()):
+        original = project / "licenses/aosp-resources" / release / path
+        data = original.read_bytes()
+        if sha256(data) != digest:
+            raise ValueError(f"Retained notice bytes changed: {original}")
+        text.extend([f"===== {release} / {path} =====", "", data.decode("utf-8").rstrip(), ""])
+    (project / "licenses/aosp-resources-NOTICE.txt").write_text(
+        "\n".join(text), encoding="utf-8", newline="\n"
+    )
 
 
 def is_notice(name: str) -> bool:

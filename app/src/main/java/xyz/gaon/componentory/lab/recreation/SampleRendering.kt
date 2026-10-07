@@ -11,10 +11,16 @@ internal enum class SampleRendering(val title: Int, val description: Int) {
 }
 
 internal fun sampleRendering(family: DesignFamily, component: LabComponent): SampleRendering =
-    family.platform?.let {
-        if (HistoricalControls.supported(it, component)) SampleRendering.RESOURCE_RECREATION
-        else SampleRendering.CURRENT_OS
-    } ?: SampleRendering.LIBRARY
+    if (component == LabComponent.TOAST) SampleRendering.RESOURCE_RECREATION
+    else
+        family.platform?.let {
+            if (HistoricalControls.supported(it, component)) SampleRendering.RESOURCE_RECREATION
+            else SampleRendering.CURRENT_OS
+        } ?: SampleRendering.LIBRARY
+
+internal fun resourceRelease(family: DesignFamily, component: LabComponent): String =
+    if (component == LabComponent.TOAST) ResourceToasts.forFamily(family).release
+    else HistoricalControls.release(requireNotNull(family.platform))
 
 internal fun renderingSnapshot(
     family: DesignFamily,
@@ -22,6 +28,15 @@ internal fun renderingSnapshot(
     side: String,
 ): Map<String, String> {
     val fields = mutableMapOf("${side}Rendering" to sampleRendering(family, component).name)
+    if (component == LabComponent.TOAST) {
+        val release = ResourceToasts.forFamily(family)
+        fields["${side}ResourceRelease"] = release.release
+        fields["${side}ResourceCommit"] = release.commit
+        fields["${side}InteractionEngine"] = "COMPONENTORY_POPUP"
+        fields["${side}OriginalCapture"] = "MISSING"
+        fields["${side}TextMinimumSp"] = "16"
+        return fields
+    }
     family.platform
         ?.takeIf { HistoricalControls.supported(it, component) }
         ?.let {

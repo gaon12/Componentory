@@ -268,7 +268,6 @@ class ComponentAvailabilityTest {
                 LabComponent.PLAIN_DIALOG to ("android.app.Dialog" to ComponentCategory.FEEDBACK),
                 LabComponent.PROGRESS_DIALOG to
                     ("android.app.ProgressDialog" to ComponentCategory.LEGACY),
-                LabComponent.TOAST to ("android.widget.Toast" to ComponentCategory.FEEDBACK),
             )
             .forEach { (component, metadata) ->
                 val (source, category) = metadata

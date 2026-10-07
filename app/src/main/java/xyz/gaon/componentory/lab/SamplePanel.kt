@@ -58,8 +58,8 @@ import xyz.gaon.componentory.icons.CatalogIcon
 import xyz.gaon.componentory.icons.IconCatalog
 import xyz.gaon.componentory.icons.IconPicker
 import xyz.gaon.componentory.icons.LocalSampleIcon
-import xyz.gaon.componentory.lab.recreation.HistoricalControls
 import xyz.gaon.componentory.lab.recreation.SampleRendering
+import xyz.gaon.componentory.lab.recreation.resourceRelease
 import xyz.gaon.componentory.lab.recreation.sampleRendering
 
 @Composable
@@ -174,14 +174,17 @@ fun SamplePanel(
                 Text(
                     stringResource(rendering.title) +
                         if (rendering == SampleRendering.RESOURCE_RECREATION)
-                            " · ${HistoricalControls.release(requireNotNull(platform))}"
+                            " · ${resourceRelease(family, component)}"
                         else "",
                     modifier = Modifier.testTag("rendering_$panel"),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
                 )
                 Text(
-                    stringResource(rendering.description),
+                    stringResource(
+                        if (component == LabComponent.TOAST) R.string.toast_rendering_note
+                        else rendering.description
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -517,7 +520,10 @@ fun SamplePanel(
             }
             if (component.isTransientWindow && unsupported == null) {
                 Text(
-                    stringResource(R.string.transient_note),
+                    stringResource(
+                        if (component == LabComponent.TOAST) R.string.toast_popup_note
+                        else R.string.transient_note
+                    ),
                     modifier = Modifier.testTag("transient_note_$panel"),
                     style = MaterialTheme.typography.bodySmall,
                 )
@@ -607,7 +613,9 @@ fun SamplePanel(
                 }
                 Text(
                     family.implementation(context) +
-                        if (platform != null && component.platformSource != null)
+                        if (component == LabComponent.TOAST)
+                            " · " + stringResource(R.string.toast_implementation)
+                        else if (platform != null && component.platformSource != null)
                             " · " + stringResource(R.string.widget_api, component.minimumApi)
                         else "",
                     style = MaterialTheme.typography.bodySmall,

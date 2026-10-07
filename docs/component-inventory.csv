@@ -61,7 +61,7 @@ family,source,apiIntroduced,status,catalogId,notes
 "PLATFORM","android.widget.TextSwitcher","1","Implemented","TEXT_SWITCHER","Themed Previous/Next buttons cycle four localized lines through the real widget."
 "PLATFORM","android.widget.TextView","1","Implemented","TEXT","Fixed localized multiline text; no editable-input or automatic text-selection claim."
 "PLATFORM","android.widget.TimePicker","1","Implemented","TIME_PICKER;TIME_PICKER_DIALOG","Standalone inline sample and interactive time control inside the TimePickerDialog sample."
-"PLATFORM","android.widget.Toast","1","Implemented","TOAST",""
+"PLATFORM","android.widget.Toast","1","Recreated","TOAST","AOSP toast artwork in a Componentory popup for every design family; no system Toast or Compose Toast API is instantiated. Original OS captures are missing."
 "PLATFORM","android.widget.ToggleButton","1","Implemented","TOGGLE_BUTTON",""
 "PLATFORM","android.widget.Toolbar","21","Implemented","TOOLBAR","Title, subtitle, navigation icon and action items; last action copies."
 "PLATFORM","android.widget.TwoLineListItem","1","Implemented","TWO_LINE_LIST_ITEM","Deprecated at API 17; inflated from android.R.layout.two_line_list_item."

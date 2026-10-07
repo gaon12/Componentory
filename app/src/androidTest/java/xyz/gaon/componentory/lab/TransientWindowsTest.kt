@@ -6,7 +6,6 @@ import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.Toast
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.assertIsDisplayed
@@ -60,8 +59,8 @@ class TransientWindowsTest {
     @After
     fun restoreEnglishBaseline() {
         compose.runOnIdle {
-            (trigger("LEFT").tag as? Dialog)?.dismiss()
-            (trigger("RIGHT").tag as? Dialog)?.dismiss()
+            (compose.activity.findViewById<Button>(nativeId("LEFT"))?.tag as? Dialog)?.dismiss()
+            (compose.activity.findViewById<Button>(nativeId("RIGHT"))?.tag as? Dialog)?.dismiss()
         }
         compose.runOnUiThread { LanguagePreferences.apply(compose.activity, AppLanguage.ENGLISH) }
         compose.waitForIdle()
@@ -116,12 +115,12 @@ class TransientWindowsTest {
     }
 
     @Test
-    fun toastShowsTheRealToastAndCountsOpens() {
+    fun toastShowsTheRecreationAndCountsOpens() {
         configure(LabComponent.TOAST, DesignFamily.CLASSIC, DesignFamily.HOLO)
-        assertNativeIdentity("LEFT", LabComponent.TOAST, DesignFamily.CLASSIC)
         status("LEFT", "Shown 0 times")
         tapTrigger("LEFT")
-        compose.runOnIdle { assertEquals(Toast::class.java, trigger("LEFT").tag!!.javaClass) }
+        compose.onNodeWithTag("toast_popup_LEFT").assertExists()
+        compose.runOnIdle { assertNull(trigger("LEFT").tag) }
         status("LEFT", "Shown 1 times")
         tapTrigger("LEFT")
         status("LEFT", "Shown 2 times")
@@ -144,12 +143,15 @@ class TransientWindowsTest {
         status("RIGHT", "Shown 2 times")
 
         configure(LabComponent.TOAST, DesignFamily.CLASSIC, DesignFamily.MATERIAL2)
-        compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextContains("The Material 2 library does not provide Toast.", substring = true)
-        blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
+        compose.onNodeWithTag("unsupported_RIGHT").assertDoesNotExist()
+        tapTrigger("LEFT")
+        copyInputs("LEFT_TO_RIGHT")
+        status("RIGHT", "Shown 1 times")
+        compose.onNodeWithTag("toast_popup_RIGHT").assertDoesNotExist()
+        recreateActivity()
+        status("LEFT", "Shown 1 times")
+        status("RIGHT", "Shown 1 times")
+        compose.onNodeWithTag("toast_popup_LEFT").assertDoesNotExist()
     }
 
     @Test

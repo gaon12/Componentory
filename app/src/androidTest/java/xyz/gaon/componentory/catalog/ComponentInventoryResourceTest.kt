@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 248),
+            mapOf(InventoryStatus.IMPLEMENTED to 247, InventoryStatus.RECREATED to 1),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 74,
+                InventoryFamily.PLATFORM to 73,
                 InventoryFamily.MATERIAL2 to 52,
                 InventoryFamily.MATERIAL3 to 122,
             ),
@@ -235,7 +235,11 @@ class ComponentInventoryResourceTest {
             .forEach { (source, catalogId) ->
                 val row = entries.single { it.source == source }
                 assertEquals(InventoryFamily.PLATFORM, row.family)
-                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(
+                    if (catalogId == "TOAST") InventoryStatus.RECREATED
+                    else InventoryStatus.IMPLEMENTED,
+                    row.status,
+                )
                 assertEquals(listOf(catalogId), row.catalogIds)
                 assertEquals(1, row.apiIntroduced)
             }

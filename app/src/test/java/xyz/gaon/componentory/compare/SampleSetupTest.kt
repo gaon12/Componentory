@@ -910,8 +910,13 @@ class SampleSetupTest {
                     }
                     listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
                         val result = restored.copyTo(family, API)
-                        assertNull(result.state)
-                        assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                        if (component == LabComponent.TOAST) {
+                            assertEquals(2, requireNotNull(result.state).value)
+                            assertNull(result.reason)
+                        } else {
+                            assertNull(result.state)
+                            assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
+                        }
                     }
                 }
             }
