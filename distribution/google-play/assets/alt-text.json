@@ -1,0 +1,24 @@
+{
+  "icon.png": {
+    "en-US": "Flask with cyan liquid and a purple cube",
+    "ko-KR": "청록색 액체가 담긴 플라스크와 보라색 정육면체",
+    "ja-JP": "シアン色の液体が入ったフラスコと紫の立方体",
+    "zh-CN": "装有青色液体的烧瓶和紫色立方体",
+    "zh-TW": "裝有青色液體的燒瓶與紫色立方體"
+  },
+  "feature-en-US.png": {
+    "en-US": "Explore Android UI, one component at a time"
+  },
+  "feature-ja-JP.png": {
+    "ja-JP": "コンポーネントで学ぶAndroid UI"
+  },
+  "feature-ko-KR.png": {
+    "ko-KR": "컴포넌트로 살펴보는 안드로이드 UI"
+  },
+  "feature-zh-CN.png": {
+    "zh-CN": "通过组件探索 Android UI"
+  },
+  "feature-zh-TW.png": {
+    "zh-TW": "透過元件探索 Android UI"
+  }
+}

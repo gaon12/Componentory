@@ -1,0 +1,1 @@
+Explore 168 UI entries and seven design choices. Includes source history, saved comparisons, an introduction, and an offline privacy policy. Date and time pickers adapt to narrow panels.

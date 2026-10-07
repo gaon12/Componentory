@@ -1,0 +1,25 @@
+{
+  "status": "PREPARED_NOT_SUBMITTED",
+  "packageName": "xyz.gaon.componentory",
+  "defaultLanguage": "ko-KR",
+  "appName": "Componentory",
+  "appType": "APP",
+  "proposedCategory": "EDUCATION",
+  "proposedPrice": "FREE",
+  "containsAds": false,
+  "requiresLogin": false,
+  "createsAccounts": false,
+  "proposedDataSafety": {
+    "collectsData": false,
+    "sharesData": false,
+    "basis": "Local-only processing and user-initiated exports; see docs/google-play-release.md"
+  },
+  "privacyPolicyUrl": "https://gaon12.github.io/Componentory/privacy.html",
+  "websiteUrl": "https://gaon12.github.io/Componentory/",
+  "feedbackUrl": "https://github.com/gaon12/Componentory/issues/new",
+  "supportEmail": null,
+  "intendedAudience": "Publisher confirmation required; proposed ages 13+",
+  "contentRating": "Not assigned; complete IARC in Console",
+  "distributionCountries": "Publisher confirmation required",
+  "playTrackStatus": "No authenticated Console session"
+}

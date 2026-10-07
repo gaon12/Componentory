@@ -1,0 +1,16 @@
+Componentory 是用于动手学习 Android UI 的应用。搜索包含按钮、开关、输入框和日期选择器在内的 168 个目录项目，操作各组件支持的设计。
+
+比较 Classic、Holo、Material Design 1、Material Design 2、Material Design 3、Material You 和 Material 3 Expressive。各项目明确显示实现来源及支持条件。Material You 在 Android 12 及以上使用设备动态颜色。
+
+在两个面板中独立选择设计，比较输入和状态。保存比较时记录设备 OS、显示设置、主题和库版本。可重新打开、删除记录，或导出到您选择的应用。
+
+查看基于 API 1 至 36 的公开 SDK 与 AOSP 源码的类说明和历史。应用区分当前设备框架组件、固定版本 Compose 库及 AOSP 资源重现。选择主题不会改变 OS。缺少历史 OS 原始截图时会明确说明。Toast 使用各版本 AOSP 资源进行自定义重现。
+
+提供适合手机和宽屏的布局、浅色和深色主题以及首次启动引导。支持韩语、英语、日语、简体中文和繁体中文。许可证及英语隐私政策可离线阅读。
+
+没有账号、广告或分析功能。设置和比较记录保存在本机。部分组件需要较新的 Android；不支持的组合会说明原因。Android 11 及以上提供可选键盘与自动填充演示，使用固定的虚构值。
+
+源码：https://github.com/gaon12/Componentory
+问题与建议：https://github.com/gaon12/Componentory/issues/new
+
+Android 是 Google LLC 的商标。Componentory 为独立项目，与 Google 无关联。
