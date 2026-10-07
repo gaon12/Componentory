@@ -684,4 +684,16 @@
     <string name="settings_about_summary">About the app and sample accuracy</string>
     <string name="settings_choose_category">Choose a settings category on the left.</string>
     <string name="android_trademark" translatable="false">Android is a trademark of Google LLC.</string>
+    <string name="introduction_browse_title">Explore Android UI</string>
+    <string name="introduction_browse_body">Find a component, open its details, and choose an Android theme or library to try it. The version history shows when public APIs were available.</string>
+    <string name="introduction_compare_title">Compare two designs</string>
+    <string name="introduction_compare_body">Choose a different design on each side, change inputs, and try the controls. Copy inputs between samples and save a run with the device and library versions.</string>
+    <string name="introduction_accuracy_title">Know what you are seeing</string>
+    <string name="introduction_accuracy_body">Choosing a theme does not change the device OS. Current-OS widgets, source-based recreations, and library samples are distinct from original captures made on historical Android versions. Read the sample details before comparing results.</string>
+    <string name="introduction_page">%1$d of %2$d</string>
+    <string name="introduction_skip">Skip</string>
+    <string name="introduction_back">Back</string>
+    <string name="introduction_next">Next</string>
+    <string name="introduction_start">Get started</string>
+    <string name="introduction_replay">View introduction</string>
 </resources>

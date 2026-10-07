@@ -681,4 +681,16 @@
     <string name="settings_about">關於 Componentory</string>
     <string name="settings_about_summary">應用程式介紹與範例準確性</string>
     <string name="settings_choose_category">請在左側選擇設定類別。</string>
+    <string name="introduction_browse_title">探索 Android 介面</string>
+    <string name="introduction_browse_body">尋找元件、開啟詳細資料，選擇 Android 主題或程式庫並體驗。版本記錄會顯示公開 API 的提供時期。</string>
+    <string name="introduction_compare_title">比較兩種設計</string>
+    <string name="introduction_compare_body">為兩側選擇不同設計，修改輸入並體驗操作。可以複製輸入，並將執行記錄與裝置和程式庫版本一起儲存。</string>
+    <string name="introduction_accuracy_title">了解範例來源</string>
+    <string name="introduction_accuracy_body">選擇主題不會改變裝置系統。目前系統的控制項、根據原始碼重現的樣式和程式庫範例，與在歷史 Android 系統上取得的原始擷取不同。比較結果時請查看範例的實作資訊。</string>
+    <string name="introduction_page">%1$d / %2$d</string>
+    <string name="introduction_skip">略過</string>
+    <string name="introduction_back">上一步</string>
+    <string name="introduction_next">下一步</string>
+    <string name="introduction_start">開始體驗</string>
+    <string name="introduction_replay">查看使用介紹</string>
 </resources>

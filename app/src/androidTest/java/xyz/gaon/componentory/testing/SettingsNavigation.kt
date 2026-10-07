@@ -1,12 +1,12 @@
 package xyz.gaon.componentory.testing
 
 import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 
-fun ComposeContentTestRule.openSettingsPage(page: String) {
+fun ComposeTestRule.openSettingsPage(page: String) {
     onNodeWithTag("nav_settings").performClick()
     val category = "settings_category_$page"
     if (onAllNodes(hasTestTag(category)).fetchSemanticsNodes().isEmpty()) {

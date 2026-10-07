@@ -681,4 +681,16 @@
     <string name="settings_about">アプリ情報</string>
     <string name="settings_about_summary">アプリとサンプルの精度について</string>
     <string name="settings_choose_category">左側で設定項目を選択してください。</string>
+    <string name="introduction_browse_title">Android UI を見てみましょう</string>
+    <string name="introduction_browse_body">コンポーネントの詳細を開き、Android のテーマやライブラリを選んで試せます。バージョン履歴では公開 API が提供された時期を確認できます。</string>
+    <string name="introduction_compare_title">2 つのデザインを比較しましょう</string>
+    <string name="introduction_compare_body">左右で異なるデザインを選び、入力や操作結果を比較できます。入力をコピーし、端末やライブラリのバージョンとともに実行記録を保存できます。</string>
+    <string name="introduction_accuracy_title">サンプルの種類を確認しましょう</string>
+    <string name="introduction_accuracy_body">テーマを選んでも端末の OS は変わりません。現在の OS のウィジェット、ソースに基づく再現、ライブラリのサンプルは、過去の Android OS で撮影した原本とは異なります。実装情報を確認して比較してください。</string>
+    <string name="introduction_page">%1$d / %2$d</string>
+    <string name="introduction_skip">スキップ</string>
+    <string name="introduction_back">戻る</string>
+    <string name="introduction_next">次へ</string>
+    <string name="introduction_start">始める</string>
+    <string name="introduction_replay">使い方を見る</string>
 </resources>

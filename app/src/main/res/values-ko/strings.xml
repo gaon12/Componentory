@@ -681,4 +681,16 @@
     <string name="settings_about">앱 정보</string>
     <string name="settings_about_summary">앱 소개와 샘플의 정확도</string>
     <string name="settings_choose_category">왼쪽에서 설정 항목을 선택하세요.</string>
+    <string name="introduction_browse_title">안드로이드 UI를 둘러보세요</string>
+    <string name="introduction_browse_body">컴포넌트를 찾아 상세 화면을 열고, 안드로이드 테마나 라이브러리를 선택해 직접 사용해 보세요. 버전 기록에서는 공개 API가 제공된 시기를 확인할 수 있어요.</string>
+    <string name="introduction_compare_title">두 디자인을 비교해 보세요</string>
+    <string name="introduction_compare_body">양쪽에 서로 다른 디자인을 선택하고 입력값과 조작 결과를 비교해 보세요. 입력값을 복사하거나 기기·라이브러리 버전과 함께 실행 기록을 저장할 수 있어요.</string>
+    <string name="introduction_accuracy_title">어떤 샘플인지 확인하세요</string>
+    <string name="introduction_accuracy_body">테마를 선택해도 기기의 OS는 바뀌지 않아요. 현재 OS 위젯, 소스 기반 재현, 라이브러리 샘플은 과거 안드로이드 OS에서 촬영한 원본과 달라요. 비교할 때 샘플의 구현 정보를 함께 확인하세요.</string>
+    <string name="introduction_page">%1$d / %2$d</string>
+    <string name="introduction_skip">건너뛰기</string>
+    <string name="introduction_back">이전</string>
+    <string name="introduction_next">다음</string>
+    <string name="introduction_start">시작하기</string>
+    <string name="introduction_replay">사용 안내 다시 보기</string>
 </resources>

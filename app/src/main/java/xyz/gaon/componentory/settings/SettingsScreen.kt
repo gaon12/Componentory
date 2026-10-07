@@ -37,6 +37,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -109,6 +110,7 @@ fun SettingsScreen(
     onAppearanceChange: (AppAppearance) -> Unit,
     language: AppLanguage,
     onLanguageChange: (AppLanguage) -> Unit,
+    onShowIntroduction: () -> Unit = {},
 ) {
     var selected by rememberSaveable { mutableStateOf<SettingsPage?>(null) }
     BackHandler(enabled = selected != null) { selected = null }
@@ -148,6 +150,7 @@ fun SettingsScreen(
                                 onAppearanceChange,
                                 language,
                                 onLanguageChange,
+                                onShowIntroduction,
                             )
                     }
                 }
@@ -180,6 +183,7 @@ fun SettingsScreen(
                         onAppearanceChange,
                         language,
                         onLanguageChange,
+                        onShowIntroduction = onShowIntroduction,
                         showTitle = false,
                     )
                 }
@@ -261,6 +265,7 @@ private fun SettingsDetail(
     onAppearanceChange: (AppAppearance) -> Unit,
     language: AppLanguage,
     onLanguageChange: (AppLanguage) -> Unit,
+    onShowIntroduction: () -> Unit,
     showTitle: Boolean = true,
 ) {
     // Each page owns its scroll position; changing categories starts at its heading.
@@ -343,6 +348,12 @@ private fun SettingsDetail(
                 SettingsPage.LICENSES -> SettingsGroup { SourceNotices() }
                 SettingsPage.ABOUT ->
                     SettingsGroup {
+                        TextButton(
+                            onClick = onShowIntroduction,
+                            modifier = Modifier.padding(8.dp).testTag("show_introduction"),
+                        ) {
+                            Text(stringResource(R.string.introduction_replay))
+                        }
                         SettingsNote("Componentory ${BuildConfig.VERSION_NAME}")
                         SettingsNote(stringResource(R.string.accuracy_note))
                         Text(

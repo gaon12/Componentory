@@ -73,6 +73,8 @@ import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.compare.ComparisonEntry
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.onboarding.IntroductionDialog
+import xyz.gaon.componentory.onboarding.OnboardingPreferences
 import xyz.gaon.componentory.runs.RunHistory
 import xyz.gaon.componentory.runs.RunOperation
 import xyz.gaon.componentory.runs.RunStore
@@ -96,6 +98,10 @@ private enum class AppTab(val labelRes: Int, val icon: Int, val tag: String) {
 fun ComponentoryApp() {
     val context = LocalContext.current
     val preferences = remember(context) { AppearancePreferences(context) }
+    val introductionPreferences = remember(context) { OnboardingPreferences(context) }
+    var introductionOpen by rememberSaveable {
+        mutableStateOf(!introductionPreferences.completed())
+    }
     var appearance by remember { mutableStateOf(preferences.read()) }
     val dark =
         when (appearance) {
@@ -120,7 +126,13 @@ fun ComponentoryApp() {
                 appearance = it
             },
             { LanguagePreferences.apply(context as Activity, it) },
+            { introductionOpen = true },
         )
+        if (introductionOpen)
+            IntroductionDialog {
+                introductionPreferences.saveCompleted(true)
+                introductionOpen = false
+            }
     }
 }
 
@@ -131,6 +143,7 @@ private fun ComponentoryNavigation(
     language: AppLanguage,
     onAppearanceChange: (AppAppearance) -> Unit,
     onLanguageChange: (AppLanguage) -> Unit,
+    onShowIntroduction: () -> Unit,
 ) {
     val context = LocalContext.current
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
@@ -492,6 +505,7 @@ private fun ComponentoryNavigation(
                                     onAppearanceChange,
                                     language,
                                     onLanguageChange,
+                                    onShowIntroduction,
                                 )
                         }
                     }
