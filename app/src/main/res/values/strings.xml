@@ -675,4 +675,13 @@
     <string name="inline_status_detached">Real platform view detached.</string>
     <string name="inline_status_seen">Platform view created in the demo.</string>
     <string name="inline_helper_note">Inline template helper: androidx.autofill:autofill:%1$s · UI v1. The host is the native Android InlineContentView.</string>
+    <string name="settings_appearance_summary">Light, dark, or system appearance</string>
+    <string name="settings_language_summary">Choose the language used in the app</string>
+    <string name="settings_device_summary">Android version and display settings</string>
+    <string name="settings_libraries_summary">Versions used to render live samples</string>
+    <string name="settings_licenses_summary">Open source licenses and attribution</string>
+    <string name="settings_about">About Componentory</string>
+    <string name="settings_about_summary">About the app and sample accuracy</string>
+    <string name="settings_choose_category">Choose a settings category on the left.</string>
+    <string name="android_trademark" translatable="false">Android is a trademark of Google LLC.</string>
 </resources>

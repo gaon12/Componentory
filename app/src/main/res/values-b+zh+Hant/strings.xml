@@ -673,4 +673,12 @@
     <string name="inline_status_detached">已分離真實的平台檢視。</string>
     <string name="inline_status_seen">已在示範中產生平台檢視。</string>
     <string name="inline_helper_note">行內範本輔助：androidx.autofill:autofill:%1$s · UI v1。檢視為 Android 原生 InlineContentView。</string>
+    <string name="settings_appearance_summary">淺色、深色或系統主題</string>
+    <string name="settings_language_summary">選擇應用程式語言</string>
+    <string name="settings_device_summary">Android 版本與顯示設定</string>
+    <string name="settings_libraries_summary">範例使用的程式庫版本</string>
+    <string name="settings_licenses_summary">開源授權與來源</string>
+    <string name="settings_about">關於 Componentory</string>
+    <string name="settings_about_summary">應用程式介紹與範例準確性</string>
+    <string name="settings_choose_category">請在左側選擇設定類別。</string>
 </resources>

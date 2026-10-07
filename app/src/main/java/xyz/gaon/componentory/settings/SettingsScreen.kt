@@ -1,6 +1,10 @@
 package xyz.gaon.componentory.settings
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -10,31 +14,94 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.RuntimeEnvironment
+
+private enum class SettingsPage(
+    val title: Int,
+    val summary: Int,
+    val icon: ImageVector,
+    val color: Color,
+) {
+    APPEARANCE(
+        R.string.app_theme,
+        R.string.settings_appearance_summary,
+        Icons.Default.Palette,
+        Color(0xFF3182F6),
+    ),
+    LANGUAGE(
+        R.string.app_language,
+        R.string.settings_language_summary,
+        Icons.Default.Language,
+        Color(0xFF009D8B),
+    ),
+    DEVICE(
+        R.string.runtime_title,
+        R.string.settings_device_summary,
+        Icons.Default.PhoneAndroid,
+        Color(0xFF7659DF),
+    ),
+    LIBRARIES(
+        R.string.ui_libraries,
+        R.string.settings_libraries_summary,
+        Icons.Default.Widgets,
+        Color(0xFF5478CF),
+    ),
+    LICENSES(
+        R.string.source_notices,
+        R.string.settings_licenses_summary,
+        Icons.Default.Description,
+        Color(0xFFE07825),
+    ),
+    ABOUT(
+        R.string.settings_about,
+        R.string.settings_about_summary,
+        Icons.Default.Info,
+        Color(0xFF637282),
+    ),
+}
 
 @Composable
 fun SettingsScreen(
@@ -43,28 +110,172 @@ fun SettingsScreen(
     language: AppLanguage,
     onLanguageChange: (AppLanguage) -> Unit,
 ) {
-    val context = LocalContext.current
-    val configuration = LocalConfiguration.current
-    val environment = remember(configuration) { RuntimeEnvironment.read(context) }
-    BoxWithConstraints(Modifier.widthIn(max = 1100.dp).fillMaxSize()) {
+    var selected by rememberSaveable { mutableStateOf<SettingsPage?>(null) }
+    BackHandler(enabled = selected != null) { selected = null }
+    BoxWithConstraints(Modifier.widthIn(max = 1100.dp).fillMaxSize().testTag("settings_screen")) {
         val expanded = maxWidth >= 840.dp
         Column(
-            Modifier.fillMaxSize()
+            Modifier.fillMaxSize().padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+        ) {
+            if (expanded || selected == null) {
+                Text(
+                    stringResource(R.string.nav_settings),
+                    style = MaterialTheme.typography.headlineLarge,
+                )
+            }
+            if (expanded) {
+                Row(
+                    Modifier.fillMaxWidth().weight(1f).testTag("settings_columns"),
+                    horizontalArrangement = Arrangement.spacedBy(28.dp),
+                ) {
+                    Box(Modifier.width(300.dp).testTag("settings_categories")) {
+                        SettingsCategories(selected) { selected = it }
+                    }
+                    Column(Modifier.weight(1f).testTag("settings_detail")) {
+                        val page = selected
+                        if (page == null) {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Text(
+                                    stringResource(R.string.settings_choose_category),
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        } else
+                            SettingsDetail(
+                                page,
+                                appearance,
+                                onAppearanceChange,
+                                language,
+                                onLanguageChange,
+                            )
+                    }
+                }
+            } else {
+                val page = selected
+                if (page == null) SettingsCategories(null) { selected = it }
+                else {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        IconButton(
+                            onClick = { selected = null },
+                            modifier = Modifier.testTag("settings_back"),
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_back),
+                                stringResource(R.string.nav_settings),
+                            )
+                        }
+                        Text(
+                            stringResource(page.title),
+                            Modifier.weight(1f),
+                            style = MaterialTheme.typography.headlineSmall,
+                        )
+                    }
+                    SettingsDetail(
+                        page,
+                        appearance,
+                        onAppearanceChange,
+                        language,
+                        onLanguageChange,
+                        showTitle = false,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage) -> Unit) {
+    Column(
+        Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        listOf(
+                listOf(SettingsPage.APPEARANCE, SettingsPage.LANGUAGE),
+                listOf(SettingsPage.DEVICE, SettingsPage.LIBRARIES),
+                listOf(SettingsPage.LICENSES, SettingsPage.ABOUT),
+            )
+            .forEach { group ->
+                Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+                    group.forEachIndexed { index, page ->
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .heightIn(min = 80.dp)
+                                .clickable(role = Role.Button) { onSelect(page) }
+                                .testTag("settings_category_${page.name}")
+                                .padding(18.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(14.dp),
+                        ) {
+                            Box(
+                                Modifier.size(40.dp).background(page.color, CircleShape),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Icon(page.icon, null, Modifier.size(22.dp), tint = Color.White)
+                            }
+                            Column(
+                                Modifier.weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Text(
+                                    stringResource(page.title),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color =
+                                        if (selected == page) MaterialTheme.colorScheme.primary
+                                        else MaterialTheme.colorScheme.onSurface,
+                                )
+                                Text(
+                                    stringResource(page.summary),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                            Icon(
+                                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                null,
+                                Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        if (index < group.lastIndex)
+                            HorizontalDivider(Modifier.padding(start = 72.dp, end = 18.dp))
+                    }
+                }
+            }
+        Text(
+            "Componentory ${BuildConfig.VERSION_NAME}",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun SettingsDetail(
+    page: SettingsPage,
+    appearance: AppAppearance,
+    onAppearanceChange: (AppAppearance) -> Unit,
+    language: AppLanguage,
+    onLanguageChange: (AppLanguage) -> Unit,
+    showTitle: Boolean = true,
+) {
+    // Each page owns its scroll position; changing categories starts at its heading.
+    key(page) {
+        Column(
+            Modifier.fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-                .testTag("settings_screen")
-                .padding(20.dp),
+                .testTag("settings_page_${page.name}"),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            Text(
-                stringResource(R.string.nav_settings),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-            val preferences: @Composable () -> Unit = {
-                Column(
-                    Modifier.fillMaxWidth().testTag("settings_preferences"),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
-                ) {
-                    SettingsGroup(stringResource(R.string.app_theme)) {
+            if (showTitle)
+                Text(stringResource(page.title), style = MaterialTheme.typography.headlineSmall)
+            when (page) {
+                SettingsPage.APPEARANCE ->
+                    SettingsGroup {
                         Column(Modifier.selectableGroup()) {
                             AppAppearance.entries.forEachIndexed { index, option ->
                                 SelectionRow(
@@ -74,12 +285,13 @@ fun SettingsScreen(
                                     "appearance_${option.name}",
                                 )
                                 if (index < AppAppearance.entries.lastIndex)
-                                    HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+                                    HorizontalDivider(Modifier.padding(horizontal = 18.dp))
                             }
                         }
                         SettingsNote(stringResource(R.string.appearance_note))
                     }
-                    SettingsGroup(stringResource(R.string.app_language)) {
+                SettingsPage.LANGUAGE ->
+                    SettingsGroup {
                         Column(Modifier.selectableGroup()) {
                             AppLanguage.entries.forEachIndexed { index, option ->
                                 SelectionRow(
@@ -91,36 +303,35 @@ fun SettingsScreen(
                                     "language_${option.name}",
                                 )
                                 if (index < AppLanguage.entries.lastIndex)
-                                    HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+                                    HorizontalDivider(Modifier.padding(horizontal = 18.dp))
                             }
                         }
                         SettingsNote(stringResource(R.string.language_note))
                     }
-                }
-            }
-            val deviceDetails: @Composable () -> Unit = {
-                Column(
-                    Modifier.fillMaxWidth().testTag("settings_device_details"),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
-                ) {
-                    SettingsGroup(stringResource(R.string.runtime_title)) {
+                SettingsPage.DEVICE -> {
+                    val context = LocalContext.current
+                    val configuration = LocalConfiguration.current
+                    val environment = remember(configuration) { RuntimeEnvironment.read(context) }
+                    SettingsGroup {
                         Column(
-                            Modifier.padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            Modifier.padding(18.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
                             Text(
                                 environment.summary,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.testTag("runtime"),
                             )
                             Text(
                                 environment.details,
-                                style = MaterialTheme.typography.bodySmall,
+                                style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     }
-                    SettingsGroup(stringResource(R.string.ui_libraries)) {
+                }
+                SettingsPage.LIBRARIES ->
+                    SettingsGroup {
                         LibraryVersionRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
                         LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
                         LibraryVersionRow(
@@ -129,47 +340,25 @@ fun SettingsScreen(
                         )
                         SettingsNote(stringResource(R.string.platform_note))
                     }
-                    SettingsGroup(stringResource(R.string.source_notices)) { SourceNotices() }
-                }
-            }
-            if (expanded) {
-                Row(
-                    Modifier.fillMaxWidth().testTag("settings_columns"),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp),
-                ) {
-                    Column(Modifier.weight(1f)) { preferences() }
-                    Column(Modifier.weight(1f)) { deviceDetails() }
-                }
-            } else {
-                preferences()
-                deviceDetails()
-            }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(
-                    "Componentory ${BuildConfig.VERSION_NAME}",
-                    style = MaterialTheme.typography.labelLarge,
-                )
-                Text(
-                    stringResource(R.string.accuracy_note),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                SettingsPage.LICENSES -> SettingsGroup { SourceNotices() }
+                SettingsPage.ABOUT ->
+                    SettingsGroup {
+                        SettingsNote("Componentory ${BuildConfig.VERSION_NAME}")
+                        SettingsNote(stringResource(R.string.accuracy_note))
+                        Text(
+                            stringResource(R.string.android_trademark),
+                            Modifier.padding(18.dp).testTag("android_trademark"),
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
             }
         }
     }
 }
 
 @Composable
-private fun SettingsGroup(title: String, content: @Composable ColumnScope.() -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Text(
-            title,
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 4.dp),
-        )
-        Card(Modifier.fillMaxWidth()) { Column(content = content) }
-    }
+private fun SettingsGroup(content: @Composable ColumnScope.() -> Unit) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) { Column(content = content) }
 }
 
 @Composable
@@ -179,7 +368,7 @@ private fun SelectionRow(label: String, selected: Boolean, onSelect: () -> Unit,
             .heightIn(min = 56.dp)
             .selectable(selected, onClick = onSelect, role = Role.RadioButton)
             .testTag(tag)
-            .padding(horizontal = 18.dp, vertical = 14.dp),
+            .padding(horizontal = 18.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -194,9 +383,9 @@ private fun SelectionRow(label: String, selected: Boolean, onSelect: () -> Unit,
         if (selected)
             Icon(
                 Icons.Default.Check,
-                contentDescription = null,
+                null,
+                Modifier.size(22.dp),
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(22.dp),
             )
     }
 }
@@ -205,19 +394,19 @@ private fun SelectionRow(label: String, selected: Boolean, onSelect: () -> Unit,
 private fun SettingsNote(text: String) {
     Text(
         text,
-        Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
-        style = MaterialTheme.typography.bodySmall,
+        Modifier.padding(18.dp),
+        style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
 }
 
 @Composable
 private fun LibraryVersionRow(label: String, version: String) {
-    Row(
+    Column(
         Modifier.fillMaxWidth().padding(18.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Text(label, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
+        Text(label, style = MaterialTheme.typography.bodyLarge)
         Text(
             version,
             style = MaterialTheme.typography.labelLarge,

@@ -29,6 +29,7 @@ import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.PlatformFamily
+import xyz.gaon.componentory.testing.openSettingsPage
 
 @RunWith(AndroidJUnit4::class)
 class AppearanceSettingsTest {
@@ -53,7 +54,7 @@ class AppearanceSettingsTest {
 
     @Test
     fun lightAndDarkAppearanceChangeActualPixelsAndSurviveRecreation() {
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("APPEARANCE")
         compose.onNodeWithTag("appearance_DARK").performScrollTo().performClick().assertIsSelected()
         assertTrue(backgroundLuminance() < 0.1f)
         assertSystemBars(dark = true)
@@ -116,7 +117,7 @@ class AppearanceSettingsTest {
     fun changingAppAppearanceKeepsTheNativeSampleThemeAndLiveState() {
         compose.onNodeWithTag("list_BUTTON").performClick()
         onView(withId(R.id.sample_left)).perform(click())
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("APPEARANCE")
         compose.onNodeWithTag("appearance_DARK").performScrollTo().performClick().assertIsSelected()
         compose.onNodeWithTag("nav_list").performClick()
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")

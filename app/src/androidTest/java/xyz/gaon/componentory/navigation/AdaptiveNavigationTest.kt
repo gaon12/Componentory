@@ -29,6 +29,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.testing.openSettingsPage
 
 @RunWith(AndroidJUnit4::class)
 class AdaptiveNavigationTest {
@@ -86,24 +87,26 @@ class AdaptiveNavigationTest {
     }
 
     @Test
-    fun wideSettingsPlacePreferencesBesideDeviceAndSourceInformation() {
+    fun wideSettingsKeepCategoriesBesideTheSelectedPage() {
         compose.runOnUiThread {
             compose.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
         compose.waitForIdle()
         assumeTrue(
-            "Two settings columns need a window wider than 936dp including the navigation rail.",
+            "Settings master and detail panes need a window wider than 936dp including the navigation rail.",
             compose.activity.resources.configuration.screenWidthDp >= 936,
         )
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("LANGUAGE")
         compose.onNodeWithTag("settings_columns").assertIsDisplayed()
-        val preferences =
-            compose.onNodeWithTag("settings_preferences").fetchSemanticsNode().boundsInRoot
-        val device =
-            compose.onNodeWithTag("settings_device_details").fetchSemanticsNode().boundsInRoot
-        assertTrue(device.left >= preferences.right)
+        val categories =
+            compose.onNodeWithTag("settings_categories").fetchSemanticsNode().boundsInRoot
+        val detail = compose.onNodeWithTag("settings_detail").fetchSemanticsNode().boundsInRoot
+        assertTrue(detail.left >= categories.right)
+        compose.onNodeWithTag("settings_category_DEVICE").performClick()
         compose.onNodeWithTag("runtime").assertIsDisplayed()
-        compose.onNodeWithTag("language_ENGLISH").performScrollTo().performClick()
+        compose.onNodeWithTag("settings_category_LANGUAGE").performClick()
+        compose.onNodeWithTag("runtime").assertDoesNotExist()
+        compose.onNodeWithTag("language_ENGLISH").assertIsDisplayed()
         compose.onNodeWithTag("settings_columns").assertExists()
     }
 }

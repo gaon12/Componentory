@@ -112,3 +112,5 @@ release-specific licenses, notices, and resource headers.
 - [Development workflow](AGENTS.md)
 - [Product plan](docs/product-plan.md)
 - [Earlier verification](docs/verification-2026-10-04.md)
+
+Android is a trademark of Google LLC. See the [official Android brand notice](https://developer.android.com/legal).

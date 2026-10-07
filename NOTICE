@@ -32,3 +32,6 @@ inline UI v1 template. This AndroidX module is licensed under Apache 2.0. Its
 original published license is retained as licenses/androidx-autofill-LICENSE.txt,
 with its artifact identity and byte hashes in licenses/provenance.json. The
 InlineContentView itself is created by the installed Android platform.
+
+Android is a trademark of Google LLC. Componentory is an independent project
+and is not affiliated with or endorsed by Google LLC.

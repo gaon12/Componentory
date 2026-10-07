@@ -673,4 +673,12 @@
     <string name="inline_status_detached">已分离真实的平台视图。</string>
     <string name="inline_status_seen">已在演示中生成平台视图。</string>
     <string name="inline_helper_note">内联模板辅助：androidx.autofill:autofill:%1$s · UI v1。视图为 Android 原生 InlineContentView。</string>
+    <string name="settings_appearance_summary">浅色、深色或系统主题</string>
+    <string name="settings_language_summary">选择应用语言</string>
+    <string name="settings_device_summary">Android 版本和显示设置</string>
+    <string name="settings_libraries_summary">示例使用的库版本</string>
+    <string name="settings_licenses_summary">开源许可与来源</string>
+    <string name="settings_about">关于 Componentory</string>
+    <string name="settings_about_summary">应用介绍与示例准确性</string>
+    <string name="settings_choose_category">请在左侧选择设置类别。</string>
 </resources>

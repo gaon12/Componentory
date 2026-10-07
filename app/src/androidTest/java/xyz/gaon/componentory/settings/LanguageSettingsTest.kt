@@ -30,6 +30,7 @@ import xyz.gaon.componentory.R
 import xyz.gaon.componentory.catalog.matchesSearch
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.testing.openSettingsPage
 
 @RunWith(AndroidJUnit4::class)
 class LanguageSettingsTest {
@@ -125,7 +126,7 @@ class LanguageSettingsTest {
     }
 
     private fun changeLanguage(language: AppLanguage) {
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("LANGUAGE")
         val previousActivity = compose.activity
         val changing = LanguagePreferences.read(previousActivity) != language
         compose.onNodeWithTag("language_${language.name}").performScrollTo().performClick()

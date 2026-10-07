@@ -39,6 +39,7 @@ import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.settings.AppLanguage
 import xyz.gaon.componentory.settings.LanguagePreferences
+import xyz.gaon.componentory.testing.openSettingsPage
 
 @RunWith(AndroidJUnit4::class)
 class ContainerSamplesTest {
@@ -459,7 +460,7 @@ class ContainerSamplesTest {
     }
 
     private fun changeLanguage(language: AppLanguage) {
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("LANGUAGE")
         compose.onNodeWithTag("language_${language.name}").performScrollTo().performClick()
         compose.waitUntil(10_000) { LanguagePreferences.read(compose.activity) == language }
         compose.waitForIdle()

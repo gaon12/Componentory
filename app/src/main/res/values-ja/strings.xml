@@ -673,4 +673,12 @@
     <string name="inline_status_detached">実際のプラットフォームビューを切り離しました。</string>
     <string name="inline_status_seen">デモでプラットフォームビューを生成しました。</string>
     <string name="inline_helper_note">インラインテンプレート補助：androidx.autofill:autofill:%1$s · UI v1。ビューは Android の InlineContentView です。</string>
+    <string name="settings_appearance_summary">ライト・ダーク・システム設定</string>
+    <string name="settings_language_summary">アプリの表示言語</string>
+    <string name="settings_device_summary">Android バージョンと画面情報</string>
+    <string name="settings_libraries_summary">サンプルで使用するライブラリのバージョン</string>
+    <string name="settings_licenses_summary">オープンソースのライセンスと出典</string>
+    <string name="settings_about">アプリ情報</string>
+    <string name="settings_about_summary">アプリとサンプルの精度について</string>
+    <string name="settings_choose_category">左側で設定項目を選択してください。</string>
 </resources>

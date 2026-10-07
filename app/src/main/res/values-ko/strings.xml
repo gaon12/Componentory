@@ -673,4 +673,12 @@
     <string name="inline_status_detached">실제 플랫폼 뷰가 분리됐어요.</string>
     <string name="inline_status_seen">데모에서 플랫폼 뷰가 생성됐어요.</string>
     <string name="inline_helper_note">인라인 템플릿 도우미: androidx.autofill:autofill:%1$s · UI v1. 뷰는 실제 안드로이드 InlineContentView예요.</string>
+    <string name="settings_appearance_summary">라이트·다크·시스템 테마</string>
+    <string name="settings_language_summary">앱에서 사용할 언어</string>
+    <string name="settings_device_summary">안드로이드 버전과 화면 정보</string>
+    <string name="settings_libraries_summary">샘플에 사용된 라이브러리 버전</string>
+    <string name="settings_licenses_summary">오픈소스 라이선스와 출처</string>
+    <string name="settings_about">앱 정보</string>
+    <string name="settings_about_summary">앱 소개와 샘플의 정확도</string>
+    <string name="settings_choose_category">왼쪽에서 설정 항목을 선택하세요.</string>
 </resources>

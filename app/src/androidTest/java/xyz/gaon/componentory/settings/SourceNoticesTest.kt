@@ -22,6 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
+import xyz.gaon.componentory.testing.openSettingsPage
 
 @RunWith(AndroidJUnit4::class)
 class SourceNoticesTest {
@@ -38,7 +39,7 @@ class SourceNoticesTest {
             ViewCompat.getRootWindowInsets(compose.activity.window.decorView)
                 ?.isVisible(WindowInsetsCompat.Type.ime()) != true
         }
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("LICENSES")
     }
 
     @Test
