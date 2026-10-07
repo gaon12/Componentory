@@ -8,6 +8,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
 import androidx.lifecycle.Lifecycle
@@ -64,7 +65,9 @@ class LanguageSettingsTest {
             compose.onNodeWithTag("nav_list").performClick()
             compose.onNodeWithTag("nav_list").performClick()
             compose.onNodeWithTag("component_search").performTextReplacement(name)
-            compose.onNodeWithTag("list_BUTTON").performClick()
+            compose.onNodeWithTag("component_search").performImeAction()
+            compose.onNodeWithTag("list_BUTTON").performScrollTo().performClick()
+            compose.onNodeWithTag("detail_component_title").assertTextEquals(name)
             chooseFamily(DesignFamily.CLASSIC)
             compose.waitForIdle()
             onView(withId(R.id.sample_left)).check(matches(withText(buttonText)))
