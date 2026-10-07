@@ -693,4 +693,10 @@
     <string name="introduction_next">下一步</string>
     <string name="introduction_start">開始體驗</string>
     <string name="introduction_replay">查看使用介紹</string>
+    <string name="rendering_resources">使用 AOSP 資源重現</string>
+    <string name="rendering_resources_note">使用該版本的圖形與色彩。操作由目前系統處理，文字最小為 16sp。這不是歷史系統的原始擷取。</string>
+    <string name="rendering_current_os">目前系統的控制項</string>
+    <string name="rendering_current_os_note">所選平台主題在目前裝置上執行。此元件尚無歷史資源重現。</string>
+    <string name="rendering_library">固定版本程式庫範例</string>
+    <string name="rendering_library_note">由記錄的 Compose 程式庫版本繪製。切換設計語言不會替換裝置系統。</string>
 </resources>

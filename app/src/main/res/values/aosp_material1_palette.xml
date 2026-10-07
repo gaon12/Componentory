@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AOSP Theme.Material.Light color bindings; see the bundled provenance. -->
+<resources>
+    <style name="AospMaterial1Colors" parent="">
+        <item name="android:colorAccent">@color/aosp_material1_accent_material_light</item>
+        <item name="android:colorButtonNormal">@color/aosp_material1_btn_default_material_light</item>
+        <item name="android:colorControlActivated">?android:attr/colorAccent</item>
+        <item name="android:colorControlHighlight">@color/aosp_material1_ripple_material_light</item>
+        <item name="android:colorControlNormal">?android:attr/textColorSecondary</item>
+        <item name="android:colorForeground">@color/aosp_material1_bright_foreground_material_light</item>
+        <item name="aosp_material1_color_switch_thumb_normal">@color/aosp_material1_switch_thumb_material_light</item>
+        <item name="android:disabledAlpha">@dimen/aosp_material1_disabled_alpha_material_light</item>
+        <item name="android:textColorPrimary">@color/aosp_material1_primary_text_material_light</item>
+        <item name="android:textColorSecondary">@color/aosp_material1_secondary_text_material_light</item>
+        <item name="android:textColorHint">@color/aosp_material1_hint_foreground_material_light</item>
+    </style>
+    <attr name="aosp_material1_color_switch_thumb_normal" format="color|reference" />
+</resources>

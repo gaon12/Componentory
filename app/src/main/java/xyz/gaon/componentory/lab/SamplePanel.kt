@@ -58,6 +58,9 @@ import xyz.gaon.componentory.icons.CatalogIcon
 import xyz.gaon.componentory.icons.IconCatalog
 import xyz.gaon.componentory.icons.IconPicker
 import xyz.gaon.componentory.icons.LocalSampleIcon
+import xyz.gaon.componentory.lab.recreation.HistoricalControls
+import xyz.gaon.componentory.lab.recreation.SampleRendering
+import xyz.gaon.componentory.lab.recreation.sampleRendering
 
 @Composable
 fun SamplePanel(
@@ -166,6 +169,23 @@ fun SamplePanel(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            if (unsupported == null) {
+                val rendering = sampleRendering(family, component)
+                Text(
+                    stringResource(rendering.title) +
+                        if (rendering == SampleRendering.RESOURCE_RECREATION)
+                            " · ${HistoricalControls.release(requireNotNull(platform))}"
+                        else "",
+                    modifier = Modifier.testTag("rendering_$panel"),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    stringResource(rendering.description),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             // Full-screen library containers need a finite host viewport inside a scrolling page.
             // Window overlays still use their own library window and original sample theme.
             val viewport =

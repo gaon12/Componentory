@@ -18,10 +18,19 @@ including its additional third-party attributions. The full Apache 2.0 license
 is in licenses/Apache-2.0.txt. Framework resource exports include notices from
 their actual release commits; the bundled KitKat notice does not replace those.
 
-Original historical resources and captures are not bundled in this app. Current
-platform samples use widgets from the installed Android OS. Library samples use
-the explicitly recorded Compose Material library versions. Source analysis does
-not establish original historical OS appearance or behavior.
+Selected original AOSP bitmap and nine-patch resources, adapted drawable XML,
+and release color bindings are bundled for Classic, Holo, and Material Design 1
+control recreations. The immutable commits, complete source and bundled hashes,
+and adaptations are in the app asset aosp-resources/controls.json. Original
+ancestor notices are retained under licenses/aosp-resources and collected in
+licenses/aosp-resources-NOTICE.txt. XML resource names and private references
+are adapted for the app namespace; text has a 16sp readability floor.
+
+These resource recreations still use the installed OS interaction engine.
+Other platform samples use current-OS widgets with the chosen theme. Library
+samples use the explicitly recorded Compose Material library versions. No
+original historical OS captures are bundled. Resource reuse does not establish
+original historical OS behavior.
 
 Original notice URLs, immutable commits, and byte hashes are in
 licenses/provenance.json. These attribution files do not change upstream terms

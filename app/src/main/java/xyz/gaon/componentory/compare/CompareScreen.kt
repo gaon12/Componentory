@@ -42,6 +42,7 @@ import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.lab.SamplePanel
 import xyz.gaon.componentory.lab.SampleState
+import xyz.gaon.componentory.lab.recreation.renderingSnapshot
 import xyz.gaon.componentory.lab.rememberSampleStateSlot
 import xyz.gaon.componentory.runs.RunRecord
 import xyz.gaon.componentory.runs.comparisonRecord
@@ -102,7 +103,9 @@ fun CompareScreen(
                 captureSampleSetup(context, component, left, leftState),
                 captureSampleSetup(context, component, right, rightState),
                 enabled,
-                environmentSnapshot(context),
+                environmentSnapshot(context) +
+                    renderingSnapshot(left, component, "left") +
+                    renderingSnapshot(right, component, "right"),
             )
         ) { success ->
             savePending = false

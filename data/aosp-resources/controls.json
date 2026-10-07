@@ -1,0 +1,77 @@
+[
+  {
+    "family": "classic",
+    "release": "android-2.3.7_r1",
+    "commit": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+    "theme": "Theme.Light",
+    "drawables": [
+      "btn_default",
+      "btn_check",
+      "btn_radio",
+      "btn_toggle",
+      "edit_text",
+      "progress_horizontal",
+      "seek_thumb",
+      "spinner_background",
+      "progress_indeterminate_horizontal",
+      "ratingbar_full"
+    ],
+    "palette": []
+  },
+  {
+    "family": "holo",
+    "release": "android-4.4.4_r2",
+    "commit": "63ade05d76785975fc3292ca030abbaa1dda8891",
+    "theme": "Theme.Holo.Light",
+    "drawables": [
+      "btn_default_holo_light",
+      "btn_check_holo_light",
+      "btn_radio_holo_light",
+      "btn_toggle_holo_light",
+      "edit_text_holo_light",
+      "progress_horizontal_holo_light",
+      "switch_thumb_holo_light",
+      "switch_track_holo_light",
+      "spinner_background_holo_light",
+      "scrubber_control_selector_holo",
+      "scrubber_progress_horizontal_holo_light",
+      "progress_indeterminate_horizontal_holo",
+      "ratingbar_full_holo_light"
+    ],
+    "palette": []
+  },
+  {
+    "family": "material1",
+    "release": "android-5.0.2_r1",
+    "commit": "0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966",
+    "theme": "Theme.Material.Light",
+    "drawables": [
+      "btn_default_material",
+      "btn_toggle_material",
+      "edit_text_material",
+      "progress_horizontal_material",
+      "switch_track_material",
+      "spinner_background_material",
+      "btn_check_material_anim",
+      "btn_radio_material_anim",
+      "switch_thumb_material_anim",
+      "scrubber_control_selector_material",
+      "scrubber_progress_horizontal_material",
+      "progress_indeterminate_horizontal_material",
+      "ratingbar_full_material"
+    ],
+    "palette": [
+      "colorAccent",
+      "colorButtonNormal",
+      "colorControlActivated",
+      "colorControlHighlight",
+      "colorControlNormal",
+      "colorForeground",
+      "colorSwitchThumbNormal",
+      "disabledAlpha",
+      "textColorPrimary",
+      "textColorSecondary",
+      "textColorHint"
+    ]
+  }
+]

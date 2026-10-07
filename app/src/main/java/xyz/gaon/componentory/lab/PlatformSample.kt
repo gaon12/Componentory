@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
+import xyz.gaon.componentory.lab.recreation.HistoricalControls
 
 @Composable
 fun PlatformSample(
@@ -149,7 +150,11 @@ fun PlatformSample(
     // Use framework constructors directly, with no compatibility widget substitution.
     ReadableAndroidView(
         factory = { context ->
-            createWidget(family.createContext(context), component).apply { id = viewId }
+            createWidget(HistoricalControls.context(context, family, component), component, family)
+                .apply {
+                    id = viewId
+                    HistoricalControls.apply(this, family, component)
+                }
         },
         update = { view ->
             updateWidget(view, component, enabled, state)
@@ -173,7 +178,7 @@ fun PlatformSample(
 }
 
 @Suppress("DEPRECATION")
-private fun createWidget(context: Context, component: LabComponent): View =
+private fun createWidget(context: Context, component: LabComponent, family: PlatformFamily): View =
     when (component) {
         LabComponent.BUTTON -> Button(context).apply { setText(R.string.sample_button) }
         LabComponent.CHECKBOX -> CheckBox(context).apply { setText(R.string.sample_checkbox) }
@@ -234,7 +239,7 @@ private fun createWidget(context: Context, component: LabComponent): View =
                 scaleType = ImageView.ScaleType.CENTER_INSIDE
             }
         LabComponent.RATING ->
-            RatingBar(context).apply {
+            RatingBar(context, null, 0, HistoricalControls.ratingStyle(family)).apply {
                 numStars = 5
                 stepSize = 1f
                 layoutParams =

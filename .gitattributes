@@ -5,3 +5,4 @@
 # Preserve original legal notices byte for byte, including upstream whitespace.
 licenses/*NOTICE.txt -text -diff
 licenses/androidx-autofill-LICENSE.txt -text -diff
+licenses/aosp-resources/** -text -diff

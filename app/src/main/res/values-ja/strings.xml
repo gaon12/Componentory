@@ -693,4 +693,10 @@
     <string name="introduction_next">次へ</string>
     <string name="introduction_start">始める</string>
     <string name="introduction_replay">使い方を見る</string>
+    <string name="rendering_resources">AOSP リソースによる再現</string>
+    <string name="rendering_resources_note">当時の画像と色を使用します。操作は現在の OS で動作し、文字は最小 16sp に調整しています。過去の OS の原本ではありません。</string>
+    <string name="rendering_current_os">現在の OS のウィジェット</string>
+    <string name="rendering_current_os_note">選択したプラットフォームのテーマを現在の端末で実行します。このコンポーネントの過去のリソースによる再現はまだありません。</string>
+    <string name="rendering_library">固定バージョンのライブラリサンプル</string>
+    <string name="rendering_library_note">記録された Compose ライブラリのバージョンで描画します。デザインを変えても端末の OS は変わりません。</string>
 </resources>

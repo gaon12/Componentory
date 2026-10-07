@@ -696,4 +696,10 @@
     <string name="introduction_next">Next</string>
     <string name="introduction_start">Get started</string>
     <string name="introduction_replay">View introduction</string>
+    <string name="rendering_resources">AOSP resource recreation</string>
+    <string name="rendering_resources_note">Release graphics and colors are reused. Controls run on the current OS, with a 16sp text minimum. This is not an original historical capture.</string>
+    <string name="rendering_current_os">Current-OS widget</string>
+    <string name="rendering_current_os_note">The selected platform theme runs on this device. Historical resource recreation is not yet available for this component.</string>
+    <string name="rendering_library">Pinned library sample</string>
+    <string name="rendering_library_note">Rendered by the recorded Compose library version. The design language does not replace the device OS.</string>
 </resources>

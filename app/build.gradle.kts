@@ -193,18 +193,17 @@ abstract class PackageSourceNotices : DefaultTask() {
     @TaskAction
     fun packageNotices() {
         val sources =
-            listOf(
-                "Apache-2.0.txt" to sourceDirectory.file("Apache-2.0.txt").get().asFile,
-                "aosp-frameworks-base-NOTICE.txt" to
-                    sourceDirectory.file("aosp-frameworks-base-NOTICE.txt").get().asFile,
-                "android-sdk-NOTICE.txt" to
-                    sourceDirectory.file("android-sdk-NOTICE.txt").get().asFile,
-                "androidx-autofill-LICENSE.txt" to
-                    sourceDirectory.file("androidx-autofill-LICENSE.txt").get().asFile,
-                "provenance.json" to sourceDirectory.file("provenance.json").get().asFile,
-                "Componentory-MIT.txt" to applicationLicense.get().asFile,
-                "NOTICE.txt" to applicationNotice.get().asFile,
-            )
+            sourceDirectory
+                .get()
+                .asFile
+                .walkTopDown()
+                .filter { it.isFile }
+                .map { it.relativeTo(sourceDirectory.get().asFile).invariantSeparatorsPath to it }
+                .toList() +
+                listOf(
+                    "Componentory-MIT.txt" to applicationLicense.get().asFile,
+                    "NOTICE.txt" to applicationNotice.get().asFile,
+                )
         sources.forEach { (name, source) ->
             val destination = outputDirectory.file("legal/$name").get().asFile
             destination.parentFile.mkdirs()

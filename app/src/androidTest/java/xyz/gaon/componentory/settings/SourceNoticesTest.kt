@@ -51,17 +51,32 @@ class SourceNoticesTest {
                     .bufferedReader(Charsets.UTF_8)
                     .use { it.readText() }
             compose.onNodeWithTag("source_notice_${notice.name}").performScrollTo().performClick()
-            compose.waitUntil(10_000) {
-                val nodes =
+            try {
+                compose.waitUntil(10_000) {
+                    val nodes =
+                        compose
+                            .onAllNodes(androidx.compose.ui.test.hasTestTag("source_notice_body"))
+                            .fetchSemanticsNodes()
+                    nodes
+                        .singleOrNull()
+                        ?.config
+                        ?.getOrNull(SemanticsProperties.Text)
+                        ?.singleOrNull()
+                        ?.text == original
+                }
+            } catch (failure: Throwable) {
+                val actual =
                     compose
-                        .onAllNodes(androidx.compose.ui.test.hasTestTag("source_notice_body"))
-                        .fetchSemanticsNodes()
-                nodes
-                    .singleOrNull()
-                    ?.config
-                    ?.getOrNull(SemanticsProperties.Text)
-                    ?.singleOrNull()
-                    ?.text == original
+                        .onNodeWithTag("source_notice_body")
+                        .fetchSemanticsNode()
+                        .config
+                        .getOrNull(SemanticsProperties.Text)
+                        ?.joinToString("\n") { it.text }
+                throw AssertionError(
+                    "${notice.name}: expected ${original.length} characters; " +
+                        "received ${actual?.length}: ${actual?.take(100)}",
+                    failure,
+                )
             }
             compose
                 .onNodeWithTag("source_notice_body")

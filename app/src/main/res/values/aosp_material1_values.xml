@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright The Android Open Source Project.
+Licensed under the Apache License, Version 2.0. See licenses/Apache-2.0.txt.
+Adapted for Componentory: resource names and references are prefixed.
+Original declarations, source hashes, and release notices are retained.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<color name="aosp_material1_hint_foreground_material_light">@color/aosp_material1_bright_foreground_disabled_material_light</color>
+<color name="aosp_material1_bright_foreground_disabled_material_light">#80000000</color>
+<color name="aosp_material1_secondary_text_default_material_light">#8a000000</color>
+<item name="aosp_material1_disabled_alpha_material_light" format="float" type="dimen">0.26</item>
+<color name="aosp_material1_primary_text_default_material_light">#de000000</color>
+<color name="aosp_material1_switch_thumb_normal_material_light">#fff1f1f1</color>
+<color name="aosp_material1_switch_thumb_disabled_material_light">#ffbdbdbd</color>
+<color name="aosp_material1_bright_foreground_material_light">@color/aosp_material1_black</color>
+<color name="aosp_material1_black">#ff000000</color>
+<color name="aosp_material1_ripple_material_light">#40000000</color>
+<color name="aosp_material1_button_material_light">#ffd6d7d7</color>
+<color name="aosp_material1_accent_material_light">@color/aosp_material1_material_deep_teal_500</color>
+<color name="aosp_material1_material_deep_teal_500">#ff009688</color>
+<dimen name="aosp_material1_control_inset_material">4dp</dimen>
+<dimen name="aosp_material1_button_padding_vertical_material">@dimen/aosp_material1_control_padding_material</dimen>
+<dimen name="aosp_material1_control_padding_material">4dp</dimen>
+<dimen name="aosp_material1_button_padding_horizontal_material">8dp</dimen>
+<dimen name="aosp_material1_control_corner_material">2dp</dimen>
+<dimen name="aosp_material1_button_inset_vertical_material">6dp</dimen>
+<dimen name="aosp_material1_button_inset_horizontal_material">@dimen/aosp_material1_control_inset_material</dimen>
+</resources>
