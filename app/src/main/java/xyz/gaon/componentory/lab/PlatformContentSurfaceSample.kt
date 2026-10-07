@@ -5,9 +5,11 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.QuickContactBadge
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 
 @Composable
@@ -24,7 +26,17 @@ internal fun PlatformContentSurfaceSample(
             createContentSurface(themed, component).apply { id = viewId }
         },
         update = { view -> view.isEnabled = enabled },
-        modifier = modifier.testTag("sample-${component.name.lowercase()}"),
+        onRelease = { view ->
+            if (view is WebView) {
+                view.stopLoading()
+                view.destroy()
+            }
+        },
+        // Keep the preview visible before the asynchronous HTML layout finishes.
+        modifier =
+            (if (component == LabComponent.WEB_VIEW) modifier.height(180.dp) else modifier).testTag(
+                "sample-${component.name.lowercase()}"
+            ),
     )
 }
 
@@ -36,7 +48,6 @@ private fun createContentSurface(themed: ContextThemeWrapper, component: LabComp
         LabComponent.WEB_VIEW ->
             WebView(themed).apply {
                 webViewClient = WebViewClient()
-                minimumHeight = (96 * resources.displayMetrics.density).toInt()
                 loadDataWithBaseURL(null, pageHtml(themed), "text/html", "utf-8", null)
             }
         else ->
