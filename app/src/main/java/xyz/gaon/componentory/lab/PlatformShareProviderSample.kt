@@ -6,9 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ActionMenuView
 import android.widget.ShareActionProvider
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 
 @Composable
@@ -29,7 +31,8 @@ internal fun PlatformShareProviderSample(
             view.isEnabled = enabled
             (view.tag as? MenuItem)?.isEnabled = enabled
         },
-        modifier = modifier.testTag("sample-${component.name.lowercase()}"),
+        // ActionMenuView expects a height from its action-bar host.
+        modifier = modifier.height(56.dp).testTag("sample-${component.name.lowercase()}"),
     )
 }
 
