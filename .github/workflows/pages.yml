@@ -1,0 +1,42 @@
+name: Publish project and privacy pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/pages.yml
+      - scripts/store/build-website.py
+      - docs/privacy-policy.txt
+      - design/app-icon.svg
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - name: Build the public pages from the app privacy text
+        run: python3 scripts/store/build-website.py --output .local/site
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: .local/site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
