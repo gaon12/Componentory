@@ -39,6 +39,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -105,6 +106,7 @@ fun ComponentListScreen(
     var provider by rememberSaveable { mutableStateOf<InventoryFamily?>(null) }
     val sampleListState = rememberLazyGridState()
     val plannedListState = rememberLazyListState()
+    val savedModes = rememberSaveableStateHolder()
     val scope = rememberCoroutineScope()
     val changeQuery: (String) -> Unit = {
         query = it
@@ -235,7 +237,9 @@ fun ComponentListScreen(
                 keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
             )
             if (mode == CatalogMode.HISTORY) {
-                HistoryBrowser(query, Modifier.fillMaxWidth().weight(1f))
+                savedModes.SaveableStateProvider(CatalogMode.HISTORY.name) {
+                    HistoryBrowser(query, Modifier.fillMaxWidth().weight(1f), onOpenComponent)
+                }
             } else if (mode == CatalogMode.PLANNED) {
                 if (!compactHeader)
                     PlannedProviderFilter(provider, { provider = it }, Modifier.fillMaxWidth())

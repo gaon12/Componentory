@@ -644,4 +644,21 @@
     <string name="sample_text_size_note">原生文字至少16sp。為方便閱讀，已調整預設大小。</string>
     <string name="catalog_select_title">選擇元件</string>
     <string name="catalog_select_note">從清單中選擇元件，查看在此裝置上執行的實際實作。</string>
+    <string name="history_back">返回版本歷史</string>
+    <string name="history_snapshot">公開 API 記錄：%1$s</string>
+    <string name="history_public_description">此%1$s在%2$s中公開。SDK 記錄說明 API 的支援情況；當時的外觀和互動需要在執行該 Android 版本的裝置上驗證。</string>
+    <string name="history_parent">父類別：%1$s</string>
+    <string name="history_kind_view">檢視</string>
+    <string name="history_kind_dialog">對話框</string>
+    <string name="history_kind_popup">彈出視窗</string>
+    <string name="history_kind_preference">設定項目</string>
+    <string name="history_kind_controller">UI 控制器</string>
+    <string name="history_capture_missing">該版本的原始截圖：缺失</string>
+    <string name="history_behavior_unverified">該版本的互動：未驗證</string>
+    <string name="history_open_sample">在目前裝置上開啟元件</string>
+    <string name="history_no_sample">此 API 沒有可執行的目錄範例。此處顯示公開 API 資訊。</string>
+    <string name="history_select_note">選擇項目以查看說明、版本記錄、來源與可執行的元件。</string>
+    <string name="history_documentation">官方 API 文件</string>
+    <string name="history_child_sample">此類別在%1$s範例中作為真實的子元件執行。</string>
+    <string name="history_documentation_unavailable">沒有可開啟此文件連結的應用程式。</string>
 </resources>

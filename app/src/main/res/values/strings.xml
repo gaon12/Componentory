@@ -647,4 +647,21 @@
     <string name="sample_text_size_note">Native text: at least 16sp. Default sizes are adjusted for readability.</string>
     <string name="catalog_select_title">Select a component</string>
     <string name="catalog_select_note">Choose a component from the list to use its actual implementation on this device.</string>
+    <string name="history_back">Back to version history</string>
+    <string name="history_snapshot">Public API snapshot: %1$s</string>
+    <string name="history_public_description">This %1$s is public in %2$s. The SDK records its API availability; appearance and interaction require a device running that Android version.</string>
+    <string name="history_parent">Inherits from %1$s</string>
+    <string name="history_kind_view">view</string>
+    <string name="history_kind_dialog">dialog</string>
+    <string name="history_kind_popup">popup</string>
+    <string name="history_kind_preference">preference</string>
+    <string name="history_kind_controller">UI controller</string>
+    <string name="history_capture_missing">Original-version capture: missing</string>
+    <string name="history_behavior_unverified">Original-version interaction: unverified</string>
+    <string name="history_open_sample">Open current-device component</string>
+    <string name="history_no_sample">This API has no runnable catalog sample. Its public metadata is shown here.</string>
+    <string name="history_select_note">Select a class to see its description, version record, source, and available component.</string>
+    <string name="history_documentation">Official API documentation</string>
+    <string name="history_child_sample">This class appears as a real child inside the %1$s sample.</string>
+    <string name="history_documentation_unavailable">No app can open this documentation link.</string>
 </resources>

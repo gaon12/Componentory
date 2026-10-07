@@ -644,4 +644,21 @@
     <string name="sample_text_size_note">ネイティブ文字は最低16spです。読みやすさのために既定のサイズを調整します。</string>
     <string name="catalog_select_title">コンポーネントを選択</string>
     <string name="catalog_select_note">一覧から選ぶと、この端末で動く実際の実装を確認できます。</string>
+    <string name="history_back">バージョン履歴に戻る</string>
+    <string name="history_snapshot">公開 API の記録：%1$s</string>
+    <string name="history_public_description">この%1$sは%2$sで公開されています。SDK の記録は API の対応状況を示します。当時の外観や動作には、その Android バージョンの端末が必要です。</string>
+    <string name="history_parent">親クラス：%1$s</string>
+    <string name="history_kind_view">ビュー</string>
+    <string name="history_kind_dialog">ダイアログ</string>
+    <string name="history_kind_popup">ポップアップ</string>
+    <string name="history_kind_preference">設定項目</string>
+    <string name="history_kind_controller">UI コントローラー</string>
+    <string name="history_capture_missing">当時のバージョンのキャプチャ：なし</string>
+    <string name="history_behavior_unverified">当時のバージョンの操作：未検証</string>
+    <string name="history_open_sample">現在の端末でコンポーネントを開く</string>
+    <string name="history_no_sample">この API の実行可能なサンプルはありません。公開 API の情報を表示しています。</string>
+    <string name="history_select_note">項目を選ぶと、説明、バージョン履歴、出典と利用可能なコンポーネントを確認できます。</string>
+    <string name="history_documentation">公式 API ドキュメント</string>
+    <string name="history_child_sample">このクラスは%1$sサンプル内の実際の子コンポーネントです。</string>
+    <string name="history_documentation_unavailable">この文書リンクを開くアプリがありません。</string>
 </resources>

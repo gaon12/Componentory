@@ -1,16 +1,25 @@
 package xyz.gaon.componentory.history
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -20,6 +29,7 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -27,9 +37,11 @@ import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -38,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.lab.LabComponent
 
 private sealed interface HistoryLoad {
     data object Loading : HistoryLoad
@@ -48,7 +61,11 @@ private sealed interface HistoryLoad {
 }
 
 @Composable
-fun HistoryBrowser(query: String, modifier: Modifier = Modifier) {
+fun HistoryBrowser(
+    query: String,
+    modifier: Modifier = Modifier,
+    onOpenSample: (LabComponent) -> Unit = {},
+) {
     val context = LocalContext.current
     val loaded by
         produceState<HistoryLoad>(HistoryLoad.Loading, context) {
@@ -73,18 +90,126 @@ fun HistoryBrowser(query: String, modifier: Modifier = Modifier) {
                 stringResource(R.string.history_unavailable),
                 modifier.testTag("history_unavailable"),
             )
-        is HistoryLoad.Ready -> HistoryList(state.catalog, query, modifier)
+        is HistoryLoad.Ready -> HistoryList(state.catalog, query, modifier, onOpenSample)
     }
 }
 
 @Composable
-private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifier) {
+private fun HistoryList(
+    catalog: AndroidHistory,
+    query: String,
+    modifier: Modifier,
+    onOpenSample: (LabComponent) -> Unit,
+) {
     var api by rememberSaveable { mutableIntStateOf(19) }
     var filter by rememberSaveable { mutableStateOf(HistoryFilter.ALL) }
-    var menuOpen by remember { mutableStateOf(false) }
     val selectedApi = api.takeIf { it in catalog.versions } ?: catalog.versions.last()
     val entries = catalog.select(selectedApi, query, filter)
+    var selectedName by rememberSaveable { mutableStateOf<String?>(null) }
+    var selectedSnapshot by rememberSaveable { mutableIntStateOf(19) }
+    var removedAt by rememberSaveable { mutableIntStateOf(0) }
+    var previousQuery by rememberSaveable { mutableStateOf(query) }
+    LaunchedEffect(query) {
+        if (query != previousQuery) selectedName = null
+        previousQuery = query
+    }
+    val listState =
+        androidx.compose.runtime.key(selectedApi, query, filter) { rememberLazyListState() }
+    val selected =
+        selectedName?.let { name ->
+            catalog.select(selectedSnapshot).firstOrNull { it.name == name }
+        }
+    BackHandler(enabled = selected != null) { selectedName = null }
+    val select: (HistoricalComponent) -> Unit = { entry ->
+        selectedName = entry.name
+        selectedSnapshot = entry.api
+        removedAt = if (filter == HistoryFilter.REMOVED) selectedApi else 0
+    }
+    val changeApi: (Int) -> Unit = {
+        api = it
+        selectedName = null
+    }
+    val changeFilter: (HistoryFilter) -> Unit = {
+        filter = it
+        selectedName = null
+    }
+    BoxWithConstraints(modifier) {
+        if (maxWidth >= 760.dp) {
+            Row(
+                Modifier.fillMaxSize().testTag("history_split"),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                HistoryRows(
+                    catalog,
+                    entries,
+                    selectedApi,
+                    query,
+                    filter,
+                    changeApi,
+                    changeFilter,
+                    select,
+                    listState,
+                    Modifier.width(360.dp).fillMaxHeight(),
+                )
+                if (selected != null)
+                    HistoryDetail(
+                        selected,
+                        catalog,
+                        removedAt.takeIf { it > 0 },
+                        { selectedName = null },
+                        onOpenSample,
+                        Modifier.weight(1f),
+                    )
+                else
+                    Box(Modifier.weight(1f).fillMaxHeight(), contentAlignment = Alignment.Center) {
+                        Text(
+                            stringResource(R.string.history_select_note),
+                            Modifier.padding(24.dp).testTag("history_select_note"),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                    }
+            }
+        } else if (selected != null)
+            HistoryDetail(
+                selected,
+                catalog,
+                removedAt.takeIf { it > 0 },
+                { selectedName = null },
+                onOpenSample,
+                Modifier.fillMaxSize(),
+            )
+        else
+            HistoryRows(
+                catalog,
+                entries,
+                selectedApi,
+                query,
+                filter,
+                changeApi,
+                changeFilter,
+                select,
+                listState,
+                Modifier.fillMaxSize(),
+            )
+    }
+}
+
+@Composable
+private fun HistoryRows(
+    catalog: AndroidHistory,
+    entries: List<HistoricalComponent>,
+    selectedApi: Int,
+    query: String,
+    filter: HistoryFilter,
+    onApiChange: (Int) -> Unit,
+    onFilterChange: (HistoryFilter) -> Unit,
+    onSelect: (HistoricalComponent) -> Unit,
+    listState: LazyListState,
+    modifier: Modifier,
+) {
+    var menuOpen by remember { mutableStateOf(false) }
     val compactHeader = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    val focus = LocalFocusManager.current
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         if (!compactHeader) {
             Column {
@@ -103,7 +228,7 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
                         DropdownMenuItem(
                             text = { Text(androidVersionLabel(version)) },
                             onClick = {
-                                api = version
+                                onApiChange(version)
                                 menuOpen = false
                             },
                             modifier = Modifier.testTag("history_api_$version"),
@@ -115,7 +240,7 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
                 items(HistoryFilter.entries) { option ->
                     FilterChip(
                         selected = filter == option,
-                        onClick = { filter = option },
+                        onClick = { onFilterChange(option) },
                         label = {
                             Text(
                                 stringResource(
@@ -149,6 +274,7 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
         androidx.compose.runtime.key(selectedApi, query, filter) {
             LazyColumn(
                 Modifier.weight(1f).fillMaxWidth().testTag("history_list"),
+                state = listState,
                 contentPadding = PaddingValues(bottom = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
@@ -189,7 +315,13 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
                         )
                     }
                 items(entries, key = { it.name }) { entry ->
-                    Card(Modifier.fillMaxWidth().testTag("history_${entry.name}")) {
+                    Card(
+                        onClick = {
+                            focus.clearFocus()
+                            onSelect(entry)
+                        },
+                        modifier = Modifier.fillMaxWidth().testTag("history_${entry.name}"),
+                    ) {
                         Column(
                             Modifier.padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(6.dp),
