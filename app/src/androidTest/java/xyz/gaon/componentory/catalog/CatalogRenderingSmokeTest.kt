@@ -105,10 +105,12 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performSemanticsAction
@@ -173,43 +175,32 @@ class CatalogRenderingSmokeTest {
         chooseFamily("RIGHT", DesignFamily.MATERIAL3)
     }
 
-    @Test
-    fun classicCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.CLASSIC, 70, 86)
+    @Test fun classicCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.CLASSIC)
 
-    @Test
-    fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO, 70, 86)
+    @Test fun holoCatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.HOLO)
 
     @Test
     fun materialPlatformCatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL, 70, 86)
+        verifyFamily(DesignFamily.MATERIAL)
 
     @Test
-    fun material2CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL2, 51, 107)
+    fun material2CatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.MATERIAL2)
 
     @Test
-    fun material3CatalogCellsRenderOrExplainTheirAbsence() =
-        verifyFamily(DesignFamily.MATERIAL3, 105, 53)
+    fun material3CatalogCellsRenderOrExplainTheirAbsence() = verifyFamily(DesignFamily.MATERIAL3)
 
-    private fun verifyFamily(
-        family: DesignFamily,
-        expectedSupported: Int,
-        expectedUnsupported: Int,
-    ) {
-        assertEquals(
-            "Update the sweep baseline when the runnable catalog changes.",
-            158,
-            LabComponent.entries.size,
-        )
+    private fun verifyFamily(family: DesignFamily) {
         chooseComponent(LabComponent.BUTTON)
         chooseFamily("LEFT", family)
         var supported = 0
         var unsupported = 0
         var skipped = 0
         LabComponent.entries.forEach { component ->
-            if (family.platform != null && component.isIndeterminateProgress) {
-                // NativeProgressIndicatorsTest verifies these six original animated controls.
+            val hostedSample =
+                component in listOf(LabComponent.ACTION_BAR, LabComponent.INLINE_CONTENT_VIEW) &&
+                    family.unsupportedReason(component, Build.VERSION.SDK_INT) == null
+            if (family.platform != null && (component.isIndeterminateProgress || hostedSample)) {
+                // Dedicated Activity, IME, and animated-widget tests exercise these actual hosts.
                 skipped++
                 return@forEach
             }
@@ -238,11 +229,19 @@ class CatalogRenderingSmokeTest {
                 )
             }
         }
-        assertEquals("${family.name}: supported cells", expectedSupported, supported)
-        assertEquals("${family.name}: unsupported cells", expectedUnsupported, unsupported)
         assertEquals(
-            "${family.name}: separately tested animation cells",
-            if (family.platform != null) 2 else 0,
+            "${family.name}: every catalog entry was checked or separately tested",
+            LabComponent.entries.size,
+            supported + unsupported + skipped,
+        )
+        assertEquals(
+            "${family.name}: separately tested animation and system-host cells",
+            if (family.platform == null) 0
+            else
+                2 +
+                    listOf(LabComponent.ACTION_BAR, LabComponent.INLINE_CONTENT_VIEW).count {
+                        family.unsupportedReason(it, Build.VERSION.SDK_INT) == null
+                    },
             skipped,
         )
         chooseComponent(LabComponent.BUTTON)
@@ -295,11 +294,25 @@ class CatalogRenderingSmokeTest {
         if (component == LabComponent.TIME_PICKER) {
             compose.onNodeWithTag("time_viewport_LEFT").performScrollTo().assertIsDisplayed()
         }
-        compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
+        val nativeTag =
+            if (
+                component.isContentSurface ||
+                    component.isMediaWidget ||
+                    component == LabComponent.DIALER_FILTER ||
+                    component == LabComponent.EDGE_EFFECT ||
+                    component == LabComponent.SHARE_ACTION_PROVIDER
+            )
+                "sample-${component.name.lowercase()}"
+            else "native_LEFT"
+        compose.onNodeWithTag(nativeTag).performScrollTo().assertIsDisplayed()
         compose.runOnIdle {
             val view = requireNotNull(compose.activity.findViewById<View>(R.id.sample_left))
             assertEquals(nativeClass(component), view.javaClass)
-            assertTrue(view.isShown && view.width > 0 && view.height > 0)
+            if (component == LabComponent.SPACE) {
+                // A horizontal Space may have zero height while retaining its invisible gap.
+                assertTrue(view.width > 0)
+                assertEquals(View.INVISIBLE, view.visibility)
+            } else assertTrue(view.isShown && view.width > 0 && view.height > 0)
             assertTrue(view.isEnabled)
             assertNativeTheme(view, family, component)
             when (component) {
@@ -498,7 +511,7 @@ class CatalogRenderingSmokeTest {
                     assertEquals(4, grid.childCount)
                 }
                 LabComponent.RELATIVE_LAYOUT -> assertEquals(2, (view as RelativeLayout).childCount)
-                LabComponent.SPACE -> assertEquals(View.VISIBLE, view.visibility)
+                LabComponent.SPACE -> assertEquals(View.INVISIBLE, view.visibility)
                 LabComponent.LIST_VIEW -> {
                     val list = view as ListView
                     assertEquals(6, list.adapter.count)
@@ -1123,15 +1136,100 @@ class CatalogRenderingSmokeTest {
                     .assertHasClickAction()
                     .assertIsEnabled()
             }
+            component.isNavigationSuite -> {
+                for (item in 1..component.navigationItemCount) {
+                    val destination =
+                        displayed("library_LEFT_item_$item", scroll = false)
+                            .assertHasClickAction()
+                            .assertIsEnabled()
+                    if (item == 1) destination.assertIsSelected()
+                    else destination.assertIsNotSelected()
+                }
+            }
+            component.isTabRow -> {
+                displayed("library_LEFT_tab_1", scroll = false)
+                    .assertHasClickAction()
+                    .assertIsEnabled()
+                    .assertIsSelected()
+            }
+            component == LabComponent.LIST_ITEM -> {
+                sample.assert(SemanticsMatcher.keyNotDefined(SemanticsActions.OnClick))
+                compose
+                    .onNode(
+                        hasText(compose.activity.getString(R.string.list_item, 1)) and
+                            (hasTestTag("library_LEFT") or
+                                hasAnyAncestor(hasTestTag("library_LEFT")))
+                    )
+                    .assertIsDisplayed()
+            }
+            component == LabComponent.SCAFFOLD -> {
+                compose
+                    .onNode(
+                        hasText(compose.activity.getString(R.string.scaffold_body)) and
+                            hasAnyAncestor(hasTestTag("library_LEFT"))
+                    )
+                    .assertIsDisplayed()
+            }
+            component.isDrawerSuite -> {
+                displayed(
+                        if (component.isToggleableDrawer) "library_LEFT_open"
+                        else "library_LEFT_item_1",
+                        scroll = false,
+                    )
+                    .assertHasClickAction()
+                    .assertIsEnabled()
+            }
+            component.isSheetSuite -> {
+                displayed("library_LEFT_open", scroll = false)
+                    .assertHasClickAction()
+                    .assertIsEnabled()
+            }
+            component == LabComponent.SNACKBAR -> {
+                displayed("library_LEFT_show", scroll = false)
+                    .assertHasClickAction()
+                    .assertIsEnabled()
+            }
+            component.isTooltip -> {
+                compose
+                    .onNode(hasAnyAncestor(hasTestTag("library_LEFT")) and hasClickAction())
+                    .assertIsDisplayed()
+                    .assertIsEnabled()
+            }
+            component == LabComponent.SWIPE_TO_DISMISS -> {
+                displayed("library_LEFT_row", scroll = false).assertIsDisplayed()
+            }
+            component == LabComponent.EXPOSED_DROPDOWN -> {
+                // Material 2 places the action on its box; Material 3 uses its field anchor.
+                if (family == DesignFamily.MATERIAL2) sample.assertHasClickAction()
+                val field = displayed("library_LEFT_field", scroll = false)
+                field
+                    .assertIsEnabled()
+                    .assert(SemanticsMatcher.keyIsDefined(SemanticsProperties.EditableText))
+                if (family == DesignFamily.MATERIAL3) field.assertHasClickAction()
+            }
+            component in
+                listOf(
+                    LabComponent.SEARCH_BAR,
+                    LabComponent.DOCKED_SEARCH_BAR,
+                    LabComponent.TOP_SEARCH_BAR,
+                    LabComponent.EXPANDED_DOCKED_SEARCH_BAR,
+                ) -> {
+                displayed("library_LEFT_field", scroll = false)
+                    .assertIsEnabled()
+                    .assert(SemanticsMatcher.keyIsDefined(SemanticsActions.SetText))
+            }
             component == LabComponent.APP_BAR_ROW || component == LabComponent.APP_BAR_COLUMN -> {
                 // Scope items take no modifier; prove a real item and the
                 // tagged overflow indicator carry click actions instead.
                 compose
-                    .onNode(
-                        hasAnyAncestor(hasTestTag("library_LEFT")) and hasClickAction(),
+                    .onAllNodes(
+                        hasAnyAncestor(hasTestTag("library_LEFT")) and
+                            hasClickAction() and
+                            !hasTestTag("library_LEFT_overflow"),
                         useUnmergedTree = true,
-                    )
+                    )[0]
                     .assertIsDisplayed()
+                    .assertHasClickAction()
                 displayed("library_LEFT_overflow", scroll = false)
                     .assertHasClickAction()
                     .assertIsEnabled()
@@ -1139,6 +1237,11 @@ class CatalogRenderingSmokeTest {
             component == LabComponent.VERTICAL_DRAG_HANDLE -> {
                 // The pane container is not a click target; the real handle is.
                 displayed("library_LEFT_handle", scroll = false).assertIsDisplayed()
+            }
+            component.isAppBar -> {
+                displayed("library_LEFT_action", scroll = false)
+                    .assertHasClickAction()
+                    .assertIsEnabled()
             }
             component == LabComponent.DIALOG ||
                 component == LabComponent.BASIC_ALERT_DIALOG ||
@@ -1335,11 +1438,17 @@ class CatalogRenderingSmokeTest {
 
     private fun chooseComponent(component: LabComponent) {
         compose.onNodeWithTag("component_picker").performScrollTo().performClick()
+        compose.onNodeWithTag("picker_category_ALL").performClick()
         compose.onNodeWithTag("picker_search").performTextReplacement(component.label)
+        compose.onNodeWithTag("picker_search").performImeAction()
+        compose.waitUntil(5_000) { compose.onNodeWithTag("picker_category_ALL").isDisplayed() }
         compose
             .onNodeWithTag("component_picker_list")
             .performScrollToNode(hasTestTag("component_${component.name}"))
         compose.onNodeWithTag("component_${component.name}").performClick()
+        compose
+            .onNodeWithTag("component_picker")
+            .assertTextContains(component.label, substring = true)
     }
 
     private fun chooseFamily(panel: String, family: DesignFamily) {

@@ -87,6 +87,7 @@ class NativeProgressIndicatorsTest {
                         clickTag("family_LEFT")
                         clickTag("family_LEFT_${family.name}")
                         clickTag("component_picker")
+                        clickTag("picker_category_ALL")
                         val search =
                             waitForNode("picker search") {
                                 it.viewIdResourceName == "picker_search"
@@ -104,7 +105,11 @@ class NativeProgressIndicatorsTest {
                         )
                         clickTag("component_${component.name}")
                         waitForTag("component_picker", "Selected component") {
-                            it.text?.toString() == component.label
+                            findNode(it) { child -> child.text?.toString() == component.label } !=
+                                null
+                        }
+                        if (!waitForTag("implementation_details_LEFT").isChecked) {
+                            clickTag("implementation_details_LEFT")
                         }
                         waitForTag("source_LEFT", "Left framework source") {
                             it.text?.toString() == "android.widget.ProgressBar"
