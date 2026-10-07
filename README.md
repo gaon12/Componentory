@@ -109,7 +109,7 @@ Its tests touch the actual suggestion, fill the fixed value, and exercise the
 public host's attachment and surface order. Other apps' input is never handled
 by the demo keyboard or inspected by the demo autofill service.
 
-See [current verification](docs/verification-design-update-2026-10-08.md) for executed results
+See [current verification](docs/verification-project-links-pickers-2026-10-08.md) for executed results
 and limitations. Executed results distinguish final device checks from earlier
 milestones and retain their APK hashes. Lint passes with zero errors; existing
 warnings remain listed in its report.
