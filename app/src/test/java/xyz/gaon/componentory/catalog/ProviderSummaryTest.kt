@@ -43,8 +43,8 @@ class ProviderSummaryTest {
     fun everyCatalogComponentRunsOnAtLeastOneProvider() {
         LabComponent.entries.forEach { component ->
             assertTrue(
-                "$component has no provider on the minimum runtime.",
-                supportedFamilies(component, 24).isNotEmpty(),
+                "$component has no provider at its declared API.",
+                supportedFamilies(component, component.minimumApi.coerceAtLeast(24)).isNotEmpty(),
             )
         }
     }

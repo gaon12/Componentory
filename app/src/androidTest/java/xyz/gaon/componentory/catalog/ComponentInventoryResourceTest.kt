@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 238, InventoryStatus.PENDING to 1),
+            mapOf(InventoryStatus.IMPLEMENTED to 239),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 73,
+                InventoryFamily.PLATFORM to 74,
                 InventoryFamily.MATERIAL2 to 52,
                 InventoryFamily.MATERIAL3 to 113,
             ),
@@ -280,152 +280,18 @@ class ComponentInventoryResourceTest {
     }
 
     @Test
-    fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
-        val entries = ComponentInventory.read(context)
-        val pending = ComponentInventory.pending(entries)
-        assertEquals(1, pending.size)
-        assertEquals(
-            mapOf(InventoryFamily.PLATFORM to 1),
-            pending.groupingBy { it.family }.eachCount(),
-        )
-        pending.forEach {
-            assertEquals(InventoryStatus.PENDING, it.status)
-            assertTrue("Pending sources have no runnable sample IDs", it.catalogIds.isEmpty())
-        }
-        assertTrue(
-            ComponentInventory.pending(entries, "  POPUP  ", InventoryFamily.PLATFORM).isEmpty()
-        )
-        val libraryMenus =
-            ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL3)
-        assertEquals(emptySet<String>(), libraryMenus.map { it.source }.toSet())
-        libraryMenus.forEach { assertNull(it.apiIntroduced) }
-        assertTrue(
-            ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.PLATFORM).isEmpty()
-        )
-        assertEquals(
-            0,
-            ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL2).size,
-        )
-        assertTrue(ComponentInventory.pending(entries, "popupmenu").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "timepicker").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "timeinput").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "card").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "surface").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "no-matching-source-api").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "checkbox").isEmpty())
-        assertTrue(
-            ComponentInventory.pending(entries, "listpopupwindow", InventoryFamily.PLATFORM)
-                .isEmpty()
-        )
-        assertTrue(ComponentInventory.pending(entries, "datepicker").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "calendarview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "daterangepicker").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "checkedtextview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "clock").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "chronometer").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "scrollview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "horizontalscrollview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "viewanimator").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "viewswitcher").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "viewflipper").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "adapterviewflipper").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "stackview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "toast").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "progressdialog").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "tabhost").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "tabwidget").isEmpty())
-        assertEquals(
-            emptyList<String>(),
-            ComponentInventory.pending(entries, "dialog", InventoryFamily.PLATFORM).map {
-                it.source
-            },
-        )
-        assertEquals(
-            emptyList<String>(),
-            ComponentInventory.pending(entries, "dialog", InventoryFamily.MATERIAL3).map {
-                it.source
-            },
-        )
-        assertTrue(ComponentInventory.pending(entries, "webview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "dialerfilter").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "videoview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "mediacontroller").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "shareactionprovider").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "edgeeffect").isEmpty())
-        assertTrue(
-            ComponentInventory.pending(entries, "tabrow", InventoryFamily.MATERIAL2).isEmpty()
-        )
-        assertTrue(ComponentInventory.pending(entries, "tab", InventoryFamily.MATERIAL2).isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "snackbar").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "listitem").isEmpty())
-        assertTrue(
-            ComponentInventory.pending(entries, "topappbar", InventoryFamily.MATERIAL2).isEmpty()
-        )
-        assertTrue(ComponentInventory.pending(entries, "bottomappbar").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "drawer").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "exposeddropdownmenubox").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "backdrop").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "bottomsheet").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "modalbottomsheet").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "tooltip").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "swipetodismiss").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "tabrow").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "scrollabletabrow").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "shortnavigationbar").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "widenavigationrail").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "scaffold").isEmpty())
-        // Every search-bar source is now implemented.
-        assertTrue(
-            ComponentInventory.pending(entries, "searchbar", InventoryFamily.MATERIAL3).isEmpty()
-        )
-        assertTrue(
-            ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)
-                .isEmpty()
-        )
-        assertTrue(
-            ComponentInventory.pending(entries, "navigationbar", InventoryFamily.MATERIAL2)
-                .isEmpty()
-        )
-        assertTrue(ComponentInventory.pending(entries, "quickcontactbadge").isEmpty())
-        assertEquals(
-            listOf("android.widget.inline.InlineContentView"),
-            ComponentInventory.pending(entries, "inlinecontentview", InventoryFamily.PLATFORM).map {
-                it.source
-            },
-        )
-        // Inline content still requires its own platform session host.
-        assertEquals(
-            listOf("android.widget.inline.InlineContentView"),
-            pending.map { it.source }.sorted(),
-        )
-        pending.forEach { assertTrue("Pending rows explain their status", it.notes.isNotBlank()) }
-        assertTrue(ComponentInventory.pending(entries, "textswitcher").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "imageswitcher").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "framelayout").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "linearlayout").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "tablelayout").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "tablerow").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "gridlayout").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "relativelayout").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "space").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "absolutelayout").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "listview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "gridview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "expandablelistview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "zoomcontrols").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "zoombutton").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "zoombuttonscontroller").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "popupwindow").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "toolbar").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "actionmenuview").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "gallery").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "slidingdrawer").isEmpty())
-        assertTrue(ComponentInventory.pending(entries, "twolinelistitem").isEmpty())
-        listOf(
-                "android.widget.TextView",
-                "androidx.compose.material.Text",
-                "androidx.compose.material3.Text",
+    fun allAuditedSourcesHaveRunnableMappings() {
+        val entries =
+            ComponentInventory.read(InstrumentationRegistry.getInstrumentation().targetContext)
+        assertTrue(ComponentInventory.pending(entries).isEmpty())
+        mapOf(
+                "android.app.ActionBar" to "ACTION_BAR",
+                "android.widget.inline.InlineContentView" to "INLINE_CONTENT_VIEW",
             )
-            .forEach { source -> assertTrue(ComponentInventory.pending(entries, source).isEmpty()) }
+            .forEach { (source, sample) ->
+                val row = entries.single { it.source == source }
+                assertEquals(InventoryStatus.IMPLEMENTED, row.status)
+                assertEquals(listOf(sample), row.catalogIds)
+            }
     }
 }

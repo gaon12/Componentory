@@ -136,6 +136,10 @@ private fun ComponentoryNavigation(
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
     var catalogMode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
     var detailOriginMode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
+    LaunchedEffect(catalogMode, detailOriginMode) {
+        catalogMode = catalogMode.current()
+        detailOriginMode = detailOriginMode.current()
+    }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
     var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
     var detailProviders by rememberSaveable { mutableStateOf<Map<String, String>>(emptyMap()) }

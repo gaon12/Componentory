@@ -15,6 +15,7 @@ fun environmentSnapshot(context: Context): Map<String, String> {
         "targetSdk" to context.applicationInfo.targetSdkVersion.toString(),
         "material2" to BuildConfig.MATERIAL2_VERSION,
         "material3" to BuildConfig.MATERIAL3_VERSION,
+        "autofill" to BuildConfig.AUTOFILL_VERSION,
         "androidRelease" to Build.VERSION.RELEASE,
         "api" to Build.VERSION.SDK_INT.toString(),
         "build" to Build.DISPLAY,

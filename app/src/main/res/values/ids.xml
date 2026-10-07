@@ -7,4 +7,13 @@
     <item name="action_bar_sample_return" type="id" />
     <item name="action_bar_sample_reset" type="id" />
     <item name="action_bar_sample_action" type="id" />
+    <item name="inline_sample_strip" type="id" />
+    <item name="inline_sample_attach" type="id" />
+    <item name="inline_sample_surface" type="id" />
+    <item name="inline_previous_keyboard" type="id" />
+    <item name="inline_sample_content" type="id" />
+    <item name="inline_sample_status" type="id" />
+    <item name="inline_sample_input" type="id" />
+    <item name="inline_sample_request" type="id" />
+    <item name="inline_sample_return" type="id" />
 </resources>

@@ -75,6 +75,8 @@ class SourceNoticesTest {
                     "cf4dd7cea5b6bcd2622ddd3529b3c74d16ba2b4db444575bc6f5c33f8a960530",
                 "android-sdk-NOTICE.txt" to
                     "29714c52481af51064f56bca49bfbbec4d1004eadfc82415fc35bd200bee4e3c",
+                "androidx-autofill-LICENSE.txt" to
+                    "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
                 "Apache-2.0.txt" to
                     "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
             )

@@ -267,20 +267,6 @@
     <string name="component_badged_box_description">选择库中的图标并查看附加的数字徽标。</string>
     <string name="status_badge">徽标数量：%1$d</string>
     <string name="catalog_mode_samples">组件</string>
-    <string name="catalog_mode_planned">待添加示例</string>
-    <string name="planned_intro">这些已列出的 API 还没有交互示例。</string>
-    <string name="planned_search_hint">搜索 API 名称</string>
-    <string name="planned_status">示例尚未实现</string>
-    <string name="planned_provider_all">所有提供方</string>
-    <string name="planned_provider_framework">Android 框架</string>
-    <plurals name="planned_count">
-        <item quantity="other">待添加示例的 API 条目：%1$d 项</item>
-    </plurals>
-    <string name="planned_empty">没有匹配的待添加示例 API</string>
-    <string name="planned_loading">正在加载待添加示例的 API…</string>
-    <string name="planned_unavailable">无法加载待添加示例的 API。</string>
-    <string name="planned_api_introduced">在 API %1$d 中引入</string>
-    <string name="planned_view_matches">查看匹配的待添加示例 API（%1$d 项）</string>
     <string name="providers_all">所有版本</string>
     <string name="component_date_picker_dialog">日期选择对话框</string>
     <string name="component_date_picker_dialog_description">打开所选主题或库提供的日期选择对话框。</string>
@@ -667,4 +653,24 @@
     <string name="action_bar_open">打开 Android 操作栏</string>
     <string name="action_bar_requires_theme">Theme.Light 不提供操作栏。请选择 Holo 或 Material。</string>
     <string name="hosted_sample_return">返回组件</string>
+    <string name="component_inline_content_view">内联内容视图</string>
+    <string name="component_inline_content_view_description">在演示键盘的内联自动填充会话中生成真实的 Android InlineContentView。</string>
+    <string name="inline_open">打开内联内容演示</string>
+    <string name="inline_setup_note">启用 Componentory 演示自动填充和演示键盘，选择此键盘后请求固定的演示建议。不读取或保存账号信息。体验后请恢复常用的自动填充服务。</string>
+    <string name="inline_keyboard_title">Componentory 内联演示</string>
+    <string name="inline_keyboard_outside_sample">此键盘仅用于 Componentory 演示输入框。在其他位置输入时请恢复常用键盘。</string>
+    <string name="inline_attach_toggle">连接或分离</string>
+    <string name="inline_surface_toggle">切换表面顺序</string>
+    <string name="inline_previous_keyboard">上一个键盘</string>
+    <string name="inline_choose_autofill">选择演示自动填充</string>
+    <string name="inline_enable_keyboard">启用演示键盘</string>
+    <string name="inline_choose_keyboard">选择键盘</string>
+    <string name="inline_input_hint">固定演示用户名</string>
+    <string name="inline_request_demo">请求演示建议</string>
+    <string name="inline_status_waiting">正在等待演示键盘和内联建议。</string>
+    <string name="inline_status_empty">未收到内联建议。请检查演示自动填充服务和键盘的选择，然后重新请求。</string>
+    <string name="inline_status_ready">已连接真实的平台视图。</string>
+    <string name="inline_status_detached">已分离真实的平台视图。</string>
+    <string name="inline_status_seen">已在演示中生成平台视图。</string>
+    <string name="inline_helper_note">内联模板辅助：androidx.autofill:autofill:%1$s · UI v1。视图为 Android 原生 InlineContentView。</string>
 </resources>

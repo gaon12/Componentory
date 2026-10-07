@@ -107,7 +107,7 @@ try {
     }
     $providerVersions = [ordered]@{}
     $versionCatalog = Get-Content -LiteralPath 'gradle/libs.versions.toml' -Raw
-    foreach ($dependency in @('composeMaterial2', 'composeMaterial3', 'composeMaterialIcons')) {
+    foreach ($dependency in @('composeMaterial2', 'composeMaterial3', 'composeMaterialIcons', 'autofill')) {
         $version = [regex]::Match($versionCatalog, '(?m)^' + $dependency + '\s*=\s*"([^"]+)"\s*$')
         $providerVersions[$dependency] = if ($version.Success) { $version.Groups[1].Value } else { $null }
     }

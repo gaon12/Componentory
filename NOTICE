@@ -26,3 +26,9 @@ not establish original historical OS appearance or behavior.
 Original notice URLs, immutable commits, and byte hashes are in
 licenses/provenance.json. These attribution files do not change upstream terms
 or assign a single license to every AOSP or SDK file.
+
+The inline-content demo uses androidx.autofill:autofill:1.3.0 to construct the
+inline UI v1 template. This AndroidX module is licensed under Apache 2.0. Its
+original published license is retained as licenses/androidx-autofill-LICENSE.txt,
+with its artifact identity and byte hashes in licenses/provenance.json. The
+InlineContentView itself is created by the installed Android platform.

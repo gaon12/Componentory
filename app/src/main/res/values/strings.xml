@@ -269,21 +269,6 @@
     <string name="component_badged_box_description">Choose any library icon and inspect its attached number badge.</string>
     <string name="status_badge">Badge count: %1$d</string>
     <string name="catalog_mode_samples">Components</string>
-    <string name="catalog_mode_planned">Planned APIs</string>
-    <string name="planned_intro">These listed APIs have no interactive samples yet.</string>
-    <string name="planned_search_hint">Search API names</string>
-    <string name="planned_status">Sample not implemented yet</string>
-    <string name="planned_provider_all">All providers</string>
-    <string name="planned_provider_framework">Android framework</string>
-    <plurals name="planned_count">
-        <item quantity="one">%1$d API source awaiting a sample</item>
-        <item quantity="other">%1$d API sources awaiting samples</item>
-    </plurals>
-    <string name="planned_empty">No matching planned APIs</string>
-    <string name="planned_loading">Loading planned APIs…</string>
-    <string name="planned_unavailable">Planned APIs could not be loaded.</string>
-    <string name="planned_api_introduced">Introduced in API %1$d</string>
-    <string name="planned_view_matches">View planned API matches (%1$d)</string>
     <string name="providers_all">All versions</string>
     <string name="component_date_picker_dialog">Date picker dialog</string>
     <string name="component_date_picker_dialog_description">Open a date picker dialog supplied by the selected theme or library.</string>
@@ -670,4 +655,24 @@
     <string name="action_bar_open">Open native ActionBar</string>
     <string name="action_bar_requires_theme">Theme.Light does not provide an action bar. Select Holo or Material.</string>
     <string name="hosted_sample_return">Return to component</string>
+    <string name="component_inline_content_view">Inline content view</string>
+    <string name="component_inline_content_view_description">A real platform InlineContentView created by an inline autofill session in the demo keyboard.</string>
+    <string name="inline_open">Open inline content demo</string>
+    <string name="inline_setup_note">Enable Componentory demo autofill and its demo keyboard, choose that keyboard, then request the fixed demo suggestion. No account data is read or saved. Return to your usual autofill service after trying the demo.</string>
+    <string name="inline_keyboard_title">Componentory inline demo</string>
+    <string name="inline_keyboard_outside_sample">This keyboard only handles the Componentory demo field. Return to your usual keyboard to type elsewhere.</string>
+    <string name="inline_attach_toggle">Attach or detach</string>
+    <string name="inline_surface_toggle">Toggle surface order</string>
+    <string name="inline_previous_keyboard">Previous keyboard</string>
+    <string name="inline_choose_autofill">Choose demo autofill</string>
+    <string name="inline_enable_keyboard">Enable demo keyboard</string>
+    <string name="inline_choose_keyboard">Choose keyboard</string>
+    <string name="inline_input_hint">Fixed demo username</string>
+    <string name="inline_request_demo">Request demo suggestion</string>
+    <string name="inline_status_waiting">Waiting for the demo keyboard and inline suggestion.</string>
+    <string name="inline_status_empty">No inline suggestion arrived. Check the selected demo autofill service and keyboard, then request again.</string>
+    <string name="inline_status_ready">Real platform view attached.</string>
+    <string name="inline_status_detached">Real platform view detached.</string>
+    <string name="inline_status_seen">Platform view created in the demo.</string>
+    <string name="inline_helper_note">Inline template helper: androidx.autofill:autofill:%1$s · UI v1. The host is the native Android InlineContentView.</string>
 </resources>

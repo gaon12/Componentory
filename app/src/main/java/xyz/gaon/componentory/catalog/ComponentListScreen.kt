@@ -3,7 +3,6 @@ package xyz.gaon.componentory.catalog
 import android.os.Build
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
@@ -36,7 +34,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
@@ -57,10 +54,7 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.history.HistoryBrowser
 import xyz.gaon.componentory.lab.ComponentCategory
@@ -69,16 +63,15 @@ import xyz.gaon.componentory.lab.LabComponent
 
 enum class CatalogMode(val labelRes: Int) {
     SAMPLES(R.string.catalog_mode_samples),
-    PLANNED(R.string.catalog_mode_planned),
-    HISTORY(R.string.catalog_mode_history),
-}
+    // Retain the old enum name so older saved state can still be restored.
+    PLANNED(R.string.catalog_mode_samples),
+    HISTORY(R.string.catalog_mode_history);
 
-private sealed interface InventoryLoadState {
-    data object Loading : InventoryLoadState
+    fun current(): CatalogMode = if (this == PLANNED) SAMPLES else this
 
-    data object Unavailable : InventoryLoadState
-
-    data class Ready(val entries: List<InventoryEntry>) : InventoryLoadState
+    companion object {
+        val visibleModes = listOf(SAMPLES, HISTORY)
+    }
 }
 
 // Rows answer "where can I use this?" without opening the detail screen, so
@@ -103,36 +96,15 @@ fun ComponentListScreen(
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
-    var provider by rememberSaveable { mutableStateOf<InventoryFamily?>(null) }
     val sampleListState = rememberLazyGridState()
-    val plannedListState = rememberLazyListState()
     val savedModes = rememberSaveableStateHolder()
     val scope = rememberCoroutineScope()
     val changeQuery: (String) -> Unit = {
         query = it
-        scope.launch {
-            sampleListState.scrollToItem(0)
-            plannedListState.scrollToItem(0)
-        }
+        scope.launch { sampleListState.scrollToItem(0) }
     }
     val focus = LocalFocusManager.current
     val context = LocalContext.current
-    val inventory by
-        produceState<InventoryLoadState>(InventoryLoadState.Loading, context) {
-            value = InventoryLoadState.Loading
-            value =
-                withContext(Dispatchers.IO) {
-                    try {
-                        InventoryLoadState.Ready(ComponentInventory.read(context))
-                    } catch (cancelled: CancellationException) {
-                        throw cancelled
-                    } catch (_: Exception) {
-                        InventoryLoadState.Unavailable
-                    }
-                }
-        }
-    val entries = (inventory as? InventoryLoadState.Ready)?.entries
-    val pendingMatches = entries?.let { ComponentInventory.pending(it, query) }
     val components =
         LabComponent.entries.filter {
             it.matchesSearch(query, context) && (category == null || it.category == category)
@@ -153,8 +125,8 @@ fun ComponentListScreen(
                     Text(
                         stringResource(
                             when (mode) {
-                                CatalogMode.SAMPLES -> R.string.catalog_intro
-                                CatalogMode.PLANNED -> R.string.planned_intro
+                                CatalogMode.SAMPLES,
+                                CatalogMode.PLANNED -> R.string.catalog_intro
                                 CatalogMode.HISTORY -> R.string.history_intro
                             }
                         ),
@@ -165,15 +137,18 @@ fun ComponentListScreen(
             }
             if (!compactHeader) {
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-                    CatalogMode.entries.forEachIndexed { index, option ->
+                    CatalogMode.visibleModes.forEachIndexed { index, option ->
                         SegmentedButton(
-                            selected = mode == option,
+                            selected = mode.current() == option,
                             onClick = {
                                 onModeChange(option)
                                 focus.clearFocus()
                             },
                             shape =
-                                SegmentedButtonDefaults.itemShape(index, CatalogMode.entries.size),
+                                SegmentedButtonDefaults.itemShape(
+                                    index,
+                                    CatalogMode.visibleModes.size,
+                                ),
                             modifier = Modifier.testTag("catalog_mode_${option.name}"),
                             colors =
                                 SegmentedButtonDefaults.colors(
@@ -195,8 +170,8 @@ fun ComponentListScreen(
             val searchLabel =
                 stringResource(
                     when (mode) {
-                        CatalogMode.SAMPLES -> R.string.component_search_hint
-                        CatalogMode.PLANNED -> R.string.planned_search_hint
+                        CatalogMode.SAMPLES,
+                        CatalogMode.PLANNED -> R.string.component_search_hint
                         CatalogMode.HISTORY -> R.string.history_search_hint
                     }
                 )
@@ -239,47 +214,6 @@ fun ComponentListScreen(
             if (mode == CatalogMode.HISTORY) {
                 savedModes.SaveableStateProvider(CatalogMode.HISTORY.name) {
                     HistoryBrowser(query, Modifier.fillMaxWidth().weight(1f), onOpenComponent)
-                }
-            } else if (mode == CatalogMode.PLANNED) {
-                if (!compactHeader)
-                    PlannedProviderFilter(provider, { provider = it }, Modifier.fillMaxWidth())
-                when (val loaded = inventory) {
-                    InventoryLoadState.Loading,
-                    InventoryLoadState.Unavailable -> {
-                        val loading = loaded == InventoryLoadState.Loading
-                        Box(
-                            Modifier.fillMaxWidth().weight(1f),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(
-                                stringResource(
-                                    if (loading) R.string.planned_loading
-                                    else R.string.planned_unavailable
-                                ),
-                                modifier =
-                                    Modifier.testTag(
-                                        if (loading) "planned_loading" else "planned_unavailable"
-                                    ),
-                            )
-                        }
-                    }
-                    is InventoryLoadState.Ready -> {
-                        val planned = ComponentInventory.pending(loaded.entries, query, provider)
-                        Text(
-                            pluralStringResource(
-                                R.plurals.planned_count,
-                                planned.size,
-                                planned.size,
-                            ),
-                            modifier = Modifier.testTag("planned_count"),
-                            style = MaterialTheme.typography.labelLarge,
-                        )
-                        PlannedApiList(
-                            planned,
-                            plannedListState,
-                            Modifier.fillMaxWidth().weight(1f),
-                        )
-                    }
                 }
             } else {
                 if (!compactHeader)
@@ -329,23 +263,6 @@ fun ComponentListScreen(
                                     modifier = Modifier.testTag("show_all_components"),
                                 ) {
                                     Text(stringResource(R.string.show_all_components))
-                                }
-                                if (query.isNotBlank() && !pendingMatches.isNullOrEmpty()) {
-                                    TextButton(
-                                        onClick = {
-                                            provider = null
-                                            onModeChange(CatalogMode.PLANNED)
-                                            focus.clearFocus()
-                                        },
-                                        modifier = Modifier.testTag("show_planned_matches"),
-                                    ) {
-                                        Text(
-                                            stringResource(
-                                                R.string.planned_view_matches,
-                                                pendingMatches.size,
-                                            )
-                                        )
-                                    }
                                 }
                             }
                         }

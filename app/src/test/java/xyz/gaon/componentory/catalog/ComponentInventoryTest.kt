@@ -145,7 +145,7 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(159, LabComponent.entries.size)
+        assertEquals(160, LabComponent.entries.size)
         assertEquals(
             365,
             LabComponent.entries.sumOf { component ->
@@ -154,16 +154,13 @@ class ComponentInventoryTest {
                 }
             },
         )
+        assertEquals(mapOf("Implemented" to 239), rows.groupingBy { it.status }.eachCount())
         assertEquals(
-            mapOf("Implemented" to 238, "Pending" to 1),
-            rows.groupingBy { it.status }.eachCount(),
-        )
-        assertEquals(
-            mapOf("PLATFORM" to 73, "MATERIAL2" to 52, "MATERIAL3" to 113),
+            mapOf("PLATFORM" to 74, "MATERIAL2" to 52, "MATERIAL3" to 113),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 1),
+            emptyMap<String, Int>(),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -381,14 +378,17 @@ class ComponentInventoryTest {
     }
 
     @Test
-    fun pendingApisNeverClaimRunnableSamples() {
-        val pending = inventory().filter { it.status == "Pending" }
-        pending.forEach { row ->
-            assertTrue(
-                "Pending ${row.source} claims a runnable catalog ID",
-                row.catalogIds.isEmpty(),
+    fun completedBaselineHasNoPendingRowsAndMapsBothHostedApis() {
+        val rows = inventory()
+        assertTrue(rows.none { it.status == "Pending" })
+        mapOf(
+                "android.app.ActionBar" to "ACTION_BAR",
+                "android.widget.inline.InlineContentView" to "INLINE_CONTENT_VIEW",
             )
-        }
+            .forEach { (source, sample) ->
+                assertEquals(listOf(sample), rows.single { it.source == source }.catalogIds)
+            }
+        assertEquals(368, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
     }
 
     private fun family(provider: String) =

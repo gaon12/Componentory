@@ -368,6 +368,15 @@ fun SamplePanel(
                     )
                 }
             }
+            if (component == LabComponent.INLINE_CONTENT_VIEW && unsupported == null) {
+                Text(
+                    stringResource(
+                        R.string.inline_helper_note,
+                        xyz.gaon.componentory.BuildConfig.AUTOFILL_VERSION,
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
             if (component == LabComponent.TEXT_CLOCK && unsupported == null) {
                 Text(
                     stringResource(R.string.text_clock_note),

@@ -24,6 +24,15 @@
       "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
       "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
       "scope": "Full Apache 2.0 license text. Individual upstream file licenses and notices still apply."
+    },
+    {
+      "path": "androidx-autofill-LICENSE.txt",
+      "artifact": "androidx.autofill:autofill:1.3.0",
+      "sourcePath": "META-INF/androidx/autofill/autofill/LICENSE.txt",
+      "url": "https://dl.google.com/dl/android/maven2/androidx/autofill/autofill/1.3.0/autofill-1.3.0.aar",
+      "artifactSha256": "b5a217cee7724ea42a382965a9b22a330b988d62cb97abe1b1af50e54370c322",
+      "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+      "scope": "Unmodified published AndroidX Autofill license for the inline UI v1 template helper. The InlineContentView host is supplied by the installed Android OS."
     }
   ]
 }

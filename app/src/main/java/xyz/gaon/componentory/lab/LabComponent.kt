@@ -544,6 +544,14 @@ enum class LabComponent(
         minimumApi = 11,
         category = ComponentCategory.NAVIGATION,
     ),
+    INLINE_CONTENT_VIEW(
+        "Inline content view",
+        R.string.component_inline_content_view,
+        R.string.component_inline_content_view_description,
+        platformSource = "android.widget.inline.InlineContentView",
+        minimumApi = 30,
+        category = ComponentCategory.INPUT,
+    ),
     ACTION_BAR(
         "ActionBar",
         R.string.component_action_bar,

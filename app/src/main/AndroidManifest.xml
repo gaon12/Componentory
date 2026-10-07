@@ -14,6 +14,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Componentory">
+        <!-- The three inline demo components are disabled by resources below API 30. -->
+        <activity
+            android:name=".lab.inline.InlineDemoActivity"
+            android:enabled="@bool/inline_demo_enabled"
+            tools:targetApi="30"
+            android:exported="false"
+            android:label="@string/component_inline_content_view"
+            android:windowSoftInputMode="adjustResize" />
+        <service
+            android:name=".lab.inline.InlineDemoAutofillService"
+            android:enabled="@bool/inline_demo_enabled"
+            tools:targetApi="30"
+            android:exported="true"
+            android:label="@string/inline_keyboard_title"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <intent-filter><action android:name="android.service.autofill.AutofillService" /></intent-filter>
+            <meta-data android:name="android.autofill" android:resource="@xml/inline_autofill_service" />
+        </service>
+        <service
+            android:name=".lab.inline.InlineDemoInputMethodService"
+            android:enabled="@bool/inline_demo_enabled"
+            tools:targetApi="30"
+            android:exported="true"
+            android:label="@string/inline_keyboard_title"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter><action android:name="android.view.InputMethod" /></intent-filter>
+            <meta-data android:name="android.view.im" android:resource="@xml/inline_input_method" />
+        </service>
         <activity
             android:name=".lab.ActionBarSampleActivity"
             android:exported="false"

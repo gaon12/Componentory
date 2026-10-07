@@ -123,6 +123,10 @@ fun SettingsScreen(
                     SettingsGroup(stringResource(R.string.ui_libraries)) {
                         LibraryVersionRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
                         LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
+                        LibraryVersionRow(
+                            "AndroidX Autofill · inline UI v1",
+                            BuildConfig.AUTOFILL_VERSION,
+                        )
                         SettingsNote(stringResource(R.string.platform_note))
                     }
                     SettingsGroup(stringResource(R.string.source_notices)) { SourceNotices() }

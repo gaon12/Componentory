@@ -18,6 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "AUTOFILL_VERSION", "\"${libs.versions.autofill.get()}\"")
         testInstrumentationRunner = "xyz.gaon.componentory.testing.ComponentoryTestRunner"
         buildConfigField(
             "String",
@@ -52,6 +53,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.autofill) { version { strictly(libs.versions.autofill.get()) } }
     // Pin the sample libraries so the displayed version cannot drift through BOM resolution.
     implementation(libs.androidx.compose.material) {
         version { strictly(libs.versions.composeMaterial2.get()) }
@@ -141,7 +143,7 @@ abstract class PackageComponentInventory : DefaultTask() {
 
     @TaskAction
     fun packageInventory() {
-        // Keep planned discovery tied to the same audited file as the coverage checks.
+        // Package the audited source inventory used by coverage checks.
         val destination = outputDirectory.file("component-inventory.csv").get().asFile
         destination.parentFile.mkdirs()
         sourceFile.get().asFile.copyTo(destination, overwrite = true)
@@ -197,6 +199,8 @@ abstract class PackageSourceNotices : DefaultTask() {
                     sourceDirectory.file("aosp-frameworks-base-NOTICE.txt").get().asFile,
                 "android-sdk-NOTICE.txt" to
                     sourceDirectory.file("android-sdk-NOTICE.txt").get().asFile,
+                "androidx-autofill-LICENSE.txt" to
+                    sourceDirectory.file("androidx-autofill-LICENSE.txt").get().asFile,
                 "provenance.json" to sourceDirectory.file("provenance.json").get().asFile,
                 "Componentory-MIT.txt" to applicationLicense.get().asFile,
                 "NOTICE.txt" to applicationNotice.get().asFile,

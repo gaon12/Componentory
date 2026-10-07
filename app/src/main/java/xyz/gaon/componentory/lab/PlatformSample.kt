@@ -38,6 +38,17 @@ fun PlatformSample(
     state: SampleState,
     modifier: Modifier = Modifier,
 ) {
+    if (component == LabComponent.INLINE_CONTENT_VIEW) {
+        if (android.os.Build.VERSION.SDK_INT >= 30)
+            xyz.gaon.componentory.lab.inline.InlineDemoLauncher(
+                family,
+                viewId,
+                enabled,
+                state,
+                modifier,
+            )
+        return
+    }
     if (component == LabComponent.ACTION_BAR) {
         ActionBarSampleLauncher(family, viewId, enabled, state, modifier)
         return

@@ -267,20 +267,6 @@
     <string name="component_badged_box_description">選擇程式庫中的圖示並查看附加的數字徽章。</string>
     <string name="status_badge">徽章數量：%1$d</string>
     <string name="catalog_mode_samples">元件</string>
-    <string name="catalog_mode_planned">待新增範例</string>
-    <string name="planned_intro">這些列出的 API 尚無互動範例。</string>
-    <string name="planned_search_hint">搜尋 API 名稱</string>
-    <string name="planned_status">範例尚未實作</string>
-    <string name="planned_provider_all">所有提供者</string>
-    <string name="planned_provider_framework">Android 框架</string>
-    <plurals name="planned_count">
-        <item quantity="other">待新增範例的 API 項目：%1$d 項</item>
-    </plurals>
-    <string name="planned_empty">沒有符合的待新增範例 API</string>
-    <string name="planned_loading">正在載入待新增範例的 API…</string>
-    <string name="planned_unavailable">無法載入待新增範例的 API。</string>
-    <string name="planned_api_introduced">於 API %1$d 引入</string>
-    <string name="planned_view_matches">查看符合的待新增範例 API（%1$d 項）</string>
     <string name="providers_all">所有版本</string>
     <string name="component_date_picker_dialog">日期選擇對話框</string>
     <string name="component_date_picker_dialog_description">開啟所選主題或函式庫提供的日期選擇對話框。</string>
@@ -667,4 +653,24 @@
     <string name="action_bar_open">開啟 Android 操作列</string>
     <string name="action_bar_requires_theme">Theme.Light 不提供操作列。請選擇 Holo 或 Material。</string>
     <string name="hosted_sample_return">返回元件</string>
+    <string name="component_inline_content_view">行內內容檢視</string>
+    <string name="component_inline_content_view_description">在示範鍵盤的行內自動填入工作階段中產生真實的 Android InlineContentView。</string>
+    <string name="inline_open">開啟行內內容示範</string>
+    <string name="inline_setup_note">啟用 Componentory 示範自動填入與示範鍵盤，選擇此鍵盤後要求固定的示範建議。不讀取或儲存帳號資訊。體驗後請恢復常用的自動填入服務。</string>
+    <string name="inline_keyboard_title">Componentory 行內示範</string>
+    <string name="inline_keyboard_outside_sample">此鍵盤僅用於 Componentory 示範輸入欄位。在其他位置輸入時請恢復常用鍵盤。</string>
+    <string name="inline_attach_toggle">連接或分離</string>
+    <string name="inline_surface_toggle">切換表面順序</string>
+    <string name="inline_previous_keyboard">上一個鍵盤</string>
+    <string name="inline_choose_autofill">選擇示範自動填入</string>
+    <string name="inline_enable_keyboard">啟用示範鍵盤</string>
+    <string name="inline_choose_keyboard">選擇鍵盤</string>
+    <string name="inline_input_hint">固定示範使用者名稱</string>
+    <string name="inline_request_demo">要求示範建議</string>
+    <string name="inline_status_waiting">正在等待示範鍵盤與行內建議。</string>
+    <string name="inline_status_empty">未收到行內建議。請檢查示範自動填入服務與鍵盤的選擇，然後重新要求。</string>
+    <string name="inline_status_ready">已連接真實的平台檢視。</string>
+    <string name="inline_status_detached">已分離真實的平台檢視。</string>
+    <string name="inline_status_seen">已在示範中產生平台檢視。</string>
+    <string name="inline_helper_note">行內範本輔助：androidx.autofill:autofill:%1$s · UI v1。檢視為 Android 原生 InlineContentView。</string>
 </resources>

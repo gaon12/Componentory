@@ -15,6 +15,10 @@ fun LabComponent.feedback(
 ): String {
     val empty = context.getString(R.string.sample_state_empty)
     return when {
+        this == LabComponent.INLINE_CONTENT_VIEW ->
+            context.getString(
+                if (value > 0) R.string.inline_status_seen else R.string.inline_status_waiting
+            )
         isDivider ||
             this == LabComponent.DOT_BADGE ||
             this == LabComponent.TEXT ||

@@ -72,7 +72,7 @@ family,source,apiIntroduced,status,catalogId,notes
 "PLATFORM","android.widget.ZoomButton","1","Implemented","ZOOM_BUTTON","Deprecated API 26 magnifier button stepping the zoom level."
 "PLATFORM","android.widget.ZoomButtonsController","4","Implemented","ZOOM_BUTTONS_CONTROLLER","Deprecated API 26 controller overlaying zoom buttons on a themed owner view."
 "PLATFORM","android.widget.ZoomControls","1","Implemented","ZOOM_CONTROLS","Deprecated API 29 paired zoom buttons driving the level counter."
-"PLATFORM","android.widget.inline.InlineContentView","30","Pending","","No public constructor; the platform creates it inside inline content sessions."
+"PLATFORM","android.widget.inline.InlineContentView","30","Implemented","INLINE_CONTENT_VIEW","Created by InlineSuggestion.inflate in the private fixed-value autofill and IME demo; the inline UI v1 template helper is AndroidX Autofill 1.3.0."
 "MATERIAL2","androidx.compose.material.AlertDialog","","Implemented","DIALOG",""
 "MATERIAL2","androidx.compose.material.BackdropScaffold","","Implemented","BACKDROP_SCAFFOLD","Material 2 backdrop with a real concealed back layer."
 "MATERIAL2","androidx.compose.material.Badge","","Implemented","BADGE;DOT_BADGE","Number and dot variants from the pinned library; read-only appearance."
