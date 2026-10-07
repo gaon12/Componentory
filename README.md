@@ -1,12 +1,13 @@
 # Componentory
 
 Componentory is an Android UI lab for comparing live framework widgets and
-versioned Compose components. The app uses a quiet blue palette, readable text,
+versioned Compose components and explicit AOSP resource recreations. The app
+uses a quiet blue palette, readable text,
 and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 
 ## Explore and compare
 
-- **Components:** Search 160 entries by translated name, description, or English
+- **Components:** Search 168 entries by translated name, description, or English
   API name. Filter by category and select an Android version/theme or a Compose
   library version. Unsupported combinations explain their actual requirements.
 - **Version history:** Browse public SDK snapshots from API 1 through 36. Select
@@ -15,27 +16,37 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 - **Compare:** Use two independently themed samples. Copy eligible inputs, reset
   either panel, and save a run with its OS, build, display, and library identity.
 - **Runs:** Reopen, delete, or export stored comparisons.
-- **Settings:** Choose appearance and language, inspect the environment, and read
-  the complete bundled licenses and upstream notices offline.
+- **Settings:** Open grouped categories, then dedicated appearance, language, device,
+  library, license, or About pages. Read upstream notices offline and replay the
+  first-launch introduction from About.
 
 Phones use bottom navigation. Wide windows use a navigation rail with the catalog
-beside the selected component. Settings uses two columns when space permits.
+beside the selected component. Settings keeps its category list beside the
+selected page when space permits.
 Search, provider choices, and sample state survive tab changes, recreation, and
 changes between wide and compact layouts. Search and selection dialogs adapt to
 the software keyboard; long names wrap rather than being truncated.
 
-The audited baseline maps all 239 source rows to real samples: 74 framework APIs,
-52 Compose Material 2 APIs, and 113 Compose Material 3 APIs. Supporting controls
-can share one catalog entry. There is no Planned APIs tab. This baseline does not
-claim every Android UI API, overload, interaction, or historical OS is covered.
+The audited baseline maps 248 canonical source rows to 168 catalog entries:
+74 framework APIs, 52 Compose Material 2 APIs, and 122 Compose Material 3 APIs.
+Of these, 247 have direct API implementations and the Toast row is explicitly
+Recreated using AOSP artwork in an app popup. Supporting controls can share
+one catalog entry. There is no Planned APIs tab. This baseline does not claim
+every Android UI API, overload, interaction, or historical OS is covered.
+
+The design progression includes Classic, Holo, Material Design 1, Material
+Design 2, Material Design 3, Material You, and Material 3 Expressive. See
+[design families and source evidence](docs/design-families.md) for actual
+suppliers, resource bindings, experimental pins, and remaining capture gaps.
 
 ## Sample identity
 
 | Supplier | Identity |
 | --- | --- |
-| Android framework | Current OS with Theme.Light, Theme.Holo.Light, or Theme.Material.Light |
+| Android framework | Current OS engine with explicit light themes; selected Classic/Holo/Material Design 1 AOSP artwork |
 | Compose Material 2 | androidx.compose.material:material:1.10.4 |
-| Compose Material 3 | androidx.compose.material3:material3:1.4.0 |
+| Compose Material 3 / Material You | androidx.compose.material3:material3:1.5.0-alpha01; standard or Android 12+ dynamic colors |
+| Material 3 Expressive | Same experimental pin; real MaterialExpressiveTheme and Expressive APIs |
 | Compose Material icons | 1.7.8; 11,385 searchable variants |
 | Inline template helper | androidx.autofill:autofill:1.3.0; inline UI v1 |
 
@@ -49,11 +60,16 @@ keyboard when it finishes. Android creates the actual InlineContentView through
 InlineSuggestion.inflate; the AndroidX helper supplies the suggestion template.
 
 Samples retain their own light configuration when the system or app is dark.
-Native sample labels have a 16 sp minimum for readability. These adjusted samples
-run on the installed OS. Selecting Holo does not reproduce Android 3.0's original
-implementation. Original appearance and interaction require the corresponding
-historical OS. Missing original captures and unverified historical behavior remain
-explicit in the history browser and source exports.
+Native sample labels have a 16sp minimum for readability. Selected controls
+use 1,009 imported AOSP resource variants for 32 component/design pairs.
+Their interaction engine still comes from the installed OS. Other framework
+samples carry a current-OS badge. Original historical captures are missing.
+
+Toasts use six pinned AOSP releases and 22 original resource variants in a
+separately labeled custom preview and popup. They do not call the installed
+OS Toast renderer or claim a Compose Toast API. Modern artwork includes the
+app icon and two-line limit; colors follow the selected library or dynamic
+palette. Repeated taps reset the timeout, and the popup does not block touches.
 
 ## Build and verify
 
@@ -89,7 +105,7 @@ Its tests touch the actual suggestion, fill the fixed value, and exercise the
 public host's attachment and surface order. Other apps' input is never handled
 by the demo keyboard or inspected by the demo autofill service.
 
-See [current verification](docs/verification-2026-10-08.md) for executed results
+See [current verification](docs/verification-design-update-2026-10-08.md) for executed results
 and limitations. Executed results distinguish final device checks from earlier
 milestones and retain their APK hashes. Lint passes with zero errors; existing
 warnings remain listed in its report.
@@ -111,6 +127,7 @@ release-specific licenses, notices, and resource headers.
 - [Coverage and retained milestones](docs/component-coverage.md)
 - [Development workflow](AGENTS.md)
 - [Product plan](docs/product-plan.md)
+- [Earlier UI verification](docs/verification-2026-10-08.md)
 - [Earlier verification](docs/verification-2026-10-04.md)
 
 Android is a trademark of Google LLC. See the [official Android brand notice](https://developer.android.com/legal).

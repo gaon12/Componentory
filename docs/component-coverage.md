@@ -1,36 +1,51 @@
 # Component coverage
 
-The current audited baseline maps all **239 source rows** to **160 catalog
-entries**. It has **368 supported component/family cells at API 30 or later**,
-or **365 at the minimum API 24**. Supporting controls can share a catalog entry.
+The current audited baseline maps **248 canonical API rows** to **168 catalog
+entries** across seven design choices. It has **583 supported cells at API 31+**,
+**481 at API 30**, or **478 at the minimum API 24**. Material You requires API 31.
+Supporting controls can share a catalog entry; themes do not create new API rows.
 Implementation counts are separate from executed verification.
 
-Application source: `47f9901`. See [current verification](verification-2026-10-08.md)
-for test scopes, APK identity, retained failures, and device-specific outcomes.
+Current application code is `6b1caf9`; final instrumentation refinement is `bb7817d`.
+See [current verification](verification-design-update-2026-10-08.md) for exact
+APKs, scopes, retained failures, and device outcomes. The
+[design guide](design-families.md) explains the frozen experimental Expressive
+pin, actual dynamic colors, resource provenance, and original capture gaps.
 
-| Source family | Audited rows | Implemented | Pending |
-| --- | ---: | ---: | ---: |
-| Android framework | 74 | 74 | 0 |
-| Compose Material 2 1.10.4 | 52 | 52 | 0 |
-| Compose Material 3 1.4.0 | 113 | 113 | 0 |
-| Total | 239 | 239 | 0 |
+| Source family | Audited rows | Direct API implementations | Recreated | Pending |
+| --- | ---: | ---: | ---: | ---: |
+| Android framework | 74 | 73 | 1 | 0 |
+| Compose Material 2 1.10.4 | 52 | 52 | 0 | 0 |
+| Compose Material 3 1.5.0-alpha01 | 122 | 122 | 0 | 0 |
+| Total | 248 | 247 | 1 | 0 |
+
+Eight Expressive components and the Expressive ToggleButton supplier add nine
+canonical Material 3 rows. Material You shares the standard Material 3 APIs
+while sourcing colors from Android. The Toast row represents its Android API
+identity in history, but the sample is explicitly an AOSP resource recreation
+for every design choice; no system Toast or library Toast API is instantiated.
+
+Selected Classic, Holo, and Material Design 1 controls use 1,009 imported AOSP
+resource variants for 32 component/design pairs. Toast artwork adds 22 variants
+from six releases. Their source hashes, adaptations, and full ancestor notices
+are retained. Current-OS controls, resource recreations, and versioned library
+samples have different badges and saved-run identities. Original historical OS
+captures remain missing and original interaction behavior remains unverified.
 
 The native ActionBar uses its Activity host in Holo and Material; Theme.Light
 explicitly does not provide one. InlineContentView uses an actual inline autofill
-session at API 30+, an isolated demo keyboard/provider, and the pinned AndroidX
-Autofill 1.3.0 inline UI v1 template. Its view comes from the installed OS through
-the public inflate callback. The completed Planned APIs screen is removed.
+session at API 30+, an isolated demo keyboard/provider, and AndroidX Autofill
+1.3.0's inline UI v1 template. The completed Planned APIs screen is removed.
 
-A supported source with missing runtime setup explains that prerequisite. A
-family that does not supply an API explains its unsupported status. Neither case
-uses a substitute widget or invented original capture. The baseline covers the
-reviewed public framework UI and Compose sources; additional APIs, variants,
-AppCompat, Material Views, Foundation, and historical runs remain separate work.
+On API 31+, the generic sweep has 1,176 cells: 572 generic rendering checks,
+593 explicit unsupported checks, and 11 dedicated host/animation cells. The
+11 comprise six animated framework progress styles, two Activity-owned action
+bars, and three inline hosts. A launcher button is not host rendering evidence.
+The verification report records which dedicated tests actually executed.
 
-On API 36, the sweep has 357 rendering cells, 432 unsupported cells, and 11 cells
-reserved for dedicated host/animation tests. The 11 are six animated framework
-progress styles, two Activity-owned action bars, and three actual inline hosts.
-A launcher button is never counted as an ActionBar or InlineContentView.
+The following sections retain earlier implementation notes and verification
+milestones. Their counts, dependency pins, source commits, and APK hashes describe
+those earlier states; they are not the current baseline.
 
 ## Retained earlier implementation notes and results
 

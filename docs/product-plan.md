@@ -11,17 +11,19 @@ Keep the design family and the execution environment visible together:
 
 | Family | Source | Meaning |
 | --- | --- | --- |
-| Classic | Android framework `Theme.Light` | Platform styling available since API 1. |
-| Holo | Android framework `Theme.Holo.Light` | Platform styling introduced with Android 3.0 / API 11. |
-| Material | Android framework `Theme.Material.Light` | Platform styling introduced with Android 5.0 / API 21. |
-| Material 2 | Compose Material library | A separately versioned library implementation. |
-| Material 3 | Compose Material 3 library | A separately versioned library implementation. |
+| Classic | Current framework engine, Theme.Light; selected Android 2.3.7 resources | Resource recreation where artwork is bundled. |
+| Holo | Current framework engine, Theme.Holo.Light; selected Android 4.4.4 resources | Resource recreation where artwork is bundled. |
+| Material Design 1 | Current framework engine, Theme.Material.Light; selected Android 5.0.2 resources | Resource recreation where artwork is bundled. |
+| Material Design 2 | Compose Material 1.10.4 | Separately versioned library implementation. |
+| Material Design 3 | Compose Material 3 1.5.0-alpha01 | Standard light palette and standard motion. |
+| Material You | Same Material 3 pin; Android 12+ dynamic colors | Real device palette, without a static fallback below API 31. |
+| Material 3 Expressive | Same experimental pin; MaterialExpressiveTheme | Frozen first public Expressive library generation. |
 
-The live controls use the selected framework theme or actual library component.
-A theme does not switch the OS. For example, Holo on Android 16 is a Holo-themed
-framework control running on Android 16. Label it that way. Do not claim it is an
-Android 3.0 capture or that its implementation has remained identical since 3.0.
-Manufacturer changes can also affect the platform widgets.
+A theme does not switch the OS. Resource recreations use explicitly pinned
+artwork and a disclosed current-device engine. Other framework components carry
+a current-OS badge. Toast has its own AOSP preview and app popup rather than
+invoking the OS Toast renderer. Do not label any of these as an original OS
+capture. The [design guide](design-families.md) records exact suppliers and pins.
 
 The long-term catalog should cover more components, theme variants, library
 releases, and Android history. Do not imply that the first supported families
@@ -44,8 +46,9 @@ comparison have their own screens, rather than sharing one long lab page.
    against another family. Left starts with the current eligible Detail inputs;
    Right starts with its provider defaults. Both share Detail's Enabled setting.
    Copy inputs in either direction while keeping each panel independently editable.
-5. Switch to Settings to choose app appearance and language, and inspect the
-   device, OS build, target SDK, display settings, and exact library versions.
+5. Open Settings categories, then their dedicated pages for appearance, language,
+   device identity, libraries, licenses, and About. Replay the first-launch
+   introduction from About.
 
 Keep the search and scroll position when returning from a detail page. Preserve
 tab state across navigation and Activity recreation. Back from a detail returns
@@ -114,16 +117,19 @@ Do not keep an empty Planned APIs tab once the audited baseline is implemented.
 
 ## Component coverage
 
-The first prototype included eight basic types in all five families. The catalog
+The first prototype included eight basic types in five families. The current
+baseline has 168 entries and seven design choices, including eight Expressive
+components and explicit AOSP-backed Toast recreations. The catalog
 now includes framework-only controls, library action variants, chip and selection
 samples, additional input types, inline dates, fixed Text, framework CheckedTextView,
 and icon browsing. Use the
 [coverage inventory](component-coverage.md) to keep the broad expansion auditable.
 Continue adding components, visual variants, and historical coverage in focused
 changes.
-Show the actual class or library package alongside the sample. Platform widgets
-must use `android.widget` or framework dialogs directly. The Compose shell must
-not replace them with an AppCompat or Material library equivalent.
+Show the actual class or library package alongside the sample. Direct platform
+samples use `android.widget` or framework dialogs. AOSP artwork replays must be labeled
+as recreations; Toast uses an explicit app popup. The Compose shell must not
+silently substitute an AppCompat or Material control for a claimed platform API.
 
 Library samples are separate families with exact dependency version labels.
 Supply the selected library's own sample theme explicitly. Material 3 samples
@@ -139,6 +145,9 @@ with search, style filters, and preview. Let users apply a chosen icon to the
 current sample and keep comparison selections independent. A resource exposed
 by the framework but missing on a device needs an explicit unavailable label.
 Record the icon artifact version separately from the component library version.
+
+See [current verification](verification-design-update-2026-10-08.md) for current
+checks; retained milestone results below describe their original source states.
 
 ## Evidence and tests
 
