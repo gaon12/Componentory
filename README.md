@@ -131,7 +131,8 @@ or its [canonical source](docs/privacy-policy.txt).
 
 The [project website](https://gaon12.github.io/Componentory/) and privacy page
 are generated from repository sources and published through GitHub Pages.
-Downloadable builds are listed under [GitHub releases](https://github.com/gaon12/Componentory/releases).
+The [1.0.0 release](https://github.com/gaon12/Componentory/releases/tag/v1.0.0)
+provides signed APK/AAB files, a store-material ZIP, and SHA-256 checksums.
 An upload-signed APK uses a different certificate from local debug builds and may
 also differ from Play-delivered APKs. Keep user data when changing build channels.
 

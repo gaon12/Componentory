@@ -220,3 +220,17 @@ python scripts/store/build-website.py
 ```
 
 Source: [GitHub Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+
+## Published preparation release
+
+[GitHub v1.0.0](https://github.com/gaon12/Componentory/releases/tag/v1.0.0) is
+published at tag `2d6082ec8a717437500ee8a530a24434d28fcd9c`. It provides the
+upload-signed APK/AAB, `Componentory-1.0.0-store-materials.zip`, and
+`SHA256SUMS.txt`. Server-reported SHA-256 digests match every local upload.
+The project website and canonical privacy page are also live.
+
+Google Play remains unsubmitted. The publisher must sign in, provide the public
+support email, confirm any existing package/signing identity, and complete the
+account's content and track requirements. Prepared declarations are not submitted
+answers. The downloadable archive preserves the requirements and verification
+state when the release was created; consult this guide for later status updates.

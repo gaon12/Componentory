@@ -114,6 +114,15 @@ The [project website](https://gaon12.github.io/Componentory/) and
 [privacy policy](https://gaon12.github.io/Componentory/privacy.html) are public.
 The policy returned HTTP 200 and matched the locally generated canonical HTML.
 
+[GitHub v1.0.0](https://github.com/gaon12/Componentory/releases/tag/v1.0.0) was
+published at `2d6082ec8a717437500ee8a530a24434d28fcd9c`. All four assets reached
+the uploaded state, and their server-reported SHA-256 digests match local bytes.
+The store-material ZIP SHA-256 is
+`1e765e9cd719770911e5cc651567aa7f0872aaa5f3504752eef2092adc6e2d56`.
+The main branch and release tag were checked against the remote. The first
+release-creation request rejected an abbreviated commit identity; the successful
+request used the full pushed revision. No failed attempt is reported as deployed.
+
 Google Play is **not submitted or published**. The available Console session is
 at Google's sign-in page; no authenticated developer account, public support
 email, existing package/upload-key confirmation, audience decision, distribution
