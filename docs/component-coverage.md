@@ -6,8 +6,10 @@ entries** across seven design choices. It has **583 supported cells at API 31+**
 Supporting controls can share a catalog entry; themes do not create new API rows.
 Implementation counts are separate from executed verification.
 
-Current application code is `6b1caf9`; final instrumentation refinement is `bb7817d`.
-See [current verification](verification-design-update-2026-10-08.md) for exact
+Release application configuration is `03ea995`; the saved-run test refinement is
+`607de45`. The catalog baseline above remains unchanged. Earlier broad rendering
+results describe their recorded APKs and do not verify every release interaction.
+See [current verification](verification-release-2026-10-08.md) for exact
 APKs, scopes, retained failures, and device outcomes. The
 [design guide](design-families.md) explains the frozen experimental Expressive
 pin, actual dynamic colors, resource provenance, and original capture gaps.

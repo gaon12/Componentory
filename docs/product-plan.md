@@ -146,7 +146,7 @@ current sample and keep comparison selections independent. A resource exposed
 by the framework but missing on a device needs an explicit unavailable label.
 Record the icon artifact version separately from the component library version.
 
-See [current verification](verification-design-update-2026-10-08.md) for current
+See [current verification](verification-release-2026-10-08.md) for current
 checks; retained milestone results below describe their original source states.
 
 ## Evidence and tests
@@ -185,6 +185,22 @@ label fixtures or planned samples as completed experiments.
 Follow the code, formatter/lint, tests, and focused commit order for each change.
 Keep builds sequential and memory use modest. Use the connected physical device;
 do not start emulators unless the user later requests them.
+
+## Publishing and privacy
+
+Maintain five localized Google Play listings and genuine, attributed screenshots.
+Use the [release guide](google-play-release.md) for current specifications and
+account gates. A signed bundle, a GitHub release, a Console upload, submission
+for review, and a live store listing are separate outcomes.
+
+Bundle the [canonical privacy policy](privacy-policy.txt) unchanged and generate
+its public HTML from that same source. Keep local preferences and saved runs out
+of automatic backup. Networking, accounts, analytics, or automatic export would
+require reassessing the privacy text and Data safety declarations.
+
+Keep signing credentials outside Git. Existing Play registrations require their
+registered upload identity. Preserve local user data when installing builds with
+different certificates and turn off test-device screens after final verification.
 
 ## Technical sources
 

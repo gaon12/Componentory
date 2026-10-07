@@ -17,7 +17,7 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
   either panel, and save a run with its OS, build, display, and library identity.
 - **Runs:** Reopen, delete, or export stored comparisons.
 - **Settings:** Open grouped categories, then dedicated appearance, language, device,
-  library, license, or About pages. Read upstream notices offline and replay the
+  library, license, privacy, or About pages. Read upstream notices offline and replay the
   first-launch introduction from About.
 
 About also links to the [GitHub repository](https://github.com/gaon12/Componentory)
@@ -109,10 +109,31 @@ Its tests touch the actual suggestion, fill the fixed value, and exercise the
 public host's attachment and surface order. Other apps' input is never handled
 by the demo keyboard or inspected by the demo autofill service.
 
-See [current verification](docs/verification-project-links-pickers-2026-10-08.md) for executed results
+See [current verification](docs/verification-release-2026-10-08.md) for executed results
 and limitations. Executed results distinguish final device checks from earlier
 milestones and retain their APK hashes. Lint passes with zero errors; existing
 warnings remain listed in its report.
+
+## Release and privacy
+
+Version 1.0.0 (code 2) has prepared Google Play listings in five languages,
+the supplied app icon, localized feature graphics, and genuine phone screenshots.
+See the [release guide](docs/google-play-release.md) for current image and text
+limits, signing, account requirements, app-content declarations, and submission
+steps. Prepared materials and a GitHub release do not establish Play publication.
+
+The app works offline without an account, advertising, analytics, or Internet
+permission. Settings > Privacy policy contains the full offline document.
+Preferences and comparison runs stay in the app sandbox; automatic backup is
+disabled. Export opens Android's share sheet only at the user's request.
+Read the [published privacy policy](https://gaon12.github.io/Componentory/privacy.html)
+or its [canonical source](docs/privacy-policy.txt).
+
+The [project website](https://gaon12.github.io/Componentory/) and privacy page
+are generated from repository sources and published through GitHub Pages.
+Downloadable builds are listed under [GitHub releases](https://github.com/gaon12/Componentory/releases).
+An upload-signed APK uses a different certificate from local debug builds and may
+also differ from Play-delivered APKs. Keep user data when changing build channels.
 
 ## Sources and licenses
 
