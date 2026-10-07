@@ -9,7 +9,6 @@ import android.widget.ShareActionProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -21,7 +20,7 @@ internal fun PlatformShareProviderSample(
     state: SampleState,
     modifier: Modifier,
 ) {
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             createShareHost(themed, state).apply { id = viewId }

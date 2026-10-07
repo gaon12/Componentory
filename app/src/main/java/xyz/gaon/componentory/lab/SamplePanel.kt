@@ -585,6 +585,14 @@ fun SamplePanel(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.testTag("implementation_$panel"),
                 )
+                if (platform != null && unsupported == null) {
+                    Text(
+                        stringResource(R.string.sample_text_size_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.testTag("sample_text_size_$panel"),
+                    )
+                }
             }
             if (
                 (component.isDeterminateProgress || component.isIndeterminateProgress) &&

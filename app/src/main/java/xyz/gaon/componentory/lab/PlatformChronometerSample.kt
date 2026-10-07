@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -19,7 +18,7 @@ internal fun PlatformChronometerSample(
     modifier: Modifier,
 ) {
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             val chronometer = Chronometer(themed).apply { id = viewId }

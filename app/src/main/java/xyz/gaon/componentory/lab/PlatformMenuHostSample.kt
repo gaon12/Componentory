@@ -10,7 +10,6 @@ import android.widget.Toolbar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -22,7 +21,7 @@ internal fun PlatformMenuHostSample(
     state: SampleState,
     modifier: Modifier,
 ) {
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             createMenuHost(themed, component).apply { id = viewId }

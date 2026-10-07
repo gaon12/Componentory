@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -31,7 +30,7 @@ internal fun PlatformInlineDateSample(
         Box(Modifier.horizontalScroll(rememberScrollState()).testTag("date_viewport_$panel")) {
             when (component) {
                 LabComponent.DATE_PICKER ->
-                    AndroidView(
+                    ReadableAndroidView(
                         factory = { context ->
                             val date = SampleDates.parts(requireNotNull(state.inlineDateUtcMillis))
                             DatePicker(family.createContext(context)).apply {
@@ -61,7 +60,7 @@ internal fun PlatformInlineDateSample(
                         modifier = modifier.testTag("native_$panel"),
                     )
                 LabComponent.CALENDAR_VIEW ->
-                    AndroidView(
+                    ReadableAndroidView(
                         factory = { context ->
                             CalendarView(family.createContext(context)).apply {
                                 id = viewId

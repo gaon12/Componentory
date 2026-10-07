@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import kotlin.math.roundToInt
 import xyz.gaon.componentory.R
 
@@ -26,7 +25,7 @@ internal fun PlatformTabSample(
     modifier: Modifier,
 ) {
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             @Suppress("DEPRECATION")

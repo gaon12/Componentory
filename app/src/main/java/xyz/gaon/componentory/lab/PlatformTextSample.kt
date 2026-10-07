@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -30,7 +29,7 @@ internal fun PlatformTextSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     var checkMarkMissing by remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        AndroidView(
+        ReadableAndroidView(
             factory = { context ->
                 val themed = family.createContext(context)
                 val view =

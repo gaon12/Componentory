@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Suppress("DEPRECATION")
@@ -37,7 +36,7 @@ internal fun PlatformLegacyContainerSample(
         if (component == LabComponent.SLIDING_DRAWER)
             modifier.height(320.dp * LocalDensity.current.fontScale)
         else modifier
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             createLegacyContainer(themed, component, viewId)

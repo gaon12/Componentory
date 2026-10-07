@@ -8,7 +8,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -25,7 +24,7 @@ internal fun PlatformInlineTimeSample(
             .horizontalScroll(rememberScrollState())
             .testTag("time_viewport_$panel")
     ) {
-        AndroidView(
+        ReadableAndroidView(
             factory = { context ->
                 val initial = SampleTimes.parts(state.timeMinutes)
                 TimePicker(family.createContext(context)).apply {

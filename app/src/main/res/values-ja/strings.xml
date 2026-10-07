@@ -185,7 +185,7 @@
     <string name="run_open">開く</string>
     <string name="run_saved">実行を保存しました。</string>
     <string name="runs_empty">保存済みの実行はありません。比較画面で保存すると入力状態がここに残ります。</string>
-    <string name="runtime_sample_note">Android %1$s でライトテーマのサンプルを実行します。テーマやライブラリを選んでも OS は変わりません。</string>
+    <string name="runtime_sample_note">Android %1$s のライトテーマで実行します。読みやすさのため、ネイティブの文字サイズは最低16spに調整します。バージョンやテーマを選んでもOSは変わりません。</string>
     <string name="sample_available">サンプルあり</string>
     <string name="runtime_title">実行環境</string>
     <string name="sample_action">アクション</string>
@@ -641,4 +641,5 @@
     <string name="source_notices_note">ComponentoryはMITライセンスを使用しています。AOSPフレームワークの通知とSDKソースの規約は別々に保存されています。以下の原文をご確認ください。</string>
     <string name="source_notices_loading">文書を読み込み中…</string>
     <string name="source_notices_unavailable">文書を読み込めませんでした。</string>
+    <string name="sample_text_size_note">ネイティブ文字は最低16spです。読みやすさのために既定のサイズを調整します。</string>
 </resources>

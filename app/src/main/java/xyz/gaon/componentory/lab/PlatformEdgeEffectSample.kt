@@ -9,7 +9,6 @@ import android.widget.EdgeEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
 internal fun PlatformEdgeEffectSample(
@@ -20,7 +19,7 @@ internal fun PlatformEdgeEffectSample(
     state: SampleState,
     modifier: Modifier,
 ) {
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             EdgeEffectHostView(themed) { state.value += 1 }.apply { id = viewId }

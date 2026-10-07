@@ -76,7 +76,14 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                             enabled = enabled,
                             modifier = sample.semantics { contentDescription = label },
                         )
-                        Text(label, modifier = Modifier.clearAndSetSemantics {})
+                        Text(
+                            label,
+                            style = MaterialTheme.typography.body1,
+                            modifier =
+                                Modifier.weight(1f)
+                                    .testTag("sample_label_$panel")
+                                    .clearAndSetSemantics {},
+                        )
                     }
                 LabComponent.SWITCH ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -87,7 +94,14 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                             enabled = enabled,
                             modifier = sample.semantics { contentDescription = label },
                         )
-                        Text(label, modifier = Modifier.clearAndSetSemantics {})
+                        Text(
+                            label,
+                            style = MaterialTheme.typography.body1,
+                            modifier =
+                                Modifier.weight(1f)
+                                    .testTag("sample_label_$panel")
+                                    .clearAndSetSemantics {},
+                        )
                     }
                 LabComponent.RADIO ->
                     Column(Modifier.selectableGroup()) {
@@ -106,7 +120,14 @@ fun Material2Sample(component: LabComponent, panel: String, enabled: Boolean, st
                                             contentDescription = label
                                         },
                                 )
-                                Text(label, modifier = Modifier.clearAndSetSemantics {})
+                                Text(
+                                    label,
+                                    style = MaterialTheme.typography.body1,
+                                    modifier =
+                                        Modifier.weight(1f)
+                                            .testTag("sample_label_${panel}_$option")
+                                            .clearAndSetSemantics {},
+                                )
                             }
                         }
                     }

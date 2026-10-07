@@ -26,7 +26,6 @@ import android.widget.ToggleButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.icons.LocalSampleIcon
 
@@ -133,7 +132,7 @@ fun PlatformSample(
     }
     val icon = LocalSampleIcon.current
     // Use framework constructors directly, with no compatibility widget substitution.
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             createWidget(family.createContext(context), component).apply { id = viewId }
         },

@@ -187,7 +187,7 @@
     <string name="run_open">Open</string>
     <string name="run_saved">Run saved.</string>
     <string name="runs_empty">No saved runs yet. Save a comparison to keep its inputs here.</string>
-    <string name="runtime_sample_note">Samples run on Android %1$s with light themes. Theme or library selection does not change the OS.</string>
+    <string name="runtime_sample_note">Samples run on Android %1$s with light themes. Native labels use a minimum of 16 sp for readability, so default text sizes are adjusted. Selecting a version or theme does not change the OS.</string>
     <string name="sample_available">Sample available</string>
     <string name="runtime_title">Runtime environment</string>
     <string name="sample_action">Action</string>
@@ -644,4 +644,5 @@
     <string name="source_notices_note">Componentory uses MIT. AOSP framework notices and SDK source terms are retained separately. Read the original documents below.</string>
     <string name="source_notices_loading">Loading document…</string>
     <string name="source_notices_unavailable">This document could not be loaded.</string>
+    <string name="sample_text_size_note">Native text: at least 16sp. Default sizes are adjusted for readability.</string>
 </resources>

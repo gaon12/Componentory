@@ -185,7 +185,7 @@
     <string name="run_open">열기</string>
     <string name="run_saved">실험을 저장했습니다.</string>
     <string name="runs_empty">저장된 실험이 없습니다. 비교 화면에서 저장하면 입력 상태가 여기에 보관됩니다.</string>
-    <string name="runtime_sample_note">Android %1$s에서 밝은 테마로 실행합니다. 테마·라이브러리 선택은 OS를 바꾸지 않습니다.</string>
+    <string name="runtime_sample_note">Android %1$s에서 밝은 테마로 실행합니다. 가독성을 위해 네이티브 글씨는 최소 16sp로 조정합니다. 버전·테마 선택으로 OS가 바뀌지는 않습니다.</string>
     <string name="sample_available">체험 가능</string>
     <string name="runtime_title">실행 환경</string>
     <string name="sample_action">동작</string>
@@ -641,4 +641,5 @@
     <string name="source_notices_note">Componentory는 MIT 라이선스를 사용합니다. AOSP 프레임워크 고지와 SDK 소스 약관은 별도로 보존합니다. 아래에서 원본 문서를 확인하세요.</string>
     <string name="source_notices_loading">문서를 불러오는 중…</string>
     <string name="source_notices_unavailable">문서를 불러올 수 없습니다.</string>
+    <string name="sample_text_size_note">네이티브 글씨: 최소 16sp. 가독성을 위해 기본 크기를 조정합니다.</string>
 </resources>

@@ -185,7 +185,7 @@
     <string name="run_open">打开</string>
     <string name="run_saved">运行已保存。</string>
     <string name="runs_empty">还没有已保存的运行。在“比较”页保存后会在这里保留输入状态。</string>
-    <string name="runtime_sample_note">示例在 Android %1$s 上以浅色主题运行。选择主题或库不会更改系统。</string>
+    <string name="runtime_sample_note">在 Android %1$s 上使用浅色主题运行。为便于阅读，原生文字至少调整为16sp。选择版本或主题不会改变操作系统。</string>
     <string name="sample_available">示例可用</string>
     <string name="runtime_title">运行环境</string>
     <string name="sample_action">操作</string>
@@ -641,4 +641,5 @@
     <string name="source_notices_note">Componentory 使用 MIT 许可。AOSP 框架声明和 SDK 源代码条款分别保留。请查看下面的原始文档。</string>
     <string name="source_notices_loading">正在加载文档…</string>
     <string name="source_notices_unavailable">无法加载此文档。</string>
+    <string name="sample_text_size_note">原生文字至少16sp。为便于阅读，已调整默认大小。</string>
 </resources>

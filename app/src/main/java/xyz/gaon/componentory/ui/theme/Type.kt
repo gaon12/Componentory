@@ -27,9 +27,9 @@ val Typography =
         titleMedium = appText(16, 24, FontWeight.SemiBold),
         titleSmall = appText(14, 22, FontWeight.SemiBold),
         bodyLarge = appText(16, 26),
-        bodyMedium = appText(14, 22),
-        bodySmall = appText(12, 18),
+        bodyMedium = appText(15, 24),
+        bodySmall = appText(14, 22),
         labelLarge = appText(14, 20, FontWeight.SemiBold),
-        labelMedium = appText(12, 18, FontWeight.SemiBold),
-        labelSmall = appText(11, 16, FontWeight.Medium),
+        labelMedium = appText(13, 20, FontWeight.SemiBold),
+        labelSmall = appText(12, 18, FontWeight.Medium),
     )

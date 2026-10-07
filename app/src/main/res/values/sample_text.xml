@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Keep the selected framework theme's colors and drawables. -->
+    <style name="SampleSwitchText">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

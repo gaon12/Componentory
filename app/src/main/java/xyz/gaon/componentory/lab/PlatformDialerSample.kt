@@ -9,7 +9,6 @@ import android.widget.EditText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.children
 import xyz.gaon.componentory.R
 
@@ -23,7 +22,7 @@ internal fun PlatformDialerSample(
     state: SampleState,
     modifier: Modifier,
 ) {
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             // The real widget initializes its editors only after XML inflation.

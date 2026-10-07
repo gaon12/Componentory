@@ -18,7 +18,6 @@ import android.widget.ViewSwitcher
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 private const val SWITCHER_HEIGHT_DP = 160
@@ -39,7 +38,7 @@ internal fun PlatformSwitcherSample(
     modifier: Modifier,
 ) {
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             val themed = family.createContext(context)
             val holder = SwitcherSync()

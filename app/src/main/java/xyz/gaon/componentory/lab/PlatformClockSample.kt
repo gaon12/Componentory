@@ -5,7 +5,6 @@ import android.widget.TextClock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.viewinterop.AndroidView
 import xyz.gaon.componentory.R
 
 @Composable
@@ -18,7 +17,7 @@ internal fun PlatformClockSample(
     modifier: Modifier,
 ) {
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
-    AndroidView(
+    ReadableAndroidView(
         factory = { context ->
             createClock(family.createContext(context), component).apply { id = viewId }
         },
