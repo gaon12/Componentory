@@ -1145,7 +1145,9 @@ class ComponentAvailabilityTest {
             .forEach { component ->
                 assertNull(DesignFamily.MATERIAL.unsupportedReason(component, 36))
                 assertNotNull(DesignFamily.MATERIAL2.unsupportedReason(component, 36))
-                assertNotNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                if (component == LabComponent.TOGGLE_BUTTON)
+                    assertNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
+                else assertNotNull(DesignFamily.MATERIAL3.unsupportedReason(component, 36))
             }
         assertNull(DesignFamily.MATERIAL2.unsupportedReason(LabComponent.BUTTON, 36))
         assertNotNull(DesignFamily.CLASSIC.unsupportedReason(LabComponent.RANGE_SLIDER, 36))

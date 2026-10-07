@@ -20,10 +20,9 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
     internal fun libraryFunction(component: LabComponent): String? =
         when {
             platform != null -> null
-            component.expressiveOnly && this != EXPRESSIVE -> null
             this == MATERIAL2 -> component.material2Function
             this == EXPRESSIVE -> component.expressiveFunction ?: component.material3Function
-            else -> component.material3Function
+            else -> component.material3Function ?: component.expressiveFunction
         }
 
     val selectionLabel: String
@@ -77,9 +76,6 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
             return context?.getString(R.string.dynamic_color_requires_api)
                 ?: "Material You dynamic color requires Android 12 (API 31) or later."
         if (component == LabComponent.TOAST) return null
-        if (component.expressiveOnly && platform == null && this != EXPRESSIVE)
-            return context?.getString(R.string.requires_expressive)
-                ?: "Select Material 3 Expressive for this experimental component."
         if (platform != null) {
             if (component == LabComponent.ACTION_BAR && platform == PlatformFamily.CLASSIC)
                 return context?.getString(R.string.action_bar_requires_theme)

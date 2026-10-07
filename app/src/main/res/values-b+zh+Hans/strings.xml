@@ -716,7 +716,7 @@
     <string name="component_fab_menu">悬浮操作按钮菜单</string>
     <string name="component_fab_menu_description">打开相关操作菜单的悬浮操作按钮。</string>
     <string name="dynamic_color_requires_api">Material You 动态配色需要 Android 12（API 31）或更新版本。</string>
-    <string name="requires_expressive">请选择 Material 3 Expressive 来使用此实验性组件。</string>
+    <string name="experimental_api_note">这是所示库中的实验性 API，外观遵循所选的 Material 3 主题。</string>
     <string name="expressive_expand">展开</string>
     <string name="expressive_collapse">收起</string>
     <string name="material3_experimental_note">固定使用提供初期 Expressive API 的 Material 3 1.5.0-alpha01。这些 API 处于实验阶段。</string>

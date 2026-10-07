@@ -150,7 +150,7 @@ class ComponentInventoryTest {
         assertEquals(248, rows.size)
         assertEquals(168, LabComponent.entries.size)
         assertEquals(
-            478,
+            487,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -240,7 +240,9 @@ class ComponentInventoryTest {
                             ) {
                                 "No native theme supplies $id at API $supportedApi."
                             }
-                        else if (component.expressiveOnly || row.source.endsWith(".ToggleButton"))
+                        else if (
+                            component.experimentalMaterial3 || row.source.endsWith(".ToggleButton")
+                        )
                             DesignFamily.EXPRESSIVE
                         else family(row.provider)
                     assertNull(
@@ -402,7 +404,7 @@ class ComponentInventoryTest {
             .forEach { (source, sample) ->
                 assertEquals(listOf(sample), rows.single { it.source == source }.catalogIds)
             }
-        assertEquals(481, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
+        assertEquals(490, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
     }
 
     private fun family(provider: String) =

@@ -62,6 +62,23 @@ class ExpressiveDesignsTest {
     }
 
     @Test
+    fun experimentalToggleWorksWithStandardDynamicAndExpressiveThemes() {
+        val families =
+            listOf(DesignFamily.MATERIAL3, DesignFamily.EXPRESSIVE) +
+                if (Build.VERSION.SDK_INT >= 31) listOf(DesignFamily.MATERIAL_YOU) else emptyList()
+        families.forEach { family ->
+            val state = SampleState()
+            show(LabComponent.TOGGLE_BUTTON, state, family = family)
+            compose.onNodeWithTag("experimental_LEFT").performScrollTo().assertIsDisplayed()
+            compose.onNodeWithTag("library_LEFT").performScrollTo().performClick()
+            compose.runOnIdle { assertEquals(1, state.value) }
+            show(LabComponent.TOGGLE_BUTTON, state, enabled = false, family = family)
+            compose.onNodeWithTag("library_LEFT").performScrollTo().assertIsNotEnabled()
+            compose.runOnIdle { assertEquals(1, state.value) }
+        }
+    }
+
+    @Test
     fun realThemesAndSavedColorsMatchTheirSuppliers() {
         val families =
             listOf(DesignFamily.MATERIAL3, DesignFamily.EXPRESSIVE) +
@@ -202,7 +219,12 @@ class ExpressiveDesignsTest {
         compose.runOnIdle { assertTrue(state.value == 1) }
     }
 
-    private fun show(component: LabComponent, state: SampleState, enabled: Boolean = true) {
+    private fun show(
+        component: LabComponent,
+        state: SampleState,
+        enabled: Boolean = true,
+        family: DesignFamily = DesignFamily.EXPRESSIVE,
+    ) {
         compose.runOnUiThread {
             compose.activity.setContent {
                 ComponentoryTheme {
@@ -210,16 +232,8 @@ class ExpressiveDesignsTest {
                         Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
                             .verticalScroll(rememberScrollState())
                     ) {
-                        key(component, state) {
-                            SamplePanel(
-                                "LEFT",
-                                DesignFamily.EXPRESSIVE,
-                                {},
-                                component,
-                                enabled,
-                                0,
-                                state,
-                            )
+                        key(component, state, family) {
+                            SamplePanel("LEFT", family, {}, component, enabled, 0, state)
                         }
                     }
                 }

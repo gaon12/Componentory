@@ -13,7 +13,7 @@ enum class LabComponent(
     val initialValue: Int = 0,
     val category: ComponentCategory = ComponentCategory.ACTION,
     val expressiveFunction: String? = null,
-    val expressiveOnly: Boolean = false,
+    val experimentalMaterial3: Boolean = false,
 ) {
     BUTTON(
         "Button",
@@ -1344,21 +1344,21 @@ enum class LabComponent(
         R.string.component_button_group,
         R.string.component_button_group_description,
         material3Function = "ButtonGroup",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
     ),
     SPLIT_BUTTON(
         "Split button",
         R.string.component_split_button,
         R.string.component_split_button_description,
         material3Function = "SplitButtonLayout",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
     ),
     LOADING_INDICATOR(
         "Loading indicator",
         R.string.component_loading_indicator,
         R.string.component_loading_indicator_description,
         material3Function = "LoadingIndicator",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
         category = ComponentCategory.INDICATOR,
         initialValue = 45,
     ),
@@ -1367,7 +1367,7 @@ enum class LabComponent(
         R.string.component_linear_wavy_progress,
         R.string.component_linear_wavy_progress_description,
         material3Function = "LinearWavyProgressIndicator",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
         category = ComponentCategory.INDICATOR,
         initialValue = 45,
     ),
@@ -1376,7 +1376,7 @@ enum class LabComponent(
         R.string.component_circular_wavy_progress,
         R.string.component_circular_wavy_progress_description,
         material3Function = "CircularWavyProgressIndicator",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
         category = ComponentCategory.INDICATOR,
         initialValue = 45,
     ),
@@ -1385,7 +1385,7 @@ enum class LabComponent(
         R.string.component_horizontal_floating_toolbar,
         R.string.component_horizontal_floating_toolbar_description,
         material3Function = "HorizontalFloatingToolbar",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
         category = ComponentCategory.NAVIGATION,
     ),
     VERTICAL_FLOATING_TOOLBAR(
@@ -1393,7 +1393,7 @@ enum class LabComponent(
         R.string.component_vertical_floating_toolbar,
         R.string.component_vertical_floating_toolbar_description,
         material3Function = "VerticalFloatingToolbar",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
         category = ComponentCategory.NAVIGATION,
     ),
     FAB_MENU(
@@ -1401,7 +1401,7 @@ enum class LabComponent(
         R.string.component_fab_menu,
         R.string.component_fab_menu_description,
         material3Function = "FloatingActionButtonMenu",
-        expressiveOnly = true,
+        experimentalMaterial3 = true,
         category = ComponentCategory.NAVIGATION,
     );
 

@@ -716,7 +716,7 @@
     <string name="component_fab_menu">플로팅 액션 버튼 메뉴</string>
     <string name="component_fab_menu_description">관련 작업 메뉴를 펼치는 플로팅 액션 버튼입니다.</string>
     <string name="dynamic_color_requires_api">Material You 동적 색상은 Android 12(API 31) 이상이 필요합니다.</string>
-    <string name="requires_expressive">이 실험용 컴포넌트는 Material 3 Expressive를 선택하세요.</string>
+    <string name="experimental_api_note">표시된 라이브러리의 실험적 API입니다. 외형은 선택한 Material 3 테마를 따릅니다.</string>
     <string name="expressive_expand">펼치기</string>
     <string name="expressive_collapse">접기</string>
     <string name="material3_experimental_note">초기 Expressive API를 제공하는 Material 3 1.5.0-alpha01 버전을 고정해 사용합니다. 해당 API는 실험 단계입니다.</string>

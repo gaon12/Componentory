@@ -719,7 +719,7 @@
     <string name="component_fab_menu">Floating action button menu</string>
     <string name="component_fab_menu_description">A floating action button that opens a menu of related actions.</string>
     <string name="dynamic_color_requires_api">Material You dynamic color requires Android 12 (API 31) or later.</string>
-    <string name="requires_expressive">Select Material 3 Expressive for this experimental component.</string>
+    <string name="experimental_api_note">Experimental API in the recorded library. Its appearance follows the selected Material 3 theme.</string>
     <string name="expressive_expand">Expand</string>
     <string name="expressive_collapse">Collapse</string>
     <string name="material3_experimental_note">Material 3 uses the pinned 1.5.0-alpha01 release so the original Expressive APIs remain available. These APIs are experimental.</string>

@@ -927,7 +927,7 @@ class CatalogRenderingSmokeTest {
         // Runtime semantics complement the source/version labels; labels alone cannot prove a
         // renderer.
         when {
-            component.expressiveOnly -> {
+            component.experimentalMaterial3 -> {
                 val size = sample.fetchSemanticsNode().size
                 assertTrue(
                     "Expressive provider must have positive bounds",

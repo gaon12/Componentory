@@ -716,7 +716,7 @@
     <string name="component_fab_menu">浮動操作按鈕選單</string>
     <string name="component_fab_menu_description">開啟相關操作選單的浮動操作按鈕。</string>
     <string name="dynamic_color_requires_api">Material You 動態配色需要 Android 12（API 31）或更新版本。</string>
-    <string name="requires_expressive">請選擇 Material 3 Expressive 來使用此實驗性元件。</string>
+    <string name="experimental_api_note">這是所示函式庫中的實驗性 API，外觀遵循所選的 Material 3 主題。</string>
     <string name="expressive_expand">展開</string>
     <string name="expressive_collapse">收合</string>
     <string name="material3_experimental_note">固定使用提供初期 Expressive API 的 Material 3 1.5.0-alpha01。這些 API 處於實驗階段。</string>

@@ -716,7 +716,7 @@
     <string name="component_fab_menu">フローティングアクションボタンメニュー</string>
     <string name="component_fab_menu_description">関連操作のメニューを開くフローティングアクションボタンです。</string>
     <string name="dynamic_color_requires_api">Material You の動的な色には Android 12（API 31）以降が必要です。</string>
-    <string name="requires_expressive">この実験的コンポーネントには Material 3 Expressive を選択してください。</string>
+    <string name="experimental_api_note">表示中のライブラリの実験的なAPIです。外観は選択したMaterial 3テーマに従います。</string>
     <string name="expressive_expand">展開</string>
     <string name="expressive_collapse">折りたたむ</string>
     <string name="material3_experimental_note">初期の Expressive API を提供する Material 3 1.5.0-alpha01 を固定して使用します。これらの API は実験段階です。</string>

@@ -50,10 +50,7 @@ fun Material3Sample(
     val sample = Modifier.testTag("library_$panel")
     Material3SampleTheme(family) {
         Surface(Modifier.fillMaxWidth()) {
-            if (
-                family == DesignFamily.EXPRESSIVE &&
-                    (component.expressiveOnly || component.expressiveFunction != null)
-            )
+            if (component.experimentalMaterial3 || component.expressiveFunction != null)
                 ExpressiveSample(component, panel, enabled, state)
             else
                 when (component) {

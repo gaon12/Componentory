@@ -42,9 +42,7 @@ internal fun componentVersionSummary(component: LabComponent): String =
                 if (component.material2Function != null)
                     add("Material 2 ${BuildConfig.MATERIAL2_VERSION}")
                 if (component.material3Function != null)
-                    add(
-                        "${if (component.expressiveOnly) "Material 3 Expressive" else "Material 3"} ${BuildConfig.MATERIAL3_VERSION}"
-                    )
+                    add("Material 3 ${BuildConfig.MATERIAL3_VERSION}")
             }
             .joinToString(" · ")
 

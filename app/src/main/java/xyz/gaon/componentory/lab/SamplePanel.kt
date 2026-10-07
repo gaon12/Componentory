@@ -195,6 +195,16 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+                if (
+                    family.isMaterial3 &&
+                        (component.experimentalMaterial3 || component.expressiveFunction != null)
+                ) {
+                    Text(
+                        stringResource(R.string.experimental_api_note),
+                        modifier = Modifier.testTag("experimental_$panel"),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
             }
             // Full-screen library containers need a finite host viewport inside a scrolling page.
             // Window overlays still use their own library window and original sample theme.

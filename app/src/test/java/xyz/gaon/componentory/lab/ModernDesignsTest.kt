@@ -19,15 +19,12 @@ class ModernDesignsTest {
     }
 
     @Test
-    fun expressiveControlsHaveRealSourcesAndDoNotLeakIntoOtherDesigns() {
-        val controls = LabComponent.entries.filter { it.expressiveOnly }
+    fun experimentalApisWorkWithEveryMaterial3ThemeButNotMaterial2() {
+        val controls = LabComponent.entries.filter { it.experimentalMaterial3 }
         assertEquals(8, controls.size)
         controls.forEach { component ->
             DesignFamily.entries.forEach { family ->
-                assertEquals(
-                    family == DesignFamily.EXPRESSIVE,
-                    family.unsupportedReason(component, 37) == null,
-                )
+                assertEquals(family.isMaterial3, family.unsupportedReason(component, 37) == null)
             }
             assertEquals(
                 "androidx.compose.material3.${component.material3Function}",
@@ -39,7 +36,11 @@ class ModernDesignsTest {
             DesignFamily.EXPRESSIVE.source(LabComponent.TOGGLE_BUTTON),
         )
         assertNull(DesignFamily.EXPRESSIVE.unsupportedReason(LabComponent.TOGGLE_BUTTON, 24))
-        assertNotNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.TOGGLE_BUTTON, 37))
+        assertNull(DesignFamily.MATERIAL3.unsupportedReason(LabComponent.TOGGLE_BUTTON, 37))
+        assertEquals(
+            "androidx.compose.material3.ToggleButton",
+            DesignFamily.MATERIAL3.source(LabComponent.TOGGLE_BUTTON),
+        )
     }
 
     @Test
