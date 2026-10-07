@@ -11,6 +11,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
@@ -72,6 +73,7 @@ class IconBrowserTest {
         compare(LabComponent.ICON, DesignFamily.MATERIAL2)
         compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("icon_search").performTextReplacement("arrow_back")
+        compose.onNodeWithTag("icon_search").performImeAction()
         compose.onNodeWithTag("icon_style_OUTLINED").performClick()
         compose.onNodeWithTag("icon_mirrored").performClick()
         val id = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"
@@ -91,6 +93,7 @@ class IconBrowserTest {
         compose.onNodeWithTag("icon_empty").assertExists()
         compose.onNodeWithTag("icon_search").performTextReplacement("_360")
         val numbered = "androidx.compose.material.icons.filled._360Kt"
+        compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$numbered"))
         compose.onNodeWithTag("icon_entry_$numbered").performClick()
         compose.onNodeWithTag("icon_dialog").assertDoesNotExist()
         compose.onNodeWithTag("library_LEFT").performClick()
@@ -117,6 +120,7 @@ class IconBrowserTest {
         compare(LabComponent.ICON, DesignFamily.MATERIAL2)
         compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("icon_search").performTextReplacement("arrow_back")
+        compose.onNodeWithTag("icon_search").performImeAction()
         compose.onNodeWithTag("icon_style_OUTLINED").performClick()
         compose.onNodeWithTag("icon_mirrored").performClick()
         val id = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"

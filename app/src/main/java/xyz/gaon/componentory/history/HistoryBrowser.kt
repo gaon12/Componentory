@@ -3,8 +3,10 @@ package xyz.gaon.componentory.history
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -27,6 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -81,57 +84,60 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
     var menuOpen by remember { mutableStateOf(false) }
     val selectedApi = api.takeIf { it in catalog.versions } ?: catalog.versions.last()
     val entries = catalog.select(selectedApi, query, filter)
+    val compactHeader = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     Column(modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Column {
-            FilledTonalButton(
-                onClick = { menuOpen = true },
-                modifier = Modifier.fillMaxWidth().testTag("history_version"),
-            ) {
-                Text(androidVersionLabel(selectedApi) + "  ▾")
-            }
-            DropdownMenu(
-                menuOpen,
-                { menuOpen = false },
-                Modifier.heightIn(max = 360.dp).semantics { testTagsAsResourceId = true },
-            ) {
-                catalog.versions.reversed().forEach { version ->
-                    DropdownMenuItem(
-                        text = { Text(androidVersionLabel(version)) },
-                        onClick = {
-                            api = version
-                            menuOpen = false
-                        },
-                        modifier = Modifier.testTag("history_api_$version"),
-                    )
+        if (!compactHeader) {
+            Column {
+                FilledTonalButton(
+                    onClick = { menuOpen = true },
+                    modifier = Modifier.fillMaxWidth().testTag("history_version"),
+                ) {
+                    Text(androidVersionLabel(selectedApi) + "  ▾")
+                }
+                DropdownMenu(
+                    menuOpen,
+                    { menuOpen = false },
+                    Modifier.heightIn(max = 360.dp).semantics { testTagsAsResourceId = true },
+                ) {
+                    catalog.versions.reversed().forEach { version ->
+                        DropdownMenuItem(
+                            text = { Text(androidVersionLabel(version)) },
+                            onClick = {
+                                api = version
+                                menuOpen = false
+                            },
+                            modifier = Modifier.testTag("history_api_$version"),
+                        )
+                    }
                 }
             }
-        }
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(HistoryFilter.entries) { option ->
-                FilterChip(
-                    selected = filter == option,
-                    onClick = { filter = option },
-                    label = {
-                        Text(
-                            stringResource(
-                                when (option) {
-                                    HistoryFilter.ALL -> R.string.history_all
-                                    HistoryFilter.ADDED -> R.string.history_added
-                                    HistoryFilter.DEPRECATED -> R.string.history_deprecated
-                                    HistoryFilter.REMOVED -> R.string.history_removed
-                                }
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(HistoryFilter.entries) { option ->
+                    FilterChip(
+                        selected = filter == option,
+                        onClick = { filter = option },
+                        label = {
+                            Text(
+                                stringResource(
+                                    when (option) {
+                                        HistoryFilter.ALL -> R.string.history_all
+                                        HistoryFilter.ADDED -> R.string.history_added
+                                        HistoryFilter.DEPRECATED -> R.string.history_deprecated
+                                        HistoryFilter.REMOVED -> R.string.history_removed
+                                    }
+                                )
                             )
-                        )
-                    },
-                    modifier = Modifier.testTag("history_filter_${option.name}"),
-                    shape = MaterialTheme.shapes.small,
-                    colors =
-                        FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                            selectedLabelColor = MaterialTheme.colorScheme.primary,
-                        ),
-                    border = null,
-                )
+                        },
+                        modifier = Modifier.testTag("history_filter_${option.name}"),
+                        shape = MaterialTheme.shapes.small,
+                        colors =
+                            FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                selectedLabelColor = MaterialTheme.colorScheme.primary,
+                            ),
+                        border = null,
+                    )
+                }
             }
         }
         Text(
@@ -146,34 +152,35 @@ private fun HistoryList(catalog: AndroidHistory, query: String, modifier: Modifi
                 contentPadding = PaddingValues(bottom = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                item {
-                    Card(Modifier.fillMaxWidth()) {
-                        Column(
-                            Modifier.padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp),
-                        ) {
-                            Text(
-                                stringResource(R.string.history_evidence),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.testTag("history_evidence"),
-                            )
-                            catalog.identicalSnapshots[selectedApi]?.let { other ->
+                if (!compactHeader)
+                    item {
+                        Card(Modifier.fillMaxWidth()) {
+                            Column(
+                                Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(6.dp),
+                            ) {
                                 Text(
-                                    stringResource(R.string.history_identical_snapshot, other),
+                                    stringResource(R.string.history_evidence),
                                     style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.testTag("history_evidence"),
+                                )
+                                catalog.identicalSnapshots[selectedApi]?.let { other ->
+                                    Text(
+                                        stringResource(R.string.history_identical_snapshot, other),
+                                        style = MaterialTheme.typography.bodySmall,
+                                    )
+                                }
+                                Text(
+                                    stringResource(
+                                        R.string.history_source,
+                                        catalog.sourceCommit.take(12),
+                                    ),
+                                    style = MaterialTheme.typography.labelSmall,
                                 )
                             }
-                            Text(
-                                stringResource(
-                                    R.string.history_source,
-                                    catalog.sourceCommit.take(12),
-                                ),
-                                style = MaterialTheme.typography.labelSmall,
-                            )
                         }
                     }
-                }
                 if (entries.isEmpty())
                     item {
                         Text(

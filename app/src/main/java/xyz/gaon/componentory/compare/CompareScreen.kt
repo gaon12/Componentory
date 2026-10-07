@@ -142,18 +142,28 @@ fun CompareScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        // Heading and selector share one row: the picker is the screen's
-        // primary action, so it gets the remaining width instead of its own line.
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                stringResource(R.string.nav_compare),
-                Modifier.padding(end = 16.dp),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-            Box(Modifier.weight(1f)) {
-                ComponentPicker(component) {
-                    clearEntryAndResult()
-                    onComponentChange(it)
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            val select: (LabComponent) -> Unit = {
+                clearEntryAndResult()
+                onComponentChange(it)
+            }
+            if (maxWidth < 600.dp) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(
+                        stringResource(R.string.nav_compare),
+                        Modifier.testTag("compare_heading"),
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
+                    ComponentPicker(component, select)
+                }
+            } else {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        stringResource(R.string.nav_compare),
+                        Modifier.padding(end = 16.dp).testTag("compare_heading"),
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
+                    Box(Modifier.weight(1f)) { ComponentPicker(component, select) }
                 }
             }
         }

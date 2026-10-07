@@ -51,6 +51,7 @@ internal fun ComponentSummary(
     component: LabComponent,
     modifier: Modifier = Modifier,
     providers: String? = null,
+    showDescription: Boolean = true,
     trailing: @Composable () -> Unit,
 ) {
     Row(
@@ -90,13 +91,15 @@ internal fun ComponentSummary(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.testTag("versions_${component.name}"),
             )
-            Text(
-                stringResource(component.descriptionRes),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
+            if (showDescription) {
+                Text(
+                    stringResource(component.descriptionRes),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             if (providers != null)
                 Text(
                     providers,

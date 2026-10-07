@@ -4,10 +4,13 @@ import android.os.Build
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -41,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -126,211 +130,234 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
         LabComponent.entries.filter {
             it.matchesSearch(query, context) && (category == null || it.category == category)
         }
-    Column(
-        Modifier.widthIn(max = 900.dp)
-            .fillMaxSize()
-            .testTag("list_screen")
-            .padding(horizontal = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                stringResource(R.string.components_title),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-            Text(
+    BoxWithConstraints(Modifier.widthIn(max = 900.dp).fillMaxSize()) {
+        val compactHeader =
+            WindowInsets.ime.getBottom(LocalDensity.current) > 0 || maxHeight < 360.dp
+        Column(
+            Modifier.fillMaxSize().testTag("list_screen").padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            if (!compactHeader) {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(
+                        stringResource(R.string.components_title),
+                        style = MaterialTheme.typography.headlineMedium,
+                    )
+                    Text(
+                        stringResource(
+                            when (mode) {
+                                CatalogMode.SAMPLES -> R.string.catalog_intro
+                                CatalogMode.PLANNED -> R.string.planned_intro
+                                CatalogMode.HISTORY -> R.string.history_intro
+                            }
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                    CatalogMode.entries.forEachIndexed { index, option ->
+                        SegmentedButton(
+                            selected = mode == option,
+                            onClick = {
+                                mode = option
+                                focus.clearFocus()
+                            },
+                            shape =
+                                SegmentedButtonDefaults.itemShape(index, CatalogMode.entries.size),
+                            modifier = Modifier.testTag("catalog_mode_${option.name}"),
+                            colors =
+                                SegmentedButtonDefaults.colors(
+                                    activeContainerColor =
+                                        MaterialTheme.colorScheme.primaryContainer,
+                                    activeContentColor = MaterialTheme.colorScheme.primary,
+                                    inactiveContainerColor = MaterialTheme.colorScheme.surface,
+                                    inactiveContentColor =
+                                        MaterialTheme.colorScheme.onSurfaceVariant,
+                                ),
+                            border = BorderStroke(0.dp, Color.Transparent),
+                            icon = {},
+                        ) {
+                            Text(stringResource(option.labelRes))
+                        }
+                    }
+                }
+            }
+            val searchLabel =
                 stringResource(
                     when (mode) {
-                        CatalogMode.SAMPLES -> R.string.catalog_intro
-                        CatalogMode.PLANNED -> R.string.planned_intro
-                        CatalogMode.HISTORY -> R.string.history_intro
+                        CatalogMode.SAMPLES -> R.string.component_search_hint
+                        CatalogMode.PLANNED -> R.string.planned_search_hint
+                        CatalogMode.HISTORY -> R.string.history_search_hint
                     }
-                ),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
-        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-            CatalogMode.entries.forEachIndexed { index, option ->
-                SegmentedButton(
-                    selected = mode == option,
-                    onClick = {
-                        mode = option
-                        focus.clearFocus()
+                )
+            TextField(
+                value = query,
+                onValueChange = changeQuery,
+                modifier =
+                    Modifier.fillMaxWidth().testTag("component_search").semantics {
+                        contentDescription = searchLabel
                     },
-                    shape = SegmentedButtonDefaults.itemShape(index, CatalogMode.entries.size),
-                    modifier = Modifier.testTag("catalog_mode_${option.name}"),
-                    colors =
-                        SegmentedButtonDefaults.colors(
-                            activeContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                            activeContentColor = MaterialTheme.colorScheme.primary,
-                            inactiveContainerColor = MaterialTheme.colorScheme.surface,
-                            inactiveContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
-                    border = BorderStroke(0.dp, Color.Transparent),
-                    icon = {},
-                ) {
-                    Text(stringResource(option.labelRes))
-                }
-            }
-        }
-        val searchLabel =
-            stringResource(
-                when (mode) {
-                    CatalogMode.SAMPLES -> R.string.component_search_hint
-                    CatalogMode.PLANNED -> R.string.planned_search_hint
-                    CatalogMode.HISTORY -> R.string.history_search_hint
-                }
-            )
-        TextField(
-            value = query,
-            onValueChange = changeQuery,
-            modifier =
-                Modifier.fillMaxWidth().testTag("component_search").semantics {
-                    contentDescription = searchLabel
+                placeholder = { Text(searchLabel, Modifier.clearAndSetSemantics {}) },
+                leadingIcon = {
+                    Icon(painterResource(R.drawable.ic_search), contentDescription = null)
                 },
-            placeholder = { Text(searchLabel, Modifier.clearAndSetSemantics {}) },
-            leadingIcon = {
-                Icon(painterResource(R.drawable.ic_search), contentDescription = null)
-            },
-            trailingIcon = {
-                if (query.isNotEmpty()) {
-                    IconButton(
-                        onClick = { changeQuery("") },
-                        modifier = Modifier.testTag("clear_search"),
-                    ) {
-                        Icon(
-                            painterResource(R.drawable.ic_close),
-                            contentDescription = stringResource(R.string.clear_search),
-                        )
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        IconButton(
+                            onClick = { changeQuery("") },
+                            modifier = Modifier.testTag("clear_search"),
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_close),
+                                contentDescription = stringResource(R.string.clear_search),
+                            )
+                        }
                     }
-                }
-            },
-            singleLine = true,
-            shape = MaterialTheme.shapes.large,
-            colors =
-                TextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surface,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
-        )
-        if (mode == CatalogMode.HISTORY) {
-            HistoryBrowser(query, Modifier.fillMaxWidth().weight(1f))
-        } else if (mode == CatalogMode.PLANNED) {
-            PlannedProviderFilter(provider, { provider = it }, Modifier.fillMaxWidth())
-            when (val loaded = inventory) {
-                InventoryLoadState.Loading,
-                InventoryLoadState.Unavailable -> {
-                    val loading = loaded == InventoryLoadState.Loading
-                    Box(Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center) {
-                        Text(
-                            stringResource(
-                                if (loading) R.string.planned_loading
-                                else R.string.planned_unavailable
-                            ),
-                            modifier =
-                                Modifier.testTag(
-                                    if (loading) "planned_loading" else "planned_unavailable"
-                                ),
-                        )
-                    }
-                }
-                is InventoryLoadState.Ready -> {
-                    val planned = ComponentInventory.pending(loaded.entries, query, provider)
-                    Text(
-                        pluralStringResource(R.plurals.planned_count, planned.size, planned.size),
-                        modifier = Modifier.testTag("planned_count"),
-                        style = MaterialTheme.typography.labelLarge,
-                    )
-                    PlannedApiList(planned, plannedListState, Modifier.fillMaxWidth().weight(1f))
-                }
-            }
-        } else {
-            CategoryFilter(
-                category,
-                {
-                    category = it
-                    scope.launch { sampleListState.scrollToItem(0) }
                 },
-                "list",
-                Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = MaterialTheme.shapes.large,
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = MaterialTheme.colorScheme.surface,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
             )
-            Text(
-                pluralStringResource(R.plurals.component_count, components.size, components.size),
-                modifier = Modifier.testTag("sample_count"),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(340.dp),
-                state = sampleListState,
-                contentPadding = PaddingValues(bottom = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxWidth().weight(1f).testTag("component_list"),
-            ) {
-                if (components.isEmpty()) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column(
-                            Modifier.fillMaxWidth().padding(vertical = 32.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
+            if (mode == CatalogMode.HISTORY) {
+                HistoryBrowser(query, Modifier.fillMaxWidth().weight(1f))
+            } else if (mode == CatalogMode.PLANNED) {
+                if (!compactHeader)
+                    PlannedProviderFilter(provider, { provider = it }, Modifier.fillMaxWidth())
+                when (val loaded = inventory) {
+                    InventoryLoadState.Loading,
+                    InventoryLoadState.Unavailable -> {
+                        val loading = loaded == InventoryLoadState.Loading
+                        Box(
+                            Modifier.fillMaxWidth().weight(1f),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
-                                stringResource(R.string.no_results),
-                                modifier = Modifier.testTag("search_empty"),
-                                style = MaterialTheme.typography.titleMedium,
+                                stringResource(
+                                    if (loading) R.string.planned_loading
+                                    else R.string.planned_unavailable
+                                ),
+                                modifier =
+                                    Modifier.testTag(
+                                        if (loading) "planned_loading" else "planned_unavailable"
+                                    ),
                             )
-                            TextButton(
-                                onClick = {
-                                    changeQuery("")
-                                    category = null
-                                    focus.clearFocus()
-                                },
-                                modifier = Modifier.testTag("show_all_components"),
+                        }
+                    }
+                    is InventoryLoadState.Ready -> {
+                        val planned = ComponentInventory.pending(loaded.entries, query, provider)
+                        Text(
+                            pluralStringResource(
+                                R.plurals.planned_count,
+                                planned.size,
+                                planned.size,
+                            ),
+                            modifier = Modifier.testTag("planned_count"),
+                            style = MaterialTheme.typography.labelLarge,
+                        )
+                        PlannedApiList(
+                            planned,
+                            plannedListState,
+                            Modifier.fillMaxWidth().weight(1f),
+                        )
+                    }
+                }
+            } else {
+                if (!compactHeader)
+                    CategoryFilter(
+                        category,
+                        {
+                            category = it
+                            scope.launch { sampleListState.scrollToItem(0) }
+                        },
+                        "list",
+                        Modifier.fillMaxWidth(),
+                    )
+                Text(
+                    pluralStringResource(
+                        R.plurals.component_count,
+                        components.size,
+                        components.size,
+                    ),
+                    modifier = Modifier.testTag("sample_count"),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(340.dp),
+                    state = sampleListState,
+                    contentPadding = PaddingValues(bottom = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.fillMaxWidth().weight(1f).testTag("component_list"),
+                ) {
+                    if (components.isEmpty()) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Column(
+                                Modifier.fillMaxWidth().padding(vertical = 32.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                Text(stringResource(R.string.show_all_components))
-                            }
-                            if (query.isNotBlank() && !pendingMatches.isNullOrEmpty()) {
+                                Text(
+                                    stringResource(R.string.no_results),
+                                    modifier = Modifier.testTag("search_empty"),
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
                                 TextButton(
                                     onClick = {
-                                        provider = null
-                                        mode = CatalogMode.PLANNED
+                                        changeQuery("")
+                                        category = null
                                         focus.clearFocus()
                                     },
-                                    modifier = Modifier.testTag("show_planned_matches"),
+                                    modifier = Modifier.testTag("show_all_components"),
                                 ) {
-                                    Text(
-                                        stringResource(
-                                            R.string.planned_view_matches,
-                                            pendingMatches.size,
+                                    Text(stringResource(R.string.show_all_components))
+                                }
+                                if (query.isNotBlank() && !pendingMatches.isNullOrEmpty()) {
+                                    TextButton(
+                                        onClick = {
+                                            provider = null
+                                            mode = CatalogMode.PLANNED
+                                            focus.clearFocus()
+                                        },
+                                        modifier = Modifier.testTag("show_planned_matches"),
+                                    ) {
+                                        Text(
+                                            stringResource(
+                                                R.string.planned_view_matches,
+                                                pendingMatches.size,
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                items(components, key = { it.name }) { component ->
-                    Card(
-                        onClick = {
-                            focus.clearFocus()
-                            onOpenComponent(component)
-                        },
-                        modifier = Modifier.fillMaxWidth().testTag("list_${component.name}"),
-                        colors =
-                            CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.surface
-                            ),
-                    ) {
-                        ComponentSummary(component, providers = providerSummary(component)) {
-                            Icon(
-                                painterResource(R.drawable.ic_forward),
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
+                    items(components, key = { it.name }) { component ->
+                        Card(
+                            onClick = {
+                                focus.clearFocus()
+                                onOpenComponent(component)
+                            },
+                            modifier = Modifier.fillMaxWidth().testTag("list_${component.name}"),
+                            colors =
+                                CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surface
+                                ),
+                        ) {
+                            ComponentSummary(component, providers = providerSummary(component)) {
+                                Icon(
+                                    painterResource(R.drawable.ic_forward),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
                         }
                     }
                 }
