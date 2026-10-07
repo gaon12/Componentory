@@ -1,8 +1,10 @@
 package xyz.gaon.componentory.settings
 
+import android.content.res.Configuration
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.WindowManager
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.test.assertIsSelected
@@ -71,6 +73,43 @@ class AppearanceSettingsTest {
         compose.onNodeWithTag("appearance_SYSTEM").performScrollTo().performClick()
         compose.activityRule.scenario.recreate()
         compose.onNodeWithTag("appearance_SYSTEM").assertIsSelected()
+    }
+
+    @Test
+    fun nativeLightThemesDoNotInheritNightResources() {
+        val configuration =
+            Configuration(compose.activity.resources.configuration).apply {
+                uiMode =
+                    (uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or
+                        Configuration.UI_MODE_NIGHT_YES
+            }
+        val nightContext = compose.activity.createConfigurationContext(configuration)
+        PlatformFamily.entries.forEach { family ->
+            val themed = family.createContext(nightContext)
+            assertEquals(
+                Configuration.UI_MODE_NIGHT_NO,
+                themed.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK,
+            )
+            assertEquals(configuration.fontScale, themed.resources.configuration.fontScale)
+            assertEquals(configuration.locales, themed.resources.configuration.locales)
+            val background = TypedValue()
+            assertTrue(
+                themed.theme.resolveAttribute(android.R.attr.colorBackground, background, true)
+            )
+            assertTrue(Color(background.data).luminance() > 0.7f)
+        }
+        assertEquals(
+            Configuration.UI_MODE_NIGHT_YES,
+            nightContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK,
+        )
+        compose.onNodeWithTag("list_BUTTON").performClick()
+        onView(withId(R.id.sample_left)).check { view, error ->
+            if (error != null) throw error
+            assertEquals(
+                Configuration.UI_MODE_NIGHT_NO,
+                view.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK,
+            )
+        }
     }
 
     @Test

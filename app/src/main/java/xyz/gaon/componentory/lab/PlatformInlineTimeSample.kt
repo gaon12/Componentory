@@ -1,6 +1,5 @@
 package xyz.gaon.componentory.lab
 
-import android.view.ContextThemeWrapper
 import android.widget.TimePicker
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -29,7 +28,7 @@ internal fun PlatformInlineTimeSample(
         AndroidView(
             factory = { context ->
                 val initial = SampleTimes.parts(state.timeMinutes)
-                TimePicker(ContextThemeWrapper(context, family.themeId)).apply {
+                TimePicker(family.createContext(context)).apply {
                     id = viewId
                     setIs24HourView(state.time24Hour)
                     hour = initial.hour

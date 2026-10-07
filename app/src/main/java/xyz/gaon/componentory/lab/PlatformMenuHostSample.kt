@@ -24,7 +24,7 @@ internal fun PlatformMenuHostSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             createMenuHost(themed, component).apply { id = viewId }
         },
         update = { view ->

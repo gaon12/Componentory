@@ -2,7 +2,6 @@ package xyz.gaon.componentory.lab
 
 import android.app.TimePickerDialog
 import android.content.DialogInterface
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -38,7 +37,7 @@ internal fun PlatformTimePickerDialogSample(
     }
     AndroidView(
         factory = { context ->
-            Button(ContextThemeWrapper(context, family.themeId)).apply {
+            Button(family.createContext(context)).apply {
                 id = viewId
                 setText(R.string.open_time_picker)
                 launcher.value = this

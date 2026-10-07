@@ -1,6 +1,5 @@
 package xyz.gaon.componentory.lab
 
-import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -29,7 +28,7 @@ internal fun PlatformTabSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             @Suppress("DEPRECATION")
             // The AttributeSet constructor also initializes the framework tab indicator layout.
             TabHost(themed, null).apply {

@@ -21,7 +21,7 @@ internal fun PlatformMediaSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             createMediaWidget(themed, component, state).apply { id = viewId }
         },
         update = { view -> view.isEnabled = enabled },

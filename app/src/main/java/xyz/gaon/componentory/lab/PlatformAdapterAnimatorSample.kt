@@ -35,7 +35,7 @@ internal fun PlatformAdapterAnimatorSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             val holder = AnimatorSync()
             val animator = createAnimator(themed, component).apply { id = viewId }
             val controls =

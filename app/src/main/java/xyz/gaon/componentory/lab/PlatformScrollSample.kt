@@ -2,7 +2,6 @@ package xyz.gaon.componentory.lab
 
 import android.content.Context
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
@@ -34,7 +33,7 @@ internal fun PlatformScrollSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             val horizontal = component == LabComponent.HORIZONTAL_SCROLL_VIEW
             val lines =
                 LinearLayout(themed).apply {

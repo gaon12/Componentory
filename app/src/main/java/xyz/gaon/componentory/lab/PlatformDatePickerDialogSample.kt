@@ -2,7 +2,6 @@ package xyz.gaon.componentory.lab
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
-import android.view.ContextThemeWrapper
 import android.widget.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -35,7 +34,7 @@ internal fun PlatformDatePickerDialogSample(
     }
     AndroidView(
         factory = { context ->
-            Button(ContextThemeWrapper(context, family.themeId)).apply {
+            Button(family.createContext(context)).apply {
                 id = viewId
                 setText(R.string.open_date_picker)
                 launcher.value = this

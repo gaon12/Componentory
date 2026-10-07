@@ -21,7 +21,7 @@ internal fun PlatformContentSurfaceSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             createContentSurface(themed, component).apply { id = viewId }
         },
         update = { view -> view.isEnabled = enabled },

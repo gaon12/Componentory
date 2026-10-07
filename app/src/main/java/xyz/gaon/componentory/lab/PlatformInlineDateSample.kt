@@ -1,6 +1,5 @@
 package xyz.gaon.componentory.lab
 
-import android.view.ContextThemeWrapper
 import android.widget.CalendarView
 import android.widget.DatePicker
 import androidx.compose.foundation.horizontalScroll
@@ -35,7 +34,7 @@ internal fun PlatformInlineDateSample(
                     AndroidView(
                         factory = { context ->
                             val date = SampleDates.parts(requireNotNull(state.inlineDateUtcMillis))
-                            DatePicker(ContextThemeWrapper(context, family.themeId)).apply {
+                            DatePicker(family.createContext(context)).apply {
                                 id = viewId
                                 init(date.year, date.month - 1, date.day) { _, year, month, day ->
                                     state.inlineDateUtcMillis =
@@ -64,7 +63,7 @@ internal fun PlatformInlineDateSample(
                 LabComponent.CALENDAR_VIEW ->
                     AndroidView(
                         factory = { context ->
-                            CalendarView(ContextThemeWrapper(context, family.themeId)).apply {
+                            CalendarView(family.createContext(context)).apply {
                                 id = viewId
                                 date =
                                     SampleDates.localMillis(

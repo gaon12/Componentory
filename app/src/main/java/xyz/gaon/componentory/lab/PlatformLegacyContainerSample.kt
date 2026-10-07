@@ -39,7 +39,7 @@ internal fun PlatformLegacyContainerSample(
         else modifier
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             createLegacyContainer(themed, component, viewId)
         },
         update = { view ->

@@ -23,7 +23,7 @@ internal fun PlatformShareProviderSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             createShareHost(themed, state).apply { id = viewId }
         },
         update = { view ->

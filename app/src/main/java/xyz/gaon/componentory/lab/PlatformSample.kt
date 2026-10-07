@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.text.InputType
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -136,9 +135,7 @@ fun PlatformSample(
     // Use framework constructors directly, with no compatibility widget substitution.
     AndroidView(
         factory = { context ->
-            createWidget(ContextThemeWrapper(context, family.themeId), component).apply {
-                id = viewId
-            }
+            createWidget(family.createContext(context), component).apply { id = viewId }
         },
         update = { view ->
             updateWidget(view, component, enabled, state)

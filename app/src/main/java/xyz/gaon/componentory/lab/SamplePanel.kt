@@ -2,7 +2,6 @@ package xyz.gaon.componentory.lab
 
 import android.os.Build
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -96,10 +95,11 @@ fun SamplePanel(
                     .value
         } else null
     val background =
-        remember(family) {
+        remember(family, context, configuration) {
             val color = TypedValue()
             if (platform != null) {
-                ContextThemeWrapper(context, platform.themeId)
+                platform
+                    .createContext(context)
                     .theme
                     .resolveAttribute(android.R.attr.colorBackground, color, true)
                 Color(color.data)

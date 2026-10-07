@@ -1,6 +1,5 @@
 package xyz.gaon.componentory.lab
 
-import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.widget.Button
 import android.widget.PopupMenu
@@ -38,7 +37,7 @@ internal fun PlatformPopupMenuSample(
     }
     AndroidView(
         factory = { context ->
-            Button(ContextThemeWrapper(context, family.themeId)).apply {
+            Button(family.createContext(context)).apply {
                 id = viewId
                 setText(R.string.open_menu)
                 launcher.value = this

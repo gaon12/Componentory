@@ -1,7 +1,6 @@
 package xyz.gaon.componentory.lab
 
 import android.os.SystemClock
-import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.LinearLayout
@@ -22,7 +21,7 @@ internal fun PlatformChronometerSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             val chronometer = Chronometer(themed).apply { id = viewId }
             val controls =
                 LinearLayout(themed).apply {

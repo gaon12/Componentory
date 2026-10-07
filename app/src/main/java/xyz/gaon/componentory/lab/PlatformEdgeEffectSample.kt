@@ -3,7 +3,6 @@ package xyz.gaon.componentory.lab
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.view.ContextThemeWrapper
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EdgeEffect
@@ -23,7 +22,7 @@ internal fun PlatformEdgeEffectSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             EdgeEffectHostView(themed) { state.value += 1 }.apply { id = viewId }
         },
         update = { view -> view.isEnabled = enabled },

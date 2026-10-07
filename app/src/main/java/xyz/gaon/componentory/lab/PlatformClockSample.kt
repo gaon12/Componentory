@@ -1,6 +1,5 @@
 package xyz.gaon.componentory.lab
 
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.TextClock
 import androidx.compose.runtime.Composable
@@ -21,9 +20,7 @@ internal fun PlatformClockSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     AndroidView(
         factory = { context ->
-            createClock(ContextThemeWrapper(context, family.themeId), component).apply {
-                id = viewId
-            }
+            createClock(family.createContext(context), component).apply { id = viewId }
         },
         update = { view ->
             view.isEnabled = enabled

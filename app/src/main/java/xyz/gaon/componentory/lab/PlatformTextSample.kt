@@ -1,6 +1,5 @@
 package xyz.gaon.componentory.lab
 
-import android.view.ContextThemeWrapper
 import android.widget.CheckedTextView
 import android.widget.TextView
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +32,7 @@ internal fun PlatformTextSample(
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         AndroidView(
             factory = { context ->
-                val themed = ContextThemeWrapper(context, family.themeId)
+                val themed = family.createContext(context)
                 val view =
                     when (component) {
                         LabComponent.TEXT -> TextView(themed)

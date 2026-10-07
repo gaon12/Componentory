@@ -36,7 +36,7 @@ internal fun PlatformListSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             createAdapterView(themed, component, state).apply {
                 id = viewId
                 tag = ListSync()

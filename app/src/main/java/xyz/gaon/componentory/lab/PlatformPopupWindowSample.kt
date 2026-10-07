@@ -2,7 +2,6 @@ package xyz.gaon.componentory.lab
 
 import android.graphics.drawable.ColorDrawable
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -44,7 +43,7 @@ internal fun PlatformPopupWindowSample(
     }
     AndroidView(
         factory = { context ->
-            Button(ContextThemeWrapper(context, family.themeId)).apply {
+            Button(family.createContext(context)).apply {
                 id = viewId
                 setText(R.string.open_popup)
                 launcher.value = this

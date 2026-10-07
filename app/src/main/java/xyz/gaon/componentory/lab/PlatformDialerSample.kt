@@ -2,7 +2,6 @@ package xyz.gaon.componentory.lab
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.DialerFilter
@@ -26,7 +25,7 @@ internal fun PlatformDialerSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             // The real widget initializes its editors only after XML inflation.
             (LayoutInflater.from(themed).inflate(R.layout.sample_dialer_filter, null)
                     as DialerFilter)

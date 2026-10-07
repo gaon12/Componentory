@@ -35,7 +35,7 @@ internal fun PlatformLayoutSample(
 ) {
     AndroidView(
         factory = { context ->
-            val themed = ContextThemeWrapper(context, family.themeId)
+            val themed = family.createContext(context)
             val layout = createLayout(themed, component).apply { id = viewId }
             if (component == LabComponent.SPACE) {
                 // Space only makes sense inside a row that shows the gap it keeps.
