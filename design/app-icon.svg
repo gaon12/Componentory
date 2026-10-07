@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <!-- Original app icon supplied by the project owner. -->
+  <rect x="64" y="64" width="896" height="896" rx="224" fill="#111827"/>
+  <circle cx="512" cy="500" r="320" fill="#172033"/>
+  <path id="flask" d="M420 226 H604 V328 C604 357 614 385 632 408 L761 574 C829 662 766 790 655 790 H369 C258 790 195 662 263 574 L392 408 C410 385 420 357 420 328 Z" fill="#F8FAFC"/>
+  <clipPath id="flaskClip">
+    <path d="M420 226 H604 V328 C604 357 614 385 632 408 L761 574 C829 662 766 790 655 790 H369 C258 790 195 662 263 574 L392 408 C410 385 420 357 420 328 Z"/>
+  </clipPath>
+  <g clip-path="url(#flaskClip)">
+    <path d="M180 606 C284 538 371 555 448 598 C535 646 618 650 704 596 C774 552 838 548 894 574 L894 850 H180 Z" fill="#22D3EE"/>
+    <path d="M180 682 C294 628 397 661 482 700 C568 739 667 735 751 692 C805 664 853 660 894 674 L894 850 H180 Z" fill="#06B6D4" opacity="0.72"/>
+    <path d="M264 600 C340 555 395 565 455 599 C533 643 617 646 695 602" stroke="#CFFAFE" stroke-width="24" stroke-linecap="round" opacity="0.9"/>
+  </g>
+  <path d="M420 226 H604 V328 C604 357 614 385 632 408 L761 574 C829 662 766 790 655 790 H369 C258 790 195 662 263 574 L392 408 C410 385 420 357 420 328 Z" stroke="#E2E8F0" stroke-width="34" stroke-linejoin="round"/>
+  <rect x="390" y="188" width="244" height="76" rx="30" fill="#111827" stroke="#E2E8F0" stroke-width="34"/>
+  <path d="M352 494 C329 528 308 556 291 580 C264 618 259 655 271 686" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" opacity="0.62"/>
+  <path d="M662 687 L776 621 L892 688 L892 821 L777 888 L662 821 Z" fill="#0B1220" opacity="0.42"/>
+  <path d="M650 652 L764 586 L880 653 L765 720 Z" fill="#A78BFA"/>
+  <path d="M650 652 L765 720 L765 854 L650 787 Z" fill="#7C3AED"/>
+  <path d="M765 720 L880 653 L880 787 L765 854 Z" fill="#8B5CF6"/>
+  <path d="M650 652 L764 586 L880 653 L880 787 L765 854 L650 787 Z M650 652 L765 720 L880 653 M765 720 V854" stroke="#EDE9FE" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M694 652 L764 612 L835 653" stroke="#DDD6FE" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+</svg>
