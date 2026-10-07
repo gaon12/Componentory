@@ -2,6 +2,8 @@ package xyz.gaon.componentory.lab
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Rect
+import android.os.Bundle
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
@@ -64,12 +66,15 @@ class InlineContentSampleTest {
                     activity.findViewById<EditText>(R.id.inline_sample_input).requestFocus()
                     activity.findViewById<View>(R.id.inline_sample_request).performClick()
                 }
-                waitFor("The platform did not attach an actual InlineContentView.") {
+                waitFor(
+                    "The platform did not attach an actual InlineContentView with a live surface."
+                ) {
                     val view = find(R.id.inline_sample_content)
                     view is InlineContentView &&
                         view.isAttachedToWindow &&
                         view.width > 0 &&
-                        view.height > 0
+                        view.height > 0 &&
+                        view.surfaceControl?.isValid == true
                 }
                 var host: InlineContentView? = null
                 var originalSurfaceOrder = false
@@ -82,6 +87,13 @@ class InlineContentSampleTest {
                         host!!.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK,
                     )
                 }
+                instrumentation.sendStatus(
+                    2,
+                    Bundle().apply {
+                        putString("inline_family", family.name)
+                        putBoolean("inline_original_surface_on_top", originalSurfaceOrder)
+                    },
+                )
                 touch(R.id.inline_sample_surface)
                 instrumentation.runOnMainSync {
                     assertEquals(!originalSurfaceOrder, requireNotNull(host).isZOrderedOnTop)
@@ -98,6 +110,7 @@ class InlineContentSampleTest {
                 touch(R.id.inline_sample_attach)
                 waitFor("The actual inline host did not reattach.") {
                     host?.isAttachedToWindow == true &&
+                        host?.surfaceControl?.isValid == true &&
                         InlineDemoSession.status.value.phase == InlineDemoPhase.ATTACHED
                 }
                 // Inject real system input. Do not inspect or dispatch events into the opaque
@@ -134,15 +147,23 @@ class InlineContentSampleTest {
     }
 
     private fun touch(id: Int) {
+        // The IME and remote renderer run outside this Activity's main-thread idle queue.
+        instrumentation.uiAutomation.waitForIdle(300, 5_000)
         val location = IntArray(2)
+        val visible = Rect()
         var x = 0f
         var y = 0f
         instrumentation.runOnMainSync {
             val view = requireNotNull(find(id)) { "Missing demo view $id" }
             assertTrue(view.isShown)
+            assertTrue(view.getLocalVisibleRect(visible))
             view.getLocationOnScreen(location)
             x = location[0] + view.width / 2f
             y = location[1] + view.height / 2f
+            assertTrue(
+                "The real touch target must be visible.",
+                visible.contains(view.width / 2, view.height / 2),
+            )
         }
         val down = SystemClock.uptimeMillis()
         listOf(MotionEvent.ACTION_DOWN, MotionEvent.ACTION_UP).forEach { action ->
