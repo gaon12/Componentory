@@ -729,4 +729,8 @@
     <string name="preview_scroll_hint">此元件比面板更寬。左右滑動或使用按鈕查看兩端。</string>
     <string name="preview_scroll_start">開頭</string>
     <string name="preview_scroll_end">末尾</string>
+    <string name="privacy_policy">隱私權政策</string>
+    <string name="privacy_policy_category_summary">本機資料與選用示範服務</string>
+    <string name="privacy_policy_summary">設定與比較記錄儲存在本機。沒有廣告、分析或開發者資料收集。匯出記錄由您自行選擇。完整政策以英文提供，離線也可閱讀。</string>
+    <string name="privacy_policy_read">閱讀完整隱私權政策</string>
 </resources>

@@ -729,4 +729,8 @@
     <string name="preview_scroll_hint">이 컴포넌트는 패널보다 넓습니다. 좌우로 밀거나 버튼을 눌러 양쪽 끝을 확인하세요.</string>
     <string name="preview_scroll_start">처음</string>
     <string name="preview_scroll_end">끝</string>
+    <string name="privacy_policy">개인정보처리방침</string>
+    <string name="privacy_policy_category_summary">기기 내 데이터와 선택적 데모 서비스</string>
+    <string name="privacy_policy_summary">설정과 비교 기록은 이 기기에 저장됩니다. 광고, 분석 및 개발자의 데이터 수집은 없습니다. 기록 내보내기는 직접 선택합니다. 아래 전체 방침은 영어로 제공되며 오프라인에서도 읽을 수 있습니다.</string>
+    <string name="privacy_policy_read">개인정보처리방침 전체 보기</string>
 </resources>

@@ -63,21 +63,22 @@ internal fun SourceNotices() {
             }
         }
     }
-    selected?.let { notice -> SourceNoticeDialog(notice) { selected = null } }
+    selected?.let { notice ->
+        SourceDocumentDialog(notice.title, notice.filename) { selected = null }
+    }
 }
 
 @Composable
-private fun SourceNoticeDialog(notice: SourceNotice, onClose: () -> Unit) {
+internal fun SourceDocumentDialog(title: String, filename: String, onClose: () -> Unit) {
     val context = LocalContext.current
     val body by
-        produceState<String?>(null, notice) {
+        produceState<String?>(null, filename) {
             value =
                 withContext(Dispatchers.IO) {
                     try {
-                        context.assets
-                            .open("legal/${notice.filename}")
-                            .bufferedReader(Charsets.UTF_8)
-                            .use { it.readText() }
+                        context.assets.open("legal/$filename").bufferedReader(Charsets.UTF_8).use {
+                            it.readText()
+                        }
                     } catch (_: IOException) {
                         ""
                     }
@@ -89,8 +90,8 @@ private fun SourceNoticeDialog(notice: SourceNotice, onClose: () -> Unit) {
             modifier = Modifier.fillMaxWidth().heightIn(max = 600.dp),
         ) {
             Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text(notice.title, style = MaterialTheme.typography.titleLarge)
-                androidx.compose.runtime.key(notice) {
+                Text(title, style = MaterialTheme.typography.titleLarge)
+                androidx.compose.runtime.key(filename) {
                     Text(
                         body?.takeIf { it.isNotEmpty() }
                             ?: stringResource(

@@ -732,4 +732,8 @@
     <string name="preview_scroll_hint">This control is wider than the panel. Swipe horizontally or use the buttons to see both edges.</string>
     <string name="preview_scroll_start">Start</string>
     <string name="preview_scroll_end">End</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy_category_summary">Local data and optional demo services</string>
+    <string name="privacy_policy_summary">Preferences and comparison runs stay on this device. No ads, analytics, or developer data collection. You choose whether to export a run. The full policy below is available offline in English.</string>
+    <string name="privacy_policy_read">Read the full privacy policy</string>
 </resources>

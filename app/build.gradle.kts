@@ -188,6 +188,9 @@ abstract class PackageSourceNotices : DefaultTask() {
     @get:InputFile
     @get:PathSensitive(PathSensitivity.NONE)
     abstract val applicationNotice: RegularFileProperty
+    @get:InputFile
+    @get:PathSensitive(PathSensitivity.NONE)
+    abstract val privacyPolicy: RegularFileProperty
     @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
 
     @TaskAction
@@ -203,6 +206,7 @@ abstract class PackageSourceNotices : DefaultTask() {
                 listOf(
                     "Componentory-MIT.txt" to applicationLicense.get().asFile,
                     "NOTICE.txt" to applicationNotice.get().asFile,
+                    "PrivacyPolicy.txt" to privacyPolicy.get().asFile,
                 )
         sources.forEach { (name, source) ->
             val destination = outputDirectory.file("legal/$name").get().asFile
@@ -217,6 +221,7 @@ val packageSourceNotices =
         sourceDirectory.set(rootProject.layout.projectDirectory.dir("licenses"))
         applicationLicense.set(rootProject.layout.projectDirectory.file("LICENSE"))
         applicationNotice.set(rootProject.layout.projectDirectory.file("NOTICE"))
+        privacyPolicy.set(rootProject.layout.projectDirectory.file("docs/privacy-policy.txt"))
         outputDirectory.set(layout.buildDirectory.dir("generated/sourceNotices"))
     }
 

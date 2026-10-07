@@ -5,7 +5,7 @@
     <!-- Android 13 reads localeConfig. Older devices use the in-app language picker. -->
     <application
         tools:ignore="UnusedAttribute"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"

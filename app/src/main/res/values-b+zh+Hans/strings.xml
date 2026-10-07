@@ -729,4 +729,8 @@
     <string name="preview_scroll_hint">此组件比面板更宽。左右滑动或使用按钮查看两端。</string>
     <string name="preview_scroll_start">开头</string>
     <string name="preview_scroll_end">末尾</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="privacy_policy_category_summary">本机数据和可选演示服务</string>
+    <string name="privacy_policy_summary">设置和比较记录保存在本机。没有广告、分析或开发者数据收集。导出记录由您自行选择。完整政策以英语提供，离线也可阅读。</string>
+    <string name="privacy_policy_read">阅读完整隐私政策</string>
 </resources>

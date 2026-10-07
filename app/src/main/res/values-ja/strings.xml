@@ -729,4 +729,8 @@
     <string name="preview_scroll_hint">このコンポーネントはパネルより幅が広いです。左右にスワイプするか、ボタンで両端を確認できます。</string>
     <string name="preview_scroll_start">先頭</string>
     <string name="preview_scroll_end">末尾</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="privacy_policy_category_summary">端末内のデータと任意のデモサービス</string>
+    <string name="privacy_policy_summary">設定と比較記録はこの端末に保存されます。広告、分析、開発者によるデータ収集はありません。記録のエクスポートはご自身で選択します。全文は英語で、オフラインでも確認できます。</string>
+    <string name="privacy_policy_read">プライバシーポリシー全文を読む</string>
 </resources>

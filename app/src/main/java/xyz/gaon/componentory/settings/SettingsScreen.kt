@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
@@ -101,6 +102,12 @@ private enum class SettingsPage(
         R.string.settings_about_summary,
         Icons.Default.Info,
         Color(0xFF637282),
+    ),
+    PRIVACY(
+        R.string.privacy_policy,
+        R.string.privacy_policy_category_summary,
+        Icons.Default.PrivacyTip,
+        Color(0xFF009D8B),
     ),
 }
 
@@ -201,7 +208,8 @@ private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage)
         listOf(
                 listOf(SettingsPage.APPEARANCE, SettingsPage.LANGUAGE),
                 listOf(SettingsPage.DEVICE, SettingsPage.LIBRARIES),
-                listOf(SettingsPage.LICENSES, SettingsPage.ABOUT),
+                listOf(SettingsPage.LICENSES, SettingsPage.PRIVACY),
+                listOf(SettingsPage.ABOUT),
             )
             .forEach { group ->
                 Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
@@ -350,6 +358,7 @@ private fun SettingsDetail(
                         SettingsNote(stringResource(R.string.platform_note))
                     }
                 SettingsPage.LICENSES -> SettingsGroup { SourceNotices() }
+                SettingsPage.PRIVACY -> SettingsGroup { PrivacyPolicy() }
                 SettingsPage.ABOUT ->
                     SettingsGroup {
                         TextButton(

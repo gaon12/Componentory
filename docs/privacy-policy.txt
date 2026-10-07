@@ -1,0 +1,55 @@
+Componentory Privacy Policy
+Effective date: October 8, 2026
+
+Componentory is an independent Android UI learning app maintained by gaon12.
+This policy describes the app identified as xyz.gaon.componentory.
+
+Local processing
+The app works without an account. It has no Internet permission, advertising,
+analytics, tracking, or developer-operated server. The developer does not collect,
+receive, sell, or share data from the app.
+
+The app stores appearance and language preferences, introduction progress, and
+comparison runs in its private storage. A saved run can contain sample text you
+enter and technical context: Android version and build fingerprint, device model,
+screen dimensions, density, font scale, orientation, locale, app version, selected
+themes, and UI library versions. These details explain where the sample ran.
+The app does not read hardware identifiers such as IMEI or device serial numbers.
+Use example text rather than passwords or other private information in samples.
+
+Optional keyboard and autofill demonstration
+Android 11 and later can run a demonstration with a fixed fictional suggestion.
+You choose whether to enable its keyboard and autofill service in Android settings.
+The autofill service rejects other activities before inspecting their view trees.
+It identifies the demonstration field without reading or saving its entered text.
+The demo keyboard accepts only Componentory's marked demonstration editor; it does
+not read, store, or send keystrokes from other apps. Return to your usual keyboard
+and autofill service after the demonstration. These services are not password
+managers and do not access account credentials.
+
+Exports and external links
+Exporting comparison runs uses Android's share sheet. The shared text can include
+your sample inputs and the technical context listed above. You choose its
+destination; the receiving app may save or send it under its own privacy policy.
+The app does not export automatically. External website links open an
+external browser. Those services handle visits and any information you submit
+under their own privacy policies. Public GitHub issues are visible to others;
+do not include private information in an issue or an attached run.
+
+Storage, retention, and deletion
+Local data is protected by Android's application sandbox. App-managed automatic
+cloud backup and device transfer are disabled. Runs remain until you delete them
+in the Runs screen or clear the app's storage in Android settings. Clearing app
+storage or uninstalling removes the app's local data and preferences. Copies you
+export remain with the destination you chose; delete them through that service.
+The developer cannot recover your local data or delete those exported copies.
+
+Contact and changes
+For privacy questions, contact the project maintainer through
+https://github.com/gaon12/Componentory/issues/new . Do not post sensitive details.
+The public policy is available at
+https://gaon12.github.io/Componentory/privacy.html .
+Changes to app data handling will be reflected in this policy and its effective
+date. The offline copy is available in Settings > Privacy policy.
+
+Android is a trademark of Google LLC. Componentory is not affiliated with Google.
