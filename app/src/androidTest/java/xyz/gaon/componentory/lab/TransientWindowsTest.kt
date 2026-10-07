@@ -178,6 +178,11 @@ class TransientWindowsTest {
         chooseFamily("RIGHT", right)
         setEnabled(true)
         resetSamples()
+        compose
+            .onNodeWithTag("component_picker")
+            .assertTextEquals(compose.activity.getString(component.labelRes))
+        compose.onNodeWithTag("family_LEFT").assertTextContains(left.selectionLabel)
+        compose.onNodeWithTag("family_RIGHT").assertTextContains(right.selectionLabel)
     }
 
     private fun chooseFamily(panel: String, family: DesignFamily) {
@@ -191,6 +196,7 @@ class TransientWindowsTest {
     private fun trigger(panel: String): Button = compose.activity.findViewById(nativeId(panel))
 
     private fun tapTrigger(panel: String) {
+        compose.onNodeWithTag("native_$panel").performScrollTo().assertIsDisplayed()
         onView(withId(nativeId(panel))).perform(nativeClick())
         compose.waitForIdle()
     }

@@ -7,6 +7,7 @@ import android.view.WindowManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toPixelMap
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.captureToImage
@@ -116,11 +117,13 @@ class AppearanceSettingsTest {
     @Test
     fun changingAppAppearanceKeepsTheNativeSampleThemeAndLiveState() {
         compose.onNodeWithTag("list_BUTTON").performClick()
+        compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         onView(withId(R.id.sample_left)).perform(click())
+        compose.onNodeWithTag("status_LEFT").performScrollTo().assertTextEquals("Clicks: 1")
         compose.openSettingsPage("APPEARANCE")
         compose.onNodeWithTag("appearance_DARK").performScrollTo().performClick().assertIsSelected()
         compose.onNodeWithTag("nav_list").performClick()
-        compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
+        compose.onNodeWithTag("status_LEFT").performScrollTo().assertTextEquals("Clicks: 1")
         onView(withId(R.id.sample_left)).check { view, error ->
             if (error != null) throw error
             val actual = TypedValue()
@@ -131,8 +134,9 @@ class AppearanceSettingsTest {
                 .resolveAttribute(android.R.attr.buttonStyle, expected, true)
             assertEquals(expected.resourceId, actual.resourceId)
         }
+        compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         onView(withId(R.id.sample_left)).perform(click())
-        compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 2")
+        compose.onNodeWithTag("status_LEFT").performScrollTo().assertTextEquals("Clicks: 2")
     }
 
     private fun backgroundLuminance(): Float {
