@@ -661,4 +661,10 @@
     <string name="history_documentation">官方 API 文件</string>
     <string name="history_child_sample">此類別在%1$s範例中作為真實的子元件執行。</string>
     <string name="history_documentation_unavailable">沒有可開啟此文件連結的應用程式。</string>
+    <string name="component_action_bar">操作列</string>
+    <string name="component_action_bar_description">在獨立頁面中使用真實的 Android 操作列，選擇選單並切換顯示狀態。</string>
+    <string name="action_bar_toggle">顯示或隱藏操作列</string>
+    <string name="action_bar_open">開啟 Android 操作列</string>
+    <string name="action_bar_requires_theme">Theme.Light 不提供操作列。請選擇 Holo 或 Material。</string>
+    <string name="hosted_sample_return">返回元件</string>
 </resources>

@@ -38,6 +38,10 @@ fun PlatformSample(
     state: SampleState,
     modifier: Modifier = Modifier,
 ) {
+    if (component == LabComponent.ACTION_BAR) {
+        ActionBarSampleLauncher(family, viewId, enabled, state, modifier)
+        return
+    }
     if (component == LabComponent.TEXT || component == LabComponent.CHECKED_TEXT_VIEW) {
         PlatformTextSample(family, component, viewId, enabled, state, modifier)
         return

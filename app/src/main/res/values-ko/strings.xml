@@ -661,4 +661,10 @@
     <string name="history_documentation">공식 API 문서</string>
     <string name="history_child_sample">이 클래스는 %1$s 샘플 내부의 실제 하위 컴포넌트로 실행돼요.</string>
     <string name="history_documentation_unavailable">이 문서 링크를 열 수 있는 앱이 없어요.</string>
+    <string name="component_action_bar">액션 바</string>
+    <string name="component_action_bar_description">전용 화면에서 실제 안드로이드 액션 바의 메뉴 선택과 표시·숨김을 확인해요.</string>
+    <string name="action_bar_toggle">액션 바 표시·숨김</string>
+    <string name="action_bar_open">안드로이드 액션 바 열기</string>
+    <string name="action_bar_requires_theme">기본 Theme.Light에는 액션 바가 없어요. Holo 또는 Material을 선택해 주세요.</string>
+    <string name="hosted_sample_return">컴포넌트로 돌아가기</string>
 </resources>

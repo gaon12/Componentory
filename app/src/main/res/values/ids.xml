@@ -2,4 +2,9 @@
 <resources>
     <item name="sample_left" type="id" />
     <item name="sample_right" type="id" />
+    <item name="action_bar_sample_status" type="id" />
+    <item name="action_bar_sample_toggle" type="id" />
+    <item name="action_bar_sample_return" type="id" />
+    <item name="action_bar_sample_reset" type="id" />
+    <item name="action_bar_sample_action" type="id" />
 </resources>

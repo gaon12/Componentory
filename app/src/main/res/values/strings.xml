@@ -664,4 +664,10 @@
     <string name="history_documentation">Official API documentation</string>
     <string name="history_child_sample">This class appears as a real child inside the %1$s sample.</string>
     <string name="history_documentation_unavailable">No app can open this documentation link.</string>
+    <string name="component_action_bar">ActionBar</string>
+    <string name="component_action_bar_description">An Activity-owned framework action bar with a menu action and show/hide controls.</string>
+    <string name="action_bar_toggle">Show or hide the action bar</string>
+    <string name="action_bar_open">Open native ActionBar</string>
+    <string name="action_bar_requires_theme">Theme.Light does not provide an action bar. Select Holo or Material.</string>
+    <string name="hosted_sample_return">Return to component</string>
 </resources>

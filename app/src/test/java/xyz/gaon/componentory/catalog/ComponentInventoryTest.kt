@@ -145,9 +145,9 @@ class ComponentInventoryTest {
     fun catalogCountsCanonicalRowsWithoutCountingThemesAsSeparateSources() {
         val rows = inventory()
         assertEquals(239, rows.size)
-        assertEquals(158, LabComponent.entries.size)
+        assertEquals(159, LabComponent.entries.size)
         assertEquals(
-            363,
+            365,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -155,15 +155,15 @@ class ComponentInventoryTest {
             },
         )
         assertEquals(
-            mapOf("Implemented" to 237, "Pending" to 2),
+            mapOf("Implemented" to 238, "Pending" to 1),
             rows.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 72, "MATERIAL2" to 52, "MATERIAL3" to 113),
+            mapOf("PLATFORM" to 73, "MATERIAL2" to 52, "MATERIAL3" to 113),
             rows.filter { it.status == "Implemented" }.groupingBy { it.provider }.eachCount(),
         )
         assertEquals(
-            mapOf("PLATFORM" to 2),
+            mapOf("PLATFORM" to 1),
             rows.filter { it.status == "Pending" }.groupingBy { it.provider }.eachCount(),
         )
         listOf(
@@ -227,8 +227,17 @@ class ComponentInventoryTest {
                 assertTrue("No sample for ${row.source}", row.catalogIds.isNotEmpty())
                 row.catalogIds.forEach { id ->
                     val component = LabComponent.valueOf(id)
-                    val family = family(row.provider)
                     val supportedApi = component.minimumApi.coerceAtLeast(24)
+                    val family =
+                        if (row.provider == "PLATFORM")
+                            requireNotNull(
+                                supportedFamilies(component, supportedApi).firstOrNull {
+                                    it.platform != null
+                                }
+                            ) {
+                                "No native theme supplies $id at API $supportedApi."
+                            }
+                        else family(row.provider)
                     assertNull(
                         "Unavailable $id for ${row.provider} at its declared API",
                         family.unsupportedReason(component, supportedApi),

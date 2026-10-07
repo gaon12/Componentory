@@ -544,6 +544,14 @@ enum class LabComponent(
         minimumApi = 11,
         category = ComponentCategory.NAVIGATION,
     ),
+    ACTION_BAR(
+        "ActionBar",
+        R.string.component_action_bar,
+        R.string.component_action_bar_description,
+        platformSource = "android.app.ActionBar",
+        minimumApi = 11,
+        category = ComponentCategory.NAVIGATION,
+    ),
     TOOLBAR(
         "Toolbar",
         R.string.component_toolbar,

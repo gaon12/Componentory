@@ -50,6 +50,9 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
     ): String? {
         val name = context?.getString(component.labelRes) ?: component.label
         if (platform != null) {
+            if (component == LabComponent.ACTION_BAR && platform == PlatformFamily.CLASSIC)
+                return context?.getString(R.string.action_bar_requires_theme)
+                    ?: "Theme.Light does not provide an action bar. Select Holo or Material."
             if (component == LabComponent.CIRCULAR_PROGRESS)
                 return context?.getString(R.string.unsupported_determinate_circle)
                     ?: "Platform circular ProgressBar styles support indeterminate progress only."

@@ -661,4 +661,10 @@
     <string name="history_documentation">公式 API ドキュメント</string>
     <string name="history_child_sample">このクラスは%1$sサンプル内の実際の子コンポーネントです。</string>
     <string name="history_documentation_unavailable">この文書リンクを開くアプリがありません。</string>
+    <string name="component_action_bar">アクションバー</string>
+    <string name="component_action_bar_description">専用画面で実際の Android アクションバーのメニュー操作と表示・非表示を確認します。</string>
+    <string name="action_bar_toggle">アクションバーを表示・非表示</string>
+    <string name="action_bar_open">Android アクションバーを開く</string>
+    <string name="action_bar_requires_theme">Theme.Light にはアクションバーがありません。Holo または Material を選んでください。</string>
+    <string name="hosted_sample_return">コンポーネントに戻る</string>
 </resources>

@@ -661,4 +661,10 @@
     <string name="history_documentation">官方 API 文档</string>
     <string name="history_child_sample">此类在%1$s示例中作为真实的子组件运行。</string>
     <string name="history_documentation_unavailable">没有可打开此文档链接的应用。</string>
+    <string name="component_action_bar">操作栏</string>
+    <string name="component_action_bar_description">在独立页面中使用真实的 Android 操作栏，选择菜单并切换显示状态。</string>
+    <string name="action_bar_toggle">显示或隐藏操作栏</string>
+    <string name="action_bar_open">打开 Android 操作栏</string>
+    <string name="action_bar_requires_theme">Theme.Light 不提供操作栏。请选择 Holo 或 Material。</string>
+    <string name="hosted_sample_return">返回组件</string>
 </resources>

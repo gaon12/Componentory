@@ -58,7 +58,7 @@ internal fun <T : View> ReadableAndroidView(
     )
 }
 
-private fun View.ensureReadableText() {
+internal fun View.ensureReadableText() {
     if (this is TextView) {
         val minimum =
             TypedValue.applyDimension(

@@ -56,16 +56,16 @@ class PlannedCatalogTest {
     @Test
     fun plannedCountsAndProviderVersionsDescribeSourcesWithoutRunnableRows() {
         mode("PLANNED")
-        count(2)
-        mapOf("PLATFORM" to 2, "MATERIAL2" to 0, "MATERIAL3" to 0).forEach { (family, size) ->
+        count(1)
+        mapOf("PLATFORM" to 1, "MATERIAL2" to 0, "MATERIAL3" to 0).forEach { (family, size) ->
             provider(family)
             count(size)
             compose.onNodeWithTag("planned_provider_$family").assertIsSelected()
         }
         provider("PLATFORM")
-        search("ActionBar")
+        search("InlineContentView")
         count(1)
-        val identity = "PLATFORM_android.app.ActionBar"
+        val identity = "PLATFORM_android.widget.inline.InlineContentView"
         showRow(identity)
         compose
             .onNodeWithTag("planned_$identity")
@@ -73,13 +73,13 @@ class PlannedCatalogTest {
             .assert(SemanticsMatcher.keyNotDefined(SemanticsProperties.Disabled))
         compose
             .onNodeWithTag("source_$identity", useUnmergedTree = true)
-            .assertTextEquals("android.app.ActionBar")
+            .assertTextEquals("android.widget.inline.InlineContentView")
         compose
             .onNodeWithTag("provider_$identity", useUnmergedTree = true)
             .assertTextEquals(
                 compose.activity.getString(R.string.planned_provider_framework) +
                     " · " +
-                    compose.activity.getString(R.string.planned_api_introduced, 11)
+                    compose.activity.getString(R.string.planned_api_introduced, 30)
             )
         compose
             .onNodeWithTag("status_$identity", useUnmergedTree = true)
@@ -135,22 +135,22 @@ class PlannedCatalogTest {
     @Test
     fun missingSampleLinkPreservesQueryAndResetsOnlyThePlannedProvider() {
         mode("PLANNED")
-        count(2)
+        count(1)
         provider("MATERIAL2")
         mode("SAMPLES")
         compose.onNodeWithTag("list_category_SELECTION").performClick()
-        search("ActionBar")
+        search("InlineContentView")
         compose.onNodeWithTag("search_empty").assertIsDisplayed()
         compose
             .onNodeWithTag("show_planned_matches")
             .assertTextEquals(compose.activity.getString(R.string.planned_view_matches, 1))
             .performClick()
-        query("ActionBar")
+        query("InlineContentView")
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_ALL").assertIsSelected()
         count(1)
         mode("SAMPLES")
-        query("ActionBar")
+        query("InlineContentView")
         compose.onNodeWithTag("list_category_SELECTION").assertIsSelected()
         compose.onNodeWithTag("clear_search").performClick()
         compose.onNodeWithTag("list_CHECKBOX").assertIsDisplayed()
@@ -162,9 +162,9 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("component_list").performScrollToNode(hasTestTag("list_DIALOG"))
         compose.onNodeWithTag("list_DIALOG").assertIsDisplayed()
         mode("PLANNED")
-        count(2)
+        count(1)
         provider("PLATFORM")
-        val identity = "PLATFORM_android.app.ActionBar"
+        val identity = "PLATFORM_android.widget.inline.InlineContentView"
         showRow(identity)
         mode("SAMPLES")
         compose.onNodeWithTag("list_DIALOG").assertIsDisplayed()
@@ -172,10 +172,10 @@ class PlannedCatalogTest {
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.onNodeWithTag("nav_settings").performClick()
         compose.onNodeWithTag("nav_list").performClick()
-        count(2)
+        count(1)
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
         compose.activityRule.scenario.recreate()
-        count(2)
+        count(1)
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
         compose.onNodeWithTag("planned_provider_PLATFORM").assertIsSelected()
         compose.onNodeWithTag("planned_$identity").assertIsDisplayed()
@@ -186,8 +186,8 @@ class PlannedCatalogTest {
     @Test
     fun everyLanguageLocalizesPendingStatusAndCountsWhileKeepingApiNames() {
         mode("PLANNED")
-        count(2)
-        search("ActionBar")
+        count(1)
+        search("InlineContentView")
         AppLanguage.entries
             .filter { it != AppLanguage.SYSTEM }
             .forEach { language ->
@@ -197,12 +197,12 @@ class PlannedCatalogTest {
                 compose.waitForIdle()
                 compose.onNodeWithTag("nav_list").performClick()
                 count(1)
-                query("ActionBar")
-                val identity = "PLATFORM_android.app.ActionBar"
+                query("InlineContentView")
+                val identity = "PLATFORM_android.widget.inline.InlineContentView"
                 showRow(identity)
                 compose
                     .onNodeWithTag("source_$identity", useUnmergedTree = true)
-                    .assertTextEquals("android.app.ActionBar")
+                    .assertTextEquals("android.widget.inline.InlineContentView")
                 compose
                     .onNodeWithTag("status_$identity", useUnmergedTree = true)
                     .assertTextEquals(compose.activity.getString(R.string.planned_status))
@@ -218,17 +218,17 @@ class PlannedCatalogTest {
             compose.activity.setContent { Box(Modifier.width(360.dp)) { ComponentoryApp() } }
         }
         mode("PLANNED")
-        count(2)
+        count(1)
         compose.onNodeWithTag("catalog_mode_SAMPLES").assertIsDisplayed()
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsDisplayed()
-        search("ActionBar")
+        search("InlineContentView")
         provider("PLATFORM")
         count(1)
-        showRow("PLATFORM_android.app.ActionBar")
+        showRow("PLATFORM_android.widget.inline.InlineContentView")
         compose.onNodeWithTag("nav_compare").performClick()
         compose.onNodeWithTag("nav_list").performClick()
         count(1)
-        query("ActionBar")
+        query("InlineContentView")
         compose.onNodeWithTag("catalog_mode_PLANNED").assertIsSelected()
     }
 

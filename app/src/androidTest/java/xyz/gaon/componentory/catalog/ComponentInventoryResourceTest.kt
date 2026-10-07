@@ -29,12 +29,12 @@ class ComponentInventoryResourceTest {
             entries.groupingBy { it.family }.eachCount(),
         )
         assertEquals(
-            mapOf(InventoryStatus.IMPLEMENTED to 237, InventoryStatus.PENDING to 2),
+            mapOf(InventoryStatus.IMPLEMENTED to 238, InventoryStatus.PENDING to 1),
             entries.groupingBy { it.status }.eachCount(),
         )
         assertEquals(
             mapOf(
-                InventoryFamily.PLATFORM to 72,
+                InventoryFamily.PLATFORM to 73,
                 InventoryFamily.MATERIAL2 to 52,
                 InventoryFamily.MATERIAL3 to 113,
             ),
@@ -283,9 +283,9 @@ class ComponentInventoryResourceTest {
     fun pendingQueriesDistinguishProvidersAndKeepSourcesNonRunnable() {
         val entries = ComponentInventory.read(context)
         val pending = ComponentInventory.pending(entries)
-        assertEquals(2, pending.size)
+        assertEquals(1, pending.size)
         assertEquals(
-            mapOf(InventoryFamily.PLATFORM to 2),
+            mapOf(InventoryFamily.PLATFORM to 1),
             pending.groupingBy { it.family }.eachCount(),
         )
         pending.forEach {
@@ -297,16 +297,13 @@ class ComponentInventoryResourceTest {
         )
         val libraryMenus =
             ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL3)
-        assertEquals(
-            setOf("androidx.compose.material3.ExposedDropdownMenuBox"),
-            libraryMenus.map { it.source }.toSet(),
-        )
+        assertEquals(emptySet<String>(), libraryMenus.map { it.source }.toSet())
         libraryMenus.forEach { assertNull(it.apiIntroduced) }
         assertTrue(
             ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.PLATFORM).isEmpty()
         )
         assertEquals(
-            1,
+            0,
             ComponentInventory.pending(entries, "dropdownmenu", InventoryFamily.MATERIAL2).size,
         )
         assertTrue(ComponentInventory.pending(entries, "popupmenu").isEmpty())
@@ -344,7 +341,7 @@ class ComponentInventoryResourceTest {
             },
         )
         assertEquals(
-            listOf("androidx.compose.material3.BasicAlertDialog"),
+            emptyList<String>(),
             ComponentInventory.pending(entries, "dialog", InventoryFamily.MATERIAL3).map {
                 it.source
             },
@@ -358,7 +355,6 @@ class ComponentInventoryResourceTest {
         assertTrue(
             ComponentInventory.pending(entries, "tabrow", InventoryFamily.MATERIAL2).isEmpty()
         )
-        // Material 3 keeps pending primary/secondary tab-row variants.
         assertTrue(ComponentInventory.pending(entries, "tab", InventoryFamily.MATERIAL2).isEmpty())
         assertTrue(ComponentInventory.pending(entries, "snackbar").isEmpty())
         assertTrue(ComponentInventory.pending(entries, "listitem").isEmpty())
@@ -382,7 +378,6 @@ class ComponentInventoryResourceTest {
         assertTrue(
             ComponentInventory.pending(entries, "searchbar", InventoryFamily.MATERIAL3).isEmpty()
         )
-        // Material 3 keeps pending wide/short navigation variants.
         assertTrue(
             ComponentInventory.pending(entries, "navigationrail", InventoryFamily.MATERIAL2)
                 .isEmpty()
@@ -398,9 +393,9 @@ class ComponentInventoryResourceTest {
                 it.source
             },
         )
-        // Both remaining pending rows explain why no panel can instantiate them.
+        // Inline content still requires its own platform session host.
         assertEquals(
-            listOf("android.app.ActionBar", "android.widget.inline.InlineContentView"),
+            listOf("android.widget.inline.InlineContentView"),
             pending.map { it.source }.sorted(),
         )
         pending.forEach { assertTrue("Pending rows explain their status", it.notes.isNotBlank()) }
