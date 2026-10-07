@@ -4,9 +4,11 @@ import android.net.Uri
 import android.view.ContextThemeWrapper
 import android.widget.MediaController
 import android.widget.VideoView
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
 
 @Composable
@@ -25,7 +27,8 @@ internal fun PlatformMediaSample(
         },
         update = { view -> view.isEnabled = enabled },
         onRelease = { view -> (view as? VideoView)?.suspend() },
-        modifier = modifier.testTag("sample-${component.name.lowercase()}"),
+        // Reserve space for the SurfaceView before the clip has reported its dimensions.
+        modifier = modifier.height(180.dp).testTag("sample-${component.name.lowercase()}"),
     )
 }
 
@@ -40,13 +43,13 @@ private fun createMediaWidget(
     state: SampleState,
 ): VideoView {
     val video = VideoView(themed)
-    video.minimumHeight = (96 * themed.resources.displayMetrics.density).toInt()
     video.setVideoURI(Uri.parse("android.resource://${themed.packageName}/${R.raw.sample_clip}"))
     return if (component == LabComponent.MEDIA_CONTROLLER) {
         video.apply {
             val controller = MediaController(themed)
             setMediaController(controller)
             tag = controller
+            setOnPreparedListener { controller.ensureReadableText() }
         }
     } else {
         video.apply {
