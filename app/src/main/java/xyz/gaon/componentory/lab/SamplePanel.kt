@@ -124,7 +124,14 @@ fun SamplePanel(
                     onClick = { menuOpen = true },
                     modifier = Modifier.fillMaxWidth().testTag("family_$panel"),
                 ) {
-                    Text("${family.selectionLabel}  ▾")
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(family.selectionLabel, Modifier.weight(1f))
+                        Icon(Icons.Default.ExpandMore, contentDescription = null)
+                    }
                 }
                 DropdownMenu(
                     expanded = menuOpen,

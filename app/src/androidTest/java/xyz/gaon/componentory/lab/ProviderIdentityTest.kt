@@ -209,7 +209,7 @@ class ProviderIdentityTest {
 
     private fun assertPrimaryLabel(family: DesignFamily) {
         val label = primaryLabel(family)
-        compose.onNodeWithTag("family_LEFT").assertTextEquals("$label  ▾")
+        compose.onNodeWithTag("family_LEFT").assertTextEquals(label)
     }
 
     private fun primaryLabel(family: DesignFamily): String = family.selectionLabel

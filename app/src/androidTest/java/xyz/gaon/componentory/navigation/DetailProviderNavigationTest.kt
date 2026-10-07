@@ -148,7 +148,7 @@ class DetailProviderNavigationTest {
     }
 
     private fun assertProviderMetadata(component: LabComponent, family: DesignFamily) {
-        compose.onNodeWithTag("family_LEFT").assertTextEquals("${family.selectionLabel}  ▾")
+        compose.onNodeWithTag("family_LEFT").assertTextEquals(family.selectionLabel)
         expandDetails("LEFT")
         compose
             .onNodeWithTag("source_LEFT")
