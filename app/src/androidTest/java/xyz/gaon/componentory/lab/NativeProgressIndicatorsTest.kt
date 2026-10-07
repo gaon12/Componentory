@@ -2,6 +2,7 @@ package xyz.gaon.componentory.lab
 
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.graphics.Rect
+import android.graphics.drawable.Animatable
 import android.os.Build
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
@@ -28,6 +29,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.lab.recreation.HistoricalControls
 
 @RunWith(AndroidJUnit4::class)
 class NativeProgressIndicatorsTest {
@@ -136,7 +138,8 @@ class NativeProgressIndicatorsTest {
                             assertTrue(progress.isShown)
                             assertTrue(progress.isIndeterminate)
                             assertNotNull(progress.indeterminateDrawable)
-                            val expectedContext = ContextThemeWrapper(it, family.platform!!.themeId)
+                            val expectedContext =
+                                HistoricalControls.context(it, family.platform!!, component)
                             val expectedTheme = expectedContext.theme
                             listOf(
                                     android.R.attr.progressBarStyle,
@@ -157,7 +160,8 @@ class NativeProgressIndicatorsTest {
                                     )
                                     assertEquals(expected.resourceId, actual.resourceId)
                                 }
-                            // A detached public constructor supplies a default-style reference.
+                            // Match the production artwork binding, which can replace current-OS
+                            // defaults.
                             // Drawable class and intrinsic size are limited constructor evidence,
                             // not pixel equality or evidence from a historical Android release.
                             val reference =
@@ -169,6 +173,13 @@ class NativeProgressIndicatorsTest {
                                         )
                                         .apply { isIndeterminate = true }
                                 else ProgressBar(expectedContext)
+                            HistoricalControls.apply(reference, family.platform!!, component)
+                            if (HistoricalControls.supported(family.platform!!, component)) {
+                                assertEquals(
+                                    HistoricalControls.release(family.platform!!),
+                                    progress.getTag(R.id.aosp_resource_revision),
+                                )
+                            }
                             val expectedDrawable = requireNotNull(reference.indeterminateDrawable)
                             val actualDrawable = requireNotNull(progress.indeterminateDrawable)
                             assertEquals(expectedDrawable.javaClass, actualDrawable.javaClass)
@@ -182,6 +193,21 @@ class NativeProgressIndicatorsTest {
                             )
                             assertTrue(progress.getGlobalVisibleRect(bounds))
                         }
+                        val deadline = SystemClock.uptimeMillis() + 2000
+                        var running = false
+                        do {
+                            activity.scenario.onActivity {
+                                val drawable =
+                                    it.findViewById<ProgressBar>(R.id.sample_left)
+                                        .indeterminateDrawable
+                                running = drawable !is Animatable || drawable.isRunning
+                            }
+                            if (!running) SystemClock.sleep(50)
+                        } while (!running && SystemClock.uptimeMillis() < deadline)
+                        assertTrue(
+                            "The visible indeterminate drawable must start its animation.",
+                            running,
+                        )
                         tap(bounds)
                         waitForTag("status_LEFT", "Left indeterminate feedback") {
                             it.text?.toString() == "Progress: indeterminate"
