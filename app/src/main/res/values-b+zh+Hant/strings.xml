@@ -726,4 +726,7 @@
     <string name="project_repository">GitHub 儲存庫</string>
     <string name="project_feedback">回報錯誤或提出改善建議</string>
     <string name="project_link_failed">無法開啟此連結。請檢查瀏覽器設定。</string>
+    <string name="preview_scroll_hint">此元件比面板更寬。左右滑動或使用按鈕查看兩端。</string>
+    <string name="preview_scroll_start">開頭</string>
+    <string name="preview_scroll_end">末尾</string>
 </resources>

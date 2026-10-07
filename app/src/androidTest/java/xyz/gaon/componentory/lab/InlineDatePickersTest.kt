@@ -211,6 +211,28 @@ class InlineDatePickersTest {
     }
 
     @Test
+    fun calendarViewFitsThePanelAndItsLastWeekdayRemainsTouchable() {
+        configureComparison(
+            LabComponent.CALENDAR_VIEW,
+            DesignFamily.MATERIAL,
+            DesignFamily.MATERIAL3,
+        )
+        showPicker("LEFT")
+        val viewport = compose.onNodeWithTag("date_viewport_LEFT").fetchSemanticsNode()
+        val calendar = compose.onNodeWithTag("native_LEFT").fetchSemanticsNode()
+        assertEquals(
+            "All seven columns fit without horizontal panning",
+            viewport.size.width,
+            calendar.size.width,
+        )
+        compose.onNodeWithTag("date_viewport_LEFT_hint").assertDoesNotExist()
+        val saturday = TestDate(2024, 1, 20)
+        touchNativeDay("LEFT", saturday)
+        assertEquals(saturday, nativeCalendarDate("LEFT"))
+        assertDateFeedback("LEFT", saturday)
+    }
+
+    @Test
     fun material3SinglePickerKeepsOriginalCalendarInputAndNullableSelection() {
         configureComparison(
             LabComponent.DATE_PICKER,

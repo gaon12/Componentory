@@ -729,4 +729,7 @@
     <string name="project_repository">GitHub repository</string>
     <string name="project_feedback">Report a bug or suggest an improvement</string>
     <string name="project_link_failed">Cannot open this link. Check your browser settings.</string>
+    <string name="preview_scroll_hint">This control is wider than the panel. Swipe horizontally or use the buttons to see both edges.</string>
+    <string name="preview_scroll_start">Start</string>
+    <string name="preview_scroll_end">End</string>
 </resources>

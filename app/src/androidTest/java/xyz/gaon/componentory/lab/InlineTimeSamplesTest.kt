@@ -70,6 +70,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
+import java.util.concurrent.atomic.AtomicBoolean
 import org.hamcrest.Matchers.sameInstance
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -111,6 +112,14 @@ class InlineTimeSamplesTest {
             configure(LabComponent.TIME_PICKER, family, DesignFamily.MATERIAL3)
             assertNativeIdentity("LEFT", family)
             assertNativeTime("LEFT", 10, 30, true)
+            val viewportWidth =
+                compose.onNodeWithTag("time_viewport_LEFT").fetchSemanticsNode().size.width
+            compose.runOnIdle {
+                assertTrue(
+                    "The original picker fills its bounded preview instead of collapsing",
+                    nativePicker("LEFT").width >= viewportWidth,
+                )
+            }
             when (family) {
                 DesignFamily.CLASSIC -> {
                     // Edit the original spinner child and commit through its original IME action.
@@ -121,8 +130,24 @@ class InlineTimeSamplesTest {
                                 it.isShown && it.text.toString().toIntOrNull() == 30
                             }
                         }
+                    revealNativeControl("LEFT", minute)
                     onView(sameInstance(minute))
-                        .perform(replaceText("45"), pressImeActionButton(), nativeCloseKeyboard())
+                        .perform(
+                            nativeClick(),
+                            replaceText("45"),
+                            pressImeActionButton(),
+                            nativeCloseKeyboard(),
+                        )
+                    // Closing the IME does not commit a NumberPicker's focused editor on every OS.
+                    // Moving focus through its original hour editor commits the original input.
+                    val hour =
+                        compose.runOnIdle {
+                            descendants(nativePicker("LEFT")).filterIsInstance<EditText>().single {
+                                it.isShown && it.text.toString().toIntOrNull() == 10
+                            }
+                        }
+                    revealNativeControl("LEFT", hour)
+                    onView(sameInstance(hour)).perform(nativeClick(), nativeCloseKeyboard())
                     assertNativeTime("LEFT", 10, 45, true)
                 }
                 DesignFamily.HOLO -> {
@@ -133,7 +158,20 @@ class InlineTimeSamplesTest {
                                 .filterIsInstance<NumberPicker>()
                                 .single { it.isShown && it.value == 30 }
                         }
-                    onView(sameInstance(minute)).perform(swipeUp())
+                    // The native fling continues after Espresso's gesture finishes.
+                    val idle = AtomicBoolean(true)
+                    compose.runOnIdle {
+                        minute.setOnScrollListener { _, scrollState ->
+                            idle.set(scrollState == NumberPicker.OnScrollListener.SCROLL_STATE_IDLE)
+                        }
+                    }
+                    try {
+                        revealNativeControl("LEFT", minute)
+                        onView(sameInstance(minute)).perform(swipeUp())
+                        compose.waitUntil(5000) { idle.get() }
+                    } finally {
+                        compose.runOnIdle { minute.setOnScrollListener(null) }
+                    }
                     assertTrue(
                         "The original Holo minute wheel must change",
                         nativeTime("LEFT").second != 30,
@@ -148,6 +186,7 @@ class InlineTimeSamplesTest {
                                 it.isShown && it.isClickable && it.text.toString() == "30"
                             }
                         }
+                    revealNativeControl("LEFT", minutes)
                     onView(sameInstance(minutes)).perform(nativeClick())
                     touchNativeDial("LEFT", 5)
                     assertNativeTime("LEFT", 9, 5, true)
@@ -352,11 +391,9 @@ class InlineTimeSamplesTest {
         configure(LabComponent.TIME_PICKER, DesignFamily.MATERIAL3, DesignFamily.MATERIAL3)
         showPicker("LEFT")
         val root = compose.onNodeWithTag("library_LEFT").fetchSemanticsNode()
-        val configuration = compose.activity.resources.configuration
-        assertEquals(
-            "The supplier's screen-based default orientation is preserved",
-            (configuration.screenHeightDp < configuration.screenWidthDp),
-            (root.size.width > root.size.height),
+        assertTrue(
+            "A narrow panel uses the supplier's vertical layout even on a landscape device",
+            root.size.height > root.size.width,
         )
         touchLibraryClock("LEFT", 9, 5)
         feedback("LEFT", 9, 5, true)
@@ -382,6 +419,56 @@ class InlineTimeSamplesTest {
 
     private fun showPicker(panel: String) {
         compose.onNodeWithTag("time_viewport_$panel").performScrollTo().assertIsDisplayed()
+    }
+
+    private fun revealNativeControl(panel: String, view: View) {
+        // Interop children do not have Compose scroll-to actions. Reveal the real view in
+        // both host viewports before Espresso checks visibility and sends an actual gesture.
+        val horizontal = compose.onNodeWithTag("time_viewport_$panel")
+        val page = compose.onNodeWithTag("compare_screen")
+        repeat(4) {
+            val location =
+                compose.runOnIdle {
+                    val position = IntArray(2)
+                    view.getLocationInWindow(position)
+                    androidx.compose.ui.geometry.Rect(
+                        position[0].toFloat(),
+                        position[1].toFloat(),
+                        (position[0] + view.width).toFloat(),
+                        (position[1] + view.height).toFloat(),
+                    )
+                }
+            val viewport = horizontal.fetchSemanticsNode().boundsInRoot
+            val pageBounds = page.fetchSemanticsNode().boundsInRoot
+            val dx =
+                when {
+                    location.left < viewport.left -> location.left - viewport.left
+                    location.right > viewport.right -> location.right - viewport.right
+                    else -> 0f
+                }
+            val dy =
+                when {
+                    location.top < pageBounds.top -> location.top - pageBounds.top
+                    location.bottom > pageBounds.bottom -> location.bottom - pageBounds.bottom
+                    else -> 0f
+                }
+            if (dx != 0f)
+                horizontal.performSemanticsAction(SemanticsActions.ScrollBy) { it(dx, 0f) }
+            if (dy != 0f) page.performSemanticsAction(SemanticsActions.ScrollBy) { it(0f, dy) }
+        }
+        compose.runOnIdle {
+            assertTrue(
+                "The original control has measured bounds",
+                view.width > 0 && view.height > 0,
+            )
+            val visible = Rect()
+            val shown = view.getGlobalVisibleRect(visible)
+            val fraction = visible.width().toFloat() * visible.height() / (view.width * view.height)
+            assertTrue(
+                "The original control is exposed before a gesture: $fraction",
+                shown && fraction >= .9f,
+            )
+        }
     }
 
     private fun reveal(control: SemanticsNodeInteraction): SemanticsNodeInteraction {
@@ -469,7 +556,11 @@ class InlineTimeSamplesTest {
     private fun touchLibraryClock(panel: String, hour: Int, minute: Int) {
         showPicker(panel)
         reveal(selector(panel, true)).performTouchInput { click() }
-        val scope = hasAnyAncestor(hasTestTag("library_$panel")) and hasClickAction()
+        val scope =
+            hasAnyAncestor(hasTestTag("library_$panel")) and
+                hasClickAction() and
+                !hasContentDescription("Select hours") and
+                !hasContentDescription("Select minutes")
         reveal(
                 compose.onNode(
                     scope and

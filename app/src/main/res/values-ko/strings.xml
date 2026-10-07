@@ -726,4 +726,7 @@
     <string name="project_repository">GitHub 저장소</string>
     <string name="project_feedback">오류 보고 및 개선 제안</string>
     <string name="project_link_failed">링크를 열 수 없습니다. 브라우저 설정을 확인하세요.</string>
+    <string name="preview_scroll_hint">이 컴포넌트는 패널보다 넓습니다. 좌우로 밀거나 버튼을 눌러 양쪽 끝을 확인하세요.</string>
+    <string name="preview_scroll_start">처음</string>
+    <string name="preview_scroll_end">끝</string>
 </resources>

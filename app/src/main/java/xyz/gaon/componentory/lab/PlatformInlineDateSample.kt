@@ -2,15 +2,13 @@ package xyz.gaon.componentory.lab
 
 import android.widget.CalendarView
 import android.widget.DatePicker
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
@@ -25,9 +23,10 @@ internal fun PlatformInlineDateSample(
     modifier: Modifier,
 ) {
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
+    val calendarHeight = 320.dp * maxOf(1f, LocalDensity.current.fontScale)
     BoxWithConstraints(Modifier.fillMaxWidth()) {
-        val calendarWidth = maxOf(maxWidth, 360.dp)
-        Box(Modifier.horizontalScroll(rememberScrollState()).testTag("date_viewport_$panel")) {
+        val calendarWidth = maxWidth
+        SampleScrollViewport("date_viewport_$panel") {
             when (component) {
                 LabComponent.DATE_PICKER ->
                     ReadableAndroidView(
@@ -83,7 +82,10 @@ internal fun PlatformInlineDateSample(
                         onReset = null,
                         onRelease = { calendar -> calendar.setOnDateChangeListener(null) },
                         modifier =
-                            modifier.width(calendarWidth).height(320.dp).testTag("native_$panel"),
+                            modifier
+                                .width(calendarWidth)
+                                .height(calendarHeight)
+                                .testTag("native_$panel"),
                     )
                 else -> error("No framework inline date sample for ${component.name}")
             }

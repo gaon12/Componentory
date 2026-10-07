@@ -726,4 +726,7 @@
     <string name="project_repository">GitHub リポジトリ</string>
     <string name="project_feedback">不具合の報告・改善の提案</string>
     <string name="project_link_failed">リンクを開けません。ブラウザーの設定を確認してください。</string>
+    <string name="preview_scroll_hint">このコンポーネントはパネルより幅が広いです。左右にスワイプするか、ボタンで両端を確認できます。</string>
+    <string name="preview_scroll_start">先頭</string>
+    <string name="preview_scroll_end">末尾</string>
 </resources>

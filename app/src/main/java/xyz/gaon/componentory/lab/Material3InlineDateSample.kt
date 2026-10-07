@@ -1,12 +1,9 @@
 package xyz.gaon.componentory.lab
 
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DisplayMode
@@ -18,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -33,7 +29,7 @@ internal fun Material3InlineDateSample(
     BoxWithConstraints(Modifier.fillMaxWidth()) {
         // Preserve the library's 360dp calendar width in a narrower host panel.
         val previewWidth = maxOf(maxWidth, 360.dp)
-        Box(Modifier.horizontalScroll(rememberScrollState()).testTag("date_viewport_$panel")) {
+        SampleScrollViewport("date_viewport_$panel") {
             when (component) {
                 LabComponent.DATE_PICKER -> {
                     val pickerState =
