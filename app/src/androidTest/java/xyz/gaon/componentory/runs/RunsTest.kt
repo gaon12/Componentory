@@ -61,6 +61,7 @@ class RunsTest {
     @Test
     fun aSavedRunReopensBothPanelsWithTheirInputs() {
         pickComponent("CheckBox", "component_CHECKBOX")
+        compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         onView(withId(R.id.sample_left)).perform(click())
         compose
             .onNodeWithTag("status_LEFT")
@@ -98,9 +99,13 @@ class RunsTest {
         val toggles = compose.onAllNodesWithText(environmentLabel())
         toggles.fetchSemanticsNodes().single()
         toggles[0].performClick()
-        compose.onNodeWithText("api: ${android.os.Build.VERSION.SDK_INT}").assertIsDisplayed()
+        compose
+            .onNodeWithText("api: ${android.os.Build.VERSION.SDK_INT}")
+            .performScrollTo()
+            .assertIsDisplayed()
         compose
             .onNodeWithText("targetSdk: ${compose.activity.applicationInfo.targetSdkVersion}")
+            .performScrollTo()
             .assertIsDisplayed()
     }
 
