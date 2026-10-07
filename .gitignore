@@ -12,3 +12,9 @@ local.properties
 .local/
 __pycache__/
 .ruff_cache/
+*.jks
+*.keystore
+*.p12
+/signing.properties
+/release-signing.credentials.xml
+service-account*.json

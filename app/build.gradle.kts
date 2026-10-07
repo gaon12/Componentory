@@ -7,6 +7,20 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+val releaseSigningValues =
+    listOf(
+            "COMPONENTORY_KEYSTORE_FILE",
+            "COMPONENTORY_KEYSTORE_PASSWORD",
+            "COMPONENTORY_KEY_ALIAS",
+            "COMPONENTORY_KEY_PASSWORD",
+        )
+        .associateWith { providers.environmentVariable(it).orNull }
+val releaseSigningConfigured = releaseSigningValues.values.all { !it.isNullOrBlank() }
+
+require(releaseSigningConfigured || releaseSigningValues.values.all { it.isNullOrBlank() }) {
+    "Release signing requires all four COMPONENTORY_KEYSTORE/KEY environment variables."
+}
+
 android {
     namespace = "xyz.gaon.componentory"
     compileSdk { version = release(37) }
@@ -15,8 +29,8 @@ android {
         applicationId = "xyz.gaon.componentory"
         minSdk = 24
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.0"
 
         buildConfigField("String", "AUTOFILL_VERSION", "\"${libs.versions.autofill.get()}\"")
         testInstrumentationRunner = "xyz.gaon.componentory.testing.ComponentoryTestRunner"
@@ -37,7 +51,21 @@ android {
         )
     }
 
-    buildTypes { release { optimization { enable = false } } }
+    if (releaseSigningConfigured) {
+        signingConfigs.create("release") {
+            storeFile =
+                rootProject.file(requireNotNull(releaseSigningValues["COMPONENTORY_KEYSTORE_FILE"]))
+            storePassword = releaseSigningValues["COMPONENTORY_KEYSTORE_PASSWORD"]
+            keyAlias = releaseSigningValues["COMPONENTORY_KEY_ALIAS"]
+            keyPassword = releaseSigningValues["COMPONENTORY_KEY_PASSWORD"]
+        }
+    }
+    buildTypes {
+        release {
+            optimization { enable = false }
+            if (releaseSigningConfigured) signingConfig = signingConfigs.getByName("release")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -49,6 +77,33 @@ android {
     // Keep every supported language available when switching without a network connection.
     bundle { language { enableSplit = false } }
 }
+
+abstract class VerifyReleaseSigning : DefaultTask() {
+    @get:Input abstract val configured: Property<Boolean>
+
+    @TaskAction
+    fun verify() {
+        check(configured.get()) {
+            "Set COMPONENTORY_KEYSTORE_FILE, COMPONENTORY_KEYSTORE_PASSWORD, " +
+                "COMPONENTORY_KEY_ALIAS, and COMPONENTORY_KEY_PASSWORD. " +
+                "Release artifacts must not use a debug key or remain unsigned."
+        }
+    }
+}
+
+val verifyReleaseSigning =
+    tasks.register<VerifyReleaseSigning>("verifyReleaseSigning") {
+        group = "verification"
+        description = "Require an explicit upload key before producing release artifacts."
+        configured.set(releaseSigningConfigured)
+    }
+
+tasks
+    .matching {
+        it.name in
+            setOf("assembleRelease", "bundleRelease", "packageRelease", "packageReleaseBundle")
+    }
+    .configureEach { dependsOn(verifyReleaseSigning) }
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
