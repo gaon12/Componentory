@@ -106,7 +106,7 @@ immutable source URLs, and hashes in `upstreamTerms`. Original resource headers
 remain intact. Root notice absence is explicit. A listed notice that cannot be
 read stops the export rather than silently producing incomplete attribution.
 
-An upstream `MODULE_LICENSE_APACHE2` marker causes the export to include the full
+A root `MODULE_LICENSE_APACHE2` marker causes the export to include the full
 Apache 2.0 license. This declaration does not override third-party terms within
 the repository or assign Apache 2.0 to all AOSP files. Whole ancestor notices can
 contain additional attributions; they are preserved rather than edited without

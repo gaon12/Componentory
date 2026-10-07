@@ -29,13 +29,16 @@ cover every release. Missing components and uncollected captures stay explicit.
 
 ## Main experience
 
-Use bottom navigation with **List**, **Compare**, **Runs**, and **Settings**.
+Use bottom navigation on phones and a navigation rail on wide windows with
+**List**, **Compare**, **Runs**, and **Settings**. The list contains the
+**Components** and **Version history** modes.
 Open the component list first. Browsing, single-component exploration, and
 comparison have their own screens, rather than sharing one long lab page.
 
 1. Search the list by translated name or description, or English API name, and
    combine the query with a component category.
-2. Open a component detail page and choose its Android UI family or library.
+2. Open a component and select its Android version/theme or pinned library version.
+   On large screens, keep the catalog beside the selected component.
 3. Touch the real control, inspect the feedback, and try disabled state or reset.
 4. Use the detail page's comparison action to compare that component and family
    against another family. Left starts with the current eligible Detail inputs;
@@ -47,7 +50,9 @@ comparison have their own screens, rather than sharing one long lab page.
 Keep the search and scroll position when returning from a detail page. Preserve
 tab state across navigation and Activity recreation. Back from a detail returns
 to its list context. Selecting the already active List tab returns to the list.
-Keep app appearance separate from the selected samples' light themes.
+Keep app appearance separate from the samples' explicit light configuration,
+including night-qualified framework resources. Use a 16 sp floor for native
+sample labels and disclose that this adjusts current-device appearance.
 
 Offer Korean, English, Japanese, Simplified Chinese, Traditional Chinese, and
 System language. Translate the browsing interface, sample text, accessibility
@@ -99,6 +104,14 @@ widget is disabled, with the behavior note beside its feedback and configuration
 Explain the selected family's origin without presenting each Android release as
 a distinct theme that the device can necessarily provide.
 
+History entries open descriptions, availability metadata, source revisions, and
+capture/behavior evidence. Offer a current-device sample only when a real mapping
+exists. Keep missing original captures and unverified historical behavior visible.
+
+Use two settings columns when there is enough width. Keep full language names,
+provider names, and search results usable at 320 dp and with the software keyboard.
+Do not keep an empty Planned APIs tab once the audited baseline is implemented.
+
 ## Component coverage
 
 The first prototype included eight basic types in all five families. The catalog
@@ -143,10 +156,11 @@ Record the following with a verified run:
 - Display size, density, font scale, locale, and orientation.
 - Test names, outcomes, and capture availability.
 
-A future Runs feature can store and export this evidence. Until that exists,
-development verification records belong in the repository documentation, with
-machine-specific outputs outside Git. Do not populate an in-app history with
-fixtures or planned samples as if they were completed experiments.
+Runs stores and exports user comparisons with their environment and observed
+feedback. Automated verification has its own retained reports and does not turn
+those saved comparisons into test results. Keep development verification records
+in the repository documentation and machine-specific outputs outside Git. Never
+label fixtures or planned samples as completed experiments.
 
 ## Implementation milestones
 

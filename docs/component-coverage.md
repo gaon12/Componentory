@@ -1,64 +1,44 @@
 # Component coverage
 
-The broad catalog is still in progress. The committed catalog implements
-**158 component entries**, with **363 runnable component/family combinations**.
-Implementation counts are separate from the verification outcomes below.
-A missing implementation is work to do, not proof that a family does not support it.
+The current audited baseline maps all **239 source rows** to **160 catalog
+entries**. It has **368 supported component/family cells at API 30 or later**,
+or **365 at the minimum API 24**. Supporting controls can share a catalog entry.
+Implementation counts are separate from executed verification.
 
-## Baseline and completion rule
+Application source: `47f9901`. See [current verification](verification-2026-10-08.md)
+for test scopes, APK identity, retained failures, and device-specific outcomes.
 
-[The source inventory](component-inventory.csv) records the first audited
-baseline: 74 framework UI APIs, 52 Compose Material 2 APIs, and 113 Compose
-Material 3 APIs. These are 239 source entries, not 239 different catalog screens.
-A radio sample, for example, contains both real RadioButton and RadioGroup APIs.
-
-This baseline uses the public compile SDK 37 API, Material 2 1.10.4 source, and
-Material 3 1.4.0 source. Framework controls, visible UI helpers, deprecated
-widgets, and layout containers are included. Library rows include experimental
-UI components. Constructor overloads share one source row. State factories,
-themes, adapters, listener interfaces, abstract base classes, and internal
-platform bridges are not standalone catalog components.
-
-The audit must be checked against the public package references before claiming
-complete coverage. Add a public UI API if a later source review finds it missing.
-AppCompat, Material Views, and Compose Foundation need separate source identities
-when those families are added; they must not be silently labelled as platform UI.
-
-The goal is complete only when each source row has a real sample in every family
-that provides it, or a verified runtime prerequisite explanation. Common visual
-variants and component-specific interaction tests must also be covered.
-Historical OS captures and stored experiments remain separate product milestones.
-
-## Status rules
-
-- **Implemented:** The catalog has a real sample for this source. This does not
-  mean every overload, style, theme variant, or historical OS has been tested.
-- **Pending:** A source exists, but its sample has not been implemented.
-  Verification is recorded separately. Never turn this status into an unsupported
-  label to reduce the list.
-- **Unsupported in a selected family:** That exact family does not provide the
-  component, or the running OS is below its framework API requirement. Show the
-  reason and do not render another family's widget as a substitute.
-- **Runtime prerequisite missing:** The API needs a system host, content, or
-  setup that is not available. Explain that requirement separately from OS or
-  library support.
-
-Deprecated does not mean removed. Check the public API and the actual runtime.
-The device's API level determines framework availability; a theme's introduction
-date does not change the running OS. Library versions remain pinned and visible.
-
-## Current coverage
-
-Application and latest verification source revision: `538f1d4`. Executed resource
-runs keep their original revision and dirty paths; the earlier text inventory
-result is recorded under its separate milestone below.
-
-| Source family | Inventory rows | Implemented sources | Pending sources |
+| Source family | Audited rows | Implemented | Pending |
 | --- | ---: | ---: | ---: |
-| Android framework | 74 | 72 | 2 |
+| Android framework | 74 | 74 | 0 |
 | Compose Material 2 1.10.4 | 52 | 52 | 0 |
 | Compose Material 3 1.4.0 | 113 | 113 | 0 |
-| Total | 239 | 237 | 2 |
+| Total | 239 | 239 | 0 |
+
+The native ActionBar uses its Activity host in Holo and Material; Theme.Light
+explicitly does not provide one. InlineContentView uses an actual inline autofill
+session at API 30+, an isolated demo keyboard/provider, and the pinned AndroidX
+Autofill 1.3.0 inline UI v1 template. Its view comes from the installed OS through
+the public inflate callback. The completed Planned APIs screen is removed.
+
+A supported source with missing runtime setup explains that prerequisite. A
+family that does not supply an API explains its unsupported status. Neither case
+uses a substitute widget or invented original capture. The baseline covers the
+reviewed public framework UI and Compose sources; additional APIs, variants,
+AppCompat, Material Views, Foundation, and historical runs remain separate work.
+
+On API 36, the sweep has 357 rendering cells, 432 unsupported cells, and 11 cells
+reserved for dedicated host/animation tests. The 11 are six animated framework
+progress styles, two Activity-owned action bars, and three actual inline hosts.
+A launcher button is never counted as an ActionBar or InlineContentView.
+
+## Retained earlier implementation notes and results
+
+The sections below preserve earlier milestones and failures. Their counts,
+pending statements, revisions, and outcomes describe those earlier sources and
+are superseded by the current overview. They do not verify the final APK or
+establish original historical OS appearance. Missing original captures remain
+explicit; complete historical coverage is still the goal.
 
 The original eight types are Button, Checkbox, Radio buttons, Switch, Text field,
 Slider, horizontal Progress, and Alert dialog. Four framework-only additions
