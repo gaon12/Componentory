@@ -52,6 +52,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -65,7 +66,7 @@ import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 
-private enum class CatalogMode(val labelRes: Int) {
+enum class CatalogMode(val labelRes: Int) {
     SAMPLES(R.string.catalog_mode_samples),
     PLANNED(R.string.catalog_mode_planned),
     HISTORY(R.string.catalog_mode_history),
@@ -93,8 +94,12 @@ private fun providerSummary(component: LabComponent): String {
 }
 
 @Composable
-fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
-    var mode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
+fun ComponentListScreen(
+    mode: CatalogMode,
+    onModeChange: (CatalogMode) -> Unit,
+    selected: LabComponent? = null,
+    onOpenComponent: (LabComponent) -> Unit,
+) {
     var query by rememberSaveable { mutableStateOf("") }
     var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
     var provider by rememberSaveable { mutableStateOf<InventoryFamily?>(null) }
@@ -131,13 +136,13 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
             it.matchesSearch(query, context) && (category == null || it.category == category)
         }
     BoxWithConstraints(Modifier.widthIn(max = 900.dp).fillMaxSize()) {
-        val compactHeader =
-            WindowInsets.ime.getBottom(LocalDensity.current) > 0 || maxHeight < 360.dp
+        val compactHeader = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+        val shortWindow = maxHeight < 360.dp
         Column(
             Modifier.fillMaxSize().testTag("list_screen").padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(if (shortWindow) 8.dp else 12.dp),
         ) {
-            if (!compactHeader) {
+            if (!compactHeader && !shortWindow) {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
                         stringResource(R.string.components_title),
@@ -155,12 +160,14 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
+            }
+            if (!compactHeader) {
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                     CatalogMode.entries.forEachIndexed { index, option ->
                         SegmentedButton(
                             selected = mode == option,
                             onClick = {
-                                mode = option
+                                onModeChange(option)
                                 focus.clearFocus()
                             },
                             shape =
@@ -323,7 +330,7 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                                     TextButton(
                                         onClick = {
                                             provider = null
-                                            mode = CatalogMode.PLANNED
+                                            onModeChange(CatalogMode.PLANNED)
                                             focus.clearFocus()
                                         },
                                         modifier = Modifier.testTag("show_planned_matches"),
@@ -345,10 +352,16 @@ fun ComponentListScreen(onOpenComponent: (LabComponent) -> Unit) {
                                 focus.clearFocus()
                                 onOpenComponent(component)
                             },
-                            modifier = Modifier.fillMaxWidth().testTag("list_${component.name}"),
+                            modifier =
+                                Modifier.fillMaxWidth()
+                                    .testTag("list_${component.name}")
+                                    .semantics { this.selected = component == selected },
                             colors =
                                 CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surface
+                                    containerColor =
+                                        if (component == selected)
+                                            MaterialTheme.colorScheme.primaryContainer
+                                        else MaterialTheme.colorScheme.surface
                                 ),
                         ) {
                             ComponentSummary(component, providers = providerSummary(component)) {

@@ -79,6 +79,11 @@ fun ComponentDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
+            stringResource(component.labelRes),
+            Modifier.testTag("detail_component_title"),
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Text(
             stringResource(component.descriptionRes),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,

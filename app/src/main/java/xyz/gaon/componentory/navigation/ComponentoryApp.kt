@@ -5,16 +5,23 @@ import android.content.Intent
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +29,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -34,6 +44,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import kotlinx.coroutines.launch
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.catalog.CatalogMode
 import xyz.gaon.componentory.catalog.ComponentDetailScreen
 import xyz.gaon.componentory.catalog.ComponentListScreen
 import xyz.gaon.componentory.compare.CompareScreen
@@ -122,6 +134,8 @@ private fun ComponentoryNavigation(
 ) {
     val context = LocalContext.current
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
+    var catalogMode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
+    var detailOriginMode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
     var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
     var detailProviders by rememberSaveable { mutableStateOf<Map<String, String>>(emptyMap()) }
@@ -152,97 +166,36 @@ private fun ComponentoryNavigation(
         }
     LaunchedEffect(failureMessage) { failureMessage?.let { snackbar.showSnackbar(it) } }
     val savedScreens = rememberSaveableStateHolder()
-    val inDetail = tab == AppTab.LIST && detail != null
-
-    BackHandler(enabled = inDetail || tab != AppTab.LIST) {
-        if (inDetail) detail = null else tab = AppTab.LIST
+    val inDetail = tab == AppTab.LIST && detail != null && catalogMode == CatalogMode.SAMPLES
+    val closeDetail = {
+        detail = null
+        catalogMode = detailOriginMode
+    }
+    val selectTab: (AppTab) -> Unit = { destination ->
+        if (tab == AppTab.LIST && destination == AppTab.LIST) closeDetail()
+        tab = destination
     }
 
-    Scaffold(
-        // Native automation can find live animated samples without waiting for an idle renderer.
-        modifier = Modifier.semantics { testTagsAsResourceId = true },
-        containerColor = MaterialTheme.colorScheme.background,
-        contentWindowInsets = WindowInsets.safeDrawing,
-        snackbarHost = { SnackbarHost(snackbar) },
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        if (inDetail) stringResource(requireNotNull(detail).labelRes)
-                        else "Componentory",
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                },
-                colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                navigationIcon = {
-                    if (inDetail) {
-                        IconButton(
-                            onClick = { detail = null },
-                            modifier = Modifier.testTag("detail_back"),
-                        ) {
-                            Icon(
-                                painterResource(R.drawable.ic_back),
-                                contentDescription = stringResource(R.string.back_to_list),
-                            )
-                        }
-                    }
-                },
-                actions = {
-                    if (inDetail) {
-                        TextButton(
-                            onClick = {
-                                val entry = detailExporter?.invoke()
-                                if (
-                                    entry == null ||
-                                        entry.left.component != detail ||
-                                        entry.left.sourceFamily != detailFamily
-                                ) {
-                                    return@TextButton
-                                }
-                                comparisonEntry = entry
-                                comparisonGeneration++
-                                savedScreens.removeState(AppTab.COMPARE.name)
-                                comparison = requireNotNull(detail)
-                                left = detailFamily
-                                if (right == left) {
-                                    right =
-                                        if (left == DesignFamily.MATERIAL3) DesignFamily.CLASSIC
-                                        else DesignFamily.MATERIAL3
-                                }
-                                tab = AppTab.COMPARE
-                            },
-                            modifier = Modifier.testTag("detail_compare"),
-                            enabled = detailExporter != null,
-                        ) {
-                            Text(stringResource(R.string.compare_action))
-                        }
-                    }
-                },
-            )
-        },
-        bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 0.dp,
-            ) {
-                Spacer(Modifier.weight(1f))
-                Row(Modifier.widthIn(max = 580.dp).fillMaxWidth()) {
+    BackHandler(enabled = inDetail || tab != AppTab.LIST) {
+        if (inDetail) closeDetail() else tab = AppTab.LIST
+    }
+
+    BoxWithConstraints(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }) {
+        val expanded = maxWidth >= 800.dp
+        val catalogWidth = if (maxWidth >= 1000.dp) 380.dp else 320.dp
+        Row(Modifier.fillMaxSize()) {
+            if (expanded) {
+                NavigationRail(
+                    Modifier.width(96.dp).testTag("app_navigation_rail"),
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ) {
+                    Spacer(Modifier.weight(1f))
                     AppTab.entries.forEach { destination ->
-                        NavigationBarItem(
+                        NavigationRailItem(
                             selected = tab == destination,
-                            onClick = {
-                                if (tab == AppTab.LIST && destination == AppTab.LIST) detail = null
-                                tab = destination
-                            },
+                            onClick = { selectTab(destination) },
                             icon = {
-                                Icon(
-                                    painterResource(destination.icon),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(22.dp),
-                                )
+                                Icon(painterResource(destination.icon), null, Modifier.size(24.dp))
                             },
                             label = {
                                 Text(
@@ -251,112 +204,293 @@ private fun ComponentoryNavigation(
                                 )
                             },
                             colors =
-                                NavigationBarItemDefaults.colors(
-                                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                                    selectedTextColor = MaterialTheme.colorScheme.primary,
-                                    indicatorColor = Color.Transparent,
-                                    unselectedIconColor =
-                                        MaterialTheme.colorScheme.onSurfaceVariant,
-                                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                NavigationRailItemDefaults.colors(
+                                    indicatorColor = MaterialTheme.colorScheme.primaryContainer
                                 ),
                             modifier = Modifier.testTag(destination.tag),
                         )
                     }
+                    Spacer(Modifier.weight(1f))
                 }
-                Spacer(Modifier.weight(1f))
             }
-        },
-    ) { insets ->
-        Box(Modifier.fillMaxSize().padding(insets), contentAlignment = Alignment.TopCenter) {
-            // Keep each tab's search, scroll position, and live sample state when switching tabs.
-            savedScreens.SaveableStateProvider(tab.name) {
-                when (tab) {
-                    AppTab.LIST -> {
-                        val selected = detail
-                        val catalogScreens = rememberSaveableStateHolder()
-                        catalogScreens.SaveableStateProvider(selected?.name ?: "catalog") {
-                            if (selected == null) {
-                                ComponentListScreen(
-                                    onOpenComponent = { component ->
-                                        val remembered =
-                                            DesignFamily.entries.firstOrNull {
-                                                it.name == detailProviders[component.name]
-                                            }
-                                        val family =
-                                            selectDetailProvider(
-                                                component,
-                                                detailFamily,
-                                                remembered,
-                                                Build.VERSION.SDK_INT,
-                                            )
-                                        detailFamily = family
-                                        detailProviders =
-                                            detailProviders + (component.name to family.name)
-                                        detail = component
-                                    }
-                                )
-                            } else {
-                                ComponentDetailScreen(
-                                    selected,
-                                    detailFamily,
-                                    { family ->
-                                        detailFamily = family
-                                        detailProviders =
-                                            detailProviders + (selected.name to family.name)
-                                    },
-                                    onCompareExporterChange = { detailExporter = it },
-                                )
+            Scaffold(
+                // Native automation can find live animated samples without waiting for an idle
+                // renderer.
+                modifier = Modifier.weight(1f).semantics { testTagsAsResourceId = true },
+                containerColor = MaterialTheme.colorScheme.background,
+                contentWindowInsets = WindowInsets.safeDrawing,
+                snackbarHost = { SnackbarHost(snackbar) },
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text("Componentory", style = MaterialTheme.typography.titleLarge)
+                        },
+                        colors =
+                            TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.background
+                            ),
+                        navigationIcon = {
+                            if (inDetail) {
+                                IconButton(
+                                    onClick = closeDetail,
+                                    modifier = Modifier.testTag("detail_back"),
+                                ) {
+                                    Icon(
+                                        painterResource(R.drawable.ic_back),
+                                        contentDescription = stringResource(R.string.back_to_list),
+                                    )
+                                }
                             }
+                        },
+                        actions = {
+                            if (inDetail) {
+                                TextButton(
+                                    onClick = {
+                                        val entry = detailExporter?.invoke()
+                                        if (
+                                            entry == null ||
+                                                entry.left.component != detail ||
+                                                entry.left.sourceFamily != detailFamily
+                                        ) {
+                                            return@TextButton
+                                        }
+                                        comparisonEntry = entry
+                                        comparisonGeneration++
+                                        savedScreens.removeState(AppTab.COMPARE.name)
+                                        comparison = requireNotNull(detail)
+                                        left = detailFamily
+                                        if (right == left) {
+                                            right =
+                                                if (left == DesignFamily.MATERIAL3)
+                                                    DesignFamily.CLASSIC
+                                                else DesignFamily.MATERIAL3
+                                        }
+                                        tab = AppTab.COMPARE
+                                    },
+                                    modifier = Modifier.testTag("detail_compare"),
+                                    enabled = detailExporter != null,
+                                ) {
+                                    Text(stringResource(R.string.compare_action))
+                                }
+                            }
+                        },
+                    )
+                },
+                bottomBar = {
+                    if (!expanded)
+                        NavigationBar(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            tonalElevation = 0.dp,
+                        ) {
+                            Spacer(Modifier.weight(1f))
+                            Row(Modifier.widthIn(max = 580.dp).fillMaxWidth()) {
+                                AppTab.entries.forEach { destination ->
+                                    NavigationBarItem(
+                                        selected = tab == destination,
+                                        onClick = { selectTab(destination) },
+                                        icon = {
+                                            Icon(
+                                                painterResource(destination.icon),
+                                                contentDescription = null,
+                                                modifier = Modifier.size(22.dp),
+                                            )
+                                        },
+                                        label = {
+                                            Text(
+                                                stringResource(destination.labelRes),
+                                                style = MaterialTheme.typography.labelMedium,
+                                            )
+                                        },
+                                        colors =
+                                            NavigationBarItemDefaults.colors(
+                                                selectedIconColor =
+                                                    MaterialTheme.colorScheme.primary,
+                                                selectedTextColor =
+                                                    MaterialTheme.colorScheme.primary,
+                                                indicatorColor = Color.Transparent,
+                                                unselectedIconColor =
+                                                    MaterialTheme.colorScheme.onSurfaceVariant,
+                                                unselectedTextColor =
+                                                    MaterialTheme.colorScheme.onSurfaceVariant,
+                                            ),
+                                        modifier = Modifier.testTag(destination.tag),
+                                    )
+                                }
+                            }
+                            Spacer(Modifier.weight(1f))
+                        }
+                },
+            ) { insets ->
+                Box(
+                    Modifier.fillMaxSize().padding(insets).consumeWindowInsets(insets).imePadding(),
+                    contentAlignment = Alignment.TopCenter,
+                ) {
+                    // Keep each tab's search, scroll position, and live sample state when switching
+                    // tabs.
+                    savedScreens.SaveableStateProvider(tab.name) {
+                        when (tab) {
+                            AppTab.LIST -> {
+                                val catalogScreens = rememberSaveableStateHolder()
+                                val openComponent: (LabComponent) -> Unit = { component ->
+                                    val remembered =
+                                        DesignFamily.entries.firstOrNull {
+                                            it.name == detailProviders[component.name]
+                                        }
+                                    val family =
+                                        selectDetailProvider(
+                                            component,
+                                            detailFamily,
+                                            remembered,
+                                            Build.VERSION.SDK_INT,
+                                        )
+                                    detailFamily = family
+                                    detailProviders =
+                                        detailProviders + (component.name to family.name)
+                                    detailOriginMode = catalogMode
+                                    catalogMode = CatalogMode.SAMPLES
+                                    detail = component
+                                }
+                                // Move the same composition so saveable keys and native view state
+                                // survive reflow.
+                                val catalog =
+                                    remember(catalogScreens) {
+                                        movableContentOf {
+                                            catalogScreens.SaveableStateProvider("catalog") {
+                                                ComponentListScreen(
+                                                    catalogMode,
+                                                    { catalogMode = it },
+                                                    detail,
+                                                    openComponent,
+                                                )
+                                            }
+                                        }
+                                    }
+                                val sample =
+                                    remember(catalogScreens) {
+                                        movableContentOf {
+                                            val selected = detail
+                                            if (selected != null) {
+                                                catalogScreens.SaveableStateProvider(
+                                                    selected.name
+                                                ) {
+                                                    ComponentDetailScreen(
+                                                        selected,
+                                                        detailFamily,
+                                                        { family ->
+                                                            detailFamily = family
+                                                            detailProviders =
+                                                                detailProviders +
+                                                                    (selected.name to family.name)
+                                                        },
+                                                        onCompareExporterChange = {
+                                                            detailExporter = it
+                                                        },
+                                                    )
+                                                }
+                                            } else {
+                                                Box(
+                                                    Modifier.fillMaxSize().padding(24.dp),
+                                                    contentAlignment = Alignment.Center,
+                                                ) {
+                                                    Card(
+                                                        Modifier.widthIn(max = 520.dp)
+                                                            .testTag("catalog_detail_empty")
+                                                    ) {
+                                                        Column(
+                                                            Modifier.padding(24.dp),
+                                                            verticalArrangement =
+                                                                Arrangement.spacedBy(12.dp),
+                                                        ) {
+                                                            Text(
+                                                                stringResource(
+                                                                    R.string.catalog_select_title
+                                                                ),
+                                                                style =
+                                                                    MaterialTheme.typography
+                                                                        .headlineSmall,
+                                                            )
+                                                            Text(
+                                                                stringResource(
+                                                                    R.string.catalog_select_note
+                                                                ),
+                                                                style =
+                                                                    MaterialTheme.typography
+                                                                        .bodyLarge,
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                if (expanded && catalogMode == CatalogMode.SAMPLES) {
+                                    Row(Modifier.fillMaxSize().testTag("catalog_split")) {
+                                        Box(Modifier.width(catalogWidth).fillMaxSize()) {
+                                            catalog()
+                                        }
+                                        Box(Modifier.weight(1f).fillMaxSize()) { sample() }
+                                    }
+                                } else if (inDetail) sample() else catalog()
+                            }
+                            AppTab.COMPARE ->
+                                key(comparisonGeneration) {
+                                    CompareScreen(
+                                        comparison,
+                                        { comparison = it },
+                                        left,
+                                        { left = it },
+                                        right,
+                                        { right = it },
+                                        initialEntry = comparisonEntry,
+                                    ) { record, completed ->
+                                        scope.launch { completed(history.save(record)) }
+                                    }
+                                }
+                            AppTab.RUNS ->
+                                RunsScreen(
+                                    history.records,
+                                    loading = history.loading,
+                                    busy = history.busy,
+                                    loadFailed = history.failure == RunOperation.LOAD,
+                                    onRetry = { scope.launch { history.load() } },
+                                    onCreate = { tab = AppTab.COMPARE },
+                                    onOpen = { record ->
+                                        record.toComparisonEntry()?.let { entry ->
+                                            comparisonEntry = entry
+                                            comparisonGeneration++
+                                            savedScreens.removeState(AppTab.COMPARE.name)
+                                            comparison = entry.left.component
+                                            left = entry.left.sourceFamily
+                                            right = requireNotNull(entry.right).sourceFamily
+                                            tab = AppTab.COMPARE
+                                        }
+                                    },
+                                    onDelete = { record ->
+                                        scope.launch { history.delete(record.id) }
+                                    },
+                                    onExport = {
+                                        scope.launch {
+                                            history.export()?.let { text ->
+                                                val send =
+                                                    Intent(Intent.ACTION_SEND)
+                                                        .setType("text/plain")
+                                                        .putExtra(Intent.EXTRA_TEXT, text)
+                                                context.startActivity(
+                                                    Intent.createChooser(send, null)
+                                                )
+                                            }
+                                        }
+                                    },
+                                )
+                            AppTab.SETTINGS ->
+                                SettingsScreen(
+                                    appearance,
+                                    onAppearanceChange,
+                                    language,
+                                    onLanguageChange,
+                                )
                         }
                     }
-                    AppTab.COMPARE ->
-                        key(comparisonGeneration) {
-                            CompareScreen(
-                                comparison,
-                                { comparison = it },
-                                left,
-                                { left = it },
-                                right,
-                                { right = it },
-                                initialEntry = comparisonEntry,
-                            ) { record, completed ->
-                                scope.launch { completed(history.save(record)) }
-                            }
-                        }
-                    AppTab.RUNS ->
-                        RunsScreen(
-                            history.records,
-                            loading = history.loading,
-                            busy = history.busy,
-                            loadFailed = history.failure == RunOperation.LOAD,
-                            onRetry = { scope.launch { history.load() } },
-                            onCreate = { tab = AppTab.COMPARE },
-                            onOpen = { record ->
-                                record.toComparisonEntry()?.let { entry ->
-                                    comparisonEntry = entry
-                                    comparisonGeneration++
-                                    savedScreens.removeState(AppTab.COMPARE.name)
-                                    comparison = entry.left.component
-                                    left = entry.left.sourceFamily
-                                    right = requireNotNull(entry.right).sourceFamily
-                                    tab = AppTab.COMPARE
-                                }
-                            },
-                            onDelete = { record -> scope.launch { history.delete(record.id) } },
-                            onExport = {
-                                scope.launch {
-                                    history.export()?.let { text ->
-                                        val send =
-                                            Intent(Intent.ACTION_SEND)
-                                                .setType("text/plain")
-                                                .putExtra(Intent.EXTRA_TEXT, text)
-                                        context.startActivity(Intent.createChooser(send, null))
-                                    }
-                                }
-                            },
-                        )
-                    AppTab.SETTINGS ->
-                        SettingsScreen(appearance, onAppearanceChange, language, onLanguageChange)
                 }
             }
         }

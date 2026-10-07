@@ -174,6 +174,17 @@ class ResponsiveSelectorsTest {
         waitForKeyboard()
         compose.onNodeWithTag("component_search").performTextReplacement("Switch")
         compose.onNodeWithTag("list_SWITCH").assertIsDisplayed().performTouchInput { click() }
+        compose.waitUntil(10_000) {
+            var hidden = false
+            compose.runOnUiThread {
+                hidden =
+                    WindowInspector.getGlobalWindowViews().all {
+                        ViewCompat.getRootWindowInsets(it)
+                            ?.isVisible(WindowInsetsCompat.Type.ime()) != true
+                    }
+            }
+            hidden
+        }
         compose.onNodeWithTag("detail_screen").assertIsDisplayed()
     }
 

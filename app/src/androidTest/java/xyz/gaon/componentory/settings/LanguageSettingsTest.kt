@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
+import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -42,8 +43,7 @@ class LanguageSettingsTest {
 
     @After
     fun restoreEnglishBaseline() {
-        compose.runOnUiThread { LanguagePreferences.apply(compose.activity, AppLanguage.ENGLISH) }
-        compose.waitForIdle()
+        applyLanguageAndWaitForRecreation(AppLanguage.ENGLISH)
     }
 
     @Test
@@ -123,8 +123,34 @@ class LanguageSettingsTest {
 
     private fun changeLanguage(language: AppLanguage) {
         compose.onNodeWithTag("nav_settings").performClick()
+        val previousActivity = compose.activity
+        val changing = LanguagePreferences.read(previousActivity) != language
         compose.onNodeWithTag("language_${language.name}").performScrollTo().performClick()
-        compose.waitUntil(5_000) { LanguagePreferences.read(compose.activity) == language }
+        waitForLanguageActivity(language, previousActivity, changing)
+    }
+
+    private fun applyLanguageAndWaitForRecreation(language: AppLanguage) {
+        val previousActivity = compose.activity
+        val changing = LanguagePreferences.read(previousActivity) != language
+        compose.runOnUiThread { LanguagePreferences.apply(previousActivity, language) }
+        waitForLanguageActivity(language, previousActivity, changing)
+    }
+
+    private fun waitForLanguageActivity(
+        language: AppLanguage,
+        previousActivity: MainActivity,
+        changing: Boolean,
+    ) {
+        // LocaleManager saves the preference before the replacement Activity is ready.
+        // Waiting for that Activity avoids asking a detached Compose root for its next frame.
+        compose.waitUntil(10_000) {
+            val current = runCatching { compose.activity }.getOrNull()
+            current != null &&
+                (!changing || current !== previousActivity) &&
+                current.lifecycle.currentState == Lifecycle.State.RESUMED &&
+                current.window.decorView.isAttachedToWindow &&
+                LanguagePreferences.read(current) == language
+        }
         compose.waitForIdle()
     }
 

@@ -1,6 +1,7 @@
 package xyz.gaon.componentory.settings
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -45,76 +46,111 @@ fun SettingsScreen(
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val environment = remember(configuration) { RuntimeEnvironment.read(context) }
-    Column(
-        Modifier.widthIn(max = 760.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .testTag("settings_screen")
-            .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-    ) {
-        Text(stringResource(R.string.nav_settings), style = MaterialTheme.typography.headlineMedium)
-        SettingsGroup(stringResource(R.string.app_theme)) {
-            Column(Modifier.selectableGroup()) {
-                AppAppearance.entries.forEachIndexed { index, option ->
-                    SelectionRow(
-                        stringResource(option.labelRes),
-                        appearance == option,
-                        { onAppearanceChange(option) },
-                        "appearance_${option.name}",
-                    )
-                    if (index < AppAppearance.entries.lastIndex)
-                        HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+    BoxWithConstraints(Modifier.widthIn(max = 1100.dp).fillMaxSize()) {
+        val expanded = maxWidth >= 840.dp
+        Column(
+            Modifier.fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .testTag("settings_screen")
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            Text(
+                stringResource(R.string.nav_settings),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            val preferences: @Composable () -> Unit = {
+                Column(
+                    Modifier.fillMaxWidth().testTag("settings_preferences"),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                ) {
+                    SettingsGroup(stringResource(R.string.app_theme)) {
+                        Column(Modifier.selectableGroup()) {
+                            AppAppearance.entries.forEachIndexed { index, option ->
+                                SelectionRow(
+                                    stringResource(option.labelRes),
+                                    appearance == option,
+                                    { onAppearanceChange(option) },
+                                    "appearance_${option.name}",
+                                )
+                                if (index < AppAppearance.entries.lastIndex)
+                                    HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+                            }
+                        }
+                        SettingsNote(stringResource(R.string.appearance_note))
+                    }
+                    SettingsGroup(stringResource(R.string.app_language)) {
+                        Column(Modifier.selectableGroup()) {
+                            AppLanguage.entries.forEachIndexed { index, option ->
+                                SelectionRow(
+                                    if (option == AppLanguage.SYSTEM)
+                                        stringResource(R.string.language_system)
+                                    else option.nativeName,
+                                    language == option,
+                                    { onLanguageChange(option) },
+                                    "language_${option.name}",
+                                )
+                                if (index < AppLanguage.entries.lastIndex)
+                                    HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+                            }
+                        }
+                        SettingsNote(stringResource(R.string.language_note))
+                    }
                 }
             }
-            SettingsNote(stringResource(R.string.appearance_note))
-        }
-        SettingsGroup(stringResource(R.string.app_language)) {
-            Column(Modifier.selectableGroup()) {
-                AppLanguage.entries.forEachIndexed { index, option ->
-                    SelectionRow(
-                        if (option == AppLanguage.SYSTEM) stringResource(R.string.language_system)
-                        else option.nativeName,
-                        language == option,
-                        { onLanguageChange(option) },
-                        "language_${option.name}",
-                    )
-                    if (index < AppLanguage.entries.lastIndex)
-                        HorizontalDivider(Modifier.padding(horizontal = 16.dp))
+            val deviceDetails: @Composable () -> Unit = {
+                Column(
+                    Modifier.fillMaxWidth().testTag("settings_device_details"),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                ) {
+                    SettingsGroup(stringResource(R.string.runtime_title)) {
+                        Column(
+                            Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            Text(
+                                environment.summary,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.testTag("runtime"),
+                            )
+                            Text(
+                                environment.details,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    SettingsGroup(stringResource(R.string.ui_libraries)) {
+                        LibraryVersionRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
+                        LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
+                        SettingsNote(stringResource(R.string.platform_note))
+                    }
+                    SettingsGroup(stringResource(R.string.source_notices)) { SourceNotices() }
                 }
             }
-            SettingsNote(stringResource(R.string.language_note))
-        }
-        SettingsGroup(stringResource(R.string.runtime_title)) {
-            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (expanded) {
+                Row(
+                    Modifier.fillMaxWidth().testTag("settings_columns"),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                ) {
+                    Column(Modifier.weight(1f)) { preferences() }
+                    Column(Modifier.weight(1f)) { deviceDetails() }
+                }
+            } else {
+                preferences()
+                deviceDetails()
+            }
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(
-                    environment.summary,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.testTag("runtime"),
+                    "Componentory ${BuildConfig.VERSION_NAME}",
+                    style = MaterialTheme.typography.labelLarge,
                 )
                 Text(
-                    environment.details,
+                    stringResource(R.string.accuracy_note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-        }
-        SettingsGroup(stringResource(R.string.ui_libraries)) {
-            LibraryVersionRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
-            LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
-            SettingsNote(stringResource(R.string.platform_note))
-        }
-        SettingsGroup(stringResource(R.string.source_notices)) { SourceNotices() }
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(
-                "Componentory ${BuildConfig.VERSION_NAME}",
-                style = MaterialTheme.typography.labelLarge,
-            )
-            Text(
-                stringResource(R.string.accuracy_note),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
         }
     }
 }

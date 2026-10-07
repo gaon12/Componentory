@@ -645,4 +645,6 @@
     <string name="source_notices_loading">Loading document…</string>
     <string name="source_notices_unavailable">This document could not be loaded.</string>
     <string name="sample_text_size_note">Native text: at least 16sp. Default sizes are adjusted for readability.</string>
+    <string name="catalog_select_title">Select a component</string>
+    <string name="catalog_select_note">Choose a component from the list to use its actual implementation on this device.</string>
 </resources>

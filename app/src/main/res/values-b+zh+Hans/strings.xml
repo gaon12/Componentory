@@ -642,4 +642,6 @@
     <string name="source_notices_loading">正在加载文档…</string>
     <string name="source_notices_unavailable">无法加载此文档。</string>
     <string name="sample_text_size_note">原生文字至少16sp。为便于阅读，已调整默认大小。</string>
+    <string name="catalog_select_title">选择组件</string>
+    <string name="catalog_select_note">从列表中选择组件，查看在此设备上运行的实际实现。</string>
 </resources>
