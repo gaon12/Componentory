@@ -29,8 +29,22 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import xyz.gaon.componentory.BuildConfig
+import xyz.gaon.componentory.history.androidVersionLabel
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.LabComponent
+
+internal fun componentVersionSummary(component: LabComponent): String =
+    if (component.platformSource != null)
+        androidVersionLabel(component.minimumApi).replace(" ·", "+ ·") + "+"
+    else
+        buildList {
+                if (component.material2Function != null)
+                    add("Material 2 ${BuildConfig.MATERIAL2_VERSION}")
+                if (component.material3Function != null)
+                    add("Material 3 ${BuildConfig.MATERIAL3_VERSION}")
+            }
+            .joinToString(" · ")
 
 @Composable
 internal fun ComponentSummary(
@@ -70,6 +84,12 @@ internal fun ComponentSummary(
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(5.dp)) {
             Text(stringResource(component.labelRes), style = MaterialTheme.typography.titleMedium)
+            Text(
+                componentVersionSummary(component),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.testTag("versions_${component.name}"),
+            )
             Text(
                 stringResource(component.descriptionRes),
                 style = MaterialTheme.typography.bodySmall,

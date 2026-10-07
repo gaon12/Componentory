@@ -29,7 +29,7 @@
     <string name="category_picker">选择器</string>
     <string name="category_selection">选择</string>
     <string name="choose_icon">选择图标：%1$s</string>
-    <string name="choose_ui_provider">选择主题或库</string>
+    <string name="choose_ui_provider">选择 Android 版本与主题</string>
     <string name="clear_search">清空搜索</string>
     <string name="close">关闭</string>
     <string name="compare_action">比较</string>
@@ -266,7 +266,7 @@
     <string name="component_badged_box">图标徽标</string>
     <string name="component_badged_box_description">选择库中的图标并查看附加的数字徽标。</string>
     <string name="status_badge">徽标数量：%1$d</string>
-    <string name="catalog_mode_samples">示例</string>
+    <string name="catalog_mode_samples">组件</string>
     <string name="catalog_mode_planned">待添加示例</string>
     <string name="planned_intro">这些已列出的 API 还没有交互示例。</string>
     <string name="planned_search_hint">搜索 API 名称</string>
@@ -281,7 +281,7 @@
     <string name="planned_unavailable">无法加载待添加示例的 API。</string>
     <string name="planned_api_introduced">在 API %1$d 中引入</string>
     <string name="planned_view_matches">查看匹配的待添加示例 API（%1$d 项）</string>
-    <string name="providers_all">所有提供方</string>
+    <string name="providers_all">所有版本</string>
     <string name="component_date_picker_dialog">日期选择对话框</string>
     <string name="component_date_picker_dialog_description">打开所选主题或库提供的日期选择对话框。</string>
     <string name="open_date_picker">选择日期</string>

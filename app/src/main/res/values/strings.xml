@@ -30,7 +30,7 @@
     <string name="category_picker">Pickers</string>
     <string name="category_selection">Selection</string>
     <string name="choose_icon">Choose icon: %1$s</string>
-    <string name="choose_ui_provider">Choose a theme or library</string>
+    <string name="choose_ui_provider">Choose an Android version / theme</string>
     <string name="clear_search">Clear search</string>
     <string name="close">Close</string>
     <string name="compare_action">Compare</string>
@@ -268,7 +268,7 @@
     <string name="component_badged_box">Badged icon</string>
     <string name="component_badged_box_description">Choose any library icon and inspect its attached number badge.</string>
     <string name="status_badge">Badge count: %1$d</string>
-    <string name="catalog_mode_samples">Samples</string>
+    <string name="catalog_mode_samples">Components</string>
     <string name="catalog_mode_planned">Planned APIs</string>
     <string name="planned_intro">These listed APIs have no interactive samples yet.</string>
     <string name="planned_search_hint">Search API names</string>
@@ -284,7 +284,7 @@
     <string name="planned_unavailable">Planned APIs could not be loaded.</string>
     <string name="planned_api_introduced">Introduced in API %1$d</string>
     <string name="planned_view_matches">View planned API matches (%1$d)</string>
-    <string name="providers_all">All providers</string>
+    <string name="providers_all">All versions</string>
     <string name="component_date_picker_dialog">Date picker dialog</string>
     <string name="component_date_picker_dialog_description">Open a date picker dialog supplied by the selected theme or library.</string>
     <string name="open_date_picker">Choose date</string>

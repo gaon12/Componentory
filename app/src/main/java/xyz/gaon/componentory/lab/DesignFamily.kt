@@ -16,7 +16,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
             when (this) {
                 MATERIAL2 -> "Compose Material 2 · ${BuildConfig.MATERIAL2_VERSION}"
                 MATERIAL3 -> "Compose Material 3 · ${BuildConfig.MATERIAL3_VERSION}"
-                else -> "$label · ${requireNotNull(platform).themeName}"
+                else -> "${requireNotNull(platform).origin.substringBefore(" ·")} · $label"
             }
 
     fun origin(context: Context): String =
