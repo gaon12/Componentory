@@ -2,6 +2,7 @@ package xyz.gaon.componentory.lab.recreation
 
 import android.content.Context
 import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ProgressBar
@@ -88,6 +89,7 @@ internal object HistoricalControls {
             LabComponent.INDETERMINATE_LINEAR_PROGRESS,
             LabComponent.SLIDER,
             LabComponent.SPINNER,
+            LabComponent.ANALOG_CLOCK,
             LabComponent.RATING -> true
             else -> false
         }
@@ -119,6 +121,19 @@ internal object HistoricalControls {
             PlatformFamily.HOLO -> R.style.AospHoloRating
             PlatformFamily.MATERIAL -> R.style.AospMaterial1Rating
         }
+
+    @Suppress("DEPRECATION")
+    fun analogClock(base: Context, family: PlatformFamily): android.widget.AnalogClock {
+        val layout =
+            when (family) {
+                PlatformFamily.CLASSIC -> R.layout.aosp_classic_analog_clock
+                PlatformFamily.HOLO -> R.layout.aosp_holo_analog_clock
+                PlatformFamily.MATERIAL -> R.layout.aosp_material1_analog_clock
+            }
+        return (LayoutInflater.from(context(base, family, LabComponent.ANALOG_CLOCK))
+                .inflate(layout, null) as android.widget.AnalogClock)
+            .apply { setTag(R.id.aosp_resource_revision, release(family)) }
+    }
 
     @Suppress("DEPRECATION")
     fun apply(view: View, family: PlatformFamily, component: LabComponent) {

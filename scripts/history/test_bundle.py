@@ -12,6 +12,29 @@ PROJECT = Path(__file__).resolve().parents[2]
 
 
 class BundleTests(unittest.TestCase):
+    def test_analog_clock_layouts_bind_all_three_release_drawables(self):
+        namespace = "{http://schemas.android.com/apk/res/android}"
+        releases = json.loads(
+            (PROJECT / "app/src/main/assets/aosp-resources/controls.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        for release in releases:
+            prefix = f"aosp_{release['family']}_"
+            layout = ET.parse(
+                PROJECT / f"app/src/main/res/layout/{prefix}analog_clock.xml"
+            ).getroot()
+            self.assertEqual("AnalogClock", layout.tag)
+            for attribute, name in {
+                "dial": "clock_dial",
+                "hand_hour": "clock_hand_hour",
+                "hand_minute": "clock_hand_minute",
+            }.items():
+                self.assertEqual(f"@drawable/{prefix}{name}", layout.get(namespace + attribute))
+                variants = [r for r in release["files"] if r["resource"] == f"drawable/{name}"]
+                self.assertTrue(variants, name)
+                self.assertTrue(all(not r["adapted"] for r in variants))
+
     def test_native_progress_layer_ids_survive_namespacing(self):
         source = '<item id="@id/progress" src="@android:drawable/frame" next="@id/checked" />'
         result = adapted_xml(source, "aosp_test_")

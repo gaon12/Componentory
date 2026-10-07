@@ -14,7 +14,10 @@
       "seek_thumb",
       "spinner_background",
       "progress_indeterminate_horizontal",
-      "ratingbar_full"
+      "ratingbar_full",
+      "clock_dial",
+      "clock_hand_hour",
+      "clock_hand_minute"
     ],
     "palette": [],
     "evidence": "RESOURCE_RECREATION",
@@ -847,6 +850,87 @@
         "bundledSha256": "31de65037f6be7002eec15a59f2dbd262a7463c4f6a949d917e1c8241addc651"
       },
       {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-hdpi/clock_dial.png",
+        "sourceSha256": "005b17955e45f11220d44e95d8c7fc5e6535033a3a795d78f84f7e1b22b89e25",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_classic_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "005b17955e45f11220d44e95d8c7fc5e6535033a3a795d78f84f7e1b22b89e25"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-ldpi/clock_dial.png",
+        "sourceSha256": "ed2a4d731d842cecf256387004db973d7fdb9db88a024c1ea50c55fc5ae0a2b5",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_classic_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "ed2a4d731d842cecf256387004db973d7fdb9db88a024c1ea50c55fc5ae0a2b5"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-mdpi/clock_dial.png",
+        "sourceSha256": "9f32571b6f4991af7486a48efc9c773727f2622c0ec80ffb02c3bc2aa07aa5a7",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_classic_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "9f32571b6f4991af7486a48efc9c773727f2622c0ec80ffb02c3bc2aa07aa5a7"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-hdpi/clock_hand_hour.png",
+        "sourceSha256": "aa626e15c8338f95a09ecaa9e5f27beba22a74657ebcdc528d790a68ba6189ee",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_classic_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "aa626e15c8338f95a09ecaa9e5f27beba22a74657ebcdc528d790a68ba6189ee"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-ldpi/clock_hand_hour.png",
+        "sourceSha256": "48cccfe2e6843140e0ce2a71ec36e9f85f926494566537a44cfaecd4f3f2ce6d",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_classic_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "48cccfe2e6843140e0ce2a71ec36e9f85f926494566537a44cfaecd4f3f2ce6d"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-mdpi/clock_hand_hour.png",
+        "sourceSha256": "fa10d6f8904958d9a9f66fb230e288e6eaa767659d74cd760205746b088f38df",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_classic_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "fa10d6f8904958d9a9f66fb230e288e6eaa767659d74cd760205746b088f38df"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-hdpi/clock_hand_minute.png",
+        "sourceSha256": "3d1a7a98bdea224629795ba663d7f3294f16171e976c902ce6c794bf2511eac4",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_classic_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "3d1a7a98bdea224629795ba663d7f3294f16171e976c902ce6c794bf2511eac4"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-ldpi/clock_hand_minute.png",
+        "sourceSha256": "241975dc4759197abbbf41ac9754abfdc9c119ef3a1b6a13a8fe1353e077da49",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_classic_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "241975dc4759197abbbf41ac9754abfdc9c119ef3a1b6a13a8fe1353e077da49"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable-mdpi/clock_hand_minute.png",
+        "sourceSha256": "cfbf301085ff1848e90d88322cef9e264ee8479f4449dd2ff75d46c3ef5a3395",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_classic_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "cfbf301085ff1848e90d88322cef9e264ee8479f4449dd2ff75d46c3ef5a3395"
+      },
+      {
         "resource": "drawable/edit_text",
         "sourcePath": "core/res/res/drawable/edit_text.xml",
         "url": "https://android.googlesource.com/platform/frameworks/base/+/3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07/core/res/res/drawable/edit_text.xml",
@@ -1364,7 +1448,10 @@
       "scrubber_control_selector_holo",
       "scrubber_progress_horizontal_holo_light",
       "progress_indeterminate_horizontal_holo",
-      "ratingbar_full_holo_light"
+      "ratingbar_full_holo_light",
+      "clock_dial",
+      "clock_hand_hour",
+      "clock_hand_minute"
     ],
     "palette": [],
     "evidence": "RESOURCE_RECREATION",
@@ -2890,6 +2977,114 @@
         "bundledSha256": "7ba4bef35f7f89ef0ba373b6459c4b4b14fceeaf5039bb1e7be59a836dbd8935"
       },
       {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-hdpi/clock_dial.png",
+        "sourceSha256": "005b17955e45f11220d44e95d8c7fc5e6535033a3a795d78f84f7e1b22b89e25",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_holo_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "005b17955e45f11220d44e95d8c7fc5e6535033a3a795d78f84f7e1b22b89e25"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-ldpi/clock_dial.png",
+        "sourceSha256": "ed2a4d731d842cecf256387004db973d7fdb9db88a024c1ea50c55fc5ae0a2b5",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_holo_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "ed2a4d731d842cecf256387004db973d7fdb9db88a024c1ea50c55fc5ae0a2b5"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-mdpi/clock_dial.png",
+        "sourceSha256": "9f32571b6f4991af7486a48efc9c773727f2622c0ec80ffb02c3bc2aa07aa5a7",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_holo_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "9f32571b6f4991af7486a48efc9c773727f2622c0ec80ffb02c3bc2aa07aa5a7"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-xhdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-xhdpi/clock_dial.png",
+        "sourceSha256": "ae658a1124fdecec086f262686680c5d88789c6686616ed69b3963782111ff5e",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_holo_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "ae658a1124fdecec086f262686680c5d88789c6686616ed69b3963782111ff5e"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-hdpi/clock_hand_hour.png",
+        "sourceSha256": "aa626e15c8338f95a09ecaa9e5f27beba22a74657ebcdc528d790a68ba6189ee",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_holo_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "aa626e15c8338f95a09ecaa9e5f27beba22a74657ebcdc528d790a68ba6189ee"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-ldpi/clock_hand_hour.png",
+        "sourceSha256": "48cccfe2e6843140e0ce2a71ec36e9f85f926494566537a44cfaecd4f3f2ce6d",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_holo_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "48cccfe2e6843140e0ce2a71ec36e9f85f926494566537a44cfaecd4f3f2ce6d"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-mdpi/clock_hand_hour.png",
+        "sourceSha256": "fa10d6f8904958d9a9f66fb230e288e6eaa767659d74cd760205746b088f38df",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_holo_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "fa10d6f8904958d9a9f66fb230e288e6eaa767659d74cd760205746b088f38df"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-xhdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-xhdpi/clock_hand_hour.png",
+        "sourceSha256": "6b94b9a6e3d7df1f6fce66dbc551ee0cf97a0f9fd7bc42989fa1ac810960aebd",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_holo_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "6b94b9a6e3d7df1f6fce66dbc551ee0cf97a0f9fd7bc42989fa1ac810960aebd"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-hdpi/clock_hand_minute.png",
+        "sourceSha256": "3d1a7a98bdea224629795ba663d7f3294f16171e976c902ce6c794bf2511eac4",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_holo_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "3d1a7a98bdea224629795ba663d7f3294f16171e976c902ce6c794bf2511eac4"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-ldpi/clock_hand_minute.png",
+        "sourceSha256": "241975dc4759197abbbf41ac9754abfdc9c119ef3a1b6a13a8fe1353e077da49",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_holo_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "241975dc4759197abbbf41ac9754abfdc9c119ef3a1b6a13a8fe1353e077da49"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-mdpi/clock_hand_minute.png",
+        "sourceSha256": "cfbf301085ff1848e90d88322cef9e264ee8479f4449dd2ff75d46c3ef5a3395",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_holo_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "cfbf301085ff1848e90d88322cef9e264ee8479f4449dd2ff75d46c3ef5a3395"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-xhdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable-xhdpi/clock_hand_minute.png",
+        "sourceSha256": "a15dcd39c5542ff1b61bd080203631d04216a6f5da7a5232c0e5b5d65483f10b",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_holo_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "a15dcd39c5542ff1b61bd080203631d04216a6f5da7a5232c0e5b5d65483f10b"
+      },
+      {
         "resource": "drawable/edit_text_holo_light",
         "sourcePath": "core/res/res/drawable/edit_text_holo_light.xml",
         "url": "https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable/edit_text_holo_light.xml",
@@ -4286,6 +4481,7 @@
         "core/res/res",
         "core/res/res/drawable",
         "core/res/res/drawable-hdpi",
+        "core/res/res/drawable-ldpi",
         "core/res/res/drawable-mdpi",
         "core/res/res/drawable-xhdpi",
         "core/res/res/drawable-xxhdpi"
@@ -4344,7 +4540,10 @@
       "scrubber_control_selector_material",
       "scrubber_progress_horizontal_material",
       "progress_indeterminate_horizontal_material",
-      "ratingbar_full_material"
+      "ratingbar_full_material",
+      "clock_dial",
+      "clock_hand_hour",
+      "clock_hand_minute"
     ],
     "palette": [
       "colorAccent",
@@ -8800,6 +8999,114 @@
         "destination": "app/src/main/res/drawable/aosp_material1_btn_toggle_material.xml",
         "adapted": true,
         "bundledSha256": "8a0612b2d22aaf45fc0b9c940e4a3361c94cfb066ac284f2013551e77bc4bf0a"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-hdpi/clock_dial.png",
+        "sourceSha256": "005b17955e45f11220d44e95d8c7fc5e6535033a3a795d78f84f7e1b22b89e25",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_material1_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "005b17955e45f11220d44e95d8c7fc5e6535033a3a795d78f84f7e1b22b89e25"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-ldpi/clock_dial.png",
+        "sourceSha256": "ed2a4d731d842cecf256387004db973d7fdb9db88a024c1ea50c55fc5ae0a2b5",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_material1_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "ed2a4d731d842cecf256387004db973d7fdb9db88a024c1ea50c55fc5ae0a2b5"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-mdpi/clock_dial.png",
+        "sourceSha256": "9f32571b6f4991af7486a48efc9c773727f2622c0ec80ffb02c3bc2aa07aa5a7",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_material1_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "9f32571b6f4991af7486a48efc9c773727f2622c0ec80ffb02c3bc2aa07aa5a7"
+      },
+      {
+        "resource": "drawable/clock_dial",
+        "sourcePath": "core/res/res/drawable-xhdpi/clock_dial.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-xhdpi/clock_dial.png",
+        "sourceSha256": "ae658a1124fdecec086f262686680c5d88789c6686616ed69b3963782111ff5e",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_material1_clock_dial.png",
+        "adapted": false,
+        "bundledSha256": "ae658a1124fdecec086f262686680c5d88789c6686616ed69b3963782111ff5e"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-hdpi/clock_hand_hour.png",
+        "sourceSha256": "aa626e15c8338f95a09ecaa9e5f27beba22a74657ebcdc528d790a68ba6189ee",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_material1_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "aa626e15c8338f95a09ecaa9e5f27beba22a74657ebcdc528d790a68ba6189ee"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-ldpi/clock_hand_hour.png",
+        "sourceSha256": "48cccfe2e6843140e0ce2a71ec36e9f85f926494566537a44cfaecd4f3f2ce6d",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_material1_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "48cccfe2e6843140e0ce2a71ec36e9f85f926494566537a44cfaecd4f3f2ce6d"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-mdpi/clock_hand_hour.png",
+        "sourceSha256": "fa10d6f8904958d9a9f66fb230e288e6eaa767659d74cd760205746b088f38df",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_material1_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "fa10d6f8904958d9a9f66fb230e288e6eaa767659d74cd760205746b088f38df"
+      },
+      {
+        "resource": "drawable/clock_hand_hour",
+        "sourcePath": "core/res/res/drawable-xhdpi/clock_hand_hour.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-xhdpi/clock_hand_hour.png",
+        "sourceSha256": "6b94b9a6e3d7df1f6fce66dbc551ee0cf97a0f9fd7bc42989fa1ac810960aebd",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_material1_clock_hand_hour.png",
+        "adapted": false,
+        "bundledSha256": "6b94b9a6e3d7df1f6fce66dbc551ee0cf97a0f9fd7bc42989fa1ac810960aebd"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-hdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-hdpi/clock_hand_minute.png",
+        "sourceSha256": "3d1a7a98bdea224629795ba663d7f3294f16171e976c902ce6c794bf2511eac4",
+        "destination": "app/src/main/res/drawable-hdpi/aosp_material1_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "3d1a7a98bdea224629795ba663d7f3294f16171e976c902ce6c794bf2511eac4"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-ldpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-ldpi/clock_hand_minute.png",
+        "sourceSha256": "241975dc4759197abbbf41ac9754abfdc9c119ef3a1b6a13a8fe1353e077da49",
+        "destination": "app/src/main/res/drawable-ldpi/aosp_material1_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "241975dc4759197abbbf41ac9754abfdc9c119ef3a1b6a13a8fe1353e077da49"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-mdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-mdpi/clock_hand_minute.png",
+        "sourceSha256": "cfbf301085ff1848e90d88322cef9e264ee8479f4449dd2ff75d46c3ef5a3395",
+        "destination": "app/src/main/res/drawable-mdpi/aosp_material1_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "cfbf301085ff1848e90d88322cef9e264ee8479f4449dd2ff75d46c3ef5a3395"
+      },
+      {
+        "resource": "drawable/clock_hand_minute",
+        "sourcePath": "core/res/res/drawable-xhdpi/clock_hand_minute.png",
+        "url": "https://android.googlesource.com/platform/frameworks/base/+/0ac9664a9ee2e6d1d3b68fe00c264ad94fe98966/core/res/res/drawable-xhdpi/clock_hand_minute.png",
+        "sourceSha256": "a15dcd39c5542ff1b61bd080203631d04216a6f5da7a5232c0e5b5d65483f10b",
+        "destination": "app/src/main/res/drawable-xhdpi/aosp_material1_clock_hand_minute.png",
+        "adapted": false,
+        "bundledSha256": "a15dcd39c5542ff1b61bd080203631d04216a6f5da7a5232c0e5b5d65483f10b"
       },
       {
         "resource": "drawable/edit_text_material",

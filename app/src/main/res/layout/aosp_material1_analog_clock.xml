@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Release artwork on the current OS clock engine; not an original OS capture. -->
+<AnalogClock xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:dial="@drawable/aosp_material1_clock_dial"
+    android:hand_hour="@drawable/aosp_material1_clock_hand_hour"
+    android:hand_minute="@drawable/aosp_material1_clock_hand_minute" />

@@ -51,6 +51,29 @@ class HistoricalControlsTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
+    fun analogClocksUsePinnedArtworkAndFitTheirMeasuredViewport() {
+        PlatformFamily.entries.forEach { family ->
+            show(family, LabComponent.ANALOG_CLOCK, SampleState())
+            onView(withId(R.id.sample_left)).check { view, error ->
+                if (error != null) throw error
+                assertEquals(android.widget.AnalogClock::class.java, view.javaClass)
+                assertEquals(
+                    HistoricalControls.release(family),
+                    view.getTag(R.id.aosp_resource_revision),
+                )
+                val visible = android.graphics.Rect()
+                assertTrue(view.getGlobalVisibleRect(visible))
+                assertTrue(view.width > 0 && view.height > 0)
+                assertEquals(view.height, visible.height())
+                val bitmap = draw(view)
+                assertTrue(bitmap.width >= bitmap.height)
+                assertTrue(view.isEnabled)
+            }
+        }
+    }
+
+    @Test
     fun releaseCheckboxGraphicsChangeWithTheLiveCheckedState() {
         PlatformFamily.entries.forEach { family ->
             val state = SampleState()

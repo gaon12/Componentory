@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.lab.recreation.HistoricalControls
 
 @Composable
 internal fun PlatformClockSample(
@@ -19,7 +20,9 @@ internal fun PlatformClockSample(
     val panel = if (viewId == R.id.sample_left) "LEFT" else "RIGHT"
     ReadableAndroidView(
         factory = { context ->
-            createClock(family.createContext(context), component).apply { id = viewId }
+            if (component == LabComponent.ANALOG_CLOCK)
+                HistoricalControls.analogClock(context, family).apply { id = viewId }
+            else createClock(family.createContext(context), component).apply { id = viewId }
         },
         update = { view ->
             view.isEnabled = enabled
@@ -40,7 +43,6 @@ internal fun PlatformClockSample(
 private fun createClock(context: android.content.Context, component: LabComponent): View =
     when (component) {
         LabComponent.TEXT_CLOCK -> TextClock(context)
-        LabComponent.ANALOG_CLOCK -> android.widget.AnalogClock(context)
         LabComponent.DIGITAL_CLOCK -> android.widget.DigitalClock(context)
         else -> error("Unsupported components must be handled by SamplePanel.")
     }

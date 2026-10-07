@@ -14,7 +14,10 @@
       "seek_thumb",
       "spinner_background",
       "progress_indeterminate_horizontal",
-      "ratingbar_full"
+      "ratingbar_full",
+      "clock_dial",
+      "clock_hand_hour",
+      "clock_hand_minute"
     ],
     "palette": []
   },
@@ -36,7 +39,10 @@
       "scrubber_control_selector_holo",
       "scrubber_progress_horizontal_holo_light",
       "progress_indeterminate_horizontal_holo",
-      "ratingbar_full_holo_light"
+      "ratingbar_full_holo_light",
+      "clock_dial",
+      "clock_hand_hour",
+      "clock_hand_minute"
     ],
     "palette": []
   },
@@ -58,7 +64,10 @@
       "scrubber_control_selector_material",
       "scrubber_progress_horizontal_material",
       "progress_indeterminate_horizontal_material",
-      "ratingbar_full_material"
+      "ratingbar_full_material",
+      "clock_dial",
+      "clock_hand_hour",
+      "clock_hand_minute"
     ],
     "palette": [
       "colorAccent",
