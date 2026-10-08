@@ -48,6 +48,7 @@ def build(output: Path) -> None:
     headings = {
         "Local processing",
         "Optional keyboard and autofill demonstration",
+        "Optional Easter egg games",
         "Exports and external links",
         "Storage, retention, and deletion",
         "Contact and changes",
