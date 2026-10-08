@@ -1,62 +1,26 @@
 package xyz.gaon.componentory.eastereggs
 
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class EasterEggTapSequenceTest {
     @Test
-    fun threeRapidTapsOpenTheScreen() {
+    fun sevenTapsCountDownToTheOpening() {
         val sequence = EasterEggTapSequence()
-        assertFalse(sequence.registerTap(0))
-        assertFalse(sequence.registerTap(100))
-        assertTrue(sequence.registerTap(200))
+        assertEquals(listOf(6, 5, 4, 3, 2, 1, 0), List(7) { sequence.registerTap() })
     }
 
     @Test
-    fun theThirdTapMayArriveAtTheOneSecondBoundary() {
+    fun everyOpeningRequiresSevenNewTaps() {
         val sequence = EasterEggTapSequence()
-        assertFalse(sequence.registerTap(100))
-        assertFalse(sequence.registerTap(600))
-        assertTrue(sequence.registerTap(1_100))
+        repeat(3) { assertEquals(listOf(6, 5, 4, 3, 2, 1, 0), List(7) { sequence.registerTap() }) }
     }
 
     @Test
-    fun anExpiredTapStartsANewBurst() {
+    fun leavingTheVisitDiscardsPartialTaps() {
         val sequence = EasterEggTapSequence()
-        assertFalse(sequence.registerTap(0))
-        assertFalse(sequence.registerTap(500))
-        assertFalse(sequence.registerTap(1_001))
-        assertFalse(sequence.registerTap(1_100))
-        assertTrue(sequence.registerTap(1_200))
-    }
-
-    @Test
-    fun shortGapsDoNotAccumulateBeyondTheWholeBurstWindow() {
-        val sequence = EasterEggTapSequence()
-        assertFalse(sequence.registerTap(0))
-        assertFalse(sequence.registerTap(600))
-        assertFalse(sequence.registerTap(1_200))
-    }
-
-    @Test
-    fun everyOpeningRequiresThreeNewTaps() {
-        val sequence = EasterEggTapSequence()
-        repeat(2) { burst ->
-            val start = burst * 300L
-            assertFalse(sequence.registerTap(start))
-            assertFalse(sequence.registerTap(start + 100))
-            assertTrue(sequence.registerTap(start + 200))
-        }
-    }
-
-    @Test
-    fun anEarlierClockReadingStartsANewBurst() {
-        val sequence = EasterEggTapSequence()
-        assertFalse(sequence.registerTap(500))
-        assertFalse(sequence.registerTap(600))
-        assertFalse(sequence.registerTap(100))
-        assertFalse(sequence.registerTap(200))
-        assertTrue(sequence.registerTap(300))
+        repeat(6) { sequence.registerTap() }
+        sequence.reset()
+        assertEquals(listOf(6, 5, 4, 3, 2, 1, 0), List(7) { sequence.registerTap() })
     }
 }

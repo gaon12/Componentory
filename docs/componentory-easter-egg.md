@@ -7,14 +7,23 @@ app's Compose Material 3 theme and all five supported languages.
 
 ## Entry and return
 
-Open Settings, scroll to **App version**, and tap its row three times within one
-second. One or two taps leave Settings open. If the burst takes longer than one
-second, its next tap starts a new burst. The whole row accepts touch and
+Open Settings, scroll to **App version**, and tap its row seven times. The first
+two taps have no message. Taps three through six show a short native Toast with
+four, three, two, and one remaining taps. Tap seven opens the hidden screen.
+The whole row accepts touch and
 accessibility click actions; it keeps its compact appearance without an arrow.
 
-Tap timing uses Android uptime, so changing the wall clock cannot unlock the
-screen. Partial taps are not saved. Changing tabs or selected settings pages, or
-recreating the Activity, discards them. Every opening needs a fresh burst.
+There is no time limit between taps. Partial taps are not saved. Changing tabs
+or selected settings pages, stopping the Activity, or recreating it discards
+them. Every opening needs seven new taps. A new countdown cancels the previous
+Toast, and leaving the page or opening the hidden screen cancels it too.
+
+The tap count and feedback threshold follow AOSP's
+[BuildNumberPreferenceController](https://android.googlesource.com/platform/packages/apps/Settings/+/021f36b3fa9/src/com/android/settings/deviceinfo/BuildNumberPreferenceController.java)
+at revision `021f36b3fa9`: seven taps, with feedback when the remaining count is
+below five. Componentory's last tap opens its own screen. The native Toast uses
+the installed Android renderer, and its message is localized in all five app
+languages. English has separate singular and plural forms.
 
 The hidden screen takes over the app window. The navigation bar or rail is absent
 until it closes. Its open state survives Activity recreation, while the saved
@@ -27,6 +36,26 @@ short window or large text needs more room. The close button stays outside the
 scrolling body.
 
 This is an initial screen, with no game or original historical Android capture.
+
+## Seven-tap countdown verification — October 8, 2026
+
+The updated gesture passed Spotless apply/check and app debug lint, followed by
+all 180 app JVM tests and both debug APK builds. A new resource-read lint warning
+was fixed by using Compose's locale-aware `LocalResources` before the final
+ordered checks. Final lint reported zero errors and 77 existing warnings.
+
+All 12 interactive checks passed on the Samsung SM-X800, Android 16 / API 36.
+`ComponentoryEasterEggToastTest` observed the actual native Toast accessibility
+events for four, three, two, and one remaining taps, then verified seventh-tap
+entry. Navigation tests covered pauses between taps, repeated entry, tab changes,
+Activity stop and recreation, and Settings return. The three screen checks and
+three existing Settings navigation checks also passed.
+
+Run `20261008T114152583Z-b92b99db` retains the tested binary and device conditions.
+The phone attempt, `20261008T113742330Z-d3771356`, failed all nine checks while the
+phone was locked and no Compose hierarchy was available. That attempt is not a
+successful Android 17 behavior result. The earlier three-tap reports below remain
+historical results.
 
 ## Screen verification — October 8, 2026
 
@@ -44,7 +73,10 @@ test's local override. No screenshot was collected for this screen-only scope.
 Run `20261008T110928330Z-0f06f55c` retains APK hashes, source state, display,
 orientation, and restored settings in ignored `.local/device-runs/`.
 
-## Entry verification — October 8, 2026
+## Previous three-tap entry verification — October 8, 2026
+
+This retained evidence describes the earlier three-tap implementation. It does
+not verify the current seven-tap countdown.
 
 The entry change passed Spotless apply/check and app debug lint before tests.
 Lint still reported zero errors and 77 warnings. All 183 app JVM tests passed,
@@ -63,7 +95,7 @@ The final run IDs are `20261008T111624407Z-f79e71fd` and
 identities. This verifies the app's entry screen on current devices; it does not
 establish original appearance or behavior for the Android release ports.
 
-## Device conditions and binary identity
+## Previous device conditions and binary identity
 
 The screen implementation is in `623019e`; the entry implementation is in
 `bbe12ec`. The screen-only evidence records `a7978a9` plus the changes committed

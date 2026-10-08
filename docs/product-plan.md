@@ -115,8 +115,10 @@ Use two settings columns when there is enough width. Keep full language names,
 provider names, and search results usable at 320 dp and with the software keyboard.
 Do not keep an empty Planned APIs tab once the audited baseline is implemented.
 
-The app's own [Easter egg](componentory-easter-egg.md) opens after three taps on
-Settings > App version within one second. Keep its destination separate from
+The app's own [Easter egg](componentory-easter-egg.md) opens after seven taps on
+Settings > App version. Follow Android's build-number countdown: the third
+through sixth taps show four, three, two, and one remaining taps in a native
+Toast, with no timing limit. Keep its destination separate from
 the version-specific Android ports in the catalog. The first milestone supplies
 the entry gesture and a localized screen. Save the open screen across Activity
 recreation, discard incomplete gestures, and return to the saved Settings page

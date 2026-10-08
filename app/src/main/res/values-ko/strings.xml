@@ -803,4 +803,7 @@
     <string name="egg_help_c">Android 17 로고·우주 게임·자동 조종·화면보호기를 포함합니다. 확장 진행 알림은 API 37이 필요하며, 지원되는 이전 기기에서도 우주 탐험은 실행할 수 있습니다.</string>
     <string name="componentory_egg_title">이스터에그</string>
     <string name="componentory_egg_welcome">비밀 실험실을 찾았어요.</string>
+    <plurals name="componentory_egg_countdown">
+        <item quantity="other">%1$d번 더 누르면 이스터에그가 열립니다.</item>
+    </plurals>
 </resources>

@@ -1,6 +1,6 @@
 package xyz.gaon.componentory.settings
 
-import android.os.SystemClock
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +42,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -54,11 +55,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.eastereggs.EasterEggTapSequence
@@ -217,6 +222,24 @@ private fun SettingsCategories(
 ) {
     // A partial gesture belongs to this visit, not to saved settings state.
     val eggTaps = remember(selected) { EasterEggTapSequence() }
+    val context = LocalContext.current
+    val resources = LocalResources.current
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    var eggToast by remember(selected) { mutableStateOf<Toast?>(null) }
+    DisposableEffect(eggTaps, lifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                eggTaps.reset()
+                eggToast?.cancel()
+                eggToast = null
+            }
+        }
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
+            eggToast?.cancel()
+        }
+    }
     var showNotices by rememberSaveable { mutableStateOf(false) }
     if (showNotices) SourceNoticesDialog { showNotices = false }
     Column(
@@ -282,7 +305,20 @@ private fun SettingsCategories(
                 "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                 "app_version",
                 onClick = {
-                    if (eggTaps.registerTap(SystemClock.uptimeMillis())) onOpenEasterEgg()
+                    val remaining = eggTaps.registerTap()
+                    eggToast?.cancel()
+                    eggToast = null
+                    if (remaining == 0) onOpenEasterEgg()
+                    else if (remaining in 1..4) {
+                        val message =
+                            resources.getQuantityString(
+                                R.plurals.componentory_egg_countdown,
+                                remaining,
+                                remaining,
+                            )
+                        eggToast = Toast.makeText(context, message, Toast.LENGTH_SHORT)
+                        eggToast?.show()
+                    }
                 },
                 showArrow = false,
             )

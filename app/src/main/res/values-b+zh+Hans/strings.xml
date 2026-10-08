@@ -803,4 +803,7 @@
     <string name="egg_help_c">包含 Android 17 徽标、太空游戏、自动驾驶与屏幕保护程序。高级进度通知需要 API 37；较旧的受支持设备仍可探索太空。</string>
     <string name="componentory_egg_title">彩蛋</string>
     <string name="componentory_egg_welcome">你找到了秘密实验室。</string>
+    <plurals name="componentory_egg_countdown">
+        <item quantity="other">再点按%1$d次即可打开彩蛋。</item>
+    </plurals>
 </resources>
