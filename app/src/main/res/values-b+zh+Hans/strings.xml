@@ -801,4 +801,6 @@
     <string name="egg_help_v">包含太空探索、自动驾驶与太空屏幕保护程序。系统行为遵循已安装系统。</string>
     <string name="egg_help_b">包含太空探索、自动驾驶、屏幕保护程序与可选实时进度通知。高级通知需要 Android 16 及以上。</string>
     <string name="egg_help_c">包含 Android 17 徽标、太空游戏、自动驾驶与屏幕保护程序。高级进度通知需要 API 37；较旧的受支持设备仍可探索太空。</string>
+    <string name="componentory_egg_title">彩蛋</string>
+    <string name="componentory_egg_welcome">你找到了秘密实验室。</string>
 </resources>

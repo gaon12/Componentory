@@ -801,4 +801,6 @@
     <string name="egg_help_v">宇宙探査、自動操縦、宇宙スクリーンセーバーを含みます。システムの動作は現在の OS に従います。</string>
     <string name="egg_help_b">宇宙探査、自動操縦、スクリーンセーバー、任意のライブ進行通知を含みます。拡張通知には Android 16 以降が必要です。</string>
     <string name="egg_help_c">Android 17 のロゴ、宇宙ゲーム、自動操縦、スクリーンセーバーを含みます。拡張進行通知には API 37 が必要です。宇宙探査は対応する旧端末でも動作します。</string>
+    <string name="componentory_egg_title">イースターエッグ</string>
+    <string name="componentory_egg_welcome">秘密の実験室を見つけました。</string>
 </resources>

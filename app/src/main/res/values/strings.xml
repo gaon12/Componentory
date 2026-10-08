@@ -804,4 +804,6 @@
     <string name="egg_help_v">Space exploration, autopilot, and the space screen saver are included. System behavior follows the installed OS.</string>
     <string name="egg_help_b">Space exploration, autopilot, the screen saver, and optional live progress notifications are included. Rich notifications require Android 16 or later.</string>
     <string name="egg_help_c">The Android 17 logo, space game, autopilot, and screen saver are included. Its rich progress notification style requires API 37; space exploration works on older supported devices.</string>
+    <string name="componentory_egg_title">Easter egg</string>
+    <string name="componentory_egg_welcome">You found the secret lab.</string>
 </resources>

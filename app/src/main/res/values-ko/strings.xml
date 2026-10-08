@@ -801,4 +801,6 @@
     <string name="egg_help_v">우주 탐험·자동 조종·우주 화면보호기를 포함합니다. 시스템 동작은 설치된 OS를 따릅니다.</string>
     <string name="egg_help_b">우주 탐험·자동 조종·화면보호기 및 선택적 실시간 진행 알림을 포함합니다. 확장 알림은 Android 16 이상이 필요합니다.</string>
     <string name="egg_help_c">Android 17 로고·우주 게임·자동 조종·화면보호기를 포함합니다. 확장 진행 알림은 API 37이 필요하며, 지원되는 이전 기기에서도 우주 탐험은 실행할 수 있습니다.</string>
+    <string name="componentory_egg_title">이스터에그</string>
+    <string name="componentory_egg_welcome">비밀 실험실을 찾았어요.</string>
 </resources>

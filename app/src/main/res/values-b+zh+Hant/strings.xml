@@ -801,4 +801,6 @@
     <string name="egg_help_v">包含太空探索、自動駕駛與太空螢幕保護程式。系統行為依已安裝系統。</string>
     <string name="egg_help_b">包含太空探索、自動駕駛、螢幕保護程式及選用即時進度通知。進階通知需要 Android 16 以上。</string>
     <string name="egg_help_c">包含 Android 17 標誌、太空遊戲、自動駕駛及螢幕保護程式。進階進度通知需要 API 37；較舊的受支援裝置仍可探索太空。</string>
+    <string name="componentory_egg_title">彩蛋</string>
+    <string name="componentory_egg_welcome">你找到了秘密實驗室。</string>
 </resources>
