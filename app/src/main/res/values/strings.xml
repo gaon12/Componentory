@@ -734,7 +734,7 @@
     <string name="preview_scroll_end">End</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="privacy_policy_category_summary">Local data and optional demo services</string>
-    <string name="privacy_policy_summary">Preferences and comparison runs stay on this device. No ads, analytics, or developer data collection. You choose whether to export a run. The full policy below is available offline in English.</string>
+    <string name="privacy_policy_summary">Learning settings, comparisons, and detailed game records stay on this device. Optional Play Games rankings use a Google game profile and Google SDK diagnostics. There are no ads or developer servers. The full English policy is available offline.</string>
     <string name="privacy_policy_read">Read the full privacy policy</string>
     <string name="rendering_themed_demo">Theme-based clock demo</string>
     <string name="rendering_themed_demo_note">Built by Componentory with Compose drawing, text, and controls using the selected theme. This is not a dedicated Material clock API or an original OS capture.</string>

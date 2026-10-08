@@ -1,0 +1,17 @@
+<resources>
+    <string name="game_online_unavailable">此版本尚未启用在线排名。普通模式和个人记录仍可使用。</string>
+    <string name="game_online_title">在线排名</string>
+    <string name="game_online_disconnected">尚未连接游戏资料</string>
+    <string name="game_online_profile">游戏资料：%1$s</string>
+    <string name="game_online_failed">连接失败，待提交分数已保留以供重试。</string>
+    <string name="game_online_pending">待提交分数：%1$d</string>
+    <string name="game_online_other_profile">部分分数属于其他游戏资料，请连接对应资料后提交。</string>
+    <string name="game_online_connect">连接游戏资料</string>
+    <string name="game_online_retry">重试待提交分数</string>
+    <string name="game_online_bind">将离线分数提交到%1$s</string>
+    <string name="game_online_daily">每日排名</string>
+    <string name="game_online_weekly">每周排名</string>
+    <string name="game_online_alltime">总排名</string>
+    <string name="game_mode_rules">普通模式使用通用强化及已解锁装备。挑战使用共同种子和全部装备，不使用永久强化。离线挑战保存在本机。</string>
+    <string name="game_online_old_rules">旧规则的分数保存在本机，不会提交到当前排名。</string>
+</resources>

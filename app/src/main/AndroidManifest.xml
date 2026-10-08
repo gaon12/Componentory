@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Android 13 reads localeConfig. Older devices use the in-app language picker. -->
     <application
+        android:name=".survivor.GameApplication"
         tools:ignore="UnusedAttribute"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Componentory">
+        <!-- Explicit initialization keeps unconfigured builds from starting the game SDK. -->
+        <provider android:name="com.google.android.gms.games.provider.PlayGamesInitProvider" tools:node="remove" />
+        <activity android:name="com.google.android.gms.games.internal.v2.appshortcuts.PlayGamesAppShortcutsActivity" tools:node="remove" />
+        <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/game_services_project_id" />
+        <meta-data android:name="com.google.android.gms.games.SUPPRESS_GAME_PROFILE_CREATION" android:value="true" />
         <activity
             android:name=".survivor.SurvivorActivity"
             android:exported="false"

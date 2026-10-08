@@ -1,13 +1,14 @@
 Componentory Privacy Policy
-Effective date: October 8, 2026
+Effective date: October 9, 2026
 
 Componentory is an independent Android UI learning app maintained by gaon12.
 This policy describes the app identified as xyz.gaon.componentory.
 
 Local processing
-The app works without an account. It has no Internet permission, advertising,
-analytics, tracking, or developer-operated server. The developer does not collect,
-receive, sell, or share data from the app.
+The learning features, normal survivor play, and personal records work without
+an account. Internet permission supports optional Google Play Games rankings.
+There is no advertising, developer analytics, or developer-operated server.
+Google SDK processing for configured online builds is explained below.
 
 The app stores appearance and language preferences, introduction progress, and
 comparison runs in its private storage. A saved run can contain sample text you
@@ -47,6 +48,31 @@ app is uninstalled; remove them with your gallery or file manager. Emoji fonts,
 framework icons, and the wallpaper-derived system palette use the installed OS.
 The app does not send your wallpaper, game progress, or cat images to the developer.
 
+Survivor records and optional online rankings
+The survivor game stores its wallet, unlocks, common upgrades, unfinished combat,
+and detailed records in separate private storage. Records include starting weapon,
+mode, ruleset, seed, starting upgrades, final equipment and evolutions, survival,
+kill categories, outcome, score, and earned currency. Normal play and these records
+remain usable offline. Detailed builds and combat checkpoints are not uploaded.
+
+Configured builds initialize Google Play Games Services v2. An existing game
+profile can authenticate automatically. Automatic creation prompts are suppressed;
+choose Connect game profile to connect or create one. Unconfigured builds disable
+SDK initialization and online rankings. Google handles gamer identity, submitted
+scores, and SDK analytics and diagnostics. Its service encrypts transmitted data.
+Google controls profile visibility and deletion through Play Games and Google
+account settings. See https://developer.android.com/games/pgs/data-collection and
+https://policies.google.com/privacy for its data handling.
+
+Only completed ranked victories and deaths queue scores. Failed submissions stay
+in private storage for retry. A saved game profile ID keeps a pending score bound
+to its owner; changing profiles does not reassign it. Offline scores without an
+owner require your explicit Submit offline scores action. Abandoned runs and
+normal runs do not submit. The app does not request Google passwords, email,
+friends lists, or server authorization credentials. Google leaderboard records
+can remain after uninstalling; manage their deletion through your Play Games
+profile. Clearing this app does not delete Google's service data.
+
 Exports and external links
 Exporting comparison runs uses Android's share sheet. The shared text can include
 your sample inputs and the technical context listed above. You choose its
@@ -58,8 +84,9 @@ do not include private information in an issue or an attached run.
 
 Storage, retention, and deletion
 Local data is protected by Android's application sandbox. App-managed automatic
-cloud backup and device transfer are disabled. Runs remain until you delete them
-in the Runs screen or clear the app's storage in Android settings. Clearing app
+cloud backup and device transfer are disabled. Comparison runs remain until you delete them
+in the Runs screen or clear app storage in Android settings. Survivor saves,
+records, wallet, and pending scores remain until you clear app storage. Clearing app
 storage or uninstalling removes the app's local data and preferences. Copies you
 export remain with the destination you chose; delete them through that service.
 The developer cannot recover your local data or delete those exported copies.

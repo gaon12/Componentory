@@ -78,6 +78,24 @@ internal class GameStore(directory: File) {
             )
         }
 
+    fun bindUnowned(profileId: String, ruleset: String): GameSave {
+        require(profileId.isNotBlank())
+        return update { before ->
+            before.copy(
+                submissions =
+                    before.submissions.map {
+                        if (
+                            it.status == SubmissionStatus.QUEUED &&
+                                it.profileId == null &&
+                                it.ruleset == ruleset
+                        )
+                            it.copy(profileId = profileId)
+                        else it
+                    }
+            )
+        }
+    }
+
     companion object {
         private val locks = java.util.concurrent.ConcurrentHashMap<String, Any>()
     }

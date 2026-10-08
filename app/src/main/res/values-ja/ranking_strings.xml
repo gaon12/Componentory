@@ -1,0 +1,17 @@
+<resources>
+    <string name="game_online_unavailable">このビルドではオンライン順位は利用できません。通常プレイと個人記録は利用できます。</string>
+    <string name="game_online_title">オンライン順位</string>
+    <string name="game_online_disconnected">ゲームプロフィール未接続</string>
+    <string name="game_online_profile">ゲームプロフィール：%1$s</string>
+    <string name="game_online_failed">接続に失敗しました。未送信スコアは再試行のために保持されます。</string>
+    <string name="game_online_pending">未送信スコア：%1$d</string>
+    <string name="game_online_other_profile">別のゲームプロフィールのスコアがあります。そのプロフィールに接続すると送信できます。</string>
+    <string name="game_online_connect">ゲームプロフィールに接続</string>
+    <string name="game_online_retry">未送信スコアを再試行</string>
+    <string name="game_online_bind">オフラインのスコアを%1$sに送信</string>
+    <string name="game_online_daily">日間順位</string>
+    <string name="game_online_weekly">週間順位</string>
+    <string name="game_online_alltime">全期間順位</string>
+    <string name="game_mode_rules">通常：共通強化と解放済み装備を使用。挑戦：共通シードと全装備を使用し、永続強化は除外。オフラインの挑戦は端末に記録されます。</string>
+    <string name="game_online_old_rules">以前のルールのスコアは端末に保持され、現在の順位には送信されません。</string>
+</resources>

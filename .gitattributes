@@ -5,6 +5,7 @@
 # Preserve original legal notices byte for byte, including upstream whitespace.
 licenses/*NOTICE.txt -text -diff
 licenses/androidx-autofill-LICENSE.txt -text -diff
+licenses/pgs-22.1.0-third_party_licenses.* -text -diff
 licenses/aosp-resources/** -text -diff
 # Retain vendored source/resource bytes and upstream whitespace for hash verification.
 eastereggs/src/main/** -text whitespace=-blank-at-eol,-blank-at-eof

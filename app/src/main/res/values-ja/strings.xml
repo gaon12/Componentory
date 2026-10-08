@@ -731,7 +731,7 @@
     <string name="preview_scroll_end">末尾</string>
     <string name="privacy_policy">プライバシーポリシー</string>
     <string name="privacy_policy_category_summary">端末内のデータと任意のデモサービス</string>
-    <string name="privacy_policy_summary">設定と比較記録はこの端末に保存されます。広告、分析、開発者によるデータ収集はありません。記録のエクスポートはご自身で選択します。全文は英語で、オフラインでも確認できます。</string>
+    <string name="privacy_policy_summary">学習設定、比較記録、ゲームの詳細記録は端末内に保存されます。任意のPlay Games順位はGoogleのゲームプロフィールとSDK診断を使用します。広告や開発者のサーバーはありません。英語の全文はオフラインで確認できます。</string>
     <string name="privacy_policy_read">プライバシーポリシー全文を読む</string>
     <string name="rendering_themed_demo">テーマに基づく時計デモ</string>
     <string name="rendering_themed_demo_note">選択したテーマの色・書体・ボタンと Compose の描画・テキスト機能で Componentory が作成したデモです。Material 専用の時計 API や旧 OS のオリジナルキャプチャではありません。</string>

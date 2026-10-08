@@ -1,0 +1,17 @@
+<resources>
+    <string name="game_online_unavailable">Online rankings are not enabled in this build. Normal play and personal records are available.</string>
+    <string name="game_online_title">Online rankings</string>
+    <string name="game_online_disconnected">No game profile connected</string>
+    <string name="game_online_profile">Game profile: %1$s</string>
+    <string name="game_online_failed">Connection failed. Your pending scores are kept for retry.</string>
+    <string name="game_online_pending">Pending scores: %1$d</string>
+    <string name="game_online_other_profile">Some scores belong to another game profile. Connect that profile to submit them.</string>
+    <string name="game_online_connect">Connect game profile</string>
+    <string name="game_online_retry">Retry pending scores</string>
+    <string name="game_online_bind">Submit offline scores to %1$s</string>
+    <string name="game_online_daily">Daily ranking</string>
+    <string name="game_online_weekly">Weekly ranking</string>
+    <string name="game_online_alltime">All-time ranking</string>
+    <string name="game_mode_rules">Normal: shared upgrades and unlocked supports. Challenge: a common seed, all equipment, and no permanent power. Offline challenges are saved locally.</string>
+    <string name="game_online_old_rules">Scores from older rules stay local and are not sent to the current ranking.</string>
+</resources>

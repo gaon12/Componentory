@@ -381,6 +381,7 @@ internal object GameJson {
                                 "profileId" to it.profileId,
                                 "status" to it.status.name,
                                 "attempts" to it.attempts,
+                                "lastAttempt" to it.lastAttemptEpochMillis,
                             )
                         }
                     ),
@@ -407,6 +408,7 @@ internal object GameJson {
                         it.nullable("profileId"),
                         SubmissionStatus.valueOf(it.getString("status")),
                         it.getInt("attempts"),
+                        it.optLong("lastAttempt", 0),
                     )
                 },
             )
@@ -418,6 +420,7 @@ internal object GameJson {
                     s.submissions.all { submission ->
                         submission.score >= 0 &&
                             submission.attempts >= 0 &&
+                            submission.lastAttemptEpochMillis >= 0 &&
                             s.records.any {
                                 it.id == submission.runId &&
                                     it.mode == RunMode.RANKED &&

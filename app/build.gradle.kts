@@ -21,6 +21,21 @@ require(releaseSigningConfigured || releaseSigningValues.values.all { it.isNullO
     "Release signing requires all four COMPONENTORY_KEYSTORE/KEY environment variables."
 }
 
+val playGamesProjectId = providers.gradleProperty("playGamesProjectId").orElse("0").get()
+val playGamesLeaderboardId = providers.gradleProperty("playGamesLeaderboardId").orElse("").get()
+val playGamesLeaderboardRuleset =
+    providers.gradleProperty("playGamesLeaderboardRuleset").orElse("").get()
+
+require(playGamesProjectId.matches(Regex("[0-9]+"))) { "Play Games project ID must be numeric." }
+
+require(playGamesLeaderboardId.matches(Regex("[A-Za-z0-9_-]*"))) {
+    "Play Games leaderboard ID contains unexpected characters."
+}
+
+require(playGamesLeaderboardRuleset.matches(Regex("[A-Za-z0-9_-]*"))) {
+    "Play Games ruleset contains unexpected characters."
+}
+
 android {
     namespace = "xyz.gaon.componentory"
     compileSdk { version = release(37) }
@@ -31,6 +46,9 @@ android {
         targetSdk = 37
         versionCode = 2
         versionName = "1.0.0"
+        resValue("string", "game_services_project_id", playGamesProjectId)
+        resValue("string", "game_leaderboard_id", playGamesLeaderboardId)
+        resValue("string", "game_leaderboard_ruleset", playGamesLeaderboardRuleset)
 
         buildConfigField("String", "AUTOFILL_VERSION", "\"${libs.versions.autofill.get()}\"")
         testInstrumentationRunner = "xyz.gaon.componentory.testing.ComponentoryTestRunner"
@@ -71,6 +89,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        resValues = true
         compose = true
         buildConfig = true
     }
@@ -107,6 +126,7 @@ tasks
 
 dependencies {
     implementation(project(":eastereggs"))
+    implementation("com.google.android.gms:play-services-games-v2:22.1.0")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.autofill) { version { strictly(libs.versions.autofill.get()) } }

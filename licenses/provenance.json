@@ -33,6 +33,24 @@
       "artifactSha256": "b5a217cee7724ea42a382965a9b22a330b988d62cb97abe1b1af50e54370c322",
       "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
       "scope": "Unmodified published AndroidX Autofill license for the inline UI v1 template helper. The InlineContentView host is supplied by the installed Android OS."
+    },
+    {
+      "path": "pgs-22.1.0-third_party_licenses.txt",
+      "artifact": "com.google.android.gms:play-services-games-v2:22.1.0",
+      "sourcePath": "third_party_licenses.txt",
+      "url": "https://dl.google.com/dl/android/maven2/com/google/android/gms/play-services-games-v2/22.1.0/play-services-games-v2-22.1.0.aar",
+      "artifactSha256": "da31b7a5a8682a0b00428999de1a26fc537b06db755c0d15e57e0eac1f000043",
+      "sha256": "33dc9af3f3030cee8ff23d6839a10fb94cffdea889c739f6a45e4c202bd28049",
+      "scope": "Unmodified third-party notices from the published Play Games Services v2 SDK. These do not change the Google SDK terms."
+    },
+    {
+      "path": "pgs-22.1.0-third_party_licenses.json",
+      "artifact": "com.google.android.gms:play-services-games-v2:22.1.0",
+      "sourcePath": "third_party_licenses.json",
+      "url": "https://dl.google.com/dl/android/maven2/com/google/android/gms/play-services-games-v2/22.1.0/play-services-games-v2-22.1.0.aar",
+      "artifactSha256": "da31b7a5a8682a0b00428999de1a26fc537b06db755c0d15e57e0eac1f000043",
+      "sha256": "85bac9f2ddd513a4c8b09af0d9ed734ed0ae5443e42a23fec4ef0e6867dc003f",
+      "scope": "Unmodified third-party notices from the published Play Games Services v2 SDK. These do not change the Google SDK terms."
     }
   ]
 }

@@ -8,6 +8,34 @@ import org.junit.Test
 
 class GameStoreTest {
     @Test
+    fun explicitOfflineBindingNeverReassignsAnotherProfilesScore() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val directory = File(context.cacheDir, "game-profile-store-" + System.nanoTime())
+        try {
+            val store = GameStore(directory)
+            for (profile in listOf("one", null, "two")) {
+                val s =
+                    GameEngine.create(WeaponId.BUTTON, RunMode.RANKED, rankedProfileId = profile)
+                        .session
+                s.outcome = RunOutcome.DEFEATED
+                store.finish(GameJson.session(s))
+            }
+            store.bindUnowned("three", GameCatalog.RULESET)
+            assertEquals(
+                listOf("one", "three", "two"),
+                store.read().submissions.map { it.profileId },
+            )
+            store.bindUnowned("four", GameCatalog.RULESET)
+            assertEquals(
+                listOf("one", "three", "two"),
+                store.read().submissions.map { it.profileId },
+            )
+        } finally {
+            directory.deleteRecursively()
+        }
+    }
+
+    @Test
     fun interruptedWritesStaleCheckpointsAndRepeatedCompletionKeepOneReward() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val directory = File(context.cacheDir, "game-store-test-" + System.nanoTime())

@@ -731,7 +731,7 @@
     <string name="preview_scroll_end">末尾</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="privacy_policy_category_summary">本机数据和可选演示服务</string>
-    <string name="privacy_policy_summary">设置和比较记录保存在本机。没有广告、分析或开发者数据收集。导出记录由您自行选择。完整政策以英语提供，离线也可阅读。</string>
+    <string name="privacy_policy_summary">学习设置、比较记录和详细游戏记录保存在本机。可选Play Games排名使用Google游戏资料和SDK诊断。没有广告或开发者服务器。完整英语政策可离线阅读。</string>
     <string name="privacy_policy_read">阅读完整隐私政策</string>
     <string name="rendering_themed_demo">基于主题的时钟演示</string>
     <string name="rendering_themed_demo_note">Componentory 使用所选主题的颜色、字体和按钮以及 Compose 绘图和文本功能实现的演示。这不是 Material 专用时钟 API，也不是旧版系统的原始截图。</string>

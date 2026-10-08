@@ -76,3 +76,14 @@ Okio source and license: https://github.com/square/okio/tree/3.9.1
 
 These are code ports on the installed OS, not original historical OS captures.
 Android is a trademark of Google LLC. This independent app is not endorsed by Google.
+
+Google Play Games Services
+
+The optional survivor leaderboard client uses
+com.google.android.gms:play-services-games-v2:22.1.0 from Google Maven.
+Its published POM identifies the Android Software Development Kit License:
+https://developer.android.com/studio/terms.html
+Unmodified SDK third-party notices and their index are retained in licenses/
+with artifact and file hashes in licenses/provenance.json. These notices do not
+license the Google SDK itself under Apache 2.0. SDK initialization is disabled
+without matching project, leaderboard, and ruleset configuration.

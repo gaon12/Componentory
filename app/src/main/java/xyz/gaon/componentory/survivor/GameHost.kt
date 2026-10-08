@@ -1,5 +1,6 @@
 package xyz.gaon.componentory.survivor
 
+import android.app.Activity
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,8 @@ import xyz.gaon.componentory.R
 @Composable
 internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStore? = null) {
     val context = LocalContext.current
+    val online = remember(context) { GamePlayClient(context as Activity) }
+    var starting by remember { mutableStateOf(false) }
     val store = remember(storage) { storage ?: GameStore(File(context.filesDir, "survivor")) }
     var save by remember(store) { mutableStateOf<GameSave?>(null) }
     var saveFailed by remember { mutableStateOf(false) }
@@ -175,23 +178,48 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
                         assets,
                         onClose,
                         onStart = { weapon, ranked ->
-                            if (current != null && current.activeId == null && !saveFailed) {
-                                val created =
-                                    GameEngine.create(
-                                        weapon,
-                                        if (ranked) RunMode.RANKED else RunMode.NORMAL,
-                                        current.progress.permanent,
-                                        current.progress.unlocked,
-                                    )
-                                try {
-                                    save = store.start(GameJson.session(created.session))
-                                    engine = created
-                                } catch (error: Exception) {
-                                    failure(error)
+                            if (
+                                current != null &&
+                                    current.activeId == null &&
+                                    !saveFailed &&
+                                    !starting
+                            ) {
+                                starting = true
+                                scope.launch {
+                                    try {
+                                        val profile =
+                                            if (ranked && online.enabled) {
+                                                try {
+                                                    online.profile()?.id
+                                                } catch (cancelled: CancellationException) {
+                                                    throw cancelled
+                                                } catch (offline: Exception) {
+                                                    null
+                                                }
+                                            } else null
+                                        val progress = store.read().progress
+                                        val created =
+                                            GameEngine.create(
+                                                weapon,
+                                                if (ranked) RunMode.RANKED else RunMode.NORMAL,
+                                                progress.permanent,
+                                                progress.unlocked,
+                                                rankedProfileId = profile,
+                                            )
+                                        save = store.start(GameJson.session(created.session))
+                                        engine = created
+                                    } catch (cancelled: CancellationException) {
+                                        throw cancelled
+                                    } catch (error: Exception) {
+                                        failure(error)
+                                    } finally {
+                                        starting = false
+                                    }
                                 }
                             }
                         },
-                        canStart = current != null && current.activeId == null && !saveFailed,
+                        canStart =
+                            current != null && current.activeId == null && !saveFailed && !starting,
                     ) {
                         Text(
                             stringResource(R.string.game_controls),
@@ -232,6 +260,7 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
                             }
                         }
                         current?.let {
+                            GameRankingPanel(online, store, it) { updated -> save = updated }
                             GameProgressPanel(
                                 it.progress,
                                 { upgrade ->

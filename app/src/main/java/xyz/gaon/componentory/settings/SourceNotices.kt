@@ -52,6 +52,10 @@ internal enum class SourceNotice(val title: String, val filename: String) {
     EASTER_EGGS("Android Easter egg ports · Apache 2.0", "easter-eggs-NOTICE.txt"),
     SDK("Android SDK · NOTICE", "android-sdk-NOTICE.txt"),
     AUTOFILL("AndroidX Autofill 1.3.0 · Apache 2.0", "androidx-autofill-LICENSE.txt"),
+    PLAY_GAMES(
+        "Google Play Games v2 22.1.0 · third-party notices",
+        "pgs-22.1.0-third_party_licenses.txt",
+    ),
 }
 
 @Composable

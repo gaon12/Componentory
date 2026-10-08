@@ -174,6 +174,10 @@ class SourceNoticesTest {
                     "29714c52481af51064f56bca49bfbbec4d1004eadfc82415fc35bd200bee4e3c",
                 "androidx-autofill-LICENSE.txt" to
                     "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+                "pgs-22.1.0-third_party_licenses.txt" to
+                    "33dc9af3f3030cee8ff23d6839a10fb94cffdea889c739f6a45e4c202bd28049",
+                "pgs-22.1.0-third_party_licenses.json" to
+                    "85bac9f2ddd513a4c8b09af0d9ed734ed0ae5443e42a23fec4ef0e6867dc003f",
                 "Apache-2.0.txt" to
                     "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
             )

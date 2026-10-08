@@ -141,6 +141,10 @@ internal fun GameLobby(
                             ) {
                                 Text(stringResource(R.string.game_ranked))
                             }
+                            Text(
+                                stringResource(R.string.game_mode_rules),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
                         }
                     }
                 }

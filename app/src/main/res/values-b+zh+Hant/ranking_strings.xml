@@ -1,0 +1,17 @@
+<resources>
+    <string name="game_online_unavailable">此版本尚未啟用線上排名。一般模式和個人紀錄仍可使用。</string>
+    <string name="game_online_title">線上排名</string>
+    <string name="game_online_disconnected">尚未連接遊戲資料</string>
+    <string name="game_online_profile">遊戲資料：%1$s</string>
+    <string name="game_online_failed">連線失敗，待提交分數已保留以供重試。</string>
+    <string name="game_online_pending">待提交分數：%1$d</string>
+    <string name="game_online_other_profile">部分分數屬於其他遊戲資料，請連接對應資料後提交。</string>
+    <string name="game_online_connect">連接遊戲資料</string>
+    <string name="game_online_retry">重試待提交分數</string>
+    <string name="game_online_bind">將離線分數提交到%1$s</string>
+    <string name="game_online_daily">每日排名</string>
+    <string name="game_online_weekly">每週排名</string>
+    <string name="game_online_alltime">總排名</string>
+    <string name="game_mode_rules">一般模式使用通用強化及已解鎖裝備。挑戰使用共同種子和全部裝備，不使用永久強化。離線挑戰儲存在本機。</string>
+    <string name="game_online_old_rules">舊規則的分數儲存在本機，不會提交到目前排名。</string>
+</resources>

@@ -212,3 +212,31 @@ twenty-one scoped tests passed on each device: phone
 The new model tests check scoring caps and mode/ruleset separation. The UI test
 selects two builds, opens their comparison, and checks that changing mode clears
 the selection and cannot combine it with the other mode.
+
+### Play Games client checkpoint
+
+The optional PGS v2 client keeps a durable score queue with retry timestamps.
+Each ranked run retains its starting game profile. Submission checks the current
+profile again; another profile cannot automatically submit those scores. Scores
+earned without a profile require explicit binding. Only completed current-rule
+challenges can reach the current board; normal and abandoned runs stay local.
+
+Unconfigured builds remove the SDK automatic initializer and do not initialize
+it at application startup. The lobby explains that online rankings are not yet
+configured. The SDK third-party notices are retained byte for byte and available
+in the source notice reader. Privacy and release documents describe the optional
+Google identity, analytics, and diagnostics processing. Console registration and
+real verification steps are in [the setup guide](survivor-play-games.md).
+
+Spotless apply/check and debug lint passed before all 215 JVM tests. Both APKs
+compiled. Thirty scoped tests passed on phone `20261008T160721385Z-7e434b63` and
+tablet `20261008T160830998Z-a2ab2432`. Mocked queue tests cover failure, backoff,
+retry, completed submission, missing profiles, changed profiles, and old rules.
+Device tests cover ownership binding, disabled SDK initialization, the complete
+offline policy reader, and retained notice hashes. An earlier source-notice test
+expected four files before the two SDK notice files were added; its audited hash
+list was updated before the fresh passing runs.
+
+Real authentication, online submission, remote period queries, and Console score
+protection remain unverified because the owner has no PGS project or leaderboard
+IDs yet. Compiled SDK calls and mocked tests do not complete online verification.

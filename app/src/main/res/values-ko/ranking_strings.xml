@@ -1,0 +1,17 @@
+<resources>
+    <string name="game_online_unavailable">이 빌드에서는 온라인 순위를 사용할 수 없습니다. 일반 플레이와 개인 기록은 이용할 수 있습니다.</string>
+    <string name="game_online_title">온라인 순위</string>
+    <string name="game_online_disconnected">연결된 게임 프로필 없음</string>
+    <string name="game_online_profile">게임 프로필: %1$s</string>
+    <string name="game_online_failed">연결에 실패했습니다. 대기 점수는 재시도를 위해 보관했습니다.</string>
+    <string name="game_online_pending">대기 점수: %1$d</string>
+    <string name="game_online_other_profile">다른 게임 프로필의 점수가 있습니다. 해당 프로필을 연결하면 제출할 수 있습니다.</string>
+    <string name="game_online_connect">게임 프로필 연결</string>
+    <string name="game_online_retry">대기 점수 재시도</string>
+    <string name="game_online_bind">오프라인 점수를 %1$s 프로필로 제출</string>
+    <string name="game_online_daily">일간 순위</string>
+    <string name="game_online_weekly">주간 순위</string>
+    <string name="game_online_alltime">전체 순위</string>
+    <string name="game_mode_rules">일반: 공통 강화와 해금된 보조 장비를 적용합니다. 도전: 공통 시드와 전체 장비를 사용하며 영구 강화는 제외합니다. 오프라인 도전은 기기에 기록합니다.</string>
+    <string name="game_online_old_rules">이전 규칙의 점수는 기기에 보관하며 현재 순위에 제출하지 않습니다.</string>
+</resources>

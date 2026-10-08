@@ -68,7 +68,7 @@ signing keys, passwords, and machine-specific recovery files remain outside Git.
 | Category | Education, proposed because the app teaches UI components |
 | Price | Free, proposed; no billing or paid functionality in this build |
 | Advertising | No advertising SDK or advertising ID permission |
-| App access | No account or sign-in; main features are available without credentials |
+| App access | Learning, normal play, and local records need no account; configured online rankings use a Google game profile |
 | Website | `https://gaon12.github.io/Componentory/` |
 | Privacy policy | `https://gaon12.github.io/Componentory/privacy.html` |
 | Support | Required public email must come from the publisher; do not invent it |
@@ -119,22 +119,28 @@ Settings > Privacy policy opens the full offline English document. Localized
 summaries explain the document. The website build uses this same source, so the
 public and packaged policies cannot drift through hand-edited copies.
 
-Code inspection and the packaged manifest show no Internet permission, account,
-ads, analytics, remote crash reporting, or developer server. Preferences, runs,
-and game progress are stored in the app sandbox. A run may contain sample inputs
-and OS/build, device model, screen, locale, theme, and library context. Automatic
-app backup and device transfer are excluded. Android's share sheet exports only
-when the user requests it; the user selects the destination.
+The survivor client adds Internet permission and Play Games Services v2 22.1.0.
+Learning screens, normal play, and personal records remain available offline.
+Unconfigured builds disable the SDK automatic provider and guarded initializer.
+Configured builds can authenticate an existing Google game profile automatically;
+manual connection is available, and automatic profile creation is suppressed.
+Scores, gamer identity, and Google SDK diagnostics/analytics must be assessed
+under [PGS data disclosure](https://developer.android.com/games/pgs/data-collection).
+The previous offline-only "no data collected" preparation does not cover a
+PGS-enabled release. Complete Data safety for the actual artifact and configuration;
+these notes are not submitted Console declarations.
 
-Based on these behaviors, the proposed Data safety declaration is **no data
-collected and no data shared**. Google's definitions exclude local-only processing
-from collection and exempt an expected user-initiated transfer from sharing.
-This does not mean the app never handles data. Optional inline services still
-receive the minimum framework context to identify their own demo, and the privacy
-policy explains this. Optional game notifications, feeding jobs, and user-chosen
-generated-cat image saves/shares are also documented. Gallery images are outside
-the app sandbox and remain until the user deletes them. Reassess declarations if
-networking, SDKs, accounts, or automatic exports are added.
+There is no advertising SDK or developer server. Comparison inputs and technical
+context, detailed survivor builds, wallets, and combat checkpoints stay private
+on the device. Pending profile IDs prevent scores being reassigned automatically.
+Cloud backup and app-managed device transfer remain disabled. User-chosen share
+sheet exports and imported cat image saves remain documented in the policy.
+Google service score deletion is managed through the player's game profile.
+
+Register the project, certificates, testers, leaderboard, and score protection
+using [the survivor setup guide](survivor-play-games.md). Real online checks remain
+pending until Console IDs and registered accounts exist. Update the public policy
+from its canonical source before publishing a configured release.
 
 Google requires a public, accessible, non-PDF privacy URL and an in-app policy
 even for apps without collection. Verify the published URL before submitting.

@@ -87,6 +87,7 @@ internal data class GameSubmission(
     val profileId: String?,
     val status: SubmissionStatus = SubmissionStatus.QUEUED,
     val attempts: Int = 0,
+    val lastAttemptEpochMillis: Long = 0,
 )
 
 /** One atomic document makes completion, the reward, and its pending score a single change. */

@@ -345,6 +345,7 @@ internal class GameEngine(val session: GameSession) {
             permanent: PermanentLevels = PermanentLevels(),
             unlocked: Set<SupportId> = setOf(SupportId.PROGRESS),
             seed: Long = System.nanoTime(),
+            rankedProfileId: String? = null,
         ): GameEngine {
             return GameEngine(
                 GameSession(
@@ -353,6 +354,7 @@ internal class GameEngine(val session: GameSession) {
                     seed = if (mode == RunMode.RANKED) GameCatalog.RANKED_SEED else seed,
                     permanent = if (mode == RunMode.RANKED) PermanentLevels() else permanent,
                     unlocked = if (mode == RunMode.RANKED) SupportId.entries.toSet() else unlocked,
+                    rankedProfileId = if (mode == RunMode.RANKED) rankedProfileId else null,
                 )
             )
         }
