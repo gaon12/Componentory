@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_health">生命 %1$d / %2$d</string>
+    <string name="game_level">等级 %1$d</string>
+    <string name="game_pause">暂停</string>
+    <string name="game_paused">已暂停</string>
+    <string name="game_pause_help">此菜单打开时战斗计时暂停。</string>
+    <string name="game_resume">继续</string>
+    <string name="game_abandon">结束本局</string>
+    <string name="game_abandoned">本局结束</string>
+    <string name="game_move">移动</string>
+    <string name="game_skill_wait">技能冷却 %1$d秒</string>
+    <string name="game_skill_burst">爆发</string>
+    <string name="game_skill_freeze">冻结</string>
+    <string name="game_skill_shield">护盾</string>
+    <string name="game_skill_summon">召唤</string>
+    <string name="game_won">胜利</string>
+    <string name="game_defeated">战败</string>
+    <string name="game_result_counts">%1$d秒 · 击败%2$d个敌人</string>
+    <string name="game_return">返回大厅</string>
+    <string name="game_controls">左摇杆移动，自动攻击。右侧使用技能。</string>
+</resources>

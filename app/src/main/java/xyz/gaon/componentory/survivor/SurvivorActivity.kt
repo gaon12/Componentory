@@ -30,7 +30,7 @@ class SurvivorActivity : ComponentActivity() {
                     AppAppearance.DARK -> true
                 }
             ComponentoryTheme(darkTheme = dark, dynamicColor = false) {
-                GameLobby(assets, onClose = ::finish)
+                GameHost(assets, onClose = ::finish)
             }
         }
     }

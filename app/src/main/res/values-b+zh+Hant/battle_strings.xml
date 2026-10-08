@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_health">生命 %1$d / %2$d</string>
+    <string name="game_level">等級 %1$d</string>
+    <string name="game_pause">暫停</string>
+    <string name="game_paused">已暫停</string>
+    <string name="game_pause_help">此選單開啟時戰鬥計時暫停。</string>
+    <string name="game_resume">繼續</string>
+    <string name="game_abandon">結束本局</string>
+    <string name="game_abandoned">本局結束</string>
+    <string name="game_move">移動</string>
+    <string name="game_skill_wait">技能冷卻 %1$d秒</string>
+    <string name="game_skill_burst">爆發</string>
+    <string name="game_skill_freeze">凍結</string>
+    <string name="game_skill_shield">護盾</string>
+    <string name="game_skill_summon">召喚</string>
+    <string name="game_won">勝利</string>
+    <string name="game_defeated">戰敗</string>
+    <string name="game_result_counts">%1$d秒 · 擊敗%2$d個敵人</string>
+    <string name="game_return">返回大廳</string>
+    <string name="game_controls">左搖桿移動，自動攻擊。右側使用技能。</string>
+</resources>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_health">체력 %1$d / %2$d</string>
+    <string name="game_level">레벨 %1$d</string>
+    <string name="game_pause">일시정지</string>
+    <string name="game_paused">일시정지</string>
+    <string name="game_pause_help">이 메뉴를 여는 동안 전투 시간이 멈춥니다.</string>
+    <string name="game_resume">계속하기</string>
+    <string name="game_abandon">이번 판 종료</string>
+    <string name="game_abandoned">플레이 종료</string>
+    <string name="game_move">이동</string>
+    <string name="game_skill_wait">스킬까지 %1$d초</string>
+    <string name="game_skill_burst">폭발</string>
+    <string name="game_skill_freeze">빙결</string>
+    <string name="game_skill_shield">보호막</string>
+    <string name="game_skill_summon">소환</string>
+    <string name="game_won">승리</string>
+    <string name="game_defeated">패배</string>
+    <string name="game_result_counts">%1$d초 · %2$d마리 처치</string>
+    <string name="game_return">로비로 돌아가기</string>
+    <string name="game_controls">왼쪽 스틱으로 이동하고 자동으로 공격합니다. 오른쪽에서 스킬을 사용하세요.</string>
+</resources>

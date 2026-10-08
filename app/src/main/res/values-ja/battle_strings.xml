@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_health">HP %1$d / %2$d</string>
+    <string name="game_level">レベル %1$d</string>
+    <string name="game_pause">一時停止</string>
+    <string name="game_paused">一時停止中</string>
+    <string name="game_pause_help">このメニューの表示中は戦闘時間が止まります。</string>
+    <string name="game_resume">再開</string>
+    <string name="game_abandon">終了</string>
+    <string name="game_abandoned">プレイ終了</string>
+    <string name="game_move">移動</string>
+    <string name="game_skill_wait">スキルまで%1$d秒</string>
+    <string name="game_skill_burst">爆発</string>
+    <string name="game_skill_freeze">凍結</string>
+    <string name="game_skill_shield">シールド</string>
+    <string name="game_skill_summon">召喚</string>
+    <string name="game_won">勝利</string>
+    <string name="game_defeated">敗北</string>
+    <string name="game_result_counts">%1$d秒 · %2$d体撃破</string>
+    <string name="game_return">ロビーへ戻る</string>
+    <string name="game_controls">左スティックで移動し、自動で攻撃します。右側でスキルを使います。</string>
+</resources>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_health">HP %1$d / %2$d</string>
+    <string name="game_level">Level %1$d</string>
+    <string name="game_pause">Pause</string>
+    <string name="game_paused">Paused</string>
+    <string name="game_pause_help">The battle clock stops while this menu is open.</string>
+    <string name="game_resume">Resume</string>
+    <string name="game_abandon">End run</string>
+    <string name="game_abandoned">Run ended</string>
+    <string name="game_move">Move</string>
+    <string name="game_skill_wait">Skill in %1$ds</string>
+    <string name="game_skill_burst">Burst</string>
+    <string name="game_skill_freeze">Freeze</string>
+    <string name="game_skill_shield">Shield</string>
+    <string name="game_skill_summon">Summon</string>
+    <string name="game_won">Victory</string>
+    <string name="game_defeated">Defeated</string>
+    <string name="game_result_counts">%1$d seconds · %2$d defeats</string>
+    <string name="game_return">Return to lobby</string>
+    <string name="game_controls">Move with the left stick. Attacks are automatic. Use your skill on the right.</string>
+</resources>

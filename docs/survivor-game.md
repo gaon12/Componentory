@@ -44,3 +44,19 @@ model tests that will be committed separately. Both debug APKs compiled.
 Physical artwork, launcher, and lobby interaction checks remain pending while
 another validation task reserves the devices. Compilation is not an interaction
 result. The new tests will run before final delivery.
+
+### Basic battle milestone
+
+All identities now start a fixed-tick battle with equal base health and family
+weapons and skills. A native Canvas reuses the cached source sprites. Movement
+normalizes diagonal input, automatic attacks consume bounded projectile buffers,
+and skills share a twenty-second cooldown. Portrait, Back, and Activity pause
+stop the clock and clear held controls. The lobby details scroll on short windows.
+
+Spotless apply/check and app debug lint passed. The JVM suite passed 189 tests,
+including six combat cases for movement, deterministic ticks, automatic attacks,
+skills, ranked setup, and equal common upgrades across all identities. Both debug
+APKs compiled, and thirty source-file hashes still matched. Device artwork and
+interaction tests are ready but require the locked phone and tablet to be unlocked.
+No device interaction result is claimed here. Waves, growth, saves, and online
+submission are still subsequent milestones.
