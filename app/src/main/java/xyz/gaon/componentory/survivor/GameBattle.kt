@@ -1,9 +1,13 @@
 package xyz.gaon.componentory.survivor
 
+import android.app.Activity
+import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
@@ -24,6 +29,7 @@ import xyz.gaon.componentory.R
 @Composable
 internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (GameSession) -> Unit) {
     val s = engine.session
+    val window = (LocalContext.current as? Activity)?.window
     var paused by remember { mutableStateOf(false) }
     var foreground by remember { mutableStateOf(true) }
     var movement by remember { mutableStateOf(Offset.Zero) }
@@ -49,6 +55,11 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding()) {
             val landscape = maxWidth > maxHeight
             val playable = landscape && foreground && !paused && choices.isEmpty()
+            DisposableEffect(window, playable) {
+                if (playable) window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                else window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                onDispose { window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
+            }
             LaunchedEffect(landscape) { if (!landscape) paused = true }
             LaunchedEffect(engine, playable) {
                 movement = Offset.Zero
@@ -56,8 +67,11 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                 if (!playable) return@LaunchedEffect
                 var previous = 0L
                 var accumulated = 0L
-                while (s.outcome == RunOutcome.ACTIVE && s.choices.isEmpty()) {
+                while (
+                    s.outcome == RunOutcome.ACTIVE && s.choices.isEmpty() && foreground && !paused
+                ) {
                     val now = withFrameNanos { it }
+                    if (!foreground || paused) break
                     if (previous != 0L) accumulated += (now - previous).coerceIn(0L, 100_000_000L)
                     previous = now
                     var steps = 0
@@ -142,7 +156,15 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                             )
                         )
                     },
-                    text = { Text(stringResource(R.string.game_pause_help)) },
+                    text = {
+                        Column(
+                            Modifier.verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            Text(stringResource(R.string.game_pause_help))
+                            GameEquipmentSummary(s, assets)
+                        }
+                    },
                     confirmButton = {
                         TextButton(
                             { paused = false },

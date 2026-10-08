@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.lifecycle.Lifecycle
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -96,5 +97,28 @@ class GameBattleUiTest {
             assertTrue(e.session.tick > 0)
             assertTrue(e.session.choices.isEmpty())
         }
+    }
+
+    @Test
+    fun leavingTheForegroundRequiresAnExplicitResume() {
+        val e = GameEngine.create(WeaponId.BUTTON, RunMode.RANKED)
+        compose.mainClock.autoAdvance = false
+        compose.runOnUiThread {
+            compose.activity.setContent {
+                ComponentoryTheme {
+                    GameBattle(e, remember { GameAssets(compose.activity) }, onFinished = {})
+                }
+            }
+        }
+        compose.mainClock.advanceTimeBy(1000)
+        compose.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
+        val tick = e.session.tick
+        compose.mainClock.advanceTimeBy(2000)
+        compose.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        compose.mainClock.advanceTimeBy(4000)
+        compose.runOnIdle { assertEquals(tick, e.session.tick) }
+        compose.onNodeWithTag("game_resume").performClick()
+        compose.mainClock.advanceTimeBy(1000)
+        compose.runOnIdle { assertTrue(e.session.tick > tick) }
     }
 }

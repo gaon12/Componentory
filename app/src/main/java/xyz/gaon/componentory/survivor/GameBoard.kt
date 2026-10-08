@@ -24,9 +24,10 @@ private class BoardPainter(private val assets: GameAssets) {
     private val rect = RectF()
 
     fun draw(canvas: Canvas, s: GameSession, tick: Int, width: Float, height: Float) {
+        canvas.save()
+        canvas.clipRect(0f, 0f, width, height)
         canvas.drawColor(0xff101924.toInt())
         val scale = min(width / GameEngine.WIDTH, height / GameEngine.HEIGHT)
-        canvas.save()
         canvas.translate(
             (width - GameEngine.WIDTH * scale) / 2,
             (height - GameEngine.HEIGHT * scale) / 2,
@@ -56,6 +57,10 @@ private class BoardPainter(private val assets: GameAssets) {
         }
         for (shot in s.shots) {
             if (shot.delay > 0) continue
+            if (shot.hostile) {
+                paint.color = 0xffffa94d.toInt()
+                canvas.drawCircle(shot.x, shot.y, 20f, paint)
+            }
             sprite(
                 canvas,
                 shot.art,

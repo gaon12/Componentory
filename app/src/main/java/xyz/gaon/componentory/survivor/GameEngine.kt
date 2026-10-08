@@ -20,10 +20,7 @@ internal class GameEngine(val session: GameSession) {
         s.x = (s.x + ix / length * 200f / TICKS_PER_SECOND).coerceIn(24f, WIDTH - 24f)
         s.y = (s.y + iy / length * 200f / TICKS_PER_SECOND).coerceIn(24f, HEIGHT - 24f)
         if (input.skill && s.skillTicks == 0) useSkill()
-        if (--s.spawnTicks <= 0) {
-            s.spawnTicks = (45 - s.seconds / 40).coerceAtLeast(10)
-            if (s.enemies.size < ENEMY_LIMIT) spawnEnemy()
-        }
+        GameWaves.update(s, ::random)
         for (enemy in s.enemies) {
             if (enemy.health <= 0f) continue
             val dx = s.x - enemy.x
@@ -32,10 +29,29 @@ internal class GameEngine(val session: GameSession) {
             val speed = if (s.freezeTicks > 0) 0f else 45f + min(s.seconds / 60f, 20f) * 2
             enemy.x += dx / distance * speed / TICKS_PER_SECOND
             enemy.y += dy / distance * speed / TICKS_PER_SECOND
-            if (distance < 30f && s.shieldTicks == 0 && s.hurtTicks == 0) {
-                s.health -= if (enemy.kind == EnemyKind.BOSS) 18f else 8f
-                s.hurtTicks = 45
-                if (s.health <= 0) s.outcome = RunOutcome.DEFEATED
+            if (s.freezeTicks == 0) {
+                if (distance < if (enemy.kind == EnemyKind.BOSS) 70f else 30f)
+                    hurt(if (enemy.kind == EnemyKind.BOSS) 18f else 8f)
+                if (enemy.kind == EnemyKind.BOSS && --enemy.attackTicks <= 0) {
+                    enemy.attackTicks = 180 - enemy.bossStage * 15
+                    repeat(8) { index ->
+                        val angle = index * PI.toFloat() / 4 + s.tick * .01f
+                        val speed = 140f + enemy.bossStage * 20f
+                        addShot(
+                            GameShot(
+                                s.nextId++,
+                                enemy.x,
+                                enemy.y,
+                                cos(angle) * speed,
+                                sin(angle) * speed,
+                                12f,
+                                360,
+                                enemy.source.art,
+                                hostile = true,
+                            )
+                        )
+                    }
+                }
             }
         }
         for (weapon in s.weapons) {
@@ -150,17 +166,17 @@ internal class GameEngine(val session: GameSession) {
                             sin(angle) * 500,
                             15f * s.damageMultiplier,
                             90,
-                            GameCatalog.PLAYER_ART,
+                            "jellybean",
                             pierce = 2,
                         )
                     )
                 }
             SkillKind.FREEZE -> s.freezeTicks = 4 * TICKS_PER_SECOND
             SkillKind.SHIELD -> s.shieldTicks = 4 * TICKS_PER_SECOND
-            SkillKind.SUMMON ->
-                closest(s.x, s.y)?.let { target ->
-                    repeat(8) { fireAt(target, 15f * s.damageMultiplier, "neko", homing = true) }
-                }
+            SkillKind.SUMMON -> {
+                val target = closest(s.x, s.y) ?: GameEnemy(0, s.x + 300f, s.y, 1f, 1f)
+                repeat(8) { fireAt(target, 15f * s.damageMultiplier, "neko", homing = true) }
+            }
         }
     }
 
@@ -223,35 +239,42 @@ internal class GameEngine(val session: GameSession) {
                 shot.x += shot.vx / TICKS_PER_SECOND
                 shot.y += shot.vy / TICKS_PER_SECOND
             }
-            for (enemy in s.enemies) {
-                if (enemy.health <= 0f || enemy.id in shot.hits) continue
-                val radius = shot.radius + if (enemy.kind == EnemyKind.BOSS) 40f else 18f
-                if (distanceSquared(shot.x, shot.y, enemy.x, enemy.y) < radius * radius) {
-                    enemy.health -= shot.damage
-                    shot.hits += enemy.id
-                    if (shot.bounces > 0) {
-                        val next =
-                            s.enemies
-                                .filter { it.health > 0 && it.id !in shot.hits }
-                                .minByOrNull { distanceSquared(shot.x, shot.y, it.x, it.y) }
-                        if (next != null) {
-                            val dx = next.x - shot.x
-                            val dy = next.y - shot.y
-                            val length = sqrt(dx * dx + dy * dy).coerceAtLeast(1f)
-                            shot.vx = dx / length * 650
-                            shot.vy = dy / length * 650
-                            shot.bounces--
-                            shot.pierce--
-                            shot.life = 120
+            if (shot.hostile) {
+                val radius = shot.radius + 18f
+                if (distanceSquared(shot.x, shot.y, s.x, s.y) < radius * radius) {
+                    hurt(shot.damage)
+                    shot.life = 0
+                }
+            } else
+                for (enemy in s.enemies) {
+                    if (enemy.health <= 0f || enemy.id in shot.hits) continue
+                    val radius = shot.radius + if (enemy.kind == EnemyKind.BOSS) 40f else 18f
+                    if (distanceSquared(shot.x, shot.y, enemy.x, enemy.y) < radius * radius) {
+                        enemy.health -= shot.damage
+                        shot.hits += enemy.id
+                        if (shot.bounces > 0) {
+                            val next =
+                                s.enemies
+                                    .filter { it.health > 0 && it.id !in shot.hits }
+                                    .minByOrNull { distanceSquared(shot.x, shot.y, it.x, it.y) }
+                            if (next != null) {
+                                val dx = next.x - shot.x
+                                val dy = next.y - shot.y
+                                val length = sqrt(dx * dx + dy * dy).coerceAtLeast(1f)
+                                shot.vx = dx / length * 650
+                                shot.vy = dy / length * 650
+                                shot.bounces--
+                                shot.pierce--
+                                shot.life = 120
+                                break
+                            }
+                        }
+                        if (shot.pierce-- <= 0) {
+                            shot.life = 0
                             break
                         }
                     }
-                    if (shot.pierce-- <= 0) {
-                        shot.life = 0
-                        break
-                    }
                 }
-            }
             if (--shot.life <= 0 || shot.x !in -100f..WIDTH + 100 || shot.y !in -100f..HEIGHT + 100)
                 shots.remove()
         }
@@ -265,7 +288,11 @@ internal class GameEngine(val session: GameSession) {
             when (enemy.kind) {
                 EnemyKind.NORMAL -> s.regularKills++
                 EnemyKind.ELITE -> s.eliteKills++
-                EnemyKind.BOSS -> s.bossKills++
+                EnemyKind.BOSS -> {
+                    s.bossKills++
+                    if (enemy.bossStage == 4 && s.outcome == RunOutcome.ACTIVE)
+                        s.outcome = RunOutcome.WON
+                }
             }
             val amount =
                 when (enemy.kind) {
@@ -282,23 +309,11 @@ internal class GameEngine(val session: GameSession) {
         }
     }
 
-    private fun spawnEnemy() {
-        val side = (random() * 4).toInt()
-        val x =
-            when (side) {
-                0 -> 0f
-                1 -> WIDTH
-                else -> random() * WIDTH
-            }
-        val y =
-            when (side) {
-                2 -> 0f
-                3 -> HEIGHT
-                else -> random() * HEIGHT
-            }
-        val health = 18f + s.seconds / 30f
-        val source = GameFamily.entries[(random() * GameFamily.entries.size).toInt()]
-        s.enemies += GameEnemy(s.nextId++, x, y, health, health, source = source)
+    private fun hurt(amount: Float) {
+        if (s.outcome != RunOutcome.ACTIVE || s.shieldTicks > 0 || s.hurtTicks > 0) return
+        s.health = (s.health - amount).coerceAtLeast(0f)
+        s.hurtTicks = 45
+        if (s.health <= 0f) s.outcome = RunOutcome.DEFEATED
     }
 
     private fun closest(x: Float, y: Float) =

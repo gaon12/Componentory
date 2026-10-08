@@ -114,3 +114,29 @@ pause and resume: phone `20261008T143612806Z-4536f7cb` and tablet
 `20261008T143654227Z-230125b0`. Model cases cover equipment limits, locked supports,
 evolution prerequisites and replacement, exhausted offers, fractional experience,
 distinct evolved actions, and independence from encounter randomness.
+
+### Waves and bosses checkpoint
+
+Bosses appear once at five, ten, fifteen, and twenty minutes. Their source art
+is Oreo, Jelly Bean, KitKat, and Honeycomb; this order is not an Android release
+progression. They fire hostile projectiles. The final spawn stops ordinary
+spawns, and defeating the final boss wins. A simultaneous player death takes
+priority. Pause and result screens show the final mixed equipment.
+
+Spotless apply/check and debug lint passed before 203 JVM tests, all passing.
+The model advanced 72,000 fixed ticks to check the full twenty-minute schedule,
+bounded encounters, and final spawn behavior. This accelerated model check is
+not twenty minutes of physical device play. Both APKs compiled. Eighteen scoped
+tests passed on each device: phone `20261008T150640779Z-a780edb1` and tablet
+`20261008T150733541Z-f47ece20`.
+
+The physical rendering fixture used 150 frozen enemies with mixed source art,
+four evolved weapons, and invulnerability. In ten real seconds both devices
+advanced 600 ticks. The phone rendered 599 measured frames with a 13.20 ms
+95th-percentile frame duration; the tablet rendered 600 with 18.68 ms. Captures
+were inspected for actual sprites and visible health, time, and controls. This
+fixture measures rendering load and is not a normal completed run. A native
+Canvas background initially painted over the header; explicit clipping and a
+neighbor-color regression test now prevent that. A background pause assertion
+initially sampled before the lifecycle transition; it now samples after the
+transition and checks that no simulation runs until explicit resume.
