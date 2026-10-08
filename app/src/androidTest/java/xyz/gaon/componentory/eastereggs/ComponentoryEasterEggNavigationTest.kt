@@ -4,7 +4,9 @@ import android.os.SystemClock
 import android.view.WindowManager
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -13,11 +15,14 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import androidx.test.runner.lifecycle.Stage
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
+import xyz.gaon.componentory.survivor.SurvivorActivity
 
 @RunWith(AndroidJUnit4::class)
 class ComponentoryEasterEggNavigationTest {
@@ -46,10 +51,32 @@ class ComponentoryEasterEggNavigationTest {
     }
 
     @Test
-    fun recreationKeepsTheScreenOpenAndBackRestoresSettings() {
+    fun gameActivityRecreationKeepsTheLobbyOpenAndBackRestoresSettings() {
         openEgg()
-        compose.activityRule.scenario.recreate()
-        compose.onNodeWithTag("componentory_easter_egg").assertIsDisplayed()
+        compose.onNodeWithTag("game_weapon_SPINNER").performScrollTo().performClick()
+        lateinit var original: SurvivorActivity
+        compose.runOnUiThread {
+            original =
+                ActivityLifecycleMonitorRegistry.getInstance()
+                    .getActivitiesInStage(Stage.RESUMED)
+                    .filterIsInstance<SurvivorActivity>()
+                    .single()
+            original.recreate()
+        }
+        compose.waitUntil(10_000) {
+            var restored = false
+            compose.runOnUiThread {
+                restored =
+                    ActivityLifecycleMonitorRegistry.getInstance()
+                        .getActivitiesInStage(Stage.RESUMED)
+                        .filterIsInstance<SurvivorActivity>()
+                        .any { it !== original }
+            }
+            restored &&
+                runCatching { compose.onNodeWithTag("componentory_easter_egg").isDisplayed() }
+                    .getOrDefault(false)
+        }
+        compose.onNodeWithTag("game_selected").assertTextEquals("Spinner")
         pressBack()
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         compose.onNodeWithTag("nav_settings").assertIsSelected()

@@ -1,0 +1,15 @@
+<resources>
+    <string name="game_starting_weapon">初始武器</string>
+    <string name="game_run_goal">生存20分钟</string>
+    <string name="game_run_loop">躲避敌人，收集经验，通过每局的成长选择搭配强大的装备组合。</string>
+    <string name="game_mixed_resources">不同Android版本的真实资源会在同一局中作为武器、辅助装备、敌人和效果出现。</string>
+    <string name="game_weapon_button">按钮</string>
+    <string name="game_weapon_slider">滑块</string>
+    <string name="game_weapon_switch">开关</string>
+    <string name="game_weapon_spinner">旋转指示器</string>
+    <string name="game_button_hint">自动子弹 · 连发技能</string>
+    <string name="game_slider_hint">穿透子弹 · 冰冻技能</string>
+    <string name="game_switch_hint">范围攻击 · 护盾技能</string>
+    <string name="game_spinner_hint">环绕攻击 · 召唤技能</string>
+    <string name="game_opening">正在打开游戏…</string>
+</resources>

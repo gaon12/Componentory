@@ -15,8 +15,9 @@ class GameBattleUiTest {
 
     @Test
     fun thePauseMenuStopsTheBattleClock() {
+        compose.onNodeWithTag("game_start").performScrollTo()
         compose.mainClock.autoAdvance = false
-        compose.onNodeWithTag("game_start").performScrollTo().performClick()
+        compose.onNodeWithTag("game_start").performClick()
         compose.mainClock.advanceTimeBy(1200)
         compose.onNodeWithTag("game_pause").performClick()
         val before =
@@ -32,13 +33,16 @@ class GameBattleUiTest {
                 .config[androidx.compose.ui.semantics.SemanticsProperties.Text]
         assertEquals(before, after)
         compose.onNodeWithTag("game_abandon").performClick()
+        compose.mainClock.advanceTimeBy(32)
         compose.onNodeWithTag("game_return").performClick()
-        compose.onNodeWithTag("game_selected").assertIsDisplayed()
+        compose.mainClock.advanceTimeBy(32)
+        compose.mainClock.autoAdvance = true
+        compose.onNodeWithTag("game_selected").performScrollTo().assertIsDisplayed()
     }
 
     @Test
     fun holdingMovementAndTappingASkillUseTwoIndependentPointers() {
-        val engine = GameEngine.create(1, RunMode.NORMAL, seed = 123)
+        val engine = GameEngine.create(WeaponId.SWITCH, RunMode.NORMAL, seed = 123)
         compose.mainClock.autoAdvance = false
         compose.runOnUiThread {
             compose.activity.setContent {

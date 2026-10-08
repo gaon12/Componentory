@@ -1,62 +1,93 @@
 # Android resource survival game
 
-The hidden destination will host a landscape, twenty-minute survival game.
-All 37 Android API identities are selectable. Minor releases share source
-families. Version numbers never multiply damage, health, prices, or scores.
-Classic identities before Android 2.3 use the retained Android 2.3.7 controls.
-Android 4.4W uses retained Holo controls and does not invent a Watch Easter egg.
+## Game direction
 
-The game reuses AOSP control artwork and the pinned Easter egg ports.
-These resources are game artwork on the installed OS, not original OS captures.
-The resource manifest links each image or Drawable to its existing provenance.
-Generated cat and octopus sprites retain the imported drawing code's attribution.
+This is one landscape survival roguelite. Android releases supply artwork for
+items, enemies, bosses, and effects inside the same run. They are not selectable
+game levels, difficulties, or characters. The player uses the retained Neko
+artwork and chooses a starting weapon. Health and combat growth belong to the
+run and equipment, never to an Android version number.
+
+The internal API 1–37 catalog describes source coverage only. Minor releases
+share retained artwork families. Missing early files use retained Android 2.3.7
+controls; Android 4.4W uses Holo controls without inventing a Watch Easter egg.
+Keep those substitutions visible in source information.
+
+## Reference games and decisions
+
+The developer descriptions of [Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/),
+[Brotato](https://store.steampowered.com/app/1942280/Brotato/), and
+[Halls of Torment](https://store.steampowered.com/app/2218750/Halls_of_Torment/)
+were reviewed on October 8, 2026. Vampire Survivors centers on surviving crowds
+and choices that grow the build. Brotato uses automatic weapons, short runs,
+and equipment choices around enemy waves. Halls of Torment emphasizes new
+ability and item combinations during a run, with distinct boss patterns.
+These descriptions inform the combat loop; their art and code are not imported.
+
+Our loop is movement and dodging, enemy defeats, experience collection, three
+random growth choices, equipment synergy and evolution, then timed bosses.
+Each run builds its equipment anew. Local currency supports limited permanent
+progression between normal runs. Ranked runs share a seed and omit permanent
+power. The approved duration remains twenty minutes, with bosses at five,
+ten, fifteen, and twenty minutes.
+
+The first equipment set combines classic buttons and sliders, Holo switches
+and progress artwork, Jelly Bean, Neko, and the Oreo octopus. Different release
+families can appear as enemies together. Enemy strength is determined by its
+combat role and elapsed time; source release is visual metadata.
+
+## Source accuracy
+
+The game reuses AOSP control artwork and pinned Easter egg ports. These are
+artwork rendered on the installed OS, not historical OS captures. The resource
+manifest links originals, hashes, commits, paths, notices, and host adaptations.
+Generated cat and octopus sprites retain the imported drawing code attribution.
 Rasterization, scaling, rotation, and game animation are host adaptations.
+The original files remain separate and unchanged. Platform resources are not
+attributed to Compose or Material libraries.
 
-## Delivery and checks
+## Delivery and verification
 
-Deliver focused changes for the resource catalog, landscape entry, battle,
-upgrades and evolutions, waves and bosses, saves and progression, records, and
-Play Games integration. For each change, format and lint before running tests,
-then review and commit. Document actual results at each milestone.
+Deliver focused changes for sources, landscape entry, combat, growth and
+evolutions, waves and bosses, saves and progression, records, and Play Games.
+For each change, format and lint before tests, then review and commit. Document
+actual outcomes and do not treat compilation as an interaction test.
 
 Play Games project and leaderboard IDs have not been supplied. Offline play
-must remain usable. An unconfigured or mocked client is not a successful
-online score submission.
+must remain usable. An unconfigured or mocked client is not a successful online
+score submission. Prepare Console registration instructions and distinguish
+local adapter tests from future real submissions.
 
-### Resource catalog milestone
+### Earlier checkpoints
 
-Spotless apply/check and app debug lint passed in the original checkout before
-these unchanged files were copied into the isolated game worktree. Three
-standalone JUnit catalog tests passed, and the resource verifier checked thirty
-source files for twenty-five artwork entries. This is a resource and model check;
-no gameplay, rendering, or online behavior has been verified at this milestone.
+The catalog verifier checked thirty original source files for twenty-five
+artwork entries. Spotless apply/check and app debug lint passed. The basic
+combat checkpoint passed 189 JVM tests and compiled both debug APKs. Its version
+character selection was removed after the user clarified the intended resource
+roles. The fixed-tick simulation and cached sprites remain useful foundations.
 
-### Landscape lobby milestone
+The initial phone interaction run `20261008T140131104Z-6b89e216` passed twelve
+of fourteen tests. All registered original artwork drew nonempty cached sprites,
+and movement plus skill worked with independent pointers. Two checks failed:
+the manual Compose clock did not advance the result UI, and the old recreation test targeted the background caller instead of the
+foreground game Activity. A later run was stopped because the manual test clock
+blocked lobby scrolling. These failures are
+retained as evidence; fixes must pass fresh runs before they are called verified.
 
-The seventh Settings tap launches a private landscape Activity for result.
-The parent keeps its saved Settings page and scroll position. The lobby can
-select every API identity and displays the actual shared artwork source.
-Portrait windows show a rotation prompt and disable battle start actions.
+### Mixed resource combat checkpoint
 
-Spotless apply/check and app debug lint passed. The complete working-tree JVM
-suite passed 189 tests: 183 existing/catalog tests and six independent battle
-model tests that will be committed separately. Both debug APKs compiled.
-Physical artwork, launcher, and lobby interaction checks remain pending while
-another validation task reserves the devices. Compilation is not an interaction
-result. The new tests will run before final delivery.
+Android version character selection and API-based player fields have been removed.
+The lobby selects a starting weapon. One run draws enemies from multiple release
+families without using their release to compute power or collisions. Source
+coverage still includes all 37 API identities as metadata.
 
-### Basic battle milestone
-
-All identities now start a fixed-tick battle with equal base health and family
-weapons and skills. A native Canvas reuses the cached source sprites. Movement
-normalizes diagonal input, automatic attacks consume bounded projectile buffers,
-and skills share a twenty-second cooldown. Portrait, Back, and Activity pause
-stop the clock and clear held controls. The lobby details scroll on short windows.
-
-Spotless apply/check and app debug lint passed. The JVM suite passed 189 tests,
-including six combat cases for movement, deterministic ticks, automatic attacks,
-skills, ranked setup, and equal common upgrades across all identities. Both debug
-APKs compiled, and thirty source-file hashes still matched. Device artwork and
-interaction tests are ready but require the locked phone and tablet to be unlocked.
-No device interaction result is claimed here. Waves, growth, saves, and online
-submission are still subsequent milestones.
+Spotless apply/check and app debug lint passed before the JVM suite: 192 tests,
+zero failures. Both debug APKs compiled. Fourteen device tests passed on each
+physical device: phone `20261008T142759054Z-931590e8` and tablet
+`20261008T142840016Z-582eab07`. The scopes include original sprite rasterization
+and cache reuse, starting weapons, portrait constraints, independent pointers,
+paused time, seven taps and native toast countdown, foreground game recreation,
+and return to the saved Settings location. Run manifests retain exact binaries
+and environment snapshots. They are gameplay checks on the current OS, not
+historical appearance captures. Full waves, saves, and online scores are not
+verified by these entry and basic combat tests.

@@ -108,7 +108,7 @@ internal class GameEngine(val session: GameSession) {
 
     private fun useSkill() {
         s.skillTicks = 20 * TICKS_PER_SECOND
-        when (GameCatalog.character(s.api).family.skill) {
+        when (GameCatalog.skill(s.startingWeapon)) {
             SkillKind.BURST ->
                 repeat(12) { index ->
                     val angle = index * PI.toFloat() / 6
@@ -121,7 +121,7 @@ internal class GameEngine(val session: GameSession) {
                             sin(angle) * 500,
                             15f * s.damageMultiplier,
                             90,
-                            GameCatalog.character(s.api).family.art,
+                            GameCatalog.PLAYER_ART,
                             pierce = 2,
                         )
                     )
@@ -246,7 +246,8 @@ internal class GameEngine(val session: GameSession) {
                 else -> random() * HEIGHT
             }
         val health = 18f + s.seconds / 30f
-        s.enemies += GameEnemy(s.nextId++, x, y, health, health)
+        val source = GameFamily.entries[(random() * GameFamily.entries.size).toInt()]
+        s.enemies += GameEnemy(s.nextId++, x, y, health, health, source = source)
     }
 
     private fun closest(x: Float, y: Float) =
@@ -273,16 +274,15 @@ internal class GameEngine(val session: GameSession) {
         const val DROP_LIMIT = 256
 
         fun create(
-            api: Int,
+            startingWeapon: WeaponId,
             mode: RunMode,
             permanent: PermanentLevels = PermanentLevels(),
             unlocked: Set<SupportId> = setOf(SupportId.PROGRESS),
             seed: Long = System.nanoTime(),
         ): GameEngine {
-            GameCatalog.character(api)
             return GameEngine(
                 GameSession(
-                    api = api,
+                    startingWeapon = startingWeapon,
                     mode = mode,
                     seed = if (mode == RunMode.RANKED) GameCatalog.RANKED_SEED else seed,
                     permanent = if (mode == RunMode.RANKED) PermanentLevels() else permanent,

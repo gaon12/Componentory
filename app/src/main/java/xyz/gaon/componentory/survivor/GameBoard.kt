@@ -44,17 +44,7 @@ private class BoardPainter(private val assets: GameAssets) {
                     EnemyKind.ELITE -> 72f
                     EnemyKind.BOSS -> 120f
                 }
-            sprite(
-                canvas,
-                when (enemy.kind) {
-                    EnemyKind.NORMAL -> "holo"
-                    EnemyKind.ELITE -> "gingerbread"
-                    EnemyKind.BOSS -> "kitkat"
-                },
-                enemy.x,
-                enemy.y,
-                size,
-            )
+            sprite(canvas, enemy.source.art, enemy.x, enemy.y, size)
             paint.color = 0xffed7777.toInt()
             canvas.drawRect(
                 enemy.x - size / 2,
@@ -76,7 +66,7 @@ private class BoardPainter(private val assets: GameAssets) {
             )
         }
         if (s.shieldTicks > 0) sprite(canvas, "switch", s.x, s.y, 120f, tick * 0.2f)
-        sprite(canvas, GameCatalog.character(s.api).family.art, s.x, s.y, 72f)
+        sprite(canvas, GameCatalog.PLAYER_ART, s.x, s.y, 72f)
         if (s.freezeTicks > 0) {
             paint.color = 0x2266ccff
             canvas.drawRect(0f, 0f, 1600f, 900f, paint)

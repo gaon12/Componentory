@@ -18,7 +18,7 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit) {
     val battle = engine
     val result = finished
     LaunchedEffect(assets) {
-        (GameCatalog.characters.map { it.family.art } +
+        (GameCatalog.releases.map { it.family.art } +
                 listOf(
                     "button",
                     "slider",
@@ -48,7 +48,7 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit) {
                         ),
                         style = MaterialTheme.typography.headlineMedium,
                     )
-                    Text(GameCatalog.character(result.api).title)
+                    Text(weaponName(result.startingWeapon))
                     Text(
                         stringResource(
                             R.string.game_result_counts,
@@ -73,10 +73,10 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit) {
                 GameLobby(
                     assets,
                     onClose,
-                    onStart = { character, ranked ->
+                    onStart = { weapon, ranked ->
                         engine =
                             GameEngine.create(
-                                character.api,
+                                weapon,
                                 if (ranked) RunMode.RANKED else RunMode.NORMAL,
                             )
                     },

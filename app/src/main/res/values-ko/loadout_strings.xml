@@ -1,0 +1,15 @@
+<resources>
+    <string name="game_starting_weapon">시작 무기</string>
+    <string name="game_run_goal">20분 동안 살아남기</string>
+    <string name="game_run_loop">적을 피하고 경험치를 모아, 매 판 나오는 성장 선택으로 강력한 장비 조합을 만드세요.</string>
+    <string name="game_mixed_resources">여러 Android 버전의 실제 리소스가 무기·보조 장비·적·효과로 한 판에 함께 등장합니다.</string>
+    <string name="game_weapon_button">버튼</string>
+    <string name="game_weapon_slider">슬라이더</string>
+    <string name="game_weapon_switch">스위치</string>
+    <string name="game_weapon_spinner">회전 표시기</string>
+    <string name="game_button_hint">자동 탄환 · 연속 발사 스킬</string>
+    <string name="game_slider_hint">관통 탄환 · 빙결 스킬</string>
+    <string name="game_switch_hint">주변 공격 · 보호막 스킬</string>
+    <string name="game_spinner_hint">회전 공격 · 소환 스킬</string>
+    <string name="game_opening">게임 여는 중…</string>
+</resources>

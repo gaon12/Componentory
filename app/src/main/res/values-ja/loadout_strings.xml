@@ -1,0 +1,15 @@
+<resources>
+    <string name="game_starting_weapon">開始武器</string>
+    <string name="game_run_goal">20分間生き残る</string>
+    <string name="game_run_loop">敵を避け、経験値を集め、毎回の成長選択で強力な装備の組み合わせを作りましょう。</string>
+    <string name="game_mixed_resources">異なるAndroidバージョンの実際のリソースが武器・補助装備・敵・エフェクトとして同じプレイに登場します。</string>
+    <string name="game_weapon_button">ボタン</string>
+    <string name="game_weapon_slider">スライダー</string>
+    <string name="game_weapon_switch">スイッチ</string>
+    <string name="game_weapon_spinner">回転表示</string>
+    <string name="game_button_hint">自動弾 · 連射スキル</string>
+    <string name="game_slider_hint">貫通弾 · 凍結スキル</string>
+    <string name="game_switch_hint">範囲攻撃 · シールドスキル</string>
+    <string name="game_spinner_hint">回転攻撃 · 召喚スキル</string>
+    <string name="game_opening">ゲームを開いています…</string>
+</resources>

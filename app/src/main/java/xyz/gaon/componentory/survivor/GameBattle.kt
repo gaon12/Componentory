@@ -105,7 +105,7 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                         ) {
                             Text(
                                 if (s.skillTicks == 0)
-                                    skillName(GameCatalog.character(s.api).family.skill)
+                                    skillName(GameCatalog.skill(s.startingWeapon))
                                 else
                                     stringResource(
                                         R.string.game_skill_wait,

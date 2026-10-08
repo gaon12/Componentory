@@ -24,6 +24,6 @@ class GameArtworkTest {
             bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
             assertTrue("Empty original artwork: " + key, pixels.any { it ushr 24 != 0 })
         }
-        assertTrue(GameCatalog.characters.all { it.family.art in keys })
+        assertTrue(GameCatalog.releases.all { it.family.art in keys })
     }
 }

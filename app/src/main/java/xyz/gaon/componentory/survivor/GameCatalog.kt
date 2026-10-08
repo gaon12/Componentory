@@ -21,35 +21,30 @@ internal enum class SkillKind {
     SUMMON,
 }
 
-internal enum class GameFamily(
-    val art: String,
-    val sourceRelease: String,
-    val weapon: WeaponId,
-    val skill: SkillKind,
-) {
-    CLASSIC("classic", "Android 2.3.7", WeaponId.BUTTON, SkillKind.SHIELD),
-    GINGERBREAD("gingerbread", "Android 2.3", WeaponId.BUTTON, SkillKind.BURST),
-    HONEYCOMB("honeycomb", "Android 3.0", WeaponId.SPINNER, SkillKind.SUMMON),
-    ICE_CREAM("icecream", "Android 4.0", WeaponId.SLIDER, SkillKind.FREEZE),
-    JELLY_BEAN("jellybean", "Android 4.1", WeaponId.BUTTON, SkillKind.BURST),
-    KITKAT("kitkat", "Android 4.4", WeaponId.SPINNER, SkillKind.SHIELD),
-    WATCH("holo", "Android 4.4.4 controls", WeaponId.SLIDER, SkillKind.FREEZE),
-    LOLLIPOP("lollipop", "Android 5.0", WeaponId.BUTTON, SkillKind.BURST),
-    MARSHMALLOW("marshmallow", "Android 6.0", WeaponId.BUTTON, SkillKind.SHIELD),
-    NOUGAT("neko", "Android 7.0", WeaponId.SWITCH, SkillKind.SUMMON),
-    OREO("octopus", "Android 8.0", WeaponId.SPINNER, SkillKind.FREEZE),
-    PIE("pie", "Android 9", WeaponId.SLIDER, SkillKind.BURST),
-    Q("q", "Android 10", WeaponId.SLIDER, SkillKind.SHIELD),
-    R("r", "Android 11", WeaponId.SWITCH, SkillKind.SUMMON),
-    S("s", "Android 12", WeaponId.SPINNER, SkillKind.FREEZE),
-    T("t", "Android 13", WeaponId.SPINNER, SkillKind.BURST),
-    U("u", "Android 14", WeaponId.SLIDER, SkillKind.FREEZE),
-    V("v", "Android 15", WeaponId.SLIDER, SkillKind.BURST),
-    BAKLAVA("baklava", "Android 16", WeaponId.SLIDER, SkillKind.SHIELD),
-    CINNAMON("cinnamon", "Android 17", WeaponId.SLIDER, SkillKind.SUMMON),
+internal enum class GameFamily(val art: String, val sourceRelease: String) {
+    CLASSIC("classic", "Android 2.3.7"),
+    GINGERBREAD("gingerbread", "Android 2.3"),
+    HONEYCOMB("honeycomb", "Android 3.0"),
+    ICE_CREAM("icecream", "Android 4.0"),
+    JELLY_BEAN("jellybean", "Android 4.1"),
+    KITKAT("kitkat", "Android 4.4"),
+    WATCH("holo", "Android 4.4.4 controls"),
+    LOLLIPOP("lollipop", "Android 5.0"),
+    MARSHMALLOW("marshmallow", "Android 6.0"),
+    NOUGAT("neko", "Android 7.0"),
+    OREO("octopus", "Android 8.0"),
+    PIE("pie", "Android 9"),
+    Q("q", "Android 10"),
+    R("r", "Android 11"),
+    S("s", "Android 12"),
+    T("t", "Android 13"),
+    U("u", "Android 14"),
+    V("v", "Android 15"),
+    BAKLAVA("baklava", "Android 16"),
+    CINNAMON("cinnamon", "Android 17"),
 }
 
-internal data class GameCharacter(val api: Int, val version: String, val family: GameFamily) {
+internal data class GameResourceRelease(val api: Int, val version: String, val family: GameFamily) {
     val id
         get() = "api-" + api
 
@@ -64,7 +59,7 @@ internal object GameCatalog {
     const val SLOT_LIMIT = 4
     const val MAX_LEVEL = 5
 
-    val characters: List<GameCharacter> =
+    val releases: List<GameResourceRelease> =
         listOf(
                 "1.0",
                 "1.1",
@@ -129,10 +124,30 @@ internal object GameCatalog {
                         36 -> GameFamily.BAKLAVA
                         else -> GameFamily.CINNAMON
                     }
-                GameCharacter(api, version, family)
+                GameResourceRelease(api, version, family)
             }
 
-    fun character(api: Int) = characters.first { it.api == api }
+    fun release(api: Int) = releases.first { it.api == api }
+
+    const val PLAYER_ART = "neko"
+
+    fun weaponArt(id: WeaponId) = id.name.lowercase(java.util.Locale.ROOT)
+
+    fun weaponSource(id: WeaponId) =
+        when (id) {
+            WeaponId.BUTTON,
+            WeaponId.SLIDER -> "Android 2.3.7"
+            WeaponId.SWITCH,
+            WeaponId.SPINNER -> "Android 4.4.4"
+        }
+
+    fun skill(id: WeaponId) =
+        when (id) {
+            WeaponId.BUTTON -> SkillKind.BURST
+            WeaponId.SLIDER -> SkillKind.FREEZE
+            WeaponId.SWITCH -> SkillKind.SHIELD
+            WeaponId.SPINNER -> SkillKind.SUMMON
+        }
 
     fun evolutionSupport(weapon: WeaponId) = SupportId.entries[weapon.ordinal]
 }

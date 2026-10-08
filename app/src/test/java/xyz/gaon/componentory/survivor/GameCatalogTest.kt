@@ -5,18 +5,18 @@ import org.junit.Test
 
 class GameCatalogTest {
     @Test
-    fun everyApiHasAPlayableIdentityAndSource() {
-        assertEquals((1..37).toList(), GameCatalog.characters.map { it.api })
-        assertEquals(37, GameCatalog.characters.map { it.id }.toSet().size)
-        assertTrue(GameCatalog.characters.all { it.family.sourceRelease.isNotBlank() })
-        assertEquals("17", GameCatalog.character(37).version)
+    fun everyApiHasAnArtworkSourceWithoutBeingAGameDifficulty() {
+        assertEquals((1..37).toList(), GameCatalog.releases.map { it.api })
+        assertEquals(37, GameCatalog.releases.map { it.id }.toSet().size)
+        assertTrue(GameCatalog.releases.all { it.family.sourceRelease.isNotBlank() })
+        assertEquals("17", GameCatalog.release(37).version)
     }
 
     @Test
     fun minorReleasesShareTheirActualFamily() {
-        assertEquals(GameCatalog.character(11).family, GameCatalog.character(13).family)
-        assertEquals(GameCatalog.character(31).family, GameCatalog.character(32).family)
-        assertEquals(GameFamily.WATCH, GameCatalog.character(20).family)
+        assertEquals(GameCatalog.release(11).family, GameCatalog.release(13).family)
+        assertEquals(GameCatalog.release(31).family, GameCatalog.release(32).family)
+        assertEquals(GameFamily.WATCH, GameCatalog.release(20).family)
     }
 
     @Test

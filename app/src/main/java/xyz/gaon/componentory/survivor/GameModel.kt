@@ -41,6 +41,7 @@ internal data class GameEnemy(
     val kind: EnemyKind = EnemyKind.NORMAL,
     val bossStage: Int = 0,
     var attackTicks: Int = 180,
+    val source: GameFamily = GameFamily.JELLY_BEAN,
 )
 
 internal data class GameShot(
@@ -74,7 +75,7 @@ internal data class GameWeapon(
 
 internal class GameSession(
     val id: String = UUID.randomUUID().toString(),
-    val api: Int,
+    val startingWeapon: WeaponId,
     val mode: RunMode,
     val seed: Long,
     val permanent: PermanentLevels,
@@ -100,7 +101,7 @@ internal class GameSession(
     var bossKills = 0
     var bonusCurrency = 0
     var outcome = RunOutcome.ACTIVE
-    val weapons = mutableListOf(GameWeapon(GameCatalog.character(api).family.weapon))
+    val weapons = mutableListOf(GameWeapon(startingWeapon))
     val supports = mutableMapOf<SupportId, Int>()
     val enemies = mutableListOf<GameEnemy>()
     val shots = mutableListOf<GameShot>()

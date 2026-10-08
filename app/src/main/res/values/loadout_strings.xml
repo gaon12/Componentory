@@ -1,0 +1,15 @@
+<resources>
+    <string name="game_starting_weapon">Starting weapon</string>
+    <string name="game_run_goal">Survive for 20 minutes</string>
+    <string name="game_run_loop">Dodge enemies, collect experience, and build a powerful equipment combination during each run.</string>
+    <string name="game_mixed_resources">Android artwork from different releases appears together as weapons, support equipment, enemies, and effects.</string>
+    <string name="game_weapon_button">Button</string>
+    <string name="game_weapon_slider">Slider</string>
+    <string name="game_weapon_switch">Switch</string>
+    <string name="game_weapon_spinner">Spinner</string>
+    <string name="game_button_hint">Automatic bullets · Burst skill</string>
+    <string name="game_slider_hint">Piercing shots · Freeze skill</string>
+    <string name="game_switch_hint">Area pulse · Shield skill</string>
+    <string name="game_spinner_hint">Orbiting attacks · Summon skill</string>
+    <string name="game_opening">Opening game…</string>
+</resources>

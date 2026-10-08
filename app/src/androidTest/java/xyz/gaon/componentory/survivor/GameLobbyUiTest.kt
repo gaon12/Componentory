@@ -17,12 +17,15 @@ class GameLobbyUiTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun lastVersionCanBeSelectedWithoutUnlocking() {
+    fun startingWeaponsCanBeSelectedWithoutAnAndroidVersionMenu() {
         showLobby()
-        compose.onNodeWithTag("game_characters").performScrollToIndex(36)
-        compose.onNodeWithTag("game_character_37").performClick().assertIsSelected()
-        compose.onNodeWithTag("game_selected").assertTextEquals("Android 17")
-        compose.activityRule.scenario.recreate()
+        compose
+            .onNodeWithTag("game_weapon_SPINNER")
+            .performScrollTo()
+            .performClick()
+            .assertIsSelected()
+        compose.onNodeWithTag("game_selected").assertTextEquals("Spinner")
+        compose.onNodeWithTag("game_characters").assertDoesNotExist()
     }
 
     @Test
