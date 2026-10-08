@@ -746,7 +746,7 @@
     <string name="egg_port_badge">AOSP コードの移植</string>
     <string name="egg_port_note">AOSP 由来のゲームと隠し画面を含みます。現在の OS 上で動作する移植版です。過去の OS の実機キャプチャはありません。</string>
     <string name="egg_shared_versions">共通のソース系統: %1$s</string>
-    <string name="egg_open_logo">ロゴと元のジェスチャーを開く</string>
+    <string name="egg_open_logo">イースターエッグを開く</string>
     <string name="egg_requires_api">API %1$d 以降が必要</string>
     <string name="egg_action_unavailable">この端末では利用できません。メーカーがシステムの選択画面を提供していない場合があります。</string>
     <string name="egg_integrations_note">Android との連携は任意です。必要な機能を有効にして Android 側で選択してください。ここで各連携を無効にできます。</string>
@@ -785,22 +785,22 @@
     <string name="egg_shrug">隠された肩すくめ絵文字</string>
     <string name="egg_help_g">ゾンビの絵と作者表記を保持しています。この版には別のミニゲームはありません。</string>
     <string name="egg_help_h">蜂の絵と反応を保持しています。この版には別のミニゲームはありません。</string>
-    <string name="egg_help_i">ロボットを長押しして飛ぶ Nyandroid を表示します。隠し画面を直接開くこともできます。</string>
+    <string name="egg_help_i">ロボットを長押しすると、飛ぶNyandroidの画面が開きます。</string>
     <string name="egg_help_j">豆をタップして顔を表示し、長押しで動かせる豆の遊び場へ進みます。スクリーンセーバーも含みます。</string>
-    <string name="egg_help_k">K を回してロゴを長押しするとデザートのモザイクが開きます。スクリーンセーバーも含みます。</string>
-    <string name="egg_help_l">ロゴのジェスチャーとタップで飛んで障害物を避けるゲーム全体を含みます。</string>
-    <string name="egg_help_m">マルチプレイの飛行ゲーム全体、プレイヤー操作、開発者プレビュー画面を含みます。</string>
+    <string name="egg_help_k">Kを6回タップしてからAndroidロゴを長押しすると、デザートのモザイクが開きます。スクリーンセーバーも含まれます。</string>
+    <string name="egg_help_l">ロリポップを5回タップしてから長押しすると、タップで飛ぶ障害物ゲームが開きます。</string>
+    <string name="egg_help_m">マシュマロを5回タップしてから長押しすると、複数人の飛行ゲームが開きます。開発者プレビューも含まれます。</string>
     <string name="egg_help_n">猫のタイルを有効にし、クイック設定で餌を選び、訪れる猫を集めます。名前変更、削除、保存、共有も含みます。</string>
-    <string name="egg_help_o">O をタップして長押しするとドラッグできるタコへ進みます。Android 8.1 は別のロゴ画面を使います。</string>
-    <string name="egg_help_p">動く P と隠されたお絵かき画面を含みます。お絵かきは直接開くこともできます。</string>
-    <string name="egg_help_q">ロゴ文字を並べてアイコンのノノグラムを開きます。パズル全体のエンジンを保持し、アイコンは現在の OS から取得します。</string>
+    <string name="egg_help_o">Oを5回タップしてから長押しすると、ドラッグできるタコが現れます。Android 8.1は別のロゴから始まります。</string>
+    <string name="egg_help_p">動くPの画面を7回タップすると、隠れた描画画面が開きます。</string>
+    <string name="egg_help_q">1をダブルタップし、2回目を長押しして回転させ、0へドラッグしてQにします。揃えたQを7回タップするとノノグラムが開きます。アイコンは現在のOSによります。</string>
     <string name="egg_help_r">ダイヤルを回して猫を解除します。デバイスコントロールを有効にして餌、水、おもちゃを与え、コレクションを管理します。</string>
     <string name="egg_help_s">時計を12時に合わせます。色の泡、パレット、ホームウィジェット、猫のコントロールを含みます。動的な色は現在の壁紙に従います。</string>
     <string name="egg_help_t">時計を13時に合わせ、泡を長押しして絵文字を切り替えます。パレット、ウィジェット、猫のコントロール、ベータ画面を含みます。絵文字は現在のシステムフォントによります。</string>
     <string name="egg_help_u">ロゴを長押しして宇宙シミュレーション全体を開きます。ドラッグで操縦し、惑星を探査して着陸します。</string>
-    <string name="egg_help_v">宇宙探査、自動操縦、宇宙スクリーンセーバーを含みます。システムの動作は現在の OS に従います。</string>
-    <string name="egg_help_b">宇宙探査、自動操縦、スクリーンセーバー、任意のライブ進行通知を含みます。拡張通知には Android 16 以降が必要です。</string>
-    <string name="egg_help_c">Android 17 のロゴ、宇宙ゲーム、自動操縦、スクリーンセーバーを含みます。拡張進行通知には API 37 が必要です。宇宙探査は対応する旧端末でも動作します。</string>
+    <string name="egg_help_v">ロゴを約6秒長押しすると、宇宙ゲームが開きます。宇宙探査、自動操縦、宇宙スクリーンセーバーを含みます。システムの動作は現在の OS に従います。</string>
+    <string name="egg_help_b">ロゴを約6秒長押しすると、宇宙ゲームが開きます。宇宙探査、自動操縦、スクリーンセーバー、任意のライブ進行通知を含みます。拡張通知には Android 16 以降が必要です。</string>
+    <string name="egg_help_c">17個の点を一筆でつなぎ、開始点へ戻ります。現れたロゴを約6秒長押しすると宇宙ゲームが開きます。自動操縦とスクリーンセーバーも含まれます。拡張進捗通知にはAPI 37が必要ですが、宇宙探索は以前の対応端末でも動作します。</string>
     <string name="componentory_egg_title">イースターエッグ</string>
     <string name="componentory_egg_welcome">秘密の実験室を見つけました。</string>
     <plurals name="componentory_egg_countdown">
@@ -809,4 +809,5 @@
     <string name="source_notices_search_hint">ライセンスを検索</string>
     <string name="source_notices_empty">検索に一致するライセンスがありません。</string>
     <string name="source_notices_back">ライセンス一覧に戻る</string>
+    <string name="egg_additional_screens">追加の画面</string>
 </resources>

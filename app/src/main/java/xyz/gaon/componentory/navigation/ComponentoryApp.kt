@@ -72,6 +72,8 @@ import xyz.gaon.componentory.catalog.ComponentListScreen
 import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.compare.ComparisonEntry
 import xyz.gaon.componentory.eastereggs.ComponentoryEasterEggScreen
+import xyz.gaon.componentory.eastereggs.EasterEggDetails
+import xyz.gaon.componentory.eastereggs.easterEggReleases
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.onboarding.IntroductionDialog
@@ -155,6 +157,7 @@ private fun ComponentoryNavigation(
         detailOriginMode = detailOriginMode.current()
     }
     var detail by rememberSaveable { mutableStateOf<LabComponent?>(null) }
+    var selectedEggId by rememberSaveable { mutableStateOf<String?>(null) }
     var detailFamily by rememberSaveable { mutableStateOf(DesignFamily.CLASSIC) }
     var detailProviders by rememberSaveable { mutableStateOf<Map<String, String>>(emptyMap()) }
     var comparison by rememberSaveable { mutableStateOf(LabComponent.BUTTON) }
@@ -190,9 +193,13 @@ private fun ComponentoryNavigation(
         ComponentoryEasterEggScreen { easterEggOpen = false }
         return
     }
-    val inDetail = tab == AppTab.LIST && detail != null && catalogMode == CatalogMode.SAMPLES
+    val inDetail =
+        tab == AppTab.LIST &&
+            (detail != null || selectedEggId != null) &&
+            catalogMode == CatalogMode.SAMPLES
     val closeDetail = {
         detail = null
+        selectedEggId = null
         catalogMode = detailOriginMode
     }
     val selectTab: (AppTab) -> Unit = { destination ->
@@ -204,6 +211,7 @@ private fun ComponentoryNavigation(
             when (destination) {
                 AppTab.LIST -> {
                     detail = null
+                    selectedEggId = null
                     catalogMode = CatalogMode.SAMPLES
                     detailOriginMode = CatalogMode.SAMPLES
                 }
@@ -288,33 +296,35 @@ private fun ComponentoryNavigation(
                                 )
                             }
                             Spacer(Modifier.weight(1f))
-                            TextButton(
-                                onClick = {
-                                    val entry = detailExporter?.invoke()
-                                    if (
-                                        entry == null ||
-                                            entry.left.component != detail ||
-                                            entry.left.sourceFamily != detailFamily
-                                    ) {
-                                        return@TextButton
-                                    }
-                                    comparisonEntry = entry
-                                    comparisonGeneration++
-                                    savedScreens.removeState(screenKey(AppTab.COMPARE))
-                                    comparison = requireNotNull(detail)
-                                    left = detailFamily
-                                    if (right == left) {
-                                        right =
-                                            if (left == DesignFamily.MATERIAL3) DesignFamily.CLASSIC
-                                            else DesignFamily.MATERIAL3
-                                    }
-                                    tab = AppTab.COMPARE
-                                },
-                                modifier = Modifier.testTag("detail_compare"),
-                                enabled = detailExporter != null,
-                            ) {
-                                Text(stringResource(R.string.compare_action))
-                            }
+                            if (detail != null)
+                                TextButton(
+                                    onClick = {
+                                        val entry = detailExporter?.invoke()
+                                        if (
+                                            entry == null ||
+                                                entry.left.component != detail ||
+                                                entry.left.sourceFamily != detailFamily
+                                        ) {
+                                            return@TextButton
+                                        }
+                                        comparisonEntry = entry
+                                        comparisonGeneration++
+                                        savedScreens.removeState(screenKey(AppTab.COMPARE))
+                                        comparison = requireNotNull(detail)
+                                        left = detailFamily
+                                        if (right == left) {
+                                            right =
+                                                if (left == DesignFamily.MATERIAL3)
+                                                    DesignFamily.CLASSIC
+                                                else DesignFamily.MATERIAL3
+                                        }
+                                        tab = AppTab.COMPARE
+                                    },
+                                    modifier = Modifier.testTag("detail_compare"),
+                                    enabled = detailExporter != null,
+                                ) {
+                                    Text(stringResource(R.string.compare_action))
+                                }
                         }
                 },
                 bottomBar = {
@@ -390,6 +400,13 @@ private fun ComponentoryNavigation(
                                     detailOriginMode = catalogMode
                                     catalogMode = CatalogMode.SAMPLES
                                     detail = component
+                                    selectedEggId = null
+                                }
+                                val openEgg: (String) -> Unit = { id ->
+                                    detail = null
+                                    selectedEggId = id
+                                    detailOriginMode = catalogMode
+                                    catalogMode = CatalogMode.SAMPLES
                                 }
                                 // Move the same composition so saveable keys and native view
                                 // state
@@ -403,6 +420,8 @@ private fun ComponentoryNavigation(
                                                     { catalogMode = it },
                                                     detail,
                                                     openComponent,
+                                                    selectedEggId,
+                                                    openEgg,
                                                 )
                                             }
                                         }
@@ -411,7 +430,15 @@ private fun ComponentoryNavigation(
                                     remember(catalogScreens) {
                                         movableContentOf {
                                             val selected = detail
-                                            if (selected != null) {
+                                            val egg =
+                                                easterEggReleases.find { it.id == selectedEggId }
+                                            if (egg != null) {
+                                                catalogScreens.SaveableStateProvider(
+                                                    "egg_${egg.id}"
+                                                ) {
+                                                    EasterEggDetails(egg)
+                                                }
+                                            } else if (selected != null) {
                                                 catalogScreens.SaveableStateProvider(
                                                     selected.name
                                                 ) {

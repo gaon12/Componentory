@@ -14,6 +14,7 @@ import android.os.ParcelFileDescriptor
 import android.os.SystemClock
 import android.provider.Settings
 import android.view.InputDevice
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
@@ -23,6 +24,8 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.CompoundButton
 import android.widget.FrameLayout
 import android.widget.GridLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleCallback
@@ -44,6 +47,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.eastereggs.port.R as EggR
+import xyz.gaon.componentory.onboarding.OnboardingPreferences
 
 // Current-OS runtime and input coverage; these are not original historical captures.
 @RunWith(AndroidJUnit4::class)
@@ -126,6 +130,314 @@ class EasterEggGamesTest {
             if (originalAnimatorScale == null) "settings delete global animator_duration_scale"
             else "settings put global animator_duration_scale $originalAnimatorScale"
         )
+    }
+
+    @Test
+    fun originalClassicGesturesContinueIntoGamesAndOneBackReturnsToTheirDetailPage() {
+        listOf("4.0", "4.1", "4.4", "5.0", "6.0", "8.0", "8.1", "9").forEach { version ->
+            withCatalogLogo(version) { logo ->
+                val taskId = logo.taskId
+                val release = easterEggReleases.single { it.version == version }
+                val stage = release.family.stages.first()
+                val game =
+                    awaitResumed(stage.className, startOnMain = false) {
+                        val center = center(logo)
+                        when (release.family.module) {
+                            "IceCreamSandwich" -> hold(center, 3_000)
+                            "JellyBean" -> {
+                                tapPoint(center)
+                                hold(center, 1_000)
+                            }
+                            "KitKat" -> {
+                                repeat(6) { tapPoint(center) }
+                                SystemClock.sleep(2_000)
+                                hold(center, 1_000)
+                            }
+                            "Pie" -> repeat(7) { tapPoint(center) }
+                            else -> {
+                                repeat(5) { tapPoint(center) }
+                                hold(center, 1_000)
+                            }
+                        }
+                    }
+                verifyGameBack(release, logo, game, taskId)
+            }
+        }
+    }
+
+    @Test
+    fun spaceHoldGesturesContinueIntoAllFourGamesAndOneBackReturnsToTheirDetailPage() {
+        listOf("14", "15", "16", "17").forEach { version ->
+            withCatalogLogo(version) { logo ->
+                val taskId = logo.taskId
+                val release = easterEggReleases.single { it.version == version }
+                val game =
+                    awaitResumed(release.family.stages.first().className, startOnMain = false) {
+                        if (version == "17") drawSeventeenPointStar(logo)
+                        hold(center(logo), 6_500)
+                    }
+                verifyGameBack(release, logo, game, taskId)
+            }
+        }
+    }
+
+    @Test
+    fun rotatingAndJoiningTheAndroidTenLogoUnlocksItsPuzzleAndBackReturnsToDetails() {
+        withCatalogLogo("10") { logo ->
+            val taskId = logo.taskId
+            val release = easterEggReleases.single { it.version == "10" }
+            val game =
+                awaitResumed(release.family.stages.first().className, startOnMain = false) {
+                    var point = PointF()
+                    instrumentation.runOnMainSync {
+                        val bounds = Rect()
+                        assertTrue(
+                            logo.findViewById<View>(EggR.id.one).getGlobalVisibleRect(bounds)
+                        )
+                        point = PointF(bounds.exactCenterX(), bounds.exactCenterY())
+                    }
+                    tapPoint(point)
+                    val downTime = SystemClock.uptimeMillis()
+                    pointer(MotionEvent.ACTION_DOWN, point, downTime)
+                    try {
+                        val deadline = SystemClock.uptimeMillis() + 10_000
+                        var aligned = false
+                        while (!aligned && SystemClock.uptimeMillis() < deadline) {
+                            instrumentation.runOnMainSync {
+                                aligned =
+                                    kotlin.math.abs(
+                                        logo.findViewById<View>(EggR.id.one).rotation % 360 - 315
+                                    ) < 4
+                            }
+                            if (!aligned) SystemClock.sleep(10)
+                        }
+                        assertTrue("The double-tap hold must rotate the one into a Q", aligned)
+                    } finally {
+                        pointer(MotionEvent.ACTION_UP, point, downTime)
+                    }
+                    var target = PointF()
+                    instrumentation.runOnMainSync {
+                        val one = logo.findViewById<View>(EggR.id.one)
+                        val zero = logo.findViewById<View>(EggR.id.zero)
+                        val bounds = Rect()
+                        assertTrue(one.getGlobalVisibleRect(bounds))
+                        point = PointF(bounds.exactCenterX(), bounds.exactCenterY())
+                        target =
+                            PointF(
+                                point.x + zero.x + zero.width * .2f - one.x,
+                                point.y + zero.y + zero.width * .3f - one.y,
+                            )
+                    }
+                    gesture(point, target)
+                    // Each distinct release on the aligned Q advances the original seven-click
+                    // unlock.
+                    repeat(6) {
+                        SystemClock.sleep(400)
+                        tapPoint(target)
+                    }
+                }
+            verifyGameBack(release, logo, game, taskId)
+        }
+    }
+
+    private fun withCatalogLogo(version: String, action: (Activity) -> Unit) {
+        OnboardingPreferences(context).saveCompleted(true)
+        val release = easterEggReleases.single { it.version == version }
+        val host =
+            awaitResumed(MainActivity::class.java.name) {
+                context.startActivity(
+                    Intent(context, MainActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+            }
+        var logo: Activity? = null
+        try {
+            instrumentation.runOnMainSync {
+                host.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+            waitFor("Catalog search") { taggedNode("component_search") != null }
+            clickTag("component_search")
+            val search = checkNotNull(taggedNode("component_search"))
+            assertTrue(
+                search.performAction(
+                    AccessibilityNodeInfo.ACTION_SET_TEXT,
+                    Bundle().apply {
+                        putCharSequence(
+                            AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
+                            release.title,
+                        )
+                    },
+                )
+            )
+            waitFor("Search keyboard visible") { keyboardVisible(host) }
+            pressBackKey()
+            waitFor("Search keyboard dismissed") { !keyboardVisible(host) }
+            clickTag("egg_${release.id}")
+            waitFor("Normal egg detail") { taggedNode("egg_logo_${release.id}") != null }
+            val launchedLogo =
+                awaitResumed(release.logo.className, startOnMain = false) {
+                    clickTag("egg_logo_${release.id}")
+                }
+            logo = launchedLogo
+            assertEquals("Logo must share the host task", host.taskId, launchedLogo.taskId)
+            instrumentation.runOnMainSync {
+                launchedLogo.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
+            waitFor("Focused original logo") {
+                var focused = false
+                instrumentation.runOnMainSync {
+                    focused = launchedLogo.window.decorView.hasWindowFocus()
+                }
+                focused
+            }
+            SystemClock.sleep(2_000)
+            action(launchedLogo)
+        } finally {
+            logo?.let { GameScreen(it).close() }
+            GameScreen(host).close()
+        }
+    }
+
+    private fun keyboardVisible(activity: Activity): Boolean {
+        var visible = false
+        instrumentation.runOnMainSync {
+            visible =
+                ViewCompat.getRootWindowInsets(activity.window.decorView)
+                    ?.isVisible(WindowInsetsCompat.Type.ime()) == true
+        }
+        return visible
+    }
+
+    private fun drawSeventeenPointStar(activity: Activity) {
+        lateinit var bounds: Rect
+        instrumentation.runOnMainSync {
+            val content = activity.findViewById<FrameLayout>(android.R.id.content)
+            bounds = visibleBounds((content.getChildAt(0) as FrameLayout).getChildAt(0))
+        }
+        val radius = minOf(bounds.width(), bounds.height()) * .45f
+        val points =
+            (0..17).map { step ->
+                val angle = -Math.PI / 2 + 2 * Math.PI * ((step * 8) % 17) / 17
+                PointF(
+                    bounds.exactCenterX() + kotlin.math.cos(angle).toFloat() * radius,
+                    bounds.exactCenterY() + kotlin.math.sin(angle).toFloat() * radius,
+                )
+            }
+        val down = SystemClock.uptimeMillis()
+        pointer(MotionEvent.ACTION_DOWN, points.first(), down)
+        try {
+            points.drop(1).forEach { point ->
+                SystemClock.sleep(60)
+                pointer(MotionEvent.ACTION_MOVE, point, down)
+            }
+        } finally {
+            pointer(MotionEvent.ACTION_UP, points.last(), down)
+        }
+        waitFor("Completed star reveals the Android 17 logo") {
+            var visible = false
+            instrumentation.runOnMainSync {
+                val content = activity.findViewById<FrameLayout>(android.R.id.content)
+                visible =
+                    (content.getChildAt(0) as FrameLayout).getChildAt(1).visibility == View.VISIBLE
+            }
+            visible
+        }
+        SystemClock.sleep(600)
+    }
+
+    private fun verifyGameBack(
+        release: EasterEggRelease,
+        logo: Activity,
+        game: Activity,
+        taskId: Int,
+    ) {
+        try {
+            assertEquals("Game must share the catalog task", taskId, game.taskId)
+            waitFor("Game focus") {
+                var focused = false
+                instrumentation.runOnMainSync { focused = game.window.decorView.hasWindowFocus() }
+                focused
+            }
+            capture("gesture_${release.id}")
+            awaitResumed(MainActivity::class.java.name, startOnMain = false) { pressBackKey() }
+            waitFor("One Back must return to ${release.title} details") {
+                taggedNode("egg_logo_${release.id}") != null
+            }
+            assertTrue(
+                "The logo must not remain behind its game",
+                logo.isFinishing || logo.isDestroyed,
+            )
+            report("gesture_back", release.title)
+        } finally {
+            GameScreen(game).close()
+        }
+    }
+
+    private fun taggedNode(tag: String): AccessibilityNodeInfo? {
+        fun find(node: AccessibilityNodeInfo): AccessibilityNodeInfo? {
+            if (node.viewIdResourceName == tag) return node
+            for (index in 0 until node.childCount) node.getChild(index)?.let {
+                find(it)?.let { found ->
+                    return found
+                }
+            }
+            return null
+        }
+        return automation.rootInActiveWindow?.let(::find)
+    }
+
+    private fun clickTag(tag: String) {
+        waitFor(tag) { taggedNode(tag) != null }
+        val bounds = Rect()
+        checkNotNull(taggedNode(tag)).getBoundsInScreen(bounds)
+        tap(bounds)
+    }
+
+    private fun center(activity: Activity): PointF {
+        var point = PointF()
+        instrumentation.runOnMainSync {
+            val bounds = visibleBounds(activity.window.decorView)
+            point = PointF(bounds.exactCenterX(), bounds.exactCenterY())
+        }
+        return point
+    }
+
+    private fun tapPoint(point: PointF) {
+        val down = SystemClock.uptimeMillis()
+        pointer(MotionEvent.ACTION_DOWN, point, down)
+        SystemClock.sleep(60)
+        pointer(MotionEvent.ACTION_UP, point, down)
+        SystemClock.sleep(100)
+    }
+
+    private fun hold(point: PointF, duration: Long) {
+        val down = SystemClock.uptimeMillis()
+        pointer(MotionEvent.ACTION_DOWN, point, down)
+        try {
+            SystemClock.sleep(duration)
+        } finally {
+            pointer(MotionEvent.ACTION_UP, point, down)
+        }
+    }
+
+    private fun pressBackKey() {
+        val down = SystemClock.uptimeMillis()
+        for (action in listOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP)) {
+            val event =
+                KeyEvent(
+                    down,
+                    SystemClock.uptimeMillis(),
+                    action,
+                    KeyEvent.KEYCODE_BACK,
+                    0,
+                    0,
+                    -1,
+                    0,
+                    0,
+                    InputDevice.SOURCE_KEYBOARD,
+                )
+            assertTrue("Back input must be accepted", automation.injectInputEvent(event, true))
+        }
     }
 
     @Test
@@ -349,7 +661,9 @@ class EasterEggGamesTest {
                 }
                 focused
             }
+            assertEquals("${name} must stay in the host task", host.taskId, activity.taskId)
             action(game)
+            awaitResumed(MainActivity::class.java.name, startOnMain = false) { pressBackKey() }
         } finally {
             try {
                 screen?.close()
@@ -363,6 +677,7 @@ class EasterEggGamesTest {
     private fun awaitResumed(
         name: String,
         previous: Activity? = null,
+        startOnMain: Boolean = true,
         start: () -> Unit,
     ): Activity {
         val monitor = ActivityLifecycleMonitorRegistry.getInstance()
@@ -379,8 +694,9 @@ class EasterEggGamesTest {
         try {
             instrumentation.runOnMainSync {
                 monitor.addLifecycleCallback(callback)
-                start()
+                if (startOnMain) start()
             }
+            if (!startOnMain) start()
             assertTrue("$name did not resume", resumed.await(10, TimeUnit.SECONDS))
             return checkNotNull(result)
         } finally {
@@ -507,7 +823,11 @@ class EasterEggGamesTest {
             if (condition()) return
             SystemClock.sleep(50)
         }
-        assertTrue(message, condition())
+        if (!condition()) {
+            report("failure_ui", appText())
+            capture("failed_${message.take(60)}")
+            assertTrue(message, false)
+        }
     }
 
     private fun capture(name: String) {

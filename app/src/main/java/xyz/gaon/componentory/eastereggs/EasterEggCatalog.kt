@@ -3,7 +3,12 @@ package xyz.gaon.componentory.eastereggs
 internal const val eggSourceRevision = "63d3e4549efbd6f714f6c19764d9520906c18c57"
 internal const val eggSourceRepository = "https://github.com/hushenghao/AndroidEasterEggs"
 
-internal data class EggStage(val title: String, val className: String, val minimumApi: Int = 24)
+internal data class EggStage(
+    val title: String,
+    val className: String,
+    val minimumApi: Int = 24,
+    val finishOnNextStage: Boolean = false,
+)
 
 internal enum class EggIntegrationKind {
     DREAM,
@@ -26,7 +31,21 @@ internal data class EasterEggFamily(
     val integrations: List<EggIntegration> = emptyList(),
 ) {
     val logo
-        get() = EggStage("PlatLogo", "$packageName.PlatLogoActivity")
+        get() =
+            EggStage(
+                "PlatLogo",
+                "$packageName.PlatLogoActivity",
+                finishOnNextStage = stages.any { it.title == "landroid.MainActivity" },
+            )
+
+    val additionalScreens
+        get() =
+            stages.filter {
+                it.title.startsWith("preview.") ||
+                    it.title.startsWith("beta.") ||
+                    it.title.startsWith("neko.") ||
+                    it.title.startsWith("widget.")
+            }
 }
 
 internal data class EasterEggRelease(

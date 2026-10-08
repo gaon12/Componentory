@@ -749,7 +749,7 @@
     <string name="egg_port_badge">AOSP-derived code port</string>
     <string name="egg_port_note">Includes the game and hidden screens from AOSP-derived sources. Runs on your current OS; original historical OS captures are not available.</string>
     <string name="egg_shared_versions">Shared source family: %1$s</string>
-    <string name="egg_open_logo">Open the logo and original gestures</string>
+    <string name="egg_open_logo">Open Easter egg</string>
     <string name="egg_requires_api">Requires API %1$d+</string>
     <string name="egg_action_unavailable">This action is unavailable on this device. The device maker may not expose the system chooser.</string>
     <string name="egg_integrations_note">Optional Android integrations. Enable only the features you want, then select them in Android. You can disable each integration here.</string>
@@ -788,22 +788,22 @@
     <string name="egg_shrug">Hidden shrug emoji</string>
     <string name="egg_help_g">The zombie artwork and its artist credit are retained. This release has no separate mini-game.</string>
     <string name="egg_help_h">The bee artwork and its reaction are retained. This release has no separate mini-game.</string>
-    <string name="egg_help_i">Hold the robot to reveal flying Nyandroids, or open the hidden screen directly.</string>
+    <string name="egg_help_i">Hold the robot until the flying Nyandroid screen opens.</string>
     <string name="egg_help_j">Tap the bean to reveal its face, then hold it for the movable bean playground. A screen saver is also included.</string>
-    <string name="egg_help_k">Rotate the K, hold the logo, and reveal the interactive dessert mosaic. The mosaic screen saver is included.</string>
-    <string name="egg_help_l">The logo gestures and the complete tap-to-fly obstacle game are included.</string>
-    <string name="egg_help_m">The complete multiplayer flying game, player controls, and developer-preview screens are included.</string>
+    <string name="egg_help_k">Tap the K six times, then hold the Android logo to open the interactive dessert mosaic. A screen saver is included.</string>
+    <string name="egg_help_l">Tap the lollipop five times, then hold it to open the tap-to-fly obstacle game.</string>
+    <string name="egg_help_m">Tap the marshmallow five times, then hold it to open the multiplayer flying game. Developer-preview screens are included.</string>
     <string name="egg_help_n">Activate the cat tile, choose food in quick settings, and collect visiting cats. Naming, deletion, saving, and sharing are retained.</string>
-    <string name="egg_help_o">Tap and hold the O to reach the draggable octopus. Android 8.1 uses its separate logo entry.</string>
-    <string name="egg_help_p">The animated P and its hidden drawing canvas are included. You can open the drawing screen directly.</string>
-    <string name="egg_help_q">Arrange the logo characters and open the icon-based nonogram puzzles. The full puzzle engine is retained; icon glyphs come from the current OS.</string>
+    <string name="egg_help_o">Tap the O five times, then hold it to open the draggable octopus. Android 8.1 uses its separate logo entry.</string>
+    <string name="egg_help_p">Tap the animated P screen seven times to open its hidden drawing canvas.</string>
+    <string name="egg_help_q">Double-tap and hold the 1 to rotate it, then drag it into the 0 to form a Q. Tap the aligned Q seven times to open the nonogram puzzles. Icon glyphs come from the current OS.</string>
     <string name="egg_help_r">Turn the dial to unlock cats. Enable device controls to feed, water, and play with cats, then manage the collection.</string>
     <string name="egg_help_s">Set the clock hands to 12. Color bubbles, the palette page, a home widget, and retained cat controls are included. Dynamic colors use the current wallpaper.</string>
     <string name="egg_help_t">Set the clock hands to 13, then hold the bubbles to cycle emoji. The palette, widget, cat controls, and beta screen are included. Emoji depend on the current system font.</string>
     <string name="egg_help_u">Hold the logo to launch the full space simulation. Drag to steer, explore planets, and land.</string>
-    <string name="egg_help_v">Space exploration, autopilot, and the space screen saver are included. System behavior follows the installed OS.</string>
-    <string name="egg_help_b">Space exploration, autopilot, the screen saver, and optional live progress notifications are included. Rich notifications require Android 16 or later.</string>
-    <string name="egg_help_c">The Android 17 logo, space game, autopilot, and screen saver are included. Its rich progress notification style requires API 37; space exploration works on older supported devices.</string>
+    <string name="egg_help_v">Hold the logo for about six seconds to enter the space game. Space exploration, autopilot, and the space screen saver are included. System behavior follows the installed OS.</string>
+    <string name="egg_help_b">Hold the logo for about six seconds to enter the space game. Space exploration, autopilot, the screen saver, and optional live progress notifications are included. Rich notifications require Android 16 or later.</string>
+    <string name="egg_help_c">Connect all 17 dots in one stroke and return to the starting dot. Then hold the revealed logo for about six seconds to enter the space game. Autopilot and a screen saver are included. Rich progress notifications require API 37; space exploration works on older supported devices.</string>
     <string name="componentory_egg_title">Easter egg</string>
     <string name="componentory_egg_welcome">You found the secret lab.</string>
     <plurals name="componentory_egg_countdown">
@@ -813,4 +813,5 @@
     <string name="source_notices_search_hint">Search licenses</string>
     <string name="source_notices_empty">No licenses match your search.</string>
     <string name="source_notices_back">Back to licenses</string>
+    <string name="egg_additional_screens">Additional screens</string>
 </resources>

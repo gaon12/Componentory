@@ -746,7 +746,7 @@
     <string name="egg_port_badge">AOSP 기반 코드 이식</string>
     <string name="egg_port_note">AOSP 기반 소스의 게임과 숨겨진 화면을 포함합니다. 현재 OS에서 실행되는 이식본이며, 과거 OS 원본 캡처는 없습니다.</string>
     <string name="egg_shared_versions">같은 소스 계열: %1$s</string>
-    <string name="egg_open_logo">로고 및 원래 제스처 열기</string>
+    <string name="egg_open_logo">이스터에그 열기</string>
     <string name="egg_requires_api">API %1$d 이상 필요</string>
     <string name="egg_action_unavailable">이 기기에서 실행할 수 없습니다. 제조사가 해당 시스템 선택 화면을 제공하지 않을 수도 있습니다.</string>
     <string name="egg_integrations_note">Android 연동 기능은 선택 사항입니다. 사용할 기능을 활성화한 뒤 Android에서 선택하세요. 각 기능은 여기서 다시 비활성화할 수 있습니다.</string>
@@ -785,22 +785,22 @@
     <string name="egg_shrug">숨겨진 어깨 으쓱 이모지</string>
     <string name="egg_help_g">좀비 그림과 아티스트 표기를 유지했습니다. 이 버전에는 별도 미니게임이 없습니다.</string>
     <string name="egg_help_h">꿀벌 그림과 반응을 유지했습니다. 이 버전에는 별도 미니게임이 없습니다.</string>
-    <string name="egg_help_i">로봇을 길게 눌러 날아다니는 Nyandroid를 표시하거나 숨겨진 화면을 바로 여세요.</string>
+    <string name="egg_help_i">로봇을 길게 누르고 있으면 날아다니는 Nyandroid 화면이 열립니다.</string>
     <string name="egg_help_j">젤리빈을 눌러 얼굴을 표시하고 길게 누르면 움직이는 젤리빈 놀이터가 열립니다. 화면보호기도 포함합니다.</string>
-    <string name="egg_help_k">K를 회전시키고 로고를 길게 눌러 디저트 모자이크를 여세요. 모자이크 화면보호기도 포함합니다.</string>
-    <string name="egg_help_l">로고 제스처와 터치로 날아 장애물을 피하는 전체 게임을 포함합니다.</string>
-    <string name="egg_help_m">전체 멀티플레이 비행 게임, 플레이어 조작 및 개발자 프리뷰 화면을 포함합니다.</string>
+    <string name="egg_help_k">K를 여섯 번 누른 뒤 Android 로고를 길게 누르면 디저트 모자이크가 열립니다. 화면보호기도 포함합니다.</string>
+    <string name="egg_help_l">롤리팝을 다섯 번 누른 뒤 길게 누르면 터치로 날아가는 장애물 게임이 열립니다.</string>
+    <string name="egg_help_m">마시멜로를 다섯 번 누른 뒤 길게 누르면 여러 명이 함께하는 비행 게임이 열립니다. 개발자 미리보기 화면도 포함합니다.</string>
     <string name="egg_help_n">고양이 타일을 활성화하고 빠른 설정에서 먹이를 선택하여 방문하는 고양이를 모으세요. 이름 변경·삭제·저장·공유를 유지했습니다.</string>
-    <string name="egg_help_o">O를 누르고 길게 눌러 드래그할 수 있는 문어를 여세요. Android 8.1은 별도 로고 진입 화면을 사용합니다.</string>
-    <string name="egg_help_p">움직이는 P와 숨겨진 그림판을 포함합니다. 그림판을 바로 열 수도 있습니다.</string>
-    <string name="egg_help_q">로고 글자를 배치하고 아이콘 노노그램 퍼즐을 여세요. 전체 퍼즐 엔진을 유지했으며 아이콘 모양은 현재 OS에서 가져옵니다.</string>
+    <string name="egg_help_o">O를 다섯 번 누른 뒤 길게 누르면 드래그할 수 있는 문어가 나옵니다. Android 8.1은 별도 로고로 시작합니다.</string>
+    <string name="egg_help_p">움직이는 P 화면을 일곱 번 누르면 숨겨진 그림판이 열립니다.</string>
+    <string name="egg_help_q">1을 두 번 누르면서 두 번째에 길게 눌러 회전시킨 뒤, 0 위로 드래그해 Q를 만드세요. 맞춘 Q를 일곱 번 누르면 노노그램 퍼즐이 열립니다. 아이콘 모양은 현재 OS를 따릅니다.</string>
     <string name="egg_help_r">다이얼을 돌려 고양이를 해제하세요. 기기 제어를 활성화하여 먹이·물·장난감을 주고 수집 목록을 관리하세요.</string>
     <string name="egg_help_s">시곗바늘을 12시에 맞추세요. 색상 거품·팔레트 페이지·홈 위젯과 유지된 고양이 제어를 포함합니다. 동적 색상은 현재 배경화면을 따릅니다.</string>
     <string name="egg_help_t">시곗바늘을 13시에 맞춘 뒤 거품을 길게 눌러 이모지를 바꾸세요. 팔레트·위젯·고양이 제어·베타 화면을 포함합니다. 이모지는 현재 시스템 글꼴에 따라 달라집니다.</string>
     <string name="egg_help_u">로고를 길게 눌러 전체 우주 시뮬레이션을 여세요. 드래그로 조종하고 행성을 탐험하며 착륙하세요.</string>
-    <string name="egg_help_v">우주 탐험·자동 조종·우주 화면보호기를 포함합니다. 시스템 동작은 설치된 OS를 따릅니다.</string>
-    <string name="egg_help_b">우주 탐험·자동 조종·화면보호기 및 선택적 실시간 진행 알림을 포함합니다. 확장 알림은 Android 16 이상이 필요합니다.</string>
-    <string name="egg_help_c">Android 17 로고·우주 게임·자동 조종·화면보호기를 포함합니다. 확장 진행 알림은 API 37이 필요하며, 지원되는 이전 기기에서도 우주 탐험은 실행할 수 있습니다.</string>
+    <string name="egg_help_v">로고를 약 6초간 길게 누르면 우주 게임이 열립니다. 우주 탐험·자동 조종·우주 화면보호기를 포함합니다. 시스템 동작은 설치된 OS를 따릅니다.</string>
+    <string name="egg_help_b">로고를 약 6초간 길게 누르면 우주 게임이 열립니다. 우주 탐험·자동 조종·화면보호기 및 선택적 실시간 진행 알림을 포함합니다. 확장 알림은 Android 16 이상이 필요합니다.</string>
+    <string name="egg_help_c">점 17개를 손을 떼지 않고 모두 연결한 뒤 시작점으로 돌아오세요. 나타난 로고를 약 6초간 길게 누르면 우주 게임이 열립니다. 자동 조종과 화면보호기도 포함합니다. 확장 진행 알림은 API 37이 필요하며, 지원되는 이전 기기에서도 우주 탐험은 실행할 수 있습니다.</string>
     <string name="componentory_egg_title">이스터에그</string>
     <string name="componentory_egg_welcome">비밀 실험실을 찾았어요.</string>
     <plurals name="componentory_egg_countdown">
@@ -809,4 +809,5 @@
     <string name="source_notices_search_hint">라이선스 검색</string>
     <string name="source_notices_empty">검색과 일치하는 라이선스가 없습니다.</string>
     <string name="source_notices_back">라이선스 목록으로 돌아가기</string>
+    <string name="egg_additional_screens">추가 화면</string>
 </resources>

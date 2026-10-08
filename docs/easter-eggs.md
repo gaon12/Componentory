@@ -7,8 +7,9 @@ entries with their own source and runtime requirements.
 
 The Components catalog has 26 Android release rows across 18 source families,
 in addition to the 168 UI API entries. Search by release, nickname, translated
-Easter egg name, or English. Each row opens gesture instructions, game and hidden
-screen buttons, public Android integrations, a source link, and the current OS.
+Easter egg name, or English. Each row opens a detail page with gesture
+instructions, one launch button, extra tools and previews, public Android
+integrations, a source link, and the current OS.
 Selection survives activity recreation. Minor releases with shared source also
 share that family's local game progress; separate rows do not imply distinct art.
 
@@ -33,7 +34,7 @@ share that family's local game progress; separate rows do not imply distinct art
 | 14 | Upside Down Cake | Complete space simulation, steering, planet exploration, and landing |
 | 15 | Vanilla Ice Cream | Space exploration, autopilot, and space dream |
 | 16 | Baklava | Space exploration, autopilot, dream, and optional progress notifications |
-| 17 | Cinnamon Bun | Its logo, full space game, autopilot, dream, and optional progress notifications |
+| 17 | Cinnamon Bun | Seventeen-dot drawing unlock, logo, full space game, autopilot, dream, and optional progress notifications |
 
 The imported manifest retains 50 activities, 13 Android-bound services, and two
 widget receivers. Auxiliary activation activities remain reachable through the
@@ -50,8 +51,11 @@ system wallpaper. Earlier logo ports can use the retained static color fallback.
 Android 16 rich progress notifications require API 36; Android 17's style requires
 API 37. The underlying space game remains available on older supported devices.
 
-The detail modal offers direct game screens in addition to the original code's
-gesture flow. Widget and tile requests use public Android APIs when available;
+A catalog row opens a normal detail page. Its launch button opens the original
+logo, and the original gestures continue into the game. Game activities stay in
+the host task; one Back returns to the detail page. Preview screens, cat galleries,
+and palette tools remain available under Additional screens. Widget and tile
+requests use public Android APIs when available;
 older tile hosts receive manual quick-settings instructions. Cat controls are
 enabled for selection from the device's controls panel. Screen saver selection
 opens Android settings. The manufacturer may omit a chooser or launcher feature,
@@ -73,7 +77,8 @@ The complete sources and resources come from
 [Hu Shenghao's Android Easter Eggs](https://github.com/hushenghao/AndroidEasterEggs/tree/63d3e4549efbd6f714f6c19764d9520906c18c57),
 pinned to `63d3e4549efbd6f714f6c19764d9520906c18c57`. This is an AOSP-derived
 compatibility port. Its author and original AOSP copyright headers remain in the
-library, with Apache 2.0 attribution available offline in the license modal.
+library, with Apache 2.0 attribution available offline in the searchable license
+page.
 Settings distinguishes direct Componentory contributors from upstream credits.
 
 The [module guide](../eastereggs/README.md) records dependency versions and

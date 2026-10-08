@@ -11,16 +11,15 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -33,7 +32,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -45,7 +43,7 @@ import xyz.gaon.componentory.settings.ExternalLinkRows
 import xyz.gaon.componentory.settings.SettingsListRow
 
 @Composable
-internal fun EasterEggDetails(release: EasterEggRelease, onClose: () -> Unit) {
+internal fun EasterEggDetails(release: EasterEggRelease) {
     val context = LocalContext.current
     var feedback by rememberSaveable(release.id) { mutableStateOf<Int?>(null) }
     val notifications =
@@ -53,125 +51,112 @@ internal fun EasterEggDetails(release: EasterEggRelease, onClose: () -> Unit) {
             feedback =
                 if (it) R.string.egg_notifications_allowed else R.string.egg_notifications_denied
         }
-    Dialog(onDismissRequest = onClose) {
-        Surface(
-            shape = MaterialTheme.shapes.large,
-            modifier = Modifier.fillMaxWidth().heightIn(max = 700.dp),
+    Column(
+        Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(20.dp)
+            .testTag("egg_details_${release.id}"),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Text(
+            "${release.title} · ${release.family.nickname}",
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Text(stringResource(R.string.egg_port_note), style = MaterialTheme.typography.bodyMedium)
+        Text(
+            stringResource(
+                R.string.egg_shared_versions,
+                easterEggReleases.filter { it.family == release.family }.joinToString { it.title },
+            ),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        Text(
+            stringResource(eggHelpResource(release.family.module)),
+            style = MaterialTheme.typography.bodyLarge,
+        )
+        Button(
+            onClick = { feedback = launchEgg(context, release.logo) },
+            modifier = Modifier.fillMaxWidth().testTag("egg_logo_${release.id}"),
         ) {
-            Column(
-                Modifier.padding(24.dp).testTag("egg_details_${release.id}"),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Text(
-                    "${release.title} · ${release.family.nickname}",
-                    style = MaterialTheme.typography.titleLarge,
+            Text(stringResource(R.string.egg_open_logo))
+        }
+        if (release.family.additionalScreens.isNotEmpty()) {
+            Text(
+                stringResource(R.string.egg_additional_screens),
+                style = MaterialTheme.typography.titleMedium,
+            )
+        }
+        release.family.additionalScreens.forEach { stage ->
+            if (Build.VERSION.SDK_INT >= stage.minimumApi) {
+                SettingsListRow(
+                    stringResource(eggStageTitle(stage)),
+                    tag = "egg_stage_${stage.className}",
+                    onClick = { feedback = launchEgg(context, stage) },
                 )
-                Column(
-                    Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    Text(
-                        stringResource(R.string.egg_port_note),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        stringResource(
-                            R.string.egg_shared_versions,
-                            easterEggReleases
-                                .filter { it.family == release.family }
-                                .joinToString { it.title },
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Text(
-                        stringResource(eggHelpResource(release.family.module)),
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                    SettingsListRow(
-                        stringResource(R.string.egg_open_logo),
-                        tag = "egg_logo_${release.id}",
-                        onClick = { feedback = launchEgg(context, release.logo) },
-                    )
-                    release.family.stages.forEach { stage ->
-                        if (Build.VERSION.SDK_INT >= stage.minimumApi) {
-                            SettingsListRow(
-                                stringResource(eggStageTitle(stage)),
-                                tag = "egg_stage_${stage.className}",
-                                onClick = { feedback = launchEgg(context, stage) },
-                            )
-                        } else {
-                            SettingsListRow(
-                                stringResource(eggStageTitle(stage)),
-                                value = stringResource(R.string.egg_requires_api, stage.minimumApi),
-                            )
-                        }
-                    }
-                    if (release.family.integrations.isNotEmpty()) {
-                        HorizontalDivider()
-                        Text(
-                            stringResource(R.string.egg_integrations_note),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        release.family.integrations.forEach { integration ->
-                            EggIntegrationRows(integration) { feedback = it }
-                        }
-                    }
-                    if (
-                        release.family.module in
-                            listOf("Nougat", "R", "S", "Tiramisu", "Baklava", "CinnamonBun")
-                    ) {
-                        Text(
-                            stringResource(R.string.egg_notifications_note),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        if (Build.VERSION.SDK_INT >= 33) {
-                            SettingsListRow(
-                                stringResource(R.string.egg_notifications),
-                                onClick = {
-                                    if (
-                                        ContextCompat.checkSelfPermission(
-                                            context,
-                                            Manifest.permission.POST_NOTIFICATIONS,
-                                        ) == PackageManager.PERMISSION_GRANTED
-                                    ) {
-                                        feedback = R.string.egg_notifications_allowed
-                                    } else
-                                        notifications.launch(Manifest.permission.POST_NOTIFICATIONS)
-                                },
-                            )
-                        }
-                    }
-                    Text(
-                        stringResource(
-                            R.string.egg_environment,
-                            Build.VERSION.RELEASE,
-                            Build.VERSION.SDK_INT,
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    ExternalLinkRows(
-                        listOf(
-                            ExternalLink(
-                                stringResource(R.string.egg_source),
-                                "$eggSourceRepository/tree/$eggSourceRevision/eggs/${release.family.module}",
-                                "egg_source",
-                            )
-                        )
-                    )
-                    Text(
-                        "Apache 2.0 · Hu Shenghao · AOSP\n$eggSourceRevision",
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    feedback?.let {
-                        Text(
-                            stringResource(it),
-                            Modifier.testTag("egg_feedback"),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    }
-                }
-                TextButton(onClick = onClose) { Text(stringResource(R.string.close)) }
+            } else {
+                SettingsListRow(
+                    stringResource(eggStageTitle(stage)),
+                    value = stringResource(R.string.egg_requires_api, stage.minimumApi),
+                )
             }
+        }
+        if (release.family.integrations.isNotEmpty()) {
+            HorizontalDivider()
+            Text(
+                stringResource(R.string.egg_integrations_note),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            release.family.integrations.forEach { integration ->
+                EggIntegrationRows(integration) { feedback = it }
+            }
+        }
+        if (
+            release.family.module in
+                listOf("Nougat", "R", "S", "Tiramisu", "Baklava", "CinnamonBun")
+        ) {
+            Text(
+                stringResource(R.string.egg_notifications_note),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            if (Build.VERSION.SDK_INT >= 33) {
+                SettingsListRow(
+                    stringResource(R.string.egg_notifications),
+                    onClick = {
+                        if (
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.POST_NOTIFICATIONS,
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            feedback = R.string.egg_notifications_allowed
+                        } else notifications.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    },
+                )
+            }
+        }
+        Text(
+            stringResource(R.string.egg_environment, Build.VERSION.RELEASE, Build.VERSION.SDK_INT),
+            style = MaterialTheme.typography.bodySmall,
+        )
+        ExternalLinkRows(
+            listOf(
+                ExternalLink(
+                    stringResource(R.string.egg_source),
+                    "$eggSourceRepository/tree/$eggSourceRevision/eggs/${release.family.module}",
+                    "egg_source",
+                )
+            )
+        )
+        Text(
+            "Apache 2.0 · Hu Shenghao · AOSP\n$eggSourceRevision",
+            style = MaterialTheme.typography.bodySmall,
+        )
+        feedback?.let {
+            Text(
+                stringResource(it),
+                Modifier.testTag("egg_feedback"),
+                style = MaterialTheme.typography.bodyMedium,
+            )
         }
     }
 }
@@ -187,7 +172,10 @@ internal fun launchEgg(context: Context, stage: EggStage): Int? {
                 PackageManager.DONT_KILL_APP,
             )
         }
-        context.startActivity(Intent().setComponent(component))
+        val intent = Intent().setComponent(component)
+        // Space logos otherwise remain behind their game after the original hold gesture.
+        if (stage.finishOnNextStage) intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        context.startActivity(intent)
         null
     } catch (_: ActivityNotFoundException) {
         R.string.egg_action_unavailable

@@ -56,7 +56,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import xyz.gaon.componentory.R
-import xyz.gaon.componentory.eastereggs.EasterEggDetails
 import xyz.gaon.componentory.eastereggs.easterEggReleases
 import xyz.gaon.componentory.history.HistoryBrowser
 import xyz.gaon.componentory.lab.ComponentCategory
@@ -95,8 +94,9 @@ fun ComponentListScreen(
     onModeChange: (CatalogMode) -> Unit,
     selected: LabComponent? = null,
     onOpenComponent: (LabComponent) -> Unit,
+    selectedEggId: String? = null,
+    onOpenEgg: (String) -> Unit,
 ) {
-    var selectedEggId by rememberSaveable { mutableStateOf<String?>(null) }
     var query by rememberSaveable { mutableStateOf("") }
     var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
     val sampleListState = rememberLazyGridState()
@@ -119,11 +119,6 @@ fun ComponentListScreen(
                 (category == null || category == ComponentCategory.EASTER_EGG)
         }
     val resultCount = components.size + eggs.size
-    selectedEggId?.let { id ->
-        easterEggReleases
-            .find { it.id == id }
-            ?.let { egg -> EasterEggDetails(egg) { selectedEggId = null } }
-    }
     BoxWithConstraints(Modifier.widthIn(max = 900.dp).fillMaxSize()) {
         val compactHeader = WindowInsets.ime.getBottom(LocalDensity.current) > 0
         val shortWindow = maxHeight < 360.dp
@@ -283,12 +278,18 @@ fun ComponentListScreen(
                         Card(
                             onClick = {
                                 focus.clearFocus()
-                                selectedEggId = egg.id
+                                onOpenEgg(egg.id)
                             },
-                            modifier = Modifier.fillMaxWidth().testTag("egg_${egg.id}"),
+                            modifier =
+                                Modifier.fillMaxWidth().testTag("egg_${egg.id}").semantics {
+                                    this.selected = selectedEggId == egg.id
+                                },
                             colors =
                                 CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.surface
+                                    containerColor =
+                                        if (selectedEggId == egg.id)
+                                            MaterialTheme.colorScheme.secondaryContainer
+                                        else MaterialTheme.colorScheme.surface
                                 ),
                         ) {
                             Column(

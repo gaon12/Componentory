@@ -27,7 +27,11 @@ to coexist in one module; resource names remain unchanged. Each original manifes
 is retained in `upstream-manifests`. The merged manifest keeps activities private except the Android 7 tile preferences
 entry, which Android opens through a binding-permission-protected activity. System
 services retain their Android binding permissions. Optional
-widgets, controls, tiles, and dreams begin disabled.
+widgets, controls, tiles, and dreams begin disabled. Game and preview activities
+use the host task instead of `singleInstance`, so Back returns to the app. The
+host launches Android 14–17 space logos with `FLAG_ACTIVITY_NO_HISTORY`; the
+original hold gesture still launches the game, and Back skips the finished entry
+stage. Other original logo gestures and game sources remain unchanged.
 
 Imports use a shared resource namespace. Only the used inset mask is retained
 from an upstream helper that called private AndroidX methods. Rounded corners use

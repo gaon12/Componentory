@@ -46,6 +46,35 @@ class EasterEggCatalogTest {
     }
 
     @Test
+    fun mainGamesContinueFromTheLogoWhileOnlyToolsAndPreviewsHaveExtraButtons() {
+        val families = easterEggReleases.map { it.family }.distinct()
+        val space = families.filter { it.logo.finishOnNextStage }
+        assertEquals(
+            setOf("UpsideDownCake", "VanillaIceCream", "Baklava", "CinnamonBun"),
+            space.map { it.module }.toSet(),
+        )
+        assertTrue(
+            space.all {
+                it.additionalScreens.none { stage -> stage.title == "landroid.MainActivity" }
+            }
+        )
+        assertTrue(families.single { it.module == "Oreo" }.additionalScreens.isEmpty())
+        assertTrue(families.single { it.module == "Q" }.additionalScreens.isEmpty())
+        assertTrue(
+            families
+                .single { it.module == "Marshmallow" }
+                .additionalScreens
+                .any { it.title == "preview.PlatLogoActivity" }
+        )
+        assertTrue(
+            families
+                .single { it.module == "S" }
+                .additionalScreens
+                .any { it.title == "widget.PaintChipsActivity" }
+        )
+    }
+
+    @Test
     fun fullGamesAndPublicIntegrationsKeepDistinctEntryPointsAndApiRequirements() {
         val families = easterEggReleases.map { it.family }.distinct()
         assertTrue(

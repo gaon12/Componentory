@@ -6672,10 +6672,11 @@
       "adaptations": []
     }
   ],
-  "generatedManifestSha256": "b81c436043d324e04de1cb0aa4cd2ff3a46dfa13ea5af3f148cfbdc189535a01",
+  "generatedManifestSha256": "ef147b43f1c94d16d80daf9e5eb63e1aa6743ee7a346a3c1915944bfb31cb71e",
   "manifestAdaptations": [
     "Use a shared namespace and private activities except the permission-protected Android 7 tile preferences entry.",
     "Keep original binding permissions and disabled optional integrations.",
-    "Register the shared Startup initializer."
+    "Register the shared Startup initializer.",
+    "Use standard host-task activity launches instead of singleInstance so Back returns to Componentory."
   ]
 }
