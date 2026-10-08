@@ -115,6 +115,13 @@ Use two settings columns when there is enough width. Keep full language names,
 provider names, and search results usable at 320 dp and with the software keyboard.
 Do not keep an empty Planned APIs tab once the audited baseline is implemented.
 
+The app's own [Easter egg](componentory-easter-egg.md) opens after three taps on
+Settings > App version within one second. Keep its destination separate from
+the version-specific Android ports in the catalog. The first milestone supplies
+the entry gesture and a localized screen. Save the open screen across Activity
+recreation, discard incomplete gestures, and return to the saved Settings page
+when it closes. Additional game content remains future work.
+
 ## Component coverage
 
 The first prototype included eight basic types in five families. The current

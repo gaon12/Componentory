@@ -23,6 +23,11 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
   rows. Links open an external browser; licenses open an offline document chooser
   and modal. Replay the first-launch introduction from About.
 
+Tap **Settings > App version** three times within one second to open
+[Componentory's own Easter egg screen](docs/componentory-easter-egg.md). Close it
+or use Android Back to return to Settings. This initial screen shows the app
+artwork, a welcome message, and its version in the selected app theme.
+
 The settings list also links to the [GitHub repository](https://github.com/gaon12/Componentory)
 and [new issue page](https://github.com/gaon12/Componentory/issues/new) for bug
 reports and improvement requests.

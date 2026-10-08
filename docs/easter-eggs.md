@@ -1,5 +1,10 @@
 # Version-specific Easter egg ports
 
+The app's own hidden destination is described in the
+[Componentory Easter egg guide](componentory-easter-egg.md). It opens from repeated
+App version taps in Settings. The Android release ports below remain catalog
+entries with their own source and runtime requirements.
+
 The Components catalog has 26 Android release rows across 18 source families,
 in addition to the 168 UI API entries. Search by release, nickname, translated
 Easter egg name, or English. Each row opens gesture instructions, game and hidden
