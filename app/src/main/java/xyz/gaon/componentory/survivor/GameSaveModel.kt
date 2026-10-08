@@ -117,11 +117,7 @@ internal object GameLedger {
                 (if (s.outcome == RunOutcome.WON) 50L else 0L) +
                 s.bonusCurrency
         val score =
-            s.regularKills * 10L +
-                s.eliteKills * 100L +
-                s.bossKills * 1000L +
-                minOf(s.seconds, 1200) * 5L +
-                (if (s.outcome == RunOutcome.WON) 10000L else 0L)
+            GameScore.calculate(s.regularKills, s.eliteKills, s.bossKills, s.seconds, s.outcome)
         val record =
             GameRunRecord(
                 s.id,

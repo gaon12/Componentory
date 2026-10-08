@@ -29,6 +29,7 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
     var engine by remember { mutableStateOf<GameEngine?>(null) }
     var finished by remember { mutableStateOf<GameSession?>(null) }
     var discard by remember { mutableStateOf(false) }
+    var recordsOpen by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     fun failure(error: Exception) {
         Log.e("SurvivorSave", "Cannot update the game save", error)
@@ -98,6 +99,8 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val wide = maxWidth > maxHeight
         when {
+            recordsOpen && save != null ->
+                GameRecordScreen(requireNotNull(save).records, assets) { recordsOpen = false }
             result != null -> {
                 BackHandler {
                     if (!saveFailed) {
@@ -194,6 +197,13 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
                             stringResource(R.string.game_controls),
                             style = MaterialTheme.typography.bodySmall,
                         )
+                        OutlinedButton(
+                            { recordsOpen = true },
+                            Modifier.fillMaxWidth().testTag("game_records"),
+                            enabled = current != null,
+                        ) {
+                            Text(stringResource(R.string.game_records))
+                        }
                         if (current == null) Text(stringResource(R.string.game_save_loading))
                         current?.activeJson?.let { json ->
                             val saved = remember(json) { GameJson.session(json) }

@@ -1,0 +1,11 @@
+<resources>
+    <string name="game_records">個人紀錄</string>
+    <string name="game_all_builds">所有起始武器</string>
+    <string name="game_best_record">最佳：%1$d分 · %2$d秒</string>
+    <string name="game_compare">比較兩局</string>
+    <string name="game_compare_help">選擇模式和規則相同的兩局，比較裝備組合。</string>
+    <string name="game_no_records">此條件下尚無紀錄。</string>
+    <string name="game_record_counts">%1$d秒 · 一般 %2$d · 菁英 %3$d · 首領 %4$d</string>
+    <string name="game_record_seed">種子：%1$d</string>
+    <string name="game_record_meta">初始強化：生命 %1$d/5 · 傷害 %2$d/5 · 經驗 %3$d/5</string>
+</resources>

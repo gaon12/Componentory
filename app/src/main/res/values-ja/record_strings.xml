@@ -1,0 +1,11 @@
+<resources>
+    <string name="game_records">個人記録</string>
+    <string name="game_all_builds">すべての開始武器</string>
+    <string name="game_best_record">最高：%1$d点 · %2$d秒</string>
+    <string name="game_compare">2回のプレイを比較</string>
+    <string name="game_compare_help">同じモードとルールの2回を選択して装備構成を比較してください。</string>
+    <string name="game_no_records">この条件の記録はまだありません。</string>
+    <string name="game_record_counts">%1$d秒 · 通常 %2$d · エリート %3$d · ボス %4$d</string>
+    <string name="game_record_seed">シード：%1$d</string>
+    <string name="game_record_meta">開始時の強化：体力 %1$d/5 · ダメージ %2$d/5 · 経験値 %3$d/5</string>
+</resources>

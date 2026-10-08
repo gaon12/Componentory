@@ -189,3 +189,26 @@ process-kill recovery test. An earlier assertion read the pause dialog before
 the manual clock advanced; a subsequent run was stopped because result scrolling
 also needed clock progress. These test-clock issues were fixed before the fresh
 passing runs.
+
+### Personal records checkpoint
+
+Records show the Neko player through its starting weapon and final mixed build.
+Filters separate normal and ranked play, each ruleset, and each starting weapon.
+The best completed score uses only victory or death records; abandoned records
+remain visible. Two distinct runs in the same mode and ruleset can be compared
+side by side, including starting permanent levels, seed, survival, exclusive
+kill categories, result, reward, weapons, supports, and evolutions.
+
+The shared score function uses ordinary kills times ten, elites times one
+hundred, bosses times one thousand, survival seconds times five capped at 1,200
+seconds, and ten thousand for victory. Android source version is never a score
+input. Local records do not upload detailed builds.
+
+Spotless apply/check and debug lint passed before all 211 JVM tests. An initial
+lint error found a configuration read that could leave the date locale stale;
+the record screen now reads Compose LocalConfiguration. Both APKs built and
+twenty-one scoped tests passed on each device: phone
+`20261008T154548597Z-f84dbe1e` and tablet `20261008T154644750Z-80fef990`.
+The new model tests check scoring caps and mode/ruleset separation. The UI test
+selects two builds, opens their comparison, and checks that changing mode clears
+the selection and cannot combine it with the other mode.

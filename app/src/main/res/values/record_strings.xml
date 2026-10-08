@@ -1,0 +1,11 @@
+<resources>
+    <string name="game_records">Personal records</string>
+    <string name="game_all_builds">All starting weapons</string>
+    <string name="game_best_record">Best: %1$d points · %2$d seconds</string>
+    <string name="game_compare">Compare two runs</string>
+    <string name="game_compare_help">Select two runs from the same mode and ruleset to compare their builds.</string>
+    <string name="game_no_records">No records for these conditions yet.</string>
+    <string name="game_record_counts">%1$d seconds · Ordinary %2$d · Elite %3$d · Boss %4$d</string>
+    <string name="game_record_seed">Seed: %1$d</string>
+    <string name="game_record_meta">Starting upgrades: health %1$d/5 · damage %2$d/5 · experience %3$d/5</string>
+</resources>

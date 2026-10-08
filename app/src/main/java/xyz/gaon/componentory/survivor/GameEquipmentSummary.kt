@@ -15,9 +15,27 @@ import xyz.gaon.componentory.R
 
 @Composable
 internal fun GameEquipmentSummary(s: GameSession, assets: GameAssets) {
+    GameEquipmentSummary(
+        s.weapons.map { FinalWeapon(it.id, it.level, it.evolved) },
+        s.supports,
+        assets,
+    )
+}
+
+@Composable
+internal fun GameEquipmentSummary(record: GameRunRecord, assets: GameAssets) {
+    GameEquipmentSummary(record.weapons, record.supports, assets)
+}
+
+@Composable
+private fun GameEquipmentSummary(
+    weapons: List<FinalWeapon>,
+    supports: Map<SupportId, Int>,
+    assets: GameAssets,
+) {
     Column(Modifier.testTag("game_equipment"), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(stringResource(R.string.game_slots, s.weapons.size, s.supports.size))
-        for (weapon in s.weapons) {
+        Text(stringResource(R.string.game_slots, weapons.size, supports.size))
+        for (weapon in weapons) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -39,7 +57,7 @@ internal fun GameEquipmentSummary(s: GameSession, assets: GameAssets) {
                 )
             }
         }
-        for ((id, level) in s.supports) {
+        for ((id, level) in supports) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),

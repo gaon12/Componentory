@@ -1,0 +1,11 @@
+<resources>
+    <string name="game_records">개인 기록</string>
+    <string name="game_all_builds">모든 시작 무기</string>
+    <string name="game_best_record">최고: %1$d점 · %2$d초</string>
+    <string name="game_compare">두 판 비교</string>
+    <string name="game_compare_help">같은 모드와 규칙의 두 판을 선택해 장비 조합을 비교하세요.</string>
+    <string name="game_no_records">이 조건의 기록이 아직 없습니다.</string>
+    <string name="game_record_counts">%1$d초 · 일반 %2$d · 정예 %3$d · 보스 %4$d</string>
+    <string name="game_record_seed">시드: %1$d</string>
+    <string name="game_record_meta">시작 강화: 체력 %1$d/5 · 공격력 %2$d/5 · 경험치 %3$d/5</string>
+</resources>
