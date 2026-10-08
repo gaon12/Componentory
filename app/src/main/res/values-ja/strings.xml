@@ -736,4 +736,5 @@
     <string name="rendering_themed_demo">テーマに基づく時計デモ</string>
     <string name="rendering_themed_demo_note">選択したテーマの色・書体・ボタンと Compose の描画・テキスト機能で Componentory が作成したデモです。Material 専用の時計 API や旧 OS のオリジナルキャプチャではありません。</string>
     <string name="missing_library_sample_note">この選択に対応する代替サンプルはまだ実装されていません。他の Compose API や Android ウィジェットで、この UI を作成できます。</string>
+    <string name="app_version">アプリのバージョン</string>
 </resources>

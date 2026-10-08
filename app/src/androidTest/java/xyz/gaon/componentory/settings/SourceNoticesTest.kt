@@ -40,6 +40,8 @@ class SourceNoticesTest {
                 ?.isVisible(WindowInsetsCompat.Type.ime()) != true
         }
         compose.openSettingsPage("LICENSES")
+        compose.onNodeWithTag("source_notices_dialog").assertIsDisplayed()
+        compose.onNodeWithTag("settings_page_LICENSES").assertDoesNotExist()
     }
 
     @Test

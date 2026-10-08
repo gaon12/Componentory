@@ -47,7 +47,6 @@ class ProjectLinksTest {
                 }
             }
         }
-        compose.onNodeWithTag("settings_category_ABOUT").performScrollTo().performClick()
     }
 
     @Test
@@ -63,6 +62,10 @@ class ProjectLinksTest {
                 opened.map { it.dataString },
             )
             assertEquals(listOf(Intent.ACTION_VIEW, Intent.ACTION_VIEW), opened.map { it.action })
+            opened.forEach { intent ->
+                assertEquals(Intent.ACTION_MAIN, intent.selector?.action)
+                assertEquals(setOf(Intent.CATEGORY_APP_BROWSER), intent.selector?.categories)
+            }
         }
     }
 

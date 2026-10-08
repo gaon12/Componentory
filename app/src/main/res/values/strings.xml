@@ -739,4 +739,5 @@
     <string name="rendering_themed_demo">Theme-based clock demo</string>
     <string name="rendering_themed_demo_note">Built by Componentory with Compose drawing, text, and controls using the selected theme. This is not a dedicated Material clock API or an original OS capture.</string>
     <string name="missing_library_sample_note">This choice has no equivalent sample implementation in the lab yet. The UI can still be built using other Compose APIs or Android widgets.</string>
+    <string name="app_version">App version</string>
 </resources>

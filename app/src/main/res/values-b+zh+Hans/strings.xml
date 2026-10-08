@@ -736,4 +736,5 @@
     <string name="rendering_themed_demo">基于主题的时钟演示</string>
     <string name="rendering_themed_demo_note">Componentory 使用所选主题的颜色、字体和按钮以及 Compose 绘图和文本功能实现的演示。这不是 Material 专用时钟 API，也不是旧版系统的原始截图。</string>
     <string name="missing_library_sample_note">本应用尚未实现此选项的等效示例。仍可使用其他 Compose API 或 Android 控件构建该界面。</string>
+    <string name="app_version">应用版本</string>
 </resources>

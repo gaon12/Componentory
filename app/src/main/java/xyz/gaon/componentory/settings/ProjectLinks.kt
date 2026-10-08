@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -37,7 +36,7 @@ internal fun ProjectLinks() {
     var failed by remember { mutableStateOf(false) }
     val open: (String) -> Unit = { url ->
         try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            context.startActivity(externalBrowserIntent(url))
             failed = false
         } catch (_: ActivityNotFoundException) {
             failed = true
@@ -76,14 +75,7 @@ private fun ProjectLinkRow(label: String, url: String, tag: String, onOpen: (Str
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(label, style = MaterialTheme.typography.bodyLarge)
-            Text(
-                url,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
-            )
-        }
+        Text(label, Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge)
         Icon(
             Icons.AutoMirrored.Filled.OpenInNew,
             null,
@@ -92,3 +84,10 @@ private fun ProjectLinkRow(label: String, url: String, tag: String, onOpen: (Str
         )
     }
 }
+
+internal fun externalBrowserIntent(url: String): Intent =
+    Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+        addCategory(Intent.CATEGORY_BROWSABLE)
+        // Resolve a browser even when a verified app owns the destination's links.
+        selector = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_BROWSER)
+    }

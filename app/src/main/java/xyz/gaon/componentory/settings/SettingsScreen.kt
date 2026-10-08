@@ -201,6 +201,8 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage) -> Unit) {
+    var showNotices by rememberSaveable { mutableStateOf(false) }
+    if (showNotices) SourceNoticesDialog { showNotices = false }
     Column(
         Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -208,7 +210,7 @@ private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage)
         listOf(
                 listOf(SettingsPage.APPEARANCE, SettingsPage.LANGUAGE),
                 listOf(SettingsPage.DEVICE, SettingsPage.LIBRARIES),
-                listOf(SettingsPage.LICENSES, SettingsPage.PRIVACY),
+                listOf(SettingsPage.PRIVACY),
                 listOf(SettingsPage.ABOUT),
             )
             .forEach { group ->
@@ -258,11 +260,21 @@ private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage)
                     }
                 }
             }
-        Text(
-            "Componentory ${BuildConfig.VERSION_NAME}",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        SettingsGroup {
+            SettingsListRow(
+                stringResource(R.string.app_version),
+                "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+                "app_version",
+            )
+            HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+            ProjectLinks()
+            HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+            SettingsListRow(
+                stringResource(R.string.source_notices),
+                tag = "settings_category_LICENSES",
+                onClick = { showNotices = true },
+            )
+        }
     }
 }
 
@@ -345,13 +357,20 @@ private fun SettingsDetail(
                 }
                 SettingsPage.LIBRARIES ->
                     SettingsGroup {
-                        LibraryVersionRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
-                        LibraryVersionRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
+                        SettingsListRow("Compose Material 2", BuildConfig.MATERIAL2_VERSION)
+                        HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+                        SettingsListRow("Compose Material 3", BuildConfig.MATERIAL3_VERSION)
                         Text(
                             stringResource(R.string.material3_experimental_note),
                             style = MaterialTheme.typography.bodyMedium,
                         )
-                        LibraryVersionRow(
+                        HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+                        SettingsListRow(
+                            "Compose Material icons",
+                            BuildConfig.MATERIAL_ICONS_VERSION,
+                        )
+                        HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+                        SettingsListRow(
                             "AndroidX Autofill · inline UI v1",
                             BuildConfig.AUTOFILL_VERSION,
                         )
@@ -367,8 +386,6 @@ private fun SettingsDetail(
                         ) {
                             Text(stringResource(R.string.introduction_replay))
                         }
-                        SettingsNote("Componentory ${BuildConfig.VERSION_NAME}")
-                        ProjectLinks()
                         SettingsNote(stringResource(R.string.accuracy_note))
                         Text(
                             stringResource(R.string.android_trademark),
@@ -423,19 +440,4 @@ private fun SettingsNote(text: String) {
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
-}
-
-@Composable
-private fun LibraryVersionRow(label: String, version: String) {
-    Column(
-        Modifier.fillMaxWidth().padding(18.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        Text(label, style = MaterialTheme.typography.bodyLarge)
-        Text(
-            version,
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary,
-        )
-    }
 }
