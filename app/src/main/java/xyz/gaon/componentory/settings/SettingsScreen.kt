@@ -135,7 +135,16 @@ fun SettingsScreen(
     onOpenEasterEgg: () -> Unit = {},
 ) {
     var selected by rememberSaveable { mutableStateOf<SettingsPage?>(null) }
-    BackHandler(enabled = selected != null) { selected = null }
+    var selectedNotice by rememberSaveable { mutableStateOf<SourceNotice?>(null) }
+    val goBack = {
+        if (selected == SettingsPage.LICENSES && selectedNotice != null) selectedNotice = null
+        else selected = null
+    }
+    val selectPage: (SettingsPage) -> Unit = {
+        selectedNotice = null
+        selected = it
+    }
+    BackHandler(enabled = selected != null) { goBack() }
     BoxWithConstraints(Modifier.widthIn(max = 1100.dp).fillMaxSize().testTag("settings_screen")) {
         val expanded = maxWidth >= 840.dp
         Column(
@@ -154,7 +163,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.spacedBy(28.dp),
                 ) {
                     Box(Modifier.width(300.dp).testTag("settings_categories")) {
-                        SettingsCategories(selected, onOpenEasterEgg) { selected = it }
+                        SettingsCategories(selected, onOpenEasterEgg, selectPage)
                     }
                     Column(Modifier.weight(1f).testTag("settings_detail")) {
                         val page = selected
@@ -173,28 +182,38 @@ fun SettingsScreen(
                                 language,
                                 onLanguageChange,
                                 onShowIntroduction,
+                                selectedNotice,
+                                { selectedNotice = it },
+                                goBack,
                             )
                     }
                 }
             } else {
                 val page = selected
-                if (page == null) SettingsCategories(null, onOpenEasterEgg) { selected = it }
+                if (page == null) SettingsCategories(null, onOpenEasterEgg, selectPage)
                 else {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         IconButton(
-                            onClick = { selected = null },
-                            modifier = Modifier.testTag("settings_back"),
+                            onClick = goBack,
+                            modifier =
+                                Modifier.testTag(
+                                    if (selectedNotice != null) "source_notice_close"
+                                    else "settings_back"
+                                ),
                         ) {
                             Icon(
                                 painterResource(R.drawable.ic_back),
-                                stringResource(R.string.nav_settings),
+                                stringResource(
+                                    if (selectedNotice != null) R.string.source_notices_back
+                                    else R.string.nav_settings
+                                ),
                             )
                         }
                         Text(
-                            stringResource(page.title),
+                            selectedNotice?.title ?: stringResource(page.title),
                             Modifier.weight(1f),
                             style = MaterialTheme.typography.headlineSmall,
                         )
@@ -206,6 +225,9 @@ fun SettingsScreen(
                         language,
                         onLanguageChange,
                         onShowIntroduction = onShowIntroduction,
+                        selectedNotice = selectedNotice,
+                        onNoticeSelected = { selectedNotice = it },
+                        onBack = goBack,
                         showTitle = false,
                     )
                 }
@@ -240,8 +262,6 @@ private fun SettingsCategories(
             eggToast?.cancel()
         }
     }
-    var showNotices by rememberSaveable { mutableStateOf(false) }
-    if (showNotices) SourceNoticesDialog { showNotices = false }
     Column(
         Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -328,7 +348,7 @@ private fun SettingsCategories(
             SettingsListRow(
                 stringResource(R.string.source_notices),
                 tag = "settings_category_LICENSES",
-                onClick = { showNotices = true },
+                onClick = { onSelect(SettingsPage.LICENSES) },
             )
         }
     }
@@ -342,18 +362,41 @@ private fun SettingsDetail(
     language: AppLanguage,
     onLanguageChange: (AppLanguage) -> Unit,
     onShowIntroduction: () -> Unit,
+    selectedNotice: SourceNotice?,
+    onNoticeSelected: (SourceNotice) -> Unit,
+    onBack: () -> Unit,
     showTitle: Boolean = true,
 ) {
     // Each page owns its scroll position; changing categories starts at its heading.
     key(page) {
         Column(
             Modifier.fillMaxWidth()
-                .verticalScroll(rememberScrollState())
+                .then(
+                    if (page == SettingsPage.LICENSES) Modifier.fillMaxSize()
+                    else Modifier.verticalScroll(rememberScrollState())
+                )
                 .testTag("settings_page_${page.name}"),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            if (showTitle)
-                Text(stringResource(page.title), style = MaterialTheme.typography.headlineSmall)
+            if (showTitle) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (selectedNotice != null) {
+                        IconButton(
+                            onClick = onBack,
+                            modifier = Modifier.testTag("source_notice_close"),
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_back),
+                                stringResource(R.string.source_notices_back),
+                            )
+                        }
+                    }
+                    Text(
+                        selectedNotice?.title ?: stringResource(page.title),
+                        style = MaterialTheme.typography.headlineSmall,
+                    )
+                }
+            }
             when (page) {
                 SettingsPage.APPEARANCE ->
                     SettingsGroup {
@@ -432,7 +475,7 @@ private fun SettingsDetail(
                         )
                         SettingsNote(stringResource(R.string.platform_note))
                     }
-                SettingsPage.LICENSES -> SettingsGroup { SourceNotices() }
+                SettingsPage.LICENSES -> SourceNotices(selectedNotice, onNoticeSelected)
                 SettingsPage.PRIVACY -> SettingsGroup { PrivacyPolicy() }
                 SettingsPage.CONTRIBUTORS -> SettingsGroup { Contributors() }
                 SettingsPage.ABOUT ->

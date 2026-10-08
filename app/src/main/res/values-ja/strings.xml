@@ -806,4 +806,7 @@
     <plurals name="componentory_egg_countdown">
         <item quantity="other">あと%1$d回タップするとイースターエッグが開きます。</item>
     </plurals>
+    <string name="source_notices_search_hint">ライセンスを検索</string>
+    <string name="source_notices_empty">検索に一致するライセンスがありません。</string>
+    <string name="source_notices_back">ライセンス一覧に戻る</string>
 </resources>

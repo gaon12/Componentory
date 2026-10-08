@@ -2,13 +2,22 @@ package xyz.gaon.componentory.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -16,16 +25,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xyz.gaon.componentory.R
 
@@ -41,44 +55,75 @@ internal enum class SourceNotice(val title: String, val filename: String) {
 }
 
 @Composable
-internal fun SourceNotices() {
-    var selected by rememberSaveable { mutableStateOf<SourceNotice?>(null) }
-    SourceNoticeRows { selected = it }
-    selected?.let { notice ->
-        SourceDocumentDialog(notice.title, notice.filename) { selected = null }
+internal fun SourceNotices(selected: SourceNotice?, onSelect: (SourceNotice) -> Unit) {
+    var query by rememberSaveable { mutableStateOf("") }
+    val listState = rememberLazyListState()
+    val focus = LocalFocusManager.current
+    val scope = rememberCoroutineScope()
+    val changeQuery: (String) -> Unit = {
+        query = it
+        scope.launch { listState.scrollToItem(0) }
     }
-}
-
-@Composable
-internal fun SourceNoticesDialog(onClose: () -> Unit) {
-    var selected by rememberSaveable { mutableStateOf<SourceNotice?>(null) }
-    val notice = selected
-    if (notice != null) {
-        SourceDocumentDialog(notice.title, notice.filename) { selected = null }
-    } else {
-        Dialog(onDismissRequest = onClose) {
+    Column(Modifier.fillMaxSize().testTag("source_notices_page")) {
+        if (selected != null) {
+            SourceDocumentText(selected.filename, Modifier.fillMaxSize())
+        } else {
+            OutlinedTextField(
+                value = query,
+                onValueChange = changeQuery,
+                label = { Text(stringResource(R.string.source_notices_search_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
+                leadingIcon = { Icon(painterResource(R.drawable.ic_search), null) },
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        IconButton(
+                            onClick = { changeQuery("") },
+                            Modifier.testTag("source_notices_clear"),
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_close),
+                                stringResource(R.string.clear_search),
+                            )
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().testTag("source_notices_search"),
+            )
+            val notices =
+                SourceNotice.entries.filter {
+                    it.title.contains(query.trim(), ignoreCase = true) ||
+                        it.filename.contains(query.trim(), ignoreCase = true)
+                }
             Surface(
                 shape = MaterialTheme.shapes.large,
-                modifier = Modifier.fillMaxWidth().heightIn(max = 600.dp),
+                modifier = Modifier.padding(top = 16.dp).fillMaxWidth().weight(1f),
             ) {
-                Column(
-                    Modifier.padding(24.dp).testTag("source_notices_dialog"),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    Text(
-                        stringResource(R.string.source_notices),
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                    Column(
-                        Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())
-                    ) {
-                        SourceNoticeRows { selected = it }
+                LazyColumn(state = listState, modifier = Modifier.testTag("source_notices_list")) {
+                    item {
+                        Text(
+                            stringResource(R.string.source_notices_note),
+                            Modifier.padding(18.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
-                    TextButton(
-                        onClick = onClose,
-                        modifier = Modifier.testTag("source_notices_dismiss"),
-                    ) {
-                        Text(stringResource(R.string.close))
+                    if (notices.isEmpty()) {
+                        item {
+                            Text(
+                                stringResource(R.string.source_notices_empty),
+                                Modifier.padding(18.dp).testTag("source_notices_empty"),
+                            )
+                        }
+                    }
+                    items(notices, key = { it.name }) { notice ->
+                        SettingsListRow(
+                            notice.title,
+                            tag = "source_notice_${notice.name}",
+                            onClick = { onSelect(notice) },
+                        )
+                        HorizontalDivider()
                     }
                 }
             }
@@ -87,27 +132,25 @@ internal fun SourceNoticesDialog(onClose: () -> Unit) {
 }
 
 @Composable
-private fun SourceNoticeRows(onSelect: (SourceNotice) -> Unit) {
-    Column {
-        Text(
-            stringResource(R.string.source_notices_note),
-            Modifier.padding(18.dp),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        SourceNotice.entries.forEachIndexed { index, notice ->
-            SettingsListRow(
-                notice.title,
-                tag = "source_notice_${notice.name}",
-                onClick = { onSelect(notice) },
-            )
-            if (index < SourceNotice.entries.lastIndex) HorizontalDivider()
+internal fun SourceDocumentDialog(title: String, filename: String, onClose: () -> Unit) {
+    Dialog(onDismissRequest = onClose) {
+        Surface(
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier.fillMaxWidth().heightIn(max = 600.dp),
+        ) {
+            Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text(title, style = MaterialTheme.typography.titleLarge)
+                SourceDocumentText(filename, Modifier.weight(1f, fill = false))
+                TextButton(onClick = onClose, modifier = Modifier.testTag("source_notice_close")) {
+                    Text(stringResource(R.string.close))
+                }
+            }
         }
     }
 }
 
 @Composable
-internal fun SourceDocumentDialog(title: String, filename: String, onClose: () -> Unit) {
+private fun SourceDocumentText(filename: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val body by
         produceState<String?>(null, filename) {
@@ -122,30 +165,15 @@ internal fun SourceDocumentDialog(title: String, filename: String, onClose: () -
                     }
                 }
         }
-    Dialog(onDismissRequest = onClose) {
-        Surface(
-            shape = MaterialTheme.shapes.large,
-            modifier = Modifier.fillMaxWidth().heightIn(max = 600.dp),
-        ) {
-            Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text(title, style = MaterialTheme.typography.titleLarge)
-                androidx.compose.runtime.key(filename) {
-                    Text(
-                        body?.takeIf { it.isNotEmpty() }
-                            ?: stringResource(
-                                if (body == null) R.string.source_notices_loading
-                                else R.string.source_notices_unavailable
-                            ),
-                        Modifier.weight(1f, fill = false)
-                            .verticalScroll(rememberScrollState())
-                            .testTag("source_notice_body"),
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
-                TextButton(onClick = onClose, modifier = Modifier.testTag("source_notice_close")) {
-                    Text(stringResource(R.string.close))
-                }
-            }
-        }
+    androidx.compose.runtime.key(filename) {
+        Text(
+            body?.takeIf { it.isNotEmpty() }
+                ?: stringResource(
+                    if (body == null) R.string.source_notices_loading
+                    else R.string.source_notices_unavailable
+                ),
+            modifier.verticalScroll(rememberScrollState()).testTag("source_notice_body"),
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }

@@ -3,15 +3,23 @@ package xyz.gaon.componentory.settings
 import android.view.WindowManager
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.text.AnnotatedString
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import java.security.MessageDigest
 import org.json.JSONObject
@@ -40,8 +48,9 @@ class SourceNoticesTest {
                 ?.isVisible(WindowInsetsCompat.Type.ime()) != true
         }
         compose.openSettingsPage("LICENSES")
-        compose.onNodeWithTag("source_notices_dialog").assertIsDisplayed()
-        compose.onNodeWithTag("settings_page_LICENSES").assertDoesNotExist()
+        compose.onNodeWithTag("source_notices_page").assertIsDisplayed()
+        compose.onNodeWithTag("settings_page_LICENSES").assertExists()
+        compose.onNodeWithTag("source_notices_dialog").assertDoesNotExist()
     }
 
     @Test
@@ -52,7 +61,10 @@ class SourceNoticesTest {
                     .open("legal/${notice.filename}")
                     .bufferedReader(Charsets.UTF_8)
                     .use { it.readText() }
-            compose.onNodeWithTag("source_notice_${notice.name}").performScrollTo().performClick()
+            compose
+                .onNodeWithTag("source_notices_list")
+                .performScrollToNode(hasTestTag("source_notice_${notice.name}"))
+            compose.onNodeWithTag("source_notice_${notice.name}").performClick()
             try {
                 compose.waitUntil(10_000) {
                     val nodes =
@@ -87,6 +99,64 @@ class SourceNoticesTest {
             compose.onNodeWithTag("source_notice_close").assertIsDisplayed().performClick()
             compose.onNodeWithTag("source_notice_body").assertDoesNotExist()
         }
+    }
+
+    @Test
+    fun searchAndTheSelectedDocumentSurviveRecreationAndBackReturnsToTheFilteredList() {
+        search("apache")
+        compose.onNodeWithTag("source_notice_APACHE").assertIsDisplayed().performClick()
+        compose.onNodeWithTag("source_notices_search").assertDoesNotExist()
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithTag("source_notice_body").assertExists()
+        pressBack()
+        assertQuery("apache")
+        compose.onNodeWithTag("source_notice_APACHE").assertIsDisplayed()
+        compose.onNodeWithTag("source_notice_MIT").assertDoesNotExist()
+        pressBack()
+        compose.onNodeWithTag("settings_page_LICENSES").assertDoesNotExist()
+        compose.onNodeWithTag("settings_category_APPEARANCE").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
+    fun returningFromARecreatedDocumentKeepsTheListScrollPosition() {
+        compose
+            .onNodeWithTag("source_notices_list")
+            .performScrollToNode(hasTestTag("source_notice_AUTOFILL"))
+        compose.onNodeWithTag("source_notice_AUTOFILL").assertIsDisplayed().performClick()
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithTag("source_notice_close").performClick()
+        compose.onNodeWithTag("source_notice_AUTOFILL").assertIsDisplayed()
+    }
+
+    @Test
+    fun emptySearchCanBeClearedAndReselectingSettingsClosesTheDocumentAndResetsItsQuery() {
+        search("no matching license")
+        compose.onNodeWithTag("source_notices_empty").assertIsDisplayed()
+        compose.onNodeWithTag("source_notices_clear").performClick()
+        assertQuery("")
+        search("componentory-mit.txt")
+        compose.onNodeWithTag("source_notice_MIT").assertIsDisplayed().performClick()
+        compose.onNodeWithTag("nav_settings").assertIsDisplayed().performClick()
+        compose.onNodeWithTag("source_notice_body").assertDoesNotExist()
+        compose.openSettingsPage("LICENSES")
+        assertQuery("")
+        compose.onNodeWithTag("source_notice_ATTRIBUTION").assertIsDisplayed()
+    }
+
+    private fun assertQuery(query: String) {
+        compose
+            .onNodeWithTag("source_notices_search")
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.EditableText,
+                    AnnotatedString(query),
+                )
+            )
+    }
+
+    private fun search(query: String) {
+        compose.onNodeWithTag("source_notices_search").performTextReplacement(query)
+        compose.onNodeWithTag("source_notices_search").performImeAction()
     }
 
     @Test

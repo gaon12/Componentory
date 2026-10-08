@@ -806,4 +806,7 @@
     <plurals name="componentory_egg_countdown">
         <item quantity="other">%1$d번 더 누르면 이스터에그가 열립니다.</item>
     </plurals>
+    <string name="source_notices_search_hint">라이선스 검색</string>
+    <string name="source_notices_empty">검색과 일치하는 라이선스가 없습니다.</string>
+    <string name="source_notices_back">라이선스 목록으로 돌아가기</string>
 </resources>

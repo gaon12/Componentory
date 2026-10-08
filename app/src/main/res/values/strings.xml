@@ -810,4 +810,7 @@
         <item quantity="one">%1$d more tap to open the Easter egg.</item>
         <item quantity="other">%1$d more taps to open the Easter egg.</item>
     </plurals>
+    <string name="source_notices_search_hint">Search licenses</string>
+    <string name="source_notices_empty">No licenses match your search.</string>
+    <string name="source_notices_back">Back to licenses</string>
 </resources>
