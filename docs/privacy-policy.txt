@@ -27,6 +27,26 @@ not read, store, or send keystrokes from other apps. Return to your usual keyboa
 and autofill service after the demonstration. These services are not password
 managers and do not access account credentials.
 
+Optional Easter egg games
+AOSP-derived Easter egg ports store game progress, generated cats, cat names,
+feeding choices, and simulation preferences locally. Cat visits can schedule
+local Android jobs after you choose food. These jobs follow Android battery and
+background limits and do not contact a server. Vibration follows your device.
+
+Notifications for cat visits and spacecraft progress are optional. On Android
+13 and later you choose whether to grant notification permission. Device-control
+providers, the cat quick settings tile, color palette widgets, and screen savers
+are enabled only through your game gestures or explicit choices. Select them in
+Android or your launcher; they do not read or control unrelated devices.
+
+Saving or sharing a cat can write its generated image to Pictures/Cats. Android
+7 through 9 may ask for storage permissions; newer Android versions use MediaStore
+for the generated image without broad media access. Sharing uses Android's share
+sheet, and you choose the receiving app. Saved gallery images remain after the
+app is uninstalled; remove them with your gallery or file manager. Emoji fonts,
+framework icons, and the wallpaper-derived system palette use the installed OS.
+The app does not send your wallpaper, game progress, or cat images to the developer.
+
 Exports and external links
 Exporting comparison runs uses Android's share sheet. The shared text can include
 your sample inputs and the technical context listed above. You choose its

@@ -76,6 +76,7 @@ internal fun ComponentSummary(
                     ComponentCategory.NAVIGATION -> Icons.Outlined.Menu
                     ComponentCategory.LAYOUT -> Icons.Outlined.ViewQuilt
                     ComponentCategory.MEDIA -> Icons.Outlined.PlayCircleOutline
+                    ComponentCategory.EASTER_EGG -> Icons.Outlined.PlayCircleOutline
                     ComponentCategory.LEGACY -> Icons.Outlined.History
                 },
                 contentDescription = null,

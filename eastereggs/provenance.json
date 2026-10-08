@@ -6671,5 +6671,10 @@
       "adaptations": []
     }
   ],
-  "generatedManifestSha256": "6dbb9a1422b699a03172a4a96a34529a98e5a898e3784c59564d41cf46f7f0ab"
+  "generatedManifestSha256": "b81c436043d324e04de1cb0aa4cd2ff3a46dfa13ea5af3f148cfbdc189535a01",
+  "manifestAdaptations": [
+    "Use a shared namespace and private activities except the permission-protected Android 7 tile preferences entry.",
+    "Keep original binding permissions and disabled optional integrations.",
+    "Register the shared Startup initializer."
+  ]
 }

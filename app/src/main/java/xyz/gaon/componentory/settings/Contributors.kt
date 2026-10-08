@@ -40,6 +40,31 @@ internal fun Contributors() {
                 )
             )
         )
+        HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+        Text(
+            stringResource(R.string.upstream_contributors),
+            Modifier.padding(18.dp),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Text(
+            stringResource(R.string.upstream_contributors_note),
+            Modifier.padding(horizontal = 18.dp),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        ExternalLinkRows(
+            listOf(
+                ExternalLink(
+                    "Hu Shenghao · Android Easter Eggs",
+                    "https://github.com/hushenghao/AndroidEasterEggs",
+                    "upstream_easter_eggs",
+                ),
+                ExternalLink(
+                    "Android Open Source Project",
+                    "https://android.googlesource.com/platform/frameworks/base/",
+                    "upstream_aosp",
+                ),
+            )
+        )
         Text(
             stringResource(R.string.contributors_verified, contributorsVerifiedOn),
             Modifier.padding(18.dp),

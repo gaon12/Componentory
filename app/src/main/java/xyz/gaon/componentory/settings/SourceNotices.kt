@@ -35,6 +35,7 @@ internal enum class SourceNotice(val title: String, val filename: String) {
     APACHE("Apache License 2.0", "Apache-2.0.txt"),
     AOSP_RESOURCES("AOSP resource releases · NOTICE", "aosp-resources-NOTICE.txt"),
     FRAMEWORK("AOSP framework · NOTICE", "aosp-frameworks-base-NOTICE.txt"),
+    EASTER_EGGS("Android Easter egg ports · Apache 2.0", "easter-eggs-NOTICE.txt"),
     SDK("Android SDK · NOTICE", "android-sdk-NOTICE.txt"),
     AUTOFILL("AndroidX Autofill 1.3.0 · Apache 2.0", "androidx-autofill-LICENSE.txt"),
 }

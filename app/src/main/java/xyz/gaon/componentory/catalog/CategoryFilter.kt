@@ -21,10 +21,12 @@ fun CategoryFilter(
     onSelect: (ComponentCategory?) -> Unit,
     tagPrefix: String,
     modifier: Modifier = Modifier,
+    includeEasterEggs: Boolean = false,
 ) {
     val categories =
         ComponentCategory.entries.filter { category ->
-            LabComponent.entries.any { it.category == category }
+            LabComponent.entries.any { it.category == category } ||
+                (includeEasterEggs && category == ComponentCategory.EASTER_EGG)
         }
     LazyRow(modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         item {

@@ -56,6 +56,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.eastereggs.EasterEggDetails
+import xyz.gaon.componentory.eastereggs.easterEggReleases
 import xyz.gaon.componentory.history.HistoryBrowser
 import xyz.gaon.componentory.lab.ComponentCategory
 import xyz.gaon.componentory.lab.DesignFamily
@@ -94,6 +96,7 @@ fun ComponentListScreen(
     selected: LabComponent? = null,
     onOpenComponent: (LabComponent) -> Unit,
 ) {
+    var selectedEggId by rememberSaveable { mutableStateOf<String?>(null) }
     var query by rememberSaveable { mutableStateOf("") }
     var category by rememberSaveable { mutableStateOf<ComponentCategory?>(null) }
     val sampleListState = rememberLazyGridState()
@@ -109,6 +112,18 @@ fun ComponentListScreen(
         LabComponent.entries.filter {
             it.matchesSearch(query, context) && (category == null || it.category == category)
         }
+    val eggName = stringResource(R.string.category_easter_egg)
+    val eggs =
+        easterEggReleases.filter {
+            it.matches(query, eggName) &&
+                (category == null || category == ComponentCategory.EASTER_EGG)
+        }
+    val resultCount = components.size + eggs.size
+    selectedEggId?.let { id ->
+        easterEggReleases
+            .find { it.id == id }
+            ?.let { egg -> EasterEggDetails(egg) { selectedEggId = null } }
+    }
     BoxWithConstraints(Modifier.widthIn(max = 900.dp).fillMaxSize()) {
         val compactHeader = WindowInsets.ime.getBottom(LocalDensity.current) > 0
         val shortWindow = maxHeight < 360.dp
@@ -225,13 +240,10 @@ fun ComponentListScreen(
                         },
                         "list",
                         Modifier.fillMaxWidth(),
+                        includeEasterEggs = true,
                     )
                 Text(
-                    pluralStringResource(
-                        R.plurals.component_count,
-                        components.size,
-                        components.size,
-                    ),
+                    pluralStringResource(R.plurals.component_count, resultCount, resultCount),
                     modifier = Modifier.testTag("sample_count"),
                     style = MaterialTheme.typography.labelLarge,
                 )
@@ -243,7 +255,7 @@ fun ComponentListScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxWidth().weight(1f).testTag("component_list"),
                 ) {
-                    if (components.isEmpty()) {
+                    if (resultCount == 0) {
                         item(span = { GridItemSpan(maxLineSpan) }) {
                             Column(
                                 Modifier.fillMaxWidth().padding(vertical = 32.dp),
@@ -264,6 +276,38 @@ fun ComponentListScreen(
                                 ) {
                                     Text(stringResource(R.string.show_all_components))
                                 }
+                            }
+                        }
+                    }
+                    items(eggs, key = { "egg_${it.id}" }) { egg ->
+                        Card(
+                            onClick = {
+                                focus.clearFocus()
+                                selectedEggId = egg.id
+                            },
+                            modifier = Modifier.fillMaxWidth().testTag("egg_${egg.id}"),
+                            colors =
+                                CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surface
+                                ),
+                        ) {
+                            Column(
+                                Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(5.dp),
+                            ) {
+                                Text(
+                                    "$eggName · ${egg.title}",
+                                    style = MaterialTheme.typography.titleMedium,
+                                )
+                                Text(
+                                    egg.family.nickname,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                                Text(
+                                    stringResource(R.string.egg_port_badge),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
                             }
                         }
                     }

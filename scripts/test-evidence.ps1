@@ -27,8 +27,8 @@ function Assert-DeviceTestScope {
     param([bool]$NoUi, [string]$TestClass)
 
     # Only reviewed tests without Activities or input may skip screen preparation.
-    if ($NoUi -and $TestClass -cnotmatch '^xyz\.gaon\.componentory\.(?:icons\.IconCatalogResourceTest|catalog\.ComponentInventoryResourceTest)(?:#[A-Za-z_][A-Za-z0-9_]*)?$') {
-        throw 'The -NoUi mode requires IconCatalogResourceTest or ComponentInventoryResourceTest, optionally followed by #method. UI tests still require an unlocked screen.'
+    if ($NoUi -and $TestClass -cnotmatch '^xyz\.gaon\.componentory\.(?:icons\.IconCatalogResourceTest|catalog\.ComponentInventoryResourceTest|eastereggs\.EasterEggResourceTest)(?:#[A-Za-z_][A-Za-z0-9_]*)?$') {
+        throw 'The -NoUi mode requires IconCatalogResourceTest, ComponentInventoryResourceTest, or EasterEggResourceTest, optionally followed by #method. UI tests still require an unlocked screen.'
     }
 }
 

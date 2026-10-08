@@ -63,7 +63,14 @@ def verify(upstream=None):
         assert name not in declared, f"Duplicate component: {name}"
         declared[name] = element.tag
         if element.tag == "activity":
-            assert element.get(ANDROID + "exported") == "false", name
+            if name == "com.android_n.egg.neko.NekoLand":
+                assert element.get(ANDROID + "exported") == "true"
+                assert (
+                    element.get(ANDROID + "permission")
+                    == "android.permission.BIND_QUICK_SETTINGS_TILE"
+                )
+            else:
+                assert element.get(ANDROID + "exported") == "false", name
         if element.tag == "service":
             assert element.get(ANDROID + "permission", "").startswith("android.permission.BIND_"), (
                 name

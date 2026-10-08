@@ -14,4 +14,5 @@ enum class ComponentCategory(val labelRes: Int) {
     LAYOUT(R.string.category_layout),
     MEDIA(R.string.category_media),
     LEGACY(R.string.category_legacy),
+    EASTER_EGG(R.string.category_easter_egg),
 }

@@ -24,8 +24,9 @@ artwork when the pinned source supplies the same code.
 component declarations, and changes for every retained file. Resource bytes,
 including images and nine-patches, are unchanged. Values filenames are prefixed
 to coexist in one module; resource names remain unchanged. Each original manifest
-is retained in `upstream-manifests`. The merged manifest keeps activities private
-and system services protected by their Android binding permissions. Optional
+is retained in `upstream-manifests`. The merged manifest keeps activities private except the Android 7 tile preferences
+entry, which Android opens through a binding-permission-protected activity. System
+services retain their Android binding permissions. Optional
 widgets, controls, tiles, and dreams begin disabled.
 
 Imports use a shared resource namespace. Only the used inset mask is retained

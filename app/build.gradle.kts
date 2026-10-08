@@ -106,6 +106,7 @@ tasks
     .configureEach { dependsOn(verifyReleaseSigning) }
 
 dependencies {
+    implementation(project(":eastereggs"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.autofill) { version { strictly(libs.versions.autofill.get()) } }
@@ -296,5 +297,32 @@ androidComponents.onVariants { variant ->
     variant.sources.assets?.addGeneratedSourceDirectory(
         packageComponentInventory,
         PackageComponentInventory::outputDirectory,
+    )
+}
+
+abstract class PackageEasterEggProvenance : DefaultTask() {
+    @get:InputFile
+    @get:PathSensitive(PathSensitivity.NONE)
+    abstract val sourceFile: RegularFileProperty
+    @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun packageProvenance() {
+        val destination = outputDirectory.file("easter-eggs/provenance.json").get().asFile
+        destination.parentFile.mkdirs()
+        sourceFile.get().asFile.copyTo(destination, overwrite = true)
+    }
+}
+
+val packageEasterEggProvenance =
+    tasks.register<PackageEasterEggProvenance>("packageEasterEggProvenance") {
+        sourceFile.set(rootProject.layout.projectDirectory.file("eastereggs/provenance.json"))
+        outputDirectory.set(layout.buildDirectory.dir("generated/easterEggProvenance"))
+    }
+
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(
+        packageEasterEggProvenance,
+        PackageEasterEggProvenance::outputDirectory,
     )
 }

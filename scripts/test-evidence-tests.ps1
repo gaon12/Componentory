@@ -88,7 +88,11 @@ $inventoryTest = 'xyz.gaon.componentory.catalog.ComponentInventoryResourceTest'
 Assert-DeviceTestScope -NoUi $true -TestClass $inventoryTest
 Assert-DeviceTestScope -NoUi $true -TestClass ($inventoryTest + '#packagedInventoryRetainsAuditedSourcesAndStatuses')
 $checks += 2
-foreach ($invalidScope in @('', 'xyz.gaon.componentory.icons.IconBrowserTest', ($resourceTest + ',other.Test'), $resourceTest.ToLowerInvariant(), ($resourceTest + '#bad method'), ($resourceTest + ';invalid'), ($resourceTest + ',' + $inventoryTest), $inventoryTest.ToLowerInvariant(), ($inventoryTest + 'Extra'))) {
+$eggTest = 'xyz.gaon.componentory.eastereggs.EasterEggResourceTest'
+Assert-DeviceTestScope -NoUi $true -TestClass $eggTest
+Assert-DeviceTestScope -NoUi $true -TestClass ($eggTest + '#realNonogramRasterCluesAndPlayerMarksSurviveAnAndroidParcelRoundTrip')
+$checks += 2
+foreach ($invalidScope in @('', 'xyz.gaon.componentory.icons.IconBrowserTest', 'xyz.gaon.componentory.eastereggs.EasterEggCatalogUiTest', ($eggTest + 'Extra'), ($resourceTest + ',other.Test'), $resourceTest.ToLowerInvariant(), ($resourceTest + '#bad method'), ($resourceTest + ';invalid'), ($resourceTest + ',' + $inventoryTest), $inventoryTest.ToLowerInvariant(), ($inventoryTest + 'Extra'))) {
     $rejected = $false
     try { Assert-DeviceTestScope -NoUi $true -TestClass $invalidScope } catch { $rejected = $true }
     Assert-Evidence $rejected 'Resource-only mode must reject missing, interactive, or malformed scopes.'
