@@ -697,24 +697,22 @@ class SampleSetupTest {
 
     @Test
     fun clockCopiesCarryOnlyTheFormatOrRunningStateTheirPanelActuallyOwns() {
-        val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
+        val families =
+            DesignFamily.entries.filter {
+                it.unsupportedReason(LabComponent.TEXT_CLOCK, API) == null
+            }
         // The text clock's only input is its pinned format choice.
         val clockSource = SampleState(initialTime24Hour = false, initialText = "ignored")
-        platform.forEach { sourceFamily ->
+        families.forEach { sourceFamily ->
             val setup = SampleSetup.capture(LabComponent.TEXT_CLOCK, sourceFamily, clockSource, API)
             assertEquals(setOf("component", "family", "time24Hour"), setup.savedValues().keys)
             val restored = requireNotNull(SampleSetup.restore(setup.savedValues()))
-            platform.forEach { targetFamily ->
+            families.forEach { targetFamily ->
                 val target = requireNotNull(restored.copyTo(targetFamily, API).state)
                 assertNotSame(clockSource, target)
                 assertFalse(target.time24Hour)
                 assertEquals("", target.text)
                 assertEquals(LabComponent.TEXT_CLOCK.initialValue, target.value)
-            }
-            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { targetFamily ->
-                val result = restored.copyTo(targetFamily, API)
-                assertNull(result.state)
-                assertEquals(SetupCopyReason.TARGET_UNSUPPORTED, result.reason)
             }
         }
     }

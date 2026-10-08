@@ -895,6 +895,18 @@ class CatalogRenderingSmokeTest {
 
     private fun verifyLibrary(component: LabComponent, family: DesignFamily) {
         compose.onNodeWithTag("native_LEFT").assertDoesNotExist()
+        if (component.isClockDisplay || component == LabComponent.CHRONOMETER) {
+            displayed(
+                if (component == LabComponent.ANALOG_CLOCK) "clock_dial_LEFT" else "clock_text_LEFT"
+            )
+            compose
+                .onNodeWithTag("rendering_LEFT")
+                .performScrollTo()
+                .assertTextEquals(compose.activity.getString(R.string.rendering_themed_demo))
+            if (component == LabComponent.CHRONOMETER)
+                displayed("chronometer_start_LEFT").assertHasClickAction().assertIsEnabled()
+            return
+        }
         if (component == LabComponent.TOAST) {
             displayed("toast_preview_LEFT")
             displayed("library_LEFT").assertHasClickAction().assertIsEnabled()

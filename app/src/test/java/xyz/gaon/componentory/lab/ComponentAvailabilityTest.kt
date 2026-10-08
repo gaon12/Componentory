@@ -43,7 +43,7 @@ class ComponentAvailabilityTest {
     }
 
     @Test
-    fun standaloneClocksUseOnlyFrameworkSuppliersWithTheirRealApiLevels() {
+    fun standaloneClocksIdentifyFrameworkApisAndSeparateModernThemeDemos() {
         val platform = listOf(DesignFamily.CLASSIC, DesignFamily.HOLO, DesignFamily.MATERIAL)
         val clocks =
             mapOf(
@@ -61,10 +61,16 @@ class ComponentAvailabilityTest {
                 assertNull(family.unsupportedReason(component, 36))
                 assertEquals(source, family.source(component))
             }
-            listOf(DesignFamily.MATERIAL2, DesignFamily.MATERIAL3).forEach { family ->
-                assertNotNull(family.unsupportedReason(component, 36))
-                assertEquals("Not provided", family.source(component))
-            }
+            DesignFamily.entries
+                .filter { it.platform == null }
+                .forEach { family ->
+                    assertNull(family.unsupportedReason(component, 36))
+                    assertEquals(
+                        "xyz.gaon.componentory.lab.ThemedClockSample",
+                        family.source(component),
+                    )
+                    assertNull(family.libraryFunction(component))
+                }
             assertTrue(component.matchesSearch(source))
         }
         assertEquals(17, LabComponent.TEXT_CLOCK.minimumApi)

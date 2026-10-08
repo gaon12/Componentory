@@ -346,7 +346,7 @@
     <string name="component_digital_clock">Digital clock</string>
     <string name="component_digital_clock_description">The original digital clock. Deprecated since API 17; the framework still renders it as a ticking text display.</string>
     <string name="component_chronometer">Chronometer</string>
-    <string name="component_chronometer_description">A counting timer driven by the original Chronometer widget with framework buttons.</string>
+    <string name="component_chronometer_description">A counting timer driven by the framework Chronometer widget with framework buttons.</string>
     <string name="status_clock_format">Clock format: %1$s</string>
     <string name="clock_format_24">24-hour</string>
     <string name="clock_format_12">12-hour</string>
@@ -356,8 +356,8 @@
     <string name="chronometer_stop">Stop</string>
     <string name="chronometer_reset">Reset</string>
     <string name="text_clock_note">Shows the current device time and updates itself. The 24-hour switch pins both format fields so the display follows this sample, not the system setting.</string>
-    <string name="chronometer_note">Start, Stop and Reset drive the original Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.</string>
-    <string name="clock_deprecated_note">Deprecated since API %1$d. The framework still supplies and renders it; Compose libraries have no replacement.</string>
+    <string name="chronometer_note">Start, Stop and Reset drive the framework Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.</string>
+    <string name="clock_deprecated_note">Deprecated since API %1$d. This framework widget is still available and runs on the current OS.</string>
     <string name="component_scroll_view">Scroll view</string>
     <string name="component_scroll_view_description">The original framework ScrollView hosting a fixed column of themed text lines inside a bounded height.</string>
     <string name="component_horizontal_scroll_view">Horizontal scroll view</string>
@@ -736,4 +736,6 @@
     <string name="privacy_policy_category_summary">Local data and optional demo services</string>
     <string name="privacy_policy_summary">Preferences and comparison runs stay on this device. No ads, analytics, or developer data collection. You choose whether to export a run. The full policy below is available offline in English.</string>
     <string name="privacy_policy_read">Read the full privacy policy</string>
+    <string name="rendering_themed_demo">Theme-based clock demo</string>
+    <string name="rendering_themed_demo_note">Built by Componentory with Compose drawing, text, and controls using the selected theme. This is not a dedicated Material clock API or an original OS capture.</string>
 </resources>

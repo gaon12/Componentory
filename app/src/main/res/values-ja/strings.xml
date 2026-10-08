@@ -344,7 +344,7 @@
     <string name="component_digital_clock">デジタル時計</string>
     <string name="component_digital_clock_description">元のデジタル時計です。API 17で非推奨になりましたが、フレームワークは毎秒更新するテキスト表示として描画し続けます。</string>
     <string name="component_chronometer">クロノメーター</string>
-    <string name="component_chronometer_description">フレームワークのボタンで動かす元のChronometer経過時間タイマーです。</string>
+    <string name="component_chronometer_description">フレームワークのボタンで動かすフレームワークのChronometer経過時間タイマーです。</string>
     <string name="status_clock_format">時計の形式: %1$s</string>
     <string name="clock_format_24">24時間</string>
     <string name="clock_format_12">12時間</string>
@@ -354,8 +354,8 @@
     <string name="chronometer_stop">停止</string>
     <string name="chronometer_reset">リセット</string>
     <string name="text_clock_note">端末の現在時刻を表示し、自動で更新します。24時間スイッチが両方の形式フィールドを固定するため、システム設定ではなくこのサンプルの選択に従います。</string>
-    <string name="chronometer_note">開始、停止、リセットが元のChronometerを動かします。実行中のタイマーはカウントを続け、画面回転後も再開します。停止すると経過時間が固定されます。</string>
-    <string name="clock_deprecated_note">API %1$dで非推奨になりました。フレームワークは引き続き提供・描画しますが、Composeライブラリに代替はありません。</string>
+    <string name="chronometer_note">開始、停止、リセットがフレームワークのChronometerを動かします。実行中のタイマーはカウントを続け、画面回転後も再開します。停止すると経過時間が固定されます。</string>
+    <string name="clock_deprecated_note">API %1$dで非推奨になりました。このフレームワークウィジェットは現在の OS でも利用でき、動作します。</string>
     <string name="component_scroll_view">スクロールビュー</string>
     <string name="component_scroll_view_description">一定の高さの中でテーマのテキスト行の列を収める元のフレームワークScrollViewです。</string>
     <string name="component_horizontal_scroll_view">水平スクロールビュー</string>
@@ -733,4 +733,6 @@
     <string name="privacy_policy_category_summary">端末内のデータと任意のデモサービス</string>
     <string name="privacy_policy_summary">設定と比較記録はこの端末に保存されます。広告、分析、開発者によるデータ収集はありません。記録のエクスポートはご自身で選択します。全文は英語で、オフラインでも確認できます。</string>
     <string name="privacy_policy_read">プライバシーポリシー全文を読む</string>
+    <string name="rendering_themed_demo">テーマに基づく時計デモ</string>
+    <string name="rendering_themed_demo_note">選択したテーマの色・書体・ボタンと Compose の描画・テキスト機能で Componentory が作成したデモです。Material 専用の時計 API や旧 OS のオリジナルキャプチャではありません。</string>
 </resources>

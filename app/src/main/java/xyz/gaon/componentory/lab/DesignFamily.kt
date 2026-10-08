@@ -60,6 +60,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
         if (component == LabComponent.TOAST) return ResourceToasts.forFamily(this).sourceLabel
         val absent = context?.getString(R.string.not_provided) ?: "Not provided"
         if (platform != null) return component.platformSource ?: absent
+        if (usesThemedClock(component)) return "xyz.gaon.componentory.lab.ThemedClockSample"
         val packageName =
             if (this == MATERIAL2) "androidx.compose.material" else "androidx.compose.material3"
         val function = libraryFunction(component) ?: return absent
@@ -76,6 +77,7 @@ enum class DesignFamily(val label: String, val platform: PlatformFamily? = null)
             return context?.getString(R.string.dynamic_color_requires_api)
                 ?: "Material You dynamic color requires Android 12 (API 31) or later."
         if (component == LabComponent.TOAST) return null
+        if (usesThemedClock(component)) return null
         if (platform != null) {
             if (component == LabComponent.ACTION_BAR && platform == PlatformFamily.CLASSIC)
                 return context?.getString(R.string.action_bar_requires_theme)

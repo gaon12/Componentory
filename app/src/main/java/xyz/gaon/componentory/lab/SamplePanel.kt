@@ -256,7 +256,9 @@ fun SamplePanel(
                             if (platform == null) icon ?: IconCatalog.defaultMaterialIcon else icon
                     ) {
                         key(family, component, reset, state) {
-                            if (platform != null) {
+                            if (family.usesThemedClock(component)) {
+                                ThemedClockSample(family, component, panel, enabled, state)
+                            } else if (platform != null) {
                                 PlatformSample(
                                     platform,
                                     component,
@@ -417,14 +419,14 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (component == LabComponent.TEXT_CLOCK && unsupported == null) {
+            if (platform != null && component == LabComponent.TEXT_CLOCK && unsupported == null) {
                 Text(
                     stringResource(R.string.text_clock_note),
                     modifier = Modifier.testTag("clock_note_$panel"),
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (component.deprecatedApi != null && unsupported == null) {
+            if (platform != null && component.deprecatedApi != null && unsupported == null) {
                 Text(
                     stringResource(
                         R.string.clock_deprecated_note,
@@ -434,7 +436,7 @@ fun SamplePanel(
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-            if (component == LabComponent.CHRONOMETER && unsupported == null) {
+            if (platform != null && component == LabComponent.CHRONOMETER && unsupported == null) {
                 Text(
                     stringResource(R.string.chronometer_note),
                     modifier = Modifier.testTag("clock_note_$panel"),

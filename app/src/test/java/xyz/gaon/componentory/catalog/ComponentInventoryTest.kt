@@ -8,6 +8,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.lab.usesThemedClock
 
 class ComponentInventoryTest {
     @Test
@@ -150,7 +151,7 @@ class ComponentInventoryTest {
         assertEquals(248, rows.size)
         assertEquals(168, LabComponent.entries.size)
         assertEquals(
-            487,
+            499,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { family ->
                     family.unsupportedReason(component, 24) == null
@@ -365,18 +366,28 @@ class ComponentInventoryTest {
     }
 
     @Test
-    fun everyDeclaredSupportedCombinationHasAnImplementedInventoryEntry() {
+    fun everySupportedCombinationIdentifiesACanonicalApiOrAnExplicitThemeDemo() {
         val implemented = inventory().filter { it.status == "Implemented" }
         LabComponent.entries
             .filter { it != LabComponent.TOAST }
             .forEach { component ->
-                DesignFamily.entries.forEach { family ->
+                DesignFamily.entries.forEach familyLoop@{ family ->
                     if (
                         family.unsupportedReason(
                             component,
                             component.minimumApi.coerceAtLeast(24),
                         ) == null
                     ) {
+                        if (family.usesThemedClock(component)) {
+                            assertEquals(
+                                "xyz.gaon.componentory.lab.ThemedClockSample",
+                                family.source(component),
+                            )
+                            assertTrue(
+                                component.isClockDisplay || component == LabComponent.CHRONOMETER
+                            )
+                            return@familyLoop
+                        }
                         val provider =
                             if (family.platform != null) "PLATFORM"
                             else if (family.isMaterial3) "MATERIAL3" else family.name
@@ -404,7 +415,7 @@ class ComponentInventoryTest {
             .forEach { (source, sample) ->
                 assertEquals(listOf(sample), rows.single { it.source == source }.catalogIds)
             }
-        assertEquals(490, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
+        assertEquals(502, LabComponent.entries.sumOf { supportedFamilies(it, 30).size })
     }
 
     private fun family(provider: String) =

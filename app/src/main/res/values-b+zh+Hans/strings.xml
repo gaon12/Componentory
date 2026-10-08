@@ -344,7 +344,7 @@
     <string name="component_digital_clock">数字时钟</string>
     <string name="component_digital_clock_description">原始的数字时钟。自 API 17 起已废弃，但框架仍将其渲染为每秒更新的文本显示。</string>
     <string name="component_chronometer">计时器</string>
-    <string name="component_chronometer_description">由框架按钮驱动的原始 Chronometer 计时控件。</string>
+    <string name="component_chronometer_description">由框架按钮驱动的框架 Chronometer 计时控件。</string>
     <string name="status_clock_format">时钟格式: %1$s</string>
     <string name="clock_format_24">24小时制</string>
     <string name="clock_format_12">12小时制</string>
@@ -354,8 +354,8 @@
     <string name="chronometer_stop">停止</string>
     <string name="chronometer_reset">重置</string>
     <string name="text_clock_note">显示设备当前时间并自动更新。24小时开关会固定两个格式字段，因此显示遵循此示例的选择而非系统设置。</string>
-    <string name="chronometer_note">开始、停止和重置按钮驱动原始 Chronometer。运行中的计时器会持续计时并在重建后恢复；停止会冻结已计时间。</string>
-    <string name="clock_deprecated_note">自 API %1$d 起已废弃。框架仍会提供并渲染它；Compose 库中没有替代品。</string>
+    <string name="chronometer_note">开始、停止和重置按钮驱动框架 Chronometer。运行中的计时器会持续计时并在重建后恢复；停止会冻结已计时间。</string>
+    <string name="clock_deprecated_note">自 API %1$d 起已标记为过时。此框架控件仍可在当前系统使用和运行。</string>
     <string name="component_scroll_view">滚动视图</string>
     <string name="component_scroll_view_description">原始框架 ScrollView，在固定高度内容纳一列主题文本行。</string>
     <string name="component_horizontal_scroll_view">水平滚动视图</string>
@@ -733,4 +733,6 @@
     <string name="privacy_policy_category_summary">本机数据和可选演示服务</string>
     <string name="privacy_policy_summary">设置和比较记录保存在本机。没有广告、分析或开发者数据收集。导出记录由您自行选择。完整政策以英语提供，离线也可阅读。</string>
     <string name="privacy_policy_read">阅读完整隐私政策</string>
+    <string name="rendering_themed_demo">基于主题的时钟演示</string>
+    <string name="rendering_themed_demo_note">Componentory 使用所选主题的颜色、字体和按钮以及 Compose 绘图和文本功能实现的演示。这不是 Material 专用时钟 API，也不是旧版系统的原始截图。</string>
 </resources>

@@ -344,7 +344,7 @@
     <string name="component_digital_clock">디지털 시계</string>
     <string name="component_digital_clock_description">원본 디지털 시계입니다. API 17부터 지원 중단됐지만 프레임워크가 매초 갱신되는 텍스트로 계속 표시합니다.</string>
     <string name="component_chronometer">크로노미터</string>
-    <string name="component_chronometer_description">프레임워크 버튼으로 구동하는 원본 Chronometer 경과 시간 타이머입니다.</string>
+    <string name="component_chronometer_description">프레임워크 버튼으로 구동하는 프레임워크 Chronometer 경과 시간 타이머입니다.</string>
     <string name="status_clock_format">시계 형식: %1$s</string>
     <string name="clock_format_24">24시간</string>
     <string name="clock_format_12">12시간</string>
@@ -354,8 +354,8 @@
     <string name="chronometer_stop">정지</string>
     <string name="chronometer_reset">초기화</string>
     <string name="text_clock_note">기기의 현재 시간을 보여주며 스스로 갱신합니다. 24시간 스위치가 두 형식 필드를 고정해서 시스템 설정이 아닌 이 샘플의 선택을 따릅니다.</string>
-    <string name="chronometer_note">시작, 정지, 초기화 버튼이 원본 Chronometer를 구동합니다. 실행 중인 타이머는 계속 세며 화면 회전 후에도 이어집니다. 정지하면 경과 시간이 고정됩니다.</string>
-    <string name="clock_deprecated_note">API %1$d부터 지원 중단됐습니다. 프레임워크는 계속 제공하고 그리지만 Compose 라이브러리에는 대체품이 없습니다.</string>
+    <string name="chronometer_note">시작, 정지, 초기화 버튼이 프레임워크 Chronometer를 구동합니다. 실행 중인 타이머는 계속 세며 화면 회전 후에도 이어집니다. 정지하면 경과 시간이 고정됩니다.</string>
+    <string name="clock_deprecated_note">API %1$d부터 사용 비권장 상태입니다. 이 프레임워크 위젯은 현재 OS에서도 제공되며 동작합니다.</string>
     <string name="component_scroll_view">스크롤 뷰</string>
     <string name="component_scroll_view_description">일정한 높이 안에서 테마의 텍스트 줄 열을 담는 원본 프레임워크 ScrollView입니다.</string>
     <string name="component_horizontal_scroll_view">가로 스크롤 뷰</string>
@@ -733,4 +733,6 @@
     <string name="privacy_policy_category_summary">기기 내 데이터와 선택적 데모 서비스</string>
     <string name="privacy_policy_summary">설정과 비교 기록은 이 기기에 저장됩니다. 광고, 분석 및 개발자의 데이터 수집은 없습니다. 기록 내보내기는 직접 선택합니다. 아래 전체 방침은 영어로 제공되며 오프라인에서도 읽을 수 있습니다.</string>
     <string name="privacy_policy_read">개인정보처리방침 전체 보기</string>
+    <string name="rendering_themed_demo">테마 기반 시계 데모</string>
+    <string name="rendering_themed_demo_note">Componentory가 선택한 테마의 색상·글꼴·버튼과 Compose의 그리기·텍스트 기능으로 만든 데모입니다. Material 전용 시계 API나 구버전 OS의 원본 캡처가 아닙니다.</string>
 </resources>

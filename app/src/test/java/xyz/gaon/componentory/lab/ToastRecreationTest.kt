@@ -44,7 +44,7 @@ class ToastRecreationTest {
         )
         assertNotNull(DesignFamily.MATERIAL_YOU.unsupportedReason(LabComponent.TOAST, 30))
         assertEquals(
-            601,
+            617,
             LabComponent.entries.sumOf { component ->
                 DesignFamily.entries.count { it.unsupportedReason(component, 35) == null }
             },

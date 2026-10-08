@@ -208,16 +208,16 @@ class ClockSamplesTest {
         blockedCopy("LEFT_TO_RIGHT", "This sample has no inputs to copy.")
 
         configure(LabComponent.TEXT_CLOCK, DesignFamily.CLASSIC, DesignFamily.MATERIAL2)
-        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
+        setFormat("LEFT", false)
+        copyInputs("LEFT_TO_RIGHT")
+        compose.onNodeWithTag("time_24_hour_RIGHT").performScrollTo().assertIsOff()
+        compose.onNodeWithTag("clock_text_RIGHT").performScrollTo().assertIsDisplayed()
         compose
-            .onNodeWithTag("unsupported_RIGHT")
-            .assertTextContains(
-                "The Material 2 library does not provide Text clock.",
-                substring = true,
-            )
-        blockedCopy("LEFT_TO_RIGHT", "The target provider does not support this sample.")
+            .onNodeWithTag("rendering_RIGHT")
+            .performScrollTo()
+            .assertTextEquals(compose.activity.getString(R.string.rendering_themed_demo))
         chooseFamily("RIGHT", DesignFamily.MATERIAL3)
-        compose.onNodeWithTag("unsupported_RIGHT").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithTag("clock_text_RIGHT").performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -226,7 +226,7 @@ class ClockSamplesTest {
             changeLanguage(text.language)
             compose.onNodeWithTag("nav_compare").performClick()
             configure(LabComponent.ANALOG_CLOCK, DesignFamily.CLASSIC, DesignFamily.MATERIAL3)
-            status("LEFT", "${text.preview}: ${text.analogLabel}")
+            status("LEFT", "${text.preview}${text.analogLabel}")
             compose
                 .onNodeWithTag("clock_note_LEFT")
                 .assertTextEquals(deprecatedNote(text.language, 23))
@@ -423,13 +423,11 @@ class ClockSamplesTest {
     private fun deprecatedNote(language: AppLanguage, api: Int): String =
         when (language) {
             AppLanguage.ENGLISH ->
-                "Deprecated since API $api. The framework still supplies and renders it; Compose libraries have no replacement."
-            AppLanguage.KOREAN ->
-                "API ${api}부터 지원 중단됐습니다. 프레임워크는 계속 제공하고 그리지만 Compose 라이브러리에는 대체품이 없습니다."
-            AppLanguage.JAPANESE ->
-                "API ${api}で非推奨になりました。フレームワークは引き続き提供・描画しますが、Composeライブラリに代替はありません。"
-            AppLanguage.SIMPLIFIED_CHINESE -> "自 API ${api} 起已废弃。框架仍会提供并渲染它；Compose 库中没有替代品。"
-            AppLanguage.TRADITIONAL_CHINESE -> "自 API ${api} 起已棄用。架構仍會提供並繪製它；Compose 函式庫中沒有替代品。"
+                "Deprecated since API $api. This framework widget is still available and runs on the current OS."
+            AppLanguage.KOREAN -> "API ${api}부터 사용 비권장 상태입니다. 이 프레임워크 위젯은 현재 OS에서도 제공되며 동작합니다."
+            AppLanguage.JAPANESE -> "API ${api}で非推奨になりました。このフレームワークウィジェットは現在の OS でも利用でき、動作します。"
+            AppLanguage.SIMPLIFIED_CHINESE -> "自 API ${api} 起已标记为过时。此框架控件仍可在当前系统使用和运行。"
+            AppLanguage.TRADITIONAL_CHINESE -> "自 API ${api} 起已標記為過時。此框架元件仍可在目前系統使用和執行。"
             else -> error("Unsupported language $language")
         }
 
@@ -448,59 +446,59 @@ class ClockSamplesTest {
                 "Shows the current device time and updates itself. The 24-hour switch pins both format fields so the display follows this sample, not the system setting.",
             format24 = "24-hour clock",
             chronometer =
-                "Start, Stop and Reset drive the original Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.",
+                "Start, Stop and Reset drive the framework Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.",
         )
 
     private val names =
         listOf(
             ClockNames(
                 AppLanguage.ENGLISH,
-                "Preview",
+                "Preview: ",
                 "Analog clock",
                 "Start",
                 "Stop",
                 "Reset",
-                "Start, Stop and Reset drive the original Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.",
+                "Start, Stop and Reset drive the framework Chronometer. A running timer keeps counting and resumes after recreation; Stop freezes the elapsed time.",
                 "Chronometer: stopped at 0:00:00",
             ),
             ClockNames(
                 AppLanguage.KOREAN,
-                "미리보기",
+                "미리보기: ",
                 "아날로그 시계",
                 "시작",
                 "정지",
                 "초기화",
-                "시작, 정지, 초기화 버튼이 원본 Chronometer를 구동합니다. 실행 중인 타이머는 계속 세며 화면 회전 후에도 이어집니다. 정지하면 경과 시간이 고정됩니다.",
+                "시작, 정지, 초기화 버튼이 프레임워크 Chronometer를 구동합니다. 실행 중인 타이머는 계속 세며 화면 회전 후에도 이어집니다. 정지하면 경과 시간이 고정됩니다.",
                 "크로노미터: 0:00:00에서 정지",
             ),
             ClockNames(
                 AppLanguage.JAPANESE,
-                "プレビュー",
+                "プレビュー: ",
                 "アナログ時計",
                 "開始",
                 "停止",
                 "リセット",
-                "開始、停止、リセットが元のChronometerを動かします。実行中のタイマーはカウントを続け、画面回転後も再開します。停止すると経過時間が固定されます。",
+                "開始、停止、リセットがフレームワークのChronometerを動かします。実行中のタイマーはカウントを続け、画面回転後も再開します。停止すると経過時間が固定されます。",
                 "クロノメーター: 0:00:00で停止",
             ),
             ClockNames(
                 AppLanguage.SIMPLIFIED_CHINESE,
-                "预览",
+                "预览：",
                 "模拟时钟",
                 "开始",
                 "停止",
                 "重置",
-                "开始、停止和重置按钮驱动原始 Chronometer。运行中的计时器会持续计时并在重建后恢复；停止会冻结已计时间。",
+                "开始、停止和重置按钮驱动框架 Chronometer。运行中的计时器会持续计时并在重建后恢复；停止会冻结已计时间。",
                 "计时器: 已停止于 0:00:00",
             ),
             ClockNames(
                 AppLanguage.TRADITIONAL_CHINESE,
-                "預覽",
+                "預覽：",
                 "類比時鐘",
                 "開始",
                 "停止",
                 "重設",
-                "開始、停止和重設按鈕驅動原始 Chronometer。執行中的計時器會持續計時並在重建後恢復；停止會凍結已計時間。",
+                "開始、停止和重設按鈕驅動框架 Chronometer。執行中的計時器會持續計時並在重建後恢復；停止會凍結已計時間。",
                 "計時器: 已停止於 0:00:00",
             ),
         )
