@@ -15,14 +15,17 @@ import org.junit.Test
 import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 
 class GamePerformanceTest {
-    @Test
-    fun crowdedMixedArtworkRunsOnTheRealFrameClock() {
+    @Test fun crowdedMixedArtworkRunsOnTheRealFrameClock() = measureCrowd(frozen = true)
+
+    @Test fun aMovingCrowdAndEvolvedWeaponsRunOnTheRealFrameClock() = measureCrowd(frozen = false)
+
+    private fun measureCrowd(frozen: Boolean) {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val e = GameEngine.create(WeaponId.BUTTON, RunMode.RANKED)
         val s = e.session
         s.tick = 18 * 60 * 60
         s.shieldTicks = Int.MAX_VALUE
-        s.freezeTicks = Int.MAX_VALUE
+        s.freezeTicks = if (frozen) Int.MAX_VALUE else 0
         s.spawnedBosses.addAll(1..4)
         s.nextId = 10000
         s.weapons.clear()
@@ -77,7 +80,8 @@ class GamePerformanceTest {
             val directory =
                 requireNotNull(instrumentation.targetContext.getExternalFilesDir("game-evidence"))
             directory.mkdirs()
-            File(directory, "mixed-combat-stress.png").outputStream().use {
+            val capture = if (frozen) "mixed-combat-stress.png" else "moving-combat-stress.png"
+            File(directory, capture).outputStream().use {
                 screenshot.compress(Bitmap.CompressFormat.PNG, 100, it)
             }
             screenshot.recycle()
@@ -86,12 +90,12 @@ class GamePerformanceTest {
                 Bundle().apply {
                     putString(
                         "game_render_fixture",
-                        "150 frozen mixed-source enemies; four evolved weapons; invulnerable rendering fixture, not a completed run",
+                        "150 ${if (frozen) "frozen" else "moving"} mixed-source enemies; four evolved weapons; invulnerable stress fixture, not a completed run",
                     )
                     putInt("game_engine_ticks_in_ten_seconds", ticks)
                     putInt("game_frame_count", measured.size)
                     putLong("game_frame_p95_nanoseconds", p95)
-                    putString("game_capture", "game-evidence/mixed-combat-stress.png")
+                    putString("game_capture", "game-evidence/$capture")
                 },
             )
             assertTrue("Too few real game ticks: " + ticks, ticks >= 450)

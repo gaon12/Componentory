@@ -17,7 +17,7 @@ records available. Local or mocked tests do not verify an online submission.
 3. Add the intended Google accounts as PGS testers. Register an Android app
    credential for each required signing identity; a correct package with the
    wrong signing certificate will not authenticate.
-4. Create one leaderboard for `survival-v1`. Use integer scores, zero decimals,
+4. Create one leaderboard for `survival-v2`. Use integer scores, zero decimals,
    and larger scores as better. All starting weapons share this leaderboard.
    Daily, weekly, and all-time views use the same leaderboard ID.
 5. Check that leaderboard tamper protection is enabled. It is managed by Google;
@@ -40,7 +40,7 @@ or service-account key is needed by this Android client.
 .\gradlew.bat :app:assembleDebug `
   -PplayGamesProjectId=YOUR_NUMERIC_PROJECT_ID `
   -PplayGamesLeaderboardId=YOUR_LEADERBOARD_ID `
-  -PplayGamesLeaderboardRuleset=survival-v1
+  -PplayGamesLeaderboardRuleset=survival-v2
 ```
 
 Replace the placeholders with the Console values. Empty IDs leave rankings

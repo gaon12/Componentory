@@ -53,8 +53,8 @@ internal data class GameResourceRelease(val api: Int, val version: String, val f
 }
 
 internal object GameCatalog {
-    const val RULESET = "survival-v1"
-    const val RANKED_SEED = 20261008L
+    const val RULESET = "survival-v2"
+    const val RANKED_SEED = 20261009L
     const val RUN_SECONDS = 1200
     const val SLOT_LIMIT = 4
     const val MAX_LEVEL = 5

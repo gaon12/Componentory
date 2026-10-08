@@ -32,28 +32,11 @@ internal class GameEngine(val session: GameSession) {
             if (s.freezeTicks == 0) {
                 if (distance < if (enemy.kind == EnemyKind.BOSS) 70f else 30f)
                     hurt(if (enemy.kind == EnemyKind.BOSS) 18f else 8f)
-                if (enemy.kind == EnemyKind.BOSS && --enemy.attackTicks <= 0) {
-                    enemy.attackTicks = 180 - enemy.bossStage * 15
-                    repeat(8) { index ->
-                        val angle = index * PI.toFloat() / 4 + s.tick * .01f
-                        val speed = 140f + enemy.bossStage * 20f
-                        addShot(
-                            GameShot(
-                                s.nextId++,
-                                enemy.x,
-                                enemy.y,
-                                cos(angle) * speed,
-                                sin(angle) * speed,
-                                12f,
-                                360,
-                                enemy.source.art,
-                                hostile = true,
-                            )
-                        )
-                    }
-                }
+                if (enemy.kind == EnemyKind.BOSS && --enemy.attackTicks <= 0)
+                    GameBosses.shoot(s, enemy, ::addShot)
             }
         }
+        if (s.freezeTicks == 0) GameCrowd.separate(s.enemies)
         for (weapon in s.weapons) {
             if (weapon.ticks > 0) weapon.ticks--
             else
@@ -228,7 +211,13 @@ internal class GameEngine(val session: GameSession) {
                 shot.x = s.x + cos(shot.angle) * orbitRadius
                 shot.y = s.y + sin(shot.angle) * orbitRadius
             } else {
-                if (shot.homing)
+                if (shot.homing && shot.hostile) {
+                    val dx = s.x - shot.x
+                    val dy = s.y - shot.y
+                    val length = sqrt(dx * dx + dy * dy).coerceAtLeast(1f)
+                    shot.vx = dx / length * 120
+                    shot.vy = dy / length * 120
+                } else if (shot.homing)
                     closest(shot.x, shot.y)?.let { target ->
                         val dx = target.x - shot.x
                         val dy = target.y - shot.y
@@ -240,6 +229,13 @@ internal class GameEngine(val session: GameSession) {
                 shot.y += shot.vy / TICKS_PER_SECOND
             }
             if (shot.hostile) {
+                if (shot.bounces > 0 && (shot.x !in 0f..WIDTH || shot.y !in 0f..HEIGHT)) {
+                    if (shot.x !in 0f..WIDTH) shot.vx = -shot.vx
+                    if (shot.y !in 0f..HEIGHT) shot.vy = -shot.vy
+                    shot.x = shot.x.coerceIn(0f, WIDTH)
+                    shot.y = shot.y.coerceIn(0f, HEIGHT)
+                    shot.bounces--
+                }
                 val radius = shot.radius + 18f
                 if (distanceSquared(shot.x, shot.y, s.x, s.y) < radius * radius) {
                     hurt(shot.damage)

@@ -240,3 +240,41 @@ list was updated before the fresh passing runs.
 Real authentication, online submission, remote period queries, and Console score
 protection remain unverified because the owner has no PGS project or leaderboard
 IDs yet. Compiled SDK calls and mocked tests do not complete online verification.
+
+### Mixed-source encounter rules
+
+Ruleset `survival-v2` uses common challenge seed `20261009`. This separate ruleset
+and its future Console board keep the changed combat conditions away from v1
+scores. Source API numbers remain metadata throughout these changes.
+
+The five-minute Oreo octopus fires radial volleys. At ten minutes, Jelly Bean
+fires aimed fans that bounce twice from arena edges. At fifteen minutes, KitKat
+fires rotating ribbons. The twenty-minute Honeycomb boss fires slow shots that
+track the player. Boss health is 2,200, 4,400, 6,600, and 11,000 respectively;
+these values belong to encounter time and role, not release age. The final boss
+uses older artwork and has the largest health budget. Weapons, supports, and
+evolutions still mix across source families in every run.
+
+Moving enemies separate nearby bodies so crowds remain visible rather than
+stacking into one sprite. Separation is deterministic and does not use source
+version. Frozen enemies do not move through this separation step. Hostile
+tracking aims at the player; friendly Neko summons aim at enemies. Hostile
+bouncing and friendly bouncing pierce remain separate collision behaviors.
+
+Battle UI tests use an isolated cache save, keeping test records and rewards out
+of the player's private history. Both frozen and moving crowd stress fixtures
+measure the real frame clock with four evolved weapons and mixed-source art.
+They use invulnerability and are not completed normal runs or historical OS
+appearance evidence.
+
+Spotless apply/check and debug lint passed before all 218 JVM tests, including
+distinct boss attacks, hostile tracking, edge bounces, and source-independent
+crowd separation. The accelerated full twenty-minute schedule still passed.
+Both APKs compiled. Thirty-one scoped tests passed on phone
+`20261008T162412219Z-f0f21843` and tablet `20261008T162532469Z-a47df142`.
+Both moving fixtures advanced 600 ticks and rendered 600 measured frames in ten
+real seconds. The 95th-percentile frame time was 12.28 ms on the phone and
+17.64 ms on the tablet. Frozen fixtures also passed. Moving captures were
+inspected for retained artwork, visible health and time, and separate controls.
+These short stress measurements do not establish long-run thermal performance
+or final game balance across the complete duration.

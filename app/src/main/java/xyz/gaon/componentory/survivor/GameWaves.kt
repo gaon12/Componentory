@@ -8,7 +8,7 @@ internal object GameWaves {
                     val index = s.enemies.indexOfFirst { it.kind != EnemyKind.BOSS }
                     if (index >= 0) s.enemies.removeAt(index)
                 }
-                val health = 500f + stage * 350f
+                val health = listOf(2200f, 4400f, 6600f, 11000f)[stage - 1]
                 s.enemies +=
                     GameEnemy(
                         s.nextId++,

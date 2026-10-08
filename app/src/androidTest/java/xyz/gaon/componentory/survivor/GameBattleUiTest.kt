@@ -6,13 +6,42 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.lifecycle.Lifecycle
+import java.io.File
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import xyz.gaon.componentory.ui.theme.ComponentoryTheme
 
 class GameBattleUiTest {
     @get:Rule val compose = createAndroidComposeRule<SurvivorActivity>()
+
+    private lateinit var directory: File
+
+    @Before
+    fun useAnIsolatedGameSave() {
+        directory = File(compose.activity.cacheDir, "game-battle-ui-" + System.nanoTime())
+        val store = GameStore(directory)
+        compose.runOnUiThread {
+            compose.activity.setContent {
+                ComponentoryTheme {
+                    GameHost(
+                        remember { GameAssets(compose.activity) },
+                        onClose = {},
+                        storage = store,
+                    )
+                }
+            }
+        }
+    }
+
+    @After
+    fun removeTheTestSave() {
+        compose.mainClock.autoAdvance = true
+        compose.runOnUiThread { compose.activity.setContent {} }
+        directory.deleteRecursively()
+    }
 
     @Test
     fun thePauseMenuStopsTheBattleClock() {
