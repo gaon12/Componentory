@@ -1,15 +1,16 @@
 # Componentory
 
 Componentory is an Android UI lab for comparing live framework widgets and
-versioned Compose components and explicit AOSP resource recreations. The app
-uses a quiet blue palette, readable text,
+versioned Compose components, explicit AOSP resource recreations, and clearly
+identified Componentory theme demos. The app uses a quiet blue palette, readable text,
 and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 
 ## Explore and compare
 
 - **Components:** Search 168 entries by translated name, description, or English
   API name. Filter by category and select an Android version/theme or a Compose
-  library version. Unsupported combinations explain their actual requirements.
+  library version. Unavailable samples explain their API or OS requirements
+  and distinguish a missing alternative implementation from an unsupported concept.
 - **Version history:** Browse public SDK snapshots from API 1 through 36. Select
   a class to read its description, availability, source revision, and evidence
   status. Open its current-device sample when a real mapping exists.
@@ -65,9 +66,18 @@ InlineSuggestion.inflate; the AndroidX helper supplies the suggestion template.
 
 Samples retain their own light configuration when the system or app is dark.
 Native sample labels have a 16sp minimum for readability. Selected controls
-use 1,009 imported AOSP resource variants for 32 component/design pairs.
+use 1,042 imported AOSP resource variants for 35 component/design pairs,
+including explicit historical analog-clock dials and hands.
 Their interaction engine still comes from the installed OS. Other framework
 samples carry a current-OS badge. Original historical captures are missing.
+
+Modern text, digital, and analog clocks and chronometers use the selected
+Material 2/3 theme with Componentory drawing and text. Their badge and source
+identify them as theme demos, without inventing dedicated Material clock APIs.
+Eight experimental APIs and ToggleButton work under all three Material 3
+themes supplied by the same pinned artifact. The
+[component design audit](docs/component-design-audit-2026-10-08.md) records
+these fixes and the remaining historical and alternative-sample gaps.
 
 Toasts use six pinned AOSP releases and 22 original resource variants in a
 separately labeled custom preview and popup. They do not call the installed
@@ -109,10 +119,12 @@ Its tests touch the actual suggestion, fill the fixed value, and exercise the
 public host's attachment and surface order. Other apps' input is never handled
 by the demo keyboard or inspected by the demo autofill service.
 
-See [current verification](docs/verification-release-2026-10-08.md) for executed results
-and limitations. Executed results distinguish final device checks from earlier
-milestones and retain their APK hashes. Lint passes with zero errors; existing
-warnings remain listed in its report.
+See [current component verification](docs/verification-component-design-audit-2026-10-08.md)
+for the clock and API fixes, executed checks, and limits. The
+[release verification](docs/verification-release-2026-10-08.md) records the
+separate published 1.0.0 artifact and listing checks. Executed results distinguish
+final device checks from earlier milestones and retain their APK hashes. Lint
+passes with zero errors; existing warnings remain listed in its report.
 
 ## Release and privacy
 

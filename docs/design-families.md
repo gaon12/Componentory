@@ -33,7 +33,10 @@ and remain separate through their actual themes and APIs.
 The catalog adds ButtonGroup, SplitButtonLayout, LoadingIndicator,
 LinearWavyProgressIndicator, CircularWavyProgressIndicator,
 HorizontalFloatingToolbar, VerticalFloatingToolbar, and
-FloatingActionButtonMenu, plus an Expressive supplier for ToggleButton.
+FloatingActionButtonMenu, plus the public ToggleButton API. All nine work
+under standard Material 3, Material You, and Expressive because those choices
+share the artifact. They keep the actual selected theme instead of forcing an
+Expressive palette. Experimental APIs carry an explicit note in the app.
 They call the real public library functions. Dedicated device assertions
 exercise overflow, selection, enabled state, progress, toolbar expansion,
 and FAB menu actions.
@@ -47,9 +50,10 @@ Reviewed Google Maven artifacts:
 ## Bundled AOSP controls
 
 The app now uses selected upstream resources instead of merely exporting
-resource graphs. `aosp-resources/controls.json` records 1,009 source variants
-and 32 component/design pairs. They supply button, checkbox, radio, toggle,
-text-field, progress, slider, spinner, rating, and available switch artwork.
+resource graphs. `aosp-resources/controls.json` records 1,042 source variants
+and 35 component/design pairs. They supply button, checkbox, radio, toggle,
+text-field, progress, slider, spinner, rating, analog-clock dial/hand, and
+available switch artwork.
 The retained Android 2.3.7, 4.4.4, and 5.0.2 release commits identify their
 bitmap, nine-patch, drawable XML, colors, and animation dependencies.
 
@@ -64,6 +68,32 @@ Regenerate the audited closure with `python -m scripts.history.bundle`.
 Review resource provenance and run `python -m unittest scripts.history.test_bundle`
 after regeneration. AOSP resource hashes describe the imported bytes before
 Android resource compilation; compiled nine-patches have a different encoding.
+
+## Clock displays and alternative samples
+
+Classic, Holo, and Material Design 1 AnalogClock samples inflate XML with
+public dial, hand_hour, and hand_minute attributes bound to the selected
+release. Their default mdpi dial bytes are identical in the upstream source.
+The installed framework still supplies their interaction and time engine.
+
+Material 2/3 libraries have no dedicated live-clock or chronometer API in
+the recorded sources. All four modern design choices instead show labeled
+Componentory theme demos using Compose drawing, text, and the selected
+library's colors, typography, and buttons. Saved runs record THEMED_DEMO
+and COMPONENTORY_COMPOSE; their source identifies ThemedClockSample.
+A TimePicker remains a separate, real input API.
+
+Clock text auto-sizes with a 16sp floor and a two-line allowance. Timer
+actions use 16sp labels and flow onto another row. Their running elapsed
+time is monotonic, and stopped values, formats, and eligible saved states
+can move between native clocks and these demos.
+
+An unavailable alternative says Sample unavailable and explains the
+implementation gap. It does not imply that the UI concept is impossible
+under that design. Native theme and dynamic-color OS requirements keep
+their own explanations. The
+[full audit](component-design-audit-2026-10-08.md) and its 73-entry matrix
+record current-OS resource gaps and remaining modern alternatives.
 
 ## Toasts across all designs
 

@@ -118,10 +118,13 @@ Do not keep an empty Planned APIs tab once the audited baseline is implemented.
 ## Component coverage
 
 The first prototype included eight basic types in five families. The current
-baseline has 168 entries and seven design choices, including eight Expressive
-components and explicit AOSP-backed Toast recreations. The catalog
-now includes framework-only controls, library action variants, chip and selection
-samples, additional input types, inline dates, fixed Text, framework CheckedTextView,
+baseline has 168 entries and seven design choices, including eight experimental
+Material 3 components, the public ToggleButton, and AOSP-backed Toast recreations.
+The nine APIs work under all three Material 3 themes from the same artifact.
+Modern clock concepts have separately identified Componentory theme demos.
+The catalog now includes framework-only controls, library action variants,
+chip and selection samples, additional input types, inline dates, fixed Text,
+framework CheckedTextView,
 and icon browsing. Use the
 [coverage inventory](component-coverage.md) to keep the broad expansion auditable.
 Continue adding components, visual variants, and historical coverage in focused
@@ -137,8 +140,13 @@ use the pinned Typography defaults instead of inheriting app typography. Verify
 the production renderer under a caller with a deliberately different font and
 text metrics; a compiled regression is not an executed rendering result.
 Only offer actions that the selected component supports. A read-only progress
-indicator should not pretend to respond to taps. Unsupported combinations show
-an explanation rather than a substitute from another family.
+indicator should not pretend to respond to taps. Missing dedicated APIs do not
+make a UI concept impossible. An explicitly implemented alternative must show
+its own source, rendering badge, theme, and tested behavior. Unimplemented
+alternatives remain Sample unavailable with an explanation. Do not silently
+use a current-OS widget as a claimed Material or historical implementation.
+Prioritize remaining work using the
+[component design audit](component-design-audit-2026-10-08.md).
 
 An icon sample must offer the selected source's complete available catalog,
 with search, style filters, and preview. Let users apply a chosen icon to the
@@ -146,8 +154,10 @@ current sample and keep comparison selections independent. A resource exposed
 by the framework but missing on a device needs an explicit unavailable label.
 Record the icon artifact version separately from the component library version.
 
-See [current verification](verification-release-2026-10-08.md) for current
-checks; retained milestone results below describe their original source states.
+See [current component verification](verification-component-design-audit-2026-10-08.md)
+for clock and API checks and [release verification](verification-release-2026-10-08.md)
+for the published artifact. Retained milestone results describe their original
+source states.
 
 ## Evidence and tests
 
