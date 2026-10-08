@@ -1,0 +1,20 @@
+<resources>
+    <string name="game_wallet">Currency: %1$d</string>
+    <string name="game_permanent_help" formatted="false">Common upgrades apply only to normal runs. Each level adds 5%, up to 25%. All starting weapons share these bonuses.</string>
+    <string name="game_permanent_health">Health</string>
+    <string name="game_permanent_damage">Weapon damage</string>
+    <string name="game_permanent_experience">Experience gain</string>
+    <string name="game_permanent_price">%1$s · %2$d/5 · Cost %3$d</string>
+    <string name="game_unlocked">Unlocked: %1$s</string>
+    <string name="game_unlock_price">Unlock %1$s · Cost %2$d</string>
+    <string name="game_result_reward">Score %1$d · Earned %2$d currency</string>
+    <string name="game_save_loading">Loading your game save…</string>
+    <string name="game_saved_run">Saved run: %1$s · %2$d seconds</string>
+    <string name="game_continue">Continue saved run</string>
+    <string name="game_old_rules">This run uses an older ruleset. End it to start with the current rules.</string>
+    <string name="game_end_saved">End saved run</string>
+    <string name="game_end_saved_help">This records an abandoned run and grants its earned currency. It cannot continue afterward.</string>
+    <string name="game_save_failed">Game save unavailable</string>
+    <string name="game_save_failed_help">Your previous save has been kept. Retry before continuing so progress and rewards are not lost.</string>
+    <string name="game_retry">Retry</string>
+</resources>

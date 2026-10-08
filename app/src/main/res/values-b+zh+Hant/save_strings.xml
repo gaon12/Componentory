@@ -1,0 +1,20 @@
+<resources>
+    <string name="game_wallet">貨幣：%1$d</string>
+    <string name="game_permanent_help" formatted="false">通用強化僅用於一般模式。每級增加5%，最多25%，所有起始武器享有相同加成。</string>
+    <string name="game_permanent_health">生命</string>
+    <string name="game_permanent_damage">武器傷害</string>
+    <string name="game_permanent_experience">經驗獲取</string>
+    <string name="game_permanent_price">%1$s · %2$d/5 · 費用 %3$d</string>
+    <string name="game_unlocked">已解鎖：%1$s</string>
+    <string name="game_unlock_price">解鎖%1$s · 費用 %2$d</string>
+    <string name="game_result_reward">分數 %1$d · 獲得貨幣 %2$d</string>
+    <string name="game_save_loading">正在讀取遊戲存檔…</string>
+    <string name="game_saved_run">已儲存的遊戲：%1$s · %2$d秒</string>
+    <string name="game_continue">繼續已儲存的遊戲</string>
+    <string name="game_old_rules">此遊戲使用舊規則。請結束後使用目前規則開始新遊戲。</string>
+    <string name="game_end_saved">結束已儲存的遊戲</string>
+    <string name="game_end_saved_help">將儲存中途退出紀錄並發放已獲得的貨幣，此後無法繼續此局。</string>
+    <string name="game_save_failed">遊戲存檔無法使用</string>
+    <string name="game_save_failed_help">原有存檔已保留。請重試後繼續，以免遺失進度和獎勵。</string>
+    <string name="game_retry">重試</string>
+</resources>

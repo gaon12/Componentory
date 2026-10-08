@@ -165,3 +165,27 @@ rejection. Both APKs compiled. The Android atomic-file rollback and stale-write
 test passed on phone `20261008T151712453Z-72eb3b35` and tablet
 `20261008T151741073Z-a0273fce`. Lobby integration and actual resume interaction
 remain the next focused change.
+
+### Progression and resume UI checkpoint
+
+The lobby reads the private save and offers explicit continue or end actions for
+an unfinished run. Starting a new run is disabled until that run is completed
+or abandoned. Continue requires an actual wide window and the current ruleset.
+Older-rule runs can be ended locally. The lobby shows currency, common upgrades,
+and support unlocks; the result shows the recorded score and reward.
+
+Combat takes immutable snapshots every five seconds and writes them outside
+the frame loop. Lifecycle pause and disposal flush a final checkpoint. Restoring
+an Activity shows the lobby rather than silently resuming combat. Save errors
+pause combat and keep the previous document, with retry or close actions.
+Normal coroutine cancellation is not reported as a storage failure.
+
+Spotless apply/check and debug lint passed, the 209 JVM tests remained passing,
+and both APKs built. Twenty scoped device tests passed on phone
+`20261008T153414500Z-0801feb7` and tablet `20261008T153509495Z-c2ca961b`.
+The resume UI test loaded a prepared checkpoint, waited for continue, displayed
+its support build, ended it, and checked one record and reward. It is not a
+process-kill recovery test. An earlier assertion read the pause dialog before
+the manual clock advanced; a subsequent run was stopped because result scrolling
+also needed clock progress. These test-clock issues were fixed before the fresh
+passing runs.

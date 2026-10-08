@@ -24,6 +24,7 @@ internal fun GameLobby(
     assets: GameAssets,
     onClose: () -> Unit,
     onStart: ((WeaponId, Boolean) -> Unit)? = null,
+    canStart: Boolean = true,
     extraContent: @Composable ColumnScope.() -> Unit = {},
 ) {
     var selectedName by rememberSaveable { mutableStateOf(WeaponId.BUTTON.name) }
@@ -129,14 +130,14 @@ internal fun GameLobby(
                             Button(
                                 { onStart(weapon, false) },
                                 Modifier.fillMaxWidth().testTag("game_start"),
-                                enabled = landscape,
+                                enabled = landscape && canStart,
                             ) {
                                 Text(stringResource(R.string.game_normal))
                             }
                             OutlinedButton(
                                 { onStart(weapon, true) },
                                 Modifier.fillMaxWidth().testTag("game_ranked"),
-                                enabled = landscape,
+                                enabled = landscape && canStart,
                             ) {
                                 Text(stringResource(R.string.game_ranked))
                             }

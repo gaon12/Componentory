@@ -24,11 +24,29 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import kotlin.math.sqrt
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import xyz.gaon.componentory.R
 
 @Composable
-internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (GameSession) -> Unit) {
+internal fun GameBattle(
+    engine: GameEngine,
+    assets: GameAssets,
+    onCheckpoint: (GameSession, Boolean) -> Unit = { _, _ -> },
+    externalPause: Boolean = false,
+    onFinished: (GameSession) -> Unit,
+) {
     val s = engine.session
+    val checkpoint by rememberUpdatedState(onCheckpoint)
+    LaunchedEffect(engine) {
+        while (isActive) {
+            delay(5000)
+            checkpoint(s, false)
+        }
+    }
+    DisposableEffect(engine) {
+        onDispose { if (s.outcome == RunOutcome.ACTIVE) checkpoint(s, true) }
+    }
     val window = (LocalContext.current as? Activity)?.window
     var paused by remember { mutableStateOf(false) }
     var foreground by remember { mutableStateOf(true) }
@@ -42,6 +60,7 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_PAUSE) {
                 foreground = false
+                checkpoint(s, true)
                 paused = true
                 movement = Offset.Zero
             }
@@ -54,13 +73,15 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
     Surface(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }) {
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding()) {
             val landscape = maxWidth > maxHeight
-            val playable = landscape && foreground && !paused && choices.isEmpty()
+            val playable = landscape && foreground && !paused && !externalPause && choices.isEmpty()
             DisposableEffect(window, playable) {
                 if (playable) window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 else window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 onDispose { window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
             }
-            LaunchedEffect(landscape) { if (!landscape) paused = true }
+            LaunchedEffect(landscape, externalPause) {
+                if (!landscape || externalPause) paused = true
+            }
             LaunchedEffect(engine, playable) {
                 movement = Offset.Zero
                 requestSkill = false
@@ -68,10 +89,14 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                 var previous = 0L
                 var accumulated = 0L
                 while (
-                    s.outcome == RunOutcome.ACTIVE && s.choices.isEmpty() && foreground && !paused
+                    s.outcome == RunOutcome.ACTIVE &&
+                        s.choices.isEmpty() &&
+                        foreground &&
+                        !paused &&
+                        !externalPause
                 ) {
                     val now = withFrameNanos { it }
-                    if (!foreground || paused) break
+                    if (!foreground || paused || externalPause) break
                     if (previous != 0L) accumulated += (now - previous).coerceIn(0L, 100_000_000L)
                     previous = now
                     var steps = 0

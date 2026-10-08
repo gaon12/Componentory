@@ -1,0 +1,20 @@
+<resources>
+    <string name="game_wallet">通貨：%1$d</string>
+    <string name="game_permanent_help" formatted="false">共通強化は通常プレイのみに適用されます。1段階につき5%、最大25%で、すべての開始武器に同じ効果があります。</string>
+    <string name="game_permanent_health">体力</string>
+    <string name="game_permanent_damage">武器ダメージ</string>
+    <string name="game_permanent_experience">経験値獲得量</string>
+    <string name="game_permanent_price">%1$s · %2$d/5 · 費用 %3$d</string>
+    <string name="game_unlocked">解放済み：%1$s</string>
+    <string name="game_unlock_price">%1$sを解放 · 費用 %2$d</string>
+    <string name="game_result_reward">スコア %1$d · 獲得通貨 %2$d</string>
+    <string name="game_save_loading">ゲームデータを読み込み中…</string>
+    <string name="game_saved_run">保存したプレイ：%1$s · %2$d秒</string>
+    <string name="game_continue">保存したプレイを再開</string>
+    <string name="game_old_rules">このプレイは以前のルールを使用しています。終了して現在のルールで開始してください。</string>
+    <string name="game_end_saved">保存したプレイを終了</string>
+    <string name="game_end_saved_help">途中終了の記録を残し、獲得通貨を受け取ります。その後は再開できません。</string>
+    <string name="game_save_failed">ゲームを保存できません</string>
+    <string name="game_save_failed_help">以前の保存データは保持されています。進行状況と報酬を失わないように、再試行してから続行してください。</string>
+    <string name="game_retry">再試行</string>
+</resources>

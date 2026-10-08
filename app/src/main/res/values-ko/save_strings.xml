@@ -1,0 +1,20 @@
+<resources>
+    <string name="game_wallet">재화: %1$d</string>
+    <string name="game_permanent_help" formatted="false">공통 강화는 일반 플레이에만 적용됩니다. 단계마다 5%, 최대 25%이며 모든 시작 무기에 동일하게 적용됩니다.</string>
+    <string name="game_permanent_health">체력</string>
+    <string name="game_permanent_damage">무기 공격력</string>
+    <string name="game_permanent_experience">경험치 획득량</string>
+    <string name="game_permanent_price">%1$s · %2$d/5 · 비용 %3$d</string>
+    <string name="game_unlocked">해금 완료: %1$s</string>
+    <string name="game_unlock_price">%1$s 해금 · 비용 %2$d</string>
+    <string name="game_result_reward">점수 %1$d · 획득 재화 %2$d</string>
+    <string name="game_save_loading">게임 저장 불러오는 중…</string>
+    <string name="game_saved_run">저장된 판: %1$s · %2$d초</string>
+    <string name="game_continue">저장된 판 이어하기</string>
+    <string name="game_old_rules">이 판은 이전 규칙을 사용합니다. 종료한 뒤 현재 규칙으로 시작할 수 있습니다.</string>
+    <string name="game_end_saved">저장된 판 종료</string>
+    <string name="game_end_saved_help">중도 포기 기록을 남기고 획득한 재화를 지급합니다. 이 판은 이후 이어갈 수 없습니다.</string>
+    <string name="game_save_failed">게임 저장을 사용할 수 없음</string>
+    <string name="game_save_failed_help">기존 저장은 보존했습니다. 진행 상황과 보상을 잃지 않도록 재시도 후 계속해 주세요.</string>
+    <string name="game_retry">재시도</string>
+</resources>
