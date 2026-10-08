@@ -231,7 +231,7 @@
     <string name="target_sdk_detail">ターゲット SDK: %1$d</string>
     <string name="theme_origin">%1$s で導入されたテーマ</string>
     <string name="ui_libraries">UI ライブラリ</string>
-    <string name="unsupported">未対応</string>
+    <string name="unsupported">サンプルなし</string>
     <string name="unsupported_api">Android API %1$d 以降が必要です。この端末は API %2$d です。</string>
     <string name="unsupported_library">%1$s ライブラリには %2$s がありません。</string>
     <string name="unsupported_platform">Android プラットフォームには %1$s 専用のコンポーネントがありません。</string>
@@ -735,4 +735,5 @@
     <string name="privacy_policy_read">プライバシーポリシー全文を読む</string>
     <string name="rendering_themed_demo">テーマに基づく時計デモ</string>
     <string name="rendering_themed_demo_note">選択したテーマの色・書体・ボタンと Compose の描画・テキスト機能で Componentory が作成したデモです。Material 専用の時計 API や旧 OS のオリジナルキャプチャではありません。</string>
+    <string name="missing_library_sample_note">この選択に対応する代替サンプルはまだ実装されていません。他の Compose API や Android ウィジェットで、この UI を作成できます。</string>
 </resources>

@@ -231,7 +231,7 @@
     <string name="target_sdk_detail">대상 SDK: %1$d</string>
     <string name="theme_origin">%1$s에서 도입된 테마</string>
     <string name="ui_libraries">UI 라이브러리</string>
-    <string name="unsupported">지원하지 않음</string>
+    <string name="unsupported">샘플 없음</string>
     <string name="unsupported_api">Android API %1$d 이상이 필요합니다. 현재 기기는 API %2$d입니다.</string>
     <string name="unsupported_library">%1$s 라이브러리는 %2$s 컴포넌트를 제공하지 않습니다.</string>
     <string name="unsupported_platform">Android 플랫폼은 %1$s 전용 컴포넌트를 제공하지 않습니다.</string>
@@ -735,4 +735,5 @@
     <string name="privacy_policy_read">개인정보처리방침 전체 보기</string>
     <string name="rendering_themed_demo">테마 기반 시계 데모</string>
     <string name="rendering_themed_demo_note">Componentory가 선택한 테마의 색상·글꼴·버튼과 Compose의 그리기·텍스트 기능으로 만든 데모입니다. Material 전용 시계 API나 구버전 OS의 원본 캡처가 아닙니다.</string>
+    <string name="missing_library_sample_note">이 선택에 맞는 대체 샘플은 아직 이 앱에 구현되지 않았습니다. 다른 Compose API나 Android 위젯으로 해당 UI를 만들 수 있습니다.</string>
 </resources>

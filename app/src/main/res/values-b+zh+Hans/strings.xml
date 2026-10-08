@@ -231,7 +231,7 @@
     <string name="target_sdk_detail">目标 SDK：%1$d</string>
     <string name="theme_origin">在 %1$s 中引入的主题</string>
     <string name="ui_libraries">UI 库</string>
-    <string name="unsupported">不支持</string>
+    <string name="unsupported">暂无示例</string>
     <string name="unsupported_api">需要 Android API %1$d 或更高版本。此设备运行 API %2$d。</string>
     <string name="unsupported_library">%1$s 库未提供%2$s组件。</string>
     <string name="unsupported_platform">Android 平台未提供专用的%1$s组件。</string>
@@ -735,4 +735,5 @@
     <string name="privacy_policy_read">阅读完整隐私政策</string>
     <string name="rendering_themed_demo">基于主题的时钟演示</string>
     <string name="rendering_themed_demo_note">Componentory 使用所选主题的颜色、字体和按钮以及 Compose 绘图和文本功能实现的演示。这不是 Material 专用时钟 API，也不是旧版系统的原始截图。</string>
+    <string name="missing_library_sample_note">本应用尚未实现此选项的等效示例。仍可使用其他 Compose API 或 Android 控件构建该界面。</string>
 </resources>

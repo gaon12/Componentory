@@ -233,7 +233,7 @@
     <string name="target_sdk_detail">Target SDK: %1$d</string>
     <string name="theme_origin">Theme introduced in %1$s</string>
     <string name="ui_libraries">UI libraries</string>
-    <string name="unsupported">Not supported</string>
+    <string name="unsupported">Sample unavailable</string>
     <string name="unsupported_api">Requires Android API %1$d or later. This device runs API %2$d.</string>
     <string name="unsupported_library">The %1$s library does not provide %2$s.</string>
     <string name="unsupported_platform">The Android platform does not provide a dedicated %1$s component.</string>
@@ -738,4 +738,5 @@
     <string name="privacy_policy_read">Read the full privacy policy</string>
     <string name="rendering_themed_demo">Theme-based clock demo</string>
     <string name="rendering_themed_demo_note">Built by Componentory with Compose drawing, text, and controls using the selected theme. This is not a dedicated Material clock API or an original OS capture.</string>
+    <string name="missing_library_sample_note">This choice has no equivalent sample implementation in the lab yet. The UI can still be built using other Compose APIs or Android widgets.</string>
 </resources>

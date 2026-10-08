@@ -243,6 +243,18 @@ fun SamplePanel(
                             color = Color.Black,
                             style = MaterialTheme.typography.bodyMedium,
                         )
+                        if (
+                            platform == null &&
+                                family.libraryFunction(component) == null &&
+                                (family != DesignFamily.MATERIAL_YOU || Build.VERSION.SDK_INT >= 31)
+                        ) {
+                            Text(
+                                stringResource(R.string.missing_library_sample_note),
+                                modifier = Modifier.testTag("missing_sample_$panel"),
+                                color = Color.Black,
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
                     }
                 } else if (component.usesIcon && icon == null) {
                     Text(
