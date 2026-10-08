@@ -7,7 +7,8 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 
 ## Explore and compare
 
-- **Components:** Search 168 entries by translated name, description, or English
+- **Components:** Search 168 UI API entries and 26 version-specific Easter eggs by
+  translated name, Android release, nickname, description, or English
   API name. Filter by category and select an Android version/theme or a Compose
   library version. Unavailable samples explain their API or OS requirements
   and distinguish a missing alternative implementation from an unsupported concept.
@@ -18,12 +19,20 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
   either panel, and save a run with its OS, build, display, and library identity.
 - **Runs:** Reopen, delete, or export stored comparisons.
 - **Settings:** Open grouped categories, then dedicated appearance, language, device,
-  library, license, privacy, or About pages. Read upstream notices offline and replay the
-  first-launch introduction from About.
+  library, privacy, contributor, or About pages. App and library versions use compact
+  rows. Links open an external browser; licenses open an offline document chooser
+  and modal. Replay the first-launch introduction from About.
 
-About also links to the [GitHub repository](https://github.com/gaon12/Componentory)
+The settings list also links to the [GitHub repository](https://github.com/gaon12/Componentory)
 and [new issue page](https://github.com/gaon12/Componentory/issues/new) for bug
 reports and improvement requests.
+
+[Easter eggs](docs/easter-eggs.md) retain complete AOSP-derived mini-games and
+hidden screens from Android 2.3 through 17. Release rows stay separate when they
+share a source family; Android 8.1 has its own logo entry. Source labels identify
+code ports on the current OS, with original historical captures still unavailable.
+Optional cat tiles, device controls, palette widgets, screen savers, and game
+notifications follow explicit game actions and Android or launcher selection.
 
 Phones use bottom navigation. Wide windows use a navigation rail with the catalog
 beside the selected component. Settings keeps its category list beside the
@@ -144,8 +153,10 @@ steps. Prepared materials and a GitHub release do not establish Play publication
 
 The app works offline without an account, advertising, analytics, or Internet
 permission. Settings > Privacy policy contains the full offline document.
-Preferences and comparison runs stay in the app sandbox; automatic backup is
-disabled. Export opens Android's share sheet only at the user's request.
+Preferences, comparison runs, and game progress stay in the app sandbox; automatic
+backup is disabled. Optional game notifications and Android integrations are
+described in the policy. Saving a generated cat can write a gallery image; sharing
+opens Android's share sheet only at the user's request.
 Read the [published privacy policy](https://gaon12.github.io/Componentory/privacy.html)
 or its [canonical source](docs/privacy-policy.txt).
 
@@ -153,6 +164,8 @@ The [project website](https://gaon12.github.io/Componentory/) and privacy page
 are generated from repository sources and published through GitHub Pages.
 The [1.0.0 release](https://github.com/gaon12/Componentory/releases/tag/v1.0.0)
 provides signed APK/AAB files, a store-material ZIP, and SHA-256 checksums.
+Those published release artifacts and screenshots predate the later settings and
+Easter egg changes; the current debug APK is a separate tested build.
 An upload-signed APK uses a different certificate from local debug builds and may
 also differ from Play-delivered APKs. Keep user data when changing build channels.
 
@@ -173,6 +186,7 @@ release-specific licenses, notices, and resource headers.
 - [Coverage and retained milestones](docs/component-coverage.md)
 - [Development workflow](AGENTS.md)
 - [Product plan](docs/product-plan.md)
+- [Settings and Easter egg verification](docs/verification-easter-eggs-2026-10-08.md)
 - [Earlier UI verification](docs/verification-2026-10-08.md)
 - [Earlier verification](docs/verification-2026-10-04.md)
 

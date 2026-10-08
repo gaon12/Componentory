@@ -91,6 +91,25 @@ demonstrations additionally require Android 11+ and explicit keyboard/provider
 selection in system settings. They use fixed fictional values and are optional;
 return to the normal services after trying them. This is not a password manager.
 
+## Changes after the published 1.0.0 package
+
+The current branch adds compact settings rows, a license modal, contributor
+credits, and 26 version-specific Easter egg ports with complete games and hidden
+screens. The earlier signed APK/AAB, listing ZIP, and screenshots remain artifacts
+of the published 1.0.0 source; they do not show or validate these later changes.
+Before a new Play submission, increase the release version code, build and verify
+new signed artifacts, update listing copy, and capture the changed UI on an
+unlocked device. Do not overwrite the older release evidence with newer claims.
+
+Optional cat controls, quick settings, widgets, screen savers, notification
+permission, and legacy generated-image storage access now need to be considered
+in review instructions. Cat game progress remains local. The Android 2.3 artwork
+contains cartoon zombies and several entries include mini-games; reassess the
+actual IARC content answers and intended audience when submitting the new build.
+Follow the [content rating requirements](https://support.google.com/googleplay/android-developer/answer/9859655?hl=en)
+and update the questionnaire when new content changes its answers.
+No new IARC result or Play publication is asserted by this development update.
+
 ## Privacy and Data safety
 
 The [canonical privacy text](privacy-policy.txt) is bundled unchanged in the app.
@@ -99,19 +118,21 @@ summaries explain the document. The website build uses this same source, so the
 public and packaged policies cannot drift through hand-edited copies.
 
 Code inspection and the packaged manifest show no Internet permission, account,
-ads, analytics, remote crash reporting, or developer server. Preferences and runs
-are stored in the app sandbox. A run may contain sample inputs and OS/build,
-device model, screen, locale, theme, and library context. Automatic app backup
-and device transfer are excluded. Android's share sheet exports only when the
-user requests it; the user selects the destination.
+ads, analytics, remote crash reporting, or developer server. Preferences, runs,
+and game progress are stored in the app sandbox. A run may contain sample inputs
+and OS/build, device model, screen, locale, theme, and library context. Automatic
+app backup and device transfer are excluded. Android's share sheet exports only
+when the user requests it; the user selects the destination.
 
 Based on these behaviors, the proposed Data safety declaration is **no data
 collected and no data shared**. Google's definitions exclude local-only processing
 from collection and exempt an expected user-initiated transfer from sharing.
 This does not mean the app never handles data. Optional inline services still
 receive the minimum framework context to identify their own demo, and the privacy
-policy explains this. Reassess declarations if networking, SDKs, accounts, or
-automatic exports are added.
+policy explains this. Optional game notifications, feeding jobs, and user-chosen
+generated-cat image saves/shares are also documented. Gallery images are outside
+the app sandbox and remain until the user deletes them. Reassess declarations if
+networking, SDKs, accounts, or automatic exports are added.
 
 Google requires a public, accessible, non-PDF privacy URL and an in-app policy
 even for apps without collection. Verify the published URL before submitting.
