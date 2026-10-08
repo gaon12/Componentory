@@ -140,3 +140,28 @@ Canvas background initially painted over the header; explicit clipping and a
 neighbor-color regression test now prevent that. A background pause assertion
 initially sampled before the lifecycle transition; it now samples after the
 transition and checks that no simulation runs until explicit resume.
+
+### Save model and atomic storage checkpoint
+
+Game data uses a separate private `survivor/save.json` document. Explicit JSON
+fields retain the fixed tick, both random streams, actors, projectile hit sets,
+timers, equipment, pending growth choices, and starting permanent levels.
+Malformed or unknown save schemas are rejected instead of silently resetting
+the wallet. Completed records, rewards, and pending scores change together.
+Repeated run IDs do not earn another reward. Stale checkpoints cannot restore
+a completed run or replace a newer tick or growth level.
+
+Common upgrades cost 50 currency times the next level and stop at level five.
+Progress support is initially unlocked; each remaining support costs 100.
+Prices are unrelated to source release. Rewards are one per ten ordinary kills,
+one per elite, ten per boss, one per thirty survival seconds (capped at twenty
+minutes), fifty for victory, plus growth currency. Abandoned runs retain their
+earned local reward but never queue an online score.
+
+Spotless apply/check and debug lint passed, then all 209 JVM tests passed.
+Tests include checkpoint replay, pending choices, shared upgrades, budgets,
+exclusive score counts, survival cap, duplicate completion, and corrupt schema
+rejection. Both APKs compiled. The Android atomic-file rollback and stale-write
+test passed on phone `20261008T151712453Z-72eb3b35` and tablet
+`20261008T151741073Z-a0273fce`. Lobby integration and actual resume interaction
+remain the next focused change.

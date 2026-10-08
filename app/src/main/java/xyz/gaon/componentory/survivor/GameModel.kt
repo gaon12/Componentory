@@ -81,6 +81,8 @@ internal class GameSession(
     val permanent: PermanentLevels,
     val unlocked: Set<SupportId>,
     val ruleset: String = GameCatalog.RULESET,
+    val startedAtEpochMillis: Long = System.currentTimeMillis(),
+    val rankedProfileId: String? = null,
 ) {
     var randomState = if (seed == 0L) 1L else seed
     var offerRandomState = (seed xor 0x51ed270bL).let { if (it == 0L) 1L else it }
