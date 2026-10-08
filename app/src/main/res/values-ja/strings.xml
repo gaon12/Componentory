@@ -737,4 +737,9 @@
     <string name="rendering_themed_demo_note">選択したテーマの色・書体・ボタンと Compose の描画・テキスト機能で Componentory が作成したデモです。Material 専用の時計 API や旧 OS のオリジナルキャプチャではありません。</string>
     <string name="missing_library_sample_note">この選択に対応する代替サンプルはまだ実装されていません。他の Compose API や Android ウィジェットで、この UI を作成できます。</string>
     <string name="app_version">アプリのバージョン</string>
+    <string name="contributors">貢献者</string>
+    <string name="contributors_summary">Componentory の開発に貢献した方々</string>
+    <string name="contributors_note">Componentory に貢献した方々です。名前をタップすると外部ブラウザで GitHub プロフィールを開きます。</string>
+    <string name="contributors_on_github">GitHub で貢献者を見る</string>
+    <string name="contributors_verified">GitHub の貢献者一覧を確認した日: %1$s</string>
 </resources>

@@ -740,4 +740,9 @@
     <string name="rendering_themed_demo_note">Built by Componentory with Compose drawing, text, and controls using the selected theme. This is not a dedicated Material clock API or an original OS capture.</string>
     <string name="missing_library_sample_note">This choice has no equivalent sample implementation in the lab yet. The UI can still be built using other Compose APIs or Android widgets.</string>
     <string name="app_version">App version</string>
+    <string name="contributors">Contributors</string>
+    <string name="contributors_summary">People who contribute to Componentory</string>
+    <string name="contributors_note">Thank you to the people who help build Componentory. Tap a name to open their GitHub profile in your browser.</string>
+    <string name="contributors_on_github">View contributors on GitHub</string>
+    <string name="contributors_verified">GitHub contributor list checked on %1$s</string>
 </resources>

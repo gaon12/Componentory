@@ -32,6 +32,26 @@ import xyz.gaon.componentory.R
 
 @Composable
 internal fun ProjectLinks() {
+    ExternalLinkRows(
+        listOf(
+            ExternalLink(
+                stringResource(R.string.project_repository),
+                "https://github.com/gaon12/Componentory",
+                "project_repository",
+            ),
+            ExternalLink(
+                stringResource(R.string.project_feedback),
+                "https://github.com/gaon12/Componentory/issues/new",
+                "project_feedback",
+            ),
+        )
+    )
+}
+
+internal data class ExternalLink(val label: String, val url: String, val tag: String)
+
+@Composable
+internal fun ExternalLinkRows(links: List<ExternalLink>) {
     val context = LocalContext.current
     var failed by remember { mutableStateOf(false) }
     val open: (String) -> Unit = { url ->
@@ -42,19 +62,10 @@ internal fun ProjectLinks() {
             failed = true
         }
     }
-    ProjectLinkRow(
-        stringResource(R.string.project_repository),
-        "https://github.com/gaon12/Componentory",
-        "project_repository",
-        open,
-    )
-    HorizontalDivider(Modifier.padding(horizontal = 18.dp))
-    ProjectLinkRow(
-        stringResource(R.string.project_feedback),
-        "https://github.com/gaon12/Componentory/issues/new",
-        "project_feedback",
-        open,
-    )
+    links.forEachIndexed { index, link ->
+        ProjectLinkRow(link.label, link.url, link.tag, open)
+        if (index < links.lastIndex) HorizontalDivider(Modifier.padding(horizontal = 18.dp))
+    }
     if (failed)
         Text(
             stringResource(R.string.project_link_failed),

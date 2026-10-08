@@ -53,4 +53,13 @@ class SettingsNavigationTest {
             .performScrollTo()
             .assertTextEquals("Android is a trademark of Google LLC.")
     }
+
+    @Test
+    fun contributorsAreAvailableOfflineAndTheSelectedPageSurvivesRecreation() {
+        compose.openSettingsPage("CONTRIBUTORS")
+        compose.onNodeWithTag("contributor_gaon12").performScrollTo().assertTextEquals("gaon12")
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithTag("contributors_list").assertIsDisplayed()
+        compose.onNodeWithTag("contributors_on_github").performScrollTo().assertIsDisplayed()
+    }
 }

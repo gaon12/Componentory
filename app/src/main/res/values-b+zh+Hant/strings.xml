@@ -737,4 +737,9 @@
     <string name="rendering_themed_demo_note">Componentory 使用所選主題的色彩、字型和按鈕，以及 Compose 繪圖與文字功能實作的示範。這不是 Material 專用時鐘 API，也不是舊版系統的原始擷取畫面。</string>
     <string name="missing_library_sample_note">本應用程式尚未實作此選項的對應示範。仍可使用其他 Compose API 或 Android 元件建立此介面。</string>
     <string name="app_version">應用程式版本</string>
+    <string name="contributors">貢獻者</string>
+    <string name="contributors_summary">參與 Componentory 開發的人們</string>
+    <string name="contributors_note">感謝為 Componentory 做出貢獻的人們。點選名字可在外部瀏覽器開啟 GitHub 個人資料。</string>
+    <string name="contributors_on_github">在 GitHub 查看貢獻者</string>
+    <string name="contributors_verified">GitHub 貢獻者清單核對日期：%1$s</string>
 </resources>
