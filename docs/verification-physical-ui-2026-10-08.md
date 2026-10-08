@@ -206,8 +206,14 @@ The phone's original five-minute screen timeout and fixed portrait settings
 were restored. The tablet's original ten-minute timeout and automatic rotation
 settings were restored. Both devices retained their original system-following
 app locale and animation scales of 1.0. After `KEYCODE_SLEEP`, each device
-reported `screenState=SCREEN_STATE_OFF`. A private delivery record retains the
-successful installations, installed hashes, checked settings, and screen state.
+initially reported `screenState=SCREEN_STATE_OFF`. The settled power state was
+Dozing on both devices; the phone's display reported `DOZE_SUSPEND` and the
+tablet's display reported `OFF`, both with brightness 0.0. Their original ambient
+display settings were preserved. Keyguard later reported `SCREEN_STATE_ON`
+despite these sleeping displays, so final confirmation uses the power and
+display states rather than keyguard alone. A private delivery record retains
+the successful installations, installed hashes, checked settings, and both
+initial and settled screen states.
 
 ## Limits
 
