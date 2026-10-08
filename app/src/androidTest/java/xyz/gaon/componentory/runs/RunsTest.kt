@@ -59,6 +59,23 @@ class RunsTest {
     }
 
     @Test
+    fun reselectingRunsClosesExpandedDetailsWithoutDeletingTheRecord() {
+        pickComponent("Button", "component_BUTTON")
+        compose.onNodeWithTag("save_run").performScrollTo().performClick()
+        awaitTag("run_saved")
+        compose.onNodeWithTag("nav_runs").performClick()
+        val toggle = compose.onAllNodesWithText(environmentLabel())[0]
+        toggle.performClick()
+        compose.onNodeWithText("api: ${android.os.Build.VERSION.SDK_INT}").assertExists()
+        compose.onNodeWithTag("nav_runs").performClick()
+        compose.onNodeWithText("api: ${android.os.Build.VERSION.SDK_INT}").assertDoesNotExist()
+        compose.onAllNodesWithText(openLabel()).fetchSemanticsNodes().single()
+        compose.activityRule.scenario.recreate()
+        compose.onNodeWithText("api: ${android.os.Build.VERSION.SDK_INT}").assertDoesNotExist()
+        compose.onAllNodesWithText(openLabel()).fetchSemanticsNodes().single()
+    }
+
+    @Test
     fun aSavedRunReopensBothPanelsWithTheirInputs() {
         pickComponent("CheckBox", "component_CHECKBOX")
         compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()

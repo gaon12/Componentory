@@ -184,6 +184,8 @@ private fun ComponentoryNavigation(
         }
     LaunchedEffect(failureMessage) { failureMessage?.let { snackbar.showSnackbar(it) } }
     val savedScreens = rememberSaveableStateHolder()
+    var tabReselections by rememberSaveable { mutableStateOf<Map<String, Int>>(emptyMap()) }
+    val screenKey: (AppTab) -> String = { "${it.name}:${tabReselections[it.name] ?: 0}" }
     if (easterEggOpen) {
         ComponentoryEasterEggScreen { easterEggOpen = false }
         return
@@ -194,7 +196,28 @@ private fun ComponentoryNavigation(
         catalogMode = detailOriginMode
     }
     val selectTab: (AppTab) -> Unit = { destination ->
-        if (tab == AppTab.LIST && destination == AppTab.LIST) closeDetail()
+        if (tab == destination) {
+            savedScreens.removeState(screenKey(destination))
+            tabReselections =
+                tabReselections +
+                    (destination.name to ((tabReselections[destination.name] ?: 0) + 1))
+            when (destination) {
+                AppTab.LIST -> {
+                    detail = null
+                    catalogMode = CatalogMode.SAMPLES
+                    detailOriginMode = CatalogMode.SAMPLES
+                }
+                AppTab.COMPARE -> {
+                    comparison = LabComponent.BUTTON
+                    left = DesignFamily.CLASSIC
+                    right = DesignFamily.HOLO
+                    comparisonEntry = null
+                    comparisonGeneration++
+                }
+                AppTab.RUNS,
+                AppTab.SETTINGS -> Unit
+            }
+        }
         tab = destination
     }
 
@@ -277,7 +300,7 @@ private fun ComponentoryNavigation(
                                     }
                                     comparisonEntry = entry
                                     comparisonGeneration++
-                                    savedScreens.removeState(AppTab.COMPARE.name)
+                                    savedScreens.removeState(screenKey(AppTab.COMPARE))
                                     comparison = requireNotNull(detail)
                                     left = detailFamily
                                     if (right == left) {
@@ -345,7 +368,7 @@ private fun ComponentoryNavigation(
                 ) {
                     // Keep each tab's search, scroll position, and live sample state when switching
                     // tabs.
-                    savedScreens.SaveableStateProvider(tab.name) {
+                    savedScreens.SaveableStateProvider(screenKey(tab)) {
                         when (tab) {
                             AppTab.LIST -> {
                                 val catalogScreens = rememberSaveableStateHolder()
@@ -368,7 +391,8 @@ private fun ComponentoryNavigation(
                                     catalogMode = CatalogMode.SAMPLES
                                     detail = component
                                 }
-                                // Move the same composition so saveable keys and native view state
+                                // Move the same composition so saveable keys and native view
+                                // state
                                 // survive reflow.
                                 val catalog =
                                     remember(catalogScreens) {
@@ -476,7 +500,7 @@ private fun ComponentoryNavigation(
                                         record.toComparisonEntry()?.let { entry ->
                                             comparisonEntry = entry
                                             comparisonGeneration++
-                                            savedScreens.removeState(AppTab.COMPARE.name)
+                                            savedScreens.removeState(screenKey(AppTab.COMPARE))
                                             comparison = entry.left.component
                                             left = entry.left.sourceFamily
                                             right = requireNotNull(entry.right).sourceFamily
