@@ -93,10 +93,12 @@ return to the normal services after trying them. This is not a password manager.
 
 ## Changes after the published 1.0.0 package
 
-The current branch adds compact settings rows, a license modal, contributor
-credits, and 26 version-specific Easter egg ports with complete games and hidden
-screens. The earlier signed APK/AAB, listing ZIP, and screenshots remain artifacts
-of the published 1.0.0 source; they do not show or validate these later changes.
+The current branch adds compact settings rows, searchable license/document
+pages, contributor credits, and 26 version-specific Easter egg ports with complete
+games and hidden screens. Easter eggs have normal detail pages and original
+logo-to-game gestures; Back returns to the app. Main-tab reselection resets the
+selected tab to its default screen. The earlier signed APK/AAB, listing ZIP, and
+screenshots remain artifacts of the published 1.0.0 source; they do not show or validate these later changes.
 Before a new Play submission, increase the release version code, build and verify
 new signed artifacts, update listing copy, and capture the changed UI on an
 unlocked device. Do not overwrite the older release evidence with newer claims.

@@ -5,6 +5,9 @@ versioned Compose components, explicit AOSP resource recreations, and clearly
 identified Componentory theme demos. The app uses a quiet blue palette, readable text,
 and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 
+Latest navigation changes and physical checks are recorded in the
+[navigation verification report](docs/verification-navigation-2026-10-08.md).
+
 ## Explore and compare
 
 - **Components:** Search 168 UI API entries and 26 version-specific Easter eggs by
@@ -20,8 +23,9 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 - **Runs:** Reopen, delete, or export stored comparisons.
 - **Settings:** Open grouped categories, then dedicated appearance, language, device,
   library, privacy, contributor, or About pages. App and library versions use compact
-  rows. Links open an external browser; licenses open an offline document chooser
-  and modal. Replay the first-launch introduction from About.
+  rows. Links open an external browser; licenses open a searchable offline list
+  and dedicated pages containing the original document text. Replay the first-launch
+  introduction from About.
 
 Tap **Settings > App version** seven times to open
 [Componentory's own Easter egg screen](docs/componentory-easter-egg.md). Close it
@@ -36,8 +40,11 @@ reports and improvement requests.
 
 [Easter eggs](docs/easter-eggs.md) retain complete AOSP-derived mini-games and
 hidden screens from Android 2.3 through 17. Release rows stay separate when they
-share a source family; Android 8.1 has its own logo entry. Source labels identify
-code ports on the current OS, with original historical captures still unavailable.
+share a source family; Android 8.1 has its own logo entry. Each row opens a detail
+page with a launch button. Original logo gestures continue into mini-games; one
+Android Back returns to the detail page. Extra tools and previews stay separate.
+Source labels identify code ports on the current OS, with original historical
+captures still unavailable.
 Optional cat tiles, device controls, palette widgets, screen savers, and game
 notifications follow explicit game actions and Android or launcher selection.
 
@@ -45,10 +52,13 @@ Phones use bottom navigation. Wide windows use a navigation rail with the catalo
 beside the selected component. Settings keeps its category list beside the
 selected page when space permits.
 Main tabs start below the safe system inset without a global app-name bar.
-Component detail keeps a compact Back/Compare action row.
+Component detail keeps a compact Back/Compare action row; Easter egg detail
+uses Back without a comparison action.
 Search, provider choices, and sample state survive tab changes, recreation, and
-changes between wide and compact layouts. Search and selection dialogs adapt to
-the software keyboard; long names wrap rather than being truncated.
+changes between wide and compact layouts. Tapping the active main tab returns
+it to its default screen and clears temporary search, selection, and sample state.
+Saved runs and settings preferences remain stored. Search and selection dialogs
+adapt to the software keyboard; long names wrap rather than being truncated.
 
 The audited baseline maps 248 canonical source rows to 168 catalog entries:
 74 framework APIs, 52 Compose Material 2 APIs, and 122 Compose Material 3 APIs.

@@ -149,7 +149,10 @@ First launch presents three localized introduction pages covering browsing,
 comparison, and source evidence. Completion is stored locally. Settings →
 About can replay the introduction. Settings opens a grouped category list:
 appearance, language, device, libraries, licenses, and About each has a page
-with Back navigation. Wide layouts keep the category list beside its page.
+with Back navigation. The license page searches titles and filenames, then opens
+the complete original document on its own page. Back restores the filtered list
+and its position. Wide layouts keep the category list beside its page. Reselecting
+the active main tab resets its navigation and temporary state.
 
 The launcher, monochrome icon, and in-app branding use the supplied flask and
 cube vector. The app retains Apache 2.0 text, original release notices, and
