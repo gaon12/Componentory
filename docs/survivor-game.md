@@ -278,3 +278,33 @@ real seconds. The 95th-percentile frame time was 12.28 ms on the phone and
 inspected for retained artwork, visible health and time, and separate controls.
 These short stress measurements do not establish long-run thermal performance
 or final game balance across the complete duration.
+
+### Circular progress source correction
+
+Final source review found that the orbit weapon used a horizontal Holo progress
+drawable. It now uses the actual [circular progress layer](https://android.googlesource.com/platform/frameworks/base/+/63ade05d76785975fc3292ca030abbaa1dda8891/core/res/res/drawable/progress_medium_holo.xml)
+and its two retained ring images from Android 4.4.4_r2. A cached static frame is
+rotated by the game. This is a game adaptation, not a claim of original progress
+animation timing on an old OS.
+
+Every game source entry now links its repository and pinned file URL and names
+the preserved original path. Adapted XML and Java files have original Git bytes
+in `data/survivor/originals`; unchanged imported images already preserve those
+bytes in the port. Five Java hashes in the earlier port manifest were computed
+from a Windows CRLF checkout. The game manifest retains those checkout hashes
+separately and uses the original LF Git blob hash for source verification.
+The verifier checks both original bytes and bundled game inputs. The wider
+platform control manifest and imported Easter egg manifest remain separate.
+
+Spotless apply/check, debug lint, and Ruff format/check for the Python verifier
+passed. Both original and bundled hashes matched for all 32 source entries.
+The unchanged port verifier still matched 834 retained files and 648 resources.
+All 218 JVM tests remained passing, and both APKs compiled. Forty-two evidence
+script checks passed, including rejection of interactive tests in resource-only
+mode. The reviewed GameArtworkTest opens no Activity and uses no input; both
+of its actual Drawable and cache tests passed in resource-only mode on phone
+`20261008T165129511Z-81398a61` and tablet `20261008T165157944Z-475ad13d`.
+The new circle assertion checks a transparent center with visible rings on both
+sides. These are real rendering checks on the current OS; they do not verify
+screen unlock interaction. The preceding 31-test interactive scopes used the
+earlier APK before this artwork correction.

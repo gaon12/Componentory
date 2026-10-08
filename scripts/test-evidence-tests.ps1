@@ -91,8 +91,12 @@ $checks += 2
 $eggTest = 'xyz.gaon.componentory.eastereggs.EasterEggResourceTest'
 Assert-DeviceTestScope -NoUi $true -TestClass $eggTest
 Assert-DeviceTestScope -NoUi $true -TestClass ($eggTest + '#realNonogramRasterCluesAndPlayerMarksSurviveAnAndroidParcelRoundTrip')
-$checks += 2
-foreach ($invalidScope in @('', 'xyz.gaon.componentory.icons.IconBrowserTest', 'xyz.gaon.componentory.eastereggs.EasterEggCatalogUiTest', ($eggTest + 'Extra'), ($resourceTest + ',other.Test'), $resourceTest.ToLowerInvariant(), ($resourceTest + '#bad method'), ($resourceTest + ';invalid'), ($resourceTest + ',' + $inventoryTest), $inventoryTest.ToLowerInvariant(), ($inventoryTest + 'Extra'))) {
+
+$gameArtworkTest = 'xyz.gaon.componentory.survivor.GameArtworkTest'
+Assert-DeviceTestScope -NoUi $true -TestClass $gameArtworkTest
+Assert-DeviceTestScope -NoUi $true -TestClass ($gameArtworkTest + '#theOrbitWeaponUsesTheRetainedCircularProgressArtwork')
+$checks += 4
+foreach ($invalidScope in @('xyz.gaon.componentory.survivor.GameBattleUiTest', ($gameArtworkTest + 'Extra'), '', 'xyz.gaon.componentory.icons.IconBrowserTest', 'xyz.gaon.componentory.eastereggs.EasterEggCatalogUiTest', ($eggTest + 'Extra'), ($resourceTest + ',other.Test'), $resourceTest.ToLowerInvariant(), ($resourceTest + '#bad method'), ($resourceTest + ';invalid'), ($resourceTest + ',' + $inventoryTest), $inventoryTest.ToLowerInvariant(), ($inventoryTest + 'Extra'))) {
     $rejected = $false
     try { Assert-DeviceTestScope -NoUi $true -TestClass $invalidScope } catch { $rejected = $true }
     Assert-Evidence $rejected 'Resource-only mode must reject missing, interactive, or malformed scopes.'

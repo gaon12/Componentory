@@ -7,6 +7,15 @@ import org.junit.Test
 
 class GameArtworkTest {
     @Test
+    fun theOrbitWeaponUsesTheRetainedCircularProgressArtwork() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val bitmap = GameAssets(context).bitmap("spinner")
+        assertEquals(0, bitmap.getPixel(48, 48) ushr 24)
+        assertTrue((0 until 48).any { bitmap.getPixel(it, 48) ushr 24 != 0 })
+        assertTrue((48 until 96).any { bitmap.getPixel(it, 48) ushr 24 != 0 })
+    }
+
+    @Test
     fun everyRegisteredOriginalResourceActuallyDrawsAndIsCached() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val manifest =

@@ -77,6 +77,16 @@ Okio source and license: https://github.com/square/okio/tree/3.9.1
 These are code ports on the installed OS, not original historical OS captures.
 Android is a trademark of Google LLC. This independent app is not endorsed by Google.
 
+Survivor artwork
+
+The orbit weapon uses Android 4.4.4_r2 circular Holo progress artwork from
+frameworks/base commit 63ade05d76785975fc3292ca030abbaa1dda8891.
+Copyright The Android Open Source Project. Licensed under Apache 2.0, with
+original headers and repository resource notices retained. The game prefixes
+drawable references and rotates a cached static frame. Source links, original
+and adapted hashes, and file changes are in app/src/main/assets/survivor/resources.json.
+Changed source files have their original Git bytes retained in data/survivor/originals/.
+
 Google Play Games Services
 
 The optional survivor leaderboard client uses

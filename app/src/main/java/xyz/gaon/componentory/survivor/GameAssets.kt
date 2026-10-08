@@ -52,7 +52,7 @@ internal class GameAssets(private val context: Context) {
             "holo" -> R.drawable.aosp_holo_btn_default_holo_light
             "slider" -> R.drawable.aosp_classic_seek_thumb
             "switch" -> R.drawable.aosp_holo_btn_toggle_holo_light
-            "spinner" -> R.drawable.aosp_holo_progress_horizontal_holo_light
+            "spinner" -> R.drawable.game_holo_progress_medium_holo
             "progress" -> R.drawable.aosp_classic_progress_horizontal
             "gingerbread" -> EggR.drawable.g_platlogo
             "honeycomb" -> EggR.drawable.h_platlogo
