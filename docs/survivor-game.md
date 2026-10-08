@@ -30,3 +30,17 @@ these unchanged files were copied into the isolated game worktree. Three
 standalone JUnit catalog tests passed, and the resource verifier checked thirty
 source files for twenty-five artwork entries. This is a resource and model check;
 no gameplay, rendering, or online behavior has been verified at this milestone.
+
+### Landscape lobby milestone
+
+The seventh Settings tap launches a private landscape Activity for result.
+The parent keeps its saved Settings page and scroll position. The lobby can
+select every API identity and displays the actual shared artwork source.
+Portrait windows show a rotation prompt and disable battle start actions.
+
+Spotless apply/check and app debug lint passed. The complete working-tree JVM
+suite passed 189 tests: 183 existing/catalog tests and six independent battle
+model tests that will be committed separately. Both debug APKs compiled.
+Physical artwork, launcher, and lobby interaction checks remain pending while
+another validation task reserves the devices. Compilation is not an interaction
+result. The new tests will run before final delivery.

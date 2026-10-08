@@ -14,6 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Componentory">
+        <activity
+            android:name=".survivor.SurvivorActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:resizeableActivity="true" />
         <!-- The three inline demo components are disabled by resources below API 30. -->
         <activity
             android:name=".lab.inline.InlineDemoActivity"

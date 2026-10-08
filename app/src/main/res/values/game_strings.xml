@@ -1,0 +1,8 @@
+<resources>
+    <string name="game_title">Android Survivors</string>
+    <string name="game_rotate">Rotate to landscape to play.</string>
+    <string name="game_art_source">Artwork source: %1$s</string>
+    <string name="game_shared_art">Shared original artwork; animated for this game.</string>
+    <string name="game_normal">Normal run</string>
+    <string name="game_ranked">Ranked challenge</string>
+</resources>

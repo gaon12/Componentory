@@ -1,0 +1,8 @@
+<resources>
+    <string name="game_title">Android Survivors</string>
+    <string name="game_rotate">请横屏游玩。</string>
+    <string name="game_art_source">素材来源：%1$s</string>
+    <string name="game_shared_art">共享同系列原始素材，并添加游戏动画。</string>
+    <string name="game_normal">普通模式</string>
+    <string name="game_ranked">排名挑战</string>
+</resources>

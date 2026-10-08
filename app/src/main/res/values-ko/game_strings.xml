@@ -1,0 +1,8 @@
+<resources>
+    <string name="game_title">Android Survivors</string>
+    <string name="game_rotate">플레이하려면 가로로 돌려주세요.</string>
+    <string name="game_art_source">리소스 출처: %1$s</string>
+    <string name="game_shared_art">계열의 원본 리소스를 공유하고 게임에 맞게 움직입니다.</string>
+    <string name="game_normal">일반 플레이</string>
+    <string name="game_ranked">순위 도전</string>
+</resources>

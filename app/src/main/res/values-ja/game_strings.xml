@@ -1,0 +1,8 @@
+<resources>
+    <string name="game_title">Android Survivors</string>
+    <string name="game_rotate">横向きにしてプレイしてください。</string>
+    <string name="game_art_source">素材の出典: %1$s</string>
+    <string name="game_shared_art">同系統の原素材を共有し、ゲーム用に動かしています。</string>
+    <string name="game_normal">通常プレイ</string>
+    <string name="game_ranked">ランキング挑戦</string>
+</resources>

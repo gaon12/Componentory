@@ -18,7 +18,6 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.test.espresso.Espresso.pressBack
@@ -57,13 +56,9 @@ class ComponentoryEasterEggScreenTest {
     }
 
     @Test
-    fun shortWindowsAndLargeTextKeepTheWelcomeAndCloseButtonReachable() {
+    fun thePrivateGameLobbyReplacesTheOldWelcomeScreen() {
         showScreen(compact = true)
-        compose
-            .onNodeWithTag("componentory_easter_egg_welcome")
-            .performScrollTo()
-            .assertIsDisplayed()
-            .assertTextEquals("You found the secret lab.")
+        compose.onNodeWithTag("game_selected").assertTextEquals("Android 1.0")
         compose.onNodeWithTag("componentory_easter_egg_close").assertIsDisplayed().performClick()
         assertClosed()
     }
