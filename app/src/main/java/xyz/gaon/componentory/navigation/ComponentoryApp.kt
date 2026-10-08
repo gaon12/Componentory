@@ -12,17 +12,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,8 +39,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -136,7 +136,6 @@ fun ComponentoryApp() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ComponentoryNavigation(
     appearance: AppAppearance,
@@ -238,60 +237,56 @@ private fun ComponentoryNavigation(
                 contentWindowInsets = WindowInsets.safeDrawing,
                 snackbarHost = { SnackbarHost(snackbar) },
                 topBar = {
-                    TopAppBar(
-                        title = {
-                            Text("Componentory", style = MaterialTheme.typography.titleLarge)
-                        },
-                        colors =
-                            TopAppBarDefaults.topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            ),
-                        navigationIcon = {
-                            if (inDetail) {
-                                IconButton(
-                                    onClick = closeDetail,
-                                    modifier = Modifier.testTag("detail_back"),
-                                ) {
-                                    Icon(
-                                        painterResource(R.drawable.ic_back),
-                                        contentDescription = stringResource(R.string.back_to_list),
+                    if (inDetail)
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .windowInsetsPadding(
+                                    WindowInsets.safeDrawing.only(
+                                        WindowInsetsSides.Top + WindowInsetsSides.Horizontal
                                     )
-                                }
+                                )
+                                .padding(horizontal = 12.dp)
+                                .testTag("detail_actions"),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            IconButton(
+                                onClick = closeDetail,
+                                modifier = Modifier.testTag("detail_back"),
+                            ) {
+                                Icon(
+                                    painterResource(R.drawable.ic_back),
+                                    contentDescription = stringResource(R.string.back_to_list),
+                                )
                             }
-                        },
-                        actions = {
-                            if (inDetail) {
-                                TextButton(
-                                    onClick = {
-                                        val entry = detailExporter?.invoke()
-                                        if (
-                                            entry == null ||
-                                                entry.left.component != detail ||
-                                                entry.left.sourceFamily != detailFamily
-                                        ) {
-                                            return@TextButton
-                                        }
-                                        comparisonEntry = entry
-                                        comparisonGeneration++
-                                        savedScreens.removeState(AppTab.COMPARE.name)
-                                        comparison = requireNotNull(detail)
-                                        left = detailFamily
-                                        if (right == left) {
-                                            right =
-                                                if (left == DesignFamily.MATERIAL3)
-                                                    DesignFamily.CLASSIC
-                                                else DesignFamily.MATERIAL3
-                                        }
-                                        tab = AppTab.COMPARE
-                                    },
-                                    modifier = Modifier.testTag("detail_compare"),
-                                    enabled = detailExporter != null,
-                                ) {
-                                    Text(stringResource(R.string.compare_action))
-                                }
+                            Spacer(Modifier.weight(1f))
+                            TextButton(
+                                onClick = {
+                                    val entry = detailExporter?.invoke()
+                                    if (
+                                        entry == null ||
+                                            entry.left.component != detail ||
+                                            entry.left.sourceFamily != detailFamily
+                                    ) {
+                                        return@TextButton
+                                    }
+                                    comparisonEntry = entry
+                                    comparisonGeneration++
+                                    savedScreens.removeState(AppTab.COMPARE.name)
+                                    comparison = requireNotNull(detail)
+                                    left = detailFamily
+                                    if (right == left) {
+                                        right =
+                                            if (left == DesignFamily.MATERIAL3) DesignFamily.CLASSIC
+                                            else DesignFamily.MATERIAL3
+                                    }
+                                    tab = AppTab.COMPARE
+                                },
+                                modifier = Modifier.testTag("detail_compare"),
+                                enabled = detailExporter != null,
+                            ) {
+                                Text(stringResource(R.string.compare_action))
                             }
-                        },
-                    )
+                        }
                 },
                 bottomBar = {
                     if (!expanded)
