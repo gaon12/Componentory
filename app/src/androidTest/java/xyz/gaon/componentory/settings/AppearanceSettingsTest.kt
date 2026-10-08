@@ -14,7 +14,9 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTextReplacement
 import androidx.core.view.WindowCompat
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -104,7 +106,7 @@ class AppearanceSettingsTest {
             Configuration.UI_MODE_NIGHT_YES,
             nightContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK,
         )
-        compose.onNodeWithTag("list_BUTTON").performClick()
+        openButtonSample()
         onView(withId(R.id.sample_left)).check { view, error ->
             if (error != null) throw error
             assertEquals(
@@ -116,7 +118,7 @@ class AppearanceSettingsTest {
 
     @Test
     fun changingAppAppearanceKeepsTheNativeSampleThemeAndLiveState() {
-        compose.onNodeWithTag("list_BUTTON").performClick()
+        openButtonSample()
         compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         onView(withId(R.id.sample_left)).perform(click())
         compose.onNodeWithTag("status_LEFT").performScrollTo().assertTextEquals("Clicks: 1")
@@ -137,6 +139,12 @@ class AppearanceSettingsTest {
         compose.onNodeWithTag("native_LEFT").performScrollTo().assertIsDisplayed()
         onView(withId(R.id.sample_left)).perform(click())
         compose.onNodeWithTag("status_LEFT").performScrollTo().assertTextEquals("Clicks: 2")
+    }
+
+    private fun openButtonSample() {
+        compose.onNodeWithTag("component_search").performTextReplacement("android.widget.Button")
+        compose.onNodeWithTag("component_search").performImeAction()
+        compose.onNodeWithTag("list_BUTTON").performClick()
     }
 
     private fun backgroundLuminance(): Float {

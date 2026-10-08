@@ -35,6 +35,7 @@ import xyz.gaon.componentory.MainActivity
 import xyz.gaon.componentory.R
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
+import xyz.gaon.componentory.testing.openSettingsPage
 
 @RunWith(AndroidJUnit4::class)
 class CatalogNavigationTest {
@@ -60,7 +61,7 @@ class CatalogNavigationTest {
         compose.onNodeWithTag("status_LEFT").assertTextEquals("On")
         compose.onNodeWithTag("detail_back").performClick()
         compose.onNodeWithTag("component_search").assertTextEquals("Switch")
-        compose.onNodeWithTag("nav_settings").performClick()
+        compose.openSettingsPage("DEVICE")
         compose
             .onNodeWithTag("runtime")
             .assertTextEquals(
@@ -77,6 +78,9 @@ class CatalogNavigationTest {
         search("nothing matches")
         compose.onNodeWithTag("search_empty").assertIsDisplayed()
         compose.onNodeWithTag("clear_search").performClick()
+        compose.onNodeWithTag("component_search").assertTextEquals("")
+        compose.onNodeWithTag("egg_2_3").assertIsDisplayed()
+        compose.onNodeWithTag("component_list").performScrollToNode(hasTestTag("list_BUTTON"))
         compose.onNodeWithTag("list_BUTTON").assertIsDisplayed()
         search("EditText")
         compose.onNodeWithTag("list_TEXT_FIELD").assertIsDisplayed()
@@ -84,7 +88,8 @@ class CatalogNavigationTest {
     }
 
     @Test
-    fun detailSwitchesBetweenAllFiveRealUiFamilies() {
+    fun detailSwitchesBetweenEveryAvailableUiFamily() {
+        search("android.widget.Button")
         compose.onNodeWithTag("list_BUTTON").performClick()
         DesignFamily.entries.forEach { family ->
             compose.onNodeWithTag("family_LEFT").performClick()

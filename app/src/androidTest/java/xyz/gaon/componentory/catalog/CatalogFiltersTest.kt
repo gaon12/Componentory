@@ -4,10 +4,12 @@ import android.view.WindowManager
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
@@ -56,6 +58,7 @@ class CatalogFiltersTest {
                 .config[SemanticsProperties.EditableText]
                 .text,
         )
+        compose.onNodeWithTag("component_list").performScrollToNode(hasTestTag("list_BUTTON"))
         compose.onNodeWithTag("list_BUTTON").assertExists()
     }
 
