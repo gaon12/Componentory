@@ -193,6 +193,7 @@ release-specific licenses, notices, and resource headers.
 - [Coverage and retained milestones](docs/component-coverage.md)
 - [Development workflow](AGENTS.md)
 - [Product plan](docs/product-plan.md)
+- [Unlocked phone and tablet verification](docs/verification-physical-ui-2026-10-08.md)
 - [Settings and Easter egg verification](docs/verification-easter-eggs-2026-10-08.md)
 - [Earlier UI verification](docs/verification-2026-10-08.md)
 - [Earlier verification](docs/verification-2026-10-04.md)

@@ -54,8 +54,12 @@ three existing Settings navigation checks also passed.
 Run `20261008T114152583Z-b92b99db` retains the tested binary and device conditions.
 The phone attempt, `20261008T113742330Z-d3771356`, failed all nine checks while the
 phone was locked and no Compose hierarchy was available. That attempt is not a
-successful Android 17 behavior result. The earlier three-tap reports below remain
-historical results.
+successful Android 17 behavior result. After the user unlocked the phone,
+`20261008T115218262Z-ee8e5d26` passed all nine checks in 9.128 seconds using the
+same APKs. The Samsung SM-S731N ran Android 17 / API 37, build `CP2A.260605.016`,
+in portrait at 1080 × 2340, density 450, and device font scale 1.15. The app used
+SYSTEM/dark appearance. Locale and animation restoration reported no errors.
+The earlier three-tap reports below remain historical results.
 
 The current application behavior is committed in `47020bb`. The passing tablet
 manifest records `4bba23f` plus the changes later committed in `47020bb`; the
@@ -68,7 +72,8 @@ SDK 37. App appearance was SYSTEM/light, with Compose Material 3
 selected English, and the original locale and animation settings were restored
 with no reported errors. The compact screen check locally used font scale 2.0.
 
-The passing tablet run and failed locked-phone attempt used these SHA-256 hashes:
+The passing tablet and unlocked-phone runs, and the failed locked-phone attempt,
+used these SHA-256 hashes:
 
 ```text
 app:  c26998a0a6bf6c53a4194a4010c7872e17d53c26e3d7baf12290c8588e0c1f4f
