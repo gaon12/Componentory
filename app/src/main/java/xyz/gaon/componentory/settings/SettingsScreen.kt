@@ -1,5 +1,6 @@
 package xyz.gaon.componentory.settings
 
+import android.os.SystemClock
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -60,6 +61,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.BuildConfig
 import xyz.gaon.componentory.R
+import xyz.gaon.componentory.eastereggs.EasterEggTapSequence
 import xyz.gaon.componentory.lab.RuntimeEnvironment
 
 private enum class SettingsPage(
@@ -125,6 +127,7 @@ fun SettingsScreen(
     language: AppLanguage,
     onLanguageChange: (AppLanguage) -> Unit,
     onShowIntroduction: () -> Unit = {},
+    onOpenEasterEgg: () -> Unit = {},
 ) {
     var selected by rememberSaveable { mutableStateOf<SettingsPage?>(null) }
     BackHandler(enabled = selected != null) { selected = null }
@@ -146,7 +149,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.spacedBy(28.dp),
                 ) {
                     Box(Modifier.width(300.dp).testTag("settings_categories")) {
-                        SettingsCategories(selected) { selected = it }
+                        SettingsCategories(selected, onOpenEasterEgg) { selected = it }
                     }
                     Column(Modifier.weight(1f).testTag("settings_detail")) {
                         val page = selected
@@ -170,7 +173,7 @@ fun SettingsScreen(
                 }
             } else {
                 val page = selected
-                if (page == null) SettingsCategories(null) { selected = it }
+                if (page == null) SettingsCategories(null, onOpenEasterEgg) { selected = it }
                 else {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -207,7 +210,13 @@ fun SettingsScreen(
 }
 
 @Composable
-private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage) -> Unit) {
+private fun SettingsCategories(
+    selected: SettingsPage?,
+    onOpenEasterEgg: () -> Unit,
+    onSelect: (SettingsPage) -> Unit,
+) {
+    // A partial gesture belongs to this visit, not to saved settings state.
+    val eggTaps = remember(selected) { EasterEggTapSequence() }
     var showNotices by rememberSaveable { mutableStateOf(false) }
     if (showNotices) SourceNoticesDialog { showNotices = false }
     Column(
@@ -272,6 +281,10 @@ private fun SettingsCategories(selected: SettingsPage?, onSelect: (SettingsPage)
                 stringResource(R.string.app_version),
                 "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                 "app_version",
+                onClick = {
+                    if (eggTaps.registerTap(SystemClock.uptimeMillis())) onOpenEasterEgg()
+                },
+                showArrow = false,
             )
             HorizontalDivider(Modifier.padding(horizontal = 18.dp))
             ProjectLinks()

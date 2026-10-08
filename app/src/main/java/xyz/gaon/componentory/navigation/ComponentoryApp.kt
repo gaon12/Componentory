@@ -71,6 +71,7 @@ import xyz.gaon.componentory.catalog.ComponentDetailScreen
 import xyz.gaon.componentory.catalog.ComponentListScreen
 import xyz.gaon.componentory.compare.CompareScreen
 import xyz.gaon.componentory.compare.ComparisonEntry
+import xyz.gaon.componentory.eastereggs.ComponentoryEasterEggScreen
 import xyz.gaon.componentory.lab.DesignFamily
 import xyz.gaon.componentory.lab.LabComponent
 import xyz.gaon.componentory.onboarding.IntroductionDialog
@@ -146,6 +147,7 @@ private fun ComponentoryNavigation(
 ) {
     val context = LocalContext.current
     var tab by rememberSaveable { mutableStateOf(AppTab.LIST) }
+    var easterEggOpen by rememberSaveable { mutableStateOf(false) }
     var catalogMode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
     var detailOriginMode by rememberSaveable { mutableStateOf(CatalogMode.SAMPLES) }
     LaunchedEffect(catalogMode, detailOriginMode) {
@@ -182,6 +184,10 @@ private fun ComponentoryNavigation(
         }
     LaunchedEffect(failureMessage) { failureMessage?.let { snackbar.showSnackbar(it) } }
     val savedScreens = rememberSaveableStateHolder()
+    if (easterEggOpen) {
+        ComponentoryEasterEggScreen { easterEggOpen = false }
+        return
+    }
     val inDetail = tab == AppTab.LIST && detail != null && catalogMode == CatalogMode.SAMPLES
     val closeDetail = {
         detail = null
@@ -501,6 +507,7 @@ private fun ComponentoryNavigation(
                                     language,
                                     onLanguageChange,
                                     onShowIntroduction,
+                                    onOpenEasterEgg = { easterEggOpen = true },
                                 )
                         }
                     }

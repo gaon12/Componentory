@@ -25,6 +25,7 @@ internal fun SettingsListRow(
     value: String? = null,
     tag: String = "",
     onClick: (() -> Unit)? = null,
+    showArrow: Boolean = true,
 ) {
     Row(
         Modifier.fillMaxWidth()
@@ -46,7 +47,7 @@ internal fun SettingsListRow(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-        if (onClick != null)
+        if (onClick != null && showArrow)
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 null,
