@@ -8,7 +8,7 @@ internal class GameEngine(val session: GameSession) {
         get() = session
 
     fun step(input: GameInput = GameInput()) {
-        if (s.outcome != RunOutcome.ACTIVE) return
+        if (s.outcome != RunOutcome.ACTIVE || s.choices.isNotEmpty()) return
         s.tick++
         s.skillTicks = (s.skillTicks - 1).coerceAtLeast(0)
         s.shieldTicks = (s.shieldTicks - 1).coerceAtLeast(0)
@@ -44,12 +44,13 @@ internal class GameEngine(val session: GameSession) {
                 closest(s.x, s.y)?.let { target ->
                     attack(weapon, target)
                     weapon.ticks =
-                        when (weapon.id) {
-                            WeaponId.BUTTON -> 24
-                            WeaponId.SLIDER -> 48
-                            WeaponId.SWITCH -> 60
-                            WeaponId.SPINNER -> 45
-                        }
+                        (when (weapon.id) {
+                                WeaponId.BUTTON -> if (weapon.evolved) 72 else 24
+                                WeaponId.SLIDER -> 48
+                                WeaponId.SWITCH -> if (weapon.evolved) 90 else 60
+                                WeaponId.SPINNER -> 45
+                            } * (1f - (s.supports[SupportId.PROGRESS] ?: 0) * .05f))
+                            .roundToInt()
                 }
         }
         updateShots()
@@ -58,18 +59,46 @@ internal class GameEngine(val session: GameSession) {
         while (drops.hasNext()) {
             val drop = drops.next()
             if (distanceSquared(drop.x, drop.y, s.x, s.y) < 80f * 80f) {
-                s.experience += (drop.amount * (1f + s.permanent.experience * 0.05f)).roundToInt()
+                val earned =
+                    drop.amount *
+                        (1.0 +
+                            s.permanent.experience * .05 +
+                            (s.supports[SupportId.NEKO] ?: 0) * .05) + s.experienceRemainder
+                val whole = floor(earned + 1e-9).toInt()
+                s.experience += whole
+                s.experienceRemainder = (earned - whole).coerceAtLeast(0.0)
                 drops.remove()
             }
         }
+        GameGrowth.offer(s)
     }
 
     private fun attack(weapon: GameWeapon, target: GameEnemy) {
-        val multiplier = (1f + (weapon.level - 1) * 0.3f) * s.damageMultiplier
+        val multiplier =
+            (1f + (weapon.level - 1) * 0.3f) *
+                s.damageMultiplier *
+                (1f + (s.supports[SupportId.JELLY_BEAN] ?: 0) * .05f)
         when (weapon.id) {
-            WeaponId.BUTTON -> fireAt(target, 12f * multiplier, "button")
-            WeaponId.SLIDER -> fireAt(target, 24f * multiplier, "slider", pierce = 3)
+            WeaponId.BUTTON -> {
+                if (weapon.evolved)
+                    repeat(6) { index ->
+                        fireAt(target, 16f * multiplier, "button", delay = index * 6)
+                    }
+                else fireAt(target, 12f * multiplier, "button")
+            }
+            WeaponId.SLIDER ->
+                fireAt(
+                    target,
+                    24f * multiplier,
+                    "slider",
+                    pierce = if (weapon.evolved) 8 else 3,
+                    bounces = if (weapon.evolved) 5 else 0,
+                )
             WeaponId.SWITCH -> {
+                if (weapon.evolved) {
+                    repeat(4) { fireAt(target, 25f * multiplier, "neko", homing = true) }
+                    s.shieldTicks = maxOf(s.shieldTicks, 30)
+                }
                 addShot(
                     GameShot(
                         s.nextId++,
@@ -81,12 +110,12 @@ internal class GameEngine(val session: GameSession) {
                         8,
                         "switch",
                         pierce = ENEMY_LIMIT,
-                        radius = 170f,
+                        radius = 170f * (1f + (s.supports[SupportId.OCTOPUS] ?: 0) * .05f),
                     )
                 )
             }
             WeaponId.SPINNER ->
-                repeat(3) { index ->
+                repeat(if (weapon.evolved) 6 else 3) { index ->
                     addShot(
                         GameShot(
                             s.nextId++,
@@ -94,12 +123,12 @@ internal class GameEngine(val session: GameSession) {
                             s.y,
                             0f,
                             0f,
-                            7.5f * multiplier,
+                            (if (weapon.evolved) 12f else 7.5f) * multiplier,
                             45,
-                            "spinner",
+                            if (weapon.evolved) "octopus" else "spinner",
                             pierce = ENEMY_LIMIT,
                             orbit = true,
-                            angle = index * 2f * PI.toFloat() / 3,
+                            angle = index * 2f * PI.toFloat() / (if (weapon.evolved) 6 else 3),
                         )
                     )
                 }
@@ -141,6 +170,8 @@ internal class GameEngine(val session: GameSession) {
         art: String,
         pierce: Int = 0,
         homing: Boolean = false,
+        delay: Int = 0,
+        bounces: Int = 0,
     ) {
         val dx = target.x - s.x
         val dy = target.y - s.y
@@ -157,6 +188,8 @@ internal class GameEngine(val session: GameSession) {
                 art,
                 pierce = pierce,
                 homing = homing,
+                delay = delay,
+                bounces = bounces,
             )
         )
     }
@@ -175,8 +208,9 @@ internal class GameEngine(val session: GameSession) {
             }
             if (shot.orbit) {
                 shot.angle += 0.07f
-                shot.x = s.x + cos(shot.angle) * 115
-                shot.y = s.y + sin(shot.angle) * 115
+                val orbitRadius = 115f * (1f + (s.supports[SupportId.OCTOPUS] ?: 0) * .05f)
+                shot.x = s.x + cos(shot.angle) * orbitRadius
+                shot.y = s.y + sin(shot.angle) * orbitRadius
             } else {
                 if (shot.homing)
                     closest(shot.x, shot.y)?.let { target ->
@@ -195,6 +229,23 @@ internal class GameEngine(val session: GameSession) {
                 if (distanceSquared(shot.x, shot.y, enemy.x, enemy.y) < radius * radius) {
                     enemy.health -= shot.damage
                     shot.hits += enemy.id
+                    if (shot.bounces > 0) {
+                        val next =
+                            s.enemies
+                                .filter { it.health > 0 && it.id !in shot.hits }
+                                .minByOrNull { distanceSquared(shot.x, shot.y, it.x, it.y) }
+                        if (next != null) {
+                            val dx = next.x - shot.x
+                            val dy = next.y - shot.y
+                            val length = sqrt(dx * dx + dy * dy).coerceAtLeast(1f)
+                            shot.vx = dx / length * 650
+                            shot.vy = dy / length * 650
+                            shot.bounces--
+                            shot.pierce--
+                            shot.life = 120
+                            break
+                        }
+                    }
                     if (shot.pierce-- <= 0) {
                         shot.life = 0
                         break

@@ -28,7 +28,9 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
     var foreground by remember { mutableStateOf(true) }
     var movement by remember { mutableStateOf(Offset.Zero) }
     var requestSkill by remember { mutableStateOf(false) }
+    var level by remember { mutableIntStateOf(s.level) }
     var tick by remember { mutableIntStateOf(s.tick) }
+    var choices by remember { mutableStateOf(s.choices.toList()) }
     val owner = LocalLifecycleOwner.current
     DisposableEffect(owner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -46,7 +48,7 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
     Surface(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }) {
         BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding()) {
             val landscape = maxWidth > maxHeight
-            val playable = landscape && foreground && !paused
+            val playable = landscape && foreground && !paused && choices.isEmpty()
             LaunchedEffect(landscape) { if (!landscape) paused = true }
             LaunchedEffect(engine, playable) {
                 movement = Offset.Zero
@@ -54,7 +56,7 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                 if (!playable) return@LaunchedEffect
                 var previous = 0L
                 var accumulated = 0L
-                while (s.outcome == RunOutcome.ACTIVE) {
+                while (s.outcome == RunOutcome.ACTIVE && s.choices.isEmpty()) {
                     val now = withFrameNanos { it }
                     if (previous != 0L) accumulated += (now - previous).coerceIn(0L, 100_000_000L)
                     previous = now
@@ -65,8 +67,9 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                         accumulated -= 16_666_667L
                     }
                     tick = s.tick
+                    choices = s.choices.toList()
                 }
-                onFinished(s)
+                if (s.outcome != RunOutcome.ACTIVE) onFinished(s)
             }
             Column(Modifier.fillMaxSize()) {
                 Row(
@@ -85,11 +88,15 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                         "%02d:%02d".format(tick / 3600, tick / 60 % 60),
                         Modifier.testTag("game_time"),
                     )
-                    Text(stringResource(R.string.game_level, s.level), Modifier.weight(1f))
+                    Text(stringResource(R.string.game_level, level), Modifier.weight(1f))
                     TextButton({ paused = true }, Modifier.testTag("game_pause")) {
                         Text(stringResource(R.string.game_pause))
                     }
                 }
+                LinearProgressIndicator(
+                    progress = { (s.experience.toFloat() / s.requiredExperience).coerceIn(0f, 1f) },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).height(4.dp),
+                )
                 Box(Modifier.weight(1f).fillMaxWidth()) {
                     GameBoard(s, assets, tick, Modifier.fillMaxSize().testTag("game_arena"))
                     Row(
@@ -113,6 +120,15 @@ internal fun GameBattle(engine: GameEngine, assets: GameAssets, onFinished: (Gam
                                     )
                             )
                         }
+                    }
+                }
+            }
+            if (choices.isNotEmpty() && !paused && landscape) {
+                GameUpgradePanel(s, assets, choices, onPause = { paused = true }) { choice ->
+                    if (GameGrowth.choose(s, choice)) {
+                        choices = s.choices.toList()
+                        level = s.level
+                        tick = s.tick
                     }
                 }
             }

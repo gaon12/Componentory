@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_growth">成長を選択</string>
+    <string name="game_slots">武器 %1$d/4 · 補助装備 %2$d/4</string>
+    <string name="game_progress">進捗バー</string>
+    <string name="game_jelly">Jelly Bean</string>
+    <string name="game_neko">Neko</string>
+    <string name="game_octopus">タコ</string>
+    <string name="game_progress_effect" formatted="false">段階ごとに攻撃間隔を5%短縮</string>
+    <string name="game_jelly_effect" formatted="false">段階ごとに武器攻撃力が5%増加</string>
+    <string name="game_neko_effect" formatted="false">段階ごとに経験値が5%増加</string>
+    <string name="game_octopus_effect" formatted="false">段階ごとに攻撃範囲が5%増加</string>
+    <string name="game_evolution_button">チャージ連射</string>
+    <string name="game_evolution_slider">反射する貫通攻撃</string>
+    <string name="game_evolution_switch">ネコとシールド</string>
+    <string name="game_evolution_spinner">回転する触手</string>
+    <string name="game_upgrade_level">%1$s · レベル%2$d</string>
+    <string name="game_evolve">進化：%1$s</string>
+    <string name="game_heal_choice" formatted="false">体力を25%回復</string>
+    <string name="game_currency_choice">通貨を10獲得</string>
+    <string name="game_recovery_choice" formatted="false">体力を12.5%回復し通貨を5獲得</string>
+</resources>

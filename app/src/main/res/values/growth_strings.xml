@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_growth">Choose growth</string>
+    <string name="game_slots">Weapons %1$d/4 · Support %2$d/4</string>
+    <string name="game_progress">Progress bar</string>
+    <string name="game_jelly">Jelly Bean</string>
+    <string name="game_neko">Neko</string>
+    <string name="game_octopus">Octopus</string>
+    <string name="game_progress_effect" formatted="false">5% shorter attack interval per level</string>
+    <string name="game_jelly_effect" formatted="false">5% more weapon damage per level</string>
+    <string name="game_neko_effect" formatted="false">5% more experience per level</string>
+    <string name="game_octopus_effect" formatted="false">5% more attack range per level</string>
+    <string name="game_evolution_button">Charged burst</string>
+    <string name="game_evolution_slider">Bouncing pierce</string>
+    <string name="game_evolution_switch">Cats and shield</string>
+    <string name="game_evolution_spinner">Orbiting tentacles</string>
+    <string name="game_upgrade_level">%1$s · Level %2$d</string>
+    <string name="game_evolve">Evolve: %1$s</string>
+    <string name="game_heal_choice" formatted="false">Recover 25% health</string>
+    <string name="game_currency_choice">Gain 10 currency</string>
+    <string name="game_recovery_choice" formatted="false">Recover 12.5% health and gain 5 currency</string>
+</resources>

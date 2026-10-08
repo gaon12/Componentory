@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_growth">성장 선택</string>
+    <string name="game_slots">무기 %1$d/4 · 보조 장비 %2$d/4</string>
+    <string name="game_progress">진행 표시줄</string>
+    <string name="game_jelly">Jelly Bean</string>
+    <string name="game_neko">Neko</string>
+    <string name="game_octopus">문어</string>
+    <string name="game_progress_effect" formatted="false">단계당 공격 간격 5% 감소</string>
+    <string name="game_jelly_effect" formatted="false">단계당 무기 공격력 5% 증가</string>
+    <string name="game_neko_effect" formatted="false">단계당 경험치 5% 증가</string>
+    <string name="game_octopus_effect" formatted="false">단계당 공격 범위 5% 증가</string>
+    <string name="game_evolution_button">충전 연속 탄환</string>
+    <string name="game_evolution_slider">튕기는 관통 공격</string>
+    <string name="game_evolution_switch">고양이와 보호막</string>
+    <string name="game_evolution_spinner">회전하는 촉수</string>
+    <string name="game_upgrade_level">%1$s · %2$d단계</string>
+    <string name="game_evolve">진화: %1$s</string>
+    <string name="game_heal_choice" formatted="false">체력 25% 회복</string>
+    <string name="game_currency_choice">재화 10 획득</string>
+    <string name="game_recovery_choice" formatted="false">체력 12.5% 회복 및 재화 5 획득</string>
+</resources>

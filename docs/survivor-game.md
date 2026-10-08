@@ -91,3 +91,26 @@ and return to the saved Settings location. Run manifests retain exact binaries
 and environment snapshots. They are gameplay checks on the current OS, not
 historical appearance captures. Full waves, saves, and online scores are not
 verified by these entry and basic combat tests.
+
+### Growth and evolution checkpoint
+
+Experience pauses combat for three distinct choices. Weapons and supports have
+four slots each and five basic levels. Evolution requires weapon level five
+and its paired support at least level three, replaces that weapon, and cannot
+repeat. The first set includes charged button bursts, bouncing slider pierce,
+Neko summons with periodic shielding, and orbiting octopus tentacles.
+
+Progress shortens attack intervals, Jelly Bean increases weapon damage, Neko
+increases experience, and octopus increases area and orbit reach. Each support
+adds five percent per level. Fractional experience is retained so small drops
+receive their common five-percent bonuses over time. Offers use a separate saved
+random state from encounters. Remaining choice slots use recovery and currency
+when too few equipment upgrades remain; three distinct fallback choices include
+health, currency, and a smaller amount of both.
+
+Spotless apply/check and app debug lint passed; 198 JVM tests passed. Both debug
+APKs compiled. Fifteen scoped tests passed on each device, including growth
+pause and resume: phone `20261008T143612806Z-4536f7cb` and tablet
+`20261008T143654227Z-230125b0`. Model cases cover equipment limits, locked supports,
+evolution prerequisites and replacement, exhausted offers, fractional experience,
+distinct evolved actions, and independence from encounter randomness.

@@ -83,12 +83,15 @@ internal class GameSession(
     val ruleset: String = GameCatalog.RULESET,
 ) {
     var randomState = if (seed == 0L) 1L else seed
+    var offerRandomState = (seed xor 0x51ed270bL).let { if (it == 0L) 1L else it }
+    val choices = mutableListOf<UpgradeChoice>()
     var tick = 0
     var nextId = 1
     var x = GameEngine.WIDTH / 2
     var y = GameEngine.HEIGHT / 2
     val maxHealth = 100f * (1 + permanent.health * 0.05f)
     var health = maxHealth
+    var experienceRemainder = 0.0
     var experience = 0
     var level = 1
     var skillTicks = 0

@@ -71,4 +71,30 @@ class GameBattleUiTest {
             assertTrue(engine.session.shieldTicks > 0)
         }
     }
+
+    @Test
+    fun growthOffersStopTimeAndResumeWithTheChosenEquipment() {
+        val e = GameEngine.create(WeaponId.BUTTON, RunMode.RANKED)
+        e.session.experience = e.session.requiredExperience
+        GameGrowth.offer(e.session)
+        val choice = e.session.choices.first()
+        compose.runOnUiThread {
+            compose.activity.setContent {
+                ComponentoryTheme {
+                    GameBattle(e, remember { GameAssets(compose.activity) }, onFinished = {})
+                }
+            }
+        }
+        compose.onNodeWithTag("game_growth").assertIsDisplayed()
+        compose.mainClock.autoAdvance = false
+        compose.mainClock.advanceTimeBy(5000)
+        compose.runOnIdle { assertEquals(0, e.session.tick) }
+        compose.onNodeWithTag("game_upgrade_" + choice.key).performClick()
+        compose.mainClock.advanceTimeBy(1000)
+        compose.runOnIdle {
+            assertEquals(2, e.session.level)
+            assertTrue(e.session.tick > 0)
+            assertTrue(e.session.choices.isEmpty())
+        }
+    }
 }

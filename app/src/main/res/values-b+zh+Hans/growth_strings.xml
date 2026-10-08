@@ -1,0 +1,21 @@
+<resources>
+    <string name="game_growth">选择成长</string>
+    <string name="game_slots">武器 %1$d/4 · 辅助装备 %2$d/4</string>
+    <string name="game_progress">进度条</string>
+    <string name="game_jelly">Jelly Bean</string>
+    <string name="game_neko">Neko</string>
+    <string name="game_octopus">章鱼</string>
+    <string name="game_progress_effect" formatted="false">每级攻击间隔缩短5%</string>
+    <string name="game_jelly_effect" formatted="false">每级武器伤害增加5%</string>
+    <string name="game_neko_effect" formatted="false">每级经验增加5%</string>
+    <string name="game_octopus_effect" formatted="false">每级攻击范围增加5%</string>
+    <string name="game_evolution_button">蓄力连发</string>
+    <string name="game_evolution_slider">弹跳穿透</string>
+    <string name="game_evolution_switch">猫咪与护盾</string>
+    <string name="game_evolution_spinner">旋转触手</string>
+    <string name="game_upgrade_level">%1$s · 等级%2$d</string>
+    <string name="game_evolve">进化：%1$s</string>
+    <string name="game_heal_choice" formatted="false">恢复25%生命</string>
+    <string name="game_currency_choice">获得10货币</string>
+    <string name="game_recovery_choice" formatted="false">恢复12.5%生命并获得5货币</string>
+</resources>
