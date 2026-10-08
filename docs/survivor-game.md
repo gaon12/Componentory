@@ -58,6 +58,9 @@ must remain usable. An unconfigured or mocked client is not a successful online
 score submission. Prepare Console registration instructions and distinguish
 local adapter tests from future real submissions.
 
+The [October 9 verification report](verification-survivor-2026-10-09.md) summarizes
+current device checks, installed binary identity, cleanup, and pending work.
+
 ### Earlier checkpoints
 
 The catalog verifier checked thirty original source files for twenty-five
