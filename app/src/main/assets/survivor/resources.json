@@ -1,0 +1,588 @@
+{
+  "schemaVersion": 1,
+  "assets": {
+    "classic": {
+      "resource": "aosp_classic_btn_default",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_classic_btn_default.xml",
+          "sourcePath": "core/res/res/drawable/btn_default.xml",
+          "sourceSha256": "a29ed99b1a97097f46f781070f9a10c624602839a04486cbd3f8479025fce146",
+          "bundledSha256": "14d0ebaca0fdbbebe0d3fe8e6068bfeee08dfa6070758967df5dd69da2fc73f3",
+          "revision": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+          "release": "android-2.3.7_r1",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "holo": {
+      "resource": "aosp_holo_btn_default_holo_light",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_holo_btn_default_holo_light.xml",
+          "sourcePath": "core/res/res/drawable/btn_default_holo_light.xml",
+          "sourceSha256": "bd1a77e60d8d2bb13b3e04b1ceb888a52d7cf2c216ab0d3751b9cfb1ad65857d",
+          "bundledSha256": "4c3ba98f7d6de2c32aab82c071f4b7f2bdb079a63ead810cfdb482fc59f3a5df",
+          "revision": "63ade05d76785975fc3292ca030abbaa1dda8891",
+          "release": "android-4.4.4_r2",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "button": {
+      "resource": "aosp_classic_btn_default",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_classic_btn_default.xml",
+          "sourcePath": "core/res/res/drawable/btn_default.xml",
+          "sourceSha256": "a29ed99b1a97097f46f781070f9a10c624602839a04486cbd3f8479025fce146",
+          "bundledSha256": "14d0ebaca0fdbbebe0d3fe8e6068bfeee08dfa6070758967df5dd69da2fc73f3",
+          "revision": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+          "release": "android-2.3.7_r1",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "slider": {
+      "resource": "aosp_classic_seek_thumb",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_classic_seek_thumb.xml",
+          "sourcePath": "core/res/res/drawable/seek_thumb.xml",
+          "sourceSha256": "aae15494318b7004c2ae8fd4c0ce3df1c421c7038e5805ec926cd8147578be07",
+          "bundledSha256": "a9a3a06854eb128bade8ff7166dbec2c57f06063cfa6b5c06991c87b5b5a3031",
+          "revision": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+          "release": "android-2.3.7_r1",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "switch": {
+      "resource": "aosp_holo_btn_toggle_holo_light",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_holo_btn_toggle_holo_light.xml",
+          "sourcePath": "core/res/res/drawable/btn_toggle_holo_light.xml",
+          "sourceSha256": "a7d3bee2c63181fcd2188f6af93b4e026265a98455d80b75a798afb757cad968",
+          "bundledSha256": "ff0abf19d70efc6c0fed7399366dfe663bb4ac2931e59fc55733064065634728",
+          "revision": "63ade05d76785975fc3292ca030abbaa1dda8891",
+          "release": "android-4.4.4_r2",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "spinner": {
+      "resource": "aosp_holo_progress_horizontal_holo_light",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_holo_progress_horizontal_holo_light.xml",
+          "sourcePath": "core/res/res/drawable/progress_horizontal_holo_light.xml",
+          "sourceSha256": "a2ec1ff895259fc5da0ac9315507adf966cf702ec8b67326d91465e1a1021a29",
+          "bundledSha256": "59452f02d19036d62b72a59fb1c38cfa48a20be5068d8b36134f31692e3b161a",
+          "revision": "63ade05d76785975fc3292ca030abbaa1dda8891",
+          "release": "android-4.4.4_r2",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "progress": {
+      "resource": "aosp_classic_progress_horizontal",
+      "files": [
+        {
+          "path": "app/src/main/res/drawable/aosp_classic_progress_horizontal.xml",
+          "sourcePath": "core/res/res/drawable/progress_horizontal.xml",
+          "sourceSha256": "5d6f290c7a88137cdb4a5da9a49f9c54922573433a70ad4eccd3ffd21fdc0e79",
+          "bundledSha256": "8a54bf8465450b23043c29275eea63719c3df337d14a20005e145f57a890719e",
+          "revision": "3f2821425f1ab6eddb76a8725e3f2c3edb5d8b07",
+          "release": "android-2.3.7_r1",
+          "adaptations": [
+            "Prefixed resource names and private references",
+            "Theme colors bound to release values; private attributes use app-owned names",
+            "Sample text has a 16sp readability floor"
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "gingerbread": {
+      "resource": "g_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/g_platlogo.jpg",
+          "sourcePath": "eggs/Gingerbread/src/main/res/drawable/g_platlogo.jpg",
+          "sourceSha256": "44829c7fbf23b4c542eac48dc289bafca4b7ccc890288ede893bed687e0d2340",
+          "bundledSha256": "44829c7fbf23b4c542eac48dc289bafca4b7ccc890288ede893bed687e0d2340",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Gingerbread",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "honeycomb": {
+      "resource": "h_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/h_platlogo.webp",
+          "sourcePath": "eggs/Honeycomb/src/main/res/drawable/h_platlogo.webp",
+          "sourceSha256": "9508763ade3c597ec935f219550b32314a908200012b59bffe2563be8f473cf7",
+          "bundledSha256": "9508763ade3c597ec935f219550b32314a908200012b59bffe2563be8f473cf7",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Honeycomb",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "icecream": {
+      "resource": "i_nyandroid00",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/i_nyandroid00.webp",
+          "sourcePath": "eggs/IceCreamSandwich/src/main/res/drawable/i_nyandroid00.webp",
+          "sourceSha256": "7e4931897e26dc50ad1da20487a65dab703b5ce2226ba27ac3465cdc918bae72",
+          "bundledSha256": "7e4931897e26dc50ad1da20487a65dab703b5ce2226ba27ac3465cdc918bae72",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "IceCreamSandwich",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "jellybean": {
+      "resource": "j_redbean0",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/j_redbean0.webp",
+          "sourcePath": "eggs/JellyBean/src/main/res/drawable/j_redbean0.webp",
+          "sourceSha256": "5c2a255c2972f913530e5a23e47d66f22126075a20746bb42ba518d1bb78ee79",
+          "bundledSha256": "5c2a255c2972f913530e5a23e47d66f22126075a20746bb42ba518d1bb78ee79",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "JellyBean",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "kitkat": {
+      "resource": "k_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/k_platlogo.webp",
+          "sourcePath": "eggs/KitKat/src/main/res/drawable/k_platlogo.webp",
+          "sourceSha256": "95eca105fe558f9dc78350baf3689cc70b294cd0d37a545a3d9305cafb2ec044",
+          "bundledSha256": "95eca105fe558f9dc78350baf3689cc70b294cd0d37a545a3d9305cafb2ec044",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "KitKat",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "lollipop": {
+      "resource": "l_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/l_platlogo.xml",
+          "sourcePath": "eggs/Lollipop/src/main/res/drawable/l_platlogo.xml",
+          "sourceSha256": "a65ed56d62a5f8aa08031f92d4d3920a9d82dd21fb6d4eeec88b688f9548aca1",
+          "bundledSha256": "a65ed56d62a5f8aa08031f92d4d3920a9d82dd21fb6d4eeec88b688f9548aca1",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Lollipop",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "marshmallow": {
+      "resource": "m_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/m_platlogo.xml",
+          "sourcePath": "eggs/Marshmallow/src/main/res/drawable/m_platlogo.xml",
+          "sourceSha256": "d4ff7f566b99afb0ccc9481a728bce1e38f562faaad4eb28efb5ea9e3e800c06",
+          "bundledSha256": "d4ff7f566b99afb0ccc9481a728bce1e38f562faaad4eb28efb5ea9e3e800c06",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Marshmallow",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "pie": {
+      "resource": "p",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/p.xml",
+          "sourcePath": "eggs/Pie/src/main/res/drawable/p.xml",
+          "sourceSha256": "cb92102e61e85490b4c75a3229c5148b043f81f5325cd31cb65fcb612aec3bc9",
+          "bundledSha256": "cb92102e61e85490b4c75a3229c5148b043f81f5325cd31cb65fcb612aec3bc9",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Pie",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "q": {
+      "resource": "q",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/q.xml",
+          "sourcePath": "eggs/Q/src/main/res/drawable/q.xml",
+          "sourceSha256": "f7a9a28ff89b92b07e8b0578c358d409a7b980137ffc291a16f61b13b5c7ff60",
+          "bundledSha256": "f7a9a28ff89b92b07e8b0578c358d409a7b980137ffc291a16f61b13b5c7ff60",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Q",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "r": {
+      "resource": "r_android_11_dial",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/r_android_11_dial.xml",
+          "sourcePath": "eggs/R/src/main/res/drawable/r_android_11_dial.xml",
+          "sourceSha256": "2f59409afd9a0a5c79fd81d80247d70b046ae0003374e3a7bf0f0044edbbc4cd",
+          "bundledSha256": "2f59409afd9a0a5c79fd81d80247d70b046ae0003374e3a7bf0f0044edbbc4cd",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "R",
+          "adaptations": []
+        },
+        {
+          "path": "eastereggs/src/main/res/drawable-v26/r_android_11_dial.xml",
+          "sourcePath": "eggs/R/src/main/res/drawable-v26/r_android_11_dial.xml",
+          "sourceSha256": "90b2c7310194fcbe57ead27273c805ceac5a6a5e93433661d5f234d037f1be85",
+          "bundledSha256": "90b2c7310194fcbe57ead27273c805ceac5a6a5e93433661d5f234d037f1be85",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "R",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "s": {
+      "resource": "s_android_logo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable/s_android_logo.xml",
+          "sourcePath": "eggs/S/src/main/res/drawable/s_android_logo.xml",
+          "sourceSha256": "a786116f5e617abd49ab604d603e8623f833635358efa79ec39a88b19331ca63",
+          "bundledSha256": "a786116f5e617abd49ab604d603e8623f833635358efa79ec39a88b19331ca63",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "S",
+          "adaptations": []
+        },
+        {
+          "path": "eastereggs/src/main/res/drawable-v26/s_android_logo.xml",
+          "sourcePath": "eggs/S/src/main/res/drawable-v26/s_android_logo.xml",
+          "sourceSha256": "4e5b049f2aad94443308d6a93272b77d17f44e5fe9d2acb4599d69d26adfcc33",
+          "bundledSha256": "4e5b049f2aad94443308d6a93272b77d17f44e5fe9d2acb4599d69d26adfcc33",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "S",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "t": {
+      "resource": "t_emoji_u2764",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable-anydpi/t_emoji_u2764.xml",
+          "sourcePath": "eggs/Tiramisu/src/main/res/drawable-anydpi/t_emoji_u2764.xml",
+          "sourceSha256": "f03dcd9724b04b38604f586a81748ad64d25b96da4aacf23cc0511b7480ce9c8",
+          "bundledSha256": "f03dcd9724b04b38604f586a81748ad64d25b96da4aacf23cc0511b7480ce9c8",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Tiramisu",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "u": {
+      "resource": "u_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable-anydpi/u_platlogo.xml",
+          "sourcePath": "eggs/UpsideDownCake/src/main/res/drawable-anydpi/u_platlogo.xml",
+          "sourceSha256": "b5465e504115c8e0e870b7875623ba8fb55aeeab0f4834b10c004c650059f3f2",
+          "bundledSha256": "b5465e504115c8e0e870b7875623ba8fb55aeeab0f4834b10c004c650059f3f2",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "UpsideDownCake",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "v": {
+      "resource": "v_android_logo_2024_",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable-anydpi/v_android_logo_2024_.xml",
+          "sourcePath": "eggs/VanillaIceCream/src/main/res/drawable-anydpi/v_android_logo_2024_.xml",
+          "sourceSha256": "4ec5b0e735464cc0a74e087b1289164f347ce9e6fc96680e72d0fd877725b066",
+          "bundledSha256": "4ec5b0e735464cc0a74e087b1289164f347ce9e6fc96680e72d0fd877725b066",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "VanillaIceCream",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "baklava": {
+      "resource": "baklava_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable-nodpi/baklava_platlogo.xml",
+          "sourcePath": "eggs/Baklava/src/main/res/drawable-nodpi/baklava_platlogo.xml",
+          "sourceSha256": "c92a5863c9dc6cd229bdf605de51dfb2eb45a4b85e5c910e3301b30fe390f7a0",
+          "bundledSha256": "c92a5863c9dc6cd229bdf605de51dfb2eb45a4b85e5c910e3301b30fe390f7a0",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Baklava",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "cinnamon": {
+      "resource": "cinnamon_bun_platlogo",
+      "files": [
+        {
+          "path": "eastereggs/src/main/res/drawable-nodpi/cinnamon_bun_platlogo.xml",
+          "sourcePath": "eggs/CinnamonBun/src/main/res/drawable-nodpi/cinnamon_bun_platlogo.xml",
+          "sourceSha256": "6ff64d3ced7604e18d7792b9dc6422c357ad69a8a20891cef8803e1608115bd2",
+          "bundledSha256": "6ff64d3ced7604e18d7792b9dc6422c357ad69a8a20891cef8803e1608115bd2",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "CinnamonBun",
+          "adaptations": []
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "neko": {
+      "resource": "Cat.java",
+      "files": [
+        {
+          "path": "eastereggs/src/main/java/com/android_n/egg/neko/Cat.java",
+          "sourcePath": "eggs/Nougat/src/main/java/com/android_n/egg/neko/Cat.java",
+          "sourceSha256": "cd83722720120453df8da1a303003f3eb4bc3fe0da4fcf61b33986304d7dc271",
+          "bundledSha256": "f36fa0ce6659fc31060da7bfaa03f0a66b325e67bca80de4b6042802823b97bd",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Nougat",
+          "adaptations": [
+            "Use the shared port resource namespace."
+          ]
+        },
+        {
+          "path": "eastereggs/src/main/java/com/android_r/egg/neko/Cat.java",
+          "sourcePath": "eggs/R/src/main/java/com/android_r/egg/neko/Cat.java",
+          "sourceSha256": "b5c9952faa1cea097ce131514a899d56ec0dd32227185901fac65fc5c675611a",
+          "bundledSha256": "2d45c7bcd980ce4149b3f786ad2740c8581c1a7e500eee9fd07fda10081e4365",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "R",
+          "adaptations": [
+            "Use the shared port resource namespace."
+          ]
+        },
+        {
+          "path": "eastereggs/src/main/java/com/android_s/egg/neko/Cat.java",
+          "sourcePath": "eggs/S/src/main/java/com/android_s/egg/neko/Cat.java",
+          "sourceSha256": "ff3b7f0fbfbe09010de4f5a0b9ab79e7a7e42f24dafef92347a0de7f2a70ac2b",
+          "bundledSha256": "c4c7f5c3e32bfcffa7d424b4003d96a4fb6b072dddbc2e9fbc7f84d3cd7367fc",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "S",
+          "adaptations": [
+            "Use the shared port resource namespace."
+          ]
+        },
+        {
+          "path": "eastereggs/src/main/java/com/android_t/egg/neko/Cat.java",
+          "sourcePath": "eggs/Tiramisu/src/main/java/com/android_t/egg/neko/Cat.java",
+          "sourceSha256": "bd24c54d7cedb33d1ff398ad7234dce6fab986ea09dae7dc29242b84e3d4421e",
+          "bundledSha256": "577985f49f3c445f47dbdc334cf1ca43b74e9ea41728edd37a43669a37e9bd7b",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Tiramisu",
+          "adaptations": [
+            "Use the shared port resource namespace."
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    },
+    "octopus": {
+      "resource": "OctopusDrawable.java",
+      "files": [
+        {
+          "path": "eastereggs/src/main/java/com/android_o/egg/octo/OctopusDrawable.java",
+          "sourcePath": "eggs/Oreo/src/main/java/com/android_o/egg/octo/OctopusDrawable.java",
+          "sourceSha256": "b27f21047046071c7fad20bc3ff4707e8611e76e9c91da2fce2f8fd3d9a71018",
+          "bundledSha256": "ddcc9ad781544f9dd7262406c0feb1628663d9d467ef53966275abe3ae5b00a7",
+          "revision": "63d3e4549efbd6f714f6c19764d9520906c18c57",
+          "release": "Oreo",
+          "adaptations": [
+            "Normalize source line endings to LF without changing the code."
+          ]
+        }
+      ],
+      "license": "Retained per-file notices; see Source notices",
+      "gameAdaptations": [
+        "Rasterize once per sprite size",
+        "Scale and rotate in the game world",
+        "Original source bytes remain unchanged"
+      ]
+    }
+  }
+}
