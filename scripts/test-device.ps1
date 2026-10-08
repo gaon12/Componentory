@@ -69,10 +69,10 @@ try {
         & $AdbPath -s $Device shell wm dismiss-keyguard
         for ($attempt = 0; $attempt -lt 10; $attempt++) {
             $windowPolicy = (& $AdbPath -s $Device shell dumpsys window policy) -join "`n"
-            if ($windowPolicy -notmatch 'mIsShowing=true') { break }
+            if (-not (Test-DeviceKeyguardShowing -Policy $windowPolicy)) { break }
             Start-Sleep -Milliseconds 500
         }
-        if ($windowPolicy -match 'mIsShowing=true') {
+        if (Test-DeviceKeyguardShowing -Policy $windowPolicy) {
             throw 'Unlock the selected device before running touch tests.'
         }
     }

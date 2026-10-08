@@ -99,4 +99,22 @@ foreach ($invalidScope in @('', 'xyz.gaon.componentory.icons.IconBrowserTest', '
     $checks++
 }
 
+$keyguardCases = @(
+    @{ Policy = '  mIsShowing=true'; Showing = $true },
+    @{ Policy = "  KeyguardServiceDelegate`n    showing=true`n    deviceHasKeyguard=true"; Showing = $true },
+    @{ Policy = '  mIsShowing=false'; Showing = $false },
+    @{ Policy = "  KeyguardServiceDelegate`n    showing=false`n    deviceHasKeyguard=true"; Showing = $false },
+    @{ Policy = "  mIsShowing=false`n    showing=true"; Showing = $true }
+)
+foreach ($case in $keyguardCases) {
+    Assert-Evidence ((Test-DeviceKeyguardShowing -Policy $case.Policy) -eq $case.Showing) 'The reported keyguard state was not recognized.'
+    $checks++
+}
+foreach ($unknownPolicy in @('deviceHasKeyguard=true', 'anotherShowing=true', 'showing=trueish')) {
+    $rejected = $false
+    try { Test-DeviceKeyguardShowing -Policy $unknownPolicy | Out-Null } catch { $rejected = $true }
+    Assert-Evidence $rejected 'Missing or malformed keyguard state must not be treated as unlocked.'
+    $checks++
+}
+
 Write-Output "Evidence script checks passed: $checks"

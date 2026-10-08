@@ -23,6 +23,15 @@ function Read-DeviceTestSnapshot {
     }
 }
 
+function Test-DeviceKeyguardShowing {
+    param([Parameter(Mandatory = $true)][string]$Policy)
+
+    # Recent Samsung builds report the delegate's showing field instead of mIsShowing.
+    $states = [regex]::Matches($Policy, '(?m)^\s*(?:mIsShowing|showing)\s*=\s*(true|false)\b')
+    if ($states.Count -eq 0) { throw 'The device did not report a recognized keyguard state.' }
+    return @($states | Where-Object { $_.Groups[1].Value -eq 'true' }).Count -gt 0
+}
+
 function Assert-DeviceTestScope {
     param([bool]$NoUi, [string]$TestClass)
 
