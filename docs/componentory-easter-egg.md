@@ -57,6 +57,28 @@ phone was locked and no Compose hierarchy was available. That attempt is not a
 successful Android 17 behavior result. The earlier three-tap reports below remain
 historical results.
 
+The current application behavior is committed in `47020bb`. The passing tablet
+manifest records `4bba23f` plus the changes later committed in `47020bb`; the
+additional documentation does not alter its binary. The device was Samsung
+SM-X800 (`gts8pwifi`), Android 16 / API 36, build `BP2A.250605.031.A3`, physical
+display 1752 × 2800, logical landscape display 2800 × 1752, rotation 1, density
+340, and device font scale 1.0. App 1.0.0 (code 2) used minimum SDK 24 and target
+SDK 37. App appearance was SYSTEM/light, with Compose Material 3
+`1.5.0-alpha01`; the Toast renderer came from the installed OS. Tests temporarily
+selected English, and the original locale and animation settings were restored
+with no reported errors. The compact screen check locally used font scale 2.0.
+
+The passing tablet run and failed locked-phone attempt used these SHA-256 hashes:
+
+```text
+app:  c26998a0a6bf6c53a4194a4010c7872e17d53c26e3d7baf12290c8588e0c1f4f
+test: e3d382e51e8ac21ff47ac6a28a2bfd8b2099b4f1cbaba4d4d4c4b57e2c32a447
+```
+
+No new screenshot was collected for the countdown. The four real Toast events
+and destination assertions provide interaction evidence. The older phone capture
+below shows the destination only and does not verify this new entry gesture.
+
 ## Screen verification — October 8, 2026
 
 Spotless apply/check and app debug lint passed in that order. Lint reported no
