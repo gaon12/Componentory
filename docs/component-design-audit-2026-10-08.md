@@ -43,6 +43,12 @@ combinations. Only 38 use pinned artwork: 35 control/design pairs plus three
 Toast recreations. The other 180 use the current OS. The unavailable Classic
 ActionBar is the remaining cell in the 73 × 3 matrix.
 
+The [resource follow-up](component-resource-audit-2026-10-08.md) checks concrete
+constructor, adapter, and drawable paths beyond clocks. It identifies the
+Spinner popup gap, other current-OS layouts, and the partial scope of imported
+control artwork. The app now labels that scope explicitly. These counts are
+unchanged; a selected drawable does not recreate the entire historical widget.
+
 The control bundle now contains 1,042 variants, including 33 clock PNG variants.
 They retain upstream bytes, density variants, immutable revisions, license
 records, and hashes. AnalogClock uses these three releases:

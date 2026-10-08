@@ -28,6 +28,8 @@ reports and improvement requests.
 Phones use bottom navigation. Wide windows use a navigation rail with the catalog
 beside the selected component. Settings keeps its category list beside the
 selected page when space permits.
+Main tabs start below the safe system inset without a global app-name bar.
+Component detail keeps a compact Back/Compare action row.
 Search, provider choices, and sample state survive tab changes, recreation, and
 changes between wide and compact layouts. Search and selection dialogs adapt to
 the software keyboard; long names wrap rather than being truncated.
@@ -68,8 +70,12 @@ Samples retain their own light configuration when the system or app is dark.
 Native sample labels have a 16sp minimum for readability. Selected controls
 use 1,042 imported AOSP resource variants for 35 component/design pairs,
 including explicit historical analog-clock dials and hands.
-Their interaction engine still comes from the installed OS. Other framework
-samples carry a current-OS badge. Original historical captures are missing.
+The **Partial AOSP artwork recreation** badge identifies these selected graphics.
+Unbound layouts, popup content, sizing, and interaction still use the installed
+OS. Other framework samples carry a current-OS badge. Original historical
+captures are missing. The
+[resource follow-up](docs/component-resource-audit-2026-10-08.md) records concrete
+control, popup, picker, list, and icon paths and the remaining imported-artwork scope.
 
 Modern text, digital, and analog clocks and chronometers use the selected
 Material 2/3 theme with Componentory drawing and text. Their badge and source
@@ -119,8 +125,10 @@ Its tests touch the actual suggestion, fill the fixed value, and exercise the
 public host's attachment and surface order. Other apps' input is never handled
 by the demo keyboard or inspected by the demo autofill service.
 
-See [current component verification](docs/verification-component-design-audit-2026-10-08.md)
-for the clock and API fixes, executed checks, and limits. The
+See the [current resource and header verification](docs/component-resource-audit-2026-10-08.md#ordered-verification)
+for executed resource checks and the deferred locked-tablet UI scope. The
+[clock and API verification](docs/verification-component-design-audit-2026-10-08.md)
+records the preceding fixes and their exact tested binaries. The
 [release verification](docs/verification-release-2026-10-08.md) records the
 separate published 1.0.0 artifact and listing checks. Executed results distinguish
 final device checks from earlier milestones and retain their APK hashes. Lint

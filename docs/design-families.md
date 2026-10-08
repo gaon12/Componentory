@@ -7,9 +7,9 @@ uses the library light palette. A design choice does not change the device OS.
 
 | Choice | Supplier and configuration | Historical evidence |
 | --- | --- | --- |
-| Classic | Current framework engine, Theme.Light; selected Android 2.3.7 artwork | Resource recreation; original OS captures missing |
-| Holo | Current framework engine, Theme.Holo.Light; selected Android 4.4.4 artwork | Resource recreation; original OS captures missing |
-| Material Design 1 | Current framework engine, Theme.Material.Light; selected Android 5.0.2 artwork | Resource recreation; original OS captures missing |
+| Classic | Current framework engine, Theme.Light; selected Android 2.3.7 artwork | Partial artwork recreation; original OS captures missing |
+| Holo | Current framework engine, Theme.Holo.Light; selected Android 4.4.4 artwork | Partial artwork recreation; original OS captures missing |
+| Material Design 1 | Current framework engine, Theme.Material.Light; selected Android 5.0.2 artwork | Partial artwork recreation; original OS captures missing |
 | Material Design 2 | Compose Material 1.10.4, lightColors | Versioned library sample |
 | Material Design 3 | Compose Material 3 1.5.0-alpha01, lightColorScheme and standard motion | Versioned library sample |
 | Material You | Same Material 3 pin, dynamicLightColorScheme on API 31+ | Versioned library sample with device colors |
@@ -60,9 +60,15 @@ bitmap, nine-patch, drawable XML, colors, and animation dependencies.
 Original bitmap and nine-patch source bytes remain unchanged in the repo.
 Private XML references, IDs, interpolation resources, and colors receive
 explicit app bindings. The imported controls use the installed OS interaction
-engine and a readable 16sp text floor. The badge and saved-run metadata call
-this a resource recreation. Other framework components carry a current-OS
-badge. Neither label implies an original historical OS capture or behavior pass.
+engine and a readable 16sp text floor. The badge says **Partial AOSP artwork
+recreation**; saved runs keep the RESOURCE_RECREATION identity. The bindings
+cover selected backgrounds, button/track/thumb slots, rating styles, or clock
+dials and hands. Unbound layout, popup content, sizing, and styling can still
+resolve from the current OS. Spinner's selected and popup rows, for example,
+use installed android.R.layout resources. The
+[resource follow-up](component-resource-audit-2026-10-08.md) lists the exact scope.
+Other framework components carry a current-OS badge. Neither label implies an
+original historical OS capture or behavior pass.
 
 Regenerate the audited closure with `python -m scripts.history.bundle`.
 Review resource provenance and run `python -m unittest scripts.history.test_bundle`
