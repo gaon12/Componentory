@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2016 The Android Open Source Project
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="n_app_name">Neko</string>
+    <string name="n_notification_name" translatable="false">Android N Neko</string>
+    <string name="n_notification_channel_name" translatable="false">New cats (N)</string>
+    <string name="n_default_tile_name" translatable="false">\????</string>
+    <string name="notification_title" translatable="false">A cat is here.</string>
+    <string name="n_default_cat_name" translatable="false">Cat #%s</string>
+    <string name="n_confirm_delete" translatable="false">Forget %s?</string>
+    <string-array name="n_food_names" translatable="false">
+        <item>Empty dish</item>
+        <item>Bits</item>
+        <item>Fish</item>
+        <item>Chicken</item>
+        <item>Treat</item>
+    </string-array>
+    <array name="n_food_icons">
+        <item>@drawable/n_food_dish</item>
+        <item>@drawable/n_food_bits</item>
+        <item>@drawable/n_food_sysuituna</item>
+        <item>@drawable/n_food_chicken</item>
+        <item>@drawable/n_food_donut</item>
+    </array>
+    <integer-array name="n_food_intervals">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+    </integer-array>
+    <integer-array name="n_food_new_cat_prob">
+        <item>0</item>
+        <item>5</item>
+        <item>35</item>
+        <item>65</item>
+        <item>90</item>
+    </integer-array>
+
+    <string name="n_android_nickname" translatable="false">Nougat</string>
+    <color name="n_android_logo_bg">#B5DDEF</color>
+
+    <string name="n_android_nickname_preview" translatable="false">N Preview</string>
+</resources>

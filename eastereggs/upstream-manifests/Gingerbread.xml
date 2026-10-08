@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".PlatLogoActivity"
+            android:exported="true"
+            android:icon="@drawable/g_platlogo"
+            android:label="@string/g_egg_name"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+    </application>
+</manifest>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- controls -->
+    <uses-permission android:name="android.permission.BIND_CONTROLS"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application>
+
+        <activity
+            android:name=".PlatLogoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:icon="@drawable/r_icon"
+            android:label="@string/r_egg_name"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
+        <!--android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"-->
+
+        <!-- Android N easter egg bits -->
+        <activity
+            android:name=".neko.NekoLand"
+            android:exported="true"
+            android:icon="@drawable/r_icon"
+            android:label="@string/r_app_name"
+            android:theme="@android:style/Theme.Material.NoActionBar"
+            tools:targetApi="30" />
+
+        <!-- This is where the magic happens -->
+        <service
+            android:name=".neko.NekoService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            tools:targetApi="30" />
+
+        <!-- Used to enable easter egg -->
+        <activity
+            android:name=".neko.NekoActivationActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoDisplay" />
+
+        <service
+            android:name=".neko.NekoControlsService"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/r_ic_fullcat_icon"
+            android:label="@string/r_egg_name"
+            android:permission="android.permission.BIND_CONTROLS"
+            tools:targetApi="30">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Name of the K-release easter egg: a display case for all our tastiest desserts. [CHAR LIMIT=30] -->
+    <string name="k_dessert_case">Dessert Case</string>
+
+    <!-- used by DessertCase -->
+    <dimen name="k_dessert_case_cell_size">192dp</dimen>
+
+    <string name="k_android_nickname" translatable="false">KitKat</string>
+
+    <string name="k_preview_nickname">K Preview</string>
+    <string name="k_key_lime_pie">KeyLimePie</string>
+</resources>

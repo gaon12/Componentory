@@ -25,3 +25,5 @@ dependencyResolutionManagement {
 rootProject.name = "Componentory"
 
 include(":app")
+
+include(":eastereggs")

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adapted for Componentory: shared namespace, private activities, and public optional integrations. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
+    <application>
+        <activity android:name="com.android_g.egg.PlatLogoActivity" android:exported="false" android:icon="@drawable/g_platlogo" android:label="@string/g_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_h.egg.PlatLogoActivity" android:exported="false" android:icon="@drawable/h_platlogo" android:label="@string/h_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_i.egg.PlatLogoActivity" android:exported="false" android:icon="@drawable/i_platlogo_rectangle" android:label="@string/i_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_i.egg.Nyandroid" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:icon="@drawable/i_nyandroid04" android:label="@string/i_egg_name" android:launchMode="singleInstance" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_i.egg.preview.PlatLogoActivity" android:exported="false" android:icon="@drawable/i_platlogo_preview" android:label="@string/i_preview_nickname" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_j.egg.PlatLogoActivity" android:exported="false" android:icon="@drawable/j_platlogo" android:label="@string/j_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_j.egg.BeanBag" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:icon="@drawable/j_redbean2" android:label="@string/j_egg_name" android:launchMode="singleInstance" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <service android:name="com.android_j.egg.BeanBagDream" android:enabled="false" android:exported="true" android:icon="@drawable/j_redbean2" android:label="@string/j_jelly_bean_dream_name" android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.android_k.egg.PlatLogoActivity" android:exported="false" android:icon="@drawable/k_platlogo" android:label="@string/k_dessert_case" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_k.egg.DessertCase" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:icon="@drawable/k_platlogo" android:label="@string/k_dessert_case" android:launchMode="singleInstance" android:screenOrientation="locked" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <service android:name="com.android_k.egg.DessertCaseDream" android:enabled="false" android:exported="true" android:icon="@drawable/k_platlogo" android:label="@string/k_dessert_case" android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.android_k.egg.preview.PlatLogoActivity" android:exported="false" android:icon="@drawable/k_platlogo_preview" android:label="@string/k_preview_nickname" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_l.egg.preview.PlatLogoActivity" android:exported="false" android:label="@string/l_webdriver_torso" android:icon="@drawable/l_android_preview_logo" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_l.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/l_icon" android:label="@string/l_lland" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_l.egg.LLandActivity" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:icon="@drawable/l_icon" android:label="@string/l_lland" android:launchMode="singleInstance" android:screenOrientation="locked" android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen" />
+        <activity android:name="com.android_m.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/m_icon" android:label="@string/m_mland" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_m.egg.MLandActivity" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:icon="@drawable/m_icon" android:label="@string/m_mland" android:launchMode="singleInstance" android:screenOrientation="locked" android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen" />
+        <activity android:name="com.android_m.egg.preview.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/m_icon" android:label="@string/m_mland" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_m.egg.preview.ShruggyActivity" android:excludeFromRecents="true" android:exported="false" android:label="@string/m_preview_land" android:launchMode="singleInstance" android:theme="@android:style/Theme.NoDisplay" />
+        <activity android:name="com.android_n.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/n_icon" android:label="@string/n_app_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_n.egg.preview.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/n_icon" android:label="@string/n_app_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_n.egg.neko.NekoLand" android:exported="false" android:icon="@drawable/n_icon" android:label="@string/n_app_name" android:theme="@android:style/Theme.Material.NoActionBar" tools:targetApi="24">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <service android:name="com.android_n.egg.neko.NekoService" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_JOB_SERVICE" tools:targetApi="24" />
+        <activity android:name="com.android_n.egg.neko.NekoLockedActivity" android:excludeFromRecents="true" android:showOnLockScreen="true" android:theme="@android:style/Theme.Material.Light.Dialog.NoActionBar" tools:targetApi="24" android:exported="false" />
+        <activity android:name="com.android_n.egg.neko.NekoActivationActivity" android:excludeFromRecents="true" android:theme="@android:style/Theme.NoDisplay" android:exported="false" />
+        <service android:name="com.android_n.egg.neko.NekoTile" android:enabled="false" android:exported="true" android:icon="@drawable/n_stat_icon" android:label="@string/n_default_tile_name" android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" tools:targetApi="24">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.android_o.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/o_icon" android:label="@string/o_app_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_o.egg.PlatLogoActivity$Point1" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/o_icon" android:label="@string/o_app_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_o.egg.octo.Ocquarium" android:excludeFromRecents="true" android:exported="false" android:icon="@drawable/o_icon" android:label="@string/o_app_name" android:launchMode="singleInstance" android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" />
+        <activity android:name="com.android_p.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/p_icon" android:label="@string/p_app_name" android:theme="@style/PAppTheme" />
+        <activity android:name="com.android_p.egg.paint.PaintActivity" android:configChanges="orientation|keyboardHidden|screenSize|uiMode" android:exported="false" android:excludeFromRecents="true" android:launchMode="singleInstance" android:label="@string/p_app_name" android:theme="@style/PAppTheme" />
+        <activity android:name="com.android_q.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/q_icon" android:label="@string/q_egg_name" android:theme="@style/QAppTheme" />
+        <activity android:name="com.android_q.egg.quares.QuaresActivity" android:excludeFromRecents="true" android:exported="false" android:icon="@drawable/q_icon" android:label="@string/q_egg_name" android:launchMode="singleInstance" android:theme="@style/QuaresTheme" />
+        <activity android:name="com.android_r.egg.PlatLogoActivity" android:configChanges="orientation|keyboardHidden" android:exported="false" android:icon="@drawable/r_icon" android:label="@string/r_egg_name" android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen" />
+        <activity android:name="com.android_r.egg.neko.NekoLand" android:exported="false" android:icon="@drawable/r_icon" android:label="@string/r_app_name" android:theme="@android:style/Theme.Material.NoActionBar" tools:targetApi="30" />
+        <service android:name="com.android_r.egg.neko.NekoService" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_JOB_SERVICE" tools:targetApi="30" />
+        <activity android:name="com.android_r.egg.neko.NekoActivationActivity" android:excludeFromRecents="true" android:exported="false" android:theme="@android:style/Theme.NoDisplay" />
+        <service android:name="com.android_r.egg.neko.NekoControlsService" android:enabled="false" android:exported="true" android:icon="@drawable/r_ic_fullcat_icon" android:label="@string/r_egg_name" android:permission="android.permission.BIND_CONTROLS" tools:targetApi="30">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.android_s.egg.PlatLogoActivity" android:configChanges="keyboardHidden|orientation|screenLayout|screenSize" android:exported="false" android:icon="@drawable/s_icon" android:label="@string/s_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_s.egg.neko.NekoLand" android:exported="false" android:label="@string/s_app_name" android:theme="@android:style/Theme.Material.NoActionBar" tools:targetApi="30" />
+        <service android:name="com.android_s.egg.neko.NekoService" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_JOB_SERVICE" tools:targetApi="30" />
+        <activity android:name="com.android_s.egg.ComponentActivationActivity" android:excludeFromRecents="true" android:exported="false" android:theme="@android:style/Theme.NoDisplay" />
+        <service android:name="com.android_s.egg.neko.NekoControlsService" android:enabled="false" android:exported="true" android:icon="@drawable/s_ic_fullcat_icon" android:label="@string/s_egg_name" android:permission="android.permission.BIND_CONTROLS" tools:targetApi="30">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.android_s.egg.widget.PaintChipsActivity" android:configChanges="orientation|keyboardHidden|screenSize|uiMode" android:enabled="false" android:exported="false" android:label="@string/s_egg_name" android:theme="@android:style/Theme.Material.Wallpaper.NoTitleBar" tools:targetApi="31" />
+        <receiver android:name="com.android_s.egg.widget.PaintChipsWidget" android:enabled="false" android:exported="true" android:label="@string/s_egg_name" tools:targetApi="31">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/s_paint_chips_widget_info" />
+        </receiver>
+        <activity android:name="com.android_t.egg.PlatLogoActivity" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" android:exported="false" android:icon="@drawable/t_platlogo" android:label="@string/t_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_t.egg.beta.PlatLogoActivity" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" android:exported="false" android:icon="@drawable/t_platlogo_beta" android:label="@string/t_egg_name" android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_t.egg.neko.NekoLand" android:exported="false" android:label="@string/t_app_name" android:theme="@android:style/Theme.Material.NoActionBar" tools:targetApi="30" />
+        <service android:name="com.android_t.egg.neko.NekoService" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_JOB_SERVICE" tools:targetApi="30" />
+        <activity android:name="com.android_t.egg.ComponentActivationActivity" android:excludeFromRecents="true" android:exported="false" android:theme="@android:style/Theme.NoDisplay" />
+        <service android:name="com.android_t.egg.neko.NekoControlsService" android:enabled="false" android:exported="true" android:icon="@drawable/t_ic_fullcat_icon" android:label="@string/t_egg_name" android:permission="android.permission.BIND_CONTROLS" tools:targetApi="30">
+            <intent-filter>
+                <action android:name="android.service.controls.ControlsProviderService" />
+            </intent-filter>
+        </service>
+        <activity android:name="com.android_t.egg.widget.PaintChipsActivity" android:configChanges="orientation|keyboardHidden|screenSize|uiMode" android:enabled="false" android:exported="false" android:label="@string/t_egg_name" android:theme="@android:style/Theme.Material.Wallpaper.NoTitleBar" tools:targetApi="31" />
+        <receiver android:name="com.android_t.egg.widget.PaintChipsWidget" android:enabled="false" android:exported="true" android:label="@string/t_egg_name" tools:targetApi="31">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/t_paint_chips_widget_info" />
+        </receiver>
+        <activity android:name="com.android_u.egg.PlatLogoActivity" android:configChanges="screenSize|screenLayout|orientation|keyboardHidden" android:exported="false" android:icon="@drawable/u_platlogo" android:label="@string/u_egg_name" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name="com.android_u.egg.landroid.MainActivity" android:configChanges="orientation|screenLayout|screenSize|density" android:exported="false" android:icon="@drawable/u_android14_patch_adaptive" android:label="@string/u_egg_name" android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" />
+        <activity android:name="com.android_v.egg.PlatLogoActivity" android:configChanges="screenSize|screenLayout|orientation|keyboardHidden" android:enableOnBackInvokedCallback="true" android:exported="false" android:icon="@drawable/v_android15_patch_adaptive" android:label="@string/v_egg_name" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" tools:targetApi="tiramisu" />
+        <service android:name="com.android_v.egg.landroid.DreamUniverse" android:description="@string/v_dream_description" android:enabled="false" android:exported="true" android:icon="@drawable/v_android15_patch_adaptive" android:label="@string/v_egg_name" android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.service.dream" android:resource="@xml/v_landroid_dream" />
+        </service>
+        <activity android:name="com.android_v.egg.landroid.MainActivity" android:configChanges="orientation|screenLayout|screenSize|density" android:exported="false" android:icon="@drawable/v_android15_patch_adaptive" android:label="@string/v_egg_name" android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen" />
+        <activity android:name="com.android_v.egg.ComponentActivationActivity" android:excludeFromRecents="true" android:exported="false" android:theme="@android:style/Theme.NoDisplay" />
+        <activity android:name="com.android_baklava.egg.PlatLogoActivity" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" android:enableOnBackInvokedCallback="true" android:exported="false" android:icon="@drawable/baklava_platlogo" android:label="@string/baklava_egg_name" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" tools:targetApi="33" />
+        <service android:name="com.android_baklava.egg.landroid.DreamUniverse" android:description="@string/baklava_dream_description" android:enabled="false" android:exported="true" android:icon="@drawable/baklava_android16_patch_adaptive" android:label="@string/baklava_egg_name" android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.service.dream" android:resource="@xml/baklava_landroid_dream" />
+        </service>
+        <activity android:name="com.android_baklava.egg.landroid.MainActivity" android:configChanges="orientation|screenLayout|screenSize|density" android:exported="false" android:icon="@drawable/baklava_android16_patch_adaptive" android:label="@string/baklava_egg_name" android:theme="@style/baklava_Theme.Landroid" />
+        <activity android:name="com.android_cinnamon_bun.egg.PlatLogoActivity" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden" android:enableOnBackInvokedCallback="true" android:exported="false" android:icon="@drawable/cinnamon_bun_platlogo" android:label="@string/cinnamon_bun_egg_name" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" tools:targetApi="33" />
+        <service android:name="com.android_cinnamon_bun.egg.landroid.DreamUniverse" android:description="@string/cinnamon_bun_dream_description" android:enabled="false" android:exported="true" android:icon="@drawable/cinnamon_bun_android17_patch_adaptive" android:label="@string/cinnamon_bun_egg_name" android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data android:name="android.service.dream" android:resource="@xml/cinnamon_bun_landroid_dream" />
+        </service>
+        <activity android:name="com.android_cinnamon_bun.egg.landroid.MainActivity" android:configChanges="orientation|screenLayout|screenSize|density" android:exported="false" android:icon="@drawable/cinnamon_bun_android17_patch_adaptive" android:label="@string/cinnamon_bun_egg_name" android:theme="@style/cinnamon_bun_Theme.Landroid" />
+        <provider android:name="androidx.startup.InitializationProvider" android:authorities="${applicationId}.androidx-startup" android:exported="false" tools:node="merge">
+            <meta-data android:name="com.dede.basic.GlobalContext$Initializer" android:value="androidx.startup" />
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".PlatLogoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:icon="@drawable/q_icon"
+            android:label="@string/q_egg_name"
+            android:theme="@style/QAppTheme" />
+
+        <activity
+            android:name=".quares.QuaresActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:icon="@drawable/q_icon"
+            android:label="@string/q_egg_name"
+            android:launchMode="singleInstance"
+            android:theme="@style/QuaresTheme" />
+    </application>
+
+</manifest>

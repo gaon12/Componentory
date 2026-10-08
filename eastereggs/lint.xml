@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- These original framework views intentionally retain their platform supplier. -->
+    <issue id="AppCompatCustomView">
+        <ignore path="src/main/java/com/android_i/egg/Nyandroid.java" />
+        <ignore path="src/main/java/com/android_j/egg/BeanBag.java" />
+        <ignore path="src/main/java/com/android_l/egg/LLand.java" />
+        <ignore path="src/main/java/com/android_m/egg/MLand.java" />
+        <ignore path="src/main/java/com/android_r/egg/PlatLogoActivity.java" />
+    </issue>
+    <!-- These layouts are inflated by platform Activities on API 24+, where android:tint is supported. -->
+    <issue id="UseAppTint">
+        <ignore path="src/main/res/layout/m_mland.xml" />
+        <ignore path="src/main/res/layout/n_food_layout.xml" />
+        <ignore path="src/main/res/layout/p_toolbar.xml" />
+        <ignore path="src/main/res/layout/q_platlogo_layout.xml" />
+    </issue>
+</lint>

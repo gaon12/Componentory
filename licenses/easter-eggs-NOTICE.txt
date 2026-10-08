@@ -1,0 +1,23 @@
+Android Easter egg ports
+
+AOSP-derived game and auxiliary-screen sources from Android Easter Eggs:
+https://github.com/hushenghao/AndroidEasterEggs
+Pinned revision: 63d3e4549efbd6f714f6c19764d9520906c18c57
+Copyright 2026 Hu Shenghao and the original authors identified in file headers.
+AOSP files retain their original Android Open Source Project copyright notices.
+Licensed under the Apache License, Version 2.0. The complete upstream license is
+retained in eastereggs/LICENSE and the app includes Apache-2.0.txt.
+
+Componentory modifies resource imports, the combined manifest, selected public-API
+compatibility helpers, SDK guards, static color fallbacks, and release labels.
+Original and imported file hashes and adaptations are in eastereggs/provenance.json.
+Images, nine-patches, and XML resource bytes are retained without visual changes.
+
+Dependencies used by these ports include AndroidX AppCompat, Core, Activity,
+Lifecycle, RecyclerView, Startup, Window, DynamicAnimation, Compose Material, and
+Square Okio. They are licensed under Apache 2.0; their pinned versions are listed
+in eastereggs/README.md. Copyright The Android Open Source Project and Square, Inc.
+Okio source and license: https://github.com/square/okio/tree/3.9.1
+
+These are code ports on the installed OS, not original historical OS captures.
+Android is a trademark of Google LLC. This independent app is not endorsed by Google.

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".preview.PlatLogoActivity"
+            android:exported="true"
+            android:label="@string/l_webdriver_torso"
+            android:icon="@drawable/l_android_preview_logo"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".PlatLogoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:icon="@drawable/l_icon"
+            android:label="@string/l_lland"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen" />
+
+        <activity
+            android:name=".LLandActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:icon="@drawable/l_icon"
+            android:label="@string/l_lland"
+            android:launchMode="singleInstance"
+            android:screenOrientation="locked"
+            android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen" />
+        <!--android:theme="@android:style/Theme.Material.NoActionBar"-->
+    </application>
+
+</manifest>

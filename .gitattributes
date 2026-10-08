@@ -6,3 +6,7 @@
 licenses/*NOTICE.txt -text -diff
 licenses/androidx-autofill-LICENSE.txt -text -diff
 licenses/aosp-resources/** -text -diff
+# Retain vendored source/resource bytes and upstream whitespace for hash verification.
+eastereggs/src/main/** -text whitespace=-blank-at-eol,-blank-at-eof
+eastereggs/upstream-manifests/** -text whitespace=-blank-at-eol,-blank-at-eof
+eastereggs/LICENSE -text -diff
