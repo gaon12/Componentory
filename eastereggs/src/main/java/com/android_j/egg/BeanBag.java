@@ -420,8 +420,12 @@ public class BeanBag extends Activity {
 
         // ACHIEVEMENT UNLOCKED
         PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(new ComponentName(this, BeanBagDream.class),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
+        ComponentName dream = new ComponentName(this, BeanBagDream.class);
+        // Enabling our own component must not kill the running game process.
+        if (pm.getComponentEnabledSetting(dream) != PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
+            pm.setComponentEnabledSetting(dream,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        }
 
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON

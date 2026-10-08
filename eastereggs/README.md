@@ -39,6 +39,10 @@ request storage permissions only when missing. API 31-only layouts keep their
 original bytes in layout-v31. Scoped lint exceptions preserve platform views and
 platform tinting; no broad API-error baseline is used. All changes are recorded.
 
+BeanBag enables its dream service without killing the host app. The unlock checks
+the existing component state and uses `DONT_KILL_APP`, so the first launch keeps
+the running Jelly Bean game alive.
+
 The host app must gate each entry point and integration by its required API and
 let the user opt into Android-managed integrations. Rich progress notifications
 require the API expected by the corresponding game; older devices can run space

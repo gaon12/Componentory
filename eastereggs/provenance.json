@@ -768,9 +768,10 @@
       "sourcePath": "eggs/JellyBean/src/main/java/com/android_j/egg/BeanBag.java",
       "path": "src/main/java/com/android_j/egg/BeanBag.java",
       "sourceSha256": "aeeb44c93b49f2a73781f21d9015e9b1d01c88e99ffed1906836fef41e48a4c9",
-      "importedSha256": "1775e14de8d830cb3902a243e6ab78256632dd7a9787915ae2516f1a186b6874",
+      "importedSha256": "ba856aa57a143ea3be901d7b30a41e6521b01a215f0c99105c71b2e30e9ff7b4",
       "adaptations": [
-        "Use the shared port resource namespace."
+        "Use the shared port resource namespace.",
+        "Guard the dream unlock and use DONT_KILL_APP so first activation does not terminate the running game."
       ]
     },
     {

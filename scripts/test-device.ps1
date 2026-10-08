@@ -141,7 +141,7 @@ try {
         testMode = if ($NoUi) { 'Resource-only; no Activity, screen preparation, or input.' } else { 'Interactive UI tests; unlocked screen required.' }
         originalAnimations = $originalAnimationSettings
         requestedTestAnimations = if ($NoUi) { $null } else { 0 }
-        perTestOverride = 'NativeProgressIndicatorsTest uses animator scale 1.0 when included.'
+        perTestOverride = 'NativeProgressIndicatorsTest and EasterEggGamesTest use animator scale 1.0 when included.'
         captures = @()
     })
     foreach ($setting in @($originalAnimationSettings.Keys | Where-Object { -not $NoUi })) {
