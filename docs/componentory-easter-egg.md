@@ -1,9 +1,13 @@
-# Componentory's hidden screen
+# Componentory's hidden game entry
 
 Componentory has its own Easter egg screen, separate from the Android release
-ports in the Components catalog. The initial destination screen shows
-the app artwork, a welcome message, and the installed app version. It uses the
-app's Compose Material 3 theme and all five supported languages.
+ports in the Components catalog. Its current destination is the landscape
+Android Survivors lobby. The game mixes Android resource families as items,
+enemies, bosses, and effects in one survival run. The player chooses a starting
+weapon for Neko. Android versions are source metadata, not characters or levels.
+See [game rules and verification](survivor-game.md) and the
+[optional Play Games setup](survivor-play-games.md). The UI uses the app theme and
+all five supported languages; combat artwork is cached and drawn on Canvas.
 
 ## Entry and return
 
@@ -25,19 +29,22 @@ below five. Componentory's last tap opens its own screen. The native Toast uses
 the installed Android renderer, and its message is localized in all five app
 languages. English has separate singular and plural forms.
 
-The hidden screen takes over the app window. The navigation bar or rail is absent
-until it closes. Its open state survives Activity recreation, while the saved
-Settings page and scroll position return after closing. There is no permanent
-unlock preference, additional permission, or exported Activity.
+The last tap launches a private, non-exported Activity requesting landscape.
+Combat requires an actual wide window, including large devices that can ignore
+the orientation request. The main app navigation stays in its caller. The game
+lobby survives Activity recreation; an unfinished battle becomes a saved run
+that requires explicit Continue. There is no permanent entry unlock preference.
 
-The close button and Android Back both return to Settings. The screen respects
-system insets, limits text width in wide windows, and scrolls its body when a
-short window or large text needs more room. The close button stays outside the
-scrolling body.
+The lobby close button and Android Back return to Settings and its saved scroll
+location. Back during combat opens the pause menu. Portrait windows, background
+transitions, and screen locking pause combat. The lobby respects system insets
+and uses scrolling columns; its close button stays outside the scrolling body.
 
-This is an initial screen, with no game or original historical Android capture.
+Game captures show reused artwork on the current OS. They are not original
+historical Android captures. The retained checks below describe the earlier
+welcome screen; current lobby and combat evidence is in the game document.
 
-## Seven-tap countdown verification — October 8, 2026
+## Earlier welcome-screen countdown verification — October 8, 2026
 
 The updated gesture passed Spotless apply/check and app debug lint, followed by
 all 180 app JVM tests and both debug APK builds. A new resource-read lint warning
@@ -61,7 +68,7 @@ in portrait at 1080 × 2340, density 450, and device font scale 1.15. The app us
 SYSTEM/dark appearance. Locale and animation restoration reported no errors.
 The earlier three-tap reports below remain historical results.
 
-The current application behavior is committed in `47020bb`. The passing tablet
+That earlier application behavior is committed in `47020bb`. The passing tablet
 manifest records `4bba23f` plus the changes later committed in `47020bb`; the
 additional documentation does not alter its binary. The device was Samsung
 SM-X800 (`gts8pwifi`), Android 16 / API 36, build `BP2A.250605.031.A3`, physical
@@ -155,6 +162,6 @@ SM-S731N, Korean text, the dark app theme, and device font scale 1.15. It is a
 current-device app capture. No screenshot was collected during the automated
 scopes, and no original historical Android capture is claimed.
 
-Full game content, permanent unlocks, and additional hidden interactions are
-outside this initial milestone. Other supported Android versions have not been
-tested for this new entry screen.
+Full game content and permanent growth were outside that earlier welcome-screen
+milestone. Its results do not verify the later survivor game. Other supported
+Android versions were not tested in that earlier entry-screen scope.

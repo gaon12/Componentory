@@ -28,11 +28,18 @@ Latest navigation changes and physical checks are recorded in the
   introduction from About.
 
 Tap **Settings > App version** seven times to open
-[Componentory's own Easter egg screen](docs/componentory-easter-egg.md). Close it
-or use Android Back to return to Settings. This initial screen shows the app
-artwork, a welcome message, and its version in the selected app theme.
+[Android Survivors](docs/survivor-game.md), Componentory's landscape survival
+roguelite. Choose a starting weapon for the Neko player, dodge mixed-source
+enemies, collect experience, and build weapons and support equipment through
+three growth choices and four combination evolutions. Android releases supply
+item, enemy, boss, and effect artwork inside one run; they are not game levels.
+Bosses appear at five, ten, fifteen, and twenty minutes. Local progression,
+explicit checkpoint resume, personal records, and build comparison are available.
+Close the lobby or use Android Back to return to the saved Settings location;
+Back during combat opens the pause menu.
 The third through sixth taps show a native Toast counting down four remaining
-taps to one. Tap speed does not affect the count.
+taps to one. Tap speed does not affect the count. See the
+[entry notes](docs/componentory-easter-egg.md) for reset and return behavior.
 
 The settings list also links to the [GitHub repository](https://github.com/gaon12/Componentory)
 and [new issue page](https://github.com/gaon12/Componentory/issues/new) for bug
@@ -168,14 +175,21 @@ See the [release guide](docs/google-play-release.md) for current image and text
 limits, signing, account requirements, app-content declarations, and submission
 steps. Prepared materials and a GitHub release do not establish Play publication.
 
-The app works offline without an account, advertising, analytics, or Internet
-permission. Settings > Privacy policy contains the full offline document.
-Preferences, comparison runs, and game progress stay in the app sandbox; automatic
-backup is disabled. Optional game notifications and Android integrations are
-described in the policy. Saving a generated cat can write a gallery image; sharing
-opens Android's share sheet only at the user's request.
+Learning, normal survivor play, and local records work offline without an
+account. The current app declares Internet permission for optional Play Games
+rankings. The SDK stays disabled until matching Console IDs and ruleset are
+configured; real online verification is pending. Configured builds use a Google
+game profile and Google's SDK identity, analytics, and diagnostics processing.
+The app has no advertising or developer analytics service. See the
+[Play Games setup guide](docs/survivor-play-games.md) before enabling rankings.
+Settings > Privacy policy contains the complete local document. Preferences,
+comparison runs, and detailed game builds stay in the app sandbox; automatic
+backup is disabled. Optional notifications and Android integrations are described
+in the policy. Saving a generated cat can write a gallery image; sharing opens
+Android's share sheet only at the user's request.
 Read the [published privacy policy](https://gaon12.github.io/Componentory/privacy.html)
-or its [canonical source](docs/privacy-policy.txt).
+or its [canonical source](docs/privacy-policy.txt). The published policy must be
+updated from that source before a PGS-enabled release.
 
 The [project website](https://gaon12.github.io/Componentory/) and privacy page
 are generated from repository sources and published through GitHub Pages.
