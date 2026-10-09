@@ -22,10 +22,14 @@
         <activity android:name="com.google.android.gms.games.internal.v2.appshortcuts.PlayGamesAppShortcutsActivity" tools:node="remove" />
         <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/game_services_project_id" />
         <meta-data android:name="com.google.android.gms.games.SUPPRESS_GAME_PROFILE_CREATION" android:value="true" />
+        <!-- A portrait home screen or app rotates the display while the game waits in the
+             background. Handling size changes in place keeps the running battle and its pause
+             menu instead of recreating the Activity and dropping back to the title screen. -->
         <activity
             android:name=".survivor.SurvivorActivity"
             android:exported="false"
             android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
             android:resizeableActivity="true" />
         <!-- The three inline demo components are disabled by resources below API 30. -->
         <activity
