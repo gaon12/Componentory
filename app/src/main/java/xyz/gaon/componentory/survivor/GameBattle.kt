@@ -24,6 +24,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -84,11 +85,9 @@ internal fun GameBattle(
         onDispose { owner.lifecycle.removeObserver(observer) }
     }
     BackHandler { paused = true }
-    Box(
-        Modifier.fillMaxSize().background(GameColors.Night).semantics {
-            testTagsAsResourceId = true
-        }
-    ) {
+    // No background here: the arena canvas already clears the whole screen, and a second
+    // full-screen fill costs GPU time on large, fast displays.
+    Box(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val landscape = maxWidth > maxHeight
             val playable = landscape && foreground && !paused && !externalPause && choices.isEmpty()
@@ -128,12 +127,16 @@ internal fun GameBattle(
                 }
                 if (s.outcome != RunOutcome.ACTIVE) onFinished(s)
             }
-            // The arena fills the whole screen; only the HUD keeps clear of cutouts.
-            GameBoard(s, assets, tick, Modifier.fillMaxSize().testTag("game_arena"))
-            Box(Modifier.fillMaxSize().safeDrawingPadding().padding(12.dp)) {
-                GameHud(s, level, tick, onPause = { paused = true })
+            // The arena fills the whole screen; only the HUD keeps clear of cutouts. The frame
+            // counter is passed as a lambda so that a new tick redraws the arena without
+            // recomposing and measuring the whole battle screen.
+            val frame = { tick }
+            GameBoard(s, assets, frame, Modifier.fillMaxSize().testTag("game_arena"))
+            // A separate layer for the HUD, so arena frames do not re-record it.
+            Box(Modifier.fillMaxSize().graphicsLayer().safeDrawingPadding().padding(12.dp)) {
+                GameHud(s, level, frame, onPause = { paused = true })
                 GameJoystick(playable, Modifier.align(Alignment.BottomStart)) { movement = it }
-                GameSkillButton(s, playable, Modifier.align(Alignment.BottomEnd)) {
+                GameSkillButton(s, frame, playable, Modifier.align(Alignment.BottomEnd)) {
                     requestSkill = true
                 }
             }
@@ -192,9 +195,36 @@ internal fun GameBattle(
     }
 }
 
+/** The HUD values as shown on screen, so a new frame recomposes only when one changes. */
+private data class HudValues(
+    val health: Int,
+    val maxHealth: Int,
+    val experience: Int,
+    val requiredExperience: Int,
+    val seconds: Int,
+    val kills: Int,
+    val bossPermille: Int?,
+)
+
 /** Health, experience, time, kills, and the boss bar, drawn over the arena. */
 @Composable
-private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () -> Unit) {
+private fun BoxScope.GameHud(s: GameSession, level: Int, frame: () -> Int, onPause: () -> Unit) {
+    val hud by
+        remember(s) {
+            derivedStateOf {
+                val tick = frame()
+                val boss = s.enemies.firstOrNull { it.kind == EnemyKind.BOSS }
+                HudValues(
+                    s.health.coerceAtLeast(0f).toInt(),
+                    s.maxHealth.toInt(),
+                    s.experience,
+                    s.requiredExperience,
+                    tick / 60,
+                    s.regularKills + s.eliteKills + s.bossKills,
+                    boss?.let { (it.health / it.maxHealth * 1000).toInt() },
+                )
+            }
+        }
     val levelLabel = stringResource(R.string.game_level, level)
     val pauseLabel = stringResource(R.string.game_pause)
     Row(Modifier.align(Alignment.TopStart).fillMaxWidth(), verticalAlignment = Alignment.Top) {
@@ -220,17 +250,13 @@ private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () 
             }
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 GameBar(
-                    s.health.coerceAtLeast(0f) / s.maxHealth,
+                    hud.health.toFloat() / hud.maxHealth,
                     GameColors.Danger,
                     Modifier.width(180.dp).height(18.dp),
-                    stringResource(
-                        R.string.game_health,
-                        s.health.coerceAtLeast(0f).toInt(),
-                        s.maxHealth.toInt(),
-                    ),
+                    stringResource(R.string.game_health, hud.health, hud.maxHealth),
                 )
                 GameBar(
-                    s.experience.toFloat() / s.requiredExperience,
+                    hud.experience.toFloat() / hud.requiredExperience,
                     GameColors.Sky,
                     Modifier.width(180.dp).height(8.dp),
                 )
@@ -238,7 +264,7 @@ private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () 
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                "%02d:%02d".format(tick / 3600, tick / 60 % 60),
+                "%02d:%02d".format(hud.seconds / 60, hud.seconds % 60),
                 Modifier.clip(RoundedCornerShape(12.dp))
                     .background(Color(0x88000000))
                     .padding(horizontal = 14.dp, vertical = 4.dp)
@@ -248,10 +274,10 @@ private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () 
                 fontSize = 24.sp,
                 fontFamily = FontFamily.Monospace,
             )
-            val boss = s.enemies.firstOrNull { it.kind == EnemyKind.BOSS }
+            val boss = hud.bossPermille
             if (boss != null)
                 GameBar(
-                    boss.health / boss.maxHealth,
+                    boss / 1000f,
                     GameColors.Danger,
                     Modifier.padding(top = 6.dp).width(260.dp).height(12.dp),
                 )
@@ -269,11 +295,7 @@ private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () 
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Box(Modifier.size(10.dp).clip(CircleShape).background(GameColors.Danger))
-                Text(
-                    (s.regularKills + s.eliteKills + s.bossKills).toString(),
-                    color = GameColors.Text,
-                    fontWeight = FontWeight.Bold,
-                )
+                Text(hud.kills.toString(), color = GameColors.Text, fontWeight = FontWeight.Bold)
             }
             Box(
                 Modifier.size(44.dp)
@@ -303,20 +325,32 @@ private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () 
 @Composable
 private fun GameSkillButton(
     s: GameSession,
+    frame: () -> Int,
     playable: Boolean,
     modifier: Modifier,
     onSkill: () -> Unit,
 ) {
-    val ready = s.skillTicks == 0
-    val cooldown = s.skillTicks / (20f * GameEngine.TICKS_PER_SECOND)
+    // The label changes once a second; the ring is redrawn every frame in the draw phase.
+    val waitSeconds by
+        remember(s) {
+            derivedStateOf {
+                frame()
+                (s.skillTicks + 59) / 60
+            }
+        }
+    val ready = waitSeconds == 0
     Box(
         modifier
+            // The ring redraws every frame; its own layer keeps that from touching the HUD.
+            .graphicsLayer()
             .size(96.dp)
             .clip(CircleShape)
             .background(if (ready) GameColors.Android.copy(alpha = 0.9f) else Color(0xaa16223a))
             .clickable(enabled = playable && ready, role = Role.Button, onClick = onSkill)
             .drawWithContent {
                 drawContent()
+                frame()
+                val cooldown = s.skillTicks / (20f * GameEngine.TICKS_PER_SECOND)
                 val stroke = 5.dp.toPx()
                 drawArc(
                     if (ready) Color.White.copy(alpha = 0.7f) else GameColors.Android,
@@ -333,7 +367,7 @@ private fun GameSkillButton(
     ) {
         Text(
             if (ready) skillName(GameCatalog.skill(s.startingWeapon))
-            else stringResource(R.string.game_skill_wait, (s.skillTicks + 59) / 60),
+            else stringResource(R.string.game_skill_wait, waitSeconds),
             Modifier.padding(8.dp),
             color = if (ready) GameColors.Night else GameColors.Text,
             fontWeight = FontWeight.ExtraBold,

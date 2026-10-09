@@ -31,7 +31,7 @@ class GameCanvasClipTest {
                         GameBoard(
                             GameEngine.create(WeaponId.BUTTON, RunMode.NORMAL).session,
                             remember { GameAssets(compose.activity) },
-                            0,
+                            { 0 },
                             Modifier.size(200.dp),
                         )
                     }

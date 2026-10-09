@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.core.graphics.withRotation
 import androidx.core.graphics.withScale
@@ -17,9 +18,17 @@ import kotlin.math.floor
 import kotlin.math.min
 
 @Composable
-internal fun GameBoard(session: GameSession, assets: GameAssets, tick: Int, modifier: Modifier) {
+internal fun GameBoard(
+    session: GameSession,
+    assets: GameAssets,
+    frame: () -> Int,
+    modifier: Modifier,
+) {
     val painter = remember(assets) { BoardPainter(assets) }
-    Canvas(modifier) {
+    // Reading the frame here, in the draw phase, redraws only this canvas on each tick. Its own
+    // layer keeps that redraw from re-recording the HUD and controls drawn above it.
+    Canvas(modifier.graphicsLayer()) {
+        val tick = frame()
         drawIntoCanvas { painter.draw(it.nativeCanvas, session, tick, size.width, size.height) }
     }
 }
