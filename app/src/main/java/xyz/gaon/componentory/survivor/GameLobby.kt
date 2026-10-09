@@ -114,6 +114,11 @@ internal fun GameLobby(
                                 onRecords = onRecords,
                                 onRanking = onStart?.let { { panelName = LobbyPanel.RANKING.name } },
                             )
+                            Text(
+                                stringResource(R.string.game_controls),
+                                style = GameSmallStyle,
+                                textAlign = TextAlign.Center,
+                            )
                         }
                     }
                 else
@@ -148,6 +153,11 @@ internal fun GameLobby(
                             onShop = shop?.let { { panelName = LobbyPanel.SHOP.name } },
                             onRecords = onRecords,
                             onRanking = onStart?.let { { panelName = LobbyPanel.RANKING.name } },
+                        )
+                        Text(
+                            stringResource(R.string.game_controls),
+                            style = GameSmallStyle,
+                            textAlign = TextAlign.Center,
                         )
                     }
             }

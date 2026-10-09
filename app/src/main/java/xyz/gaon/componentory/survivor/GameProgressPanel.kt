@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import xyz.gaon.componentory.R
@@ -36,6 +38,14 @@ internal fun GameProgressPanel(
                 }
             )
         val level = progress.level(upgrade)
+        // The key shows only the price; screen readers also hear what it buys.
+        val description =
+            stringResource(
+                R.string.game_permanent_price,
+                label,
+                level,
+                if (level == 5) 0 else progress.price(upgrade),
+            )
         ShopRow {
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(label, color = GameColors.Text, fontWeight = FontWeight.Bold)
@@ -54,7 +64,8 @@ internal fun GameProgressPanel(
             GameButton(
                 if (level == 5) "MAX" else progress.price(upgrade).toString(),
                 { onBuy(upgrade) },
-                Modifier.testTag("game_buy_" + upgrade.name),
+                Modifier.semantics { contentDescription = description }
+                    .testTag("game_buy_" + upgrade.name),
                 enabled = level < 5 && progress.currency >= progress.price(upgrade),
                 leading = { Coin() },
             )
@@ -76,11 +87,18 @@ internal fun GameProgressPanel(
                 color = if (unlocked) GameColors.Android else GameColors.Text,
                 fontWeight = FontWeight.Bold,
             )
+            val description =
+                stringResource(
+                    R.string.game_unlock_price,
+                    supportName(support),
+                    GameProgress.UNLOCK_PRICE,
+                )
             if (!unlocked)
                 GameButton(
                     GameProgress.UNLOCK_PRICE.toString(),
                     { onUnlock(support) },
-                    Modifier.testTag("game_unlock_" + support.name),
+                    Modifier.semantics { contentDescription = description }
+                        .testTag("game_unlock_" + support.name),
                     enabled = progress.currency >= GameProgress.UNLOCK_PRICE,
                     leading = { Coin() },
                 )
