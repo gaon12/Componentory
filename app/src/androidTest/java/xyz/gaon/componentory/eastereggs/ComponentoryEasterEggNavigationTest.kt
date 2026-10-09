@@ -1,5 +1,7 @@
 package xyz.gaon.componentory.eastereggs
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.SystemClock
 import android.view.WindowManager
 import androidx.compose.ui.test.assertIsDisplayed
@@ -8,6 +10,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -39,6 +42,7 @@ class ComponentoryEasterEggNavigationTest {
 
     @Test
     fun tapsKeepTheirCountAcrossPausesAndOnlyTheSeventhOpensTheScreen() {
+        useTheGameOrientation()
         tapVersion(2)
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         SystemClock.sleep(1_100)
@@ -52,6 +56,7 @@ class ComponentoryEasterEggNavigationTest {
 
     @Test
     fun gameActivityRecreationKeepsTheLobbyOpenAndBackRestoresSettings() {
+        useTheGameOrientation()
         openEgg()
         compose.onNodeWithTag("game_weapon_open").performScrollTo().performClick()
         compose.onNodeWithTag("game_weapon_SPINNER").performScrollTo().performClick()
@@ -80,6 +85,7 @@ class ComponentoryEasterEggNavigationTest {
         }
         compose.onNodeWithTag("game_selected", useUnmergedTree = true).assertTextEquals("Spinner")
         pressBack()
+        awaitSettings()
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         compose.onNodeWithTag("nav_settings").assertIsSelected()
         compose.onNodeWithTag("app_version").assertIsDisplayed()
@@ -87,14 +93,17 @@ class ComponentoryEasterEggNavigationTest {
 
     @Test
     fun theCloseButtonReturnsToSettingsAndAnotherOpeningNeedsSevenNewTaps() {
+        useTheGameOrientation()
         openEgg()
         compose.onNodeWithTag("componentory_easter_egg_close").performClick()
+        awaitSettings()
         compose.onNodeWithTag("nav_settings").assertIsSelected()
         tapVersion(6)
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         tapVersion(1)
         compose.onNodeWithTag("componentory_easter_egg").assertIsDisplayed()
         pressBack()
+        awaitSettings()
         compose.onNodeWithTag("app_version").assertIsDisplayed()
     }
 
@@ -122,6 +131,49 @@ class ComponentoryEasterEggNavigationTest {
     private fun tapVersion(count: Int) {
         compose.onNodeWithTag("app_version").performScrollTo().performTouchInput {
             repeat(count) { click() }
+        }
+    }
+
+    /**
+     * A portrait phone rotates twice around the landscape game, and Android may recreate
+     * MainActivity several times in a row. A short-lived copy can leave a Compose root that never
+     * attaches, and Compose test idling then waits forever. The app itself restores Settings
+     * correctly, so tests that open the game first match its orientation. The stop and recreation
+     * tests stay in the default orientation.
+     */
+    private fun useTheGameOrientation() {
+        compose.runOnUiThread {
+            compose.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        }
+        compose.waitUntil(10_000) {
+            runCatching {
+                    compose.activity.resources.configuration.orientation ==
+                        Configuration.ORIENTATION_LANDSCAPE
+                }
+                .getOrDefault(false)
+        }
+        awaitSettings()
+        // The rotation recreated the Activity, so its window needs the flag again.
+        compose.runOnUiThread {
+            compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+
+    /**
+     * Closing the game finishes its Activity, and Settings returns through an Activity result.
+     * Compose idling does not track that hand-off, and for a moment there can be no Compose window
+     * at all, so wait for Settings before checking it.
+     */
+    private fun awaitSettings() {
+        compose.waitUntil(10_000) {
+            runCatching {
+                    compose
+                        .onAllNodesWithTag("componentory_easter_egg")
+                        .fetchSemanticsNodes()
+                        .isEmpty() &&
+                        compose.onAllNodesWithTag("nav_settings").fetchSemanticsNodes().isNotEmpty()
+                }
+                .getOrDefault(false)
         }
     }
 

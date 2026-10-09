@@ -104,8 +104,12 @@ class ComponentoryEasterEggScreenTest {
     private fun assertClosed() {
         // The result comes back through the caller's Activity lifecycle, which Compose
         // idling does not track, so wait for the caller instead of checking at once.
+        // While the game window closes there can briefly be no Compose window at all.
         compose.waitUntil(10_000) {
-            compose.onAllNodesWithTag("egg_caller").fetchSemanticsNodes().isNotEmpty()
+            runCatching {
+                    compose.onAllNodesWithTag("egg_caller").fetchSemanticsNodes().isNotEmpty()
+                }
+                .getOrDefault(false)
         }
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         compose.onNodeWithTag("egg_caller").assertIsDisplayed()
