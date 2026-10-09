@@ -61,6 +61,51 @@ local adapter tests from future real submissions.
 The [October 9 verification report](verification-survivor-2026-10-09.md) summarizes
 current device checks, installed binary identity, cleanup, and pending work.
 
+### Game presentation checkpoint
+
+The owner said the hidden game should start with one Start tap, look like a
+real game, and run fullscreen. Five focused changes made this:
+
+- **Fullscreen.** `SurvivorActivity` hides both system bars with transient
+  swipe behavior. It hides them again when focus returns, and it draws into
+  short-edge cutouts.
+- **Title screen.** An animated backdrop of drifting Android artwork, the
+  Neko player, and a large START button. Start begins a normal run with the
+  default weapon. The weapon chip, Upgrades, Records, and Ranked open separate
+  panels. The ranked challenge now starts from the Ranked panel.
+- **Arena.** A checker floor with a glowing edge, shadows, auras, glows, a
+  blink and red edge after a hit, and a vignette. Sprite sizes changed only
+  visually; collisions did not change.
+- **HUD and menus.** The arena fills the screen under a floating HUD: level
+  badge, HP and experience bars, timer, boss bar, kill count, a round pause
+  key, and a skill key with a cooldown ring. Level-up uses three cards with
+  NEW and EVOLVE badges. Pause is an in-window panel instead of a dialog
+  window.
+- **Game over.** An outcome banner, time, kill, score, and reward tiles, the
+  final build, and a Play again button that starts the same mode and weapon.
+
+Game rules, saves, scores, and Play Games behavior did not change. Shared
+palette, buttons, panels, bars, and the backdrop live in `GameStyle.kt`.
+
+These changes were checked on an Android 15 (API 35) x86_64 Pixel 7 emulator
+with software rendering, not on the physical phone and tablet above. Spotless,
+debug lint, 218 JVM tests, and both APK builds passed for each commit. The
+lobby, save, ranking, records entry, battle, canvas clip, and artwork tests
+passed there, including a new Play again test and a one-tap Start test.
+Screenshots of real play were inspected in English and Korean.
+
+Three emulator results are still open:
+
+- `leavingTheForegroundRequiresAnExplicitResume` cannot find `game_resume`.
+  It fails the same way on the code from before these changes.
+- The `ComponentoryEasterEggScreenTest` return checks fail on and off, also on
+  the earlier code. They assert the caller before the Activity result arrives.
+- `GamePerformanceTest` cannot measure frame time on a software renderer. The
+  moving case reported a 261 ms P95, and the frozen case drew no frames.
+
+The new arena and HUD therefore need fresh physical phone and tablet runs
+before they are called verified for frame time or interaction.
+
 ### Earlier checkpoints
 
 The catalog verifier checked thirty original source files for twenty-five

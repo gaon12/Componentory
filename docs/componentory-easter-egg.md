@@ -1,13 +1,14 @@
 # Componentory's hidden game entry
 
 Componentory has its own Easter egg screen, separate from the Android release
-ports in the Components catalog. Its current destination is the landscape
-Android Survivors lobby. The game mixes Android resource families as items,
+ports in the Components catalog. Its current destination is the fullscreen,
+landscape Android Survivors title screen. One tap on **Start** begins a run. The game mixes Android resource families as items,
 enemies, bosses, and effects in one survival run. The player chooses a starting
 weapon for Neko. Android versions are source metadata, not characters or levels.
 See [game rules and verification](survivor-game.md) and the
-[optional Play Games setup](survivor-play-games.md). The UI uses the app theme and
-all five supported languages; combat artwork is cached and drawn on Canvas.
+[optional Play Games setup](survivor-play-games.md). The game uses a fixed night
+palette in both app themes and all five supported languages; combat artwork is
+cached and drawn on Canvas.
 
 ## Entry and return
 
@@ -35,10 +36,12 @@ the orientation request. The main app navigation stays in its caller. The game
 lobby survives Activity recreation; an unfinished battle becomes a saved run
 that requires explicit Continue. There is no permanent entry unlock preference.
 
-The lobby close button and Android Back return to Settings and its saved scroll
-location. Back during combat opens the pause menu. Portrait windows, background
-transitions, and screen locking pause combat. The lobby respects system insets
-and uses scrolling columns; its close button stays outside the scrolling body.
+The game hides the status and navigation bars. A swipe from the edge shows
+them briefly. The title screen's close button and Android Back return to
+Settings and its saved scroll location. Back first closes an open title panel,
+such as the weapon picker or Upgrades. Back during combat opens the pause menu.
+Portrait windows, background transitions, and screen locking pause combat. The
+arena draws edge to edge, and the HUD and menus keep clear of display cutouts.
 
 Game captures show reused artwork on the current OS. They are not original
 historical Android captures. The retained checks below describe the earlier
