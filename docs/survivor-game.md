@@ -94,12 +94,28 @@ lobby, save, ranking, records entry, battle, canvas clip, and artwork tests
 passed there, including a new Play again test and a one-tap Start test.
 Screenshots of real play were inspected in English and Korean.
 
-Three emulator results are still open:
+Two emulator failures had the same cause and are now fixed. A landscape game
+and a portrait screen rotate the display when one covers the other, and the
+rotation recreated the Activity that was waiting behind:
 
-- `leavingTheForegroundRequiresAnExplicitResume` cannot find `game_resume`.
-  It fails the same way on the code from before these changes.
-- The `ComponentoryEasterEggScreenTest` return checks fail on and off, also on
-  the earlier code. They assert the caller before the Activity result arrives.
+- `leavingTheForegroundRequiresAnExplicitResume` could not find `game_resume`.
+  The test's portrait cover Activity recreated `SurvivorActivity`, and the
+  running battle was lost. Real players hit the same bug after visiting a
+  portrait home screen: they returned to the title screen with Continue
+  instead of the paused battle. `SurvivorActivity` now handles orientation
+  and size changes in place.
+- The `ComponentoryEasterEggScreenTest` return checks failed on and off. Closing
+  the game rotated the display back and sometimes recreated the portrait
+  caller, which dropped the test's own caller content. The real Settings
+  screen restores its state after that recreation, so only the test changed:
+  its caller now uses the game's orientation and waits for the result.
+
+Emulator run `20261009T071651344Z-33c43fd1` passed the Easter egg screen,
+Easter egg navigation, and battle tests, 13 tests. Eight repeated runs of the
+Easter egg screen test also passed, while six of seven failed before the fix.
+
+One emulator result is still open:
+
 - `GamePerformanceTest` cannot measure frame time on a software renderer. The
   moving case reported a 261 ms P95, and the frozen case drew no frames.
 
