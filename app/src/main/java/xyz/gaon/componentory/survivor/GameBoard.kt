@@ -45,6 +45,7 @@ private class BoardPainter(private val assets: GameAssets) {
     private val line = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
     private val rect = RectF()
     private var spriteAlpha = 255
+    private val batch = SpriteBatch(assets)
 
     // Glows are small prerendered bitmaps stretched to each size. Unlike a gradient circle in a
     // scaled save layer, repeated bitmap draws need no save and restore and batch on the GPU.
@@ -98,20 +99,19 @@ private class BoardPainter(private val assets: GameAssets) {
             gridHeight = height
         }
         floor(canvas)
-        for (drop in s.drops) {
-            glow(canvas, beanGlow, drop.x, drop.y, 26f)
-            sprite(canvas, "jellybean", drop.x, drop.y, 26f, tick * 2f + drop.x)
-        }
+        for (drop in s.drops) glow(canvas, beanGlow, drop.x, drop.y, 26f)
+        for (drop in s.drops) batch.add("jellybean", drop.x, drop.y, 26f, tick * 2f + drop.x)
+        batch.draw(canvas)
         enemies(canvas, s.enemies, tick)
         for (shot in s.shots) {
+            if (shot.delay > 0 || !shot.hostile) continue
+            glow(canvas, orangeGlow, shot.x, shot.y, 34f)
+            fill.color = 0xffffe0b0.toInt()
+            canvas.drawCircle(shot.x, shot.y, 9f, fill)
+        }
+        for (shot in s.shots) {
             if (shot.delay > 0) continue
-            if (shot.hostile) {
-                glow(canvas, orangeGlow, shot.x, shot.y, 34f)
-                fill.color = 0xffffe0b0.toInt()
-                canvas.drawCircle(shot.x, shot.y, 9f, fill)
-            }
-            sprite(
-                canvas,
+            batch.add(
                 shot.art,
                 shot.x,
                 shot.y,
@@ -119,6 +119,7 @@ private class BoardPainter(private val assets: GameAssets) {
                 shot.angle * 57.29578f,
             )
         }
+        batch.draw(canvas)
         player(canvas, s, tick)
         canvas.restore()
         overlay(canvas, s, width, height)
@@ -146,8 +147,17 @@ private class BoardPainter(private val assets: GameAssets) {
     private fun enemies(canvas: Canvas, enemies: List<GameEnemy>, tick: Int) {
         for (enemy in enemies) {
             val size = size(enemy)
-            shadow(canvas, enemy.x, enemy.y + size * 0.42f, size * 0.36f)
+            val radius = size * 0.36f
+            val y = enemy.y + size * 0.42f
+            batch.addRect(
+                SpriteBatch.SHADOW,
+                enemy.x - radius,
+                y - radius * 0.35f,
+                enemy.x + radius,
+                y + radius * 0.35f,
+            )
         }
+        batch.draw(canvas)
         for (enemy in enemies) {
             val size = size(enemy)
             when (enemy.kind) {
@@ -157,25 +167,24 @@ private class BoardPainter(private val assets: GameAssets) {
                 EnemyKind.NORMAL -> Unit
             }
         }
-        for (enemy in enemies) sprite(canvas, enemy.source.art, enemy.x, enemy.y, size(enemy))
+        for (enemy in enemies) batch.add(enemy.source.art, enemy.x, enemy.y, size(enemy))
+        batch.draw(canvas)
         for (enemy in enemies) {
             val size = size(enemy)
             val fraction = (enemy.health / enemy.maxHealth).coerceIn(0f, 1f)
             if (enemy.kind != EnemyKind.BOSS && fraction >= 1f) continue
             val top = enemy.y - size / 2 - 12
-            fill.color = 0xaa000000.toInt()
-            rect.set(enemy.x - size / 2, top, enemy.x + size / 2, top + 7)
-            canvas.drawRoundRect(rect, 4f, 4f, fill)
-            fill.color =
-                if (enemy.kind == EnemyKind.BOSS) 0xffff5d6c.toInt() else 0xffff8a80.toInt()
-            rect.set(
-                enemy.x - size / 2 + 1,
+            val left = enemy.x - size / 2
+            batch.addRect(SpriteBatch.BAR_BACK, left, top, left + size, top + 7)
+            batch.addRect(
+                if (enemy.kind == EnemyKind.BOSS) SpriteBatch.BOSS_BAR else SpriteBatch.ENEMY_BAR,
+                left + 1,
                 top + 1,
-                enemy.x - size / 2 + 1 + (size - 2) * fraction,
+                left + 1 + (size - 2) * fraction,
                 top + 6,
             )
-            canvas.drawRoundRect(rect, 3f, 3f, fill)
         }
+        batch.draw(canvas)
     }
 
     private fun size(enemy: GameEnemy) =
@@ -247,7 +256,7 @@ private class BoardPainter(private val assets: GameAssets) {
     ) {
         rect.set(x - size / 2, y - size / 2, x + size / 2, y + size / 2)
         paint.color = (spriteAlpha shl 24) or 0xffffff
-        // Most sprites are upright; skipping the save and restore keeps the frame shorter.
+        // The player and shield are drawn alone because their alpha or order differs.
         if (rotation == 0f) canvas.drawBitmap(assets.bitmap(key), null, rect, paint)
         else
             canvas.withRotation(rotation, x, y) {
@@ -304,5 +313,157 @@ private class BoardPainter(private val assets: GameAssets) {
             Canvas(bitmap).drawCircle(32f, 32f, 32f, paint)
             return bitmap
         }
+    }
+}
+
+/**
+ * Collects many sprites and draws them with one drawVertices call. Each artwork is copied once into
+ * a shared atlas bitmap, and each sprite becomes two textured triangles. A crowd of 150 enemies is
+ * then one draw instead of 150, which shortens both recording and GPU work.
+ */
+private class SpriteBatch(private val assets: GameAssets) {
+    private val atlas = Bitmap.createBitmap(ATLAS, ATLAS, Bitmap.Config.ARGB_8888)
+    private val atlasCanvas = Canvas(atlas)
+    private val slots = HashMap<String, Int>()
+    private val cell = RectF()
+    private val shape = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val paint =
+        Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG).apply {
+            shader = BitmapShader(atlas, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        }
+    private val vertices = FloatArray(LIMIT * 8)
+    private val textures = FloatArray(LIMIT * 8)
+    private val indices =
+        ShortArray(LIMIT * 6).also {
+            for (sprite in 0 until LIMIT) {
+                val first = sprite * 4
+                val index = sprite * 6
+                it[index] = first.toShort()
+                it[index + 1] = (first + 1).toShort()
+                it[index + 2] = (first + 2).toShort()
+                it[index + 3] = first.toShort()
+                it[index + 4] = (first + 2).toShort()
+                it[index + 5] = (first + 3).toShort()
+            }
+        }
+    private var count = 0
+
+    /** Queues an upright rectangle filled with a built-in shape such as [SHADOW]. */
+    fun addRect(shape: String, left: Float, top: Float, right: Float, bottom: Float) {
+        if (count == LIMIT) return
+        val slot = slot(shape) ?: return
+        val at = count * 8
+        vertices[at] = left
+        vertices[at + 1] = top
+        vertices[at + 2] = right
+        vertices[at + 3] = top
+        vertices[at + 4] = right
+        vertices[at + 5] = bottom
+        vertices[at + 6] = left
+        vertices[at + 7] = bottom
+        // Solid colors sample the middle of their cell, so filtering never reaches the edge.
+        val inset = if (shape == SHADOW) 0f else SPRITE / 2f - 1
+        texture(at, slot, inset)
+        count++
+    }
+
+    /** Queues one sprite. Sprites past [LIMIT] in one batch are skipped. */
+    fun add(key: String, x: Float, y: Float, size: Float, rotation: Float = 0f) {
+        if (count == LIMIT) return
+        val slot = slot(key) ?: return
+        val half = size / 2
+        var cos = 1f
+        var sin = 0f
+        if (rotation != 0f) {
+            val radians = Math.toRadians(rotation.toDouble())
+            cos = kotlin.math.cos(radians).toFloat()
+            sin = kotlin.math.sin(radians).toFloat()
+        }
+        // Corners in order: top left, top right, bottom right, bottom left.
+        val at = count * 8
+        corner(at, x, y, -half, -half, cos, sin)
+        corner(at + 2, x, y, half, -half, cos, sin)
+        corner(at + 4, x, y, half, half, cos, sin)
+        corner(at + 6, x, y, -half, half, cos, sin)
+        texture(at, slot, 0f)
+        count++
+    }
+
+    private fun texture(at: Int, slot: Int, inset: Float) {
+        val left = slot % COLUMNS * CELL + PAD + inset
+        val top = slot / COLUMNS * CELL + PAD + inset
+        val right = left + SPRITE - 2 * inset
+        val bottom = top + SPRITE - 2 * inset
+        textures[at] = left
+        textures[at + 1] = top
+        textures[at + 2] = right
+        textures[at + 3] = top
+        textures[at + 4] = right
+        textures[at + 5] = bottom
+        textures[at + 6] = left
+        textures[at + 7] = bottom
+    }
+
+    fun draw(canvas: Canvas) {
+        if (count == 0) return
+        canvas.drawVertices(
+            Canvas.VertexMode.TRIANGLES,
+            count * 8,
+            vertices,
+            0,
+            textures,
+            0,
+            null,
+            0,
+            indices,
+            0,
+            count * 6,
+            paint,
+        )
+        count = 0
+    }
+
+    private fun corner(at: Int, x: Float, y: Float, dx: Float, dy: Float, cos: Float, sin: Float) {
+        vertices[at] = x + dx * cos - dy * sin
+        vertices[at + 1] = y + dx * sin + dy * cos
+    }
+
+    /**
+     * The atlas cell for [key], copying the artwork in on first use. Null when the atlas is full.
+     */
+    private fun slot(key: String): Int? {
+        slots[key]?.let {
+            return it
+        }
+        if (slots.size == COLUMNS * COLUMNS) return null
+        val slot = slots.size
+        val left = (slot % COLUMNS * CELL + PAD).toFloat()
+        val top = (slot / COLUMNS * CELL + PAD).toFloat()
+        cell.set(left, top, left + SPRITE, top + SPRITE)
+        when (key) {
+            SHADOW -> atlasCanvas.drawOval(cell, shape.apply { color = 0x55000000 })
+            BAR_BACK -> atlasCanvas.drawRect(cell, shape.apply { color = 0xaa000000.toInt() })
+            ENEMY_BAR -> atlasCanvas.drawRect(cell, shape.apply { color = 0xffff8a80.toInt() })
+            BOSS_BAR -> atlasCanvas.drawRect(cell, shape.apply { color = 0xffff5d6c.toInt() })
+            else -> atlasCanvas.drawBitmap(assets.bitmap(key), null, cell, null)
+        }
+        slots[key] = slot
+        return slot
+    }
+
+    companion object {
+        // Built-in shapes share the atlas with artwork. Artwork keys never start with "#".
+        const val SHADOW = "#shadow"
+        const val BAR_BACK = "#bar-back"
+        const val ENEMY_BAR = "#enemy-bar"
+        const val BOSS_BAR = "#boss-bar"
+        private const val SPRITE = 96
+        // A transparent pixel on each side keeps filtering from bleeding between sprites.
+        private const val PAD = 1
+        private const val CELL = SPRITE + 2 * PAD
+        private const val COLUMNS = 10
+        private const val ATLAS = CELL * COLUMNS
+        // Enemies and shots are capped at 160 and 256, so one batch never needs more.
+        private const val LIMIT = 512
     }
 }
