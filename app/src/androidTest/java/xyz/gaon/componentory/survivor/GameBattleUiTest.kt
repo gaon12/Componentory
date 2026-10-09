@@ -67,7 +67,10 @@ class GameBattleUiTest {
         compose.onNodeWithTag("game_return").performClick()
         compose.mainClock.advanceTimeBy(32)
         compose.mainClock.autoAdvance = true
-        compose.onNodeWithTag("game_selected").performScrollTo().assertIsDisplayed()
+        compose
+            .onNodeWithTag("game_selected", useUnmergedTree = true)
+            .performScrollTo()
+            .assertIsDisplayed()
     }
 
     @Test

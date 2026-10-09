@@ -1,0 +1,9 @@
+<resources>
+    <string name="game_start_button">START</string>
+    <string name="game_continue_button">CONTINUE</string>
+    <string name="game_change">Change</string>
+    <string name="game_shop">Upgrades</string>
+    <string name="game_ranked_start">Start challenge</string>
+    <string name="game_records_short">Records</string>
+    <string name="game_ranked_short">Ranked</string>
+</resources>

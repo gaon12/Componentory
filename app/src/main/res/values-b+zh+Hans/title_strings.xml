@@ -1,0 +1,9 @@
+<resources>
+    <string name="game_start_button">开始</string>
+    <string name="game_continue_button">继续</string>
+    <string name="game_change">更换</string>
+    <string name="game_shop">强化</string>
+    <string name="game_ranked_start">开始挑战</string>
+    <string name="game_records_short">记录</string>
+    <string name="game_ranked_short">排名</string>
+</resources>

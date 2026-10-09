@@ -99,238 +99,233 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
             .distinct()
             .forEach { assets.bitmap(it) }
     }
-    BoxWithConstraints(Modifier.fillMaxSize()) {
-        val wide = maxWidth > maxHeight
-        when {
-            recordsOpen && save != null ->
-                GameRecordScreen(requireNotNull(save).records, assets) { recordsOpen = false }
-            result != null -> {
-                BackHandler {
-                    if (!saveFailed) {
-                        engine = null
-                        finished = null
+    MaterialTheme(colorScheme = GameColorScheme) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
+            val wide = maxWidth > maxHeight
+            when {
+                recordsOpen && save != null ->
+                    GameRecordScreen(requireNotNull(save).records, assets) { recordsOpen = false }
+                result != null -> {
+                    BackHandler {
+                        if (!saveFailed) {
+                            engine = null
+                            finished = null
+                        }
                     }
-                }
-                Surface(Modifier.fillMaxSize()) {
-                    Column(
-                        Modifier.fillMaxSize()
-                            .safeDrawingPadding()
-                            .padding(24.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                    ) {
-                        Text(
-                            stringResource(
-                                if (result.outcome == RunOutcome.WON) R.string.game_won
-                                else if (result.outcome == RunOutcome.ABANDONED)
-                                    R.string.game_abandoned
-                                else R.string.game_defeated
-                            ),
-                            style = MaterialTheme.typography.headlineMedium,
-                        )
-                        Text(weaponName(result.startingWeapon))
-                        Text(
-                            stringResource(
-                                R.string.game_result_counts,
-                                result.seconds,
-                                result.regularKills + result.eliteKills + result.bossKills,
-                            )
-                        )
-                        save
-                            ?.records
-                            ?.firstOrNull { it.id == result.id }
-                            ?.let { record ->
-                                Text(
-                                    stringResource(
-                                        R.string.game_result_reward,
-                                        record.score,
-                                        record.currency,
-                                    ),
-                                    Modifier.testTag("game_reward"),
-                                )
-                            }
-                        GameEquipmentSummary(result, assets)
-                        Button(
-                            {
-                                engine = null
-                                finished = null
-                            },
-                            Modifier.testTag("game_return"),
-                            enabled = !saveFailed,
+                    Surface(Modifier.fillMaxSize()) {
+                        Column(
+                            Modifier.fillMaxSize()
+                                .safeDrawingPadding()
+                                .padding(24.dp)
+                                .verticalScroll(rememberScrollState()),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {
-                            Text(stringResource(R.string.game_return))
+                            Text(
+                                stringResource(
+                                    if (result.outcome == RunOutcome.WON) R.string.game_won
+                                    else if (result.outcome == RunOutcome.ABANDONED)
+                                        R.string.game_abandoned
+                                    else R.string.game_defeated
+                                ),
+                                style = MaterialTheme.typography.headlineMedium,
+                            )
+                            Text(weaponName(result.startingWeapon))
+                            Text(
+                                stringResource(
+                                    R.string.game_result_counts,
+                                    result.seconds,
+                                    result.regularKills + result.eliteKills + result.bossKills,
+                                )
+                            )
+                            save
+                                ?.records
+                                ?.firstOrNull { it.id == result.id }
+                                ?.let { record ->
+                                    Text(
+                                        stringResource(
+                                            R.string.game_result_reward,
+                                            record.score,
+                                            record.currency,
+                                        ),
+                                        Modifier.testTag("game_reward"),
+                                    )
+                                }
+                            GameEquipmentSummary(result, assets)
+                            Button(
+                                {
+                                    engine = null
+                                    finished = null
+                                },
+                                Modifier.testTag("game_return"),
+                                enabled = !saveFailed,
+                            ) {
+                                Text(stringResource(R.string.game_return))
+                            }
                         }
                     }
                 }
-            }
-            battle != null ->
-                GameBattle(
-                    battle,
-                    assets,
-                    onCheckpoint = ::checkpoint,
-                    externalPause = saveFailed,
-                    onFinished = ::complete,
-                )
-            else ->
-                screens.SaveableStateProvider("lobby") {
-                    val current = save
-                    GameLobby(
+                battle != null ->
+                    GameBattle(
+                        battle,
                         assets,
-                        onClose,
-                        onStart = { weapon, ranked ->
-                            if (
+                        onCheckpoint = ::checkpoint,
+                        externalPause = saveFailed,
+                        onFinished = ::complete,
+                    )
+                else ->
+                    screens.SaveableStateProvider("lobby") {
+                        val current = save
+                        val saved =
+                            current?.activeJson?.let { json ->
+                                remember(json) { GameJson.session(json) }
+                            }
+                        GameLobby(
+                            assets,
+                            onClose,
+                            onStart = { weapon, ranked ->
+                                if (
+                                    current != null &&
+                                        current.activeId == null &&
+                                        !saveFailed &&
+                                        !starting
+                                ) {
+                                    starting = true
+                                    scope.launch {
+                                        try {
+                                            val profile =
+                                                if (ranked && online.enabled) {
+                                                    try {
+                                                        online.profile()?.id
+                                                    } catch (cancelled: CancellationException) {
+                                                        throw cancelled
+                                                    } catch (offline: Exception) {
+                                                        null
+                                                    }
+                                                } else null
+                                            val progress = store.read().progress
+                                            val created =
+                                                GameEngine.create(
+                                                    weapon,
+                                                    if (ranked) RunMode.RANKED else RunMode.NORMAL,
+                                                    progress.permanent,
+                                                    progress.unlocked,
+                                                    rankedProfileId = profile,
+                                                )
+                                            save = store.start(GameJson.session(created.session))
+                                            engine = created
+                                        } catch (cancelled: CancellationException) {
+                                            throw cancelled
+                                        } catch (error: Exception) {
+                                            failure(error)
+                                        } finally {
+                                            starting = false
+                                        }
+                                    }
+                                }
+                            },
+                            canStart =
                                 current != null &&
                                     current.activeId == null &&
                                     !saveFailed &&
-                                    !starting
-                            ) {
-                                starting = true
-                                scope.launch {
-                                    try {
-                                        val profile =
-                                            if (ranked && online.enabled) {
+                                    !starting,
+                            currency = current?.progress?.currency,
+                            saved = saved,
+                            canContinue =
+                                wide && saved?.ruleset == GameCatalog.RULESET && !saveFailed,
+                            onContinue = {
+                                current?.activeJson?.let {
+                                    engine = GameEngine(GameJson.session(it))
+                                }
+                            },
+                            onDiscard = { discard = true },
+                            onRecords = current?.let { { recordsOpen = true } },
+                            loading = current == null,
+                            shop =
+                                current?.let {
+                                    {
+                                        GameProgressPanel(
+                                            it.progress,
+                                            { upgrade ->
                                                 try {
-                                                    online.profile()?.id
-                                                } catch (cancelled: CancellationException) {
-                                                    throw cancelled
-                                                } catch (offline: Exception) {
-                                                    null
+                                                    save = store.buy(upgrade)
+                                                } catch (error: Exception) {
+                                                    failure(error)
                                                 }
-                                            } else null
-                                        val progress = store.read().progress
-                                        val created =
-                                            GameEngine.create(
-                                                weapon,
-                                                if (ranked) RunMode.RANKED else RunMode.NORMAL,
-                                                progress.permanent,
-                                                progress.unlocked,
-                                                rankedProfileId = profile,
-                                            )
-                                        save = store.start(GameJson.session(created.session))
-                                        engine = created
-                                    } catch (cancelled: CancellationException) {
-                                        throw cancelled
-                                    } catch (error: Exception) {
-                                        failure(error)
-                                    } finally {
-                                        starting = false
+                                            },
+                                            { support ->
+                                                try {
+                                                    save = store.unlock(support)
+                                                } catch (error: Exception) {
+                                                    failure(error)
+                                                }
+                                            },
+                                            assets,
+                                        )
                                     }
-                                }
-                            }
-                        },
-                        canStart =
-                            current != null && current.activeId == null && !saveFailed && !starting,
-                    ) {
-                        Text(
-                            stringResource(R.string.game_controls),
-                            style = MaterialTheme.typography.bodySmall,
+                                },
+                            ranking =
+                                current?.let {
+                                    {
+                                        GameRankingPanel(online, store, it) { updated ->
+                                            save = updated
+                                        }
+                                    }
+                                },
                         )
-                        OutlinedButton(
-                            { recordsOpen = true },
-                            Modifier.fillMaxWidth().testTag("game_records"),
-                            enabled = current != null,
-                        ) {
-                            Text(stringResource(R.string.game_records))
-                        }
-                        if (current == null) Text(stringResource(R.string.game_save_loading))
-                        current?.activeJson?.let { json ->
-                            val saved = remember(json) { GameJson.session(json) }
-                            Text(
-                                stringResource(
-                                    R.string.game_saved_run,
-                                    weaponName(saved.startingWeapon),
-                                    saved.seconds,
-                                )
-                            )
-                            if (saved.ruleset != GameCatalog.RULESET)
-                                Text(stringResource(R.string.game_old_rules))
-                            Button(
-                                { engine = GameEngine(GameJson.session(json)) },
-                                Modifier.fillMaxWidth().testTag("game_continue"),
-                                enabled =
-                                    wide && saved.ruleset == GameCatalog.RULESET && !saveFailed,
-                            ) {
-                                Text(stringResource(R.string.game_continue))
-                            }
-                            OutlinedButton(
-                                { discard = true },
-                                Modifier.fillMaxWidth().testTag("game_discard"),
-                            ) {
-                                Text(stringResource(R.string.game_end_saved))
-                            }
-                        }
-                        current?.let {
-                            GameRankingPanel(online, store, it) { updated -> save = updated }
-                            GameProgressPanel(
-                                it.progress,
-                                { upgrade ->
-                                    try {
-                                        save = store.buy(upgrade)
-                                    } catch (error: Exception) {
-                                        failure(error)
-                                    }
-                                },
-                                { support ->
-                                    try {
-                                        save = store.unlock(support)
-                                    } catch (error: Exception) {
-                                        failure(error)
-                                    }
-                                },
-                            )
-                        }
                     }
-                }
-        }
-        if (discard)
-            AlertDialog(
-                onDismissRequest = { discard = false },
-                title = { Text(stringResource(R.string.game_end_saved)) },
-                text = { Text(stringResource(R.string.game_end_saved_help)) },
-                confirmButton = {
-                    TextButton(
-                        {
-                            discard = false
-                            save?.activeJson?.let {
-                                val s = GameJson.session(it)
-                                s.outcome = RunOutcome.ABANDONED
-                                complete(s)
-                            }
-                        },
-                        Modifier.testTag("game_confirm_discard"),
-                    ) {
-                        Text(stringResource(R.string.game_abandon))
-                    }
-                },
-                dismissButton = {
-                    TextButton({ discard = false }) { Text(stringResource(R.string.game_resume)) }
-                },
-            )
-        if (saveFailed)
-            AlertDialog(
-                onDismissRequest = {},
-                title = { Text(stringResource(R.string.game_save_failed)) },
-                text = { Text(stringResource(R.string.game_save_failed_help)) },
-                confirmButton = {
-                    TextButton({
-                        val terminal = finished
-                        if (terminal != null) complete(terminal)
-                        else {
-                            val active = engine?.session
-                            if (active != null) {
-                                try {
-                                    save = store.checkpoint(GameJson.session(active))
-                                    saveFailed = false
-                                } catch (error: Exception) {
-                                    failure(error)
+            }
+            if (discard)
+                AlertDialog(
+                    onDismissRequest = { discard = false },
+                    title = { Text(stringResource(R.string.game_end_saved)) },
+                    text = { Text(stringResource(R.string.game_end_saved_help)) },
+                    confirmButton = {
+                        TextButton(
+                            {
+                                discard = false
+                                save?.activeJson?.let {
+                                    val s = GameJson.session(it)
+                                    s.outcome = RunOutcome.ABANDONED
+                                    complete(s)
                                 }
-                            } else read()
+                            },
+                            Modifier.testTag("game_confirm_discard"),
+                        ) {
+                            Text(stringResource(R.string.game_abandon))
                         }
-                    }) {
-                        Text(stringResource(R.string.game_retry))
-                    }
-                },
-                dismissButton = { TextButton(onClose) { Text(stringResource(R.string.close)) } },
-            )
+                    },
+                    dismissButton = {
+                        TextButton({ discard = false }) {
+                            Text(stringResource(R.string.game_resume))
+                        }
+                    },
+                )
+            if (saveFailed)
+                AlertDialog(
+                    onDismissRequest = {},
+                    title = { Text(stringResource(R.string.game_save_failed)) },
+                    text = { Text(stringResource(R.string.game_save_failed_help)) },
+                    confirmButton = {
+                        TextButton({
+                            val terminal = finished
+                            if (terminal != null) complete(terminal)
+                            else {
+                                val active = engine?.session
+                                if (active != null) {
+                                    try {
+                                        save = store.checkpoint(GameJson.session(active))
+                                        saveFailed = false
+                                    } catch (error: Exception) {
+                                        failure(error)
+                                    }
+                                } else read()
+                            }
+                        }) {
+                            Text(stringResource(R.string.game_retry))
+                        }
+                    },
+                    dismissButton = { TextButton(onClose) { Text(stringResource(R.string.close)) } },
+                )
+        }
     }
 }

@@ -14,8 +14,9 @@ class GameRankingConfigurationTest {
     @Test
     fun anUnconfiguredBuildKeepsLocalPlayAndDoesNotRegisterTheSdkInitializer() {
         assumeFalse(GamePlayClient.configured(compose.activity))
-        compose.onNodeWithTag("game_online_unavailable").performScrollTo().assertIsDisplayed()
         compose.onNodeWithTag("game_start").performScrollTo().assertIsEnabled()
+        compose.onNodeWithTag("game_ranking").performScrollTo().performClick()
+        compose.onNodeWithTag("game_online_unavailable").performScrollTo().assertIsDisplayed()
         val providers =
             compose.activity.packageManager
                 .getPackageInfo(compose.activity.packageName, PackageManager.GET_PROVIDERS)

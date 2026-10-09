@@ -58,7 +58,7 @@ class ComponentoryEasterEggScreenTest {
     @Test
     fun thePrivateGameLobbyReplacesTheOldWelcomeScreen() {
         showScreen(compact = true)
-        compose.onNodeWithTag("game_selected").assertTextEquals("Button")
+        compose.onNodeWithTag("game_selected", useUnmergedTree = true).assertTextEquals("Button")
         compose.onNodeWithTag("componentory_easter_egg_close").assertIsDisplayed().performClick()
         assertClosed()
     }

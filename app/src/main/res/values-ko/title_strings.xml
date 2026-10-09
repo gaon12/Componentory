@@ -1,0 +1,9 @@
+<resources>
+    <string name="game_start_button">시작</string>
+    <string name="game_continue_button">이어하기</string>
+    <string name="game_change">변경</string>
+    <string name="game_shop">강화</string>
+    <string name="game_ranked_start">도전 시작</string>
+    <string name="game_records_short">기록</string>
+    <string name="game_ranked_short">순위 도전</string>
+</resources>

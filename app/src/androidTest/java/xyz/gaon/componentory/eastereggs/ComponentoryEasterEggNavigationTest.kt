@@ -53,7 +53,9 @@ class ComponentoryEasterEggNavigationTest {
     @Test
     fun gameActivityRecreationKeepsTheLobbyOpenAndBackRestoresSettings() {
         openEgg()
+        compose.onNodeWithTag("game_weapon_open").performScrollTo().performClick()
         compose.onNodeWithTag("game_weapon_SPINNER").performScrollTo().performClick()
+        compose.onNodeWithTag("game_panel_close").performClick()
         lateinit var original: SurvivorActivity
         compose.runOnUiThread {
             original =
@@ -76,7 +78,7 @@ class ComponentoryEasterEggNavigationTest {
                 runCatching { compose.onNodeWithTag("componentory_easter_egg").isDisplayed() }
                     .getOrDefault(false)
         }
-        compose.onNodeWithTag("game_selected").assertTextEquals("Spinner")
+        compose.onNodeWithTag("game_selected", useUnmergedTree = true).assertTextEquals("Spinner")
         pressBack()
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         compose.onNodeWithTag("nav_settings").assertIsSelected()
