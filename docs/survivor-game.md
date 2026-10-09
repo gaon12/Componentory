@@ -138,9 +138,15 @@ several times in a row, and Compose test idling waited forever on a root that
 never attached. A screenshot showed the app itself on the right Settings
 screen. Commit `29c950e` makes those tests wait for Settings and open the
 game in its own orientation. Afterwards, ten repeated phone runs of both
-Easter egg classes passed, 80 tests in all. The full 27-test runs on both
-devices were started again but were stopped by the host for low memory, so
-they have no results yet.
+Easter egg classes passed, 80 tests in all.
+
+The full 27-test runs then passed on both devices at `e36cebe`:
+
+- Phone SM-S731N, run `20261009T091617733Z-6fd2a148`: 27 passed. Frame time
+  P95 was 16.8 ms and 16.0 ms.
+- Tablet SM-X800, run `20261009T092027990Z-79143c5e`: 27 passed. Frame time
+  P95 was 24.8 ms and 24.9 ms, below the 50 ms limit but still slower than
+  one 60 Hz frame on this tablet.
 
 The new arena and HUD therefore need fresh physical phone and tablet runs
 before they are called verified for frame time or interaction.
