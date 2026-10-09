@@ -148,6 +148,34 @@ The full 27-test runs then passed on both devices at `e36cebe`:
   P95 was 24.8 ms and 24.9 ms, below the 50 ms limit but still slower than
   one 60 Hz frame on this tablet.
 
+### Battle rendering performance
+
+The tablet runs at 120 Hz with a 2800x1752 screen. Frame stage timing from
+`dumpsys gfxinfo framestats` and simpleperf showed two causes. First, every
+engine tick recomposed and measured the whole battle screen. Second, the arena
+issued hundreds of separate draw calls, which made RenderThread and the GPU
+slow. Two commits changed this without changing the picture:
+
+- `d72055c` reads the tick only in the draw phase, keeps the HUD values in
+  derived state, and gives the arena, HUD, and skill key their own layers.
+- `d4bbd69` draws the checker floor with one shader, the grid with one call,
+  glows from prerendered bitmaps, and enemies in layers of the same draw.
+
+`GamePerformanceTest` frame time P95, moving and frozen crowd:
+
+| Device | Before | After |
+|---|---|---|
+| Tablet SM-X800 | 24.8 / 24.9 ms | 19.7 / 20.9 ms |
+| Phone SM-S731N | 16.8 / 16.0 ms | 13.1 / 14.9 ms |
+
+All 27 device tests passed afterwards on the tablet
+(`20261009T102438584Z-6affb9af`) and the phone
+(`20261009T102439272Z-26bcfdb9`). The game advances 60 ticks a second, so it
+draws about 60 frames a second on both devices. On the tablet, frame time
+still exceeds the 8.3 ms budget of one 120 Hz frame. These frames are
+pipelined, so the game still shows a new frame on every tick. What remains
+is mostly recording and issuing the 150-enemy stress scene.
+
 The new arena and HUD therefore need fresh physical phone and tablet runs
 before they are called verified for frame time or interaction.
 
