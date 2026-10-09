@@ -15,7 +15,6 @@
     <string name="game_skill_summon">소환</string>
     <string name="game_won">승리</string>
     <string name="game_defeated">패배</string>
-    <string name="game_result_counts">%1$d초 · %2$d마리 처치</string>
     <string name="game_return">로비로 돌아가기</string>
     <string name="game_controls">왼쪽 스틱으로 이동하고 자동으로 공격합니다. 오른쪽에서 스킬을 사용하세요.</string>
 </resources>

@@ -15,7 +15,6 @@
     <string name="game_skill_summon">召唤</string>
     <string name="game_won">胜利</string>
     <string name="game_defeated">战败</string>
-    <string name="game_result_counts">%1$d秒 · 击败%2$d个敌人</string>
     <string name="game_return">返回大厅</string>
     <string name="game_controls">左摇杆移动，自动攻击。右侧使用技能。</string>
 </resources>

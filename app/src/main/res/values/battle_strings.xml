@@ -15,7 +15,6 @@
     <string name="game_skill_summon">Summon</string>
     <string name="game_won">Victory</string>
     <string name="game_defeated">Defeated</string>
-    <string name="game_result_counts">%1$d seconds · %2$d defeats</string>
     <string name="game_return">Return to lobby</string>
     <string name="game_controls">Move with the left stick. Attacks are automatic. Use your skill on the right.</string>
 </resources>

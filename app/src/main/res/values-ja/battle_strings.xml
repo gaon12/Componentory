@@ -15,7 +15,6 @@
     <string name="game_skill_summon">召喚</string>
     <string name="game_won">勝利</string>
     <string name="game_defeated">敗北</string>
-    <string name="game_result_counts">%1$d秒 · %2$d体撃破</string>
     <string name="game_return">ロビーへ戻る</string>
     <string name="game_controls">左スティックで移動し、自動で攻撃します。右側でスキルを使います。</string>
 </resources>

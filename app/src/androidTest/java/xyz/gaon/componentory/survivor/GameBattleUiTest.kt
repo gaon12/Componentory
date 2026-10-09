@@ -18,11 +18,12 @@ class GameBattleUiTest {
     @get:Rule val compose = createAndroidComposeRule<SurvivorActivity>()
 
     private lateinit var directory: File
+    private lateinit var store: GameStore
 
     @Before
     fun useAnIsolatedGameSave() {
         directory = File(compose.activity.cacheDir, "game-battle-ui-" + System.nanoTime())
-        val store = GameStore(directory)
+        store = GameStore(directory)
         compose.runOnUiThread {
             compose.activity.setContent {
                 ComponentoryTheme {
@@ -71,6 +72,29 @@ class GameBattleUiTest {
             .onNodeWithTag("game_selected", useUnmergedTree = true)
             .performScrollTo()
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun playAgainStartsAFreshRunWithTheSameWeaponFromTheResultScreen() {
+        compose.onNodeWithTag("game_start").performScrollTo()
+        compose.mainClock.autoAdvance = false
+        compose.onNodeWithTag("game_start").performClick()
+        compose.mainClock.advanceTimeBy(1200)
+        compose.onNodeWithTag("game_pause").performClick()
+        compose.mainClock.advanceTimeBy(32)
+        compose.onNodeWithTag("game_abandon").performClick()
+        compose.mainClock.advanceTimeBy(32)
+        compose.onNodeWithTag("game_reward").assertExists()
+        val first = requireNotNull(store.read().records.singleOrNull())
+        compose.onNodeWithTag("game_retry").performClick()
+        compose.mainClock.advanceTimeBy(500)
+        compose.onNodeWithTag("game_time").assertExists()
+        val again = store.read()
+        val active = GameJson.session(requireNotNull(again.activeJson))
+        assertNotEquals(first.id, active.id)
+        assertEquals(first.startingWeapon, active.startingWeapon)
+        assertEquals(RunMode.NORMAL, active.mode)
+        assertEquals(1, again.records.size)
     }
 
     @Test

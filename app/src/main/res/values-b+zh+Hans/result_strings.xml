@@ -1,0 +1,7 @@
+<resources>
+    <string name="game_stat_time">生存时间</string>
+    <string name="game_stat_kills">击败</string>
+    <string name="game_stat_score">分数</string>
+    <string name="game_stat_reward">获得货币</string>
+    <string name="game_play_again">再玩一次</string>
+</resources>

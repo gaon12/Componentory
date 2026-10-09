@@ -1,0 +1,7 @@
+<resources>
+    <string name="game_stat_time">생존 시간</string>
+    <string name="game_stat_kills">처치</string>
+    <string name="game_stat_score">점수</string>
+    <string name="game_stat_reward">획득 재화</string>
+    <string name="game_play_again">다시 하기</string>
+</resources>

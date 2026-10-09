@@ -4,8 +4,6 @@ import android.app.Activity
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
@@ -13,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import java.io.File
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -79,6 +76,43 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
             failure(error)
         }
     }
+    fun startRun(weapon: WeaponId, ranked: Boolean) {
+        val current = save
+        if (current != null && current.activeId == null && !saveFailed && !starting) {
+            starting = true
+            scope.launch {
+                try {
+                    val profile =
+                        if (ranked && online.enabled) {
+                            try {
+                                online.profile()?.id
+                            } catch (cancelled: CancellationException) {
+                                throw cancelled
+                            } catch (offline: Exception) {
+                                null
+                            }
+                        } else null
+                    val progress = store.read().progress
+                    val created =
+                        GameEngine.create(
+                            weapon,
+                            if (ranked) RunMode.RANKED else RunMode.NORMAL,
+                            progress.permanent,
+                            progress.unlocked,
+                            rankedProfileId = profile,
+                        )
+                    save = store.start(GameJson.session(created.session))
+                    engine = created
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (error: Exception) {
+                    failure(error)
+                } finally {
+                    starting = false
+                }
+            }
+        }
+    }
     val screens = rememberSaveableStateHolder()
     val battle = engine
     val result = finished
@@ -112,56 +146,22 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
                             finished = null
                         }
                     }
-                    Surface(Modifier.fillMaxSize()) {
-                        Column(
-                            Modifier.fillMaxSize()
-                                .safeDrawingPadding()
-                                .padding(24.dp)
-                                .verticalScroll(rememberScrollState()),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                        ) {
-                            Text(
-                                stringResource(
-                                    if (result.outcome == RunOutcome.WON) R.string.game_won
-                                    else if (result.outcome == RunOutcome.ABANDONED)
-                                        R.string.game_abandoned
-                                    else R.string.game_defeated
-                                ),
-                                style = MaterialTheme.typography.headlineMedium,
-                            )
-                            Text(weaponName(result.startingWeapon))
-                            Text(
-                                stringResource(
-                                    R.string.game_result_counts,
-                                    result.seconds,
-                                    result.regularKills + result.eliteKills + result.bossKills,
-                                )
-                            )
-                            save
-                                ?.records
-                                ?.firstOrNull { it.id == result.id }
-                                ?.let { record ->
-                                    Text(
-                                        stringResource(
-                                            R.string.game_result_reward,
-                                            record.score,
-                                            record.currency,
-                                        ),
-                                        Modifier.testTag("game_reward"),
-                                    )
-                                }
-                            GameEquipmentSummary(result, assets)
-                            Button(
+                    GameResultScreen(
+                        result,
+                        save?.records?.firstOrNull { it.id == result.id },
+                        assets,
+                        canLeave = !saveFailed,
+                        onRetry =
+                            if (wide) {
                                 {
                                     engine = null
                                     finished = null
-                                },
-                                Modifier.testTag("game_return"),
-                                enabled = !saveFailed,
-                            ) {
-                                Text(stringResource(R.string.game_return))
-                            }
-                        }
+                                    startRun(result.startingWeapon, result.mode == RunMode.RANKED)
+                                }
+                            } else null,
+                    ) {
+                        engine = null
+                        finished = null
                     }
                 }
                 battle != null ->
@@ -182,47 +182,7 @@ internal fun GameHost(assets: GameAssets, onClose: () -> Unit, storage: GameStor
                         GameLobby(
                             assets,
                             onClose,
-                            onStart = { weapon, ranked ->
-                                if (
-                                    current != null &&
-                                        current.activeId == null &&
-                                        !saveFailed &&
-                                        !starting
-                                ) {
-                                    starting = true
-                                    scope.launch {
-                                        try {
-                                            val profile =
-                                                if (ranked && online.enabled) {
-                                                    try {
-                                                        online.profile()?.id
-                                                    } catch (cancelled: CancellationException) {
-                                                        throw cancelled
-                                                    } catch (offline: Exception) {
-                                                        null
-                                                    }
-                                                } else null
-                                            val progress = store.read().progress
-                                            val created =
-                                                GameEngine.create(
-                                                    weapon,
-                                                    if (ranked) RunMode.RANKED else RunMode.NORMAL,
-                                                    progress.permanent,
-                                                    progress.unlocked,
-                                                    rankedProfileId = profile,
-                                                )
-                                            save = store.start(GameJson.session(created.session))
-                                            engine = created
-                                        } catch (cancelled: CancellationException) {
-                                            throw cancelled
-                                        } catch (error: Exception) {
-                                            failure(error)
-                                        } finally {
-                                            starting = false
-                                        }
-                                    }
-                                }
-                            },
+                            onStart = ::startRun,
                             canStart =
                                 current != null &&
                                     current.activeId == null &&

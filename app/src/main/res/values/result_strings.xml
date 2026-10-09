@@ -1,0 +1,7 @@
+<resources>
+    <string name="game_stat_time">Time</string>
+    <string name="game_stat_kills">Kills</string>
+    <string name="game_stat_score">Score</string>
+    <string name="game_stat_reward">Reward</string>
+    <string name="game_play_again">PLAY AGAIN</string>
+</resources>
