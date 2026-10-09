@@ -1,0 +1,5 @@
+<resources>
+    <string name="game_level_up">레벨 업!</string>
+    <string name="game_badge_new">신규</string>
+    <string name="game_badge_evolve">진화</string>
+</resources>

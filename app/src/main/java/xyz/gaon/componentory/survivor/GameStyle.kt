@@ -207,12 +207,13 @@ internal fun GameBar(
         contentAlignment = Alignment.Center,
     ) {
         Box(
-            Modifier.matchParentSize()
-                .padding(2.dp)
+            // The caller sets the bar size; matchParentSize would ignore the fraction.
+            Modifier.align(Alignment.CenterStart)
+                .fillMaxHeight()
                 .fillMaxWidth(shown)
+                .padding(2.dp)
                 .clip(RoundedCornerShape(50))
                 .background(Brush.verticalGradient(listOf(color, color.copy(alpha = 0.7f))))
-                .align(Alignment.CenterStart)
         )
         if (label != null)
             Text(

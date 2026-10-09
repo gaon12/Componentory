@@ -1,0 +1,5 @@
+<resources>
+    <string name="game_level_up">レベルアップ！</string>
+    <string name="game_badge_new">NEW</string>
+    <string name="game_badge_evolve">進化</string>
+</resources>

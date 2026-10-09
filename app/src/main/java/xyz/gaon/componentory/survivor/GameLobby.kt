@@ -421,7 +421,7 @@ internal fun weaponName(id: WeaponId) =
     )
 
 @Composable
-private fun weaponHint(id: WeaponId) =
+internal fun weaponHint(id: WeaponId) =
     stringResource(
         when (id) {
             WeaponId.BUTTON -> R.string.game_button_hint

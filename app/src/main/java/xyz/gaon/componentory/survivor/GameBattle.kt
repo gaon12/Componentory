@@ -4,22 +4,36 @@ import android.app.Activity
 import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.*
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -70,8 +84,12 @@ internal fun GameBattle(
         onDispose { owner.lifecycle.removeObserver(observer) }
     }
     BackHandler { paused = true }
-    Surface(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }) {
-        BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding()) {
+    Box(
+        Modifier.fillMaxSize().background(GameColors.Night).semantics {
+            testTagsAsResourceId = true
+        }
+    ) {
+        BoxWithConstraints(Modifier.fillMaxSize()) {
             val landscape = maxWidth > maxHeight
             val playable = landscape && foreground && !paused && !externalPause && choices.isEmpty()
             DisposableEffect(window, playable) {
@@ -110,60 +128,17 @@ internal fun GameBattle(
                 }
                 if (s.outcome != RunOutcome.ACTIVE) onFinished(s)
             }
-            Column(Modifier.fillMaxSize()) {
-                Row(
-                    Modifier.fillMaxWidth().padding(horizontal = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    Text(
-                        stringResource(
-                            R.string.game_health,
-                            s.health.coerceAtLeast(0f).toInt(),
-                            s.maxHealth.toInt(),
-                        )
-                    )
-                    Text(
-                        "%02d:%02d".format(tick / 3600, tick / 60 % 60),
-                        Modifier.testTag("game_time"),
-                    )
-                    Text(stringResource(R.string.game_level, level), Modifier.weight(1f))
-                    TextButton({ paused = true }, Modifier.testTag("game_pause")) {
-                        Text(stringResource(R.string.game_pause))
-                    }
-                }
-                LinearProgressIndicator(
-                    progress = { (s.experience.toFloat() / s.requiredExperience).coerceIn(0f, 1f) },
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).height(4.dp),
-                )
-                Box(Modifier.weight(1f).fillMaxWidth()) {
-                    GameBoard(s, assets, tick, Modifier.fillMaxSize().testTag("game_arena"))
-                    Row(
-                        Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(16.dp),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        GameJoystick(playable) { movement = it }
-                        Button(
-                            { requestSkill = true },
-                            Modifier.heightIn(min = 64.dp).testTag("game_skill"),
-                            enabled = playable && s.skillTicks == 0,
-                        ) {
-                            Text(
-                                if (s.skillTicks == 0)
-                                    skillName(GameCatalog.skill(s.startingWeapon))
-                                else
-                                    stringResource(
-                                        R.string.game_skill_wait,
-                                        (s.skillTicks + 59) / 60,
-                                    )
-                            )
-                        }
-                    }
+            // The arena fills the whole screen; only the HUD keeps clear of cutouts.
+            GameBoard(s, assets, tick, Modifier.fillMaxSize().testTag("game_arena"))
+            Box(Modifier.fillMaxSize().safeDrawingPadding().padding(12.dp)) {
+                GameHud(s, level, tick, onPause = { paused = true })
+                GameJoystick(playable, Modifier.align(Alignment.BottomStart)) { movement = it }
+                GameSkillButton(s, playable, Modifier.align(Alignment.BottomEnd)) {
+                    requestSkill = true
                 }
             }
             if (choices.isNotEmpty() && !paused && landscape) {
-                GameUpgradePanel(s, assets, choices, onPause = { paused = true }) { choice ->
+                GameUpgradePanel(s, assets, choices) { choice ->
                     if (GameGrowth.choose(s, choice)) {
                         choices = s.choices.toList()
                         level = s.level
@@ -172,57 +147,210 @@ internal fun GameBattle(
                 }
             }
             if (paused || !landscape) {
-                AlertDialog(
-                    onDismissRequest = { if (landscape && foreground) paused = false },
-                    title = {
+                // An in-window menu instead of a dialog window keeps fullscreen and test
+                // lookups on the game window across background and foreground changes.
+                GameScrim {
+                    GamePanel(
+                        Modifier.widthIn(max = 560.dp).fillMaxWidth(0.85f),
+                        accent = GameColors.Sky,
+                    ) {
                         Text(
                             stringResource(
-                                if (landscape) R.string.game_paused else R.string.game_rotate
-                            )
+                                    if (landscape) R.string.game_paused else R.string.game_rotate
+                                )
+                                .uppercase(),
+                            style = GameHeadingStyle.copy(fontSize = 30.sp, letterSpacing = 4.sp),
                         )
-                    },
-                    text = {
                         Column(
-                            Modifier.verticalScroll(rememberScrollState()),
+                            Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
-                            Text(stringResource(R.string.game_pause_help))
+                            Text(stringResource(R.string.game_pause_help), style = GameSmallStyle)
                             GameEquipmentSummary(s, assets)
                         }
-                    },
-                    confirmButton = {
-                        TextButton(
-                            { paused = false },
-                            Modifier.testTag("game_resume"),
-                            enabled = landscape && foreground,
-                        ) {
-                            Text(stringResource(R.string.game_resume))
+                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            GameButton(
+                                stringResource(R.string.game_resume),
+                                { paused = false },
+                                Modifier.weight(1f).testTag("game_resume"),
+                                enabled = landscape && foreground,
+                            )
+                            GameButton(
+                                stringResource(R.string.game_abandon),
+                                {
+                                    s.outcome = RunOutcome.ABANDONED
+                                    onFinished(s)
+                                },
+                                Modifier.weight(1f).testTag("game_abandon"),
+                                kind = GameButtonKind.DANGER,
+                            )
                         }
-                    },
-                    dismissButton = {
-                        TextButton(
-                            {
-                                s.outcome = RunOutcome.ABANDONED
-                                onFinished(s)
-                            },
-                            Modifier.testTag("game_abandon"),
-                        ) {
-                            Text(stringResource(R.string.game_abandon))
-                        }
-                    },
-                )
+                    }
+                }
             }
         }
     }
 }
 
+/** Health, experience, time, kills, and the boss bar, drawn over the arena. */
 @Composable
-private fun GameJoystick(enabled: Boolean, onMove: (Offset) -> Unit) {
+private fun BoxScope.GameHud(s: GameSession, level: Int, tick: Int, onPause: () -> Unit) {
+    val levelLabel = stringResource(R.string.game_level, level)
+    val pauseLabel = stringResource(R.string.game_pause)
+    Row(Modifier.align(Alignment.TopStart).fillMaxWidth(), verticalAlignment = Alignment.Top) {
+        Row(
+            Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Box(
+                Modifier.size(44.dp)
+                    .clip(CircleShape)
+                    .background(GameColors.Night)
+                    .border(2.dp, GameColors.Android, CircleShape)
+                    .semantics { contentDescription = levelLabel },
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    level.toString(),
+                    color = GameColors.Android,
+                    fontWeight = FontWeight.Black,
+                    fontSize = 18.sp,
+                )
+            }
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                GameBar(
+                    s.health.coerceAtLeast(0f) / s.maxHealth,
+                    GameColors.Danger,
+                    Modifier.width(180.dp).height(18.dp),
+                    stringResource(
+                        R.string.game_health,
+                        s.health.coerceAtLeast(0f).toInt(),
+                        s.maxHealth.toInt(),
+                    ),
+                )
+                GameBar(
+                    s.experience.toFloat() / s.requiredExperience,
+                    GameColors.Sky,
+                    Modifier.width(180.dp).height(8.dp),
+                )
+            }
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                "%02d:%02d".format(tick / 3600, tick / 60 % 60),
+                Modifier.clip(RoundedCornerShape(12.dp))
+                    .background(Color(0x88000000))
+                    .padding(horizontal = 14.dp, vertical = 4.dp)
+                    .testTag("game_time"),
+                color = GameColors.Text,
+                fontWeight = FontWeight.Black,
+                fontSize = 24.sp,
+                fontFamily = FontFamily.Monospace,
+            )
+            val boss = s.enemies.firstOrNull { it.kind == EnemyKind.BOSS }
+            if (boss != null)
+                GameBar(
+                    boss.health / boss.maxHealth,
+                    GameColors.Danger,
+                    Modifier.padding(top = 6.dp).width(260.dp).height(12.dp),
+                )
+        }
+        Row(
+            Modifier.weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.End),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(
+                Modifier.clip(RoundedCornerShape(12.dp))
+                    .background(Color(0x88000000))
+                    .padding(horizontal = 10.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                Box(Modifier.size(10.dp).clip(CircleShape).background(GameColors.Danger))
+                Text(
+                    (s.regularKills + s.eliteKills + s.bossKills).toString(),
+                    color = GameColors.Text,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            Box(
+                Modifier.size(44.dp)
+                    .clip(CircleShape)
+                    .background(Color(0x88000000))
+                    .border(2.dp, Color(0x55ffffff), CircleShape)
+                    .clickable(role = Role.Button, onClick = onPause)
+                    .semantics { contentDescription = pauseLabel }
+                    .testTag("game_pause"),
+                contentAlignment = Alignment.Center,
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                    repeat(2) {
+                        Box(
+                            Modifier.size(width = 5.dp, height = 16.dp)
+                                .clip(RoundedCornerShape(2.dp))
+                                .background(GameColors.Text)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** A round skill key whose ring fills back up during the twenty-second cooldown. */
+@Composable
+private fun GameSkillButton(
+    s: GameSession,
+    playable: Boolean,
+    modifier: Modifier,
+    onSkill: () -> Unit,
+) {
+    val ready = s.skillTicks == 0
+    val cooldown = s.skillTicks / (20f * GameEngine.TICKS_PER_SECOND)
+    Box(
+        modifier
+            .size(96.dp)
+            .clip(CircleShape)
+            .background(if (ready) GameColors.Android.copy(alpha = 0.9f) else Color(0xaa16223a))
+            .clickable(enabled = playable && ready, role = Role.Button, onClick = onSkill)
+            .drawWithContent {
+                drawContent()
+                val stroke = 5.dp.toPx()
+                drawArc(
+                    if (ready) Color.White.copy(alpha = 0.7f) else GameColors.Android,
+                    -90f,
+                    360f * (1f - cooldown),
+                    false,
+                    Offset(stroke / 2, stroke / 2),
+                    Size(size.width - stroke, size.height - stroke),
+                    style = Stroke(stroke, cap = StrokeCap.Round),
+                )
+            }
+            .testTag("game_skill"),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            if (ready) skillName(GameCatalog.skill(s.startingWeapon))
+            else stringResource(R.string.game_skill_wait, (s.skillTicks + 59) / 60),
+            Modifier.padding(8.dp),
+            color = if (ready) GameColors.Night else GameColors.Text,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = if (ready) 16.sp else 12.sp,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun GameJoystick(enabled: Boolean, modifier: Modifier, onMove: (Offset) -> Unit) {
     val description = stringResource(R.string.game_move)
     var knob by remember { mutableStateOf(Offset.Zero) }
     val latestMove by rememberUpdatedState(onMove)
     Canvas(
-        Modifier.size(112.dp)
+        modifier
+            .size(128.dp)
             .testTag("game_move")
             .semantics { contentDescription = description }
             .pointerInput(enabled) {
@@ -256,8 +384,17 @@ private fun GameJoystick(enabled: Boolean, onMove: (Offset) -> Unit) {
                 }
             }
     ) {
-        drawCircle(Color(0x773c526a))
-        drawCircle(Color(0xccbed2e8), size.width * 0.18f, center + knob)
+        drawCircle(Color(0x66000000))
+        drawCircle(Color(0x553ddc84), style = Stroke(3.dp.toPx()))
+        drawCircle(Color(0x223ddc84), size.width * 0.35f)
+        drawCircle(Color(0x66000000), size.width * 0.2f, center + knob + Offset(0f, 3.dp.toPx()))
+        drawCircle(Color(0xffdfe8f5), size.width * 0.19f, center + knob)
+        drawCircle(
+            GameColors.Android,
+            size.width * 0.19f,
+            center + knob,
+            style = Stroke(3.dp.toPx()),
+        )
     }
 }
 
