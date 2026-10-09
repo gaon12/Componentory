@@ -119,6 +119,29 @@ One emulator result is still open:
 - `GamePerformanceTest` cannot measure frame time on a software renderer. The
   moving case reported a 261 ms P95, and the frozen case drew no frames.
 
+### Physical device runs for the presentation checkpoint
+
+The game and Easter egg device classes, 27 tests, then ran on both physical
+devices with the code from `fd5f930` and `0bfba41`:
+
+- Tablet SM-X800, run `20261009T083859330Z-e36c71a9`: 25 passed. Frame time
+  P95 was 25.0 ms for the moving crowd and 23.4 ms for the crowded artwork,
+  below the 50 ms limit but slower than one 60 Hz frame.
+- Phone SM-S731N, run `20261009T083856015Z-ba66cefe`: the first 20 passed,
+  including both performance cases at 16.1 ms and 16.3 ms P95. The run then
+  hung and was stopped.
+
+The two tablet failures and the phone hang came from the Easter egg tests,
+not the game. After the game closed, the tests checked Settings before its
+window was back. On the phone, the two rotations also recreated MainActivity
+several times in a row, and Compose test idling waited forever on a root that
+never attached. A screenshot showed the app itself on the right Settings
+screen. Commit `29c950e` makes those tests wait for Settings and open the
+game in its own orientation. Afterwards, ten repeated phone runs of both
+Easter egg classes passed, 80 tests in all. The full 27-test runs on both
+devices were started again but were stopped by the host for low memory, so
+they have no results yet.
+
 The new arena and HUD therefore need fresh physical phone and tablet runs
 before they are called verified for frame time or interaction.
 
