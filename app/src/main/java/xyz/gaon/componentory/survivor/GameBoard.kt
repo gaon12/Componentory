@@ -1,6 +1,9 @@
 package xyz.gaon.componentory.survivor
 
+import android.graphics.Bitmap
+import android.graphics.BitmapShader
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RadialGradient
 import android.graphics.RectF
@@ -13,7 +16,6 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.core.graphics.withRotation
-import androidx.core.graphics.withScale
 import kotlin.math.floor
 import kotlin.math.min
 
@@ -44,7 +46,9 @@ private class BoardPainter(private val assets: GameAssets) {
     private val rect = RectF()
     private var spriteAlpha = 255
 
-    // Unit glows are drawn at radius 100 and scaled, so one shader serves every size.
+    // Glows are small prerendered bitmaps stretched to each size. Unlike a gradient circle in a
+    // scaled save layer, repeated bitmap draws need no save and restore and batch on the GPU.
+    private val glowPaint = Paint(Paint.FILTER_BITMAP_FLAG)
     private val greenGlow = glow(0x663ddc84.toInt())
     private val goldGlow = glow(0x77ffc94d.toInt())
     private val redGlow = glow(0x88ff5d6c.toInt())
@@ -54,6 +58,28 @@ private class BoardPainter(private val assets: GameAssets) {
     private var hurtEdge: RadialGradient? = null
     private var vignetteWidth = 0f
     private var vignetteHeight = 0f
+
+    // The checker floor is one rectangle with a 2x2 pixel shader scaled to 100 units per cell.
+    // Drawing each cell separately cost about 70 draw calls a frame.
+    private val checker =
+        Paint().apply {
+            shader =
+                BitmapShader(
+                        Bitmap.createBitmap(
+                            intArrayOf(LIGHT_CELL, DARK_CELL, DARK_CELL, LIGHT_CELL),
+                            2,
+                            2,
+                            Bitmap.Config.ARGB_8888,
+                        ),
+                        Shader.TileMode.REPEAT,
+                        Shader.TileMode.REPEAT,
+                    )
+                    .apply { setLocalMatrix(Matrix().apply { setScale(CELL, CELL) }) }
+        }
+    // Grid lines change only with the canvas size, so they are built once and drawn in one call.
+    private var gridLines = FloatArray(0)
+    private var gridWidth = 0f
+    private var gridHeight = 0f
 
     fun draw(canvas: Canvas, s: GameSession, tick: Int, width: Float, height: Float) {
         canvas.save()
@@ -65,12 +91,18 @@ private class BoardPainter(private val assets: GameAssets) {
         canvas.save()
         canvas.translate(left, top)
         canvas.scale(scale, scale)
-        floor(canvas, -left / scale, -top / scale, (width - left) / scale, (height - top) / scale)
+        if (gridWidth != width || gridHeight != height) {
+            gridLines =
+                grid(-left / scale, -top / scale, (width - left) / scale, (height - top) / scale)
+            gridWidth = width
+            gridHeight = height
+        }
+        floor(canvas)
         for (drop in s.drops) {
             glow(canvas, beanGlow, drop.x, drop.y, 26f)
             sprite(canvas, "jellybean", drop.x, drop.y, 26f, tick * 2f + drop.x)
         }
-        for (enemy in s.enemies) enemy(canvas, enemy, tick)
+        enemies(canvas, s.enemies, tick)
         for (shot in s.shots) {
             if (shot.delay > 0) continue
             if (shot.hostile) {
@@ -93,34 +125,12 @@ private class BoardPainter(private val assets: GameAssets) {
         canvas.restore()
     }
 
-    /** A two-tone tiled floor that continues past the arena, with a bright arena edge. */
-    private fun floor(canvas: Canvas, x0: Float, y0: Float, x1: Float, y1: Float) {
-        val cell = 100f
-        // Outside the arena stays the cleared background. Inside, one base rectangle plus
-        // every other cell gives the checker pattern with about 70 draw calls.
-        fill.color = 0xff0f1826.toInt()
-        canvas.drawRect(0f, 0f, GameEngine.WIDTH, GameEngine.HEIGHT, fill)
-        fill.color = 0xff111b2b.toInt()
-        for (row in 0 until (GameEngine.HEIGHT / cell).toInt()) for (column in
-            row % 2 until (GameEngine.WIDTH / cell).toInt() step 2) canvas.drawRect(
-            column * cell,
-            row * cell,
-            (column + 1) * cell,
-            (row + 1) * cell,
-            fill,
-        )
+    /** A two-tone tiled floor with grid lines that continue past the arena, and a bright edge. */
+    private fun floor(canvas: Canvas) {
+        canvas.drawRect(0f, 0f, GameEngine.WIDTH, GameEngine.HEIGHT, checker)
         line.color = 0x14ffffff
         line.strokeWidth = 1.5f
-        var x = floor(x0 / cell) * cell
-        while (x < x1) {
-            canvas.drawLine(x, y0, x, y1, line)
-            x += cell
-        }
-        var y = floor(y0 / cell) * cell
-        while (y < y1) {
-            canvas.drawLine(x0, y, x1, y, line)
-            y += cell
-        }
+        canvas.drawLines(gridLines, line)
         line.color = 0x553ddc84
         line.strokeWidth = 6f
         canvas.drawRect(0f, 0f, GameEngine.WIDTH, GameEngine.HEIGHT, line)
@@ -129,23 +139,29 @@ private class BoardPainter(private val assets: GameAssets) {
         canvas.drawRect(0f, 0f, GameEngine.WIDTH, GameEngine.HEIGHT, line)
     }
 
-    private fun enemy(canvas: Canvas, enemy: GameEnemy, tick: Int) {
-        val size =
-            when (enemy.kind) {
-                EnemyKind.NORMAL -> 52f
-                EnemyKind.ELITE -> 76f
-                EnemyKind.BOSS -> 128f
-            }
-        shadow(canvas, enemy.x, enemy.y + size * 0.42f, size * 0.36f)
-        when (enemy.kind) {
-            EnemyKind.ELITE -> glow(canvas, goldGlow, enemy.x, enemy.y, size * 0.75f)
-            EnemyKind.BOSS ->
-                glow(canvas, redGlow, enemy.x, enemy.y, size * (0.8f + (tick % 60) / 300f))
-            EnemyKind.NORMAL -> Unit
+    /**
+     * Draws enemies in layers: all shadows, then auras, sprites, and health bars. Keeping each kind
+     * of draw together lets the GPU merge them, which matters with 150 enemies on screen.
+     */
+    private fun enemies(canvas: Canvas, enemies: List<GameEnemy>, tick: Int) {
+        for (enemy in enemies) {
+            val size = size(enemy)
+            shadow(canvas, enemy.x, enemy.y + size * 0.42f, size * 0.36f)
         }
-        sprite(canvas, enemy.source.art, enemy.x, enemy.y, size)
-        val fraction = (enemy.health / enemy.maxHealth).coerceIn(0f, 1f)
-        if (enemy.kind == EnemyKind.BOSS || fraction < 1f) {
+        for (enemy in enemies) {
+            val size = size(enemy)
+            when (enemy.kind) {
+                EnemyKind.ELITE -> glow(canvas, goldGlow, enemy.x, enemy.y, size * 0.75f)
+                EnemyKind.BOSS ->
+                    glow(canvas, redGlow, enemy.x, enemy.y, size * (0.8f + (tick % 60) / 300f))
+                EnemyKind.NORMAL -> Unit
+            }
+        }
+        for (enemy in enemies) sprite(canvas, enemy.source.art, enemy.x, enemy.y, size(enemy))
+        for (enemy in enemies) {
+            val size = size(enemy)
+            val fraction = (enemy.health / enemy.maxHealth).coerceIn(0f, 1f)
+            if (enemy.kind != EnemyKind.BOSS && fraction >= 1f) continue
             val top = enemy.y - size / 2 - 12
             fill.color = 0xaa000000.toInt()
             rect.set(enemy.x - size / 2, top, enemy.x + size / 2, top + 7)
@@ -161,6 +177,13 @@ private class BoardPainter(private val assets: GameAssets) {
             canvas.drawRoundRect(rect, 3f, 3f, fill)
         }
     }
+
+    private fun size(enemy: GameEnemy) =
+        when (enemy.kind) {
+            EnemyKind.NORMAL -> 52f
+            EnemyKind.ELITE -> 76f
+            EnemyKind.BOSS -> 128f
+        }
 
     private fun player(canvas: Canvas, s: GameSession, tick: Int) {
         shadow(canvas, s.x, s.y + 32f, 28f)
@@ -209,12 +232,9 @@ private class BoardPainter(private val assets: GameAssets) {
         canvas.drawOval(rect, fill)
     }
 
-    private fun glow(canvas: Canvas, shader: RadialGradient, x: Float, y: Float, radius: Float) {
-        canvas.withScale(radius / 100f, radius / 100f, x, y) {
-            fill.shader = shader
-            drawCircle(x, y, 100f, fill)
-            fill.shader = null
-        }
+    private fun glow(canvas: Canvas, glow: Bitmap, x: Float, y: Float, radius: Float) {
+        rect.set(x - radius, y - radius, x + radius, y + radius)
+        canvas.drawBitmap(glow, null, rect, glowPaint)
     }
 
     private fun sprite(
@@ -225,14 +245,37 @@ private class BoardPainter(private val assets: GameAssets) {
         size: Float,
         rotation: Float = 0f,
     ) {
-        canvas.withRotation(rotation, x, y) {
-            rect.set(x - size / 2, y - size / 2, x + size / 2, y + size / 2)
-            paint.color = (spriteAlpha shl 24) or 0xffffff
-            drawBitmap(assets.bitmap(key), null, rect, paint)
-        }
+        rect.set(x - size / 2, y - size / 2, x + size / 2, y + size / 2)
+        paint.color = (spriteAlpha shl 24) or 0xffffff
+        // Most sprites are upright; skipping the save and restore keeps the frame shorter.
+        if (rotation == 0f) canvas.drawBitmap(assets.bitmap(key), null, rect, paint)
+        else
+            canvas.withRotation(rotation, x, y) {
+                drawBitmap(assets.bitmap(key), null, rect, paint)
+            }
     }
 
     private companion object {
+        const val CELL = 100f
+        const val LIGHT_CELL = 0xff111b2b.toInt()
+        const val DARK_CELL = 0xff0f1826.toInt()
+
+        /** Grid lines on every cell edge across the visible area, as drawLines pairs. */
+        fun grid(x0: Float, y0: Float, x1: Float, y1: Float): FloatArray {
+            val lines = ArrayList<Float>()
+            var x = floor(x0 / CELL) * CELL
+            while (x < x1) {
+                lines += listOf(x, y0, x, y1)
+                x += CELL
+            }
+            var y = floor(y0 / CELL) * CELL
+            while (y < y1) {
+                lines += listOf(x0, y, x1, y)
+                y += CELL
+            }
+            return lines.toFloatArray()
+        }
+
         fun edge(width: Float, height: Float, radius: Float, color: Int) =
             RadialGradient(
                 width / 2,
@@ -243,14 +286,23 @@ private class BoardPainter(private val assets: GameAssets) {
                 Shader.TileMode.CLAMP,
             )
 
-        fun glow(color: Int) =
-            RadialGradient(
-                0f,
-                0f,
-                100f,
-                intArrayOf(color, color and 0x00ffffff),
-                null,
-                Shader.TileMode.CLAMP,
-            )
+        /** A 64-pixel soft circle that fades from [color] to transparent at its edge. */
+        fun glow(color: Int): Bitmap {
+            val bitmap = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888)
+            val paint =
+                Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    shader =
+                        RadialGradient(
+                            32f,
+                            32f,
+                            32f,
+                            intArrayOf(color, color and 0x00ffffff),
+                            null,
+                            Shader.TileMode.CLAMP,
+                        )
+                }
+            Canvas(bitmap).drawCircle(32f, 32f, 32f, paint)
+            return bitmap
+        }
     }
 }
