@@ -1,5 +1,7 @@
 package xyz.gaon.componentory.eastereggs
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -16,6 +18,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.Density
@@ -34,7 +37,21 @@ class ComponentoryEasterEggScreenTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
     @Before
-    fun keepScreenOn() {
+    fun matchTheGameOrientation() {
+        // The game Activity is landscape. A portrait caller would rotate back when the game
+        // closes and be recreated, which discards the test content set below. The real app
+        // restores its Settings state across that recreation, and
+        // ComponentoryEasterEggNavigationTest covers that path.
+        compose.runOnUiThread {
+            compose.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        }
+        compose.waitUntil(10_000) {
+            runCatching {
+                    compose.activity.resources.configuration.orientation ==
+                        Configuration.ORIENTATION_LANDSCAPE
+                }
+                .getOrDefault(false)
+        }
         compose.runOnUiThread {
             compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
@@ -85,6 +102,11 @@ class ComponentoryEasterEggScreenTest {
     }
 
     private fun assertClosed() {
+        // The result comes back through the caller's Activity lifecycle, which Compose
+        // idling does not track, so wait for the caller instead of checking at once.
+        compose.waitUntil(10_000) {
+            compose.onAllNodesWithTag("egg_caller").fetchSemanticsNodes().isNotEmpty()
+        }
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         compose.onNodeWithTag("egg_caller").assertIsDisplayed()
     }
