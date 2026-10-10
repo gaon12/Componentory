@@ -10,7 +10,7 @@ Latest navigation changes and physical checks are recorded in the
 
 ## Explore and compare
 
-- **Components:** Search 168 UI API entries and 26 version-specific Easter eggs by
+- **Components:** Search 168 UI API entries by
   translated name, Android release, nickname, description, or English
   API name. Filter by category and select an Android version/theme or a Compose
   library version. Unavailable samples explain their API or OS requirements
@@ -27,33 +27,9 @@ Latest navigation changes and physical checks are recorded in the
   and dedicated pages containing the original document text. Replay the first-launch
   introduction from About.
 
-Tap **Settings > App version** seven times to open
-[Android Survivors](docs/survivor-game.md), Componentory's landscape survival
-roguelite. Choose a starting weapon for the Neko player, dodge mixed-source
-enemies, collect experience, and build weapons and support equipment through
-three growth choices and four combination evolutions. Android releases supply
-item, enemy, boss, and effect artwork inside one run; they are not game levels.
-Bosses appear at five, ten, fifteen, and twenty minutes. Local progression,
-explicit checkpoint resume, personal records, and build comparison are available.
-Close the lobby or use Android Back to return to the saved Settings location;
-Back during combat opens the pause menu.
-The third through sixth taps show a native Toast counting down four remaining
-taps to one. Tap speed does not affect the count. See the
-[entry notes](docs/componentory-easter-egg.md) for reset and return behavior.
-
 The settings list also links to the [GitHub repository](https://github.com/gaon12/Componentory)
 and [new issue page](https://github.com/gaon12/Componentory/issues/new) for bug
 reports and improvement requests.
-
-[Easter eggs](docs/easter-eggs.md) retain complete AOSP-derived mini-games and
-hidden screens from Android 2.3 through 17. Release rows stay separate when they
-share a source family; Android 8.1 has its own logo entry. Each row opens a detail
-page with a launch button. Original logo gestures continue into mini-games; one
-Android Back returns to the detail page. Extra tools and previews stay separate.
-Source labels identify code ports on the current OS, with original historical
-captures still unavailable.
-Optional cat tiles, device controls, palette widgets, screen savers, and game
-notifications follow explicit game actions and Android or launcher selection.
 
 Phones use bottom navigation. Wide windows use a navigation rail with the catalog
 beside the selected component. Settings keeps its category list beside the
