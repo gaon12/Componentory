@@ -2,11 +2,13 @@ package xyz.gaon.componentory.lab
 
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
+import android.view.WindowManager
 import android.widget.Button
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -25,6 +27,9 @@ class PlatformComparisonTest {
 
     @Before
     fun waitForTheLabToBeReady() {
+        compose.runOnUiThread {
+            compose.activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
         compose.waitForIdle()
         compose.onNodeWithTag("nav_compare").performClick()
         compose.onNodeWithTag("compare_screen").assertExists()
@@ -46,41 +51,47 @@ class PlatformComparisonTest {
                 assertEquals(expected.resourceId, actual.resourceId)
             }
             compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 0")
-            onView(withId(R.id.sample_left)).perform(click())
+            touchNative("LEFT")
             compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
-            compose.onNodeWithTag("reset").performClick()
+            compose.onNodeWithTag("reset").performScrollTo().performClick()
         }
     }
 
     @Test
     fun panelsAreIndependentAndDisabledButtonsIgnoreTouch() {
-        onView(withId(R.id.sample_left)).perform(click())
+        touchNative("LEFT")
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Clicks: 0")
-        compose.onNodeWithTag("enabled").performClick()
-        onView(withId(R.id.sample_left)).perform(click())
-        onView(withId(R.id.sample_right)).perform(click())
+        compose.onNodeWithTag("enabled").performScrollTo().performClick()
+        touchNative("LEFT")
+        touchNative("RIGHT")
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Clicks: 0")
-        compose.onNodeWithTag("enabled").performClick()
-        onView(withId(R.id.sample_right)).perform(click())
+        compose.onNodeWithTag("enabled").performScrollTo().performClick()
+        touchNative("RIGHT")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Clicks: 1")
-        compose.onNodeWithTag("reset").performClick()
+        compose.onNodeWithTag("reset").performScrollTo().performClick()
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 0")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Clicks: 0")
     }
 
     @Test
     fun changingFamilyStartsANewSampleWithoutResettingTheOtherPanel() {
-        onView(withId(R.id.sample_left)).perform(click())
-        onView(withId(R.id.sample_right)).perform(click())
+        touchNative("LEFT")
+        touchNative("RIGHT")
         chooseFamily("LEFT", PlatformFamily.MATERIAL)
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 0")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Clicks: 1")
     }
 
     private fun chooseFamily(panel: String, family: PlatformFamily) {
-        compose.onNodeWithTag("family_$panel").performClick()
+        compose.onNodeWithTag("family_$panel").performScrollTo().performClick()
         compose.onNodeWithTag("family_${panel}_${family.name}").performClick()
+    }
+
+    private fun touchNative(panel: String) {
+        compose.onNodeWithTag("native_$panel").performScrollTo()
+        onView(withId(if (panel == "LEFT") R.id.sample_left else R.id.sample_right))
+            .perform(click())
     }
 }

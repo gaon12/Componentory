@@ -61,19 +61,20 @@ class LibraryComparisonTest {
             val version =
                 if (family == DesignFamily.MATERIAL2) BuildConfig.MATERIAL2_VERSION
                 else BuildConfig.MATERIAL3_VERSION
+            val theme = if (family == DesignFamily.MATERIAL2) "" else " · MaterialTheme"
             expandDetails("LEFT")
             compose.onNodeWithTag("source_LEFT").assertTextEquals("$packageName.Button")
             compose
                 .onNodeWithTag("implementation_LEFT")
-                .assertTextEquals("$packageName:$artifact:$version · light")
+                .assertTextEquals("$packageName:$artifact:$version · light$theme")
             sample().performScrollTo().performClick()
             status("LEFT", "Clicks: 1")
             status("RIGHT", "Clicks: 0")
-            compose.onNodeWithTag("enabled").performClick()
-            sample().assertIsNotEnabled().performTouchInput { click() }
+            compose.onNodeWithTag("enabled").performScrollTo().performClick()
+            sample().performScrollTo().assertIsNotEnabled().performTouchInput { click() }
             status("LEFT", "Clicks: 1")
-            compose.onNodeWithTag("enabled").performClick()
-            compose.onNodeWithTag("reset").performClick()
+            compose.onNodeWithTag("enabled").performScrollTo().performClick()
+            compose.onNodeWithTag("reset").performScrollTo().performClick()
             status("LEFT", "Clicks: 0")
         }
     }
@@ -83,18 +84,18 @@ class LibraryComparisonTest {
         families.forEach { family ->
             chooseFamily(family)
             chooseComponent(LabComponent.CHECKBOX)
-            sample().performClick().assertIsOn()
+            sample().performScrollTo().performClick().assertIsOn()
             status("LEFT", "Checked")
             status("RIGHT", "Unchecked")
-            compose.onNodeWithTag("enabled").performClick()
-            sample().assertIsNotEnabled().performTouchInput { click() }
+            compose.onNodeWithTag("enabled").performScrollTo().performClick()
+            sample().performScrollTo().assertIsNotEnabled().performTouchInput { click() }
             sample().assertIsOn()
-            compose.onNodeWithTag("enabled").performClick()
+            compose.onNodeWithTag("enabled").performScrollTo().performClick()
             chooseComponent(LabComponent.SWITCH)
-            sample().performClick().assertIsOn()
+            sample().performScrollTo().performClick().assertIsOn()
             status("LEFT", "On")
             chooseComponent(LabComponent.RADIO)
-            compose.onNodeWithTag("library_LEFT_2").performClick()
+            compose.onNodeWithTag("library_LEFT_2").performScrollTo().performClick()
             status("LEFT", "Selected: Option B")
             status("RIGHT", "No selection")
         }
@@ -105,12 +106,14 @@ class LibraryComparisonTest {
         families.forEach { family ->
             chooseFamily(family)
             chooseComponent(LabComponent.TEXT_FIELD)
-            sample().performTextReplacement("Componentory")
+            sample().performScrollTo().performTextReplacement("Componentory")
             closeSoftKeyboard()
             status("LEFT", "Text: Componentory")
             status("RIGHT", "Text: empty")
             chooseComponent(LabComponent.SLIDER)
-            sample().performTouchInput { swipe(center, Offset(width * 0.9f, center.y)) }
+            sample().performScrollTo().performTouchInput {
+                swipe(center, Offset(width * 0.9f, center.y))
+            }
             val progress =
                 sample()
                     .fetchSemanticsNode()
@@ -118,8 +121,8 @@ class LibraryComparisonTest {
                     .current
             assertTrue(progress > 50f)
             status("RIGHT", "Value: 50 / 100")
-            compose.onNodeWithTag("enabled").performClick()
-            sample().assertIsNotEnabled().performTouchInput {
+            compose.onNodeWithTag("enabled").performScrollTo().performClick()
+            sample().performScrollTo().assertIsNotEnabled().performTouchInput {
                 swipe(Offset(width * 0.9f, center.y), center)
             }
             assertEquals(
@@ -130,8 +133,8 @@ class LibraryComparisonTest {
                     .current,
                 0.001f,
             )
-            compose.onNodeWithTag("enabled").performClick()
-            compose.onNodeWithTag("reset").performClick()
+            compose.onNodeWithTag("enabled").performScrollTo().performClick()
+            compose.onNodeWithTag("reset").performScrollTo().performClick()
             status("LEFT", "Value: 50 / 100")
             chooseComponent(LabComponent.PROGRESS)
             compose.onNodeWithTag("increase_LEFT").performScrollTo().performClick()
@@ -152,13 +155,13 @@ class LibraryComparisonTest {
         chooseComponent(LabComponent.DIALOG)
         families.forEach { family ->
             chooseFamily(family)
-            sample().performClick()
+            sample().performScrollTo().performClick()
             compose.onNodeWithTag("dialog_confirm").performClick()
             status("LEFT", "Last action: Confirmed")
-            sample().performClick()
+            sample().performScrollTo().performClick()
             compose.onNodeWithTag("dialog_cancel").performClick()
             status("LEFT", "Last action: Cancelled")
-            sample().performClick()
+            sample().performScrollTo().performClick()
             pressBack()
             status("LEFT", "Last action: Dismissed")
             status("RIGHT", "Last action: Not opened")
@@ -167,18 +170,18 @@ class LibraryComparisonTest {
 
     @Test
     fun frameworkAndLibraryPanelsAcceptTouchWithoutSharingState() {
-        compose.onNodeWithTag("family_RIGHT").performClick()
+        compose.onNodeWithTag("family_RIGHT").performScrollTo().performClick()
         compose.onNodeWithTag("family_RIGHT_MATERIAL3").performClick()
-        onView(withId(R.id.sample_left)).perform(nativeClick())
-        compose.onNodeWithTag("library_RIGHT").performClick()
+        touchNativeLeft()
+        compose.onNodeWithTag("library_RIGHT").performScrollTo().performClick()
         status("LEFT", "Clicks: 1")
         status("RIGHT", "Clicks: 1")
-        compose.onNodeWithTag("enabled").performClick()
-        onView(withId(R.id.sample_left)).perform(nativeClick())
-        compose.onNodeWithTag("library_RIGHT").performTouchInput { click() }
+        compose.onNodeWithTag("enabled").performScrollTo().performClick()
+        touchNativeLeft()
+        compose.onNodeWithTag("library_RIGHT").performScrollTo().performTouchInput { click() }
         status("LEFT", "Clicks: 1")
         status("RIGHT", "Clicks: 1")
-        compose.onNodeWithTag("reset").performClick()
+        compose.onNodeWithTag("reset").performScrollTo().performClick()
         status("LEFT", "Clicks: 0")
         status("RIGHT", "Clicks: 0")
     }
@@ -197,6 +200,11 @@ class LibraryComparisonTest {
     }
 
     private fun sample() = compose.onNodeWithTag("library_LEFT")
+
+    private fun touchNativeLeft() {
+        compose.onNodeWithTag("native_LEFT").performScrollTo()
+        onView(withId(R.id.sample_left)).perform(nativeClick())
+    }
 
     private fun status(panel: String, text: String) {
         compose.onNodeWithTag("status_$panel").assertTextEquals(text)
