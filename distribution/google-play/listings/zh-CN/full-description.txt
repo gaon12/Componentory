@@ -8,7 +8,7 @@ Componentory 是用于动手学习 Android UI 的应用。搜索包含按钮、�
 
 提供适合手机和宽屏的布局、浅色和深色主题以及首次启动引导。支持韩语、英语、日语、简体中文和繁体中文。许可证及英语隐私政策可离线阅读。
 
-学习无需账号，没有广告。可选在线游戏排名使用Google游戏资料和SDK诊断。设置和比较记录保存在本机。部分组件需要较新的 Android；不支持的组合会说明原因。Android 11 及以上提供可选键盘与自动填充演示，使用固定的虚构值。
+学习无需账号，没有广告。设置和比较记录保存在本机。部分组件需要较新的 Android；不支持的组合会说明原因。Android 11 及以上提供可选键盘与自动填充演示，使用固定的虚构值。
 
 源码：https://github.com/gaon12/Componentory
 问题与建议：https://github.com/gaon12/Componentory/issues/new

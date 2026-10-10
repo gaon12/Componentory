@@ -11,6 +11,12 @@ Upload-ready copy is in
 The five locales are `ko-KR`, `en-US`, `ja-JP`, `zh-CN`, and `zh-TW`; the proposed
 default is Korean. Use the plain text files without adding Markdown fences.
 
+Keep the listing and primary screenshots focused on Components, Compare,
+Version history, and Settings. Hidden features should remain a discovery in the
+app. Keep their captures in internal QA evidence. Privacy disclosures, reviewer
+access instructions, and content-rating answers must still cover the actual
+features in the release build.
+
 | Field or image | Required specification | Prepared material |
 | --- | --- | --- |
 | App name | Up to 30 characters | `Componentory` in each locale |
