@@ -807,8 +807,8 @@
     <string name="componentory_egg_title">Easter egg</string>
     <string name="componentory_egg_welcome">You found the secret lab.</string>
     <plurals name="componentory_egg_countdown">
-        <item quantity="one">%1$d more tap to open the Easter egg.</item>
-        <item quantity="other">%1$d more taps to open the Easter egg.</item>
+        <item quantity="one">%1$d more tap…</item>
+        <item quantity="other">%1$d more taps…</item>
     </plurals>
     <string name="source_notices_search_hint">Search licenses</string>
     <string name="source_notices_empty">No licenses match your search.</string>

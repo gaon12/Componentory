@@ -804,7 +804,7 @@
     <string name="componentory_egg_title">イースターエッグ</string>
     <string name="componentory_egg_welcome">秘密の実験室を見つけました。</string>
     <plurals name="componentory_egg_countdown">
-        <item quantity="other">あと%1$d回タップするとイースターエッグが開きます。</item>
+        <item quantity="other">あと%1$d回…</item>
     </plurals>
     <string name="source_notices_search_hint">ライセンスを検索</string>
     <string name="source_notices_empty">検索に一致するライセンスがありません。</string>

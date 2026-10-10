@@ -37,9 +37,7 @@ class ComponentoryEasterEggToastTest {
         tapVersion(2)
         compose.onNodeWithTag("componentory_easter_egg").assertDoesNotExist()
         for (remaining in 4 downTo 1) {
-            val expected =
-                if (remaining == 1) "1 more tap to open the Easter egg."
-                else "$remaining more taps to open the Easter egg."
+            val expected = if (remaining == 1) "1 more tap…" else "$remaining more taps…"
             val event =
                 automation.executeAndWaitForEvent(
                     { tapVersion(1) },
