@@ -7,6 +7,8 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 
 Latest navigation changes and physical checks are recorded in the
 [navigation verification report](docs/verification-navigation-2026-10-08.md).
+The [October 10 device audit](docs/verification-release-readiness-2026-10-10.md)
+records current screenshots, test failures, coverage gaps, and release preparation.
 
 ## Explore and compare
 
