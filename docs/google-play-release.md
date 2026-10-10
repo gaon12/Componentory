@@ -1,7 +1,7 @@
 # Google Play release preparation
 
-Requirements were checked against Google's official documentation on October 8,
-2026. Console requirements depend on the selected developer account and can change.
+Requirements were checked against Google's official documentation on October 8
+and 10, 2026. Console requirements depend on the selected developer account and can change.
 Recheck the linked sources before each submission.
 
 ## Store assets and text
@@ -25,7 +25,7 @@ features in the release build.
 | Release notes | Up to 500 characters per language | `release-notes.txt` |
 | Store icon | 512 x 512, 32-bit PNG, at most 1,024 KB | `assets/icon.png` |
 | Feature graphic | 1024 x 500, JPEG or 24-bit PNG without alpha | Five localized `assets/feature-*.png` files |
-| Screenshots | At least two; JPEG or 24-bit PNG without alpha; each side 320–3840 px, longest no more than twice shortest | Genuine phone captures in `screenshots/` |
+| Screenshots | At least two; JPEG or 24-bit PNG without alpha; each side 320–3840 px, longest no more than twice shortest | Actual phone captures in `screenshots/` and tablet captures in `tablet-screenshots/` |
 
 For recommendation eligibility, Google requests at least four app screenshots
 at 1080 x 1920 portrait or 1920 x 1080 landscape. Up to eight can be uploaded per
@@ -48,10 +48,17 @@ There are four Korean and four English phone captures at 1080 x 1920. The real
 phone's physical screen is 1080 x 2340, so capture used a temporary display-size
 override; density and font scale were unchanged. Images were encoded as RGB
 without cropping or stretching. This Samsung build ignored SystemUI demo
-broadcasts and retains its real status bar. App preferences, language, display
-override, and demo settings were restored. No tablet captures are supplied: the
-connected tablet was locked. Other listing locales can initially use the English
+broadcasts and retains its real status bar. Four Korean tablet captures use the
+tablet's native 2800 x 1752 landscape display. Their aspect ratio meets the general
+image limits but is not the recommended 16:9 presentation ratio. App preferences,
+language, display overrides, rotation, timeouts, and animations were restored.
+Other listing locales can initially use the English
 phone images; they are not localized Japanese or Chinese UI evidence.
+
+All 12 captures use the verified 1.1.0 release payload generated from the AAB,
+re-signed with the existing debug certificate to preserve device data. This is
+not Play delivery. The [release verification report](verification-release-1.1.0-2026-10-10.md)
+and both capture manifests record source, device settings, and artifact hashes.
 
 Regenerate artwork with Python, Pillow 12.2.0, and resvg-py 0.5.0:
 
@@ -72,23 +79,24 @@ signing keys, passwords, and machine-specific recovery files remain outside Git.
 | Package | `xyz.gaon.componentory`; cannot be changed for updates |
 | App type | App |
 | Category | Education, proposed because the app teaches UI components |
-| Price | Free, proposed; no billing or paid functionality in this build |
+| Price | Free; selected when the Console draft app was created |
 | Advertising | No advertising SDK or advertising ID permission |
 | App access | Learning, normal play, and local records need no account; configured online rankings use a Google game profile |
 | Website | `https://gaon12.github.io/Componentory/` |
 | Privacy policy | `https://gaon12.github.io/Componentory/privacy.html` |
-| Support | Required public email must come from the publisher; do not invent it |
+| Support | `gokirito12@gmail.com`, confirmed by the publisher |
 | Feedback | `https://github.com/gaon12/Componentory/issues/new` |
-| Content rating | Complete the IARC questionnaire; use the assigned rating |
-| Audience | Propose ages 13+ for a developer learning tool; publisher must confirm actual intended audience |
+| Content rating | IARC completed on October 10, 2026; Korea 3+, PEGI 3, USK 6+, ESRB Everyone |
+| Audience | All age groups, confirmed by the publisher; Console audience selection pending |
+| Countries | All Google Play-supported countries, confirmed by the publisher; Console selection pending |
 | Account deletion | No app account creation; account-deletion requirement does not apply |
 | Government, finance, health | The app supplies none of these services |
 
 Do not claim an IARC result before the Console assigns it. Saved local sample
 inputs are not a social network or an in-app user-content feed. Links to public
 GitHub issues use an external browser. Keep sensitive data out of issue reports.
-Select distribution countries and confirm developer contact/identity details in
-the actual account. Personal addresses and verification documents must never be
+Apply the confirmed countries and support contact in the actual account.
+Personal addresses and verification documents must never be
 committed to this repository.
 
 Reviewers can browse Components, open a supported sample, compare two designs,
@@ -105,9 +113,12 @@ games and hidden screens. Easter eggs have normal detail pages and original
 logo-to-game gestures; Back returns to the app. Main-tab reselection resets the
 selected tab to its default screen. The earlier signed APK/AAB, listing ZIP, and
 screenshots remain artifacts of the published 1.0.0 source; they do not show or validate these later changes.
-Before a new Play submission, increase the release version code, build and verify
-new signed artifacts, update listing copy, and capture the changed UI on an
-unlocked device. Do not overwrite the older release evidence with newer claims.
+Version 1.1.0, code 3, has now been built and signed with the existing certificate.
+Formatting, Debug/Release lint, 218 app JVM tests, and 108 release-payload UI tests
+on each physical device passed. Current store text and 12 screenshots were
+validated. The [verification report](verification-release-1.1.0-2026-10-10.md)
+records the exact artifacts and remaining coverage gaps. Older release evidence
+continues to describe only its own source and artifacts.
 
 Optional cat controls, quick settings, widgets, screen savers, notification
 permission, and legacy generated-image storage access now need to be considered
@@ -116,7 +127,7 @@ contains cartoon zombies and several entries include mini-games; reassess the
 actual IARC content answers and intended audience when submitting the new build.
 Follow the [content rating requirements](https://support.google.com/googleplay/android-developer/answer/9859655?hl=en)
 and update the questionnaire when new content changes its answers.
-No new IARC result or Play publication is asserted by this development update.
+IARC is complete for this draft app. It does not establish Play publication.
 
 ## Privacy and Data safety
 
@@ -133,8 +144,10 @@ manual connection is available, and automatic profile creation is suppressed.
 Scores, gamer identity, and Google SDK diagnostics/analytics must be assessed
 under [PGS data disclosure](https://developer.android.com/games/pgs/data-collection).
 The previous offline-only "no data collected" preparation does not cover a
-PGS-enabled release. Complete Data safety for the actual artifact and configuration;
-these notes are not submitted Console declarations.
+PGS-enabled release. Version 1.1.0 uses project ID `0` and empty leaderboard and
+ruleset IDs, so the guarded initializer and automatic SDK provider are disabled.
+The prepared no-collection/no-sharing answers apply to this unconfigured artifact.
+Complete Data safety in Console; these notes are not submitted declarations.
 
 There is no advertising SDK or developer server. Comparison inputs and technical
 context, detailed survivor builds, wallets, and combat checkpoints stay private
@@ -179,7 +192,8 @@ Source: [Play App Signing](https://support.google.com/googleplay/android-develop
 
 ## Signed build
 
-The first prepared release is version `1.0.0`, code `2`. Release tasks require
+The current prepared release is version `1.1.0`, code `3`; the older published
+GitHub release is `1.0.0`, code `2`. Release tasks require
 all four environment variables and reject an unsigned configuration:
 
 - `COMPONENTORY_KEYSTORE_FILE`: private keystore path, resolved from the repository root if relative.
@@ -264,8 +278,11 @@ upload-signed APK/AAB, `Componentory-1.0.0-store-materials.zip`, and
 `SHA256SUMS.txt`. Server-reported SHA-256 digests match every local upload.
 The project website and canonical privacy page are also live.
 
-Google Play remains unsubmitted. The publisher must sign in, provide the public
-support email, confirm any existing package/signing identity, and complete the
-account's content and track requirements. Prepared declarations are not submitted
-answers. The downloadable archive preserves the requirements and verification
+The authenticated Google Play draft exists. Privacy policy, no advertising,
+unrestricted app access, and IARC are saved. The support email, all-age audience,
+and all supported countries are confirmed by the publisher. Remaining content
+declarations, listing, signing, AAB upload, and track submission are pending.
+See [app-content.json](../distribution/google-play/app-content.json) for the
+recorded Console state. Prepared answers are not submitted declarations.
+The downloadable archive preserves the requirements and verification
 state when the release was created; consult this guide for later status updates.

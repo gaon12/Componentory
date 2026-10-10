@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED_NOT_SUBMITTED",
+  "status": "DRAFT_APP_CREATED_NOT_SUBMITTED",
   "packageName": "xyz.gaon.componentory",
   "defaultLanguage": "ko-KR",
   "appName": "Componentory",
@@ -17,9 +17,17 @@
   "privacyPolicyUrl": "https://gaon12.github.io/Componentory/privacy.html",
   "websiteUrl": "https://gaon12.github.io/Componentory/",
   "feedbackUrl": "https://github.com/gaon12/Componentory/issues/new",
-  "supportEmail": null,
-  "intendedAudience": "Publisher confirmation required; proposed ages 13+",
-  "contentRating": "Not assigned; complete IARC in Console",
-  "distributionCountries": "Publisher confirmation required",
-  "playTrackStatus": "No authenticated Console session"
+  "supportEmail": "gokirito12@gmail.com",
+  "intendedAudience": "All age groups, confirmed by publisher; Console audience selection pending",
+  "contentRating": "IARC completed on 2026-10-10; Korea 3+, PEGI 3, USK 6+, ESRB Everyone",
+  "distributionCountries": "All Google Play-supported countries, confirmed by publisher; Console country selection pending",
+  "playTrackStatus": "Authenticated draft app created; no AAB uploaded and no review submitted",
+  "releaseVersionName": "1.1.0",
+  "releaseVersionCode": 3,
+  "consoleSavedDeclarations": {
+    "privacyPolicy": true,
+    "containsAds": false,
+    "appAccess": "No restrictions",
+    "contentRating": true
+  }
 }
