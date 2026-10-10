@@ -1,1 +1,1 @@
-Explore 168 UI entries and seven design choices. Includes source history, saved comparisons, an introduction, and an offline privacy policy. Date and time pickers adapt to narrow panels.
+Icon style and auto-mirroring filters remain available on short screens and while the keyboard is open. Verified comparison input, state retention, reset, and disabled controls on a phone and tablet.
