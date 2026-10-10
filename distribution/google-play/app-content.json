@@ -18,7 +18,7 @@
   "websiteUrl": "https://gaon12.github.io/Componentory/",
   "feedbackUrl": "https://github.com/gaon12/Componentory/issues/new",
   "supportEmail": "gokirito12@gmail.com",
-  "intendedAudience": "All age groups, confirmed by publisher; Console audience selection pending",
+  "intendedAudience": "All six age groups, confirmed by publisher and saved in Console; Teacher Approved program declined",
   "contentRating": "IARC completed on 2026-10-10; Korea 3+, PEGI 3, USK 6+, ESRB Everyone",
   "distributionCountries": "All Google Play-supported countries, confirmed by publisher; Console country selection pending",
   "playTrackStatus": "Authenticated draft app created; no AAB uploaded and no review submitted",
@@ -28,6 +28,15 @@
     "privacyPolicy": true,
     "containsAds": false,
     "appAccess": "No restrictions",
-    "contentRating": true
+    "contentRating": true,
+    "targetAudience": "All six age groups",
+    "dataSafety": "No data collection or sharing in the unconfigured release",
+    "advertisingId": false,
+    "governmentApp": false,
+    "financialFeatures": false,
+    "healthFeatures": false,
+    "storeCategory": "EDUCATION",
+    "storeContactEmail": "gokirito12@gmail.com",
+    "storeWebsite": "https://gaon12.github.io/Componentory/"
   }
 }

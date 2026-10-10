@@ -78,16 +78,16 @@ signing keys, passwords, and machine-specific recovery files remain outside Git.
 | --- | --- |
 | Package | `xyz.gaon.componentory`; cannot be changed for updates |
 | App type | App |
-| Category | Education, proposed because the app teaches UI components |
+| Category | Education, saved in Console because the app teaches UI components |
 | Price | Free; selected when the Console draft app was created |
 | Advertising | No advertising SDK or advertising ID permission |
 | App access | Learning, normal play, and local records need no account; configured online rankings use a Google game profile |
 | Website | `https://gaon12.github.io/Componentory/` |
 | Privacy policy | `https://gaon12.github.io/Componentory/privacy.html` |
-| Support | `gokirito12@gmail.com`, confirmed by the publisher |
+| Support | `gokirito12@gmail.com`, confirmed by the publisher and saved in Console |
 | Feedback | `https://github.com/gaon12/Componentory/issues/new` |
 | Content rating | IARC completed on October 10, 2026; Korea 3+, PEGI 3, USK 6+, ESRB Everyone |
-| Audience | All age groups, confirmed by the publisher; Console audience selection pending |
+| Audience | All six age groups, confirmed by the publisher and saved in Console; Teacher Approved program declined |
 | Countries | All Google Play-supported countries, confirmed by the publisher; Console selection pending |
 | Account deletion | No app account creation; account-deletion requirement does not apply |
 | Government, finance, health | The app supplies none of these services |
@@ -147,7 +147,8 @@ The previous offline-only "no data collected" preparation does not cover a
 PGS-enabled release. Version 1.1.0 uses project ID `0` and empty leaderboard and
 ruleset IDs, so the guarded initializer and automatic SDK provider are disabled.
 The prepared no-collection/no-sharing answers apply to this unconfigured artifact.
-Complete Data safety in Console; these notes are not submitted declarations.
+The no-collection/no-sharing Data safety declaration is saved in Console for
+this unconfigured artifact. It has not yet been sent for application review.
 
 There is no advertising SDK or developer server. Comparison inputs and technical
 context, detailed survivor builds, wallets, and combat checkpoints stay private
@@ -287,10 +288,13 @@ upload-signed APK/AAB, `Componentory-1.0.0-store-materials.zip`, and
 `SHA256SUMS.txt`. Server-reported SHA-256 digests match every local upload.
 The project website and canonical privacy page are also live.
 
-The authenticated Google Play draft exists. Privacy policy, no advertising,
-unrestricted app access, and IARC are saved. The support email, all-age audience,
-and all supported countries are confirmed by the publisher. Remaining content
-declarations, listing, signing, AAB upload, and track submission are pending.
+The authenticated Google Play draft exists. All current app-content declarations
+are saved, and Console reports no remaining declarations needing attention:
+privacy policy, no advertising, unrestricted app access, IARC, all six audience
+age groups, no data collection/sharing, no advertising ID, and no government,
+financial, or health features. Education category, support email, and website
+are saved. All supported countries are confirmed by the publisher.
+Listing, signing, AAB upload, and track submission are pending.
 See [app-content.json](../distribution/google-play/app-content.json) for the
 recorded Console state. Prepared answers are not submitted declarations.
 The downloadable archive preserves the requirements and verification
