@@ -3,6 +3,7 @@ package xyz.gaon.componentory.icons
 import android.widget.ImageView
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,12 +26,16 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -74,6 +79,7 @@ fun IconPicker(
     var query by rememberSaveable { mutableStateOf("") }
     var style by rememberSaveable { mutableStateOf<IconStyle?>(null) }
     var mirrored by rememberSaveable { mutableStateOf(false) }
+    var filtersOpen by remember { mutableStateOf(false) }
     val context = LocalContext.current
     // The material index is ~11k lines; parse it off the main thread so
     // composing a panel that hosts this picker never stalls. A null value
@@ -97,7 +103,10 @@ fun IconPicker(
         }
     val grid = rememberLazyGridState()
     LaunchedEffect(query, style, mirrored) { grid.scrollToItem(0) }
-    val close = { open = false }
+    val close = {
+        filtersOpen = false
+        open = false
+    }
     Dialog(
         onDismissRequest = close,
         properties =
@@ -109,7 +118,9 @@ fun IconPicker(
             contentAlignment = Alignment.Center,
         ) {
             val compactHeader =
-                WindowInsets.ime.getBottom(LocalDensity.current) > 0 || maxHeight < 560.dp
+                filtersOpen ||
+                    WindowInsets.ime.getBottom(LocalDensity.current) > 0 ||
+                    maxHeight < 560.dp
             Card(Modifier.widthIn(max = 900.dp).fillMaxSize().testTag("icon_dialog")) {
                 Column(
                     Modifier.fillMaxSize().padding(16.dp),
@@ -157,6 +168,59 @@ fun IconPicker(
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                             keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
                         )
+                        if (!platform && compactHeader) {
+                            Box {
+                                TextButton(
+                                    onClick = { filtersOpen = true },
+                                    modifier = Modifier.testTag("icon_filters"),
+                                ) {
+                                    Text(stringResource(R.string.sample_filter))
+                                }
+                                DropdownMenu(filtersOpen, { filtersOpen = false }) {
+                                    (listOf<IconStyle?>(null) + IconStyle.entries).forEach { option
+                                        ->
+                                        DropdownMenuItem(
+                                            text = {
+                                                Text(
+                                                    stringResource(
+                                                        option?.labelRes ?: R.string.all_styles
+                                                    )
+                                                )
+                                            },
+                                            onClick = {
+                                                style = option
+                                                filtersOpen = false
+                                            },
+                                            trailingIcon = {
+                                                RadioButton(
+                                                    selected = style == option,
+                                                    onClick = null,
+                                                )
+                                            },
+                                            modifier =
+                                                Modifier.testTag(
+                                                        "icon_style_${option?.name ?: "ALL"}"
+                                                    )
+                                                    .semantics { this.selected = style == option },
+                                        )
+                                    }
+                                    DropdownMenuItem(
+                                        text = { Text(stringResource(R.string.auto_mirrored)) },
+                                        onClick = {
+                                            mirrored = !mirrored
+                                            filtersOpen = false
+                                        },
+                                        trailingIcon = {
+                                            Checkbox(mirrored, onCheckedChange = null)
+                                        },
+                                        modifier =
+                                            Modifier.testTag("icon_mirrored").semantics {
+                                                this.selected = mirrored
+                                            },
+                                    )
+                                }
+                            }
+                        }
                         if (compactHeader)
                             TextButton(close, Modifier.testTag("icon_close")) {
                                 Text(stringResource(R.string.close))

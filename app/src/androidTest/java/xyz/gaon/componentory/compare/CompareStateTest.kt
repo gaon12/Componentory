@@ -15,8 +15,10 @@ import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
@@ -262,6 +264,10 @@ class CompareStateTest {
     private fun chooseIcon(panel: String, query: String, style: String, id: String) {
         compose.onNodeWithTag("icon_picker_$panel").performScrollTo().performClick()
         compose.onNodeWithTag("icon_search").performTextReplacement(query)
+        compose.onNodeWithTag("icon_search").performImeAction()
+        if (compose.onAllNodesWithTag("icon_filters").fetchSemanticsNodes().isNotEmpty()) {
+            compose.onNodeWithTag("icon_filters").performClick()
+        }
         compose.onNodeWithTag("icon_style_$style").performClick()
         compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$id"))
         compose.onNodeWithTag("icon_entry_$id").performClick()

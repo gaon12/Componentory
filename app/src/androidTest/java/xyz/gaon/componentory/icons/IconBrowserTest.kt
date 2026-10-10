@@ -1,5 +1,6 @@
 package xyz.gaon.componentory.icons
 
+import android.content.pm.ActivityInfo
 import android.view.WindowManager
 import android.widget.ImageButton
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -9,6 +10,7 @@ import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
@@ -69,13 +71,51 @@ class IconBrowserTest {
     }
 
     @Test
+    fun compactPickerKeepsStyleAndMirroringFiltersReachable() {
+        val originalOrientation = compose.activity.requestedOrientation
+        try {
+            compose.runOnUiThread {
+                compose.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+            compose.waitUntil(timeoutMillis = 10_000) {
+                compose.activity.resources.configuration.orientation ==
+                    android.content.res.Configuration.ORIENTATION_LANDSCAPE
+            }
+            compare(LabComponent.ICON, DesignFamily.MATERIAL2)
+            compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
+            compose.onNodeWithTag("icon_search").performTextReplacement("arrow_back")
+            // The filters remain reachable while the keyboard reduces the grid's height.
+            selectFilter("icon_style_OUTLINED")
+            selectFilter("icon_mirrored")
+            compose.onNodeWithTag("icon_search").performImeAction()
+            val id = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"
+            compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$id"))
+            compose.onNodeWithTag("icon_entry_$id").performClick()
+            compose.onNodeWithTag("library_LEFT").assertContentDescriptionEquals("ArrowBack")
+            compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
+            openCompactFilters()
+            compose.onNodeWithTag("icon_style_OUTLINED").assertIsSelected()
+            compose.onNodeWithTag("icon_mirrored").assertIsSelected().performClick()
+            compose.onNodeWithTag("icon_reset").performClick()
+            compose
+                .onNodeWithTag("icon_count")
+                .assertTextEquals(compose.activity.getString(R.string.icon_count, 11_385, 11_385))
+            compose.onNodeWithTag("icon_close").performClick()
+            compose.activityRule.scenario.recreate()
+            compose.onNodeWithTag("library_LEFT").assertContentDescriptionEquals("ArrowBack")
+        } finally {
+            compose.runOnUiThread { compose.activity.requestedOrientation = originalOrientation }
+        }
+    }
+
+    @Test
     fun searchStyleAndMirroringSelectRealIconsAndRestoreEachPanel() {
         compare(LabComponent.ICON, DesignFamily.MATERIAL2)
         compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("icon_search").performTextReplacement("arrow_back")
         compose.onNodeWithTag("icon_search").performImeAction()
-        compose.onNodeWithTag("icon_style_OUTLINED").performClick()
-        compose.onNodeWithTag("icon_mirrored").performClick()
+        selectFilter("icon_style_OUTLINED")
+        selectFilter("icon_mirrored")
         val id = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"
         compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$id"))
         compose.onNodeWithTag("icon_entry_$id").performClick()
@@ -96,7 +136,7 @@ class IconBrowserTest {
         compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$numbered"))
         compose.onNodeWithTag("icon_entry_$numbered").performClick()
         compose.onNodeWithTag("icon_dialog").assertDoesNotExist()
-        compose.onNodeWithTag("library_LEFT").performClick()
+        compose.onNodeWithTag("library_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
         compose.onNodeWithTag("status_RIGHT").assertTextEquals("Clicks: 0")
     }
@@ -111,7 +151,7 @@ class IconBrowserTest {
             val button = compose.activity.findViewById<ImageButton>(R.id.sample_left)
             assertEquals("ic_menu_camera", button.contentDescription.toString())
         }
-        compose.onNodeWithTag("native_LEFT").performClick()
+        compose.onNodeWithTag("native_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("status_LEFT").assertTextEquals("Clicks: 1")
     }
 
@@ -121,25 +161,46 @@ class IconBrowserTest {
         compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("icon_search").performTextReplacement("arrow_back")
         compose.onNodeWithTag("icon_search").performImeAction()
-        compose.onNodeWithTag("icon_style_OUTLINED").performClick()
-        compose.onNodeWithTag("icon_mirrored").performClick()
+        selectFilter("icon_style_OUTLINED")
+        selectFilter("icon_mirrored")
         val id = "androidx.compose.material.icons.automirrored.outlined.ArrowBackKt"
         compose.onNodeWithTag("icon_grid").performScrollToNode(hasTestTag("icon_entry_$id"))
         compose.onNodeWithTag("icon_entry_$id").performClick()
         compose.onNodeWithTag("icon_picker_LEFT").performScrollTo().performClick()
         compose.onNodeWithTag("icon_entry_$id").assertIsSelected()
         compose.onNodeWithTag("icon_reset").performClick()
+        openCompactFilters()
         compose.onNodeWithTag("icon_style_ALL").assertIsSelected()
         compose.onNodeWithTag("icon_mirrored").assertIsNotSelected()
+        if (compose.onAllNodesWithTag("icon_filters").fetchSemanticsNodes().isNotEmpty()) {
+            compose.onNodeWithTag("icon_style_ALL").performClick()
+        }
         compose
             .onNodeWithTag("icon_count")
             .assertTextEquals(compose.activity.getString(R.string.icon_count, 11_385, 11_385))
+    }
+
+    private fun openCompactFilters() {
+        if (compose.onAllNodesWithTag("icon_filters").fetchSemanticsNodes().isNotEmpty()) {
+            compose.onNodeWithTag("icon_filters").performClick()
+        }
+    }
+
+    private fun selectFilter(tag: String) {
+        val compact = compose.onAllNodesWithTag("icon_filters").fetchSemanticsNodes().isNotEmpty()
+        if (compact) {
+            compose.onNodeWithTag("icon_filters").performClick()
+            compose.onNodeWithTag(tag).performScrollTo().performClick()
+        } else {
+            compose.onNodeWithTag(tag).performClick()
+        }
     }
 
     private fun compare(component: LabComponent, family: DesignFamily) {
         compose.onNodeWithTag("nav_compare").performClick()
         compose.onNodeWithTag("component_picker").performScrollTo().performClick()
         compose.onNodeWithTag("picker_search").performTextReplacement(component.label)
+        compose.onNodeWithTag("picker_search").performImeAction()
         compose
             .onNodeWithTag("component_picker_list")
             .performScrollToNode(hasTestTag("component_${component.name}"))
