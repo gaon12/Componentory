@@ -44,8 +44,8 @@ android {
         applicationId = "xyz.gaon.componentory"
         minSdk = 24
         targetSdk = 37
-        versionCode = 2
-        versionName = "1.0.0"
+        versionCode = 3
+        versionName = "1.1.0"
         resValue("string", "game_services_project_id", playGamesProjectId)
         resValue("string", "game_leaderboard_id", playGamesLeaderboardId)
         resValue("string", "game_leaderboard_ruleset", playGamesLeaderboardRuleset)
