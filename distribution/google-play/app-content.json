@@ -1,5 +1,5 @@
 {
-  "status": "DRAFT_APP_CREATED_NOT_SUBMITTED",
+  "status": "PRODUCTION_SUBMISSION_REQUESTED",
   "packageName": "xyz.gaon.componentory",
   "defaultLanguage": "ko-KR",
   "appName": "Componentory",
@@ -20,8 +20,25 @@
   "supportEmail": "gokirito12@gmail.com",
   "intendedAudience": "All six age groups, confirmed by publisher and saved in Console; Teacher Approved program declined",
   "contentRating": "IARC completed on 2026-10-10; Korea 3+, PEGI 3, USK 6+, ESRB Everyone",
-  "distributionCountries": "All Google Play-supported countries, confirmed by publisher; Console country selection pending",
-  "playTrackStatus": "Authenticated draft app created; no AAB uploaded and no review submitted",
+  "distributionCountries": "All available entries selected and saved: 177 named countries/regions plus Other countries (178 entries)",
+  "playTrackStatus": "Production 1.1.0 submission requested on 2026-10-10. Console shows Changes in review while quick checks run; changes are sent for review after successful checks. Public availability is not confirmed.",
+  "managedPublishing": false,
+  "submissionChangeCount": 15,
+  "bundleUploaded": true,
+  "bundleSha256": "d6def8ae78bebd8f4dbf9136528676ce8befbf057591c111d362b645c412ac0b",
+  "consoleBundleValidationWarnings": [
+    "No deobfuscation file; this build does not enable R8/ProGuard minification",
+    "No native debug symbols uploaded"
+  ],
+  "storeListingLocales": [
+    "ko-KR",
+    "en-US",
+    "ja-JP",
+    "zh-CN",
+    "zh-TW"
+  ],
+  "storeVisualAssets": "Shared icon, five localized feature graphics, four Korean phone screenshots, four English phone screenshots, and four Korean 10-inch tablet screenshots. Japanese and Chinese listings inherit Korean screenshots.",
+  "aiAssetDeclaration": "AI labels submitted for the five feature graphics; actual device screenshots were not declared AI-generated",
   "releaseVersionName": "1.1.0",
   "releaseVersionCode": 3,
   "consoleSavedDeclarations": {
@@ -37,6 +54,9 @@
     "healthFeatures": false,
     "storeCategory": "EDUCATION",
     "storeContactEmail": "gokirito12@gmail.com",
-    "storeWebsite": "https://gaon12.github.io/Componentory/"
+    "storeWebsite": "https://gaon12.github.io/Componentory/",
+    "storeListing": true,
+    "distributionCountryEntries": 178,
+    "productionRelease": "1.1.0 (version code 3)"
   }
 }

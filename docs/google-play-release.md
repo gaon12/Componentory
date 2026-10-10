@@ -88,7 +88,7 @@ signing keys, passwords, and machine-specific recovery files remain outside Git.
 | Feedback | `https://github.com/gaon12/Componentory/issues/new` |
 | Content rating | IARC completed on October 10, 2026; Korea 3+, PEGI 3, USK 6+, ESRB Everyone |
 | Audience | All six age groups, confirmed by the publisher and saved in Console; Teacher Approved program declined |
-| Countries | All Google Play-supported countries, confirmed by the publisher; Console selection pending |
+| Countries | All available entries selected and saved: 177 named countries/regions and Other countries (178 entries) |
 | Account deletion | No app account creation; account-deletion requirement does not apply |
 | Government, finance, health | The app supplies none of these services |
 
@@ -288,14 +288,31 @@ upload-signed APK/AAB, `Componentory-1.0.0-store-materials.zip`, and
 `SHA256SUMS.txt`. Server-reported SHA-256 digests match every local upload.
 The project website and canonical privacy page are also live.
 
-The authenticated Google Play draft exists. All current app-content declarations
+The Google Play production submission was requested on October 10, 2026.
+All current app-content declarations
 are saved, and Console reports no remaining declarations needing attention:
 privacy policy, no advertising, unrestricted app access, IARC, all six audience
 age groups, no data collection/sharing, no advertising ID, and no government,
 financial, or health features. Education category, support email, and website
-are saved. All supported countries are confirmed by the publisher.
-Listing, signing, AAB upload, and track submission are pending.
+are saved. All available country entries are selected and saved.
+All five listing languages are saved with localized feature graphics. Korean and
+English each use four actual phone captures; four Korean tablet captures are
+assigned to the 10-inch tablet field without cropping. Japanese and Chinese
+listings inherit the Korean captures. AI labels were submitted for the five
+feature graphics, not the actual device screenshots.
+
+Console accepted the public 1.1.0 AAB with version code 3, minimum API 24, and
+target API 37. Its SHA-256 matches the GitHub asset. Console reports the bundle
+signed by Google Play and automatic protection disabled. The release has two
+non-blocking warnings: no deobfuscation file and no native debug symbols. This
+build does not enable R8/ProGuard minification, so it has no mapping file.
+
+The 15-change submission includes the production release, countries, all five
+listings, and content declarations. Console shows **Changes in review** while
+quick checks run, and says the changes will be sent for review after successful
+checks. Managed publishing is disabled, so approval allows automatic publication.
+Google approval and public Play availability have not been confirmed.
 See [app-content.json](../distribution/google-play/app-content.json) for the
-recorded Console state. Prepared answers are not submitted declarations.
+recorded Console state. A submission request is not a live store release.
 The downloadable archive preserves the requirements and verification
 state when the release was created; consult this guide for later status updates.

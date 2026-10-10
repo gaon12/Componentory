@@ -21,7 +21,8 @@ three pre-existing documentation edits, which were preserved and excluded.
 
 The public APK and AAB use the existing signing certificate, SHA-256
 `a8759906836cae6755b90a415ef1f0ddb44d8c7232a8ccc5041e26fca8990950`.
-No new signing key was generated. Bundletool validated the release manifest.
+No new local upload key was generated. Google Play manages its delivered app
+signing key separately. Bundletool validated the release manifest.
 APK v2 signing, AAB signing, packaged privacy/notices, ZIP alignment, and static
 16 KB native-library alignment were verified. A 16 KB runtime was not tested.
 
@@ -115,7 +116,13 @@ original captures remain explicit in the app.
   ruleset IDs. Real authentication, submission, retries, and profile changes
   need [Play Games configuration and validation](survivor-play-games.md).
 
-Build verification is separate from publication. Actual Play registration and
-submission status is recorded in
-[app-content.json](../distribution/google-play/app-content.json); neither an
-assigned rating nor Play availability is implied by this report.
+## Publication status
+
+[GitHub 1.1.0](https://github.com/gaon12/Componentory/releases/tag/v1.1.0) is public.
+Google Play accepted the same AAB hash and the 1.1.0 production submission was
+requested on October 10. All five listings, 12 actual device screenshots, and
+178 country entries are saved. Console shows Changes in review while quick
+checks run; successful checks allow the submission to proceed to review.
+Managed publishing is disabled. Google approval and public availability remain
+unconfirmed. See [app-content.json](../distribution/google-play/app-content.json)
+and the [release guide](google-play-release.md) for the recorded submission state.
