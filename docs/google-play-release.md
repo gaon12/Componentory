@@ -270,7 +270,16 @@ python scripts/store/build-website.py
 
 Source: [GitHub Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
 
-## Published preparation release
+## Published GitHub releases
+
+[GitHub v1.1.0](https://github.com/gaon12/Componentory/releases/tag/v1.1.0) is
+published at tag `2cb4f190ff3a8a61a099fed8acdd55ff0cbfa365`. Its APK/AAB were
+built from `8cc1c2f6df6c3375abb2a8207ad81f6f29ae03fd`; the later tag commit adds
+only store assets and documentation. It provides `Componentory-1.1.0.apk`,
+`Componentory-1.1.0.aab`, `Componentory-1.1.0-store-materials.zip`, and
+`SHA256SUMS.txt`. All four server-reported SHA-256 digests match the local files.
+The [verification report](verification-release-1.1.0-2026-10-10.md) records
+application checks, device restoration, screenshots, and outstanding work.
 
 [GitHub v1.0.0](https://github.com/gaon12/Componentory/releases/tag/v1.0.0) is
 published at tag `2d6082ec8a717437500ee8a530a24434d28fcd9c`. It provides the

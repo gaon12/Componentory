@@ -7,8 +7,11 @@ and Korean, English, Japanese, Simplified Chinese, and Traditional Chinese.
 
 Latest navigation changes and physical checks are recorded in the
 [navigation verification report](docs/verification-navigation-2026-10-08.md).
-The [October 10 device audit](docs/verification-release-readiness-2026-10-10.md)
-records current screenshots, test failures, coverage gaps, and release preparation.
+The [1.1.0 verification report](docs/verification-release-1.1.0-2026-10-10.md)
+records the repairs, 108 passing release-payload UI tests on each physical device,
+12 current screenshots, and remaining coverage gaps. The earlier
+[October 10 audit](docs/verification-release-readiness-2026-10-10.md) retains
+the failures found before those repairs.
 
 ## Explore and compare
 
@@ -147,8 +150,9 @@ passes with zero errors; existing warnings remain listed in its report.
 
 ## Release and privacy
 
-Version 1.0.0 (code 2) has prepared Google Play listings in five languages,
-the supplied app icon, localized feature graphics, and genuine phone screenshots.
+Version 1.1.0 (code 3) has Google Play listings in five languages,
+the supplied app icon, localized feature graphics, eight phone screenshots,
+and four native tablet screenshots with capture provenance.
 See the [release guide](docs/google-play-release.md) for current image and text
 limits, signing, account requirements, app-content declarations, and submission
 steps. Prepared materials and a GitHub release do not establish Play publication.
@@ -171,10 +175,12 @@ updated from that source before a PGS-enabled release.
 
 The [project website](https://gaon12.github.io/Componentory/) and privacy page
 are generated from repository sources and published through GitHub Pages.
-The [1.0.0 release](https://github.com/gaon12/Componentory/releases/tag/v1.0.0)
+The [1.1.0 release](https://github.com/gaon12/Componentory/releases/tag/v1.1.0)
 provides signed APK/AAB files, a store-material ZIP, and SHA-256 checksums.
-Those published release artifacts and screenshots predate the later settings and
-Easter egg changes; the current debug APK is a separate tested build.
+All four GitHub asset digests match the verified local files. The downloadable
+artifacts use the source and hashes recorded in the verification report.
+The older [1.0.0 release](https://github.com/gaon12/Componentory/releases/tag/v1.0.0)
+remains available with its original evidence.
 An upload-signed APK uses a different certificate from local debug builds and may
 also differ from Play-delivered APKs. Keep user data when changing build channels.
 
